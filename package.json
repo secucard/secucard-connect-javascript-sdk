@@ -14,6 +14,7 @@
     "gulp-jshint": "^1.11.0",
     "gulp-plumber": "^1.0.1",
     "gulp-sourcemaps": "^1.5.2",
+    "jasmine-es6": "^0.0.13",
     "jshint-stylish": "^2.0.1",
     "jspm": "^0.15.7",
     "object-assign": "^3.0.0",
