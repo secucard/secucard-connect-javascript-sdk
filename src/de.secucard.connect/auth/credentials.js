@@ -14,7 +14,7 @@ export class Credentials {
 		// ---------------
 		this.uuid = null;
 		// ---------------
-		this.code = code;
+		this.code = null;
 		// ---------------
 		this.username = null;
 		this.password = null;
