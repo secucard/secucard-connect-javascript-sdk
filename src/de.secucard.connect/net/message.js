@@ -1,8 +1,8 @@
-export let HEAD = 'HEAD';
-export let GET = 'GET';
-export let POST = 'POST';
-export let PUT = 'PUT';
-export let DELETE = 'DELETE';
+export const HEAD = 'HEAD';
+export const GET = 'GET';
+export const POST = 'POST';
+export const PUT = 'PUT';
+export const DELETE = 'DELETE';
 
 export class Message {
 	

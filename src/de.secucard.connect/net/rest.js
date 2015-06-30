@@ -1,15 +1,18 @@
 import Request from 'superagent'
-
+import {GET, POST, PUT, HEAD, DELETE} from './message'
 export class Rest {
 	
 	constructor() {
-		this.methodFuns = {
-			'GET': Request.get,
-			'POST': Request.post,
-			'PUT': Request.put,
-			'HEAD': Request.head,
-			'DELETE': Request.delete
-		};
+		
+		this.methodFuns = {};
+		
+		this.methodFuns[GET] = Request.get;
+		this.methodFuns[POST] = Request.post;
+		
+		this.methodFuns[PUT] = Request.put;
+		this.methodFuns[HEAD] = Request.head; 
+		this.methodFuns[DELETE] = Request.delete;
+		
 	}
 
 	/**
