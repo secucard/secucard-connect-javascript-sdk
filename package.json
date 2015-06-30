@@ -1,10 +1,23 @@
 {
-  "registry": "jspm",
-  "main": "lib/main",
-  "directories": {
-    "lib": "lib"
+  "jspm": {
+    "main": "index",
+    "format": "register",
+    "directories": {
+      "lib": "dist/system"
+    },
+    "dependencies": {
+      "lodash": "npm:lodash@^3.9.3",
+      "superagent": "npm:superagent@^1.2.0"
+    },
+    "devDependencies": {
+      "babel": "npm:babel-core@^5.1.13",
+      "babel-runtime": "npm:babel-runtime@^5.1.13",
+      "core-js": "npm:core-js@^0.9.4",
+      "traceur": "github:jmcriffey/bower-traceur@0.0.88",
+      "traceur-runtime": "github:jmcriffey/bower-traceur-runtime@0.0.88"
+    }
   },
-  "dependencies": {},
+  "main": "dist/commonjs/index.js",
   "devDependencies": {
     "browser-sync": "^2.7.12",
     "del": "^1.2.0",
@@ -14,13 +27,18 @@
     "gulp-jshint": "^1.11.0",
     "gulp-plumber": "^1.0.1",
     "gulp-sourcemaps": "^1.5.2",
-    "jasmine-es6": "^0.0.13",
     "jshint-stylish": "^2.0.1",
-    "jspm": "^0.15.7",
     "object-assign": "^3.0.0",
     "object.assign": "^3.0.0",
     "require-dir": "^0.3.0",
     "run-sequence": "^1.1.1",
-    "vinyl-paths": "^1.0.0"
+    "vinyl-paths": "^1.0.0",
+    "conventional-changelog": "0.0.17",
+    "gulp-bump": "^0.3.1",
+    "yargs": "^3.14.0"
+  },
+  "dependencies": {
+    "lodash": "^3.9.3",
+    "superagent": "^1.2.0"
   }
 }

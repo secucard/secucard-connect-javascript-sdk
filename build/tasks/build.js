@@ -3,11 +3,11 @@ var runSequence = require('run-sequence');
 var changed = require('gulp-changed');
 var plumber = require('gulp-plumber');
 var to5 = require('gulp-babel');
+var babel = require('gulp-babel');
 var sourcemaps = require('gulp-sourcemaps');
 var paths = require('../paths');
 var compilerOptions = require('../babel-options');
 var assign = Object.assign || require('object.assign');
-var jspm = require('jspm/api');
 
 // transpiles changed es6 files to SystemJS format
 // the plumber() call prevents 'pipe breaking' caused
@@ -20,23 +20,9 @@ gulp.task('build-system', function () {
     .pipe(sourcemaps.init({loadMaps: true}))
     .pipe(to5(assign({}, compilerOptions, {modules:'system'})))
     .pipe(sourcemaps.write({includeContent: false, sourceRoot: paths.sourceMapRelativePath }))
-    .pipe(gulp.dest(paths.output));
+    .pipe(gulp.dest(paths.output + "system"));
 });
 
-gulp.task('bundle', function (done) {  
-  jspm.bundle(
-    [
-      '*',
-      'app/*'
-    ].join(' + '),
-    'bundled.js',
-    {inject:true, minify: true}
-  ).then(function () {
-    gulp.src('./bundled.js')
-      .pipe(gulp.dest(paths.output));
-    done();
-  });
-});
 
 // copies changed html files to the output directory
 gulp.task('build-html', function () {
@@ -45,6 +31,26 @@ gulp.task('build-html', function () {
     .pipe(gulp.dest(paths.output));
 });
 
+gulp.task('commonjs', function () {
+  return gulp.src(paths.source)
+    .pipe(to5(assign({}, compilerOptions, {modules:'common'})))
+    .pipe(gulp.dest(paths.output + 'commonjs'));
+});
+
+gulp.task('copy-package-json-common-js', function (callback) {
+   return gulp.src(paths.package_json)
+    .pipe(gulp.dest(paths.output + 'commonjs'));
+});
+
+
+gulp.task('build-commonjs', function (callback) {
+  return runSequence(
+    'commonjs',
+    'copy-package-json-common-js'
+  );
+});
+
+
 // this task calls the clean task (located
 // in ./clean.js), then runs the build-system
 // and build-html tasks in parallel
@@ -52,7 +58,7 @@ gulp.task('build-html', function () {
 gulp.task('build', function(callback) {
   return runSequence(
     'clean',
-    ['build-system', 'build-html'],
+    ['build-commonjs', 'build-system'],
     callback
   );
 });

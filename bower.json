@@ -1,0 +1,19 @@
+{
+  "name": "securecore javascript browser sdk",
+  "version": "0.1.0",
+  "description": "secucore javascript browser sdk.",
+  "keywords": [
+    "secucore",
+    "browser",
+    "sdk"
+  ],
+  "homepage": "http://secucore.io",
+  "license": "MIT",
+  "authors": [
+    ""
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/secucard/secucard-connect-javascript-client-lib"
+  }
+}
