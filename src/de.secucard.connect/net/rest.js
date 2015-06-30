@@ -10,7 +10,7 @@ export class Rest {
 		this.methodFuns[POST] = Request.post;
 		
 		this.methodFuns[PUT] = Request.put;
-		this.methodFuns[HEAD] = Request.head; 
+		this.methodFuns[HEAD] = Request.head;
 		this.methodFuns[DELETE] = Request.delete;
 		
 	}
@@ -34,7 +34,8 @@ export class Rest {
 		
 		return new Promise((resolve, reject) => {
 			
-			let request = this.r(message.url, message.method);
+			let url = message.baseUrl? message.baseUrl + message.url : message.url;
+			let request = this.r(url, message.method);
 			
 			if(message.headers) {
 				request.set(message.headers);

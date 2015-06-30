@@ -18,7 +18,9 @@ describe('Rest', function() {
     message.setMethod(GET).setUrl('http://google.com');
     
     let status = null;
-    await ch.send(message).then(res => {
+    let pr = ch.send(message);
+    
+    await pr.then(res => {
       status = res.status;
     });
     

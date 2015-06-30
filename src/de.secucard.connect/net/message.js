@@ -15,11 +15,21 @@ export class Message {
 	 * @param value
 	 * @returns {Message}
 	 */
+	setBaseUrl(value) {
+		this.baseUrl = value;
+		return this;
+	}
+	
+	/**
+	 * 
+	 * @param value
+	 * @returns {Message}
+	 */
 	setUrl(value) {
 		this.url = value;
 		return this;
 	}
-
+	
 	/**
 	 * 
 	 * @param value
