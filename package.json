@@ -1,4 +1,13 @@
 {
+  "name": "secucard javascript sdk",
+  "version": "0.1.0",
+  "description": "secucard javascript sdk",
+  "keywords": [
+    "secucard",
+    "javascript",
+    "sdk"
+  ],
+  "license": "MIT",
   "jspm": {
     "main": "index",
     "format": "register",
