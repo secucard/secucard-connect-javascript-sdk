@@ -18,6 +18,10 @@
     }
   },
   "main": "dist/commonjs/index.js",
+  "repository": {
+    "type": "git",
+    "url": " github:secucard/secucard-connect-javascript-client-lib"
+  },
   "devDependencies": {
     "browser-sync": "^2.7.12",
     "del": "^1.2.0",
