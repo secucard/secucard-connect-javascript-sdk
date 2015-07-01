@@ -1,5 +1,5 @@
 {
-  "name": "secucard javascript sdk",
+  "name": "secucard-javascript-sdk",
   "version": "0.1.0",
   "description": "secucard javascript sdk",
   "keywords": [
@@ -8,6 +8,11 @@
     "sdk"
   ],
   "license": "MIT",
+  "homepage": "http://secucard.io",
+  "bugs": {
+    "url": "https://github.com/secucard/javascript-sdk/issues"
+  },
+   "author": "Secucard Javascript Sdk Team",
   "jspm": {
     "main": "index",
     "format": "register",
