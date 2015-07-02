@@ -9,7 +9,7 @@ var _authAuth = require("./auth/Auth");
 var SecucardConnect = function SecucardConnect() {
   _classCallCheck(this, SecucardConnect);
 
-  this.foo = "bar";
+  this.foo = "server api!!!!!";
 
   this.auth = new _authAuth.Auth();
 };

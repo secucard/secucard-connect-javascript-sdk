@@ -31,23 +31,10 @@ gulp.task('build-html', function () {
     .pipe(gulp.dest(paths.output));
 });
 
-gulp.task('commonjs', function () {
+gulp.task('build-commonjs', function () {
   return gulp.src(paths.source)
     .pipe(to5(assign({}, compilerOptions, {modules:'common'})))
     .pipe(gulp.dest(paths.output + 'commonjs'));
-});
-
-gulp.task('copy-package-json-common-js', function (callback) {
-   return gulp.src(paths.package_json)
-    .pipe(gulp.dest(paths.output + 'commonjs'));
-});
-
-
-gulp.task('build-commonjs', function (callback) {
-  return runSequence(
-    'commonjs',
-    'copy-package-json-common-js'
-  );
 });
 
 
