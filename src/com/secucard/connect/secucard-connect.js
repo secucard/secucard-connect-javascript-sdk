@@ -3,5 +3,5 @@ export class SecucardConnect {
   constructor() {
     this.auth = new Auth()
   }
-  foo = "bar"
+  foo="server api!!!!!"
 }
