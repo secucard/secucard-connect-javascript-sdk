@@ -6,8 +6,6 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
 var SecucardConnectBrowser = function SecucardConnectBrowser() {
   _classCallCheck(this, SecucardConnectBrowser);
-
-  this.foo = "browser!!!!";
 };
 
 exports.SecucardConnectBrowser = SecucardConnectBrowser;
