@@ -2,6 +2,8 @@ export class Credentials {
 	
 	constructor() {
 		
+		this.token = null;
+		
 		/*
 		---- basic ------
 		 */
@@ -9,8 +11,6 @@ export class Credentials {
 		this.client_id = null;
 		this.client_secret = null;
 		
-		// ---------------
-		this.refresh_token = null;
 		// ---------------
 		this.uuid = null;
 		// ---------------
@@ -24,3 +24,10 @@ export class Credentials {
 	}
 	
 }
+
+Credentials.create = (credentials) => {
+	
+	let cr = new Credentials();
+	return Object.assign(cr, credentials);
+	
+};

@@ -1,5 +1,6 @@
-import Request from 'superagent'
-import {GET, POST, PUT, HEAD, DELETE} from './message'
+import Request from 'superagent';
+import {GET, POST, PUT, HEAD, DELETE} from './message';
+import {Message} from './message';
 export class Rest {
 	
 	constructor() {
@@ -14,7 +15,16 @@ export class Rest {
 		this.methodFuns[DELETE] = Request.delete;
 		
 	}
-
+	
+	/**
+	 * 
+	 * @returns {Message}
+	 */
+	createMessage() {
+		let message = new Message();
+		return message.setBaseUrl(this.getHost());
+	}
+	
 	/**
 	 * 
 	 * @param url
@@ -62,6 +72,16 @@ export class Rest {
 			});
 				
 		});
+		
+	}
+	
+	configureWithContext(context) {
+		
+		this.getHost = () => {
+			
+			return context.getConfig().getHost();
+			
+		}
 		
 	}
 	
