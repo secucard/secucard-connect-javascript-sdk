@@ -7,7 +7,8 @@ export class Http {
   post(url, options={send:{}}) {
     var request = this.request
       .post(url)
-      .type(options.type || "json")
+      .type("json")
+      .set('Accept', 'application/json')
       .send(options.send)
 
     _.forEach(options.set, (set) =>  {
@@ -18,7 +19,7 @@ export class Http {
           if (err) {
             reject(err.response)
           } else {
-            resolve(res.text)
+            resolve(res.body)
           }
         })
       }
