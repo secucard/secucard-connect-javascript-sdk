@@ -47,4 +47,10 @@ export class ClientContext {
 		return null;
 	}
 	
+	getServiceDefaultOptions() {
+		
+		
+		
+	}
+	
 }
