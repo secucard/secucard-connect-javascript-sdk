@@ -6,10 +6,10 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
 var _authAuth = require('./auth/Auth');
 
-var SecucardConnect = function SecucardConnect() {
+var SecucardConnect = function SecucardConnect(options) {
   _classCallCheck(this, SecucardConnect);
 
-  this.auth = new _authAuth.Auth();
+  this.auth = new _authAuth.Auth(options.auth);
 };
 
 exports.SecucardConnect = SecucardConnect;

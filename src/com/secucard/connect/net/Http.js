@@ -5,16 +5,20 @@ export class Http {
     this.request = Request
   }
   post(url, options={send:{}}) {
-    var request = this.request.post(url).send(options.send)
+    var request = this.request
+      .post(url)
+      .type(options.type || "json")
+      .send(options.send)
+
     _.forEach(options.set, (set) =>  {
       request.set(set.label, set.value)
     })
    return new Promise((resolve, reject) => {
         request.end( (err, res) =>{
           if (err) {
-            reject(err, res)
+            reject(err.response)
           } else {
-            resolve(res)
+            resolve(res.text)
           }
         })
       }

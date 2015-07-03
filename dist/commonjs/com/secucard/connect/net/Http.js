@@ -24,16 +24,17 @@ var Http = (function () {
   Http.prototype.post = function post(url) {
     var options = arguments[1] === undefined ? { send: {} } : arguments[1];
 
-    var request = this.request.post(url).send(options.send);
+    var request = this.request.post(url).type(options.type || 'json').send(options.send);
+
     _lodash2['default'].forEach(options.set, function (set) {
       request.set(set.label, set.value);
     });
     return new Promise(function (resolve, reject) {
       request.end(function (err, res) {
         if (err) {
-          reject(err, res);
+          reject(err.response);
         } else {
-          resolve(res);
+          resolve(res.text);
         }
       });
     });
