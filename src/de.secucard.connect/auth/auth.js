@@ -12,6 +12,13 @@ export class Auth {
 		
 	}
 	
+	configureWithContext(context) {
+		
+		this.getChannel = context.getRestChannel.bind(context);
+		this.getCredentials = context.getCredentials.bind(context);
+		
+	}
+	
 	getToken(extend){
 		
 		let token = this.getStoredToken();
@@ -118,13 +125,6 @@ export class Auth {
 		let cr = _.pick(credentials, this.baseCredentialNames.concat(['code']));
 		cr = _.assign({}, cr, {grant_type: 'device'});
 		return this._tokenRequest(cr, channel);
-	}
-	
-	configureWithContext(context) {
-		
-		this.getChannel = context.getRestChannel.bind(context);
-		this.getCredentials = context.getCredentials.bind(context);
-		
 	}
 	
 }
