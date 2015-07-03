@@ -12,12 +12,18 @@ import {Auth} from '../src/de.secucard.connect/auth/auth'
 import devCredentials from './support/dev-credentials.json'
 import devCredentialsRefreshToken from './support/dev-credentials-refresh-token.json'
 import devCredentialsDevice from './support/dev-credentials-device.json'
+import {Token} from '../src/de.secucard.connect/auth/token'
 
 install();
 
 describe('Authorization', function () {
 
+	var originalTimeout;
+	
 	beforeEach('', async function () {
+		
+		originalTimeout = jasmine.DEFAULT_TIMEOUT_INTERVAL;
+	  	jasmine.DEFAULT_TIMEOUT_INTERVAL = 10000;
 
 		this.expectedHost = 'https://connect.secucard.com';
 
@@ -34,12 +40,36 @@ describe('Authorization', function () {
 		this.ch = channel;
 		this.auth = new Auth();
 
-
+	});
+	
+	afterEach(function() {
+	  	jasmine.DEFAULT_TIMEOUT_INTERVAL = originalTimeout;
 	});
 
 	it('checks Auth Token message host', async function () {
 		let msg = this.ch.createMessage();
 		expect(msg.baseUrl).toBe(this.expectedHost);
+	});
+	
+	it('creates Token and waits for its expiring', function(done) {
+		
+		let data = {
+			access_token: 'jpd86qo0e5hkvj5c18jrhnq4m3',
+			token_type: 'bearer',
+			expires_in: 5,
+			scope: 'https://scope.secucard.com/e/api' 
+		};
+		
+		let token = Token.create(data);
+		token.setExpireTime();
+		expect(token.isExpired()).toBe(false);
+		
+		setTimeout(function() {
+			expect(token.isExpired()).toBe(true);
+			done();
+		}, 6000);
+		
+		
 	});
 
 	it('tries to get Auth Token with wrong credentials', async function () {

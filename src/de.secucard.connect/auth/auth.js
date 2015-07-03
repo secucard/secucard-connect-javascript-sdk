@@ -1,8 +1,7 @@
 
 import _ from 'lodash';
-import {POST} from '../net/message'
-
-
+import {POST} from '../net/message';
+import {Token} from './token';
 
 export class Auth {
 	
@@ -13,26 +12,67 @@ export class Auth {
 		
 	}
 	
-	getToken(){
+	getToken(extend){
 		
 		let token = this.getStoredToken();
+		
+		if(token != null && !token.isExpired()){
+			
+			if(extend){
+				// extend expire time on every token access, assuming the token is used, if not this could cause auth failure
+				token.setExpireTime();
+        		this.storeToken(token);
+			}
+			
+			return token;
+			
+		}
+		
 		let cr = this.getCredentials();
 		let ch = this.getChannel();
 		
+		let tokenSuccess = (res) => {
+			
+			let token = Token.create(res.body);
+			token.setExpireTime();
+			this.storeToken(token);
+			return token;
+			
+		};
+		
+		let tokenError = (err) => {
+			// refreshing failed, clear the token
+			this.removeToken();
+			let error = new Error('Authorization error');
+			error.data = err.response.body;
+			throw error;
+		};
+		
 		if(token != null && token.getRefreshToken() != null) {
 			
-			return this._tokenRefreshRequest(cr, ch);
+			return this._tokenRefreshRequest(cr, ch)
+				.then(tokenSuccess)
+				.catch(tokenError);
 			
 		}
 		
 		return this._tokenClientCredentialsRequest(cr, ch)
-			.then((res) => {
-				return res.body;
-			}).catch((err) => {
-				let error = new Error('Authorization error');
-				error.data = err.response.body;
-				throw error;
-			});
+			.then(tokenSuccess)
+			.catch(tokenError);
+		
+	}
+	
+	removeToken() {
+		
+		let cr = this.getCredentials();
+		cr.token = null;
+		
+	}
+	
+	storeToken(token) {
+		
+		let cr = this.getCredentials();
+		cr.token = token;
 		
 	}
 	

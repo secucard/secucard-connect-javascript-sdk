@@ -7,7 +7,6 @@ export class Credentials {
 		/*
 		---- basic ------
 		 */
-		this.grant_type = null;
 		this.client_id = null;
 		this.client_secret = null;
 		
