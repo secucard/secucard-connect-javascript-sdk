@@ -10,7 +10,7 @@ import {ClientConfig} from '../src/de.secucard.connect/client-config';
 import devCredentials from './support/dev-credentials.json';
 install();
 
-describe('Connection', function() {
+describe('Client', function() {
 	
 	beforeEach('', async function () {
 		
@@ -19,16 +19,29 @@ describe('Connection', function() {
 		
 	});
 	
-	it('configures Client with ConnectionConfig', async function() {
+	it('checks ClientConfig apiUrl', async function() {
+		
+		let expectedAuthUrl = 'https://connect.secucard.com/oauth/';
+		let config = new ClientConfig();
+		
+		config.oAuthUrl = "https://connect.secucard.com/oauth/";
+		expect(config.getOAuthUrl()).toBe(expectedAuthUrl);
+		
+		config.oAuthUrl = "https://connect.secucard.com/oauth";
+		expect(config.getOAuthUrl()).toBe(expectedAuthUrl);
+		
+	});
+	
+	it('configures Client with ClientConfig', async function() {
 	
 		let config = ClientConfig.defaults();
-		let expectedHost = 'https://connect.secucard.com';
+		let expectedRestUrl = 'https://connect.secucard.com/api/v2/';
 		
-		expect(config.host).toBe(expectedHost);
+		expect(config.getRestUrl()).toBe(expectedRestUrl);
 		
 		let client = new Client(config);
 		
-		expect(client.config.host).toBe(expectedHost);
+		expect(client.config.getRestUrl()).toBe(expectedRestUrl);
 	
 	});
 	

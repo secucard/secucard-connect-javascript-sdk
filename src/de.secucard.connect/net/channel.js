@@ -8,6 +8,12 @@ export class Channel {
 		
 	}
 	
+	request(method, params) {
+		
+		
+		
+	}
+	
 }
 
 Channel.METHOD = {

@@ -1,6 +1,7 @@
 import Request from 'superagent';
 import {GET, POST, PUT, HEAD, DELETE} from './message';
 import {Message} from './message';
+import {Channel} from '../net/channel';
 export class Rest {
 	
 	constructor() {
@@ -14,6 +15,30 @@ export class Rest {
 		this.methodFuns[HEAD] = Request.head;
 		this.methodFuns[DELETE] = Request.delete;
 		
+		this.methodFuns[Channel.METHOD.GET] = Request.get;
+		
+		this.methodFuns[Channel.METHOD.CREATE] = Request.post;
+		this.methodFuns[Channel.METHOD.EXECUTE] = Request.post;
+		
+		this.methodFuns[Channel.METHOD.UPDATE] = Request.put;
+		this.methodFuns[Channel.METHOD.DELETE] = Request.delete;
+		
+	}
+	
+	configureWithContext(context) {
+		
+		this.restUrl = () => {
+			
+			return context.getConfig().getRestUrl();
+			
+		};
+		
+		this.getToken = () => {
+			
+			return context.getAuth().getToken();
+			
+		}
+		
 	}
 	
 	/**
@@ -22,7 +47,7 @@ export class Rest {
 	 */
 	createMessage() {
 		let message = new Message();
-		return message.setBaseUrl(this.getHost());
+		return message.setBaseUrl(this.restUrl());
 	}
 	
 	/**
@@ -70,18 +95,103 @@ export class Rest {
 					resolve(res);
 				}
 			});
-				
+			
 		});
 		
 	}
 	
-	configureWithContext(context) {
+	getAuthHeader(token) {
 		
-		this.getHost = () => {
+		return { 'Authorization': ('Bearer ' + token.access_token) };
+		
+	}
+	
+	sendWithToken(message) {
+		
+		return this.getToken().then((token => {
 			
-			return context.getConfig().getHost();
+			let headers = Object.assign({}, message.headers, this.getAuthHeader(token));
+			message.setHeaders(headers);
+			return this.send(message);
 			
+		}));
+		
+		
+	}
+	
+	request(method, params) {
+		
+		let requestSuccess = (res) => {
+			return res.body;
+		};
+		
+		
+		let requestError = (err) => {
+			
+			// TODO handle Auth Error
+			try {
+				let error = new Error('Api request error');
+				error.data = err.response.body;
+				throw error;
+			} catch (e) {
+				throw err;
+			}
+			
+			
+		};
+		
+		let message = this.createMessageForRequest(method, params);
+		return this.sendWithToken(message)
+			.then(requestSuccess)
+			.catch(requestError);
+		
+	}
+	
+	createMessageForRequest(method, params) {
+		
+		let message = this.createMessage();
+		message.setHeaders({'Content-Type' : 'application/json'});
+		message.setMethod(method);
+		
+		let endPointSpec = [];
+		
+		if(params.appId){
+			endPointSpec = ['General', 'Apps', params.appId, 'callBackend'];
+		} else if(params.endpoint) {
+			endPointSpec = params.endpoint;
+		} else {
+			throw new Error('Missing endpoint spec or app id.');
 		}
+		
+		if(params.action){
+			endPointSpec.push(params.action);
+		}
+		
+		if(params.actionArg){
+			endPointSpec.push(params.actionArg);
+		}
+		
+		message.setUrl(this.buildEndpoint(endPointSpec));
+		
+		if(params.queryParams){
+			message.setQuery(params.queryParams);
+		}
+		
+		if(params.data) {
+			message.setBody(params.data);
+		}
+		
+		return message;
+		
+	}
+	
+	buildEndpoint(endpoint) {
+		
+		if(!endpoint || endpoint.length < 2){
+			throw new Error('Invalid endpoint specification.');
+		}
+		
+		return endpoint.join('/');
 		
 	}
 	

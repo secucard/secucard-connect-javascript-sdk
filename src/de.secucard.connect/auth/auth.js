@@ -17,6 +17,12 @@ export class Auth {
 		this.getChannel = context.getRestChannel.bind(context);
 		this.getCredentials = context.getCredentials.bind(context);
 		
+		this.oAuthUrl = () => {
+			
+			return context.getConfig().getOAuthUrl();
+			
+		};
+		
 	}
 	
 	getToken(extend){
@@ -24,14 +30,13 @@ export class Auth {
 		let token = this.getStoredToken();
 		
 		if(token != null && !token.isExpired()){
-			
 			if(extend){
 				// extend expire time on every token access, assuming the token is used, if not this could cause auth failure
 				token.setExpireTime();
         		this.storeToken(token);
 			}
 			
-			return token;
+			return Promise.resolve(token);
 			
 		}
 		
@@ -50,6 +55,7 @@ export class Auth {
 		let tokenError = (err) => {
 			// refreshing failed, clear the token
 			this.removeToken();
+			// TODO throw custom error
 			let error = new Error('Authorization error');
 			error.data = err.response.body;
 			throw error;
@@ -90,7 +96,8 @@ export class Auth {
 	
 	_tokenRequest(credentials, channel) {
 		let m = channel.createMessage()
-			.setUrl('/oauth/token')
+			.setBaseUrl(this.oAuthUrl())
+			.setUrl('token')
 			.setHeaders(this.baseHeaders)
 			.setMethod(POST)
 			.setBody(credentials);

@@ -25,7 +25,8 @@ describe('Authorization', function () {
 		originalTimeout = jasmine.DEFAULT_TIMEOUT_INTERVAL;
 	  	jasmine.DEFAULT_TIMEOUT_INTERVAL = 10000;
 
-		this.expectedHost = 'https://connect.secucard.com';
+		this.expectedAuthUrl = 'https://connect.secucard.com/oauth/';
+		this.expectedRestUrl = 'https://connect.secucard.com/api/v2/';
 
 		let config = ClientConfig.defaults();
 		let context = {
@@ -36,10 +37,20 @@ describe('Authorization', function () {
 
 		let channel = new Rest();
 		channel.configureWithContext(context);
+		
+		Object.assign(channel, {
+			createMessage: () => {
+				let message = new Message();
+				return message.setBaseUrl(config.getOAuthUrl());
+			}
+		});
 
 		this.ch = channel;
 		this.auth = new Auth();
-
+		this.auth.oAuthUrl = () => {
+			return config.oAuthUrl;
+		};
+		
 	});
 	
 	afterEach(function() {
@@ -48,7 +59,7 @@ describe('Authorization', function () {
 
 	it('checks Auth Token message host', async function () {
 		let msg = this.ch.createMessage();
-		expect(msg.baseUrl).toBe(this.expectedHost);
+		expect(msg.baseUrl).toBe(this.expectedAuthUrl);
 	});
 	
 	it('creates Token and waits for its expiring', function(done) {
@@ -71,6 +82,20 @@ describe('Authorization', function () {
 		
 		
 	});
+	
+	it('checks setting expire time on next getToken call', async function() {
+		
+		let client = Client.create();
+		client.setCredentials(devCredentials);
+		
+		await client.context.auth.getToken().then((token) => {
+			
+			console.log(token);
+			
+		});
+		
+	});
+	
 
 	it('tries to get Auth Token with wrong credentials', async function () {
 
@@ -82,6 +107,7 @@ describe('Authorization', function () {
 		await pr.then((res) => {
 			status = res.status;
 		}).catch((err)=> {
+			console.log(err.response.body);
 			status = err.status;
 		});
 
@@ -98,6 +124,7 @@ describe('Authorization', function () {
 
 		await pr.then((res) => {
 			status = res.status;
+			console.log(res.body);
 		}).catch((err)=> {
 			status = err.status;
 			console.log(err.response.body);

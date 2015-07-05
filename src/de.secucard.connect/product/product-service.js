@@ -9,7 +9,6 @@ export class ProductService {
 	configureWithContext(context) {
 		
 		this.getChannel = context.getChannel.bind(context);
-		this.getAuth = context.getAuth.bind(context);
 		this.getServiceDefaultOptions = context.getServiceDefaultOptions.bind(context);
 		
 	}
@@ -37,7 +36,7 @@ export class ProductService {
 			options: options
 		};
 		
-		return this.request(Channel.METHOD.GET, params, options);
+		return this._request(Channel.METHOD.GET, params, options);
 		
 	}
 	 
@@ -59,14 +58,14 @@ export class ProductService {
 			options: options
 		};
 		
-		return this.request(Channel.METHOD.GET, params, options);
+		return this._request(Channel.METHOD.GET, params, options);
 		
 	}
 	
 	/**
 	 * Retrieves a promise for  the actual created object, never null.
 	 * May contain additional or corrected data, like id.  So using this object later on instead the provided is necessary.
-	 * Would invoke for example: POST /object with object mapped to JSON as request body.<br/>
+	 * Would invoke for example: POST /object with object mapped to JSON as _request body.<br/>
 	 *
 	 * Throws exception if object cannot be created.
 	 * @param data   The object holding data to create. The type/class of the object is used to determine the target
@@ -83,12 +82,12 @@ export class ProductService {
 			options: options
 		};
 		
-		return this.request(Channel.METHOD.CREATE, params, options);
+		return this._request(Channel.METHOD.CREATE, params, options);
 	}
 
 	/**
 	 * Retrieves a promise for updating an object.<br/>
-	 * Would invoke for example: PUT /object/objectId with object mapped to JSON as request body.<br/>
+	 * Would invoke for example: PUT /object/objectId with object mapped to JSON as _request body.<br/>
 	 * May throw an exception if an error happens.
 	 *
 	 * @param data	The object holding data to update with, must also provide unique source id. The type/class of the
@@ -108,14 +107,14 @@ export class ProductService {
 			options: options
 		};
 		
-		return this.request(Channel.METHOD.UPDATE, params, options);
+		return this._request(Channel.METHOD.UPDATE, params, options);
 		
 	}
 	
 	/**
 	
 	 * Retrieves a promise for updating an object.<br/>
-	 * Would invoke for example: PUT /targetType/objectId/action/actionArg with arg mapped to JSON as request body.<br/>
+	 * Would invoke for example: PUT /targetType/objectId/action/actionArg with arg mapped to JSON as _request body.<br/>
 	 * May throw an exception if an error happens.
 	 *
 	 * @param id   Id of the resource to update.
@@ -140,7 +139,7 @@ export class ProductService {
 			options: options
 		};
 		
-		return this.request(Channel.METHOD.UPDATE, params, options);
+		return this._request(Channel.METHOD.UPDATE, params, options);
 	}
 	
 	/**
@@ -161,7 +160,7 @@ export class ProductService {
 			options: options
 		};
 		
-		return this.request(Channel.METHOD.DELETE, params, options);
+		return this._request(Channel.METHOD.DELETE, params, options);
 		
 	}
 	
@@ -186,13 +185,13 @@ export class ProductService {
 			options: options
 		};
 		
-		return this.request(Channel.METHOD.DELETE, params, options);
+		return this._request(Channel.METHOD.DELETE, params, options);
 		
 	}
 	
 	/**
 	 * Retrieves a promise for executing an action.<br/>
-	 * Would invoke for example: POST /targetType/objectId/action/actionArg with arg as JSON request body.<br/>
+	 * Would invoke for example: POST /targetType/objectId/action/actionArg with arg as JSON _request body.<br/>
 	 * May throw an exception if an error happens.
 	 * 
 	 * @param id   Id of a resource.
@@ -214,7 +213,7 @@ export class ProductService {
 			options: options
 		};
 		
-		return this.request(Channel.METHOD.EXECUTE, params, options);
+		return this._request(Channel.METHOD.EXECUTE, params, options);
 		
 	}
 	
@@ -239,7 +238,7 @@ export class ProductService {
 			options: options
 		};
 		
-		return this.request(Channel.METHOD.EXECUTE, params, options);
+		return this._request(Channel.METHOD.EXECUTE, params, options);
 		
 	}
 
@@ -250,7 +249,7 @@ export class ProductService {
 	 * @param options request options
 	 * @returns {Promise}
 	 */
-	request(method, params, options) {
+	_request(method, params, options) {
 		
 		if(options == null){
 			options = this.getServiceDefaultOptions();
