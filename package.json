@@ -22,7 +22,7 @@
     "dependencies": {
       "lodash": "npm:lodash@^3.9.3",
       "sockjs-client": "bower:sockjs-client@^1.0.0",
-      "stompjs": "npm:stompjs@^2.3.3",
+      "stomp-websocket": "bower:stomp-websocket@^2.3.4",
       "superagent": "npm:superagent@^1.2.0"
     },
     "devDependencies": {
