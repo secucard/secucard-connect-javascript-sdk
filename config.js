@@ -3,14 +3,15 @@ System.config({
   "paths": {
     "*": "*.js",
     "github:*": "jspm_packages/github/*.js",
-    "npm:*": "jspm_packages/npm/*.js"
+    "npm:*": "jspm_packages/npm/*.js",
+    "bower:*": "jspm_packages/bower/*.js"
   }
 });
 
 System.config({
   "map": {
     "lodash": "npm:lodash@3.9.3",
-    "sockjs-client": "npm:sockjs-client@1.0.0",
+    "sockjs-client": "bower:sockjs-client@1.0.0",
     "stompjs": "npm:stompjs@2.3.3",
     "superagent": "npm:superagent@1.2.0",
     "traceur": "github:jmcriffey/bower-traceur@0.0.88",
