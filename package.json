@@ -21,6 +21,8 @@
     },
     "dependencies": {
       "lodash": "npm:lodash@^3.9.3",
+      "sockjs-client": "npm:sockjs-client@^1.0.0",
+      "stompjs": "npm:stompjs@^2.3.3",
       "superagent": "npm:superagent@^1.2.0"
     },
     "devDependencies": {
@@ -57,7 +59,7 @@
   },
   "dependencies": {
     "lodash": "^3.9.3",
-    "superagent": "^1.2.0",
-    "node-secucard": "secucard/secucard-connect-nodejs-client-lib"
+    "node-secucard": "secucard/secucard-connect-nodejs-client-lib",
+    "superagent": "^1.2.0"
   }
 }
