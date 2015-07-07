@@ -24,7 +24,7 @@ var Http = (function () {
   Http.prototype.post = function post(url) {
     var options = arguments[1] === undefined ? { send: {} } : arguments[1];
 
-    var request = this.request.post(url).type(options.type || 'json').send(options.send);
+    var request = this.request.post(url).type('json').set('Accept', 'application/json').send(options.send);
 
     _lodash2['default'].forEach(options.set, function (set) {
       request.set(set.label, set.value);
@@ -34,7 +34,7 @@ var Http = (function () {
         if (err) {
           reject(err.response);
         } else {
-          resolve(res.text);
+          resolve(res.body);
         }
       });
     });

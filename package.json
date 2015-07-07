@@ -12,7 +12,7 @@
   "bugs": {
     "url": "https://github.com/secucard/javascript-sdk/issues"
   },
-   "author": "Secucard Javascript Sdk Team",
+  "author": "Secucard Javascript Sdk Team",
   "jspm": {
     "main": "index",
     "format": "register",
@@ -57,6 +57,7 @@
   },
   "dependencies": {
     "lodash": "^3.9.3",
-    "superagent": "^1.2.0"
+    "superagent": "^1.2.0",
+    "node-secucard": "secucard/secucard-connect-nodejs-client-lib"
   }
 }
