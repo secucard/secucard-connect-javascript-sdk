@@ -138,5 +138,17 @@ describe('Product Service', function() {
 		
 	});
 	
+	it('gets object list from Product Service with count = 1' , async function() {
+		
+		let data;
+		await this.client.service.getObjectList({count: 1}, null).then((res) => {
+			
+			data = res.data;
+			
+		});
+		
+		expect(data.length == 1).toBe(true);
+		
+	});
 	
 });

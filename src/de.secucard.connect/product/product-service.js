@@ -102,7 +102,7 @@ export class ProductService {
 		
 		let params = {
 			endpoint: this.getEndpoint(),
-			id: data.id,
+			objectId: data.id,
 			data: data,
 			options: options
 		};
@@ -132,7 +132,7 @@ export class ProductService {
 		
 		let params = {
 			endpoint: this.getEndpoint(),
-			id: id,
+			objectId: id,
 			data: data,
 			action: action,
 			actionArg: actionArg,
@@ -156,7 +156,7 @@ export class ProductService {
 		
 		let params = {
 			endpoint: this.getEndpoint(),
-			id: id,
+			objectId: id,
 			options: options
 		};
 		
@@ -179,7 +179,7 @@ export class ProductService {
 		
 		let params = {
 			endpoint: this.getEndpoint(),
-			id: id,
+			objectId: id,
 			action: action,
 			actionArg: actionArg,
 			options: options
@@ -206,7 +206,7 @@ export class ProductService {
 		
 		let params = {
 			endpoint: this.getEndpoint(),
-			id: id,
+			objectId: id,
 			action: action,
 			actionArg: actionArg,
 			data: data,

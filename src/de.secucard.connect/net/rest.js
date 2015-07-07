@@ -163,6 +163,10 @@ export class Rest {
 			throw new Error('Missing endpoint spec or app id.');
 		}
 		
+		if (params.objectId != null) {
+			endPointSpec.push(params.objectId);
+		}
+		
 		if(params.action){
 			endPointSpec.push(params.action);
 		}
@@ -180,6 +184,8 @@ export class Rest {
 		if(params.data) {
 			message.setBody(params.data);
 		}
+		
+		console.log(message);
 		
 		return message;
 		
