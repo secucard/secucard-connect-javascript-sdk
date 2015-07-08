@@ -47,7 +47,7 @@ export class StompBrowser {
   requestHeader() {
     header.call(this)
   } 
-  request({accessToken:"", requestMethod:"", requestId:"", options:{}}) {
+  request({accessToken="", requestMethod="", requestId="", options={}}) {
     this.client.connect(token, token, (frame) => {
       notifyListener("connected")
       this.client.subscribe(destination, (message) => {
