@@ -5,7 +5,7 @@ var TEMP_QUEUE = '/temp-queue/main'
 
 var REQUEST_DESTINATION = "/exchange/connect.api"
 
-var notifyListener = function(event, details) {
+var notify = function(event, details) {
   if (this._listener) {
     this._listener(event, details)
   }
@@ -48,13 +48,17 @@ export class StompBrowser {
     header.call(this)
   } 
   request({accessToken="", requestMethod="", requestId="", options={}}) {
-    this.client.connect(token, token, (frame) => {
-      notifyListener("connected")
-      this.client.subscribe(destination, (message) => {
+    var self = this
+    var onerror = function(frame) {
+      self.notifyListener("error", frame)
+    }
+    self.client.connect(accessToken, accessToken, (frame) => {
+      self.notifyListener("connected")
+      self.client.subscribe(destination, (message) => {
          var type = message.correlationId ? "message" : "event"
-         notifyListener(type, message)
+         self.notifyListener(type, message)
       })
-      this.client(destination(requestMethod), requestHeader(requestId, options), payload)
-    })
+      this.client.send(destination(requestMethod), requestHeader(requestId, options), JSON.stringify(payload))
+    }, onerror)
   }
 }
