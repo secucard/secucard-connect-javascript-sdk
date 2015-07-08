@@ -30,7 +30,7 @@ var Auth = (function () {
     _classCallCheck(this, Auth);
 
     this.http = new _netHttp.Http();
-    this.oauthTokenUrl = config.hostAuth + '/oauth/token';
+    this.oauthTokenUrl = config.host_auth + '/oauth/token';
     grant_options_default = {
       client_id: config.client_id,
       client_secret: config.client_secret
