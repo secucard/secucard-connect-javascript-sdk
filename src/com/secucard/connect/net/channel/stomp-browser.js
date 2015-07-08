@@ -3,10 +3,16 @@ import SockJSClient from 'sockjs-client'
 
 var TEMP_QUEUE = '/temp-queue/main'
 
+var REQUEST_DESTINATION = "/exchange/connect.api"
+
 var notifyListener = function(event, details) {
   if (this._listener) {
     this._listener(event, details)
   }
+}
+
+var destination = (requestMethod) => {
+  `${REQUEST_DESTINATION}/${requestMethod}` 
 }
 
 var tempQueue = function() {
@@ -41,14 +47,14 @@ export class StompBrowser {
   requestHeader() {
     header.call(this)
   } 
-  request(token, destination, requestId, options) {
+  request(token, requestMethod, requestId, options) {
     this.client.connect(token, token, (frame) => {
       notifyListener("connected")
       this.client.subscribe(destination, (message) => {
          var type = message.correlationId ? "message" : "event"
          notifyListener(type, message)
       })
-      this.client(send, requestHeader(requestId, options), payload)
+      this.client(destination(requestMethod), requestHeader(requestId, options), payload)
     })
   }
 }
