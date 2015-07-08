@@ -59,7 +59,6 @@
   },
   "dependencies": {
     "lodash": "^3.9.3",
-    "node-secucard": "secucard/secucard-connect-nodejs-client-lib",
     "superagent": "^1.2.0"
   }
 }
