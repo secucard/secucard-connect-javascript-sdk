@@ -18,7 +18,7 @@ var TEMP_QUEUE = '/temp-queue/main';
 
 var REQUEST_DESTINATION = '/exchange/connect.api';
 
-var notifyListener = function notifyListener(event, details) {
+var notify = function notify(event, details) {
   if (this._listener) {
     this._listener(event, details);
   }
@@ -78,14 +78,18 @@ var StompBrowser = (function () {
     var _ref$options = _ref.options;
     var options = _ref$options === undefined ? {} : _ref$options;
 
-    this.client.connect(token, token, function (frame) {
-      notifyListener('connected');
-      _this.client.subscribe(destination, function (message) {
+    var self = this;
+    var onerror = function onerror(frame) {
+      self.notifyListener('error', frame);
+    };
+    self.client.connect(accessToken, accessToken, function (frame) {
+      self.notifyListener('connected');
+      self.client.subscribe(destination, function (message) {
         var type = message.correlationId ? 'message' : 'event';
-        notifyListener(type, message);
+        self.notifyListener(type, message);
       });
-      _this.client(destination(requestMethod), requestHeader(requestId, options), payload);
-    });
+      _this.client.send(destination(requestMethod), requestHeader(requestId, options), JSON.stringify(payload));
+    }, onerror);
   };
 
   return StompBrowser;
