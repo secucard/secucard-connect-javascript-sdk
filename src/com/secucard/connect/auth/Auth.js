@@ -15,17 +15,18 @@ import _ from 'lodash'
  } 
 export class Auth {
   constructor(config) {
-    this.http = new Http()
-    this.oauthTokenUrl = config.host_auth + "/oauth/token"
+    var self = this
+    self.http = new Http()
+    self.oauthTokenUrl = config.host_auth + "/oauth/token"
     grant_options_default = {
       client_id:config.client_id,
       client_secret:config.client_secret
     }
-    this.grant = {
+    self.grant = {
       access: {
         clientCredentials: () => {
           var options = grant_options({send:{grant_type:'client_credentials'}})
-          return this.http.post(url.oauth_token, options)
+          return self.http.post(self.oauthTokenUrl, options)
         }
       }
     }

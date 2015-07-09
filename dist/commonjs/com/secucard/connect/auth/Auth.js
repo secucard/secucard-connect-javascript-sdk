@@ -25,21 +25,20 @@ var grant_options = function grant_options(extend) {
 
 var Auth = (function () {
   function Auth(config) {
-    var _this = this;
-
     _classCallCheck(this, Auth);
 
-    this.http = new _netHttp.Http();
-    this.oauthTokenUrl = config.host_auth + '/oauth/token';
+    var self = this;
+    self.http = new _netHttp.Http();
+    self.oauthTokenUrl = config.host_auth + '/oauth/token';
     grant_options_default = {
       client_id: config.client_id,
       client_secret: config.client_secret
     };
-    this.grant = {
+    self.grant = {
       access: {
         clientCredentials: function clientCredentials() {
           var options = grant_options({ send: { grant_type: 'client_credentials' } });
-          return _this.http.post(url.oauth_token, options);
+          return self.http.post(self.oauthTokenUrl, options);
         }
       }
     };
