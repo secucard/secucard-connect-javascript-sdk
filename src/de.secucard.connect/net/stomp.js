@@ -1,20 +1,28 @@
+import UUID from 'uuid';
+import {Channel} from './channel';
+
 export class Stomp {
 	
-	constructor (Impl) {
+	constructor (StompImpl) {
 		
-		this.Impl = Impl;
-		this.host = 'dev10.secupay-ag.de';
-		//this.host = 'connect.secucard.de';
-		this.port = 61614;
-		this.ssl = true;
-		this.enabled = true;
-		this.heartbeat = 600;
-		this.timeout = 0;
-		this.debug = false;
-		this.login = '';
-		this.passcode = '';
 		this.connection = null;
 		this.messages = {};
+		
+		// is used when refreshening session
+		this.isConfirmed = false;
+		this.sessionTimer = null;
+		
+		// is used to check if token changed
+		this.connectAccessToken = null;
+		
+		this.stompCommands = {};
+		this.stompCommands[Channel.METHOD.GET] = 'get';
+		this.stompCommands[Channel.METHOD.CREATE] = 'add';
+		this.stompCommands[Channel.METHOD.EXECUTE] = 'exec';
+		this.stompCommands[Channel.METHOD.UPDATE] = 'update';
+		this.stompCommands[Channel.METHOD.DELETE] = 'delete';
+		
+		this.connection = new StompImpl();
 		
 	}
 	
@@ -24,69 +32,280 @@ export class Stomp {
 			
 			return context.getAuth().getToken();
 			
+		};
+		
+		this.getStompHost = () => {
+			return context.getConfig().getStompHost();
+		};
+		
+		this.getStompPort = () => {
+			return context.getConfig().getStompPort();
+		};
+		
+		this.getStompSslEnabled = () => {
+			return context.getConfig().getStompSslEnabled();
+		};
+		
+		this.getStompVHost = () => {
+			return context.getConfig().getStompVHost();
+		};
+		
+		this.getStompQueue = () => {
+			return context.getConfig().getStompQueue();
+		};
+		
+		this.connection.configure(this.getStompConfig());
+		
+	}
+	
+	getStompConfig() {
+		
+		return {
+			
+			host: this.getStompHost(),
+			port: this.getStompPort(),
+			ssl: this.getStompSslEnabled(),
+			vhost: this.getStompVHost(),
+			
+			login: '',
+			passcode: ''
 		}
 		
 	}
 	
-	open (callback) {
+	open() {
 		
-		var _this = this;
+		return this._startSessionRefresh();
+		
+	}
+	
+	connect () {
 		
 		console.log('stomp start connection');
 		
 		return this.getToken().then((token) => {
 			
 			console.log('Got token', token);
+			return this._connect(token.access_token);
 			
-			let StompImpl = this.Impl;
-			
-			this.login = token.access_token;
-			this.passcode = token.access_token;
-			
-			this.connection = new StompImpl(this);
-			
-			/*
-			this.connection.should_run_message_callback = function (frame) {
-	
-				frame.body = JSON.parse(frame.body[0]);
-	
-				// execute correlation-id callback
-				if (frame && frame.headers && frame.headers['correlation-id']) {
-					var correlationId = frame.headers['correlation-id'];
-					_this.messages[correlationId](null, frame.headers, frame.body);
-				}
-	
-				//_this.emit("onMessage", frame.body);
-			};
-			*/
-			
-			this.connection.connect();
-	
-			this.connection.on('connected', function () {
-				console.log('stomp connected');
-				//_this.emit("onStompConnected", this);
-				callback();
-			});
-	
-			this.connection.on('error', function (body) {
-				console.log('stomp error', body);
-				//_this.Event().emit('error', body);
-			});
 			
 		});
 	}
 	
 	close () {
-		if (this.connection && this.connection.disconnect) {
-			this.connection.disconnect()
-		}
 		
-		console.log('stomp disconnected');
-		//this.emit("onStompDisconnect", null);
+		return this._disconnect();
+		
+	}
+	
+	_disconnect() {
+		
+		return new Promise((resolve, reject) => {
+			
+			if(!this.connection.isConnected()) {
+				resolve();
+				return;
+			}
+			
+			if (this.connection && this.connection.disconnect) {
+				this.connection.disconnect();
+			}
+			
+			this._stompOnDisconnected = () => {
+				console.log('stomp disconnected');
+				this.connection.removeListener('connected', this._stompOnDisconnected);
+				delete this._stompOnDisconnected;
+				resolve();
+			};
+			
+			//TODO do we need to reject here?
+			this.connection.on('disconnected', this._stompOnDisconnected);
+			
+		});
+		
 	}
 	
 	addMessage (correlationId, callback) {
 		this.messages[correlationId] = callback;
+	}
+	
+	request(method, params) {
+		
+		let destination = buildDestination(method, params);
+		return _sendMessage(destination, params);
+		
+	}
+	
+	buildDestination(method, params) {
+		
+		let destination = {};
+		
+		if(params.endpoint != null) {
+			destination.endpoint = params.endpoint;
+		} else if(params.appId != null){
+			destination.appId = params.appId;
+		} else {
+			throw new Error('Missing object spec or app id');
+		}
+		
+		destination.command = this.stompCommands[method];
+		
+		if(!destination.command) {
+			throw new Error('Invalid method arg');
+		}
+		
+		destination.action = params.action;
+		
+		return destination;
+	}
+	
+	createMessage(params) {
+		
+		let message = {};
+		
+		return message;
+		
+	}
+	
+	_connect(accessToken) {
+		
+		this.connectAccessToken = accessToken;
+		
+		let stompCredentials = {
+			login: accessToken,
+			passcode: accessToken
+		};
+
+		/*
+		 this.connection.should_run_message_callback = function (frame) {
+
+		 frame.body = JSON.parse(frame.body[0]);
+
+		 // execute correlation-id callback
+		 if (frame && frame.headers && frame.headers['correlation-id']) {
+		 var correlationId = frame.headers['correlation-id'];
+		 _this.messages[correlationId](null, frame.headers, frame.body);
+		 }
+
+		 //_this.emit("onMessage", frame.body);
+		 };
+		 */
+		
+		this.connection.connect(stompCredentials);
+		
+		return new Promise((resolve, reject) => {
+			
+			this._stompOnConnected = () => {
+				console.log('stomp connected');
+				this._stompClearListeners();
+				resolve();
+			};
+			
+			this._stompOnError = (body) => {
+				console.log('stomp error', body);
+				this._stompClearListeners();
+				reject(body);
+			};
+			
+			this._stompClearListeners = () => {
+				this.connection.removeListener('connected', this._stompOnConnected);
+				this.connection.removeListener('error', this._stompOnError);
+				delete this._stompOnConnected;
+				delete this._stompOnError;
+				delete this._stompClearListeners;
+			};
+			
+			this.connection.on('connected', this._stompOnConnected);
+			this.connection.on('error', this._stompOnError);
+			
+			
+		});
+		
+		
+	}
+	
+	_sendMessage(destination, message) {
+		
+		
+		return this.getToken().then((token) => {
+			
+			let accessToken = token.access_token;
+			let corrId = this.createCorrelationId();
+			
+			let headers = {};
+			headers['reply-to'] = this.getStompQueue();
+			headers['persistent'] = true;
+			headers['content-type'] = 'application/json';
+			headers['user-id'] = accessToken;
+			headers['correlation-id'] = corrId;
+			
+			if(destination.appId) {
+				headers['app-id'] = destination.appId;
+			}
+			
+			
+			let sendWithStomp = () => {
+				
+				
+				
+			};
+			
+			if(!this.connection.isConnected() || (token && token.access_token != this.connectAccessToken)) {
+
+				if (this.connection.isConnected()) {
+					console.log("Reconnect due token change.");
+				}
+				
+				return this._disconnect().then(() => {
+					
+					return this._connect(accessToken).then(sendWithStomp);
+					
+				});
+				
+			}
+			
+			return sendWithStomp();
+			
+		});
+		
+		
+	}
+	
+	_startSessionRefresh() {
+		
+		console.log('Stomp session refresh loop started');
+		let initial = true;
+		
+		let _runSessionRefresh = () => {
+			
+			return this._request(Channel.METHOD.EXECUTE, {
+				endpoint: ['auth', 'sessions'],
+				objectId: 'me',
+				action: 'refresh'
+			}).then((res) => {
+				
+				console.log('Session refresh sent');
+				this.isConfirmed = false;
+				initial = false;
+				
+			}).catch((err) => {
+				
+				console.log('Session refresh failed');
+				if(initial){
+					throw err;
+				}
+				
+			});
+			
+		};
+		
+		
+		return _runSessionRefresh();
+		
+	}
+	
+	createCorrelationId() {
+		return UUID.v1();
 	}
 	
 } 

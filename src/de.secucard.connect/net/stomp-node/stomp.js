@@ -2,6 +2,7 @@ import net from 'net';
 import tls from 'tls';
 import {Frame} from './frame'
 import EE from 'eventemitter3';
+import UUID from 'uuid';
 
 let utils = {};
 utils.really_defined = (var_to_test) => {
@@ -10,29 +11,40 @@ utils.really_defined = (var_to_test) => {
 
 export class Stomp {
 	
-	constructor(args) {
+	constructor() {
 		
 		Object.assign(this, EE.prototype);
 		
-		this.port = args['port'] || 61613;
-		this.host = args['host'] || '127.0.0.1';
-		this.debug = args['debug'];
-		this.login = args['login'] || null;
-		this.passcode = args['passcode'] || null;
-		//this.log = new stomp_utils.StompLogging(this.debug);
 		this._subscribed_to = {};
 		this.session = null;
-		this.ssl = args['ssl'] ? true : false;
-		this.ssl_validate = args['ssl_validate'] ? true : false;
-		this.ssl_options = args['ssl_options'] || {};
-		this['client-id'] = args['client-id'] || null;
-		if (typeof args.vhost !== 'undefined') {
-			this.vhost = args['vhost'];
-		}
+		this.connected = false;
 		
 	}
 	
-	connect() {
+	isConnected(){
+		return this.connected;
+	}
+	
+	configure(config) {
+		
+		this.port = config['port'] || 61613;
+		this.host = config['host'] || '127.0.0.1';
+		this.debug = config['debug'];
+		this.login = config['login'] || null;
+		this.passcode = config['passcode'] || null;
+		//this.log = new stomp_utils.StompLogging(this.debug);
+		this.ssl = config['ssl'] ? true : false;
+		this.ssl_validate = config['ssl_validate'] ? true : false;
+		this.ssl_options = config['ssl_options'] || {};
+		this.vhost = config['vhost'];
+		
+		this['client-id'] = config['client-id'] || null;
+		
+	}
+	
+	connect(credentials) {
+		this.login = credentials.login;
+		this.passcode = credentials.passcode;
 		this._connect(this);
 	}
 	
@@ -61,6 +73,7 @@ export class Stomp {
 			case "CONNECTED":
 				console.log('Connected to STOMP');
 				this.session = this_frame.headers['session'];
+				this.connected = true;
 				this.emit('connected');
 				break;
 			case "RECEIPT":
@@ -75,7 +88,7 @@ export class Stomp {
 	}
 	
 	disconnect () {
-		_disconnect(this);
+		this._disconnect(this);
 	}
 
 	subscribe (headers, callback) {
@@ -83,7 +96,7 @@ export class Stomp {
 		var destination = headers['destination'];
 		headers['session'] = this.session;
 		this.send_command(this, 'SUBSCRIBE', headers);
-
+		
 		/**
 		 / Maybe we could subscribe to mulitple queues?
 		 / if (destination instanceof Array) {
@@ -98,7 +111,7 @@ export class Stomp {
 		 */
 
 		this._subscribed_to[destination] = {enabled: true, callback: callback};
-		console.log('subscribed to: ' + destination + ' with headers ' + sys.inspect(headers));
+		console.log('subscribed to: ' + destination + ' with headers ', headers);
 	}
 
 	unsubscribe (headers) {
@@ -131,15 +144,11 @@ export class Stomp {
 		console.log('abort transaction: ' + transaction_id);
 	}
 
-	send (headers, want_receipt) {
-
-		console.log('STOMP :: ', headers, body)
-
-		var destination = headers['destination'],
-			body = headers['body'] || null;
-		delete headers['body'];
+	send (destination, headers, body, want_receipt) {
 		headers['session'] = this.session;
-		return this.send_command(this, 'SEND', headers, body, want_receipt)
+		headers['destination'] = destination;
+		console.log('STOMP :: ', headers, body);
+		return this.send_command(this, 'SEND', headers, body, want_receipt);
 	}
 	
 	
@@ -293,6 +302,7 @@ export class Stomp {
 			if (error) {
 				console.log('Disconnected with error: ' + error);
 			}
+			this.connected = false;
 			stomp.emit("disconnected", error);
 		});
 
@@ -328,29 +338,33 @@ export class Stomp {
 		if (socket.readyState == 'readOnly') {
 			socket.destroy();
 		}
-
+		
 		console.log('disconnect called');
 	}
 
-	send_command(stomp, command, headers, body, want_receipt) {
+	send_command(stomp, command, headers, body, withReceipt) {
 
-		var want_receipt = want_receipt || false;
-
+		var withReceipt = withReceipt || false;
+		
 		if (!utils.really_defined(headers)) {
 			headers = {};
 		}
-
+		
+		if(withReceipt) {
+			headers['receipt'] = this.createReceiptId();
+		}
+		
 		var args = {
 			'command': command,
 			'headers': headers,
 			'body': body
 		};
-
+		
 		var _frame = new Frame();
-		var this_frame = _frame.build_frame(args, want_receipt);
+		var this_frame = _frame.build_frame(args);
 		this.send_frame(stomp, this_frame);
-
 		return this_frame;
+		
 	}
 
 	send_frame(stomp, _frame) {
@@ -363,6 +377,11 @@ export class Stomp {
 
 		return true;
 	}
-
+	
+	createReceiptId() {
+		
+		return 'rcpt-' + UUID.v1();
+		
+	}
 
 }

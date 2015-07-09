@@ -1,7 +1,7 @@
 import Request from 'superagent';
 import {GET, POST, PUT, HEAD, DELETE} from './message';
 import {Message} from './message';
-import {Channel} from '../net/channel';
+import {Channel} from './channel';
 export class Rest {
 	
 	constructor() {

@@ -15,11 +15,11 @@ describe('Stomp', function () {
 	
 	beforeEach('', async function () {
 		
-		// connect-dev10.secupay-ag.de
 		let client = Client.create();
 
 		Object.assign(client.config, {
-			oAuthUrl: 'https://connect-dev10.secupay-ag.de/oauth/'
+			oAuthUrl: 'https://connect-dev10.secupay-ag.de/oauth/',
+			stompHost: 'connect-dev10.secupay-ag.de'
 		});
 		
 		client.setCredentials(devCredentials);
@@ -29,14 +29,15 @@ describe('Stomp', function () {
 		
 	});
 	
-	it('1', function (done) {
+	it('does STOMP connection and then disconnects', function (done) {
 		
 		let stomp = new Stomp(StompImpl);
 		stomp.configureWithContext(this.client.context);
-		
-		stomp.open(()=>{
-			done();
-		}).then((res) => {
+		stomp.connect().then(() => {
+			
+			stomp._disconnect().then(() => {
+				done();
+			});
 			
 		});
 		

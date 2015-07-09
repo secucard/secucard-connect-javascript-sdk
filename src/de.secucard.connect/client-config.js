@@ -24,6 +24,26 @@ export class ClientConfig {
 		
 	}
 	
+	getStompHost() {
+		return this.stompHost;
+	}
+	
+	getStompPort() {
+		return this.stompPort;
+	}
+	
+	getStompSslEnabled() {
+		return this.stompSslEnabled;
+	}
+	
+	getStompVHost() {
+		return this.stompVHost;
+	}
+	
+	getStompQueue() {
+		return this.stompQueue;
+	}
+	
 }
 
 ClientConfig._defaults = {
@@ -52,14 +72,17 @@ ClientConfig._defaults = {
 	// The interval the STOMP channel sends a "heartbeat".
 	stompHeartbeat: 10,
 	// stomp host, virtual host, stomp port
-	stompHost: '',
+	stompHost: 'connect.secucard.com',
+	stompPort: 61614,
+	stompVHost: null,
+	
 	// Base path of the secucard STOMP API.
 	stompDestination: '',
 	// SSL used with for STOMP: true | false/nothing.
-	stompSSl: true,
+	stompSslEnabled: true,
 	
 	// The default queue for all STOMP messages.
-	stompQueue: null,
+	stompQueue: '',
 	
 	// Timeout for trying to connect to STOMP server. 0 means no waiting.
 	stompConnectTimeout: 0,
