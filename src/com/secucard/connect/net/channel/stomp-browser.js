@@ -38,11 +38,11 @@ export class StompBrowser {
     return this
   }
   listener(listener) {
-    this._listener
+    this._listener = listener
     return this
   }
   notifyListener(event, details) {
-    notify.call(event, details)
+    notify.call(this, event, details)
   }
   requestHeader(requestId, options) {
     header.call(this, requestId, options)
@@ -51,12 +51,12 @@ export class StompBrowser {
     var self = this
     var client =  StompJS.over(new SockJSClient.SockJS(self.wsUrl))
 
-    var onerror = function(frame) {
+    var onerror = (frame) => {
       self.notifyListener("error", frame)
     }
     client.connect(accessToken, accessToken, (frame) => {
       self.notifyListener("connected")
-      self.client.subscribe(destination, (message) => {
+      client.subscribe(destination, (message) => {
          var type = message.correlationId ? "message" : "event"
          self.notifyListener(type, message)
       })
