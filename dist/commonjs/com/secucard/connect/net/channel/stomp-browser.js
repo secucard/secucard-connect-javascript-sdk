@@ -54,12 +54,12 @@ var StompBrowser = (function () {
   }
 
   StompBrowser.prototype.listener = function listener(_listener) {
-    this._listener;
+    this._listener = _listener;
     return this;
   };
 
   StompBrowser.prototype.notifyListener = function notifyListener(event, details) {
-    notify.call(event, details);
+    notify.call(this, event, details);
   };
 
   StompBrowser.prototype.requestHeader = function requestHeader(requestId, options) {
@@ -84,7 +84,7 @@ var StompBrowser = (function () {
     };
     client.connect(accessToken, accessToken, function (frame) {
       self.notifyListener('connected');
-      self.client.subscribe(destination, function (message) {
+      client.subscribe(destination, function (message) {
         var type = message.correlationId ? 'message' : 'event';
         self.notifyListener(type, message);
       });
