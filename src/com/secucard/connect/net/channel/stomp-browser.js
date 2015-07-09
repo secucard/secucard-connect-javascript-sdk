@@ -11,8 +11,8 @@ var notify = function(event, details) {
   }
 }
 
-var destination = (requestMethod) => {
-  `${REQUEST_DESTINATION}/${requestMethod}` 
+var destination = function(requestMethod) {
+  return `${REQUEST_DESTINATION}/${requestMethod}` 
 }
 
 var tempQueue = function() {
@@ -33,7 +33,7 @@ var header = function(requestId, options) {
 
 export class StompBrowser {
   constructor(wsUrl) {
-    this.client =  StompJS.over(new SockJSClient.SockJS(wsUrl))
+    this.wsUrl = wsUrl
     this._listener = null
     return this
   }
@@ -44,21 +44,23 @@ export class StompBrowser {
   notifyListener(event, details) {
     notify.call(event, details)
   }
-  requestHeader() {
-    header.call(this)
+  requestHeader(requestId, options) {
+    header.call(this, requestId, options)
   } 
   request({accessToken="", requestMethod="", requestId="", options={}}) {
     var self = this
+    var client =  StompJS.over(new SockJSClient.SockJS(self.wsUrl))
+
     var onerror = function(frame) {
       self.notifyListener("error", frame)
     }
-    self.client.connect(accessToken, accessToken, (frame) => {
+    client.connect(accessToken, accessToken, (frame) => {
       self.notifyListener("connected")
       self.client.subscribe(destination, (message) => {
          var type = message.correlationId ? "message" : "event"
          self.notifyListener(type, message)
       })
-      this.client.send(destination(requestMethod), requestHeader(requestId, options), JSON.stringify(payload))
+      client.send(destination(requestMethod), requestHeader(requestId, options), JSON.stringify(options.payload || {}))
     }, onerror)
   }
 }

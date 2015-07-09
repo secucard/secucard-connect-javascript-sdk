@@ -25,7 +25,7 @@ var notify = function notify(event, details) {
 };
 
 var destination = function destination(requestMethod) {
-  REQUEST_DESTINATION + '/' + requestMethod;
+  return REQUEST_DESTINATION + '/' + requestMethod;
 };
 
 var tempQueue = function tempQueue() {
@@ -48,7 +48,7 @@ var StompBrowser = (function () {
   function StompBrowser(wsUrl) {
     _classCallCheck(this, StompBrowser);
 
-    this.client = _stompWebsocket2['default'].over(new _sockjsClient2['default'].SockJS(wsUrl));
+    this.wsUrl = wsUrl;
     this._listener = null;
     return this;
   }
@@ -62,13 +62,11 @@ var StompBrowser = (function () {
     notify.call(event, details);
   };
 
-  StompBrowser.prototype.requestHeader = function requestHeader() {
-    header.call(this);
+  StompBrowser.prototype.requestHeader = function requestHeader(requestId, options) {
+    header.call(this, requestId, options);
   };
 
   StompBrowser.prototype.request = function request(_ref) {
-    var _this = this;
-
     var _ref$accessToken = _ref.accessToken;
     var accessToken = _ref$accessToken === undefined ? '' : _ref$accessToken;
     var _ref$requestMethod = _ref.requestMethod;
@@ -79,16 +77,18 @@ var StompBrowser = (function () {
     var options = _ref$options === undefined ? {} : _ref$options;
 
     var self = this;
+    var client = _stompWebsocket2['default'].over(new _sockjsClient2['default'].SockJS(self.wsUrl));
+
     var onerror = function onerror(frame) {
       self.notifyListener('error', frame);
     };
-    self.client.connect(accessToken, accessToken, function (frame) {
+    client.connect(accessToken, accessToken, function (frame) {
       self.notifyListener('connected');
       self.client.subscribe(destination, function (message) {
         var type = message.correlationId ? 'message' : 'event';
         self.notifyListener(type, message);
       });
-      _this.client.send(destination(requestMethod), requestHeader(requestId, options), JSON.stringify(payload));
+      client.send(destination(requestMethod), requestHeader(requestId, options), JSON.stringify(options.payload || {}));
     }, onerror);
   };
 
