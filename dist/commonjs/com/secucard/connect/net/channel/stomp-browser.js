@@ -79,15 +79,20 @@ var StompBrowser = (function () {
       var onerror = function onerror(frame) {
         self.notifyListener('error', frame);
       };
+      client.debug = function (message) {
+        self.notifyListener('debug', message);
+      };
+      client.onreceive = function (frame) {
+        if (frame.command == 'MESSAGE') {
+          var headers = frame.headers;
+          var correlationId = headers['correlation-id'];
+          var message = frame.body;
+          var type = correlationId.length ? 'message' : 'event';
+          self.notifyListener(type, message, correlationId);
+        }
+      };
       client.connect(accessToken, accessToken, function (frame) {
         self.notifyListener('connected');
-        client.subscribe(destination, function (message) {
-          var type = message.correlationId ? 'message' : 'event';
-          self.notifyListener(type, message);
-          if (type == 'message') {
-            client.disconnect();
-          }
-        });
         var header = requestHeader(accessToken, requestId, options);
         var payload = JSON.stringify(options.payload || {});
         client.send(destination, header, payload);
