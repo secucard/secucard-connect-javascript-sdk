@@ -34,7 +34,7 @@ var tempQueue = function tempQueue() {
 
 var requestHeader = function requestHeader(accessToken, requestId, options) {
   var _header = {
-    'user-id': this.accessToken,
+    'user-id': accessToken,
     'reply-to': tempQueue(),
     'correlation-id': requestId
   };
