@@ -5,23 +5,11 @@ export class ClientConfig {
 	}
 	
 	getOAuthUrl() {
-		
-		let oAuthUrl = this.oAuthUrl;
-		if(!oAuthUrl.endsWith('/')) {
-			oAuthUrl += '/';
-		}
-		return oAuthUrl;
-		
+		return this._getCompleteUrl(this.oAuthUrl);
 	}
 	
 	getRestUrl() {
-		
-		let restUrl = this.restUrl;
-		if(!restUrl.endsWith('/')) {
-			restUrl += '/';
-		}
-		return restUrl;
-		
+		return this._getCompleteUrl(this.restUrl);
 	}
 	
 	getStompHost() {
@@ -42,6 +30,20 @@ export class ClientConfig {
 	
 	getStompQueue() {
 		return this.stompQueue;
+	}
+	
+	getStompDestination() {
+		return this._getCompleteUrl(this.stompDestination);
+	}
+	
+	_getCompleteUrl(value) {
+		
+		let url = value;
+		if(!url.endsWith('/')) {
+			url += '/';
+		}
+		return url;
+		
 	}
 	
 }
@@ -77,12 +79,12 @@ ClientConfig._defaults = {
 	stompVHost: null,
 	
 	// Base path of the secucard STOMP API.
-	stompDestination: '',
+	stompDestination: '/exchange/connect.api',
 	// SSL used with for STOMP: true | false/nothing.
 	stompSslEnabled: true,
 	
 	// The default queue for all STOMP messages.
-	stompQueue: '',
+	stompQueue: '/temp-queue/main',
 	
 	// Timeout for trying to connect to STOMP server. 0 means no waiting.
 	stompConnectTimeout: 0,

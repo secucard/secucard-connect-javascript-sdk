@@ -144,11 +144,11 @@ export class Stomp {
 		console.log('abort transaction: ' + transaction_id);
 	}
 
-	send (destination, headers, body, want_receipt) {
+	send (destination, headers, body, withReceipt) {
 		headers['session'] = this.session;
 		headers['destination'] = destination;
 		console.log('STOMP :: ', headers, body);
-		return this.send_command(this, 'SEND', headers, body, want_receipt);
+		return this.send_command(this, 'SEND', headers, body, withReceipt);
 	}
 	
 	

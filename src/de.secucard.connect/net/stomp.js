@@ -1,5 +1,24 @@
 import UUID from 'uuid';
+import QS from 'qs';
 import {Channel} from './channel';
+
+let utils = {};
+utils.really_defined = (var_to_test) => {
+    return !(var_to_test == null || var_to_test == undefined);
+};
+
+utils.queryToString = (queryObject) => {
+	return QS.stringify(queryObject);
+};
+
+utils.sizeOfUTF8 = (str) => {
+	let size = 0;
+	if(str) {
+		// TODO tricky thing
+		size = encodeURI(str).match(/%..|./g).length;
+	}
+	return size;
+};
 
 export class Stomp {
 	
@@ -23,7 +42,7 @@ export class Stomp {
 		this.stompCommands[Channel.METHOD.DELETE] = 'delete';
 		
 		this.connection = new StompImpl();
-		
+		this.connection.on('message', this._handleStompFrame);
 	}
 	
 	configureWithContext(context) {
@@ -52,6 +71,10 @@ export class Stomp {
 		
 		this.getStompQueue = () => {
 			return context.getConfig().getStompQueue();
+		};
+		
+		this.getStompDestination = () => {
+			return context.getConfig().getStompDestination();
 		};
 		
 		this.connection.configure(this.getStompConfig());
@@ -131,8 +154,9 @@ export class Stomp {
 	
 	request(method, params) {
 		
-		let destination = buildDestination(method, params);
-		return _sendMessage(destination, params);
+		let destination = this.buildDestination(method, params);
+		let message = this.createMessage(params);
+		return _sendMessage(destination, message);
 		
 	}
 	
@@ -162,6 +186,22 @@ export class Stomp {
 	createMessage(params) {
 		
 		let message = {};
+		
+		if(utils.really_defined(params.objectId)){
+			message.pid = params.objectId;
+		}
+		
+		if(utils.really_defined(params.actionArg)){
+			message.sid = params.actionArg;
+		}
+		
+		if(utils.really_defined(params.queryParams)){
+			message.query = utils.queryToString(params.queryParams);
+		}
+		
+		if(utils.really_defined(params.data)){
+			message.data = params.data;
+		}
 		
 		return message;
 		
@@ -224,29 +264,57 @@ export class Stomp {
 		
 	}
 	
-	_sendMessage(destination, message) {
+	_sendMessage(destinationObj, message) {
 		
 		
 		return this.getToken().then((token) => {
 			
 			let accessToken = token.access_token;
-			let corrId = this.createCorrelationId();
+			let correlationId = this.createCorrelationId();
 			
 			let headers = {};
 			headers['reply-to'] = this.getStompQueue();
-			headers['persistent'] = true;
 			headers['content-type'] = 'application/json';
 			headers['user-id'] = accessToken;
-			headers['correlation-id'] = corrId;
+			headers['correlation-id'] = correlationId;
 			
-			if(destination.appId) {
-				headers['app-id'] = destination.appId;
+			if(destinationObj.appId) {
+				headers['app-id'] = destinationObj.appId;
+			}
+			
+			let body = JSON.stringify(message);
+			headers['content-length'] = utils.sizeOfUTF8(body);
+			
+			let destination = this.getStompDestination();
+			if(destinationObj.appId) {
+				
+				destination += 'app:' + destinationObj.action;
+				
+			} else {
+				
+				destination += 'api:' + destinationObj.command + ':';
+				
+				let endpoint = [];
+				if(destinationObj.endpoint){
+					endpoint = endpoint.concat(destinationObj.endpoint);
+				}
+				if(destinationObj.action) {
+					endpoint = endpoint.push(destinationObj.action);
+				}
+				
+				destination += endpoint.join('.');
+				
 			}
 			
 			
 			let sendWithStomp = () => {
 				
-				
+				return new Promise((resolve, reject) => {
+					
+					this.messages[correlationId] = {resolve: resolve, reject: reject};
+					this.connection.send(destination, headers, body);
+					
+				});
 				
 			};
 			
@@ -301,6 +369,19 @@ export class Stomp {
 		
 		
 		return _runSessionRefresh();
+		
+	}
+	
+	_handleStompFrame(frame) {
+
+		//frame.body = JSON.parse(frame.body[0]);
+		
+		// execute correlation-id callback
+		if (frame && frame.headers && frame.headers['correlation-id']) {
+			var correlationId = frame.headers['correlation-id'];
+			this.messages[correlationId].resolve(frame);
+			delete this.messages[correlationId];
+		}
 		
 	}
 	

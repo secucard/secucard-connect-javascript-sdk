@@ -7,6 +7,7 @@
   "dependencies": {
     "eventemitter3": "^1.1.1",
     "lodash": "^3.9.3",
+    "qs": "^4.0.0",
     "superagent": "^1.2.0",
     "uuid": "^2.0.1"
   },
