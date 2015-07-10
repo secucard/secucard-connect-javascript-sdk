@@ -24,7 +24,7 @@ var notify = function notify(event, details) {
   }
 };
 
-var destination = function destination(requestMethod) {
+var stompDestination = function stompDestination(requestMethod) {
   return REQUEST_DESTINATION + '/' + requestMethod;
 };
 
@@ -78,18 +78,24 @@ var StompBrowser = (function () {
 
     var self = this;
     var client = _stompWebsocket2['default'].over(new _sockjsClient2['default'].SockJS(self.wsUrl));
-
-    var onerror = function onerror(frame) {
-      self.notifyListener('error', frame);
+    var destination = stompDestination(requestMethod);
+    var connect = function connect() {
+      var onerror = function onerror(frame) {
+        self.notifyListener('error', frame);
+      };
+      client.connect(accessToken, accessToken, function (frame) {
+        self.notifyListener('connected');
+        client.subscribe(destination, function (message) {
+          var type = message.correlationId ? 'message' : 'event';
+          self.notifyListener(type, message);
+          if (type == 'message') {
+            client.disconnect();
+          }
+        });
+        client.send(destination, self.requestHeader(requestId, options), JSON.stringify(options.payload || {}));
+      }, onerror, '/');
     };
-    client.connect(accessToken, accessToken, function (frame) {
-      self.notifyListener('connected');
-      client.subscribe(destination, function (message) {
-        var type = message.correlationId ? 'message' : 'event';
-        self.notifyListener(type, message);
-      });
-      client.send(destination(requestMethod), requestHeader(requestId, options), JSON.stringify(options.payload || {}));
-    }, onerror);
+    connect();
   };
 
   return StompBrowser;
