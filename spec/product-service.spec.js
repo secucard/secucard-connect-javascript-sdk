@@ -11,6 +11,7 @@ import devCredentials from './support/dev-credentials.json';
 
 import {Channel} from '../src/de.secucard.connect/net/channel'
 import {ProductService} from '../src/de.secucard.connect/product/product-service'
+import {ClientNodeEnvironment} from '../src/de.secucard.connect/client-node-environment';
 
 install();
 
@@ -18,7 +19,7 @@ describe('Product Service', function() {
 	
 	beforeEach('', async function () {
 		
-		let client = Client.create();
+		let client = Client.create(ClientNodeEnvironment);
 		client.setCredentials(devCredentials);
 		
 		let service = new ProductService();

@@ -36,6 +36,12 @@ export class ClientConfig {
 		return this._getCompleteUrl(this.stompDestination);
 	}
 	
+	isDevice() {
+		
+		return Boolean(this.deviceUUID);
+		
+	}
+	
 	_getCompleteUrl(value) {
 		
 		let url = value;

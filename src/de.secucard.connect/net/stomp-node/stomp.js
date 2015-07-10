@@ -53,12 +53,16 @@ export class Stomp {
 	}
 	
 	should_run_message_callback (this_frame) {
+		
+		/*
 		var subscription = this._subscribed_to[this_frame.headers.destination];
 		if (this_frame.headers.destination !== null && subscription !== null) {
 			if (subscription.enabled && subscription.callback !== null && typeof(subscription.callback) == 'function') {
 				subscription.callback(this_frame.body, this_frame.headers);
 			}
 		}
+		*/
+		
 	}
 
 	handle_new_frame (this_frame) {

@@ -14,6 +14,8 @@ import devCredentialsRefreshToken from './support/dev-credentials-refresh-token.
 import devCredentialsDevice from './support/dev-credentials-device.json'
 import {Token} from '../src/de.secucard.connect/auth/token'
 
+import {ClientNodeEnvironment} from '../src/de.secucard.connect/client-node-environment';
+
 install();
 
 describe('Authorization', function () {
@@ -85,7 +87,7 @@ describe('Authorization', function () {
 	
 	it('checks setting expire time on next getToken call', async function() {
 		
-		let client = Client.create();
+		let client = Client.create(ClientNodeEnvironment);
 		client.setCredentials(devCredentials);
 		
 		await client.context.auth.getToken().then((token) => {

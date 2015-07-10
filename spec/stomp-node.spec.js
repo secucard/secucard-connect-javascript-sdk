@@ -6,6 +6,7 @@ import {Promise as ES6Promise} from 'es6-promise';
 import {Client} from '../src/de.secucard.connect/client';
 import devCredentials from './support/dev-credentials.json';
 
+import {ClientNodeEnvironment} from '../src/de.secucard.connect/client-node-environment';
 import {Stomp} from '../src/de.secucard.connect/net/stomp';
 import {Stomp as StompImpl} from '../src/de.secucard.connect/net/stomp-node/stomp';
 
@@ -15,7 +16,7 @@ describe('Stomp', function () {
 	
 	beforeEach('', async function () {
 		
-		let client = Client.create();
+		let client = Client.create(ClientNodeEnvironment);
 
 		Object.assign(client.config, {
 			oAuthUrl: 'https://connect-dev10.secupay-ag.de/oauth/',
@@ -43,7 +44,15 @@ describe('Stomp', function () {
 		
 	});
 
-	it('2', async function () {
+	it('opens STOMP API connection', async function () {
+		
+		let stomp = new Stomp(StompImpl);
+		stomp.configureWithContext(this.client.context);
+		await stomp.open().then((res) => {
+			
+			console.log('stomp open result', res);
+			
+		});
 		
 	});
 

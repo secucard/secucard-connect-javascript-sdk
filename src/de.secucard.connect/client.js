@@ -23,10 +23,9 @@ export class Client {
 	
 }
 
-Client.create = () => {
+Client.create = (environment) => {
 	
 	let config = ClientConfig.defaults();
-	let environment = {};
     let client = new Client(config, environment);
 	return client;
 	

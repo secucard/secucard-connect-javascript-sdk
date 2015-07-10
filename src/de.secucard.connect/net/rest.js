@@ -128,15 +128,23 @@ export class Rest {
 		
 		let requestError = (err) => {
 			
-			// TODO handle Auth Error
+			// if got auth error, redispatch it
+			let error = err;
+			
 			try {
-				let error = new Error('Api request error');
+				
+				// doesn't throw if rest error
+				// TODO custom error
+				error = new Error('Api request error');
 				error.data = err.response.body;
-				throw error;
+				
 			} catch (e) {
-				throw err;
+				
+				error = err;
+				
 			}
 			
+			throw error;
 			
 		};
 		

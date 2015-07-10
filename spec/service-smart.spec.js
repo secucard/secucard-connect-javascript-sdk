@@ -12,6 +12,7 @@ import devCredentials from './support/dev-credentials.json';
 import {Channel} from '../src/de.secucard.connect/net/channel';
 import {Smart} from '../src/de.secucard.connect/product/smart/smart';
 import devTransaction from './support/dev-transaction.json';
+import {ClientNodeEnvironment} from '../src/de.secucard.connect/client-node-environment';
 
 install();
 
@@ -19,20 +20,20 @@ describe('Product Service', function() {
 	
 	beforeEach('', async function () {
 		
-		let client = Client.create();
+		let client = Client.create(ClientNodeEnvironment);
 		client.setCredentials(devCredentials);
 		
 		let transactions = new Smart.TransactionService();
 		transactions.configureWithContext(client.context);
-		transactions.getChannel = client.context.getRestChannel.bind(client.context);
 		
 		this.client = client;
 		this.transactions = transactions;
 		
 	});
 	
-	it('gets object list from Product Service' , async function() {
+	it('gets object list from Product Service with REST' , async function() {
 		
+		this.transactions.getChannel = this.client.context.getRestChannel.bind(this.client.context);
 		expect(Boolean(this.transactions)).toBe(true);
 		
 		let data;
@@ -52,17 +53,48 @@ describe('Product Service', function() {
 				expect(data.object).toBe('smart.transactions');
 				expect(res.id == data.id).toBe(true);
 				expect(res.created == data.created).toBe(true);
-				expect(res.updated != data.updated).toBe(true);
 				
 			})
 			.catch((err) => {
 				
-				// console.log(err);
+				console.log('Rest Api Error', err);
 				
 			});
 		
-		//await this.transactions
-		//expect(Boolean(data)).toBe(true);
+	});
+	
+	
+	it('gets object list from Product Service with STOMP' , async function() {
+		
+		this.transactions.getChannel = this.client.context.getStompChannel.bind(this.client.context);
+		expect(Boolean(this.transactions)).toBe(true);
+		
+		let data;
+		await this.transactions.createObject(devTransaction)
+			.then((res) => {
+				data = res;
+				console.log(res);
+			});
+		
+		
+		expect(data.object).toBe('smart.transactions');
+		
+		await this.transactions.updateObject(data)
+			.then((res) => {
+				
+				console.log(res);
+				
+				expect(data.object).toBe('smart.transactions');
+				expect(res.id == data.id).toBe(true);
+				expect(res.created == data.created).toBe(true);
+				
+			})
+			.catch((err) => {
+				
+				console.log('Stomp Api Error', err);
+				
+			});
+		
 		
 	});
 	

@@ -42,15 +42,13 @@ export class Stomp {
 		this.stompCommands[Channel.METHOD.DELETE] = 'delete';
 		
 		this.connection = new StompImpl();
-		this.connection.on('message', this._handleStompFrame);
+		this.connection.on('message', this._handleStompFrame.bind(this));
 	}
 	
 	configureWithContext(context) {
 		
 		this.getToken = () => {
-			
 			return context.getAuth().getToken();
-			
 		};
 		
 		this.getStompHost = () => {
@@ -77,7 +75,9 @@ export class Stomp {
 			return context.getConfig().getStompDestination();
 		};
 		
-		this.connection.configure(this.getStompConfig());
+		this.isDevice = () => {
+			return context.getConfig().isDevice();
+		};
 		
 	}
 	
@@ -98,7 +98,7 @@ export class Stomp {
 	
 	open() {
 		
-		return this._startSessionRefresh();
+		return this.isDevice()? this._startSessionRefresh() : this.connect();
 		
 	}
 	
@@ -148,15 +148,11 @@ export class Stomp {
 		
 	}
 	
-	addMessage (correlationId, callback) {
-		this.messages[correlationId] = callback;
-	}
-	
 	request(method, params) {
 		
 		let destination = this.buildDestination(method, params);
 		let message = this.createMessage(params);
-		return _sendMessage(destination, message);
+		return this._sendMessage(destination, message);
 		
 	}
 	
@@ -215,22 +211,8 @@ export class Stomp {
 			login: accessToken,
 			passcode: accessToken
 		};
-
-		/*
-		 this.connection.should_run_message_callback = function (frame) {
-
-		 frame.body = JSON.parse(frame.body[0]);
-
-		 // execute correlation-id callback
-		 if (frame && frame.headers && frame.headers['correlation-id']) {
-		 var correlationId = frame.headers['correlation-id'];
-		 _this.messages[correlationId](null, frame.headers, frame.body);
-		 }
-
-		 //_this.emit("onMessage", frame.body);
-		 };
-		 */
 		
+		this.connection.configure(this.getStompConfig());
 		this.connection.connect(stompCredentials);
 		
 		return new Promise((resolve, reject) => {
@@ -266,6 +248,7 @@ export class Stomp {
 	
 	_sendMessage(destinationObj, message) {
 		
+		console.log('_sendMessage', destinationObj, message);
 		
 		return this.getToken().then((token) => {
 			
@@ -299,7 +282,7 @@ export class Stomp {
 					endpoint = endpoint.concat(destinationObj.endpoint);
 				}
 				if(destinationObj.action) {
-					endpoint = endpoint.push(destinationObj.action);
+					endpoint.push(destinationObj.action);
 				}
 				
 				destination += endpoint.join('.');
@@ -346,7 +329,7 @@ export class Stomp {
 		
 		let _runSessionRefresh = () => {
 			
-			return this._request(Channel.METHOD.EXECUTE, {
+			return this.request(Channel.METHOD.EXECUTE, {
 				endpoint: ['auth', 'sessions'],
 				objectId: 'me',
 				action: 'refresh'
@@ -355,6 +338,7 @@ export class Stomp {
 				console.log('Session refresh sent');
 				this.isConfirmed = false;
 				initial = false;
+				return res;
 				
 			}).catch((err) => {
 				
@@ -367,6 +351,7 @@ export class Stomp {
 			
 		};
 		
+		// TODO run session refresh on timer event
 		
 		return _runSessionRefresh();
 		
@@ -375,12 +360,25 @@ export class Stomp {
 	_handleStompFrame(frame) {
 
 		//frame.body = JSON.parse(frame.body[0]);
-		
 		// execute correlation-id callback
+		
+		console.log('_handleStompFrame', frame);
+		
 		if (frame && frame.headers && frame.headers['correlation-id']) {
+			
 			var correlationId = frame.headers['correlation-id'];
-			this.messages[correlationId].resolve(frame);
+			let body = JSON.parse(frame.body[0]);
+			
+			if(body.status == 'ok'){
+				this.messages[correlationId].resolve(body.data);
+			} else {
+				let error = new Error('Api request error');
+				error.data = body;
+				this.messages[correlationId].reject(error);
+			}
+			
 			delete this.messages[correlationId];
+			
 		}
 		
 	}

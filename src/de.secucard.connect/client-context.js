@@ -13,6 +13,10 @@ export class ClientContext {
 		restChannel.configureWithContext(this);
 		this.restChannel = restChannel;
 		
+		let stompChannel = environment.StompChannel.create();
+		stompChannel.configureWithContext(this);
+		this.stompChannel = stompChannel;
+		
 		this.config = config;
 		
 		
@@ -44,7 +48,7 @@ export class ClientContext {
 	}
 	
 	getStompChannel() {
-		return null;
+		return this.stompChannel;
 	}
 	
 	getServiceDefaultOptions() {

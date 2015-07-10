@@ -8,13 +8,15 @@ import {Message, HEAD, GET, POST, PUT, DELETE} from '../src/de.secucard.connect/
 import {Client} from '../src/de.secucard.connect/client';
 import {ClientConfig} from '../src/de.secucard.connect/client-config';
 import devCredentials from './support/dev-credentials.json';
+import {ClientNodeEnvironment} from '../src/de.secucard.connect/client-node-environment';
+
 install();
 
 describe('Client', function() {
 	
 	beforeEach('', async function () {
 		
-		let client = Client.create();
+		let client = Client.create(ClientNodeEnvironment);
 		this.client = client;
 		
 	});
@@ -39,7 +41,7 @@ describe('Client', function() {
 		
 		expect(config.getRestUrl()).toBe(expectedRestUrl);
 		
-		let client = new Client(config);
+		let client = new Client(config, ClientNodeEnvironment);
 		
 		expect(client.config.getRestUrl()).toBe(expectedRestUrl);
 	
