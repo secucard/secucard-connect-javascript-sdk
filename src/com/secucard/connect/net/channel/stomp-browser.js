@@ -11,7 +11,7 @@ var notify = function(event, details) {
   }
 }
 
-var destination = function(requestMethod) {
+var stompDestination = function(requestMethod) {
   return `${REQUEST_DESTINATION}/${requestMethod}` 
 }
 
@@ -50,17 +50,23 @@ export class StompBrowser {
   request({accessToken="", requestMethod="", requestId="", options={}}) {
     var self = this
     var client =  StompJS.over(new SockJSClient.SockJS(self.wsUrl))
-
-    var onerror = (frame) => {
-      self.notifyListener("error", frame)
+    var destination = stompDestination(requestMethod)
+    var connect = function() {
+      var onerror = (frame) => {
+        self.notifyListener("error", frame)
+      }
+      client.connect(accessToken, accessToken, (frame) => {
+        self.notifyListener("connected")
+        client.subscribe(destination, (message) => {
+           var type = message.correlationId ? "message" : "event"
+           self.notifyListener(type, message)
+           if (type == "message") {
+            client.disconnect()
+           }
+        })
+        client.send(destination, self.requestHeader(requestId, options), JSON.stringify(options.payload || {}))
+      }, onerror, '/')
     }
-    client.connect(accessToken, accessToken, (frame) => {
-      self.notifyListener("connected")
-      client.subscribe(destination, (message) => {
-         var type = message.correlationId ? "message" : "event"
-         self.notifyListener(type, message)
-      })
-      client.send(destination(requestMethod), requestHeader(requestId, options), JSON.stringify(options.payload || {}))
-    }, onerror)
+    connect()  
   }
 }
