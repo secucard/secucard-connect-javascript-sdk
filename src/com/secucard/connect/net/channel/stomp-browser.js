@@ -19,7 +19,7 @@ var tempQueue = function() {
   return TEMP_QUEUE
 }
 
-var header = function(requestId, options) {
+var requestHeader(accessToken, requestId, options) {
   var _header = {
     'user-id': this.accessToken,
     'reply-to': tempQueue(),
@@ -44,9 +44,6 @@ export class StompBrowser {
   notifyListener(event, details) {
     notify.call(this, event, details)
   }
-  requestHeader(requestId, options) {
-    header.call(this, requestId, options)
-  } 
   request({accessToken="", requestMethod="", requestId="", options={}}) {
     var self = this
     var client =  StompJS.over(new SockJSClient.SockJS(self.wsUrl))
@@ -64,7 +61,9 @@ export class StompBrowser {
             client.disconnect()
            }
         })
-        client.send(destination, self.requestHeader(requestId, options), JSON.stringify(options.payload || {}))
+        var header = requestHeader(accessToken, requestId, options)
+        var payload = JSON.stringify(options.payload || {})
+        client.send(destination, header, payload)
       }, onerror, '/')
     }
     connect()  
