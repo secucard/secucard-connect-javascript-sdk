@@ -19,7 +19,7 @@ var tempQueue = function() {
   return TEMP_QUEUE
 }
 
-var requestHeader(accessToken, requestId, options) {
+var requestHeader = function(accessToken, requestId, options) {
   var _header = {
     'user-id': this.accessToken,
     'reply-to': tempQueue(),

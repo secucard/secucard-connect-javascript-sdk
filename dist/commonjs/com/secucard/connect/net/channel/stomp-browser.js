@@ -32,7 +32,7 @@ var tempQueue = function tempQueue() {
   return TEMP_QUEUE;
 };
 
-var header = function header(requestId, options) {
+var requestHeader = function requestHeader(accessToken, requestId, options) {
   var _header = {
     'user-id': this.accessToken,
     'reply-to': tempQueue(),
@@ -62,10 +62,6 @@ var StompBrowser = (function () {
     notify.call(this, event, details);
   };
 
-  StompBrowser.prototype.requestHeader = function requestHeader(requestId, options) {
-    header.call(this, requestId, options);
-  };
-
   StompBrowser.prototype.request = function request(_ref) {
     var _ref$accessToken = _ref.accessToken;
     var accessToken = _ref$accessToken === undefined ? '' : _ref$accessToken;
@@ -92,7 +88,9 @@ var StompBrowser = (function () {
             client.disconnect();
           }
         });
-        client.send(destination, self.requestHeader(requestId, options), JSON.stringify(options.payload || {}));
+        var header = requestHeader(accessToken, requestId, options);
+        var payload = JSON.stringify(options.payload || {});
+        client.send(destination, header, payload);
       }, onerror, '/');
     };
     connect();
