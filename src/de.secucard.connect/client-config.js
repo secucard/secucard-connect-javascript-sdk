@@ -61,32 +61,32 @@ export class ClientConfig {
 ClientConfig._defaults = {
 	
 	// The default server communication channel: REST | STOMP.
-	channelDefault : '',
+	channelDefault : '', // TODO implement channelDefault
 	
 	// Cache dir
-	cacheDir: '',
+	cacheDir: '', // TODO implement cacheDir
 	
 	// Unique device id like UUID. Mandatory when using device auth type.
-	deviceUUID: '',
+	deviceUUID: '', // TODO implement deviceUUID
 	
 	// URL of the OAuth service to use.
 	oAuthUrl:'https://connect.secucard.com/oauth/',
 	// Timeout in seconds to use when waiting for auth tokens when performing "device" auth type.
-	authDeviceTimeout:0,
+	authDeviceTimeout:0, //TODO implement authDeviceTimeout
 	
 	// URL of the secucard REST API.
 	restUrl: 'https://connect.secucard.com/api/v2/',
 	// Timeout for getting any response. 0 for no timeout.
-	restTimeout: 0,
+	restTimeout: 0, //TODO implement restTimeout
 	
 	// STOMP server communication is enabled: true | false/nothing
-	stompEnabled: true,
+	stompEnabled: true, //TODO implement stompEnabled
 	// The interval the STOMP channel sends a "heartbeat".
 	stompHeartbeatSec: 30,
 	// stomp host, virtual host, stomp port
 	stompHost: 'connect.secucard.com',
 	stompPort: 61614,
-	stompVHost: null,
+	stompVHost: null, //TODO implement stompVHost
 	
 	// Base path of the secucard STOMP API.
 	stompDestination: '/exchange/connect.api',
@@ -97,15 +97,15 @@ ClientConfig._defaults = {
 	stompQueue: '/temp-queue/main',
 	
 	// Timeout for trying to connect to STOMP server. 0 means no waiting.
-	stompConnectTimeoutSec: 0,
+	stompConnectTimeoutSec: 0, //TODO implement stompConnectTimeoutSec
 	// Timeout for awaiting message receipts and also message responses. An error is raised after. 0 means no waiting.
-	stompMessageTimeoutSec: 0,
+	stompMessageTimeoutSec: 0, //TODO implement stompMessageTimeoutSec
 	/*
 	Max age of received STOMP messages in the systems message box before they get deleted.
 	Keeps the message queue clean, usually messages should not get very old in the box, if a message reaches this max age
 	its very likely that nobody is interested or a problem exist and therefore we can remove.
 	 */
-	stompMessageAge: 0
+	stompMessageAge: 0 //TODO implement stompMessageAge
 	
 };
 
