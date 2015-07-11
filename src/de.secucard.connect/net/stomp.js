@@ -98,7 +98,7 @@ export class Stomp {
 	
 	open() {
 		
-		return this.isDevice()? this._startSessionRefresh() : this.connect();
+		return this._startSessionRefresh();
 		
 	}
 	
