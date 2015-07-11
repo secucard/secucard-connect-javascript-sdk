@@ -1,5 +1,7 @@
 import UUID from 'uuid';
 import QS from 'qs';
+import EE from 'eventemitter3';
+
 import {Channel} from './channel';
 
 let utils = {};
@@ -24,11 +26,13 @@ export class Stomp {
 	
 	constructor (StompImpl) {
 		
+		Object.assign(this, EE.prototype);
+		
 		this.connection = null;
 		this.messages = {};
 		
 		// is used when refreshening session
-		this.isConfirmed = false;
+		this.skipSessionRefresh = false;
 		this.sessionTimer = null;
 		
 		// is used to check if token changed
@@ -79,6 +83,10 @@ export class Stomp {
 			return context.getConfig().isDevice();
 		};
 		
+		this.getStompHeartbeatMs = () => {
+			return context.getConfig().getStompHeartbeatMs();
+		}
+		
 	}
 	
 	getStompConfig() {
@@ -89,7 +97,7 @@ export class Stomp {
 			port: this.getStompPort(),
 			ssl: this.getStompSslEnabled(),
 			vhost: this.getStompVHost(),
-			
+			heartbeatMs: this.getStompHeartbeatMs(),
 			login: '',
 			passcode: ''
 		}
@@ -117,6 +125,7 @@ export class Stomp {
 	
 	close () {
 		
+		clearInterval(this.sessionTimer);
 		return this._disconnect();
 		
 	}
@@ -327,43 +336,56 @@ export class Stomp {
 		console.log('Stomp session refresh loop started');
 		let initial = true;
 		
-		let _runSessionRefresh = () => {
+		// always refresh session with interval less than stomp heart-beat if defined
+		let sessionInterval = this.getStompHeartbeatMs() > 0? this.getStompHeartbeatMs() - 500 : 25*1000;
+		
+		this.sessionTimer = setInterval(() => {
 			
-			return this.request(Channel.METHOD.EXECUTE, {
-				endpoint: ['auth', 'sessions'],
-				objectId: 'me',
-				action: 'refresh'
-			}).then((res) => {
-				
-				console.log('Session refresh sent');
-				this.isConfirmed = false;
-				initial = false;
-				return res;
-				
-			}).catch((err) => {
-				
-				console.log('Session refresh failed');
-				if(initial){
-					throw err;
-				}
-				
-			});
+			if(this.skipSessionRefresh){
+				this.skipSessionRefresh = false;
+			} else {
+				this._runSessionRefresh(false);
+			}
 			
-		};
+		}, sessionInterval);
 		
-		// TODO run session refresh on timer event
+		return this._runSessionRefresh(initial);
 		
-		return _runSessionRefresh();
+	}
+
+	_runSessionRefresh(initial) {
 		
+		return this.request(Channel.METHOD.EXECUTE, {
+			endpoint: ['auth', 'sessions'],
+			objectId: 'me',
+			action: 'refresh'
+		}).then((res) => {
+			
+			this.emit('sessionRefresh');
+			console.log('Session refresh sent');
+			this.skipSessionRefresh = false;
+			return res;
+
+		}).catch((err) => {
+			
+			this.emit('sessionRefreshError');
+			console.log('Session refresh failed');
+			if (initial) {
+				throw err;
+			}
+
+		});
+
 	}
 	
 	_handleStompFrame(frame) {
 
-		//frame.body = JSON.parse(frame.body[0]);
-		// execute correlation-id callback
+		// skip next session refresh 
+		this.skipSessionRefresh = true;
 		
 		console.log('_handleStompFrame', frame);
 		
+		// execute correlation-id callback
 		if (frame && frame.headers && frame.headers['correlation-id']) {
 			
 			var correlationId = frame.headers['correlation-id'];
@@ -378,6 +400,10 @@ export class Stomp {
 			}
 			
 			delete this.messages[correlationId];
+			
+		} else if(frame){
+			
+			
 			
 		}
 		

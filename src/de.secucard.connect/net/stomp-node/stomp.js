@@ -37,6 +37,7 @@ export class Stomp {
 		this.ssl_validate = config['ssl_validate'] ? true : false;
 		this.ssl_options = config['ssl_options'] || {};
 		this.vhost = config['vhost'];
+		this.heartbeatMs = config['heartbeatMs'];
 		
 		this['client-id'] = config['client-id'] || null;
 		
@@ -325,8 +326,10 @@ export class Stomp {
 			headers = headers || {};
 
 		// Send heart-beat header...
-		headers['heart-beat'] = '630000,0';
-
+		if(this.heartbeatMs > 0){
+			headers['heart-beat'] = this.heartbeatMs + ',0';
+		}
+		
 		args['command'] = 'CONNECT';
 		args['headers'] = headers;
 

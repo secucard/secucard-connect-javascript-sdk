@@ -14,6 +14,8 @@ install();
 
 describe('Stomp', function () {
 	
+	let originalTimeout;
+	
 	beforeEach('', async function () {
 		
 		let client = Client.create(ClientNodeEnvironment);
@@ -27,6 +29,9 @@ describe('Stomp', function () {
 		
 		this.client = client;
 		//this.transactions = transactions;
+		
+		originalTimeout = jasmine.DEFAULT_TIMEOUT_INTERVAL;
+	  	jasmine.DEFAULT_TIMEOUT_INTERVAL = 10000;
 		
 	});
 	
@@ -55,5 +60,47 @@ describe('Stomp', function () {
 		});
 		
 	});
-
+	
+	it('opens STOMP connection and wait for some session refresh events', function (done) {
+		
+		// configure client to send stomp session refresh every 2 sec 
+		this.client.config.stompHeartbeatSec = 2;
+		
+		let stomp = new Stomp(StompImpl);
+		stomp.configureWithContext(this.client.context);
+		
+		let counter = 0;
+		stomp.on('sessionRefresh', ()=>{
+			
+			counter++;
+			console.log('sessionRefresh', counter);
+			
+			if(counter == 3){
+				
+				// close stomp channel and ...
+				
+				stomp.close().then(()=>{
+					
+					// ... wait for 3 sec to ensure 'sessionRefresh' event is never recieved later 
+					
+					setTimeout(()=>{
+						expect(counter == 3).toBe(true);
+						done();
+					}, 3*1000);
+					
+				});
+			}
+			
+		});
+		
+		stomp.open().then(() => {
+			console.log('Stomp opened', counter);
+		});
+		
+	});
+	
+	afterEach(function() {
+	  	jasmine.DEFAULT_TIMEOUT_INTERVAL = originalTimeout;
+	});
+	
 });

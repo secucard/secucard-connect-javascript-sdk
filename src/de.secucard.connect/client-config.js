@@ -36,6 +36,10 @@ export class ClientConfig {
 		return this._getCompleteUrl(this.stompDestination);
 	}
 	
+	getStompHeartbeatMs () {
+		return this.stompHeartbeatSec * 1000;
+	}
+	
 	isDevice() {
 		
 		return Boolean(this.deviceUUID);
@@ -78,7 +82,7 @@ ClientConfig._defaults = {
 	// STOMP server communication is enabled: true | false/nothing
 	stompEnabled: true,
 	// The interval the STOMP channel sends a "heartbeat".
-	stompHeartbeat: 10,
+	stompHeartbeatSec: 30,
 	// stomp host, virtual host, stomp port
 	stompHost: 'connect.secucard.com',
 	stompPort: 61614,
@@ -93,9 +97,9 @@ ClientConfig._defaults = {
 	stompQueue: '/temp-queue/main',
 	
 	// Timeout for trying to connect to STOMP server. 0 means no waiting.
-	stompConnectTimeout: 0,
+	stompConnectTimeoutSec: 0,
 	// Timeout for awaiting message receipts and also message responses. An error is raised after. 0 means no waiting.
-	stompMessageTimout: 0,
+	stompMessageTimeoutSec: 0,
 	/*
 	Max age of received STOMP messages in the systems message box before they get deleted.
 	Keeps the message queue clean, usually messages should not get very old in the box, if a message reaches this max age
