@@ -1,3 +1,4 @@
+import es6shim from 'es6-shim';
 import {ClientNodeEnvironment} from './de.secucard.connect/client-node-environment';
 import {Client} from './de.secucard.connect/client';
 
