@@ -1,9 +1,17 @@
 {
-  "registry": "jspm",
-  "main": "lib/main",
-  "directories": {
-    "lib": "lib"
+  "name": "secucard-connect",
+  "version": "0.0.1",
+  "main": "dist/commonjs/index.js",
+  
+  "repository": {
+    "type": "git",
+    "url": " github:secucard/secucard-connect-javascript-client-lib"
   },
+  
+  "directories": {
+    "lib": "dist/commonjs"
+  },
+  
   "dependencies": {
     "eventemitter3": "^1.1.1",
     "lodash": "^3.9.3",
@@ -11,6 +19,7 @@
     "superagent": "^1.2.0",
     "uuid": "^2.0.1"
   },
+  
   "devDependencies": {
     "browser-sync": "^2.7.12",
     "del": "^1.2.0",
@@ -28,5 +37,24 @@
     "require-dir": "^0.3.0",
     "run-sequence": "^1.1.1",
     "vinyl-paths": "^1.0.0"
+  },
+  
+  "jspm": {
+    
+    "main": "browser",
+    "format": "register",
+    "directories": {
+      "lib": "dist/system"
+    },
+    
+    "dependencies": {
+      "eventemitter3": "npm:eventemitter3@^1.1.1",
+      "lodash": "npm:lodash@^3.9.3",
+      "qs": "npm:qs@^4.0.0",
+      "superagent": "npm:superagent@^1.2.0",
+      "uuid": "npm:uuid@^2.0.1"
+    }
+    
   }
+  
 }
