@@ -36,7 +36,7 @@
     "vinyl-paths": "^1.0.0"
   },
   "jspm": {
-    "main": "dist/system/browser.js",
+    "main": "browser.js",
     "format": "register",
     "directories": {
       "lib": "dist/system"
