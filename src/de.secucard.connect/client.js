@@ -23,10 +23,14 @@ export class Client {
 	
 }
 
-Client.create = (environment) => {
+Client.create = (environment, config) => {
 	
-	let config = ClientConfig.defaults();
-    let client = new Client(config, environment);
-	return client;
+	if(!config){
+		config = Object.create(null);
+	}
+	
+	config = Object.assign(ClientConfig.defaults(), config);
+	
+	return new Client(config, environment);
 	
 };

@@ -5,10 +5,8 @@ var outputRoot = 'dist/';
 
 module.exports = {
   root: appRoot,
-  index:'index.html',
+  package_json: 'package.json',
   source: appRoot + '**/*.js',
-  html: appRoot + '**/*.html',
-  style: 'styles/**/*.css',
   output: outputRoot,
   sourceMapRelativePath: '../' + appRoot,
 };
