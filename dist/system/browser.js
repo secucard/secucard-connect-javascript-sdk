@@ -9,7 +9,9 @@ System.register(['./de.secucard.connect/client-browser-environment', './de.secuc
 			Client = _deSecucardConnectClient.Client;
 		}],
 		execute: function () {
-			SecucardConnect = {};
+			SecucardConnect = {
+				description: 'SecucardConnect for browser'
+			};
 
 			_export('SecucardConnect', SecucardConnect);
 
@@ -20,4 +22,4 @@ System.register(['./de.secucard.connect/client-browser-environment', './de.secuc
 		}
 	};
 });
-//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbImJyb3dzZXIuanMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7O3VDQUdhLGVBQWU7Ozt5RUFIcEIsd0JBQXdCOztxQ0FDeEIsTUFBTTs7O0FBRUQsa0JBQWUsR0FBRyxFQUFFOzs4QkFBcEIsZUFBZTs7QUFDNUIsa0JBQWUsQ0FBQyxNQUFNLEdBQUcsVUFBQyxNQUFNLEVBQUs7O0FBRXBDLFdBQU8sTUFBTSxDQUFDLE1BQU0sQ0FBQyx3QkFBd0IsRUFBRSxNQUFNLENBQUMsQ0FBQztJQUV2RCxDQUFDIiwiZmlsZSI6ImJyb3dzZXIuanMiLCJzb3VyY2VSb290IjoiLi4vc3JjLyJ9
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbImJyb3dzZXIuanMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7O3VDQUdhLGVBQWU7Ozt5RUFIcEIsd0JBQXdCOztxQ0FDeEIsTUFBTTs7O0FBRUQsa0JBQWUsR0FBRztBQUM5QixlQUFXLEVBQUUsNkJBQTZCO0lBQzFDOzs4QkFGWSxlQUFlOztBQUc1QixrQkFBZSxDQUFDLE1BQU0sR0FBRyxVQUFDLE1BQU0sRUFBSzs7QUFFcEMsV0FBTyxNQUFNLENBQUMsTUFBTSxDQUFDLHdCQUF3QixFQUFFLE1BQU0sQ0FBQyxDQUFDO0lBRXZELENBQUMiLCJmaWxlIjoiYnJvd3Nlci5qcyIsInNvdXJjZVJvb3QiOiIuLi9zcmMvIn0=

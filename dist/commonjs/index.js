@@ -12,7 +12,9 @@ var _deSecucardConnectClientNodeEnvironment = require('./de.secucard.connect/cli
 
 var _deSecucardConnectClient = require('./de.secucard.connect/client');
 
-var SecucardConnect = {};
+var SecucardConnect = {
+	description: 'SecucardConnect for nodejs'
+};
 exports.SecucardConnect = SecucardConnect;
 SecucardConnect.create = function (config) {
 

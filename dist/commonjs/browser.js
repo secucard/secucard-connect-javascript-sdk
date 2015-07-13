@@ -6,7 +6,9 @@ var _deSecucardConnectClientBrowserEnvironment = require('./de.secucard.connect/
 
 var _deSecucardConnectClient = require('./de.secucard.connect/client');
 
-var SecucardConnect = {};
+var SecucardConnect = {
+	description: 'SecucardConnect for browser'
+};
 exports.SecucardConnect = SecucardConnect;
 SecucardConnect.create = function (config) {
 
