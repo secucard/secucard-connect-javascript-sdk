@@ -1,3 +1,4 @@
+/*
 var gulp = require('gulp');
 var runSequence = require('run-sequence');
 var paths = require('../paths');
@@ -33,3 +34,4 @@ gulp.task('prepare-release', function(callback){
     callback
   );
 });
+*/
