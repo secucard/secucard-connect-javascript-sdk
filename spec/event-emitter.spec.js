@@ -29,6 +29,14 @@ describe("testing EventEmitter3", function() {
 		
 	});
 	
+	it("tests", function(){
+		
+		
+		
+		
+		
+	});
+	
 	afterEach(function() {
 	  	jasmine.DEFAULT_TIMEOUT_INTERVAL = originalTimeout;
 	});
