@@ -1,10 +1,14 @@
 'use strict';
 
+var _classCallCheck = require('babel-runtime/helpers/class-call-check')['default'];
+
+var _Object$assign = require('babel-runtime/core-js/object/assign')['default'];
+
+var _Promise = require('babel-runtime/core-js/promise')['default'];
+
+var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
+
 exports.__esModule = true;
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 
 var _uuid = require('uuid');
 
@@ -19,6 +23,8 @@ var _eventemitter3 = require('eventemitter3');
 var _eventemitter32 = _interopRequireDefault(_eventemitter3);
 
 var _channel = require('./channel');
+
+var _stompImplStomp = require('./stomp-impl/stomp');
 
 var utils = {};
 utils.really_defined = function (var_to_test) {
@@ -38,10 +44,10 @@ utils.sizeOfUTF8 = function (str) {
 };
 
 var Stomp = (function () {
-	function Stomp(StompImpl) {
+	function Stomp(SocketImpl) {
 		_classCallCheck(this, Stomp);
 
-		Object.assign(this, _eventemitter32['default'].prototype);
+		_Object$assign(this, _eventemitter32['default'].prototype);
 
 		this.connection = null;
 		this.messages = {};
@@ -58,7 +64,7 @@ var Stomp = (function () {
 		this.stompCommands[_channel.Channel.METHOD.UPDATE] = 'update';
 		this.stompCommands[_channel.Channel.METHOD.DELETE] = 'delete';
 
-		this.connection = new StompImpl();
+		this.connection = new _stompImplStomp.Stomp(SocketImpl);
 		this.connection.on('message', this._handleStompFrame.bind(this));
 	}
 
@@ -92,6 +98,10 @@ var Stomp = (function () {
 			return context.getConfig().getStompDestination();
 		};
 
+		this.getStompEndpoint = function () {
+			return context.getConfig().getStompEndpoint();
+		};
+
 		this.isDevice = function () {
 			return context.getConfig().isDevice();
 		};
@@ -110,6 +120,7 @@ var Stomp = (function () {
 			ssl: this.getStompSslEnabled(),
 			vhost: this.getStompVHost(),
 			heartbeatMs: this.getStompHeartbeatMs(),
+			endpoint: this.getStompEndpoint(),
 			login: '',
 			passcode: ''
 		};
@@ -141,7 +152,7 @@ var Stomp = (function () {
 	Stomp.prototype._disconnect = function _disconnect() {
 		var _this2 = this;
 
-		return new Promise(function (resolve, reject) {
+		return new _Promise(function (resolve, reject) {
 
 			if (!_this2.connection.isConnected()) {
 				resolve();
@@ -229,7 +240,7 @@ var Stomp = (function () {
 		this.connection.configure(this.getStompConfig());
 		this.connection.connect(stompCredentials);
 
-		return new Promise(function (resolve, reject) {
+		return new _Promise(function (resolve, reject) {
 
 			_this3._stompOnConnected = function () {
 				console.log('stomp connected');
@@ -300,7 +311,7 @@ var Stomp = (function () {
 
 			var sendWithStomp = function sendWithStomp() {
 
-				return new Promise(function (resolve, reject) {
+				return new _Promise(function (resolve, reject) {
 
 					_this4.messages[correlationId] = { resolve: resolve, reject: reject };
 					_this4.connection.send(destination, headers, body);

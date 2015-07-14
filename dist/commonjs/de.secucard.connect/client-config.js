@@ -1,8 +1,10 @@
 'use strict';
 
-exports.__esModule = true;
+var _classCallCheck = require('babel-runtime/helpers/class-call-check')['default'];
 
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
+var _Object$assign = require('babel-runtime/core-js/object/assign')['default'];
+
+exports.__esModule = true;
 
 var ClientConfig = (function () {
 	function ClientConfig() {
@@ -18,7 +20,11 @@ var ClientConfig = (function () {
 	};
 
 	ClientConfig.prototype.getStompHost = function getStompHost() {
-		return this.stompHost;
+		var value = this.stompHost;
+		if (value.endsWith('/')) {
+			value = value.slice(0, value.length - 1);
+		}
+		return value;
 	};
 
 	ClientConfig.prototype.getStompPort = function getStompPort() {
@@ -39,6 +45,10 @@ var ClientConfig = (function () {
 
 	ClientConfig.prototype.getStompDestination = function getStompDestination() {
 		return this._getCompleteUrl(this.stompDestination);
+	};
+
+	ClientConfig.prototype.getStompEndpoint = function getStompEndpoint() {
+		return this.stompEndpoint;
 	};
 
 	ClientConfig.prototype.getStompHeartbeatMs = function getStompHeartbeatMs() {
@@ -80,6 +90,7 @@ ClientConfig._defaults = {
 	stompHost: 'connect.secucard.com',
 	stompPort: 61614,
 	stompVHost: null,
+	stompEndpoint: '',
 	stompDestination: '/exchange/connect.api',
 
 	stompSslEnabled: true,
@@ -93,6 +104,6 @@ ClientConfig._defaults = {
 ClientConfig.defaults = function () {
 
 	var config = new ClientConfig();
-	Object.assign(config, ClientConfig._defaults);
+	_Object$assign(config, ClientConfig._defaults);
 	return config;
 };

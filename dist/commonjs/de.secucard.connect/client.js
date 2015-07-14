@@ -1,8 +1,12 @@
 'use strict';
 
-exports.__esModule = true;
+var _classCallCheck = require('babel-runtime/helpers/class-call-check')['default'];
 
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
+var _Object$create = require('babel-runtime/core-js/object/create')['default'];
+
+var _Object$assign = require('babel-runtime/core-js/object/assign')['default'];
+
+exports.__esModule = true;
 
 var _netMessage = require('./net/message');
 
@@ -35,10 +39,10 @@ exports.Client = Client;
 Client.create = function (environment, config) {
 
 	if (!config) {
-		config = Object.create(null);
+		config = _Object$create(null);
 	}
 
-	config = Object.assign(_clientConfig.ClientConfig.defaults(), config);
+	config = _Object$assign(_clientConfig.ClientConfig.defaults(), environment.config, config);
 
 	return new Client(config, environment);
 };

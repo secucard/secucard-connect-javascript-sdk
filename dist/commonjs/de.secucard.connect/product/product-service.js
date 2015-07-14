@@ -1,8 +1,8 @@
 'use strict';
 
-exports.__esModule = true;
+var _classCallCheck = require('babel-runtime/helpers/class-call-check')['default'];
 
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
+exports.__esModule = true;
 
 var _netChannel = require('../net/channel');
 

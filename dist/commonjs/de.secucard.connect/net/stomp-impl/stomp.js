@@ -1,18 +1,12 @@
 'use strict';
 
+var _classCallCheck = require('babel-runtime/helpers/class-call-check')['default'];
+
+var _Object$assign = require('babel-runtime/core-js/object/assign')['default'];
+
+var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
+
 exports.__esModule = true;
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
-
-var _net = require('net');
-
-var _net2 = _interopRequireDefault(_net);
-
-var _tls = require('tls');
-
-var _tls2 = _interopRequireDefault(_tls);
 
 var _frame2 = require('./frame');
 
@@ -30,14 +24,15 @@ utils.really_defined = function (var_to_test) {
 };
 
 var Stomp = (function () {
-	function Stomp() {
+	function Stomp(SocketImpl) {
 		_classCallCheck(this, Stomp);
 
-		Object.assign(this, _eventemitter32['default'].prototype);
+		_Object$assign(this, _eventemitter32['default'].prototype);
 
 		this._subscribed_to = {};
 		this.session = null;
 		this.connected = false;
+		this.SocketImpl = SocketImpl;
 	}
 
 	Stomp.prototype.isConnected = function isConnected() {
@@ -57,6 +52,7 @@ var Stomp = (function () {
 		this.ssl_options = config['ssl_options'] || {};
 		this.vhost = config['vhost'];
 		this.heartbeatMs = config['heartbeatMs'];
+		this.endpoint = config['endpoint'] || '';
 
 		this['client-id'] = config['client-id'] || null;
 	};
@@ -213,31 +209,20 @@ var Stomp = (function () {
 	Stomp.prototype._connect = function _connect(stomp) {
 		var _this = this;
 
-		if (stomp.ssl) {
-			console.log('Connecting to ' + stomp.host + ':' + stomp.port + ' using SSL');
-			stomp.socket = _tls2['default'].connect(stomp.port, stomp.host, stomp.ssl_options, function () {
-				console.log('SSL connection complete');
-				if (!stomp.socket.authorized) {
-					console.log('SSL is not authorized: ' + stomp.socket.authorizationError);
-					if (stomp.ssl_validate) {
-						_this._disconnect(stomp);
-						return;
-					}
-				}
-				_this._setupListeners(stomp);
-			}).on('error', function (err, obj) {
-				console.log(err);
-				console.log(obj);
-			});
-		} else {
-			console.log('Connecting to ' + stomp.host + ':' + stomp.port);
-			stomp.socket = new _net2['default'].Socket();
-			stomp.socket.connect(stomp.port, stomp.host);
-			this._setupListeners(stomp);
-		}
+		var onInit = function onInit(socket, handleConnected) {
+
+			stomp.socket = socket;
+			_this._setupListeners(stomp, handleConnected);
+		};
+
+		var onError = function onError(err) {
+			stomp.emit('connectionError', err);
+		};
+
+		stomp.SocketImpl.connect(stomp.host, stomp.port, stomp.endpoint, stomp.ssl, stomp.ssl_options, stomp.ssl_validate, onInit, onError);
 	};
 
-	Stomp.prototype._setupListeners = function _setupListeners(stomp) {
+	Stomp.prototype._setupListeners = function _setupListeners(stomp, handleConnected) {
 		var _this2 = this;
 
 		var _connected = function _connected() {
@@ -268,6 +253,9 @@ var Stomp = (function () {
 		var buffer = '';
 
 		socket.on('data', function (chunk) {
+
+			console.log('onData', chunk);
+
 			buffer += chunk;
 			var frames = buffer.split('\u0000\n');
 
@@ -295,11 +283,11 @@ var Stomp = (function () {
 			if (error) {
 				console.log('Disconnected with error: ' + error);
 			}
-			this.connected = false;
+			stomp.connected = false;
 			stomp.emit('disconnected', error);
 		});
 
-		if (stomp.ssl) {
+		if (handleConnected) {
 			_connected();
 		} else {
 			socket.on('connect', _connected);
@@ -325,14 +313,7 @@ var Stomp = (function () {
 
 	Stomp.prototype._disconnect = function _disconnect(stomp) {
 
-		var socket = stomp.socket;
-		socket.end();
-
-		if (socket.readyState == 'readOnly') {
-			socket.destroy();
-		}
-
-		console.log('disconnect called');
+		stomp.SocketImpl.disconnect(stomp.socket);
 	};
 
 	Stomp.prototype.send_command = function send_command(stomp, command, headers, body, withReceipt) {
@@ -360,8 +341,11 @@ var Stomp = (function () {
 	};
 
 	Stomp.prototype.send_frame = function send_frame(stomp, _frame) {
+
 		var socket = stomp.socket;
 		var frame_str = _frame.as_string();
+
+		console.log('socket.write', frame_str);
 
 		if (socket.write(frame_str) === false) {
 			console.log('Write buffered');

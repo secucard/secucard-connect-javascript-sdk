@@ -4,12 +4,16 @@ exports.__esModule = true;
 
 var _netStomp = require('./net/stomp');
 
-var _netStompNodeStomp = require('./net/stomp-node/stomp');
+var _netSocketSocketNode = require('./net/socket/socket-node');
 
-var ClientNodeEnvironment = {};
+var ClientNodeEnvironment = {
+	config: {
+		stompPort: 61614
+	}
+};
 exports.ClientNodeEnvironment = ClientNodeEnvironment;
 ClientNodeEnvironment.StompChannel = {
 	create: function create() {
-		return new _netStomp.Stomp(_netStompNodeStomp.Stomp);
+		return new _netStomp.Stomp(_netSocketSocketNode.SocketAtNode);
 	}
 };

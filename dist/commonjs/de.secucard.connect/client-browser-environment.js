@@ -4,12 +4,17 @@ exports.__esModule = true;
 
 var _netStomp = require('./net/stomp');
 
-var _netStompBrowserStomp = require('./net/stomp-browser/stomp');
+var _netSocketSocketBrowser = require('./net/socket/socket-browser');
 
-var ClientBrowserEnvironment = {};
+var ClientBrowserEnvironment = {
+	config: {
+		stompPort: 15671,
+		stompEndpoint: '/stomp/websocket'
+	}
+};
 exports.ClientBrowserEnvironment = ClientBrowserEnvironment;
 ClientBrowserEnvironment.StompChannel = {
 	create: function create() {
-		return new _netStomp.Stomp(_netStompBrowserStomp.Stomp);
+		return new _netStomp.Stomp(_netSocketSocketBrowser.SocketAtBrowser);
 	}
 };

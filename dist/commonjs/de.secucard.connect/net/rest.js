@@ -1,10 +1,14 @@
 'use strict';
 
+var _classCallCheck = require('babel-runtime/helpers/class-call-check')['default'];
+
+var _Promise = require('babel-runtime/core-js/promise')['default'];
+
+var _Object$assign = require('babel-runtime/core-js/object/assign')['default'];
+
+var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
+
 exports.__esModule = true;
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 
 var _superagent = require('superagent');
 
@@ -61,7 +65,7 @@ var Rest = (function () {
 	Rest.prototype.send = function send(message) {
 		var _this = this;
 
-		return new Promise(function (resolve, reject) {
+		return new _Promise(function (resolve, reject) {
 
 			var url = message.baseUrl ? message.baseUrl + message.url : message.url;
 			var request = _this.r(url, message.method);
@@ -102,7 +106,7 @@ var Rest = (function () {
 
 		return this.getToken().then(function (token) {
 
-			var headers = Object.assign({}, message.headers, _this2.getAuthHeader(token));
+			var headers = _Object$assign({}, message.headers, _this2.getAuthHeader(token));
 			message.setHeaders(headers);
 			return _this2.send(message);
 		});
