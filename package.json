@@ -1,6 +1,6 @@
 {
   "name": "secucard-connect",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "main": "dist/commonjs/index.js",
   "repository": {
     "type": "git",
