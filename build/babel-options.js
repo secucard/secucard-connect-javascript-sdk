@@ -14,7 +14,6 @@ module.exports = {
 	loose: "all",
 	modules: 'system',
 	optional: [
-		"runtime",
 		"es7.decorators",
 		"es7.classProperties"
 	]

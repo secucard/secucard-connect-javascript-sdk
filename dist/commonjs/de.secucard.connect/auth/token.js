@@ -1,10 +1,8 @@
 "use strict";
 
-var _classCallCheck = require("babel-runtime/helpers/class-call-check")["default"];
-
-var _Object$assign = require("babel-runtime/core-js/object/assign")["default"];
-
 exports.__esModule = true;
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 var Token = (function () {
 	function Token() {
@@ -50,6 +48,6 @@ exports.Token = Token;
 Token.create = function (data) {
 
 	var token = new Token();
-	token = _Object$assign(token, data);
+	token = Object.assign(token, data);
 	return token;
 };

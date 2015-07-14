@@ -1,14 +1,10 @@
 'use strict';
 
-var _classCallCheck = require('babel-runtime/helpers/class-call-check')['default'];
-
-var _Object$assign = require('babel-runtime/core-js/object/assign')['default'];
-
-var _Promise = require('babel-runtime/core-js/promise')['default'];
-
-var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
-
 exports.__esModule = true;
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 
 var _uuid = require('uuid');
 
@@ -47,7 +43,7 @@ var Stomp = (function () {
 	function Stomp(SocketImpl) {
 		_classCallCheck(this, Stomp);
 
-		_Object$assign(this, _eventemitter32['default'].prototype);
+		Object.assign(this, _eventemitter32['default'].prototype);
 
 		this.connection = null;
 		this.messages = {};
@@ -152,7 +148,7 @@ var Stomp = (function () {
 	Stomp.prototype._disconnect = function _disconnect() {
 		var _this2 = this;
 
-		return new _Promise(function (resolve, reject) {
+		return new Promise(function (resolve, reject) {
 
 			if (!_this2.connection.isConnected()) {
 				resolve();
@@ -240,7 +236,7 @@ var Stomp = (function () {
 		this.connection.configure(this.getStompConfig());
 		this.connection.connect(stompCredentials);
 
-		return new _Promise(function (resolve, reject) {
+		return new Promise(function (resolve, reject) {
 
 			_this3._stompOnConnected = function () {
 				console.log('stomp connected');
@@ -311,7 +307,7 @@ var Stomp = (function () {
 
 			var sendWithStomp = function sendWithStomp() {
 
-				return new _Promise(function (resolve, reject) {
+				return new Promise(function (resolve, reject) {
 
 					_this4.messages[correlationId] = { resolve: resolve, reject: reject };
 					_this4.connection.send(destination, headers, body);

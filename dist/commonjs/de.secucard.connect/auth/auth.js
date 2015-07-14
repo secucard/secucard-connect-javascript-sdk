@@ -1,12 +1,10 @@
 'use strict';
 
-var _classCallCheck = require('babel-runtime/helpers/class-call-check')['default'];
-
-var _Promise = require('babel-runtime/core-js/promise')['default'];
-
-var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
-
 exports.__esModule = true;
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 
 var _lodash = require('lodash');
 
@@ -46,7 +44,7 @@ var Auth = (function () {
 				this.storeToken(token);
 			}
 
-			return _Promise.resolve(token);
+			return Promise.resolve(token);
 		}
 
 		var cr = this.getCredentials();

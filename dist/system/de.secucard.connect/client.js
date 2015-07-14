@@ -1,14 +1,12 @@
-System.register(['babel-runtime/helpers/class-call-check', 'babel-runtime/core-js/object/create', 'babel-runtime/core-js/object/assign', './net/message', './client-config', './client-context'], function (_export) {
-	var _classCallCheck, _Object$create, _Object$assign, Message, ClientConfig, ClientContext, Client;
+System.register(['./net/message', './client-config', './client-context'], function (_export) {
+	'use strict';
+
+	var Message, ClientConfig, ClientContext, Client;
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 
 	return {
-		setters: [function (_babelRuntimeHelpersClassCallCheck) {
-			_classCallCheck = _babelRuntimeHelpersClassCallCheck['default'];
-		}, function (_babelRuntimeCoreJsObjectCreate) {
-			_Object$create = _babelRuntimeCoreJsObjectCreate['default'];
-		}, function (_babelRuntimeCoreJsObjectAssign) {
-			_Object$assign = _babelRuntimeCoreJsObjectAssign['default'];
-		}, function (_netMessage) {
+		setters: [function (_netMessage) {
 			Message = _netMessage.Message;
 		}, function (_clientConfig) {
 			ClientConfig = _clientConfig.ClientConfig;
@@ -16,8 +14,6 @@ System.register(['babel-runtime/helpers/class-call-check', 'babel-runtime/core-j
 			ClientContext = _clientContext.ClientContext;
 		}],
 		execute: function () {
-			'use strict';
-
 			Client = (function () {
 				function Client(config, environment) {
 					_classCallCheck(this, Client);
@@ -43,14 +39,14 @@ System.register(['babel-runtime/helpers/class-call-check', 'babel-runtime/core-j
 			Client.create = function (environment, config) {
 
 				if (!config) {
-					config = _Object$create(null);
+					config = Object.create(null);
 				}
 
-				config = _Object$assign(ClientConfig.defaults(), environment.config, config);
+				config = Object.assign(ClientConfig.defaults(), environment.config, config);
 
 				return new Client(config, environment);
 			};
 		}
 	};
 });
-//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbImRlLnNlY3VjYXJkLmNvbm5lY3QvY2xpZW50LmpzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7NEZBSWEsTUFBTTs7Ozs7Ozs7Ozt5QkFKWCxPQUFPOztnQ0FDUCxZQUFZOztrQ0FDWixhQUFhOzs7OztBQUVSLFNBQU07QUFFUCxhQUZDLE1BQU0sQ0FFTixNQUFNLEVBQUUsV0FBVyxFQUFFOzJCQUZyQixNQUFNOztBQUlqQixTQUFJLENBQUMsTUFBTSxHQUFHLE1BQU0sQ0FBQztBQUNyQixTQUFJLENBQUMsT0FBTyxHQUFHLElBQUksYUFBYSxDQUFDLE1BQU0sRUFBRSxXQUFXLENBQUMsQ0FBQztLQUV0RDs7QUFQVyxVQUFNLFdBU2xCLGNBQWMsR0FBQSx3QkFBQyxXQUFXLEVBQUU7QUFDM0IsU0FBSSxDQUFDLE9BQU8sQ0FBQyxjQUFjLENBQUMsV0FBVyxDQUFDLENBQUM7S0FDekM7O0FBWFcsVUFBTSxXQWFsQixPQUFPLEdBQUEsbUJBQUc7O0FBRVQsWUFBTyxJQUFJLENBQUMsT0FBTyxDQUFDLE9BQU8sRUFBRSxDQUFDLFFBQVEsRUFBRSxDQUFDO0tBRXpDOztXQWpCVyxNQUFNOzs7cUJBQU4sTUFBTTs7QUFxQm5CLFNBQU0sQ0FBQyxNQUFNLEdBQUcsVUFBQyxXQUFXLEVBQUUsTUFBTSxFQUFLOztBQUV4QyxRQUFHLENBQUMsTUFBTSxFQUFDO0FBQ1YsV0FBTSxHQUFHLGVBQWMsSUFBSSxDQUFDLENBQUM7S0FDN0I7O0FBRUQsVUFBTSxHQUFHLGVBQWMsWUFBWSxDQUFDLFFBQVEsRUFBRSxFQUFFLFdBQVcsQ0FBQyxNQUFNLEVBQUUsTUFBTSxDQUFDLENBQUM7O0FBRTVFLFdBQU8sSUFBSSxNQUFNLENBQUMsTUFBTSxFQUFFLFdBQVcsQ0FBQyxDQUFDO0lBRXZDLENBQUMiLCJmaWxlIjoiZGUuc2VjdWNhcmQuY29ubmVjdC9jbGllbnQuanMiLCJzb3VyY2VSb290IjoiLi4vc3JjLyJ9
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbImRlLnNlY3VjYXJkLmNvbm5lY3QvY2xpZW50LmpzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7OzsyQ0FJYSxNQUFNOzs7Ozs7eUJBSlgsT0FBTzs7Z0NBQ1AsWUFBWTs7a0NBQ1osYUFBYTs7O0FBRVIsU0FBTTtBQUVQLGFBRkMsTUFBTSxDQUVOLE1BQU0sRUFBRSxXQUFXLEVBQUU7MkJBRnJCLE1BQU07O0FBSWpCLFNBQUksQ0FBQyxNQUFNLEdBQUcsTUFBTSxDQUFDO0FBQ3JCLFNBQUksQ0FBQyxPQUFPLEdBQUcsSUFBSSxhQUFhLENBQUMsTUFBTSxFQUFFLFdBQVcsQ0FBQyxDQUFDO0tBRXREOztBQVBXLFVBQU0sV0FTbEIsY0FBYyxHQUFBLHdCQUFDLFdBQVcsRUFBRTtBQUMzQixTQUFJLENBQUMsT0FBTyxDQUFDLGNBQWMsQ0FBQyxXQUFXLENBQUMsQ0FBQztLQUN6Qzs7QUFYVyxVQUFNLFdBYWxCLE9BQU8sR0FBQSxtQkFBRzs7QUFFVCxZQUFPLElBQUksQ0FBQyxPQUFPLENBQUMsT0FBTyxFQUFFLENBQUMsUUFBUSxFQUFFLENBQUM7S0FFekM7O1dBakJXLE1BQU07OztxQkFBTixNQUFNOztBQXFCbkIsU0FBTSxDQUFDLE1BQU0sR0FBRyxVQUFDLFdBQVcsRUFBRSxNQUFNLEVBQUs7O0FBRXhDLFFBQUcsQ0FBQyxNQUFNLEVBQUM7QUFDVixXQUFNLEdBQUcsTUFBTSxDQUFDLE1BQU0sQ0FBQyxJQUFJLENBQUMsQ0FBQztLQUM3Qjs7QUFFRCxVQUFNLEdBQUcsTUFBTSxDQUFDLE1BQU0sQ0FBQyxZQUFZLENBQUMsUUFBUSxFQUFFLEVBQUUsV0FBVyxDQUFDLE1BQU0sRUFBRSxNQUFNLENBQUMsQ0FBQzs7QUFFNUUsV0FBTyxJQUFJLE1BQU0sQ0FBQyxNQUFNLEVBQUUsV0FBVyxDQUFDLENBQUM7SUFFdkMsQ0FBQyIsImZpbGUiOiJkZS5zZWN1Y2FyZC5jb25uZWN0L2NsaWVudC5qcyIsInNvdXJjZVJvb3QiOiIuLi9zcmMvIn0=

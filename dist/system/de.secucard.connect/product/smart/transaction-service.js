@@ -1,17 +1,17 @@
-System.register(['babel-runtime/helpers/inherits', 'babel-runtime/helpers/class-call-check', '../product-service'], function (_export) {
-	var _inherits, _classCallCheck, ProductService, TransactionService;
+System.register(['../product-service'], function (_export) {
+	'use strict';
+
+	var ProductService, TransactionService;
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; }
 
 	return {
-		setters: [function (_babelRuntimeHelpersInherits) {
-			_inherits = _babelRuntimeHelpersInherits['default'];
-		}, function (_babelRuntimeHelpersClassCallCheck) {
-			_classCallCheck = _babelRuntimeHelpersClassCallCheck['default'];
-		}, function (_productService) {
+		setters: [function (_productService) {
 			ProductService = _productService.ProductService;
 		}],
 		execute: function () {
-			'use strict';
-
 			TransactionService = (function (_ProductService) {
 				function TransactionService() {
 					_classCallCheck(this, TransactionService);
@@ -32,4 +32,4 @@ System.register(['babel-runtime/helpers/inherits', 'babel-runtime/helpers/class-
 		}
 	};
 });
-//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbImRlLnNlY3VjYXJkLmNvbm5lY3QvcHJvZHVjdC9zbWFydC90cmFuc2FjdGlvbi1zZXJ2aWNlLmpzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7aURBRWEsa0JBQWtCOzs7Ozs7OztvQ0FGdkIsY0FBYzs7Ozs7QUFFVCxxQkFBa0I7QUFFbkIsYUFGQyxrQkFBa0IsR0FFaEI7MkJBRkYsa0JBQWtCOztBQUc3QiwrQkFBTyxDQUFBO0tBQ1A7O2NBSlcsa0JBQWtCOztBQUFsQixzQkFBa0IsV0FNOUIsV0FBVyxHQUFBLHVCQUFHO0FBQ2IsWUFBTyxDQUFDLE9BQU8sRUFBQyxjQUFjLENBQUMsQ0FBQztLQUNoQzs7V0FSVyxrQkFBa0I7TUFBUyxjQUFjOztpQ0FBekMsa0JBQWtCIiwiZmlsZSI6ImRlLnNlY3VjYXJkLmNvbm5lY3QvcHJvZHVjdC9zbWFydC90cmFuc2FjdGlvbi1zZXJ2aWNlLmpzIiwic291cmNlUm9vdCI6Ii4uL3NyYy8ifQ==
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbImRlLnNlY3VjYXJkLmNvbm5lY3QvcHJvZHVjdC9zbWFydC90cmFuc2FjdGlvbi1zZXJ2aWNlLmpzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7OztxQkFFYSxrQkFBa0I7Ozs7Ozs7O29DQUZ2QixjQUFjOzs7QUFFVCxxQkFBa0I7QUFFbkIsYUFGQyxrQkFBa0IsR0FFaEI7MkJBRkYsa0JBQWtCOztBQUc3QiwrQkFBTyxDQUFBO0tBQ1A7O2NBSlcsa0JBQWtCOztBQUFsQixzQkFBa0IsV0FNOUIsV0FBVyxHQUFBLHVCQUFHO0FBQ2IsWUFBTyxDQUFDLE9BQU8sRUFBQyxjQUFjLENBQUMsQ0FBQztLQUNoQzs7V0FSVyxrQkFBa0I7TUFBUyxjQUFjOztpQ0FBekMsa0JBQWtCIiwiZmlsZSI6ImRlLnNlY3VjYXJkLmNvbm5lY3QvcHJvZHVjdC9zbWFydC90cmFuc2FjdGlvbi1zZXJ2aWNlLmpzIiwic291cmNlUm9vdCI6Ii4uL3NyYy8ifQ==

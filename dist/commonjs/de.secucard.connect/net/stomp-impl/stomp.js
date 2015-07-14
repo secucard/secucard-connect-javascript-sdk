@@ -1,12 +1,10 @@
 'use strict';
 
-var _classCallCheck = require('babel-runtime/helpers/class-call-check')['default'];
-
-var _Object$assign = require('babel-runtime/core-js/object/assign')['default'];
-
-var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
-
 exports.__esModule = true;
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 
 var _frame2 = require('./frame');
 
@@ -27,7 +25,7 @@ var Stomp = (function () {
 	function Stomp(SocketImpl) {
 		_classCallCheck(this, Stomp);
 
-		_Object$assign(this, _eventemitter32['default'].prototype);
+		Object.assign(this, _eventemitter32['default'].prototype);
 
 		this._subscribed_to = {};
 		this.session = null;

@@ -1,10 +1,8 @@
 'use strict';
 
-var _classCallCheck = require('babel-runtime/helpers/class-call-check')['default'];
-
-var _Object$assign = require('babel-runtime/core-js/object/assign')['default'];
-
 exports.__esModule = true;
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 
 var ClientConfig = (function () {
 	function ClientConfig() {
@@ -104,6 +102,6 @@ ClientConfig._defaults = {
 ClientConfig.defaults = function () {
 
 	var config = new ClientConfig();
-	_Object$assign(config, ClientConfig._defaults);
+	Object.assign(config, ClientConfig._defaults);
 	return config;
 };
