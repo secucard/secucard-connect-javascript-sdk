@@ -29,7 +29,7 @@ Client.create = (environment, config) => {
 		config = Object.create(null);
 	}
 	
-	config = Object.assign(ClientConfig.defaults(), config);
+	config = Object.assign(ClientConfig.defaults(), environment.config, config);
 	
 	return new Client(config, environment);
 	

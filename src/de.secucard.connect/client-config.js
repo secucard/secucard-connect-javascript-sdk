@@ -13,7 +13,11 @@ export class ClientConfig {
 	}
 	
 	getStompHost() {
-		return this.stompHost;
+		let value = this.stompHost;
+		if(value.endsWith('/')){
+			value = value.slice(0, value.length-1);
+		}
+		return value;
 	}
 	
 	getStompPort() {
@@ -85,7 +89,7 @@ ClientConfig._defaults = {
 	stompHeartbeatSec: 30,
 	// stomp host, virtual host, stomp port
 	stompHost: 'connect.secucard.com',
-	stompPort: 61614,
+	stompPort: 61614, // or 15674 for browser
 	stompVHost: null, //TODO implement stompVHost
 	
 	// Base path of the secucard STOMP API.
