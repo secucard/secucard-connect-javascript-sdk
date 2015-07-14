@@ -8,7 +8,7 @@ import devCredentials from './support/dev-credentials.json';
 
 import {ClientNodeEnvironment} from '../src/de.secucard.connect/client-node-environment';
 import {Stomp} from '../src/de.secucard.connect/net/stomp';
-import {Stomp as StompImpl} from '../src/de.secucard.connect/net/stomp-node/stomp';
+import {SocketAtNode} from '../src/de.secucard.connect/net/socket/socket-node';
 
 install();
 
@@ -18,9 +18,7 @@ describe('Stomp', function () {
 	
 	beforeEach('', async function () {
 		
-		let client = Client.create(ClientNodeEnvironment);
-
-		Object.assign(client.config, {
+		let client = Client.create(ClientNodeEnvironment, {
 			oAuthUrl: 'https://connect-dev10.secupay-ag.de/oauth/',
 			stompHost: 'connect-dev10.secupay-ag.de'
 		});
@@ -37,7 +35,7 @@ describe('Stomp', function () {
 	
 	it('does STOMP connection and then disconnects', function (done) {
 		
-		let stomp = new Stomp(StompImpl);
+		let stomp = new Stomp(SocketAtNode);
 		stomp.configureWithContext(this.client.context);
 		stomp.connect().then(() => {
 			
@@ -51,7 +49,7 @@ describe('Stomp', function () {
 
 	it('opens STOMP API connection', async function () {
 		
-		let stomp = new Stomp(StompImpl);
+		let stomp = new Stomp(SocketAtNode);
 		stomp.configureWithContext(this.client.context);
 		await stomp.open().then((res) => {
 			
@@ -66,7 +64,7 @@ describe('Stomp', function () {
 		// configure client to send stomp session refresh every 2 sec 
 		this.client.config.stompHeartbeatSec = 2;
 		
-		let stomp = new Stomp(StompImpl);
+		let stomp = new Stomp(SocketAtNode);
 		stomp.configureWithContext(this.client.context);
 		
 		let counter = 0;

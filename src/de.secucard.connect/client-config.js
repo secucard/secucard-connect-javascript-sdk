@@ -40,6 +40,10 @@ export class ClientConfig {
 		return this._getCompleteUrl(this.stompDestination);
 	}
 	
+	getStompEndpoint() {
+		return this.stompEndpoint;
+	}
+	
 	getStompHeartbeatMs () {
 		return this.stompHeartbeatSec * 1000;
 	}
@@ -91,7 +95,7 @@ ClientConfig._defaults = {
 	stompHost: 'connect.secucard.com',
 	stompPort: 61614, // or 15674 for browser
 	stompVHost: null, //TODO implement stompVHost
-	
+	stompEndpoint: '', // endpoint for socket connection: '' (not used in node) or '/stomp/websocket'(browser)
 	// Base path of the secucard STOMP API.
 	stompDestination: '/exchange/connect.api',
 	// SSL used with for STOMP: true | false/nothing.

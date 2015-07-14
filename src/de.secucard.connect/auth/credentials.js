@@ -1,3 +1,5 @@
+import {Token} from './token';
+
 export class Credentials {
 	
 	constructor() {
@@ -27,6 +29,9 @@ export class Credentials {
 Credentials.create = (credentials) => {
 	
 	let cr = new Credentials();
+	if(credentials.token) {
+		credentials.token = Token.create(credentials.token);
+	}
 	return Object.assign(cr, credentials);
 	
 };

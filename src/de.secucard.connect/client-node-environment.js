@@ -1,5 +1,5 @@
 import {Stomp} from './net/stomp';
-import {Stomp as StompNodeImpl} from './net/stomp-node/stomp';
+import {SocketAtNode} from './net/socket/socket-node';
 
 export const ClientNodeEnvironment = {
 	config: {
@@ -8,6 +8,6 @@ export const ClientNodeEnvironment = {
 };
 ClientNodeEnvironment.StompChannel = {
 	create: () => {
-		return new Stomp(StompNodeImpl);
+		return new Stomp(SocketAtNode);
 	}
 };

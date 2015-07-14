@@ -1,5 +1,3 @@
-import net from 'net';
-import tls from 'tls';
 import {Frame} from './frame'
 import EE from 'eventemitter3';
 import UUID from 'uuid';
@@ -11,13 +9,14 @@ utils.really_defined = (var_to_test) => {
 
 export class Stomp {
 	
-	constructor() {
+	constructor(SocketImpl) {
 		
 		Object.assign(this, EE.prototype);
 		
 		this._subscribed_to = {};
 		this.session = null;
 		this.connected = false;
+		this.SocketImpl = SocketImpl;
 		
 	}
 	
@@ -38,6 +37,7 @@ export class Stomp {
 		this.ssl_options = config['ssl_options'] || {};
 		this.vhost = config['vhost'];
 		this.heartbeatMs = config['heartbeatMs'];
+		this.endpoint = config['endpoint'] || '';
 		
 		this['client-id'] = config['client-id'] || null;
 		
@@ -221,34 +221,23 @@ export class Stomp {
 	}
 
 	_connect(stomp) {
-
-		if (stomp.ssl) {
-			console.log('Connecting to ' + stomp.host + ':' + stomp.port + ' using SSL');
-			stomp.socket = tls.connect(stomp.port, stomp.host, stomp.ssl_options, () => {
-				console.log('SSL connection complete');
-				if (!stomp.socket.authorized) {
-					console.log('SSL is not authorized: ' + stomp.socket.authorizationError);
-					if (stomp.ssl_validate) {
-						this._disconnect(stomp);
-						return;
-					}
-				}
-				this._setupListeners(stomp);
-			}).on('error', function (err, obj) {
-				console.log(err);
-				console.log(obj)
-			});
-		}
-		else {
-			console.log('Connecting to ' + stomp.host + ':' + stomp.port);
-			stomp.socket = new net.Socket();
-			stomp.socket.connect(stomp.port, stomp.host);
-			this._setupListeners(stomp);
-		}
+		
+		let onInit = (socket, handleConnected) => {
+			
+			stomp.socket = socket;
+			this._setupListeners(stomp, handleConnected);
+			
+		};
+		
+		let onError = (err) => {
+			stomp.emit('connectionError', err);
+		};
+		
+		stomp.SocketImpl.connect(stomp.host, stomp.port, stomp.endpoint, stomp.ssl, stomp.ssl_options, stomp.ssl_validate, onInit, onError);
 
 	}
 
-	_setupListeners(stomp) {
+	_setupListeners(stomp, handleConnected) {
 
 		let _connected = () => {
 			console.log('Connected to socket');
@@ -279,6 +268,9 @@ export class Stomp {
 		let buffer = '';
 
 		socket.on('data', (chunk) => {
+			
+			console.log('onData', chunk);
+			
 			buffer += chunk;
 			var frames = buffer.split('\0\n');
 
@@ -307,11 +299,11 @@ export class Stomp {
 			if (error) {
 				console.log('Disconnected with error: ' + error);
 			}
-			this.connected = false;
+			stomp.connected = false;
 			stomp.emit("disconnected", error);
 		});
-
-		if (stomp.ssl) {
+		
+		if (handleConnected) {
 			_connected();
 		} else {
 			socket.on('connect', _connected);
@@ -339,14 +331,8 @@ export class Stomp {
 
 	_disconnect(stomp) {
 
-		var socket = stomp.socket;
-		socket.end();
-
-		if (socket.readyState == 'readOnly') {
-			socket.destroy();
-		}
+		stomp.SocketImpl.disconnect(stomp.socket);
 		
-		console.log('disconnect called');
 	}
 
 	send_command(stomp, command, headers, body, withReceipt) {
@@ -375,13 +361,16 @@ export class Stomp {
 	}
 
 	send_frame(stomp, _frame) {
+		
 		var socket = stomp.socket;
 		var frame_str = _frame.as_string();
-
+		
+		console.log('socket.write', frame_str);
+		
 		if (socket.write(frame_str) === false) {
 			console.log('Write buffered');
 		}
-
+		
 		return true;
 	}
 	

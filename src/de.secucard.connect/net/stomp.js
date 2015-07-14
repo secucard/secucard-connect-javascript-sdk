@@ -3,6 +3,7 @@ import QS from 'qs';
 import EE from 'eventemitter3';
 
 import {Channel} from './channel';
+import {Stomp as StompImpl} from './stomp-impl/stomp';
 
 let utils = {};
 utils.really_defined = (var_to_test) => {
@@ -24,7 +25,7 @@ utils.sizeOfUTF8 = (str) => {
 
 export class Stomp {
 	
-	constructor (StompImpl) {
+	constructor (SocketImpl) {
 		
 		Object.assign(this, EE.prototype);
 		
@@ -45,7 +46,7 @@ export class Stomp {
 		this.stompCommands[Channel.METHOD.UPDATE] = 'update';
 		this.stompCommands[Channel.METHOD.DELETE] = 'delete';
 		
-		this.connection = new StompImpl();
+		this.connection = new StompImpl(SocketImpl);
 		this.connection.on('message', this._handleStompFrame.bind(this));
 	}
 	
@@ -79,6 +80,10 @@ export class Stomp {
 			return context.getConfig().getStompDestination();
 		};
 		
+		this.getStompEndpoint = () => {
+			return context.getConfig().getStompEndpoint();
+		};
+		
 		this.isDevice = () => {
 			return context.getConfig().isDevice();
 		};
@@ -98,6 +103,7 @@ export class Stomp {
 			ssl: this.getStompSslEnabled(),
 			vhost: this.getStompVHost(),
 			heartbeatMs: this.getStompHeartbeatMs(),
+			endpoint: this.getStompEndpoint(),
 			login: '',
 			passcode: ''
 		}
