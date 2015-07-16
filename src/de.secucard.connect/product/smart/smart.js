@@ -1,12 +1,7 @@
 import {TransactionService} from './transaction-service';
 
-export class Smart {
-	
-	constructor(){
-		
-	}
-	
-}
+export const Smart = {};
+Smart.TransactionService = TransactionService;
 
 export class Basket {
 	
@@ -19,5 +14,3 @@ export class Basket {
 	
 	
 }
-
-Smart.TransactionService = TransactionService;

@@ -53,23 +53,30 @@ describe('Service to fire demo event', function () {
 	});
 	*/
 	
-	it('executes DemoEvent action with STOMP after session refresh', function (done) {
+	it('executes DemoEvent action with STOMP after session refresh', async function () {
 		
 		
 		let skeletonService = this.client.getService('General.Skeletons');
 		
-		skeletonService.on('DemoEvent', (data) => {
-			
-			console.log('DemoEvent', data);
-			done();
-		});
-		
 		let data;
-		this.client.open().then(() => {
-			
-			skeletonService.demoEvent();
-			
-		});
+		await Promise.all([
+			this.client.open().then(() => {
+
+				return skeletonService.demoEvent().then((res) => {
+					console.log('DemoEvent response', res);
+					return res;
+				});
+
+			}),
+			new Promise((resolve, reject) => {
+				
+				skeletonService.on('DemoEvent', (data) => {
+					console.log('DemoEvent', data);
+					resolve(data);
+				});
+				
+			})
+		]);
 		
 		/*
 		{

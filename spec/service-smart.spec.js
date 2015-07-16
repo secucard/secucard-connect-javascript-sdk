@@ -7,6 +7,7 @@ import {Rest} from '../src/de.secucard.connect/net/rest';
 import {Message, HEAD, GET, POST, PUT, DELETE} from '../src/de.secucard.connect/net/message';
 import {Client} from '../src/de.secucard.connect/client';
 import {ClientConfig} from '../src/de.secucard.connect/client-config';
+import devCredentialRefreshToken from './support/dev-credentials-refresh-token.json';
 import devCredentials from './support/dev-credentials.json';
 
 import {Channel} from '../src/de.secucard.connect/net/channel';
@@ -18,26 +19,32 @@ install();
 
 describe('Product Service', function() {
 	
+	let originalTimeout;
+	
 	beforeEach('', async function () {
 		
-		let client = Client.create(ClientNodeEnvironment);
+		originalTimeout = jasmine.DEFAULT_TIMEOUT_INTERVAL;
+		jasmine.DEFAULT_TIMEOUT_INTERVAL = 60000;
+		
+	});
+	
+	it('creates/updates smart transaction with REST' , async function() {
+		
+		let client = Client.create(ClientNodeEnvironment, {
+			oAuthUrl: 'https://connect-dev10.secupay-ag.de/oauth/',
+			stompHost: 'connect-dev10.secupay-ag.de'
+		});
+		
 		client.setCredentials(devCredentials);
 		
 		let transactions = new Smart.TransactionService();
 		transactions.configureWithContext(client.context);
 		
-		this.client = client;
-		this.transactions = transactions;
-		
-	});
-	
-	it('gets object list from Product Service with REST' , async function() {
-		
-		this.transactions.getChannel = this.client.context.getRestChannel.bind(this.client.context);
-		expect(Boolean(this.transactions)).toBe(true);
+		transactions.getChannel = client.context.getRestChannel.bind(client.context);
+		expect(Boolean(transactions)).toBe(true);
 		
 		let data;
-		await this.transactions.createObject(devTransaction)
+		await transactions.createObject(devTransaction)
 			.then((res) => {
 				data = res;
 				console.log(res);
@@ -45,7 +52,7 @@ describe('Product Service', function() {
 		
 		expect(data.object).toBe('smart.transactions');
 		
-		await this.transactions.updateObject(data)
+		await transactions.updateObject(data)
 			.then((res) => {
 				
 				console.log(res);
@@ -64,13 +71,23 @@ describe('Product Service', function() {
 	});
 	
 	
-	it('gets object list from Product Service with STOMP' , async function() {
+	it('creates/updates smart transaction with STOMP' , async function(done) {
 		
-		this.transactions.getChannel = this.client.context.getStompChannel.bind(this.client.context);
-		expect(Boolean(this.transactions)).toBe(true);
+		let client = Client.create(ClientNodeEnvironment, {
+			oAuthUrl: 'https://connect-dev10.secupay-ag.de/oauth/',
+			stompHost: 'connect-dev10.secupay-ag.de'
+		});
+		
+		client.setCredentials(devCredentialRefreshToken);
+		
+		await client.open();
+		
+		let transactions = client.getService('smart.transactions');
+		
+		expect(Boolean(transactions)).toBe(true);
 		
 		let data;
-		await this.transactions.createObject(devTransaction)
+		await transactions.createObject(devTransaction)
 			.then((res) => {
 				data = res;
 				console.log(res);
@@ -79,7 +96,7 @@ describe('Product Service', function() {
 		
 		expect(data.object).toBe('smart.transactions');
 		
-		await this.transactions.updateObject(data)
+		await transactions.updateObject(data)
 			.then((res) => {
 				
 				console.log(res);
@@ -95,7 +112,23 @@ describe('Product Service', function() {
 				
 			});
 		
+		await Promise.all([
+			transactions.startTransaction(data.id, "demo").then((res) => {
+				
+			}),
+			new Promise((resolve, reject) => {
+
+				transactions.on('display', (data) => {
+					resolve(data);
+				});
+				
+			})
+		]);
 		
+	});
+	
+	afterEach(function () {
+		jasmine.DEFAULT_TIMEOUT_INTERVAL = originalTimeout;
 	});
 	
 	

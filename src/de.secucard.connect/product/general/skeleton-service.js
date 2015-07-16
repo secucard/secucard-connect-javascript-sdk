@@ -8,7 +8,11 @@ export class SkeletonService extends ProductService {
 	
 	getEndpoint() {
 		return ['general','skeletons'];
-	};
+	}
+	
+	getEventTargets() {
+		return ['general.skeletons'];
+	}
 	
 	demoEvent() {
 		

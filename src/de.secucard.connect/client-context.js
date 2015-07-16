@@ -26,6 +26,8 @@ export class ClientContext {
 			rest: this.restChannel
 		};
 		
+		this.serviceEventTargets = Object.create(null);
+		
 		this.createServices(environment.services);
 		
 		this.config = config;
@@ -61,9 +63,9 @@ export class ClientContext {
 			ServiceClass = classList[i];
 			service = new ServiceClass();
 			service.configureWithContext(this);
-			target = service.getEndpoint().join('.');
+			target = service.getEndpoint().join('.').toLowerCase();
 			services[target] = service;
-			
+			this.registerServiceEventTargets(service, service.getEventTargets());
 		}
 		
 		this.services = services;
@@ -128,10 +130,20 @@ export class ClientContext {
 		
 	}
 	
+	registerServiceEventTargets(service, targets) {
+		
+		_.each(targets, (target) => {
+			
+			this.serviceEventTargets[target.toLowerCase()] = service;
+			
+		});
+		
+	}
+	
 	emitServiceEvent(target, type, data) {
 		
 		target = target.toLowerCase();
-		let service = this.services[target];
+		let service = this.serviceEventTargets[target];
 		service.emit(type, data);
 		
 	}

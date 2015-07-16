@@ -7,9 +7,15 @@ export class TransactionService extends ProductService {
 	}
 	
 	getEndpoint() {
-		return ['Smart','Transactions'];
+		return ['smart','transactions'];
 	};
 	
+	getEventTargets() {
+		return ['general.notifications'];
+	}
 	
+	startTransaction(id, type) {
+		return this.execute(id, "start", type);
+	}
 	
 }

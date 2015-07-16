@@ -269,7 +269,7 @@ export class Stomp {
 
 		socket.on('data', (chunk) => {
 			
-			console.log('onData', chunk);
+			//console.log('onData', chunk);
 			
 			buffer += chunk;
 			var frames = buffer.split('\0\n');

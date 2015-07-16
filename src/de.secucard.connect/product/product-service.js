@@ -23,6 +23,10 @@ export class ProductService {
 		
 	}
 	
+	getEventTargets() {
+		
+	}
+	
 	/**
 	* Retrieves a promise for a single object (resource) of a given type, never null<br/>
 	* Would invoke for example: GET /targetType/objectId .<br/>
