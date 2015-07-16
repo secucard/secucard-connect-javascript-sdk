@@ -146,10 +146,11 @@ describe('Authorization', function () {
 
 		// first send wrong data
 
-		let pr = this.auth._tokenRefreshRequest(devCredentialsRefreshToken, this.ch);
+		let pr = this.auth._tokenRefreshRequest(devCredentialsRefreshToken, devCredentialsRefreshToken.token.refresh_token, this.ch);
 
 		await pr.then((res) => {
 			status = res.status;
+			console.log('refresh_token', res.body);
 		}).catch((err)=> {
 			status = err.status;
 			console.log(err.response.body);
@@ -158,15 +159,16 @@ describe('Authorization', function () {
 		expect(status).toBe(200);
 
 	});
-
+	
+	/*
 	it('tries to get Code for the device and get Token for that code with no success', async function () {
 
 		// we cannot test it to get 200 because there is an user_code verification step on device
 		let status = 'getToken never called';
 
 		// first send wrong data
-		let cr = _.assign({}, devCredentials, {uuid: "/vendor/secucard/parameter1/test1/parameter2/test2"});
-		let pr = this.auth._tokenReviceCodeRequest(cr, this.ch);
+		let cr = _.assign({}, devCredentialsDevice, {uuid: "/vendor/secucard/parameter1/test1/parameter2/test2"});
+		let pr = this.auth._tokenDeviceCodeRequest(cr, this.ch);
 
 		let code = null;
 		await pr.then((res) => {
@@ -194,6 +196,6 @@ describe('Authorization', function () {
 		expect(status).toBe(401);
 
 	});
-
+	*/
 
 });
