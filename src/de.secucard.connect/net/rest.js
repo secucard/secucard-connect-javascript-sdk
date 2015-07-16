@@ -41,6 +41,10 @@ export class Rest {
 		
 	}
 	
+	open() {
+		return Promise.resolve(true);
+	}
+	
 	/**
 	 * 
 	 * @returns {Message}

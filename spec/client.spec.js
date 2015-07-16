@@ -64,7 +64,7 @@ describe('Client', function() {
 		let client = this.client;
 		client.setCredentials(devCredentials);
 		
-		await client.connect().then((res) => {
+		await client.open().then((res) => {
 			console.log(res);
 		}).catch((err) => {
 			console.log(err);
@@ -81,7 +81,7 @@ describe('Client', function() {
 			
 		client.setCredentials(devCredentialsRefreshToken);
 		
-		await client.connect().then((res) => {
+		await client.open().then((res) => {
 			console.log(res);
 		}).catch((err) => {
 			console.log(err);

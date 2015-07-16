@@ -1,6 +1,8 @@
+import _ from 'lodash';
 import {Rest} from './net/rest';
 import {Auth} from './auth/auth';
 import {Credentials} from './auth/credentials';
+
 export class ClientContext {
 	
 	constructor(config, environment) {
@@ -13,13 +15,63 @@ export class ClientContext {
 		restChannel.configureWithContext(this);
 		this.restChannel = restChannel;
 		
-		let stompChannel = environment.StompChannel.create();
-		stompChannel.configureWithContext(this);
-		this.stompChannel = stompChannel;
+		if(config.stompEnabled) {
+			let stompChannel = environment.StompChannel.create();
+			stompChannel.configureWithContext(this);
+			this.stompChannel = stompChannel;
+		}
+		
+		this.channels = {
+			stomp: this.stompChannel,
+			rest: this.restChannel
+		};
+		
+		this.createServices(environment.services);
 		
 		this.config = config;
 		
 		
+	}
+	
+	open() {
+		
+		
+		return this.getAuth().getToken().then(()=>{
+			
+			if(!this.config.stompEnabled) {
+				return true;
+			}
+			
+			return Promise.all(_.map(_.values(this.channels), (channel) => {
+				return channel.open();
+			}));
+			
+		});
+		
+	}
+	
+	createServices(classList) {
+		
+		let services = Object.create(null);
+		let ServiceClass;
+		let service;
+		let target;
+		for (let i = 0; i < classList.length; i++) {
+			
+			ServiceClass = classList[i];
+			service = new ServiceClass();
+			service.configureWithContext(this);
+			target = service.getEndpoint().join('.');
+			services[target] = service;
+			
+		}
+		
+		this.services = services;
+		
+	}
+	
+	getService(target) {
+		return this.services[target.toLowerCase()];
 	}
 	
 	setCredentials(credentials) {
@@ -38,9 +90,25 @@ export class ClientContext {
 		return this.auth;
 	}
 	
-	getChannel() {
-		// TODO here goes the logic of choosing the channel
-		return null;
+	getChannel(channelConfig) {
+		
+		let ch = null;
+		_.each(_(channelConfig).reverse().value(), (type)=>{
+			if(this.getChannelByType(type)) {
+				ch = this.getChannelByType(type);
+			}
+		});
+		if(!ch){
+			// TODO custom error
+			throw new Error('Channel not found, please, check channel config for the service: ' + JSON.stringify(channelConfig));
+		}
+		return ch;
+	}
+	
+	getChannelByType(type) {
+		
+		return this.channels[type];
+		
 	}
 	
 	getRestChannel() {
@@ -53,7 +121,18 @@ export class ClientContext {
 	
 	getServiceDefaultOptions() {
 		
+		return {
+			// stomp is preferred
+			channelConfig: ['stomp', 'rest']
+		}
 		
+	}
+	
+	emitServiceEvent(target, type, data) {
+		
+		target = target.toLowerCase();
+		let service = this.services[target];
+		service.emit(type, data);
 		
 	}
 	

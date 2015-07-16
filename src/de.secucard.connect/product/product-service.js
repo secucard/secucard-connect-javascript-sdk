@@ -1,8 +1,12 @@
-import {Channel} from '../net/channel'
+import {Channel} from '../net/channel';
+import EE from 'eventemitter3';
+
 export class ProductService {
 	
 	
 	constructor() {
+		
+		Object.assign(this, EE.prototype);
 		
 	}
 	
@@ -259,7 +263,7 @@ export class ProductService {
 			params.options = options;
 		}
 		
-		return this.getChannel(options).request(method, params);
+		return this.getChannel(options.channelConfig).request(method, params);
 		
 	}
 	

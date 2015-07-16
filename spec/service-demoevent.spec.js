@@ -29,14 +29,8 @@ describe('Service to fire demo event', function () {
 
 		client.setCredentials(devCredentialsRefreshToken);
 
-		let skeleton = new General.SkeletonService();
-		skeleton.configureWithContext(client.context);
-
-		// /exchange/connect.api/api:exec:General.Skeletons.Demoevent
-
 		this.client = client;
-		this.skeleton = skeleton;
-
+		
 		originalTimeout = jasmine.DEFAULT_TIMEOUT_INTERVAL;
 		jasmine.DEFAULT_TIMEOUT_INTERVAL = 30000;
 
@@ -60,17 +54,21 @@ describe('Service to fire demo event', function () {
 	*/
 	
 	it('executes DemoEvent action with STOMP after session refresh', function (done) {
-
-		this.skeleton.getChannel = this.client.context.getStompChannel.bind(this.client.context);
-
-		let data;
-		this.client.context.getStompChannel().open().then(() => {
+		
+		
+		let skeletonService = this.client.getService('General.Skeletons');
+		
+		skeletonService.on('DemoEvent', (data) => {
 			
-			this.skeleton.demoEvent();
-			setTimeout(()=>{
-				
-			}, 2000);
-
+			console.log('DemoEvent', data);
+			done();
+		});
+		
+		let data;
+		this.client.open().then(() => {
+			
+			skeletonService.demoEvent();
+			
 		});
 		
 		/*

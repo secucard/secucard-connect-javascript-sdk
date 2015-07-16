@@ -1,5 +1,5 @@
 import EE from 'eventemitter3';
-
+import _ from 'lodash';
 class CustomEventEmitter {
 	constructor () {
 		Object.assign(this, EE.prototype);

@@ -8,6 +8,8 @@ export class Client {
 		
 		this.config = config;
 		this.context = new ClientContext(config, environment);
+		this.getService = this.context.getService.bind(this.context);
+		this.connected = false;
 		
 	}
 	
@@ -15,9 +17,16 @@ export class Client {
 		this.context.setCredentials(credentials);
 	}
 	
-	connect() {
+	open() {
 		
-		return this.context.getAuth().getToken();
+		if(this.connected) {
+			return Promise.resolve(this.connected);
+		}
+		
+		return this.context.open().then(() => {
+			this.connected = true;
+			return this.connected;
+		});
 		
 	}
 	
