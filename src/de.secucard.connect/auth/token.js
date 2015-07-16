@@ -38,6 +38,10 @@ export class Token {
 		
 	}
 	
+	update(data) {
+		return Object.assign(this, data);
+	}
+	
 }
 
 Token.create = (data) => {

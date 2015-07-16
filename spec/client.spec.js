@@ -8,6 +8,7 @@ import {Message, HEAD, GET, POST, PUT, DELETE} from '../src/de.secucard.connect/
 import {Client} from '../src/de.secucard.connect/client';
 import {ClientConfig} from '../src/de.secucard.connect/client-config';
 import devCredentials from './support/dev-credentials.json';
+import devCredentialsRefreshToken from './support/dev-credentials-refresh-token.json';
 import {ClientNodeEnvironment} from '../src/de.secucard.connect/client-node-environment';
 
 install();
@@ -62,6 +63,23 @@ describe('Client', function() {
 		
 		let client = this.client;
 		client.setCredentials(devCredentials);
+		
+		await client.connect().then((res) => {
+			console.log(res);
+		}).catch((err) => {
+			console.log(err);
+		});
+		
+	});
+	
+	it('connects with refresh_token', async function() {
+		
+		let client = Client.create(ClientNodeEnvironment, {
+			oAuthUrl: 'https://connect-dev10.secupay-ag.de/oauth/',
+			stompHost: 'connect-dev10.secupay-ag.de'
+		});
+			
+		client.setCredentials(devCredentialsRefreshToken);
 		
 		await client.connect().then((res) => {
 			console.log(res);
