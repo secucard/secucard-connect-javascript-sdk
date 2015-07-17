@@ -18,4 +18,8 @@ export class TransactionService extends ProductService {
 		return this.execute(id, "start", type);
 	}
 	
+	cancelTransaction(id) {
+		return this.execute(id, "cancel");
+	}
+	
 }

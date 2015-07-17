@@ -125,6 +125,8 @@ describe('Product Service', function() {
 			})
 		]);
 		
+		await transactions.cancelTransaction(data.id);
+		
 	});
 	
 	afterEach(function () {
