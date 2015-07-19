@@ -23,3 +23,5 @@ export class TransactionService extends ProductService {
 	}
 	
 }
+
+TransactionService.Uid = (['smart','transactions']).join('.');

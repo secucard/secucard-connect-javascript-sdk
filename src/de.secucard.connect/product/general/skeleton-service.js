@@ -22,3 +22,5 @@ export class SkeletonService extends ProductService {
 	}
 	
 }
+
+SkeletonService.Uid = (['general','skeletons']).join('.');

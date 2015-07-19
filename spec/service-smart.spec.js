@@ -14,10 +14,11 @@ import {Channel} from '../src/de.secucard.connect/net/channel';
 import {Smart} from '../src/de.secucard.connect/product/smart/smart';
 import devTransaction from './support/dev-transaction.json';
 import {ClientNodeEnvironment} from '../src/de.secucard.connect/client-node-environment';
+import {Services} from '../src/index.js';
 
 install();
 
-describe('Product Service', function() {
+describe('Smart Services', function() {
 	
 	let originalTimeout;
 	
@@ -28,7 +29,7 @@ describe('Product Service', function() {
 		
 	});
 	
-	it('creates/updates smart transaction with REST' , async function() {
+	it('gets list, creates/updates smart transaction with REST' , async function() {
 		
 		let client = Client.create(ClientNodeEnvironment, {
 			oAuthUrl: 'https://connect-dev10.secupay-ag.de/oauth/',
@@ -42,6 +43,10 @@ describe('Product Service', function() {
 		
 		transactions.getChannel = client.context.getRestChannel.bind(client.context);
 		expect(Boolean(transactions)).toBe(true);
+		
+		await transactions.getObjectList().then((res) => {
+			
+		});
 		
 		let data;
 		await transactions.createObject(devTransaction)
@@ -71,7 +76,7 @@ describe('Product Service', function() {
 	});
 	
 	
-	it('creates/updates smart transaction with STOMP' , async function(done) {
+	it('gets list, creates/updates smart transaction with STOMP' , async function(done) {
 		
 		let client = Client.create(ClientNodeEnvironment, {
 			oAuthUrl: 'https://connect-dev10.secupay-ag.de/oauth/',
@@ -82,9 +87,13 @@ describe('Product Service', function() {
 		
 		await client.open();
 		
-		let transactions = client.getService('smart.transactions');
+		let transactions = client.getService(Services.Smart.Transactions);
 		
 		expect(Boolean(transactions)).toBe(true);
+		
+		await transactions.getObjectList().then((res) => {
+			
+		});
 		
 		let data;
 		await transactions.createObject(devTransaction)
@@ -101,7 +110,7 @@ describe('Product Service', function() {
 				
 				console.log(res);
 				
-				expect(data.object).toBe('smart.transactions');
+				expect(data.object).toBe(Services.Smart.Transactions);
 				expect(res.id == data.id).toBe(true);
 				expect(res.created == data.created).toBe(true);
 				

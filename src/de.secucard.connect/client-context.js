@@ -2,6 +2,7 @@ import _ from 'lodash';
 import {Rest} from './net/rest';
 import {Auth} from './auth/auth';
 import {Credentials} from './auth/credentials';
+import {AppService} from './product/app/app-service';
 
 export class ClientContext {
 	
@@ -57,14 +58,14 @@ export class ClientContext {
 		let services = Object.create(null);
 		let ServiceClass;
 		let service;
-		let target;
+		let uid;
 		for (let i = 0; i < classList.length; i++) {
 			
 			ServiceClass = classList[i];
 			service = new ServiceClass();
 			service.configureWithContext(this);
-			target = service.getEndpoint().join('.').toLowerCase();
-			services[target] = service;
+			uid = service.getUid();
+			services[uid] = service;
 			this.registerServiceEventTargets(service, service.getEventTargets());
 		}
 		
@@ -72,8 +73,32 @@ export class ClientContext {
 		
 	}
 	
-	getService(target) {
-		return this.services[target.toLowerCase()];
+	getService(uid) {
+		return this.services[uid.toLowerCase()];
+	}
+	
+	addAppService(AppMixin) {
+		
+		let appService = AppService.createWithMixin(AppMixin);
+		appService.configureWithContext(this);
+		this.services[appService.getUid()] = appService;
+		this.registerServiceEventTargets(appService, appService.getEventTargets());
+		return appService;
+	}
+	
+	removeAppService(uid) {
+		
+		let appService = this.services[uid];
+		
+		if(appService && appService.isApp){
+			
+			this.unregisterServiceEventTargets(appService.getEventTargets());
+			delete this.services[uid];
+			
+		} else {
+			throw new Error('Service not found: ' + uid); // TODO custom errors
+		}
+		
 	}
 	
 	setCredentials(credentials) {
@@ -134,7 +159,21 @@ export class ClientContext {
 		
 		_.each(targets, (target) => {
 			
+			if(this.serviceEventTargets[target.toLowerCase()]){
+				throw new Error('Provided event target is registered already: ' + target.toLowerCase()); //TODO custom errors
+			}
+			
 			this.serviceEventTargets[target.toLowerCase()] = service;
+			
+		});
+		
+	}
+	
+	unregisterServiceEventTargets(targets) {
+		
+		_.each(targets, (target) => {
+			
+			delete this.serviceEventTargets[target.toLowerCase()];
 			
 		});
 		
