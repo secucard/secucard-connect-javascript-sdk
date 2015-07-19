@@ -8,6 +8,7 @@ export const ClientNodeEnvironment = {
 	},
 	services: [
 		General.SkeletonService,
+		General.AccountService,
 		Smart.TransactionService,
 		Smart.IdentService,
 		Smart.CheckinService
@@ -26,6 +27,7 @@ export const ServiceMap = {
 		Idents: Smart.IdentService.Uid
 	},
 	General: {
-		Skeletons: General.SkeletonService.Uid
+		Skeletons: General.SkeletonService.Uid,
+		Accounts: General.AccountService.Uid
 	}
 };
