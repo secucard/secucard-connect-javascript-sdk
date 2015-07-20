@@ -9,6 +9,14 @@ export const ClientNodeEnvironment = {
 	services: [
 		General.SkeletonService,
 		General.AccountService,
+		General.AccountDeviceService,
+		General.MerchantService,
+		General.NewsService,
+		General.NotificationService,
+		General.PublicMerchantService,
+		General.StoreService,
+		General.TransactionService,
+		
 		Smart.TransactionService,
 		Smart.IdentService,
 		Smart.CheckinService
@@ -28,6 +36,13 @@ export const ServiceMap = {
 	},
 	General: {
 		Skeletons: General.SkeletonService.Uid,
-		Accounts: General.AccountService.Uid
+		Accounts: General.AccountService.Uid,
+		AccountDevices: General.AccountDeviceService.Uid,
+		Merchants: General.MerchantService.Uid,
+		News: General.NewsService.Uid,
+		Notifications: General.NotificationService.Uid,
+		PublicMerchants: General.PublicMerchantService.Uid,
+		Stores: General.StoreService.Uid,
+		Transactions: General.TransactionService.Uid
 	}
 };
