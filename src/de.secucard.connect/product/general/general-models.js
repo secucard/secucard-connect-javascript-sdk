@@ -1,0 +1,17 @@
+export {AccountDevice} from './models/account-device';
+export {Account} from './models/account';
+export {AddressComponent} from './models/address-component';
+export {Address} from './models/address';
+export {Assignment} from './models/assignment';
+export {BeaconEnvironment} from './models/beacon-environment';
+export {Contact} from './models/contact';
+export {Geometry} from './models/geometry';
+export {Location} from './models/location';
+export {MerchantDetails} from './models/merchant-details';
+export {Merchant} from './models/merchant';
+export {News} from './models/news';
+export {Notification} from './models/notification';
+export {OpenHours, Date} from './models/open-hours';
+export {PublicMerchant} from './models/public-merchant';
+export {Store} from './models/store';
+export {Transaction} from './models/transaction';
