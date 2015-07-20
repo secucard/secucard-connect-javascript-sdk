@@ -19,3 +19,4 @@ General.NotificationService = NotificationService;
 General.PublicMerchantService = PublicMerchantService;
 General.StoreService = StoreService;
 General.TransactionService = TransactionService;
+
