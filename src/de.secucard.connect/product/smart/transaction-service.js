@@ -14,11 +14,11 @@ export class TransactionService extends ProductService {
 		return ['general.notifications'];
 	}
 	
-	startTransaction(id, type) {
+	start(id, type) {
 		return this.execute(id, "start", type);
 	}
 	
-	cancelTransaction(id) {
+	cancel(id) {
 		return this.execute(id, "cancel");
 	}
 	

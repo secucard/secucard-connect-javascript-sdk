@@ -122,7 +122,7 @@ describe('Smart Services', function() {
 			});
 		
 		await Promise.all([
-			transactions.startTransaction(data.id, "demo").then((res) => {
+			transactions.start(data.id, "demo").then((res) => {
 				
 			}),
 			new Promise((resolve, reject) => {
@@ -134,7 +134,7 @@ describe('Smart Services', function() {
 			})
 		]);
 		
-		await transactions.cancelTransaction(data.id);
+		await transactions.cancel(data.id);
 		
 	});
 	
