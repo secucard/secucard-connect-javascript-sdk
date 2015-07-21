@@ -1,4 +1,4 @@
-export class MerchantCard {
+export class Sale {
 	
 	constructor(amount, last_change, status, description, 
 				description_raw, store, card, cardgroup, merchantcard, 

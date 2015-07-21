@@ -3,6 +3,7 @@ import {SocketAtBrowser} from './net/socket/socket-browser';
 import {General} from './product/general/general';
 import {Smart} from './product/smart/smart'
 import {Loyalty} from './product/loyalty/loyalty';
+import {Payment} from './product/payment/payment';
 
 export const ClientBrowserEnvironment = {
 	config: {
@@ -23,6 +24,12 @@ export const ClientBrowserEnvironment = {
 		Loyalty.CardService,
 		Loyalty.CustomerService,
 		Loyalty.MerchantCardService,
+		
+		Payment.ContainerService,
+		Payment.ContractService,
+		Payment.CustomerService,
+		Payment.SecupayDebitService,
+		Payment.SecupayPrepayService,
 		
 		Smart.TransactionService,
 		Smart.IdentService,

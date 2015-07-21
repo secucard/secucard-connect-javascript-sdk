@@ -3,6 +3,7 @@ import {SocketAtNode} from './net/socket/socket-node';
 import {General} from './product/general/general';
 import {Smart} from './product/smart/smart';
 import {Loyalty} from './product/loyalty/loyalty';
+import {Payment} from './product/payment/payment';
 
 export const ClientNodeEnvironment = {
 	config: {
@@ -22,6 +23,12 @@ export const ClientNodeEnvironment = {
 		Loyalty.CardService,
 		Loyalty.CustomerService,
 		Loyalty.MerchantCardService,
+		
+		Payment.ContainerService,
+		Payment.ContractService,
+		Payment.CustomerService,
+		Payment.SecupayDebitService,
+		Payment.SecupayPrepayService,
 		
 		Smart.TransactionService,
 		Smart.IdentService,
@@ -50,6 +57,13 @@ export const ServiceMap = {
 		Cards: Loyalty.CardService.Uid,
 		Customers: Loyalty.CustomerService.Uid,
 		MerchantCards: Loyalty.MerchantCardService.Uid
+	},
+	Payment: {
+		Containers: Payment.ContainerService.Uid,
+		Contracts: Payment.ContractService.Uid,
+		Customers: Payment.CustomerService.Uid,
+		SecupayDebits: Payment.SecupayDebitService.Uid,
+		SecupayPrepays: Payment.SecupayPrepayService.Uid
 	},
 	Smart: {
 		Transactions: Smart.TransactionService.Uid,

@@ -5,4 +5,4 @@ export {Condition} from 'model/condition';
 export {Customer} from 'model/customer';
 export {MerchantCard} from 'model/merchant-card';
 export {Program} from 'model/program';
-export {MerchantCard} from 'model/sale';
+export {Sale} from 'model/sale';

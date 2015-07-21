@@ -7,7 +7,7 @@ export class OpenHours {
 	
 }
 
-export class Date {
+export class OpenHoursDate {
 	
 	constructor(day, time) {
 		this.day = day;

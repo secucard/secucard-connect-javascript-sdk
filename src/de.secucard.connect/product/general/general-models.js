@@ -11,7 +11,7 @@ export {MerchantDetails} from 'model/merchant-details';
 export {Merchant} from 'model/merchant';
 export {News} from 'model/news';
 export {Notification} from 'model/notification';
-export {OpenHours, Date} from 'model/open-hours';
+export {OpenHours, OpenHoursDate} from 'model/open-hours';
 export {PublicMerchant} from 'model/public-merchant';
 export {Store} from 'model/store';
 export {Transaction} from 'model/transaction';
