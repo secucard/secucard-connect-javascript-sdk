@@ -4,6 +4,7 @@ import {General} from './product/general/general';
 import {Smart} from './product/smart/smart';
 import {Loyalty} from './product/loyalty/loyalty';
 import {Payment} from './product/payment/payment';
+import {Services} from './product/services/services';
 
 export const ClientNodeEnvironment = {
 	config: {
@@ -29,6 +30,10 @@ export const ClientNodeEnvironment = {
 		Payment.CustomerService,
 		Payment.SecupayDebitService,
 		Payment.SecupayPrepayService,
+		
+		Services.IdentContractService,
+		Services.IdentRequestService,
+		Services.IdentResultService,
 		
 		Smart.TransactionService,
 		Smart.IdentService,
@@ -64,6 +69,11 @@ export const ServiceMap = {
 		Customers: Payment.CustomerService.Uid,
 		SecupayDebits: Payment.SecupayDebitService.Uid,
 		SecupayPrepays: Payment.SecupayPrepayService.Uid
+	},
+	Services: {
+		IdentContracts: Services.IdentContractService.Uid,
+		IdentRequests: Services.IdentRequestService.Uid,
+		IdentResults: Services.IdentResultService.Uid
 	},
 	Smart: {
 		Transactions: Smart.TransactionService.Uid,
