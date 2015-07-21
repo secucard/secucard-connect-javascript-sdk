@@ -5,6 +5,7 @@ import {Smart} from './product/smart/smart'
 import {Loyalty} from './product/loyalty/loyalty';
 import {Payment} from './product/payment/payment';
 import {Services} from './product/services/services';
+import {Document} from './product/document/document';
 
 export const ClientBrowserEnvironment = {
 	config: {
@@ -12,6 +13,8 @@ export const ClientBrowserEnvironment = {
 		stompEndpoint: '/stomp/websocket'
 	},
 	services: [
+		Document.UploadService,
+		
 		General.SkeletonService,
 		General.AccountService,
 		General.AccountDeviceService,
@@ -48,6 +51,9 @@ ClientBrowserEnvironment.StompChannel = {
 };
 
 export const ServiceMap = {
+	Document: {
+		Uploads: Document.UploadService.Uid
+	},
 	General: {
 		Skeletons: General.SkeletonService.Uid,
 		Accounts: General.AccountService.Uid,

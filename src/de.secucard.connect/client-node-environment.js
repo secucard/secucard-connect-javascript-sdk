@@ -5,12 +5,15 @@ import {Smart} from './product/smart/smart';
 import {Loyalty} from './product/loyalty/loyalty';
 import {Payment} from './product/payment/payment';
 import {Services} from './product/services/services';
+import {Document} from './product/document/document';
 
 export const ClientNodeEnvironment = {
 	config: {
 		stompPort: 61614
 	},
 	services: [
+		Document.UploadService,
+		
 		General.SkeletonService,
 		General.AccountService,
 		General.AccountDeviceService,
@@ -47,6 +50,9 @@ ClientNodeEnvironment.StompChannel = {
 };
 
 export const ServiceMap = {
+	Document: {
+		Uploads: Document.UploadService.Uid
+	},
 	General: {
 		Skeletons: General.SkeletonService.Uid,
 		Accounts: General.AccountService.Uid,
