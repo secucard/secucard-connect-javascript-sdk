@@ -150,8 +150,15 @@ export class ClientContext {
 		
 		return {
 			// stomp is preferred
-			channelConfig: ['stomp', 'rest']
+			channelConfig: ['stomp', 'rest'],
+			useAuth: true
 		}
+		
+	}
+	
+	isRequestWithToken(options) {
+		
+		return !options || (options && (!options.hasOwnProperty('useAuth') || options.useAuth));
 		
 	}
 	

@@ -37,7 +37,9 @@ export class Rest {
 			
 			return context.getAuth().getToken();
 			
-		}
+		};
+		
+		this.isRequestWithToken = context.isRequestWithToken.bind(context);
 		
 	}
 	
@@ -153,9 +155,10 @@ export class Rest {
 		};
 		
 		let message = this.createMessageForRequest(method, params);
-		return this.sendWithToken(message)
-			.then(requestSuccess)
-			.catch(requestError);
+		
+		let pr = (!this.isRequestWithToken || this.isRequestWithToken(params.options))? this.sendWithToken(message) : this.send(message);
+		
+		return pr.then(requestSuccess).catch(requestError);
 		
 	}
 	

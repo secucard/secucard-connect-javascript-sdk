@@ -14,6 +14,17 @@ export class AccountService extends ProductService {
 		return ['general.accounts'];
 	}
 	
+	create(data, options) {
+		
+		options = Object.assign({}, options, {
+			channelConfig: ['rest'], // use only rest
+			useAuth: false // don't need auth token
+		});
+		
+		return super.create(data, options);
+		
+	}
+	
 	updateLocation(accountId, location) {
 		return this.updateWithAction(accountId, 'location', null, location);
 	}
