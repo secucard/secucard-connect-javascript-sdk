@@ -47,6 +47,8 @@ var Rest = (function () {
 
 			return context.getAuth().getToken();
 		};
+
+		this.isRequestWithToken = context.isRequestWithToken.bind(context);
 	};
 
 	Rest.prototype.open = function open() {
@@ -133,7 +135,10 @@ var Rest = (function () {
 		};
 
 		var message = this.createMessageForRequest(method, params);
-		return this.sendWithToken(message).then(requestSuccess)['catch'](requestError);
+
+		var pr = !this.isRequestWithToken || this.isRequestWithToken(params.options) ? this.sendWithToken(message) : this.send(message);
+
+		return pr.then(requestSuccess)['catch'](requestError);
 	};
 
 	Rest.prototype.createMessageForRequest = function createMessageForRequest(method, params) {

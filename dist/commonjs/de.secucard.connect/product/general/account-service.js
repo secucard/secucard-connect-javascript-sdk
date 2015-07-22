@@ -25,6 +25,15 @@ var AccountService = (function (_ProductService) {
 		return ['general.accounts'];
 	};
 
+	AccountService.prototype.create = function create(data, options) {
+
+		options = Object.assign({}, options, {
+			channelConfig: ['rest'],
+			useAuth: false });
+
+		return _ProductService.prototype.create.call(this, data, options);
+	};
+
 	AccountService.prototype.updateLocation = function updateLocation(accountId, location) {
 		return this.updateWithAction(accountId, 'location', null, location);
 	};

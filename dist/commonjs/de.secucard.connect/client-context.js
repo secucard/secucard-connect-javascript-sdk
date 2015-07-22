@@ -155,8 +155,14 @@ var ClientContext = (function () {
 	ClientContext.prototype.getServiceDefaultOptions = function getServiceDefaultOptions() {
 
 		return {
-			channelConfig: ['stomp', 'rest']
+			channelConfig: ['stomp', 'rest'],
+			useAuth: true
 		};
+	};
+
+	ClientContext.prototype.isRequestWithToken = function isRequestWithToken(options) {
+
+		return !options || options && (!options.hasOwnProperty('useAuth') || options.useAuth);
 	};
 
 	ClientContext.prototype.registerServiceEventTargets = function registerServiceEventTargets(service, targets) {
@@ -181,7 +187,13 @@ var ClientContext = (function () {
 		});
 	};
 
-	ClientContext.prototype.emitServiceEvent = function emitServiceEvent(target, type, data) {
+	ClientContext.prototype.emitServiceEvent = function emitServiceEvent(event, target, type, data) {
+
+		if (event) {
+			target = event.target || target;
+			type = event.type || type;
+			data = event.data || data;
+		}
 
 		target = target.toLowerCase();
 		var service = this.serviceEventTargets[target];

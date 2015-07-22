@@ -398,7 +398,7 @@ var Stomp = (function () {
 		} else if (frame) {
 
 			body = JSON.parse(frame.body[0]);
-			this.emitServiceEvent(body.target, body.type, body.data);
+			this.emitServiceEvent(null, body.target, body.type, body.data);
 		}
 	};
 
