@@ -53,6 +53,30 @@ describe('Service to fire demo event', function () {
 	});
 	*/
 	
+	it('handles external event supposed to be recieved by webhook', async function() {
+		
+		let skeletonService = this.client.getService('General.Skeletons');
+		
+		let testEvent = {
+			target: 'general.skeletons',
+			type: 'DemoEvent',
+			data: {test: 'Some test data'}
+		};
+		
+		let recievedData = await new Promise((resolve, reject) => {
+			
+			skeletonService.on('DemoEvent', (data) => {
+				resolve(data);
+			});
+			
+			this.client.emitServiceEvent(testEvent);
+			
+		});
+		
+		expect(recievedData == testEvent.data).toBe(true);
+		
+	});
+	
 	it('executes DemoEvent action with STOMP after session refresh', async function () {
 		
 		
@@ -78,21 +102,21 @@ describe('Service to fire demo event', function () {
 			})
 		]);
 		
-		/*
-		{
-			"object":"event.pushs",
-			"id":"EPS_W3X8JZTRVQZSRQRVNJMR4U7WDMUR46",
-			"created":"2015-07-16T08:57:18+02:00",
-			"target":"general.skeletons",
-			"type":"DemoEvent",
-			"data":{
-				"demo":"event"
-			}
-		}
-		*/
+		//
+		//{
+		//	"object":"event.pushs",
+		//	"id":"EPS_W3X8JZTRVQZSRQRVNJMR4U7WDMUR46",
+		//	"created":"2015-07-16T08:57:18+02:00",
+		//	"target":"general.skeletons",
+		//	"type":"DemoEvent",
+		//	"data":{
+		//		"demo":"event"
+		//	}
+		//}
+		//
 
 	});
-
+	
 	afterEach(function () {
 		jasmine.DEFAULT_TIMEOUT_INTERVAL = originalTimeout;
 	});

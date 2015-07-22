@@ -179,7 +179,13 @@ export class ClientContext {
 		
 	}
 	
-	emitServiceEvent(target, type, data) {
+	emitServiceEvent(event, target, type, data) {
+		
+		if(event) {
+			target = event.target || target;
+			type = event.type || type;
+			data = event.data || data;
+		}
 		
 		target = target.toLowerCase();
 		let service = this.serviceEventTargets[target];

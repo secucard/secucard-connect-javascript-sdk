@@ -3,11 +3,8 @@
         {
             "type": "card",
             "value": "9991234567890"
-        },
-        {
-            "type": "checkin",
-            "value": "CKI_XXXXXXXXXX"
         }
+        
     ],
     "basket": {
         "products": [

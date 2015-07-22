@@ -11,6 +11,7 @@ export class Client {
 		this.getService = this.context.getService.bind(this.context);
 		this.addAppService = this.context.addAppService.bind(this.context);
 		this.removeAppService = this.context.removeAppService.bind(this.context);
+		this.emitServiceEvent = this.context.emitServiceEvent.bind(this.context);
 		this.connected = false;
 		
 	}
