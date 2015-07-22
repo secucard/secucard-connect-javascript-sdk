@@ -1,8 +1,22 @@
-import {CustomerService} from './customer-service';
+import {BeaconService} from './beacon-service';
+import {CardGroupService} from './card-group-service';
 import {CardService} from './card-service';
+import {ChargeService} from './charge-service';
+import {CheckinService} from './checkin-service';
+import {CustomerService} from './customer-service';
 import {MerchantCardService} from './merchant-card-service';
+import {ProgramService} from './program-service';
+import {ProgramSpecialService} from './program-special-service';
+import {SaleService} from './sale-service';
 
 export const Loyalty = {};
-Loyalty.CustomerService = CustomerService;
+Loyalty.BeaconService = BeaconService;
+Loyalty.CardGroupService = CardGroupService;
 Loyalty.CardService = CardService;
+Loyalty.ChargeService = ChargeService;
+Loyalty.CheckinService = CheckinService;
+Loyalty.CustomerService = CustomerService;
 Loyalty.MerchantCardService = MerchantCardService;
+Loyalty.ProgramService = ProgramService;
+Loyalty.ProgramSpecialService = ProgramSpecialService;
+Loyalty.SaleService = SaleService;

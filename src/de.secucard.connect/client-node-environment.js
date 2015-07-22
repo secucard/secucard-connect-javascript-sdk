@@ -27,9 +27,16 @@ export const ClientNodeEnvironment = {
 		General.StoreService,
 		General.TransactionService,
 		
+		Loyalty.BeaconService,
+		Loyalty.CardGroupService,
 		Loyalty.CardService,
+		Loyalty.ChargeService,
+		Loyalty.CheckinService,
 		Loyalty.CustomerService,
 		Loyalty.MerchantCardService,
+		Loyalty.ProgramService,
+		Loyalty.ProgramSpecialService,
+		Loyalty.SaleService,
 		
 		Payment.ContainerService,
 		Payment.ContractService,
@@ -71,9 +78,16 @@ export const ServiceMap = {
 		Transactions: General.TransactionService.Uid
 	},
 	Loyalty: {
+		Beacons: Loyalty.BeaconService.Uid,
+		CardGroups: Loyalty.CardGroupService.Uid,
 		Cards: Loyalty.CardService.Uid,
+		Charges: Loyalty.ChargeService.Uid,
+		Checkins: Loyalty.CheckinService.Uid,
 		Customers: Loyalty.CustomerService.Uid,
-		MerchantCards: Loyalty.MerchantCardService.Uid
+		MerchantCards: Loyalty.MerchantCardService.Uid,
+		Programs: Loyalty.ProgramService.Uid,
+		ProrgamSpecials: Loyalty.ProgramSpecialService.Uid,
+		Sales: Loyalty.SaleService.Uid
 	},
 	Payment: {
 		Containers: Payment.ContainerService.Uid,
