@@ -61,10 +61,12 @@ var Stomp = (function () {
 		this.stompCommands[_channel.Channel.METHOD.DELETE] = 'delete';
 
 		this.connection = new _stompImplStomp.Stomp(SocketImpl);
-		this.connection.on('message', this._handleStompFrame.bind(this));
+		this.connection.on('message', this._handleStompMessage.bind(this));
 	}
 
 	Stomp.prototype.configureWithContext = function configureWithContext(context) {
+
+		this.emitServiceEvent = context.emitServiceEvent.bind(context);
 
 		this.getToken = function () {
 			return context.getAuth().getToken();
@@ -373,15 +375,16 @@ var Stomp = (function () {
 		});
 	};
 
-	Stomp.prototype._handleStompFrame = function _handleStompFrame(frame) {
+	Stomp.prototype._handleStompMessage = function _handleStompMessage(frame) {
 		this.skipSessionRefresh = true;
 
-		console.log('_handleStompFrame', frame);
+		console.log('_handleStompMessage', frame);
+		var body = undefined;
 
 		if (frame && frame.headers && frame.headers['correlation-id']) {
 
 			var correlationId = frame.headers['correlation-id'];
-			var body = JSON.parse(frame.body[0]);
+			body = JSON.parse(frame.body[0]);
 
 			if (body.status == 'ok') {
 				this.messages[correlationId].resolve(body.data);
@@ -392,7 +395,11 @@ var Stomp = (function () {
 			}
 
 			delete this.messages[correlationId];
-		} else if (frame) {}
+		} else if (frame) {
+
+			body = JSON.parse(frame.body[0]);
+			this.emitServiceEvent(body.target, body.type, body.data);
+		}
 	};
 
 	Stomp.prototype.createCorrelationId = function createCorrelationId() {

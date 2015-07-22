@@ -40,6 +40,10 @@ var Token = (function () {
 		return this.expireTime;
 	};
 
+	Token.prototype.update = function update(data) {
+		return Object.assign(this, data);
+	};
+
 	return Token;
 })();
 

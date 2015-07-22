@@ -49,6 +49,10 @@ var Rest = (function () {
 		};
 	};
 
+	Rest.prototype.open = function open() {
+		return Promise.resolve(true);
+	};
+
 	Rest.prototype.createMessage = function createMessage() {
 		var message = new _message.Message();
 		return message.setBaseUrl(this.restUrl());

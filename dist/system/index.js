@@ -7,6 +7,8 @@ System.register(['es6-shim', './de.secucard.connect/client-node-environment', '.
 			es6shim = _es6Shim['default'];
 		}, function (_deSecucardConnectClientNodeEnvironment) {
 			ClientNodeEnvironment = _deSecucardConnectClientNodeEnvironment.ClientNodeEnvironment;
+
+			_export('Services', _deSecucardConnectClientNodeEnvironment.ServiceMap);
 		}, function (_deSecucardConnectClient) {
 			Client = _deSecucardConnectClient.Client;
 		}],
@@ -24,4 +26,4 @@ System.register(['es6-shim', './de.secucard.connect/client-node-environment', '.
 		}
 	};
 });
-//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbImluZGV4LmpzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7Ozs2Q0FJYSxlQUFlOzs7OzttRUFIcEIscUJBQXFCOztxQ0FDckIsTUFBTTs7O0FBRUQsa0JBQWUsR0FBRztBQUM5QixlQUFXLEVBQUUsNEJBQTRCO0lBQ3pDOzs4QkFGWSxlQUFlOztBQUc1QixrQkFBZSxDQUFDLE1BQU0sR0FBRyxVQUFDLE1BQU0sRUFBSzs7QUFFcEMsV0FBTyxNQUFNLENBQUMsTUFBTSxDQUFDLHFCQUFxQixFQUFFLE1BQU0sQ0FBQyxDQUFDO0lBRXBELENBQUMiLCJmaWxlIjoiaW5kZXguanMiLCJzb3VyY2VSb290IjoiLi4vc3JjLyJ9
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbImluZGV4LmpzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7Ozs2Q0FLYSxlQUFlOzs7OzttRUFKcEIscUJBQXFCOzsrREFFckIsVUFBVTs7cUNBRFYsTUFBTTs7O0FBR0Qsa0JBQWUsR0FBRztBQUM5QixlQUFXLEVBQUUsNEJBQTRCO0lBQ3pDOzs4QkFGWSxlQUFlOztBQUc1QixrQkFBZSxDQUFDLE1BQU0sR0FBRyxVQUFDLE1BQU0sRUFBSzs7QUFFcEMsV0FBTyxNQUFNLENBQUMsTUFBTSxDQUFDLHFCQUFxQixFQUFFLE1BQU0sQ0FBQyxDQUFDO0lBRXBELENBQUMiLCJmaWxlIjoiaW5kZXguanMiLCJzb3VyY2VSb290IjoiLi4vc3JjLyJ9

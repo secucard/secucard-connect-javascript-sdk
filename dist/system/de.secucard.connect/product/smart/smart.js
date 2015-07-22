@@ -1,32 +1,24 @@
-System.register(['./transaction-service'], function (_export) {
-	'use strict';
+System.register(['./transaction-service', './ident-service', './checkin-service'], function (_export) {
+  'use strict';
 
-	var TransactionService, Smart, Basket;
+  var TransactionService, IdentService, CheckinService, Smart;
+  return {
+    setters: [function (_transactionService) {
+      TransactionService = _transactionService.TransactionService;
+    }, function (_identService) {
+      IdentService = _identService.IdentService;
+    }, function (_checkinService) {
+      CheckinService = _checkinService.CheckinService;
+    }],
+    execute: function () {
+      Smart = {};
 
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
+      _export('Smart', Smart);
 
-	return {
-		setters: [function (_transactionService) {
-			TransactionService = _transactionService.TransactionService;
-		}],
-		execute: function () {
-			Smart = function Smart() {
-				_classCallCheck(this, Smart);
-			};
-
-			_export('Smart', Smart);
-
-			Basket = function Basket() {
-				_classCallCheck(this, Basket);
-
-				this.products = [];
-				this.texts = [];
-			};
-
-			_export('Basket', Basket);
-
-			Smart.TransactionService = TransactionService;
-		}
-	};
+      Smart.TransactionService = TransactionService;
+      Smart.IdentService = IdentService;
+      Smart.CheckinService = CheckinService;
+    }
+  };
 });
-//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbImRlLnNlY3VjYXJkLmNvbm5lY3QvcHJvZHVjdC9zbWFydC9zbWFydC5qcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiOzs7eUJBRWEsS0FBSyxFQVFMLE1BQU07Ozs7Ozs0Q0FWWCxrQkFBa0I7OztBQUViLFFBQUssR0FFTixTQUZDLEtBQUssR0FFSjswQkFGRCxLQUFLO0lBSWhCOztvQkFKVyxLQUFLOztBQVFMLFNBQU0sR0FFUCxTQUZDLE1BQU0sR0FFTDswQkFGRCxNQUFNOztBQUlqQixRQUFJLENBQUMsUUFBUSxHQUFHLEVBQUUsQ0FBQztBQUNuQixRQUFJLENBQUMsS0FBSyxHQUFHLEVBQUUsQ0FBQztJQUVoQjs7cUJBUFcsTUFBTTs7QUFZbkIsUUFBSyxDQUFDLGtCQUFrQixHQUFHLGtCQUFrQixDQUFDIiwiZmlsZSI6ImRlLnNlY3VjYXJkLmNvbm5lY3QvcHJvZHVjdC9zbWFydC9zbWFydC5qcyIsInNvdXJjZVJvb3QiOiIuLi9zcmMvIn0=
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbImRlLnNlY3VjYXJkLmNvbm5lY3QvcHJvZHVjdC9zbWFydC9zbWFydC5qcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiOzs7d0RBSWEsS0FBSzs7OytDQUpWLGtCQUFrQjs7bUNBQ2xCLFlBQVk7O3VDQUNaLGNBQWM7OztBQUVULFdBQUssR0FBRyxFQUFFOzt1QkFBVixLQUFLOztBQUNsQixXQUFLLENBQUMsa0JBQWtCLEdBQUcsa0JBQWtCLENBQUM7QUFDOUMsV0FBSyxDQUFDLFlBQVksR0FBRyxZQUFZLENBQUM7QUFDbEMsV0FBSyxDQUFDLGNBQWMsR0FBRyxjQUFjLENBQUMiLCJmaWxlIjoiZGUuc2VjdWNhcmQuY29ubmVjdC9wcm9kdWN0L3NtYXJ0L3NtYXJ0LmpzIiwic291cmNlUm9vdCI6Ii4uL3NyYy8ifQ==

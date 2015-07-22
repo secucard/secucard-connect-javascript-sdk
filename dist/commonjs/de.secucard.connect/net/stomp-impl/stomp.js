@@ -252,8 +252,6 @@ var Stomp = (function () {
 
 		socket.on('data', function (chunk) {
 
-			console.log('onData', chunk);
-
 			buffer += chunk;
 			var frames = buffer.split('\u0000\n');
 

@@ -16,15 +16,27 @@ var Client = (function () {
 
 		this.config = config;
 		this.context = new _clientContext.ClientContext(config, environment);
+		this.getService = this.context.getService.bind(this.context);
+		this.addAppService = this.context.addAppService.bind(this.context);
+		this.removeAppService = this.context.removeAppService.bind(this.context);
+		this.connected = false;
 	}
 
 	Client.prototype.setCredentials = function setCredentials(credentials) {
 		this.context.setCredentials(credentials);
 	};
 
-	Client.prototype.connect = function connect() {
+	Client.prototype.open = function open() {
+		var _this = this;
 
-		return this.context.getAuth().getToken();
+		if (this.connected) {
+			return Promise.resolve(this.connected);
+		}
+
+		return this.context.open().then(function () {
+			_this.connected = true;
+			return _this.connected;
+		});
 	};
 
 	return Client;

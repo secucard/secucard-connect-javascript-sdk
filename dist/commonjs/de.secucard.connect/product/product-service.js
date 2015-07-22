@@ -2,13 +2,21 @@
 
 exports.__esModule = true;
 
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 
 var _netChannel = require('../net/channel');
 
+var _eventemitter3 = require('eventemitter3');
+
+var _eventemitter32 = _interopRequireDefault(_eventemitter3);
+
 var ProductService = (function () {
 	function ProductService() {
 		_classCallCheck(this, ProductService);
+
+		Object.assign(this, _eventemitter32['default'].prototype);
 	}
 
 	ProductService.prototype.configureWithContext = function configureWithContext(context) {
@@ -19,7 +27,14 @@ var ProductService = (function () {
 
 	ProductService.prototype.getEndpoint = function getEndpoint() {};
 
-	ProductService.prototype.getObject = function getObject(id, options) {
+	ProductService.prototype.getEventTargets = function getEventTargets() {};
+
+	ProductService.prototype.getUid = function getUid() {
+
+		return this.getEndpoint().join('.').toLowerCase();
+	};
+
+	ProductService.prototype.retrieve = function retrieve(id, options) {
 
 		var params = {
 			endpoint: this.getEndpoint(),
@@ -30,7 +45,7 @@ var ProductService = (function () {
 		return this._request(_netChannel.Channel.METHOD.GET, params, options);
 	};
 
-	ProductService.prototype.getObjectList = function getObjectList(queryParams, options) {
+	ProductService.prototype.retrieveList = function retrieveList(queryParams, options) {
 
 		var params = {
 			endpoint: this.getEndpoint(),
@@ -41,7 +56,7 @@ var ProductService = (function () {
 		return this._request(_netChannel.Channel.METHOD.GET, params, options);
 	};
 
-	ProductService.prototype.createObject = function createObject(data, options) {
+	ProductService.prototype.create = function create(data, options) {
 
 		var params = {
 			endpoint: this.getEndpoint(),
@@ -52,7 +67,7 @@ var ProductService = (function () {
 		return this._request(_netChannel.Channel.METHOD.CREATE, params, options);
 	};
 
-	ProductService.prototype.updateObject = function updateObject(data, options) {
+	ProductService.prototype.update = function update(data, options) {
 
 		var params = {
 			endpoint: this.getEndpoint(),
@@ -64,7 +79,7 @@ var ProductService = (function () {
 		return this._request(_netChannel.Channel.METHOD.UPDATE, params, options);
 	};
 
-	ProductService.prototype.updateObjectWithAction = function updateObjectWithAction(id, action, actionArg, data, options) {
+	ProductService.prototype.updateWithAction = function updateWithAction(id, action, actionArg, data, options) {
 
 		var params = {
 			endpoint: this.getEndpoint(),
@@ -78,7 +93,7 @@ var ProductService = (function () {
 		return this._request(_netChannel.Channel.METHOD.UPDATE, params, options);
 	};
 
-	ProductService.prototype.deleteObject = function deleteObject(id, options) {
+	ProductService.prototype.remove = function remove(id, options) {
 
 		var params = {
 			endpoint: this.getEndpoint(),
@@ -89,7 +104,7 @@ var ProductService = (function () {
 		return this._request(_netChannel.Channel.METHOD.DELETE, params, options);
 	};
 
-	ProductService.prototype.deleteObjectWithAction = function deleteObjectWithAction(id, action, actionArg, options) {
+	ProductService.prototype.removeWithAction = function removeWithAction(id, action, actionArg, options) {
 
 		var params = {
 			endpoint: this.getEndpoint(),
@@ -138,7 +153,7 @@ var ProductService = (function () {
 			params.options = options;
 		}
 
-		return this.getChannel(options).request(method, params);
+		return this.getChannel(options.channelConfig).request(method, params);
 	};
 
 	return ProductService;

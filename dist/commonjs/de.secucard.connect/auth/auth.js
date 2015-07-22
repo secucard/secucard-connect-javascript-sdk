@@ -12,7 +12,7 @@ var _lodash2 = _interopRequireDefault(_lodash);
 
 var _netMessage = require('../net/message');
 
-var _token = require('./token');
+var _token2 = require('./token');
 
 var Auth = (function () {
 	function Auth() {
@@ -52,10 +52,10 @@ var Auth = (function () {
 
 		var tokenSuccess = function tokenSuccess(res) {
 
-			var token = _token.Token.create(res.body);
-			token.setExpireTime();
-			_this.storeToken(token);
-			return token;
+			var _token = token ? token.update(res.body) : _token2.Token.create(res.body);
+			_token.setExpireTime();
+			_this.storeToken(_token);
+			return _token;
 		};
 
 		var tokenError = function tokenError(err) {
@@ -68,7 +68,7 @@ var Auth = (function () {
 
 		if (token != null && token.getRefreshToken() != null) {
 
-			return this._tokenRefreshRequest(cr, ch).then(tokenSuccess)['catch'](tokenError);
+			return this._tokenRefreshRequest(cr, token.getRefreshToken(), ch).then(tokenSuccess)['catch'](tokenError);
 		}
 
 		return this._tokenClientCredentialsRequest(cr, ch).then(tokenSuccess)['catch'](tokenError);
@@ -93,6 +93,7 @@ var Auth = (function () {
 
 	Auth.prototype._tokenRequest = function _tokenRequest(credentials, channel) {
 		var m = channel.createMessage().setBaseUrl(this.oAuthUrl()).setUrl('token').setHeaders(this.baseHeaders).setMethod(_netMessage.POST).setBody(credentials);
+		console.log('token request', m);
 		return channel.send(m);
 	};
 
@@ -102,19 +103,13 @@ var Auth = (function () {
 		return this._tokenRequest(cr, channel);
 	};
 
-	Auth.prototype._tokenAppUserRequest = function _tokenAppUserRequest(credentials, channel) {
-		var cr = _lodash2['default'].pick(credentials, this.baseCredentialNames.concat(['username', 'password', 'device', 'deviceinfo']));
-		cr = _lodash2['default'].assign({}, cr, { grant_type: 'appuser' });
+	Auth.prototype._tokenRefreshRequest = function _tokenRefreshRequest(credentials, refresh_token, channel) {
+		var cr = _lodash2['default'].pick(credentials, this.baseCredentialNames);
+		cr = _lodash2['default'].assign({}, cr, { grant_type: 'refresh_token', refresh_token: refresh_token });
 		return this._tokenRequest(cr, channel);
 	};
 
-	Auth.prototype._tokenRefreshRequest = function _tokenRefreshRequest(credentials, channel) {
-		var cr = _lodash2['default'].pick(credentials, this.baseCredentialNames.concat(['refresh_token']));
-		cr = _lodash2['default'].assign({}, cr, { grant_type: 'refresh_token' });
-		return this._tokenRequest(cr, channel);
-	};
-
-	Auth.prototype._tokenReviceCodeRequest = function _tokenReviceCodeRequest(credentials, channel) {
+	Auth.prototype._tokenDeviceCodeRequest = function _tokenDeviceCodeRequest(credentials, channel) {
 		var cr = _lodash2['default'].pick(credentials, this.baseCredentialNames.concat(['uuid']));
 		cr = _lodash2['default'].assign({}, cr, { grant_type: 'device' });
 		return this._tokenRequest(cr, channel);
@@ -123,6 +118,12 @@ var Auth = (function () {
 	Auth.prototype._tokenDeviceRequest = function _tokenDeviceRequest(credentials, channel) {
 		var cr = _lodash2['default'].pick(credentials, this.baseCredentialNames.concat(['code']));
 		cr = _lodash2['default'].assign({}, cr, { grant_type: 'device' });
+		return this._tokenRequest(cr, channel);
+	};
+
+	Auth.prototype._tokenAppUserRequest = function _tokenAppUserRequest(credentials, channel) {
+		var cr = _lodash2['default'].pick(credentials, this.baseCredentialNames.concat(['username', 'password', 'device', 'deviceinfo']));
+		cr = _lodash2['default'].assign({}, cr, { grant_type: 'appuser' });
 		return this._tokenRequest(cr, channel);
 	};
 

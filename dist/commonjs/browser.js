@@ -12,6 +12,7 @@ var _deSecucardConnectClientBrowserEnvironment = require('./de.secucard.connect/
 
 var _deSecucardConnectClient = require('./de.secucard.connect/client');
 
+exports.Services = _deSecucardConnectClientBrowserEnvironment.ServiceMap;
 var SecucardConnect = {
 	description: 'SecucardConnect for browser'
 };
