@@ -15,15 +15,15 @@ export class AccountService extends ProductService {
 	}
 	
 	updateLocation(accountId, location) {
-		return this.updateObjectWithAction(accountId, 'location', null, location);
+		return this.updateWithAction(accountId, 'location', null, location);
 	}
 	
 	updateBeacons(beaconList) {
-		return this.updateObjectWithAction("me", 'beaconEnvironment', null, beaconList);
+		return this.updateWithAction("me", 'beaconEnvironment', null, beaconList);
 	}
 	
 	updateGCM(accountId, gcm) {
-		return this.updateObjectWithAction(accountId, 'gcm', null, gcm);
+		return this.updateWithAction(accountId, 'gcm', null, gcm);
 	}
 	
 }

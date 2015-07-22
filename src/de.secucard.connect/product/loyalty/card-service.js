@@ -18,8 +18,8 @@ export class CardService extends ProductService {
 		return this.execute(cardNumber, 'assignUser', 'me', pin);
 	}
 	
-	deleteUserFromCard(cardNumber) {
-		return this.deleteObjectWithAction(cardNumber, 'assignUser', 'me');
+	removeUser(cardNumber) {
+		return this.removeWithAction(cardNumber, 'assignUser', 'me');
 	}
 	
 }

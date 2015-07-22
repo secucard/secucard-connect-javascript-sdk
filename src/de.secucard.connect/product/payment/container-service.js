@@ -14,12 +14,12 @@ export class ContainerService extends ProductService {
 		return [];
 	}
 	
-	updateContainerAssignment(containerId, customerId) {
+	assignCustomer(containerId, customerId) {
 		return this.execute(containerId, 'assign', customerId);
 	}
 	
-	deleteContainerAssignment(containerId) {
-		return this.deleteObjectWithAction(containerId, 'assign');
+	removeCustomer(containerId) {
+		return this.removeWithAction(containerId, 'assign');
 	}
 	
 }

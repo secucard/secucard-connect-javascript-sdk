@@ -15,11 +15,11 @@ export class StoreService extends ProductService {
 	}
 	
 	checkIn(storeId, checkInState) {
-		return this.updateObjectWithAction(storeId, 'checkin', checkInState);
+		return this.updateWithAction(storeId, 'checkin', checkInState);
 	}
 	
 	setDefault(storeId) {
-		return this.updateObjectWithAction(storeId, 'setDefault');
+		return this.updateWithAction(storeId, 'setDefault');
 	}
 	
 }

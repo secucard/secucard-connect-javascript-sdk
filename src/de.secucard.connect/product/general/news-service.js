@@ -15,7 +15,7 @@ export class NewsService extends ProductService {
 	}
 	
 	markRead(newsId) {
-		return this.updateObjectWithAction(newsId, 'markRead');
+		return this.updateWithAction(newsId, 'markRead');
 	}
 	
 }

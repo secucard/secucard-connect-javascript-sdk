@@ -42,7 +42,7 @@ export class ProductService {
 	 * @return {Promise} 
 	*/
 	
-	getObject(id, options) {
+	retrieve(id, options) {
 		
 		let params = {
 			endpoint: this.getEndpoint(), 
@@ -64,7 +64,7 @@ export class ProductService {
 	* @return {Promise}
 	*/
 	
-	getObjectList(queryParams, options) {
+	retrieveList(queryParams, options) {
 		
 		let params = {
 			endpoint: this.getEndpoint(), 
@@ -88,7 +88,7 @@ export class ProductService {
 	 * @return {Promise}
 	*/
 	
-	createObject(data, options) {
+	create(data, options) {
 		
 		let params = {
 			endpoint: this.getEndpoint(), 
@@ -112,7 +112,7 @@ export class ProductService {
 	 * or corrected data, like id.  So using this object later on instead the provided is necessary. 
 	 */
 	
-	updateObject(data, options) {
+	update(data, options) {
 		
 		let params = {
 			endpoint: this.getEndpoint(),
@@ -142,7 +142,7 @@ export class ProductService {
 	 * necessary.
 	*/
 	
-	updateObjectWithAction(id, action, actionArg, data, options) {
+	updateWithAction(id, action, actionArg, data, options) {
 		
 		let params = {
 			endpoint: this.getEndpoint(),
@@ -166,7 +166,7 @@ export class ProductService {
 	 * @param callback   The callback for async invocation.
 	*/
 	
-	deleteObject(id, options) {
+	remove(id, options) {
 		
 		let params = {
 			endpoint: this.getEndpoint(),
@@ -189,7 +189,7 @@ export class ProductService {
 	 * @return {Promise}
 	 */
 	
-	deleteObjectWithAction(id, action, actionArg, options) {
+	removeWithAction(id, action, actionArg, options) {
 		
 		let params = {
 			endpoint: this.getEndpoint(),

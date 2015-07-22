@@ -44,12 +44,12 @@ describe('Smart Services', function() {
 		transactions.getChannel = client.context.getRestChannel.bind(client.context);
 		expect(Boolean(transactions)).toBe(true);
 		
-		await transactions.getObjectList().then((res) => {
+		await transactions.retrieveList().then((res) => {
 			
 		});
 		
 		let data;
-		await transactions.createObject(devTransaction)
+		await transactions.create(devTransaction)
 			.then((res) => {
 				data = res;
 				console.log(res);
@@ -57,7 +57,7 @@ describe('Smart Services', function() {
 		
 		expect(data.object).toBe('smart.transactions');
 		
-		await transactions.updateObject(data)
+		await transactions.update(data)
 			.then((res) => {
 				
 				console.log(res);
@@ -91,12 +91,12 @@ describe('Smart Services', function() {
 		
 		expect(Boolean(transactions)).toBe(true);
 		
-		await transactions.getObjectList().then((res) => {
+		await transactions.retrieveList().then((res) => {
 			
 		});
 		
 		let data;
-		await transactions.createObject(devTransaction)
+		await transactions.create(devTransaction)
 			.then((res) => {
 				data = res;
 				console.log(res);
@@ -105,7 +105,7 @@ describe('Smart Services', function() {
 		
 		expect(data.object).toBe('smart.transactions');
 		
-		await transactions.updateObject(data)
+		await transactions.update(data)
 			.then((res) => {
 				
 				console.log(res);

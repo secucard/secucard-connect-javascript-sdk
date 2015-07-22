@@ -102,7 +102,7 @@ describe('Product Service', function() {
 	it('sets wrong credentials and gets Auth error from Product Service' , async function() {
 		
 		let data;
-		await this.client.service.getObjectList({}, null).then((res) => {
+		await this.client.service.retrieveList({}, null).then((res) => {
 			
 			data = res.data;
 			
@@ -117,7 +117,7 @@ describe('Product Service', function() {
 		this.client.setCredentials(wrongCredentials);
 		
 		let error;
-		await this.client.service.getObjectList({}, null)
+		await this.client.service.retrieveList({}, null)
 			.catch((err) => {
 				error = err;
 			});
@@ -129,7 +129,7 @@ describe('Product Service', function() {
 	it('gets object list from Product Service' , async function() {
 		
 		let data;
-		await this.client.service.getObjectList({}, null).then((res) => {
+		await this.client.service.retrieveList({}, null).then((res) => {
 			
 			data = res.data;
 			
@@ -142,7 +142,7 @@ describe('Product Service', function() {
 	it('gets object list from Product Service with count = 1' , async function() {
 		
 		let data;
-		await this.client.service.getObjectList({count: 1}, null).then((res) => {
+		await this.client.service.retrieveList({count: 1}, null).then((res) => {
 			
 			data = res.data;
 			

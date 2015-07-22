@@ -43,7 +43,7 @@ describe('Smart.Idents Service', function() {
 		let idents = client.getService(Services.Smart.Idents);
 		idents.getChannel = client.context.getRestChannel.bind(client.context);
 		
-		await idents.getObjectList().then((res) => {
+		await idents.retrieveList().then((res) => {
 			console.log(res);
 		});
 		
