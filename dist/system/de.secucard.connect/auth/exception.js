@@ -14,9 +14,11 @@ System.register(['es6-error'], function (_export) {
 		execute: function () {
 			AuthenticationFailedException = (function (_ExtendableError) {
 				function AuthenticationFailedException() {
+					var message = arguments[0] === undefined ? 'Authentication failed' : arguments[0];
+
 					_classCallCheck(this, AuthenticationFailedException);
 
-					_ExtendableError.call(this, 'Authentication failed');
+					_ExtendableError.call(this, message);
 
 					Object.defineProperty(this, 'name', {
 						configurable: true,
@@ -34,4 +36,4 @@ System.register(['es6-error'], function (_export) {
 		}
 	};
 });
-//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbImRlLnNlY3VjYXJkLmNvbm5lY3QvYXV0aC9leGNlcHRpb24uanMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7O3NCQUVhLDZCQUE2Qjs7Ozs7Ozs7Ozs7QUFBN0IsZ0NBQTZCO0FBQzlCLGFBREMsNkJBQTZCLEdBQzNCOzJCQURGLDZCQUE2Qjs7QUFHeEMsaUNBQU0sdUJBQXVCLENBQUMsQ0FBQzs7QUFFL0IsV0FBTSxDQUFDLGNBQWMsQ0FBQyxJQUFJLEVBQUUsTUFBTSxFQUFFO0FBQ2xDLGtCQUFZLEVBQUcsSUFBSTtBQUNuQixnQkFBVSxFQUFHLEtBQUs7QUFDbEIsV0FBSyxFQUFHLElBQUksQ0FBQyxXQUFXLENBQUMsSUFBSTtNQUM5QixDQUFDLENBQUM7S0FFSDs7Y0FYVyw2QkFBNkI7O1dBQTdCLDZCQUE2QjtNQUFTLGVBQWU7OzRDQUFyRCw2QkFBNkIiLCJmaWxlIjoiZGUuc2VjdWNhcmQuY29ubmVjdC9hdXRoL2V4Y2VwdGlvbi5qcyIsInNvdXJjZVJvb3QiOiIuLi9zcmMvIn0=
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbImRlLnNlY3VjYXJkLmNvbm5lY3QvYXV0aC9leGNlcHRpb24uanMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7O3NCQUVhLDZCQUE2Qjs7Ozs7Ozs7Ozs7QUFBN0IsZ0NBQTZCO0FBRTlCLGFBRkMsNkJBQTZCLEdBRU07U0FBbkMsT0FBTyxnQ0FBRyx1QkFBdUI7OzJCQUZqQyw2QkFBNkI7O0FBSXhDLGlDQUFNLE9BQU8sQ0FBQyxDQUFDOztBQUVmLFdBQU0sQ0FBQyxjQUFjLENBQUMsSUFBSSxFQUFFLE1BQU0sRUFBRTtBQUNsQyxrQkFBWSxFQUFHLElBQUk7QUFDbkIsZ0JBQVUsRUFBRyxLQUFLO0FBQ2xCLFdBQUssRUFBRyxJQUFJLENBQUMsV0FBVyxDQUFDLElBQUk7TUFDOUIsQ0FBQyxDQUFDO0tBRUg7O2NBWlcsNkJBQTZCOztXQUE3Qiw2QkFBNkI7TUFBUyxlQUFlOzs0Q0FBckQsNkJBQTZCIiwiZmlsZSI6ImRlLnNlY3VjYXJkLmNvbm5lY3QvYXV0aC9leGNlcHRpb24uanMiLCJzb3VyY2VSb290IjoiLi4vc3JjLyJ9

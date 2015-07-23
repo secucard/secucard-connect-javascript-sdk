@@ -127,50 +127,63 @@ var Stomp = (function () {
 	};
 
 	Stomp.prototype.open = function open() {
+		var _this = this;
 
-		return this._startSessionRefresh();
+		return this.getToken().then(function (token) {
+
+			if (token && token.refresh_token) {
+				return _this._startSessionRefresh();
+			} else if (token) {
+				return _this._disconnect().then(function () {
+					return _this._connect(token.access_token);
+				});
+			}
+		});
 	};
 
 	Stomp.prototype.connect = function connect() {
-		var _this = this;
+		var _this2 = this;
 
 		console.log('stomp start connection');
 
 		return this.getToken().then(function (token) {
 
 			console.log('Got token', token);
-			return _this._connect(token.access_token);
+			return _this2._connect(token.access_token);
 		});
 	};
 
 	Stomp.prototype.close = function close() {
 
-		clearInterval(this.sessionTimer);
+		if (this.sessionTimer) {
+			clearInterval(this.sessionTimer);
+		}
+
 		return this._disconnect();
 	};
 
 	Stomp.prototype._disconnect = function _disconnect() {
-		var _this2 = this;
+		var _this3 = this;
 
 		return new Promise(function (resolve, reject) {
 
-			if (!_this2.connection.isConnected()) {
+			if (!_this3.connection.isConnected()) {
 				resolve();
 				return;
 			}
 
-			if (_this2.connection && _this2.connection.disconnect) {
-				_this2.connection.disconnect();
+			if (_this3.connection && _this3.connection.disconnect) {
+				_this3.connection.disconnect();
 			}
 
-			_this2._stompOnDisconnected = function () {
+			_this3._stompOnDisconnected = function () {
 				console.log('stomp disconnected');
-				_this2.connection.removeListener('connected', _this2._stompOnDisconnected);
-				delete _this2._stompOnDisconnected;
+				_this3.connection.removeListener('connected', _this3._stompOnDisconnected);
+				delete _this3._stompOnDisconnected;
 				resolve();
 			};
 
-			_this2.connection.on('disconnected', _this2._stompOnDisconnected);
+			_this3.connection.on('disconnected', _this3._stompOnDisconnected);
 		});
 	};
 
@@ -231,7 +244,7 @@ var Stomp = (function () {
 	};
 
 	Stomp.prototype._connect = function _connect(accessToken) {
-		var _this3 = this;
+		var _this4 = this;
 
 		this.connectAccessToken = accessToken;
 
@@ -245,43 +258,44 @@ var Stomp = (function () {
 
 		return new Promise(function (resolve, reject) {
 
-			_this3._stompOnConnected = function () {
+			_this4._stompOnConnected = function () {
 				console.log('stomp connected');
-				_this3._stompClearListeners();
-				resolve();
+				_this4._stompClearListeners();
+				resolve(true);
 			};
 
-			_this3._stompOnError = function (body) {
+			_this4._stompOnError = function (body) {
 				console.log('stomp error', body);
-				_this3._stompClearListeners();
+
+				_this4._stompClearListeners();
 				reject(body);
 			};
 
-			_this3._stompClearListeners = function () {
-				_this3.connection.removeListener('connected', _this3._stompOnConnected);
-				_this3.connection.removeListener('error', _this3._stompOnError);
-				delete _this3._stompOnConnected;
-				delete _this3._stompOnError;
-				delete _this3._stompClearListeners;
+			_this4._stompClearListeners = function () {
+				_this4.connection.removeListener('connected', _this4._stompOnConnected);
+				_this4.connection.removeListener('error', _this4._stompOnError);
+				delete _this4._stompOnConnected;
+				delete _this4._stompOnError;
+				delete _this4._stompClearListeners;
 			};
 
-			_this3.connection.on('connected', _this3._stompOnConnected);
-			_this3.connection.on('error', _this3._stompOnError);
+			_this4.connection.on('connected', _this4._stompOnConnected);
+			_this4.connection.on('error', _this4._stompOnError);
 		});
 	};
 
 	Stomp.prototype._sendMessage = function _sendMessage(destinationObj, message) {
-		var _this4 = this;
+		var _this5 = this;
 
 		console.log('_sendMessage', destinationObj, message);
 
 		return this.getToken().then(function (token) {
 
 			var accessToken = token.access_token;
-			var correlationId = _this4.createCorrelationId();
+			var correlationId = _this5.createCorrelationId();
 
 			var headers = {};
-			headers['reply-to'] = _this4.getStompQueue();
+			headers['reply-to'] = _this5.getStompQueue();
 			headers['content-type'] = 'application/json';
 			headers['user-id'] = accessToken;
 			headers['correlation-id'] = correlationId;
@@ -293,7 +307,7 @@ var Stomp = (function () {
 			var body = JSON.stringify(message);
 			headers['content-length'] = utils.sizeOfUTF8(body);
 
-			var destination = _this4.getStompDestination();
+			var destination = _this5.getStompDestination();
 			if (destinationObj.appId) {
 
 				destination += 'app:' + destinationObj.action;
@@ -316,20 +330,20 @@ var Stomp = (function () {
 
 				return new Promise(function (resolve, reject) {
 
-					_this4.messages[correlationId] = { resolve: resolve, reject: reject };
-					_this4.connection.send(destination, headers, body);
+					_this5.messages[correlationId] = { resolve: resolve, reject: reject };
+					_this5.connection.send(destination, headers, body);
 				});
 			};
 
-			if (!_this4.connection.isConnected() || token && token.access_token != _this4.connectAccessToken) {
+			if (!_this5.connection.isConnected() || token && token.access_token != _this5.connectAccessToken) {
 
-				if (_this4.connection.isConnected()) {
+				if (_this5.connection.isConnected()) {
 					console.log('Reconnect due token change.');
 				}
 
-				return _this4._disconnect().then(function () {
+				return _this5._disconnect().then(function () {
 
-					return _this4._connect(accessToken).then(sendWithStomp);
+					return _this5._connect(accessToken).then(sendWithStomp);
 				});
 			}
 
@@ -338,7 +352,7 @@ var Stomp = (function () {
 	};
 
 	Stomp.prototype._startSessionRefresh = function _startSessionRefresh() {
-		var _this5 = this;
+		var _this6 = this;
 
 		console.log('Stomp session refresh loop started');
 		var initial = true;
@@ -347,10 +361,10 @@ var Stomp = (function () {
 
 		this.sessionTimer = setInterval(function () {
 
-			if (_this5.skipSessionRefresh) {
-				_this5.skipSessionRefresh = false;
+			if (_this6.skipSessionRefresh) {
+				_this6.skipSessionRefresh = false;
 			} else {
-				_this5._runSessionRefresh(false);
+				_this6._runSessionRefresh(false);
 			}
 		}, sessionInterval);
 
@@ -358,7 +372,7 @@ var Stomp = (function () {
 	};
 
 	Stomp.prototype._runSessionRefresh = function _runSessionRefresh(initial) {
-		var _this6 = this;
+		var _this7 = this;
 
 		return this.request(_channel.Channel.METHOD.EXECUTE, {
 			endpoint: ['auth', 'sessions'],
@@ -366,13 +380,13 @@ var Stomp = (function () {
 			action: 'refresh'
 		}).then(function (res) {
 
-			_this6.emit('sessionRefresh');
+			_this7.emit('sessionRefresh');
 			console.log('Session refresh sent');
-			_this6.skipSessionRefresh = false;
+			_this7.skipSessionRefresh = false;
 			return res;
 		})['catch'](function (err) {
 
-			_this6.emit('sessionRefreshError');
+			_this7.emit('sessionRefreshError');
 			console.log('Session refresh failed');
 			if (initial) {
 				throw err;

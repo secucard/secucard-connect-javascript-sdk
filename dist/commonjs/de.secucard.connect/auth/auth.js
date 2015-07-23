@@ -78,17 +78,29 @@ var Auth = (function () {
 	Auth.prototype.removeToken = function removeToken() {
 
 		var cr = this.getCredentials();
+		if (!cr) {
+			var err = new _exception.AuthenticationFailedException('Credentials error');
+			throw err;
+		}
 		cr.token = null;
 	};
 
 	Auth.prototype.storeToken = function storeToken(token) {
 
 		var cr = this.getCredentials();
+		if (!cr) {
+			var err = new _exception.AuthenticationFailedException('Credentials error');
+			throw err;
+		}
 		cr.token = token;
 	};
 
 	Auth.prototype.getStoredToken = function getStoredToken() {
 		var cr = this.getCredentials();
+		if (!cr) {
+			var err = new _exception.AuthenticationFailedException('Credentials error');
+			throw err;
+		}
 		return cr.token;
 	};
 

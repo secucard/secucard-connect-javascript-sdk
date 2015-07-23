@@ -14,9 +14,11 @@ var _es6Error2 = _interopRequireDefault(_es6Error);
 
 var AuthenticationFailedException = (function (_ExtendableError) {
 	function AuthenticationFailedException() {
+		var message = arguments[0] === undefined ? 'Authentication failed' : arguments[0];
+
 		_classCallCheck(this, AuthenticationFailedException);
 
-		_ExtendableError.call(this, 'Authentication failed');
+		_ExtendableError.call(this, message);
 
 		Object.defineProperty(this, 'name', {
 			configurable: true,

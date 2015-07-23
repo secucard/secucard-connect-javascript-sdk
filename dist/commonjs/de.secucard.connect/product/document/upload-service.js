@@ -26,7 +26,9 @@ var UploadService = (function (_ProductService) {
 	};
 
 	UploadService.prototype.upload = function upload(base64str) {
-		return _ProductService.prototype.execute.call(this, null, null, null, base64str);
+		return _ProductService.prototype.execute.call(this, null, null, null, { content: base64str }, {
+			channelConfig: ['rest'],
+			useAuth: false });
 	};
 
 	return UploadService;
