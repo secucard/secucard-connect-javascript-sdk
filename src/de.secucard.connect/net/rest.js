@@ -144,7 +144,7 @@ export class Rest {
 			if(error instanceof AuthenticationFailedException) {
 				
 			} else {
-				error = new SecucardConnectException(err.response.body);
+				error = SecucardConnectException.create(err.response.body);
 			}
 			
 			error.request = request;

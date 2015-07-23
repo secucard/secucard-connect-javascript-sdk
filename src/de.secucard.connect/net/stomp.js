@@ -406,7 +406,7 @@ export class Stomp {
 			if(body.status == 'ok'){
 				this.messages[correlationId].resolve(body.data);
 			} else {
-				let error = new SecucardConnectException(body);
+				let error = SecucardConnectException.create(body);
 				this.messages[correlationId].reject(error);
 			}
 			

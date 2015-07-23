@@ -1,4 +1,5 @@
 import ExtendableError from 'es6-error';
+import {AuthenticationFailedException} from '../auth/exception';
 
 export class SecucardConnectException extends ExtendableError {
 	constructor(data) {
@@ -20,3 +21,16 @@ export class SecucardConnectException extends ExtendableError {
 		
 	}
 }
+
+SecucardConnectException.create = (data) => {
+	
+	let error;
+	
+	if(data.error == 'ProductSecurityException') {
+		error = Object.assign(new AuthenticationFailedException(), data);
+	} else {
+		error = new SecucardConnectException(data);
+	}
+	
+	return error;
+};
