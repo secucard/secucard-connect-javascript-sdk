@@ -14,6 +14,10 @@ var _message = require('./message');
 
 var _channel = require('./channel');
 
+var _authException = require('../auth/exception');
+
+var _exception = require('./exception');
+
 var Rest = (function () {
 	function Rest() {
 		_classCallCheck(this, Rest);
@@ -122,14 +126,13 @@ var Rest = (function () {
 
 		var requestError = function requestError(err) {
 			var error = err;
+			var request = JSON.stringify({ method: method, params: params });
 
-			try {
-				error = new Error('Api request error');
-				error.data = err.response.body;
-			} catch (e) {
-
-				error = err;
+			if (error instanceof _authException.AuthenticationFailedException) {} else {
+				error = new _exception.SecucardConnectException(err.response.body);
 			}
+
+			error.request = request;
 
 			throw error;
 		};

@@ -22,6 +22,8 @@ var _channel = require('./channel');
 
 var _stompImplStomp = require('./stomp-impl/stomp');
 
+var _exception = require('./exception');
+
 var utils = {};
 utils.really_defined = function (var_to_test) {
 	return !(var_to_test == null || var_to_test == undefined);
@@ -176,7 +178,10 @@ var Stomp = (function () {
 
 		var destination = this.buildDestination(method, params);
 		var message = this.createMessage(params);
-		return this._sendMessage(destination, message);
+		return this._sendMessage(destination, message)['catch'](function (err) {
+			err.request = JSON.stringify({ method: method, params: params });
+			throw err;
+		});
 	};
 
 	Stomp.prototype.buildDestination = function buildDestination(method, params) {
@@ -389,8 +394,7 @@ var Stomp = (function () {
 			if (body.status == 'ok') {
 				this.messages[correlationId].resolve(body.data);
 			} else {
-				var error = new Error('Api request error');
-				error.data = body;
+				var error = new _exception.SecucardConnectException(body);
 				this.messages[correlationId].reject(error);
 			}
 

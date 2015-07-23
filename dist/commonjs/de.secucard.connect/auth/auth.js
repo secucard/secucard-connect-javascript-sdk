@@ -14,6 +14,8 @@ var _netMessage = require('../net/message');
 
 var _token2 = require('./token');
 
+var _exception = require('./exception');
+
 var Auth = (function () {
 	function Auth() {
 		_classCallCheck(this, Auth);
@@ -60,9 +62,8 @@ var Auth = (function () {
 
 		var tokenError = function tokenError(err) {
 			_this.removeToken();
+			var error = Object.assign(new _exception.AuthenticationFailedException(), err.response.body);
 
-			var error = new Error('Authorization error');
-			error.data = err.response.body;
 			throw error;
 		};
 

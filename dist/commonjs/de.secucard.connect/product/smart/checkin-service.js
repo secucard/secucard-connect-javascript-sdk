@@ -18,11 +18,11 @@ var CheckinService = (function (_ProductService) {
 	_inherits(CheckinService, _ProductService);
 
 	CheckinService.prototype.getEndpoint = function getEndpoint() {
-		return ['smart', 'checkin'];
+		return ['smart', 'checkins'];
 	};
 
 	CheckinService.prototype.getEventTargets = function getEventTargets() {
-		return ['smart.checkin'];
+		return ['smart.checkins'];
 	};
 
 	return CheckinService;
@@ -30,4 +30,4 @@ var CheckinService = (function (_ProductService) {
 
 exports.CheckinService = CheckinService;
 
-CheckinService.Uid = ['smart', 'checkin'].join('.');
+CheckinService.Uid = ['smart', 'checkins'].join('.');

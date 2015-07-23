@@ -1,6 +1,6 @@
 {
   "name": "secucard-connect",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "main": "dist/commonjs/index.js",
   "repository": {
     "type": "git",
@@ -43,6 +43,7 @@
       "lib": "dist/system"
     },
     "dependencies": {
+      "es6-error": "npm:es6-error@^1.0.0",
       "es6-shim": "npm:es6-shim@^0.32.2",
       "eventemitter3": "npm:eventemitter3@^1.1.1",
       "lodash": "npm:lodash@^3.9.3",
