@@ -34,6 +34,9 @@ describe('Authorization', function () {
 		let context = {
 			getConfig: () => {
 				return config;
+			},
+			isRequestWithToken: (options)=> {
+				return true;
 			}
 		};
 
