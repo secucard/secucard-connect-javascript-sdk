@@ -7,14 +7,14 @@ export class CheckinService extends ProductService {
 	}
 	
 	getEndpoint() {
-		return ['smart','checkin'];
+		return ['smart','checkins'];
 	};
 	
 	getEventTargets() {
-		return ['smart.checkin'];
+		return ['smart.checkins'];
 	}
 	
 	
 }
 
-CheckinService.Uid = (['smart','checkin']).join('.');
+CheckinService.Uid = (['smart','checkins']).join('.');
