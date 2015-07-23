@@ -394,7 +394,7 @@ var Stomp = (function () {
 			if (body.status == 'ok') {
 				this.messages[correlationId].resolve(body.data);
 			} else {
-				var error = new _exception.SecucardConnectException(body);
+				var error = _exception.SecucardConnectException.create(body);
 				this.messages[correlationId].reject(error);
 			}
 

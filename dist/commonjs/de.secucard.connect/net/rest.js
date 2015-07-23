@@ -129,7 +129,7 @@ var Rest = (function () {
 			var request = JSON.stringify({ method: method, params: params });
 
 			if (error instanceof _authException.AuthenticationFailedException) {} else {
-				error = new _exception.SecucardConnectException(err.response.body);
+				error = _exception.SecucardConnectException.create(err.response.body);
 			}
 
 			error.request = request;

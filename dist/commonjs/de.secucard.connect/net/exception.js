@@ -12,6 +12,8 @@ var _es6Error = require('es6-error');
 
 var _es6Error2 = _interopRequireDefault(_es6Error);
 
+var _authException = require('../auth/exception');
+
 var SecucardConnectException = (function (_ExtendableError) {
 	function SecucardConnectException(data) {
 		_classCallCheck(this, SecucardConnectException);
@@ -38,3 +40,16 @@ var SecucardConnectException = (function (_ExtendableError) {
 })(_es6Error2['default']);
 
 exports.SecucardConnectException = SecucardConnectException;
+
+SecucardConnectException.create = function (data) {
+
+	var error = undefined;
+
+	if (data.error == 'ProductSecurityException') {
+		error = Object.assign(new _authException.AuthenticationFailedException(), data);
+	} else {
+		error = new SecucardConnectException(data);
+	}
+
+	return error;
+};
