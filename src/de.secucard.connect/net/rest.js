@@ -2,6 +2,9 @@ import Request from 'superagent';
 import {GET, POST, PUT, HEAD, DELETE} from './message';
 import {Message} from './message';
 import {Channel} from './channel';
+import {AuthenticationFailedException} from '../auth/exception';
+import {SecucardConnectException} from './exception';
+
 export class Rest {
 	
 	constructor() {
@@ -136,19 +139,15 @@ export class Rest {
 			
 			// if got auth error, redispatch it
 			let error = err;
+			let request = JSON.stringify({method: method, params: params});
 			
-			try {
+			if(error instanceof AuthenticationFailedException) {
 				
-				// doesn't throw if rest error
-				// TODO custom error
-				error = new Error('Api request error');
-				error.data = err.response.body;
-				
-			} catch (e) {
-				
-				error = err;
-				
+			} else {
+				error = new SecucardConnectException(err.response.body);
 			}
+			
+			error.request = request;
 			
 			throw error;
 			

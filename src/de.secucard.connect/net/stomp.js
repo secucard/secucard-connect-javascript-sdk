@@ -4,6 +4,7 @@ import EE from 'eventemitter3';
 
 import {Channel} from './channel';
 import {Stomp as StompImpl} from './stomp-impl/stomp';
+import {SecucardConnectException} from './exception';
 
 let utils = {};
 utils.really_defined = (var_to_test) => {
@@ -169,7 +170,10 @@ export class Stomp {
 		
 		let destination = this.buildDestination(method, params);
 		let message = this.createMessage(params);
-		return this._sendMessage(destination, message);
+		return this._sendMessage(destination, message).catch((err) => {
+			err.request = JSON.stringify({method: method, params: params});
+			throw err;
+		});
 		
 	}
 	
@@ -402,8 +406,7 @@ export class Stomp {
 			if(body.status == 'ok'){
 				this.messages[correlationId].resolve(body.data);
 			} else {
-				let error = new Error('Api request error');
-				error.data = body;
+				let error = new SecucardConnectException(body);
 				this.messages[correlationId].reject(error);
 			}
 			

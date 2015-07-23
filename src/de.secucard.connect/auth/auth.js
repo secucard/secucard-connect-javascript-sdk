@@ -1,8 +1,7 @@
-
 import _ from 'lodash';
 import {POST} from '../net/message';
 import {Token} from './token';
-
+import {AuthenticationFailedException} from './exception';
 export class Auth {
 	
 	baseCredentialNames = ['client_id', 'client_secret'];
@@ -57,9 +56,8 @@ export class Auth {
 		let tokenError = (err) => {
 			// refreshing failed, clear the token
 			this.removeToken();
-			// TODO throw custom error
-			let error = new Error('Authorization error');
-			error.data = err.response.body;
+			let error = Object.assign(new AuthenticationFailedException(), err.response.body);
+			//error.data = err.response.body;
 			throw error;
 		};
 		

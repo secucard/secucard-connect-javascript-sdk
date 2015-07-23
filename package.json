@@ -10,6 +10,7 @@
     "lib": "dist/commonjs"
   },
   "dependencies": {
+    "es6-error": "^1.0.0",
     "es6-shim": "^0.32.2",
     "eventemitter3": "^1.1.1",
     "lodash": "^3.9.3",
