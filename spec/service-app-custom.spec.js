@@ -97,6 +97,7 @@ describe('Custom App Service', function() {
 	it('creates custom app service and does some calls' , async function() {
 		
 		let client = Client.create(ClientNodeEnvironment, {
+			restUrl: 'https://connect-dev10.secupay-ag.de/api/v2/',
 			oAuthUrl: 'https://connect-dev10.secupay-ag.de/oauth/',
 			stompHost: 'connect-dev10.secupay-ag.de'
 		});
@@ -127,6 +128,7 @@ describe('Custom App Service', function() {
 	it('creates secuoffice app service and does some calls' , async function() {
 		
 		let client = Client.create(ClientNodeEnvironment, {
+			restUrl: 'https://connect-dev10.secupay-ag.de/api/v2/',
 			stompHost: 'connect-dev10.secupay-ag.de',
 			stompEnabled: false
 		});
@@ -152,7 +154,7 @@ describe('Custom App Service', function() {
 		*/
 		
 		
-		let nav = await app.getNavigation({useAuth: false , channelConfig: ['rest']}).catch((err) => {
+		let nav = await app.getNavigation({ useAuth: false , channelConfig: ['rest']}).catch((err) => {
 			console.log(err);
 		});
 		

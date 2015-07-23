@@ -258,6 +258,7 @@ export class Stomp {
 			
 			this._stompOnError = (body) => {
 				console.log('stomp error', body);
+				// TODO handle auth error
 				this._stompClearListeners();
 				reject(body);
 			};

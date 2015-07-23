@@ -15,7 +15,7 @@ export class UploadService extends ProductService {
 	}
 	
 	upload(base64str) {
-		return super.execute(null, null, null, base64str, {
+		return super.execute(null, null, null, {content: base64str}, {
 			channelConfig: ['rest'], // use only rest
 			useAuth: false // don't need auth token
 		});
