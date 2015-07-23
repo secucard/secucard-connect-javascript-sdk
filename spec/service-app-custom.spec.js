@@ -41,6 +41,34 @@ class CustomAppMixin {
 }
 CustomAppMixin.APP_ID = 'APP_XH99MDTXH2Y8G7HDB5GQGKT9BQUUAE';
 
+
+class SecuofficeMixin {
+	
+	custom = true;
+	
+	init() {
+		console.log('init CustomApp mixin');
+	}
+	
+	getAppId() {
+		return SecuofficeMixin.APP_ID;
+	}
+	
+	authenticate(username, password) {
+		let options = {
+				channelConfig: ['rest'], // use only rest
+				useAuth: false // don't need auth token
+		};
+		return this.executeAppAction(this.getAppId(), 'authenticate', { username : username, password : password }, options);
+	}
+	
+	getNavigation(options) {
+		return this.executeAppAction(this.getAppId(), 'getNavigation', null, options);
+	}
+	
+}
+SecuofficeMixin.APP_ID = 'APP_3KGNCU78A2YBG4J7R5GQG5KDNM8UA6';
+
 let CustomAppFun = function () {
 	this.custom = true;
 };
@@ -95,6 +123,42 @@ describe('Custom App Service', function() {
 		
 	});
 	
+	
+	it('creates secuoffice app service and does some calls' , async function() {
+		
+		let client = Client.create(ClientNodeEnvironment, {
+			stompHost: 'connect-dev10.secupay-ag.de',
+			stompEnabled: false
+		});
+		
+		let app = client.addAppService(SecuofficeMixin);
+		let result = await app.authenticate('developer@secucard.de', 'Test12345!');
+
+		let credentials = {
+			token: {
+				access_token: result.token,
+				expires_in: 1200,
+				token_type: 'bearer',
+				scope: 'https://scope.secucard.com/e/api'
+			}
+		};
+		
+		//client.setCredentials(credentials);
+		
+		/*
+		await client.open().catch((err) => {
+			console.log(err);
+		});
+		*/
+		
+		
+		let nav = await app.getNavigation({useAuth: false , channelConfig: ['rest']}).catch((err) => {
+			console.log(err);
+		});
+		
+		console.log(nav);
+		
+	});
 	
 	afterEach(function () {
 		jasmine.DEFAULT_TIMEOUT_INTERVAL = originalTimeout;

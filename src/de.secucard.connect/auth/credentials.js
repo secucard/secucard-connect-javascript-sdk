@@ -31,6 +31,7 @@ Credentials.create = (credentials) => {
 	let cr = new Credentials();
 	if(credentials.token) {
 		credentials.token = Token.create(credentials.token);
+		credentials.token.setExpireTime();
 	}
 	return Object.assign(cr, credentials);
 	

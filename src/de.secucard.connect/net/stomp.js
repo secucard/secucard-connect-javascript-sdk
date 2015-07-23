@@ -115,7 +115,16 @@ export class Stomp {
 	
 	open() {
 		
-		return this._startSessionRefresh();
+		return this.getToken().then((token) => {
+			
+			if(token && token.refresh_token){
+				return this._startSessionRefresh();
+			} else if(token){
+				return this._disconnect().then(() => {
+					return this._connect(token.access_token);
+				});
+			}
+		});
 		
 	}
 	
@@ -134,7 +143,10 @@ export class Stomp {
 	
 	close () {
 		
-		clearInterval(this.sessionTimer);
+		if(this.sessionTimer){
+			clearInterval(this.sessionTimer);
+		}
+		
 		return this._disconnect();
 		
 	}
@@ -241,7 +253,7 @@ export class Stomp {
 			this._stompOnConnected = () => {
 				console.log('stomp connected');
 				this._stompClearListeners();
-				resolve();
+				resolve(true);
 			};
 			
 			this._stompOnError = (body) => {

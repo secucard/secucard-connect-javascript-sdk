@@ -1,9 +1,10 @@
 import ExtendableError from 'es6-error';
 
 export class AuthenticationFailedException extends ExtendableError {
-	constructor() {
+	
+	constructor(message = 'Authentication failed') {
 		
-		super('Authentication failed');
+		super(message);
 		
 		Object.defineProperty(this, 'name', {
 		  configurable : true,

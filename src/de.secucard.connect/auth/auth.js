@@ -78,6 +78,10 @@ export class Auth {
 	removeToken() {
 		
 		let cr = this.getCredentials();
+		if(!cr) {
+			let err = new AuthenticationFailedException('Credentials error');
+			throw err;
+		}
 		cr.token = null;
 		
 	}
@@ -85,12 +89,20 @@ export class Auth {
 	storeToken(token) {
 		
 		let cr = this.getCredentials();
+		if(!cr) {
+			let err = new AuthenticationFailedException('Credentials error');
+			throw err;
+		}
 		cr.token = token;
 		
 	}
 	
 	getStoredToken() {
 		let cr = this.getCredentials();
+		if(!cr) {
+			let err = new AuthenticationFailedException('Credentials error');
+			throw err;
+		}
 		return cr.token;
 	}
 	
