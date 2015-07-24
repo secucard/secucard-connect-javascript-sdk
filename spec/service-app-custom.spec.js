@@ -47,7 +47,7 @@ class SecuofficeMixin {
 	custom = true;
 	
 	init() {
-		console.log('init CustomApp mixin');
+		console.log('init SecuofficeMixin mixin');
 	}
 	
 	getAppId() {
@@ -129,8 +129,8 @@ describe('Custom App Service', function() {
 		
 		let client = Client.create(ClientNodeEnvironment, {
 			restUrl: 'https://connect-dev10.secupay-ag.de/api/v2/',
-			stompHost: 'connect-dev10.secupay-ag.de',
-			stompEnabled: false
+			stompHost: 'connect-dev10.secupay-ag.de'
+			//stompEnabled: false
 		});
 		
 		let app = client.addAppService(SecuofficeMixin);
@@ -145,21 +145,20 @@ describe('Custom App Service', function() {
 			}
 		};
 		
-		//client.setCredentials(credentials);
+		client.setCredentials(credentials);
 		
-		/*
+		
 		await client.open().catch((err) => {
 			console.log(err);
 		});
-		*/
 		
-		
+		/*
 		let nav = await app.getNavigation({ useAuth: false , channelConfig: ['rest']}).catch((err) => {
 			console.log(err);
 		});
 		
 		console.log(nav);
-		
+		*/
 	});
 	
 	afterEach(function () {

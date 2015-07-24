@@ -5,6 +5,7 @@ import EE from 'eventemitter3';
 import {Channel} from './channel';
 import {Stomp as StompImpl} from './stomp-impl/stomp';
 import {SecucardConnectException} from './exception';
+import {AuthenticationFailedException} from '../auth/exception';
 
 let utils = {};
 utils.really_defined = (var_to_test) => {
@@ -256,11 +257,14 @@ export class Stomp {
 				resolve(true);
 			};
 			
-			this._stompOnError = (body) => {
-				console.log('stomp error', body);
-				// TODO handle auth error
+			this._stompOnError = (message) => {
+				console.log('stomp error', message);
 				this._stompClearListeners();
-				reject(body);
+				if(message.headers && message.headers.message == 'Bad CONNECT') {
+					reject(new AuthenticationFailedException(message.body[0]));
+				} else {
+					reject(message);
+				}
 			};
 			
 			this._stompClearListeners = () => {
