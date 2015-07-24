@@ -1,8 +1,8 @@
-"use strict";
+'use strict';
 
 exports.__esModule = true;
 
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 
 var Channel = (function () {
 	function Channel() {
@@ -18,10 +18,13 @@ var Channel = (function () {
 
 exports.Channel = Channel;
 
+Channel.REST = 'rest';
+Channel.STOMP = 'stomp';
+
 Channel.METHOD = {
-	GET: "GET",
-	CREATE: "CREATE",
-	UPDATE: "UPDATE",
-	DELETE: "DELETE",
-	EXECUTE: "EXECUTE"
+	GET: 'GET',
+	CREATE: 'CREATE',
+	UPDATE: 'UPDATE',
+	DELETE: 'DELETE',
+	EXECUTE: 'EXECUTE'
 };

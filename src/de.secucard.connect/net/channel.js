@@ -16,6 +16,9 @@ export class Channel {
 	
 }
 
+Channel.REST = 'rest';
+Channel.STOMP = 'stomp';
+
 Channel.METHOD = {
 	GET: "GET",
 	CREATE: "CREATE", 

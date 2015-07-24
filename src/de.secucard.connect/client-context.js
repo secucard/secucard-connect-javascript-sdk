@@ -3,6 +3,7 @@ import {Rest} from './net/rest';
 import {Auth} from './auth/auth';
 import {Credentials} from './auth/credentials';
 import {AppService} from './product/app/app-service';
+import {Channel} from './net/channel';
 
 export class ClientContext {
 	
@@ -150,7 +151,7 @@ export class ClientContext {
 		
 		return {
 			// stomp is preferred
-			channelConfig: ['stomp', 'rest'],
+			channelConfig: [Channel.STOMP, Channel.REST],
 			useAuth: true
 		}
 		

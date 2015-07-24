@@ -13,6 +13,10 @@ var _deSecucardConnectClientNodeEnvironment = require('./de.secucard.connect/cli
 var _deSecucardConnectClient = require('./de.secucard.connect/client');
 
 exports.Services = _deSecucardConnectClientNodeEnvironment.ServiceMap;
+
+var _deSecucardConnectNetChannel = require('./de.secucard.connect/net/channel');
+
+exports.Channel = _deSecucardConnectNetChannel.Channel;
 var SecucardConnect = {
 	description: 'SecucardConnect for nodejs'
 };

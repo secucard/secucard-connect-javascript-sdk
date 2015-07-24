@@ -15,7 +15,7 @@ import {Channel} from '../src/de.secucard.connect/net/channel';
 import {Smart} from '../src/de.secucard.connect/product/smart/smart';
 import devTransaction from './support/dev-transaction.json';
 import {ClientNodeEnvironment} from '../src/de.secucard.connect/client-node-environment';
-import {AppService} from '../src/de.secucard.connect/product/app/app-service';
+import {Channel} from '../src/index.js';
 
 install();
 
@@ -56,7 +56,7 @@ class SecuofficeMixin {
 	
 	authenticate(username, password) {
 		let options = {
-				channelConfig: ['rest'], // use only rest
+				channelConfig: [Channel.REST], // use only rest
 				useAuth: false // don't need auth token
 		};
 		return this.executeAppAction(this.getAppId(), 'authenticate', { username : username, password : password }, options);

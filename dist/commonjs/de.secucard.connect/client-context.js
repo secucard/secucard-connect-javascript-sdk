@@ -18,6 +18,8 @@ var _authCredentials = require('./auth/credentials');
 
 var _productAppAppService = require('./product/app/app-service');
 
+var _netChannel = require('./net/channel');
+
 var ClientContext = (function () {
 	function ClientContext(config, environment) {
 		_classCallCheck(this, ClientContext);
@@ -155,7 +157,7 @@ var ClientContext = (function () {
 	ClientContext.prototype.getServiceDefaultOptions = function getServiceDefaultOptions() {
 
 		return {
-			channelConfig: ['stomp', 'rest'],
+			channelConfig: [_netChannel.Channel.STOMP, _netChannel.Channel.REST],
 			useAuth: true
 		};
 	};
