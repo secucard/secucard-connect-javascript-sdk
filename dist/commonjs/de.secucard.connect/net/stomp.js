@@ -24,6 +24,8 @@ var _stompImplStomp = require('./stomp-impl/stomp');
 
 var _exception = require('./exception');
 
+var _authException = require('../auth/exception');
+
 var utils = {};
 utils.really_defined = function (var_to_test) {
 	return !(var_to_test == null || var_to_test == undefined);
@@ -264,11 +266,14 @@ var Stomp = (function () {
 				resolve(true);
 			};
 
-			_this4._stompOnError = function (body) {
-				console.log('stomp error', body);
-
+			_this4._stompOnError = function (message) {
+				console.log('stomp error', message);
 				_this4._stompClearListeners();
-				reject(body);
+				if (message.headers && message.headers.message == 'Bad CONNECT') {
+					reject(new _authException.AuthenticationFailedException(message.body[0]));
+				} else {
+					reject(message);
+				}
 			};
 
 			_this4._stompClearListeners = function () {
