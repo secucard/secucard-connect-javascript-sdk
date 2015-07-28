@@ -43,7 +43,7 @@ gulp.task('build-commonjs', function () {
 });
 
 gulp.task('build-browserify', function () {
-	return browserify(paths.output + '/commonjs/browser.js')
+	return browserify(paths.output + '/commonjs/browser.js', {standalone: paths.browserFileName})
 		.bundle()
 		.pipe(source(paths.browserFileName + '.js')) // gives streaming vinyl file object
 		.pipe(buffer()) // <----- convert from streaming to buffered vinyl file object
@@ -52,7 +52,7 @@ gulp.task('build-browserify', function () {
 });
 
 gulp.task('build-browserify-min', function () {
-	return browserify(paths.output + '/commonjs/browser.js')
+	return browserify(paths.output + '/commonjs/browser.js', {standalone: paths.browserFileName})
 		.bundle()
 		.pipe(source(paths.browserFileName + '.min.js')) // gives streaming vinyl file object
 		.pipe(buffer()) // <----- convert from streaming to buffered vinyl file object

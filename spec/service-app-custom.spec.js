@@ -11,11 +11,10 @@ import {ClientConfig} from '../src/de.secucard.connect/client-config';
 import devCredentialRefreshToken from './support/dev-credentials-refresh-token.json';
 import devCredentials from './support/dev-credentials.json';
 
-import {Channel} from '../src/de.secucard.connect/net/channel';
 import {Smart} from '../src/de.secucard.connect/product/smart/smart';
 import devTransaction from './support/dev-transaction.json';
 import {ClientNodeEnvironment} from '../src/de.secucard.connect/client-node-environment';
-import {Channel} from '../src/index.js';
+import {Channel, Services} from '../src/index.js';
 
 install();
 
@@ -129,13 +128,14 @@ describe('Custom App Service', function() {
 		
 		let client = Client.create(ClientNodeEnvironment, {
 			restUrl: 'https://connect-dev10.secupay-ag.de/api/v2/',
-			stompHost: 'connect-dev10.secupay-ag.de'
-			//stompEnabled: false
+			stompHost: 'connect-dev10.secupay-ag.de',
+			stompEnabled: false
 		});
 		
 		let app = client.addAppService(SecuofficeMixin);
 		let result = await app.authenticate('developer@secucard.de', 'Test12345!');
-
+		
+		
 		let credentials = {
 			token: {
 				access_token: result.token,
@@ -147,10 +147,16 @@ describe('Custom App Service', function() {
 		
 		client.setCredentials(credentials);
 		
-		
 		await client.open().catch((err) => {
 			console.log(err);
 		});
+		
+		
+		let accounts = client.getService(Services.General.Accounts);
+		let res = await accounts.retrieve("me", {channelConfig: [Channel.REST]});
+		
+		console.log(res);
+		
 		
 		/*
 		let nav = await app.getNavigation({ useAuth: false , channelConfig: ['rest']}).catch((err) => {
