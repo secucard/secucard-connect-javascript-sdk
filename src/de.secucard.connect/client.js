@@ -1,6 +1,7 @@
 import {Message} from './net/message';
 import {ClientConfig} from './client-config';
 import {ClientContext} from './client-context';
+import {Version} from './client-version';
 
 export class Client {
 	
@@ -31,6 +32,10 @@ export class Client {
 			return this.connected;
 		});
 		
+	}
+	
+	getVersion() {
+		return Version.name;
 	}
 	
 }

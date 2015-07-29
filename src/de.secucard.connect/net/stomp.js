@@ -118,7 +118,7 @@ export class Stomp {
 		
 		return this.getToken().then((token) => {
 			
-			if(token && token.refresh_token){
+			if(token){
 				return this._startSessionRefresh();
 			} else if(token){
 				return this._disconnect().then(() => {

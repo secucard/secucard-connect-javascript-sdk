@@ -5,6 +5,7 @@ import {Promise as ES6Promise} from 'es6-promise';
 
 import {SecucardConnect, Services} from '../src/index';
 import devCredentials from './support/dev-credentials.json';
+import devCredentialRefreshToken from './support/dev-credentials-refresh-token.json';
 import {AuthenticationFailedException} from '../src/de.secucard.connect/auth/exception';
 import {SecucardConnectException} from '../src/de.secucard.connect/net/exception';
 
@@ -129,9 +130,28 @@ describe('Handling different exceptions.', function () {
 		
 	});
 	
+	it('Getting ProductInternalException from STOMP', async function () {
+		
+		let client = SecucardConnect.create({
+			oAuthUrl: 'https://connect-dev10.secupay-ag.de/oauth/',
+			restUrl: 'https://connect-dev10.secupay-ag.de/api/v2/',
+			stompHost: 'connect-dev10.secupay-ag.de'
+		});
+		
+		client.setCredentials(devCredentialRefreshToken);
+		
+		await client.open();
+		
+		let transactions = client.getService(Services.Smart.Transactions);
+		
+		await transactions.start("", "demo");
+		
+	});
+	
 	afterEach(function () {
 		jasmine.DEFAULT_TIMEOUT_INTERVAL = originalTimeout;
 	});
-
+	
+	
 
 });
