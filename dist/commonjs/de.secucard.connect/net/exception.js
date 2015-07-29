@@ -8,9 +8,9 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
 function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; }
 
-var _es6Error = require('es6-error');
+var _utilExtendableError = require('../util/extendable-error');
 
-var _es6Error2 = _interopRequireDefault(_es6Error);
+var _utilExtendableError2 = _interopRequireDefault(_utilExtendableError);
 
 var _authException = require('../auth/exception');
 
@@ -37,7 +37,7 @@ var SecucardConnectException = (function (_ExtendableError) {
 	_inherits(SecucardConnectException, _ExtendableError);
 
 	return SecucardConnectException;
-})(_es6Error2['default']);
+})(_utilExtendableError2['default']);
 
 exports.SecucardConnectException = SecucardConnectException;
 

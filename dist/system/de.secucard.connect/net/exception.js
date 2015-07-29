@@ -1,4 +1,4 @@
-System.register(['es6-error', '../auth/exception'], function (_export) {
+System.register(['../util/extendable-error', '../auth/exception'], function (_export) {
 	'use strict';
 
 	var ExtendableError, AuthenticationFailedException, SecucardConnectException;
@@ -8,8 +8,8 @@ System.register(['es6-error', '../auth/exception'], function (_export) {
 	function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; }
 
 	return {
-		setters: [function (_es6Error) {
-			ExtendableError = _es6Error['default'];
+		setters: [function (_utilExtendableError) {
+			ExtendableError = _utilExtendableError['default'];
 		}, function (_authException) {
 			AuthenticationFailedException = _authException.AuthenticationFailedException;
 		}],
