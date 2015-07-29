@@ -1,5 +1,4 @@
-import ExtendableError from 'es6-error';
-
+import ExtendableError from '../util/extendable-error';
 export class AuthenticationFailedException extends ExtendableError {
 	
 	constructor(message = 'Authentication failed') {

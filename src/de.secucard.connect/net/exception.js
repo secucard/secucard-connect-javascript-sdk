@@ -1,4 +1,4 @@
-import ExtendableError from 'es6-error';
+import ExtendableError from '../util/extendable-error';
 import {AuthenticationFailedException} from '../auth/exception';
 
 export class SecucardConnectException extends ExtendableError {
