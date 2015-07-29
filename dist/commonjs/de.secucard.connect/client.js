@@ -10,6 +10,8 @@ var _clientConfig = require('./client-config');
 
 var _clientContext = require('./client-context');
 
+var _clientVersion = require('./client-version');
+
 var Client = (function () {
 	function Client(config, environment) {
 		_classCallCheck(this, Client);
@@ -38,6 +40,10 @@ var Client = (function () {
 			_this.connected = true;
 			return _this.connected;
 		});
+	};
+
+	Client.prototype.getVersion = function getVersion() {
+		return _clientVersion.Version.name;
 	};
 
 	return Client;

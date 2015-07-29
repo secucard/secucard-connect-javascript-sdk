@@ -133,7 +133,7 @@ var Stomp = (function () {
 
 		return this.getToken().then(function (token) {
 
-			if (token && token.refresh_token) {
+			if (token) {
 				return _this._startSessionRefresh();
 			} else if (token) {
 				return _this._disconnect().then(function () {
