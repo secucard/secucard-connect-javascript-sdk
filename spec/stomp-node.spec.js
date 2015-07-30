@@ -9,6 +9,7 @@ import devCredentials from './support/dev-credentials.json';
 import {ClientNodeEnvironment} from '../src/de.secucard.connect/client-node-environment';
 import {Stomp} from '../src/de.secucard.connect/net/stomp';
 import {SocketAtNode} from '../src/de.secucard.connect/net/socket/socket-node';
+import {Services} from '../src/index.js';
 
 install();
 
@@ -96,6 +97,50 @@ describe('Stomp', function () {
 		});
 		
 	});
+	
+	it('open STOMP connection, disconnect and wait for session refresh', async function (done) {
+		
+		this.client.config.stompHeartbeatSec = 4;
+		let stomp = this.client.context.getStompChannel();
+		
+		await this.client.open();
+		await stomp._disconnect();
+		
+		await new Promise((resolve, reject) => {
+
+			stomp.on('sessionRefresh', ()=> {
+				resolve();
+			});
+
+		});
+		
+		
+	});
+	
+	it('open STOMP connection, disconnect and send the request, check session refresh', async function (done) {
+		
+		this.client.config.stompHeartbeatSec = 10;
+		let stomp = this.client.context.getStompChannel();
+		
+		let transactions = this.client.getService(Services.Smart.Transactions);
+		
+		await this.client.open();
+		await stomp._disconnect();
+		
+		let sessionRefreshedCounter = 0;
+		
+		stomp.on('sessionRefresh', ()=> {
+			sessionRefreshedCounter++;
+		});
+		
+		await transactions.retrieveList().then((res) => {
+			
+		});
+		
+		expect(sessionRefreshedCounter).toBe(1);
+		
+	});
+	
 	
 	afterEach(function() {
 	  	jasmine.DEFAULT_TIMEOUT_INTERVAL = originalTimeout;

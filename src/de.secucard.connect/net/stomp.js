@@ -116,16 +116,7 @@ export class Stomp {
 	
 	open() {
 		
-		return this.getToken().then((token) => {
-			
-			if(token){
-				return this._startSessionRefresh();
-			} else if(token){
-				return this._disconnect().then(() => {
-					return this._connect(token.access_token);
-				});
-			}
-		});
+		return this._startSessionRefresh();
 		
 	}
 	
@@ -167,7 +158,7 @@ export class Stomp {
 			
 			this._stompOnDisconnected = () => {
 				console.log('stomp disconnected');
-				this.connection.removeListener('connected', this._stompOnDisconnected);
+				this.connection.removeListener('disconnected', this._stompOnDisconnected);
 				delete this._stompOnDisconnected;
 				resolve();
 			};
@@ -339,7 +330,7 @@ export class Stomp {
 				
 			};
 			
-			if(!this.connection.isConnected() || (token && token.access_token != this.connectAccessToken)) {
+			if(!this.connection.isConnected() || (accessToken != this.connectAccessToken)) {
 
 				if (this.connection.isConnected()) {
 					console.log("Reconnect due token change.");
@@ -347,7 +338,8 @@ export class Stomp {
 				
 				return this._disconnect().then(() => {
 					
-					return this._connect(accessToken).then(sendWithStomp);
+					// when reconnecting start with session refresh and then send the request
+					return this._runSessionRefresh().then(sendWithStomp);
 					
 				});
 				
@@ -384,26 +376,40 @@ export class Stomp {
 
 	_runSessionRefresh(initial) {
 		
-		return this.request(Channel.METHOD.EXECUTE, {
-			endpoint: ['auth', 'sessions'],
-			objectId: 'me',
-			action: 'refresh'
-		}).then((res) => {
+		let createRefreshRequest = () => {
 			
-			this.emit('sessionRefresh');
-			console.log('Session refresh sent');
-			this.skipSessionRefresh = false;
-			return res;
+			return this.request(Channel.METHOD.EXECUTE, {
+				endpoint: ['auth', 'sessions'],
+				objectId: 'me',
+				action: 'refresh'
+			}).then((res) => {
 
-		}).catch((err) => {
+				this.emit('sessionRefresh');
+				console.log('Session refresh sent');
+				this.skipSessionRefresh = false;
+				return res;
+
+			}).catch((err) => {
+
+				this.emit('sessionRefreshError');
+				console.log('Session refresh failed');
+				if (initial) {
+					throw err;
+				}
+
+			});
 			
-			this.emit('sessionRefreshError');
-			console.log('Session refresh failed');
-			if (initial) {
-				throw err;
-			}
-
-		});
+		};
+		
+		if(!this.connection.isConnected()) {
+			
+			return this.connect().then(createRefreshRequest);
+			
+		} else {
+			
+			return createRefreshRequest();
+			
+		}
 
 	}
 	
