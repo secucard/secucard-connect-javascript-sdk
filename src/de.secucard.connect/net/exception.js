@@ -1,23 +1,66 @@
-import ExtendableError from '../util/extendable-error';
 import {AuthenticationFailedException} from '../auth/exception';
 
-export class SecucardConnectException extends ExtendableError {
+export class SecucardConnectException {
 	constructor(data) {
 		
-		super(data.error_details);
-		
+		if (Error.captureStackTrace) {
+			Error.captureStackTrace(this, this.constructor);
+		} else {
+			Object.defineProperty(this, 'stack', {
+					configurable: true,
+					enumerable: false,
+					value: Error(message).stack
+				});
+		}
+
+		Object.defineProperty(this, 'message', {
+			configurable: true,
+			enumerable: false,
+			value: data.error_details
+		});
+
 		Object.defineProperty(this, 'name', {
-		  configurable : true,
-		  enumerable : false,
-		  value : this.constructor.name
+			configurable: true,
+			enumerable: false,
+			value: this.constructor.name
 		});
 		
-		this.status = data.status;
-		this.error = data.error;
-		this.error_details = data.error_details;
-		this.error_user = data.error_user;
-		this.code = data.code;
-		this.supportId = data.supportId;
+		Object.defineProperty(this, 'status', {
+			configurable: true,
+			enumerable: false,
+			value: data.status
+		});
+		
+		Object.defineProperty(this, 'error', {
+			configurable: true,
+			enumerable: false,
+			value: data.error
+		});
+		
+		Object.defineProperty(this, 'error_details', {
+			configurable: true,
+			enumerable: false,
+			value: data.error_details
+		});
+		
+		
+		Object.defineProperty(this, 'error_user', {
+			configurable: true,
+			enumerable: false,
+			value: data.error_user
+		});
+		
+		Object.defineProperty(this, 'code', {
+			configurable: true,
+			enumerable: false,
+			value: data.code
+		});
+		
+		Object.defineProperty(this, 'supportId', {
+			configurable: true,
+			enumerable: false,
+			value: data.supportId
+		});
 		
 	}
 }
