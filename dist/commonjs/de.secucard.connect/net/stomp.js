@@ -159,23 +159,28 @@ var Stomp = (function () {
 
 		return new Promise(function (resolve, reject) {
 
-			if (!_this2.connection.isConnected()) {
+			var ignoreSession = true;
+			if (!_this2.connection.isConnected(ignoreSession)) {
 				resolve();
 				return;
 			}
 
 			if (_this2.connection && _this2.connection.disconnect) {
+
 				_this2.connection.disconnect();
-			}
 
-			_this2._stompOnDisconnected = function () {
-				console.log('stomp disconnected');
-				_this2.connection.removeListener('disconnected', _this2._stompOnDisconnected);
-				delete _this2._stompOnDisconnected;
+				_this2._stompOnDisconnected = function () {
+					console.log('stomp disconnected');
+					_this2.connection.removeListener('disconnected', _this2._stompOnDisconnected);
+					delete _this2._stompOnDisconnected;
+					resolve();
+				};
+
+				_this2.connection.on('disconnected', _this2._stompOnDisconnected);
+			} else {
+
 				resolve();
-			};
-
-			_this2.connection.on('disconnected', _this2._stompOnDisconnected);
+			}
 		});
 	};
 
@@ -238,6 +243,13 @@ var Stomp = (function () {
 	Stomp.prototype._connect = function _connect(accessToken) {
 		var _this3 = this;
 
+		if (!accessToken) {
+
+			return this.close().then(function () {
+				return Promise.reject(new _authException.AuthenticationFailedException('Access token is not valid'));
+			});
+		}
+
 		this.connectAccessToken = accessToken;
 
 		var stompCredentials = {
@@ -259,11 +271,13 @@ var Stomp = (function () {
 			_this3._stompOnError = function (message) {
 				console.log('stomp error', message);
 				_this3._stompClearListeners();
-				if (message.headers && message.headers.message == 'Bad CONNECT') {
-					reject(new _authException.AuthenticationFailedException(message.body[0]));
-				} else {
-					reject(message);
-				}
+				_this3.close().then(function () {
+					if (message.headers && message.headers.message == 'Bad CONNECT') {
+						reject(new _authException.AuthenticationFailedException(message.body[0]));
+					} else {
+						reject(message);
+					}
+				});
 			};
 
 			_this3._stompClearListeners = function () {

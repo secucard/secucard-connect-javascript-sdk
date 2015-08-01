@@ -34,32 +34,6 @@ describe("testing EventEmitter3", function() {
 		
 	});
 	
-	it("tests", async function(){
-		
-		
-		//let obj = {};
-		//obj.length = 10;
-		//console.log(JSON.stringify(obj));
-		
-		let client = Client.create(ClientNodeEnvironment, {
-			oAuthUrl: 'https://connect-dev10.secupay-ag.de/oauth/',
-			stompHost: 'connect-dev10.secupay-ag.de'
-		});
-		
-		let credentials = {
-			token: {
-				access_token: 'lcclbvfrpgmvrkm0tk2e70ncu1',
-				expires_in: 1200,
-				token_type: 'bearer',
-				scope: 'https://scope.secucard.com/e/api'
-			}
-		};
-		
-		client.setCredentials(credentials);
-		let res = await client.open();
-		
-	});
-	
 	afterEach(function() {
 	  	jasmine.DEFAULT_TIMEOUT_INTERVAL = originalTimeout;
 	});

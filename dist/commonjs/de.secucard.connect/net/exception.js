@@ -2,42 +2,71 @@
 
 exports.__esModule = true;
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
-
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; }
-
-var _utilExtendableError = require('../util/extendable-error');
-
-var _utilExtendableError2 = _interopRequireDefault(_utilExtendableError);
 
 var _authException = require('../auth/exception');
 
-var SecucardConnectException = (function (_ExtendableError) {
-	function SecucardConnectException(data) {
-		_classCallCheck(this, SecucardConnectException);
+var SecucardConnectException = function SecucardConnectException(data) {
+	_classCallCheck(this, SecucardConnectException);
 
-		_ExtendableError.call(this, data.error_details);
-
-		Object.defineProperty(this, 'name', {
+	if (Error.captureStackTrace) {
+		Error.captureStackTrace(this, this.constructor);
+	} else {
+		Object.defineProperty(this, 'stack', {
 			configurable: true,
 			enumerable: false,
-			value: this.constructor.name
+			value: Error(message).stack
 		});
-
-		this.status = data.status;
-		this.error = data.error;
-		this.error_details = data.error_details;
-		this.error_user = data.error_user;
-		this.code = data.code;
-		this.supportId = data.supportId;
 	}
 
-	_inherits(SecucardConnectException, _ExtendableError);
+	Object.defineProperty(this, 'message', {
+		configurable: true,
+		enumerable: false,
+		value: data.error_details
+	});
 
-	return SecucardConnectException;
-})(_utilExtendableError2['default']);
+	Object.defineProperty(this, 'name', {
+		configurable: true,
+		enumerable: false,
+		value: this.constructor.name
+	});
+
+	Object.defineProperty(this, 'status', {
+		configurable: true,
+		enumerable: false,
+		value: data.status
+	});
+
+	Object.defineProperty(this, 'error', {
+		configurable: true,
+		enumerable: false,
+		value: data.error
+	});
+
+	Object.defineProperty(this, 'error_details', {
+		configurable: true,
+		enumerable: false,
+		value: data.error_details
+	});
+
+	Object.defineProperty(this, 'error_user', {
+		configurable: true,
+		enumerable: false,
+		value: data.error_user
+	});
+
+	Object.defineProperty(this, 'code', {
+		configurable: true,
+		enumerable: false,
+		value: data.code
+	});
+
+	Object.defineProperty(this, 'supportId', {
+		configurable: true,
+		enumerable: false,
+		value: data.supportId
+	});
+};
 
 exports.SecucardConnectException = SecucardConnectException;
 

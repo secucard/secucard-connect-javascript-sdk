@@ -28,7 +28,7 @@ var client = secucardConnect.SecucardConnect.create({
 	restUrl: 'https://connect-dev10.secupay-ag.de/api/v2/',
 	oAuthUrl: 'https://connect-dev10.secupay-ag.de/oauth/',
 	stompHost: 'connect-dev10.secupay-ag.de',
-	stompEnabled: false
+	//stompEnabled: false
 });
 
 var app = client.addAppService(SecuofficeMixin);
@@ -40,7 +40,8 @@ app.authenticate('developer@secucard.de', '').then(function (result) {
 	
 	var credentials = {
 		token: {
-			access_token: result.token,
+			//access_token: result.token,
+			access_token: 'wrong',
 			expires_in: 1200,
 			token_type: 'bearer',
 			scope: 'https://scope.secucard.com/e/api'
@@ -48,12 +49,17 @@ app.authenticate('developer@secucard.de', '').then(function (result) {
 	};
 
 	client.setCredentials(credentials);
-
+	return client.open();
+	
 	var accounts = client.getService(secucardConnect.Services.General.Accounts);
 	return accounts.retrieve("me");
 
 }).then(function (res) {
 
 	console.log(res);
+
+}).catch(function (err) {
+
+	console.log('Error: ', err);
 
 });

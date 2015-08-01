@@ -33,8 +33,8 @@ var Stomp = (function () {
 		this.SocketImpl = SocketImpl;
 	}
 
-	Stomp.prototype.isConnected = function isConnected() {
-		return this.connected;
+	Stomp.prototype.isConnected = function isConnected(ignoreSession) {
+		return this.connected && (ignoreSession || this.session);
 	};
 
 	Stomp.prototype.configure = function configure(config) {
@@ -79,7 +79,6 @@ var Stomp = (function () {
 			case 'CONNECTED':
 				console.log('Connected to STOMP');
 				this.session = this_frame.headers['session'];
-				this.connected = true;
 				this.emit('connected');
 				break;
 			case 'RECEIPT':
@@ -224,7 +223,10 @@ var Stomp = (function () {
 		var _this2 = this;
 
 		var _connected = function _connected() {
+
 			console.log('Connected to socket');
+			_this2.connected = true;
+
 			var headers = {};
 
 			if (utils.really_defined(stomp.login) && utils.really_defined(stomp.passcode)) {
@@ -279,6 +281,7 @@ var Stomp = (function () {
 			if (error) {
 				console.log('Disconnected with error: ' + error);
 			}
+			stomp.session = null;
 			stomp.connected = false;
 			stomp.emit('disconnected', error);
 		});

@@ -89,4 +89,21 @@ describe('Client', function() {
 		
 	});
 	
+	it('does not connect with wrong access_token and does not ping for session refresh', async function() {
+		
+		let client = Client.create(ClientNodeEnvironment, {
+			oAuthUrl: 'https://connect-dev10.secupay-ag.de/oauth/',
+			stompHost: 'connect-dev10.secupay-ag.de'
+		});
+			
+		client.setCredentials(devCredentialsRefreshToken);
+		
+		await client.open().then((res) => {
+			console.log(res);
+		}).catch((err) => {
+			console.log(err);
+		});
+		
+	});
+	
 });

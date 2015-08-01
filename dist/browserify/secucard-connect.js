@@ -26,7 +26,7 @@ SecucardConnect.create = function (config) {
 
 	return _deSecucardConnectClient.Client.create(_deSecucardConnectClientBrowserEnvironment.ClientBrowserEnvironment, config);
 };
-},{"./de.secucard.connect/client":10,"./de.secucard.connect/client-browser-environment":6,"./de.secucard.connect/net/channel":11,"es6-shim":64}],2:[function(require,module,exports){
+},{"./de.secucard.connect/client":10,"./de.secucard.connect/client-browser-environment":6,"./de.secucard.connect/net/channel":11,"es6-shim":63}],2:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -173,7 +173,7 @@ var Auth = (function () {
 })();
 
 exports.Auth = Auth;
-},{"../net/message":13,"./exception":4,"./token":5,"lodash":66}],3:[function(require,module,exports){
+},{"../net/message":13,"./exception":4,"./token":5,"lodash":65}],3:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -216,38 +216,38 @@ Credentials.create = function (credentials) {
 
 exports.__esModule = true;
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
-
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 
-function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; }
+var AuthenticationFailedException = function AuthenticationFailedException() {
+	var message = arguments[0] === undefined ? 'Authentication failed' : arguments[0];
 
-var _utilExtendableError = require('../util/extendable-error');
+	_classCallCheck(this, AuthenticationFailedException);
 
-var _utilExtendableError2 = _interopRequireDefault(_utilExtendableError);
-
-var AuthenticationFailedException = (function (_ExtendableError) {
-	function AuthenticationFailedException() {
-		var message = arguments[0] === undefined ? 'Authentication failed' : arguments[0];
-
-		_classCallCheck(this, AuthenticationFailedException);
-
-		_ExtendableError.call(this, message);
-
-		Object.defineProperty(this, 'name', {
+	if (Error.captureStackTrace) {
+		Error.captureStackTrace(this, this.constructor);
+	} else {
+		Object.defineProperty(this, 'stack', {
 			configurable: true,
 			enumerable: false,
-			value: this.constructor.name
+			value: Error(message).stack
 		});
 	}
 
-	_inherits(AuthenticationFailedException, _ExtendableError);
+	Object.defineProperty(this, 'message', {
+		configurable: true,
+		enumerable: false,
+		value: message
+	});
 
-	return AuthenticationFailedException;
-})(_utilExtendableError2['default']);
+	Object.defineProperty(this, 'name', {
+		configurable: true,
+		enumerable: false,
+		value: this.constructor.name
+	});
+};
 
 exports.AuthenticationFailedException = AuthenticationFailedException;
-},{"../util/extendable-error":61}],5:[function(require,module,exports){
+},{}],5:[function(require,module,exports){
 "use strict";
 
 exports.__esModule = true;
@@ -699,7 +699,7 @@ var ClientContext = (function () {
 })();
 
 exports.ClientContext = ClientContext;
-},{"./auth/auth":2,"./auth/credentials":3,"./net/channel":11,"./net/rest":14,"./product/app/app-service":19,"lodash":66}],9:[function(require,module,exports){
+},{"./auth/auth":2,"./auth/credentials":3,"./net/channel":11,"./net/rest":14,"./product/app/app-service":19,"lodash":65}],9:[function(require,module,exports){
 "use strict";
 
 exports.__esModule = true;
@@ -807,42 +807,71 @@ Channel.METHOD = {
 
 exports.__esModule = true;
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
-
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; }
-
-var _utilExtendableError = require('../util/extendable-error');
-
-var _utilExtendableError2 = _interopRequireDefault(_utilExtendableError);
 
 var _authException = require('../auth/exception');
 
-var SecucardConnectException = (function (_ExtendableError) {
-	function SecucardConnectException(data) {
-		_classCallCheck(this, SecucardConnectException);
+var SecucardConnectException = function SecucardConnectException(data) {
+	_classCallCheck(this, SecucardConnectException);
 
-		_ExtendableError.call(this, data.error_details);
-
-		Object.defineProperty(this, 'name', {
+	if (Error.captureStackTrace) {
+		Error.captureStackTrace(this, this.constructor);
+	} else {
+		Object.defineProperty(this, 'stack', {
 			configurable: true,
 			enumerable: false,
-			value: this.constructor.name
+			value: Error(message).stack
 		});
-
-		this.status = data.status;
-		this.error = data.error;
-		this.error_details = data.error_details;
-		this.error_user = data.error_user;
-		this.code = data.code;
-		this.supportId = data.supportId;
 	}
 
-	_inherits(SecucardConnectException, _ExtendableError);
+	Object.defineProperty(this, 'message', {
+		configurable: true,
+		enumerable: false,
+		value: data.error_details
+	});
 
-	return SecucardConnectException;
-})(_utilExtendableError2['default']);
+	Object.defineProperty(this, 'name', {
+		configurable: true,
+		enumerable: false,
+		value: this.constructor.name
+	});
+
+	Object.defineProperty(this, 'status', {
+		configurable: true,
+		enumerable: false,
+		value: data.status
+	});
+
+	Object.defineProperty(this, 'error', {
+		configurable: true,
+		enumerable: false,
+		value: data.error
+	});
+
+	Object.defineProperty(this, 'error_details', {
+		configurable: true,
+		enumerable: false,
+		value: data.error_details
+	});
+
+	Object.defineProperty(this, 'error_user', {
+		configurable: true,
+		enumerable: false,
+		value: data.error_user
+	});
+
+	Object.defineProperty(this, 'code', {
+		configurable: true,
+		enumerable: false,
+		value: data.code
+	});
+
+	Object.defineProperty(this, 'supportId', {
+		configurable: true,
+		enumerable: false,
+		value: data.supportId
+	});
+};
 
 exports.SecucardConnectException = SecucardConnectException;
 
@@ -858,7 +887,7 @@ SecucardConnectException.create = function (data) {
 
 	return error;
 };
-},{"../auth/exception":4,"../util/extendable-error":61}],13:[function(require,module,exports){
+},{"../auth/exception":4}],13:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -1124,7 +1153,7 @@ var Rest = (function () {
 })();
 
 exports.Rest = Rest;
-},{"../auth/exception":4,"./channel":11,"./exception":12,"./message":13,"superagent":71}],15:[function(require,module,exports){
+},{"../auth/exception":4,"./channel":11,"./exception":12,"./message":13,"superagent":70}],15:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -1206,7 +1235,7 @@ SocketAtBrowser.disconnect = function (socket) {
 	console.log('SocketNode', 'disconnect called');
 	socket.close();
 };
-},{"eventemitter3":65}],16:[function(require,module,exports){
+},{"eventemitter3":64}],16:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -1295,8 +1324,8 @@ var Stomp = (function () {
 		this.SocketImpl = SocketImpl;
 	}
 
-	Stomp.prototype.isConnected = function isConnected() {
-		return this.connected;
+	Stomp.prototype.isConnected = function isConnected(ignoreSession) {
+		return this.connected && (ignoreSession || this.session);
 	};
 
 	Stomp.prototype.configure = function configure(config) {
@@ -1341,7 +1370,6 @@ var Stomp = (function () {
 			case 'CONNECTED':
 				console.log('Connected to STOMP');
 				this.session = this_frame.headers['session'];
-				this.connected = true;
 				this.emit('connected');
 				break;
 			case 'RECEIPT':
@@ -1486,7 +1514,10 @@ var Stomp = (function () {
 		var _this2 = this;
 
 		var _connected = function _connected() {
+
 			console.log('Connected to socket');
+			_this2.connected = true;
+
 			var headers = {};
 
 			if (utils.really_defined(stomp.login) && utils.really_defined(stomp.passcode)) {
@@ -1541,6 +1572,7 @@ var Stomp = (function () {
 			if (error) {
 				console.log('Disconnected with error: ' + error);
 			}
+			stomp.session = null;
 			stomp.connected = false;
 			stomp.emit('disconnected', error);
 		});
@@ -1621,7 +1653,7 @@ var Stomp = (function () {
 })();
 
 exports.Stomp = Stomp;
-},{"./frame":16,"eventemitter3":65,"uuid":75}],18:[function(require,module,exports){
+},{"./frame":16,"eventemitter3":64,"uuid":74}],18:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -1783,23 +1815,28 @@ var Stomp = (function () {
 
 		return new Promise(function (resolve, reject) {
 
-			if (!_this2.connection.isConnected()) {
+			var ignoreSession = true;
+			if (!_this2.connection.isConnected(ignoreSession)) {
 				resolve();
 				return;
 			}
 
 			if (_this2.connection && _this2.connection.disconnect) {
+
 				_this2.connection.disconnect();
-			}
 
-			_this2._stompOnDisconnected = function () {
-				console.log('stomp disconnected');
-				_this2.connection.removeListener('disconnected', _this2._stompOnDisconnected);
-				delete _this2._stompOnDisconnected;
+				_this2._stompOnDisconnected = function () {
+					console.log('stomp disconnected');
+					_this2.connection.removeListener('disconnected', _this2._stompOnDisconnected);
+					delete _this2._stompOnDisconnected;
+					resolve();
+				};
+
+				_this2.connection.on('disconnected', _this2._stompOnDisconnected);
+			} else {
+
 				resolve();
-			};
-
-			_this2.connection.on('disconnected', _this2._stompOnDisconnected);
+			}
 		});
 	};
 
@@ -1862,6 +1899,13 @@ var Stomp = (function () {
 	Stomp.prototype._connect = function _connect(accessToken) {
 		var _this3 = this;
 
+		if (!accessToken) {
+
+			return this.close().then(function () {
+				return Promise.reject(new _authException.AuthenticationFailedException('Access token is not valid'));
+			});
+		}
+
 		this.connectAccessToken = accessToken;
 
 		var stompCredentials = {
@@ -1883,11 +1927,13 @@ var Stomp = (function () {
 			_this3._stompOnError = function (message) {
 				console.log('stomp error', message);
 				_this3._stompClearListeners();
-				if (message.headers && message.headers.message == 'Bad CONNECT') {
-					reject(new _authException.AuthenticationFailedException(message.body[0]));
-				} else {
-					reject(message);
-				}
+				_this3.close().then(function () {
+					if (message.headers && message.headers.message == 'Bad CONNECT') {
+						reject(new _authException.AuthenticationFailedException(message.body[0]));
+					} else {
+						reject(message);
+					}
+				});
 			};
 
 			_this3._stompClearListeners = function () {
@@ -2057,7 +2103,7 @@ var Stomp = (function () {
 })();
 
 exports.Stomp = Stomp;
-},{"../auth/exception":4,"./channel":11,"./exception":12,"./stomp-impl/stomp":17,"eventemitter3":65,"qs":67,"uuid":75}],19:[function(require,module,exports){
+},{"../auth/exception":4,"./channel":11,"./exception":12,"./stomp-impl/stomp":17,"eventemitter3":64,"qs":66,"uuid":74}],19:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -2109,7 +2155,7 @@ AppService.createWithMixin = function (ServiceMixin) {
 	var Mixed = _utilMixins2['default'](AppService, ServiceMixin);
 	return new Mixed();
 };
-},{"../../util/mixins":62,"../product-service":52}],20:[function(require,module,exports){
+},{"../../util/mixins":61,"../product-service":52}],20:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -3413,7 +3459,7 @@ var ProductService = (function () {
 })();
 
 exports.ProductService = ProductService;
-},{"../net/channel":11,"eventemitter3":65}],53:[function(require,module,exports){
+},{"../net/channel":11,"eventemitter3":64}],53:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -3672,31 +3718,6 @@ exports.__esModule = true;
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 
-var ExtendableError = function ExtendableError(message) {
-	_classCallCheck(this, ExtendableError);
-
-	Error.call(this, message);
-	if (Error.captureStackTrace) {
-		Error.captureStackTrace(this, this.constructor);
-	}
-	Object.defineProperty(this, 'name', {
-		configurable: true,
-		enumerable: false,
-		value: this.constructor.name
-	});
-};
-
-ExtendableError.prototype = new Error();
-
-exports['default'] = ExtendableError;
-module.exports = exports['default'];
-},{}],62:[function(require,module,exports){
-'use strict';
-
-exports.__esModule = true;
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
-
 function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; }
 
 var mixins = function mixins(Parent) {
@@ -3761,7 +3782,7 @@ var mixins = function mixins(Parent) {
 
 exports['default'] = mixins;
 module.exports = exports['default'];
-},{}],63:[function(require,module,exports){
+},{}],62:[function(require,module,exports){
 // shim for using process in browser
 
 var process = module.exports = {};
@@ -3853,7 +3874,7 @@ process.chdir = function (dir) {
 };
 process.umask = function() { return 0; };
 
-},{}],64:[function(require,module,exports){
+},{}],63:[function(require,module,exports){
 (function (process){
  /*!
   * https://github.com/paulmillr/es6-shim
@@ -6953,7 +6974,7 @@ process.umask = function() { return 0; };
 }));
 
 }).call(this,require('_process'))
-},{"_process":63}],65:[function(require,module,exports){
+},{"_process":62}],64:[function(require,module,exports){
 'use strict';
 
 //
@@ -7217,7 +7238,7 @@ if ('undefined' !== typeof module) {
   module.exports = EventEmitter;
 }
 
-},{}],66:[function(require,module,exports){
+},{}],65:[function(require,module,exports){
 (function (global){
 /**
  * @license
@@ -19456,7 +19477,7 @@ if ('undefined' !== typeof module) {
 }.call(this));
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],67:[function(require,module,exports){
+},{}],66:[function(require,module,exports){
 // Load modules
 
 var Stringify = require('./stringify');
@@ -19473,7 +19494,7 @@ module.exports = {
     parse: Parse
 };
 
-},{"./parse":68,"./stringify":69}],68:[function(require,module,exports){
+},{"./parse":67,"./stringify":68}],67:[function(require,module,exports){
 // Load modules
 
 var Utils = require('./utils');
@@ -19661,7 +19682,7 @@ module.exports = function (str, options) {
     return Utils.compact(obj);
 };
 
-},{"./utils":70}],69:[function(require,module,exports){
+},{"./utils":69}],68:[function(require,module,exports){
 // Load modules
 
 var Utils = require('./utils');
@@ -19784,7 +19805,7 @@ module.exports = function (obj, options) {
     return keys.join(delimiter);
 };
 
-},{"./utils":70}],70:[function(require,module,exports){
+},{"./utils":69}],69:[function(require,module,exports){
 // Load modules
 
 
@@ -19976,7 +19997,7 @@ exports.isBuffer = function (obj) {
               obj.constructor.isBuffer(obj));
 };
 
-},{}],71:[function(require,module,exports){
+},{}],70:[function(require,module,exports){
 /**
  * Module dependencies.
  */
@@ -21101,7 +21122,7 @@ request.put = function(url, data, fn){
 
 module.exports = request;
 
-},{"emitter":72,"reduce":73}],72:[function(require,module,exports){
+},{"emitter":71,"reduce":72}],71:[function(require,module,exports){
 
 /**
  * Expose `Emitter`.
@@ -21267,7 +21288,7 @@ Emitter.prototype.hasListeners = function(event){
   return !! this.listeners(event).length;
 };
 
-},{}],73:[function(require,module,exports){
+},{}],72:[function(require,module,exports){
 
 /**
  * Reduce `arr` with `fn`.
@@ -21292,7 +21313,7 @@ module.exports = function(arr, fn, initial){
   
   return curr;
 };
-},{}],74:[function(require,module,exports){
+},{}],73:[function(require,module,exports){
 (function (global){
 
 var rng;
@@ -21327,7 +21348,7 @@ module.exports = rng;
 
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],75:[function(require,module,exports){
+},{}],74:[function(require,module,exports){
 //     uuid.js
 //
 //     Copyright (c) 2010-2012 Robert Kieffer
@@ -21512,5 +21533,5 @@ uuid.unparse = unparse;
 
 module.exports = uuid;
 
-},{"./rng":74}]},{},[1])(1)
+},{"./rng":73}]},{},[1])(1)
 });

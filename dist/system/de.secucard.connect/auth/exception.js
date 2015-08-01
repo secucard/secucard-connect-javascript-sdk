@@ -1,39 +1,43 @@
-System.register(['../util/extendable-error'], function (_export) {
+System.register([], function (_export) {
 	'use strict';
 
-	var ExtendableError, AuthenticationFailedException;
+	var AuthenticationFailedException;
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 
-	function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; }
-
 	return {
-		setters: [function (_utilExtendableError) {
-			ExtendableError = _utilExtendableError['default'];
-		}],
+		setters: [],
 		execute: function () {
-			AuthenticationFailedException = (function (_ExtendableError) {
-				function AuthenticationFailedException() {
-					var message = arguments[0] === undefined ? 'Authentication failed' : arguments[0];
+			AuthenticationFailedException = function AuthenticationFailedException() {
+				var message = arguments[0] === undefined ? 'Authentication failed' : arguments[0];
 
-					_classCallCheck(this, AuthenticationFailedException);
+				_classCallCheck(this, AuthenticationFailedException);
 
-					_ExtendableError.call(this, message);
-
-					Object.defineProperty(this, 'name', {
+				if (Error.captureStackTrace) {
+					Error.captureStackTrace(this, this.constructor);
+				} else {
+					Object.defineProperty(this, 'stack', {
 						configurable: true,
 						enumerable: false,
-						value: this.constructor.name
+						value: Error(message).stack
 					});
 				}
 
-				_inherits(AuthenticationFailedException, _ExtendableError);
+				Object.defineProperty(this, 'message', {
+					configurable: true,
+					enumerable: false,
+					value: message
+				});
 
-				return AuthenticationFailedException;
-			})(ExtendableError);
+				Object.defineProperty(this, 'name', {
+					configurable: true,
+					enumerable: false,
+					value: this.constructor.name
+				});
+			};
 
 			_export('AuthenticationFailedException', AuthenticationFailedException);
 		}
 	};
 });
-//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbImRlLnNlY3VjYXJkLmNvbm5lY3QvYXV0aC9leGNlcHRpb24uanMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7O3NCQUNhLDZCQUE2Qjs7Ozs7Ozs7Ozs7QUFBN0IsZ0NBQTZCO0FBRTlCLGFBRkMsNkJBQTZCLEdBRU07U0FBbkMsT0FBTyxnQ0FBRyx1QkFBdUI7OzJCQUZqQyw2QkFBNkI7O0FBSXhDLGlDQUFNLE9BQU8sQ0FBQyxDQUFDOztBQUVmLFdBQU0sQ0FBQyxjQUFjLENBQUMsSUFBSSxFQUFFLE1BQU0sRUFBRTtBQUNsQyxrQkFBWSxFQUFHLElBQUk7QUFDbkIsZ0JBQVUsRUFBRyxLQUFLO0FBQ2xCLFdBQUssRUFBRyxJQUFJLENBQUMsV0FBVyxDQUFDLElBQUk7TUFDOUIsQ0FBQyxDQUFDO0tBRUg7O2NBWlcsNkJBQTZCOztXQUE3Qiw2QkFBNkI7TUFBUyxlQUFlOzs0Q0FBckQsNkJBQTZCIiwiZmlsZSI6ImRlLnNlY3VjYXJkLmNvbm5lY3QvYXV0aC9leGNlcHRpb24uanMiLCJzb3VyY2VSb290IjoiLi4vc3JjLyJ9
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbImRlLnNlY3VjYXJkLmNvbm5lY3QvYXV0aC9leGNlcHRpb24uanMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7O0tBQWEsNkJBQTZCOzs7Ozs7O0FBQTdCLGdDQUE2QixHQUU5QixTQUZDLDZCQUE2QixHQUVNO1FBQW5DLE9BQU8sZ0NBQUcsdUJBQXVCOzswQkFGakMsNkJBQTZCOztBQUl4QyxRQUFJLEtBQUssQ0FBQyxpQkFBaUIsRUFBRTtBQUM1QixVQUFLLENBQUMsaUJBQWlCLENBQUMsSUFBSSxFQUFFLElBQUksQ0FBQyxXQUFXLENBQUMsQ0FBQztLQUNoRCxNQUFNO0FBQ04sV0FBTSxDQUFDLGNBQWMsQ0FBQyxJQUFJLEVBQUUsT0FBTyxFQUFFO0FBQ25DLGtCQUFZLEVBQUUsSUFBSTtBQUNsQixnQkFBVSxFQUFFLEtBQUs7QUFDakIsV0FBSyxFQUFFLEtBQUssQ0FBQyxPQUFPLENBQUMsQ0FBQyxLQUFLO01BQzNCLENBQUMsQ0FBQztLQUNKOztBQUVELFVBQU0sQ0FBQyxjQUFjLENBQUMsSUFBSSxFQUFFLFNBQVMsRUFBRTtBQUN0QyxpQkFBWSxFQUFFLElBQUk7QUFDbEIsZUFBVSxFQUFFLEtBQUs7QUFDakIsVUFBSyxFQUFFLE9BQU87S0FDZCxDQUFDLENBQUM7O0FBRUgsVUFBTSxDQUFDLGNBQWMsQ0FBQyxJQUFJLEVBQUUsTUFBTSxFQUFFO0FBQ25DLGlCQUFZLEVBQUUsSUFBSTtBQUNsQixlQUFVLEVBQUUsS0FBSztBQUNqQixVQUFLLEVBQUUsSUFBSSxDQUFDLFdBQVcsQ0FBQyxJQUFJO0tBQzVCLENBQUMsQ0FBQztJQUVIOzs0Q0ExQlcsNkJBQTZCIiwiZmlsZSI6ImRlLnNlY3VjYXJkLmNvbm5lY3QvYXV0aC9leGNlcHRpb24uanMiLCJzb3VyY2VSb290IjoiLi4vc3JjLyJ9
