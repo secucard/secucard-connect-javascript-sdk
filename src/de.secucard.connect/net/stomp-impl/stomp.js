@@ -20,8 +20,8 @@ export class Stomp {
 		
 	}
 	
-	isConnected(){
-		return this.connected;
+	isConnected(ignoreSession){
+		return this.connected && (ignoreSession || this.session);
 	}
 	
 	configure(config) {
@@ -78,7 +78,6 @@ export class Stomp {
 			case "CONNECTED":
 				console.log('Connected to STOMP');
 				this.session = this_frame.headers['session'];
-				this.connected = true;
 				this.emit('connected');
 				break;
 			case "RECEIPT":
@@ -240,7 +239,10 @@ export class Stomp {
 	_setupListeners(stomp, handleConnected) {
 
 		let _connected = () => {
+			
 			console.log('Connected to socket');
+			this.connected = true;
+			
 			let headers = {};
 			
 			if (utils.really_defined(stomp.login) &&
@@ -299,6 +301,7 @@ export class Stomp {
 			if (error) {
 				console.log('Disconnected with error: ' + error);
 			}
+			stomp.session = null;
 			stomp.connected = false;
 			stomp.emit("disconnected", error);
 		});

@@ -147,24 +147,31 @@ export class Stomp {
 		
 		return new Promise((resolve, reject) => {
 			
-			if(!this.connection.isConnected()) {
+			let ignoreSession = true;
+			if(!this.connection.isConnected(ignoreSession)) {
 				resolve();
 				return;
 			}
 			
 			if (this.connection && this.connection.disconnect) {
+				
 				this.connection.disconnect();
-			}
-			
-			this._stompOnDisconnected = () => {
-				console.log('stomp disconnected');
-				this.connection.removeListener('disconnected', this._stompOnDisconnected);
-				delete this._stompOnDisconnected;
+				
+				this._stompOnDisconnected = () => {
+					console.log('stomp disconnected');
+					this.connection.removeListener('disconnected', this._stompOnDisconnected);
+					delete this._stompOnDisconnected;
+					resolve();
+				};
+				
+				//TODO do we need to reject here?
+				this.connection.on('disconnected', this._stompOnDisconnected);
+				
+			} else {
+				
 				resolve();
-			};
-			
-			//TODO do we need to reject here?
-			this.connection.on('disconnected', this._stompOnDisconnected);
+				
+			}
 			
 		});
 		
@@ -230,6 +237,17 @@ export class Stomp {
 	
 	_connect(accessToken) {
 		
+		if(!accessToken) {
+			
+			return this.close().then(() => {
+				// don't login with empty token
+				//throw new AuthenticationFailedException('Access token is not valid');
+				return Promise.reject(new AuthenticationFailedException('Access token is not valid'));
+				
+			});
+			
+		}
+		
 		this.connectAccessToken = accessToken;
 		
 		let stompCredentials = {
@@ -251,11 +269,13 @@ export class Stomp {
 			this._stompOnError = (message) => {
 				console.log('stomp error', message);
 				this._stompClearListeners();
-				if(message.headers && message.headers.message == 'Bad CONNECT') {
-					reject(new AuthenticationFailedException(message.body[0]));
-				} else {
-					reject(message);
-				}
+				this.close().then(() => {
+					if(message.headers && message.headers.message == 'Bad CONNECT') {
+						reject(new AuthenticationFailedException(message.body[0]));
+					} else {
+						reject(message);
+					}
+				});
 			};
 			
 			this._stompClearListeners = () => {
