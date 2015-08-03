@@ -1,18 +1,18 @@
 var gulp = require('gulp');
 var runSequence = require('run-sequence');
 var paths = require('../paths');
-//var changelog = require('conventional-changelog');
+var conventionalChangelog = require('gulp-conventional-changelog');
 var fs = require('fs');
 var bump = require('gulp-bump');
 var gulp = require('gulp-param')(require('gulp'), process.argv);
 var replace = require('gulp-replace');
 
 /*
-var spawn = require('child_process').spawn;
-gulp.task('npm-version', function (done) {
-  spawn('npm', ['version'], { stdio: 'inherit' }).on('close', done);
-});
-*/
+ var spawn = require('child_process').spawn;
+ gulp.task('npm-version', function (done) {
+ spawn('npm', ['version'], { stdio: 'inherit' }).on('close', done);
+ });
+ */
 
 gulp.task('bump-version', function (sem, tag) {
 
@@ -38,23 +38,15 @@ gulp.task('update-code-version', function () {
 
 	var pkg = JSON.parse(fs.readFileSync('./package.json', 'utf-8'));
 	return gulp.src(['./src/de.secucard.connect/client-version.js'])
-		.pipe(replace(/("(?:name)": ?)(".+")/g, '$1"'+pkg.version+'"'))
+		.pipe(replace(/("(?:name)": ?)(".+")/g, '$1"' + pkg.version + '"'))
 		.pipe(gulp.dest('./src/de.secucard.connect/'));
 });
 
-/*
- gulp.task('changelog', function(callback) {
- var pkg = JSON.parse(fs.readFileSync('./package.json', 'utf-8'));
-
- return changelog({
- repository: pkg.repository.url,
- version: pkg.version,
- file: paths.doc + '/CHANGELOG.md'
- }, function(err, log) {
- fs.writeFileSync(paths.doc + '/CHANGELOG.md', log);
- });
- });
- */
+gulp.task('changelog', function () {
+	return gulp.src('CHANGELOG.md')
+		.pipe(conventionalChangelog())
+		.pipe(gulp.dest('./'));
+});
 
 gulp.task('prepare-release', function () {
 
