@@ -1,10 +1,10 @@
 {
   "name": "secucard-connect",
-  "version": "0.0.9",
+  "version": "0.0.10",
   "main": "dist/commonjs/index.js",
   "repository": {
     "type": "git",
-    "url": " github:secucard/secucard-connect-javascript-client-lib"
+    "url": "git+https://github.com/secucard/secucard-connect-javascript-client-lib.git"
   },
   "directories": {
     "lib": "dist/commonjs"
