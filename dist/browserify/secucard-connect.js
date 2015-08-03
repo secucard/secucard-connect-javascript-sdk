@@ -55,6 +55,8 @@ var Auth = (function () {
 
 	Auth.prototype.configureWithContext = function configureWithContext(context) {
 
+		this.emit = context.emit.bind(context);
+
 		this.getChannel = context.getRestChannel.bind(context);
 		this.getCredentials = context.getCredentials.bind(context);
 
@@ -96,12 +98,37 @@ var Auth = (function () {
 			throw error;
 		};
 
+		var req = undefined;
+
 		if (token != null && token.getRefreshToken() != null) {
 
-			return this._tokenRefreshRequest(cr, token.getRefreshToken(), ch).then(tokenSuccess)['catch'](tokenError);
+			req = this._tokenRefreshRequest(cr, token.getRefreshToken(), ch);
+		} else {
+
+			req = this.isDeviceAuth(cr) ? this.getDeviceToken(cr, ch) : this._tokenClientCredentialsRequest(cr, ch);
 		}
 
-		return this._tokenClientCredentialsRequest(cr, ch).then(tokenSuccess)['catch'](tokenError);
+		return req.then(tokenSuccess)['catch'](tokenError);
+	};
+
+	Auth.prototype.isDeviceAuth = function isDeviceAuth(credentials) {
+		return credentials.uuid != undefined && credentials.uuid != null;
+	};
+
+	Auth.prototype.getDeviceToken = function getDeviceToken(credentials, channel) {
+		var _this2 = this;
+
+		return this._tokenDeviceCodeRequest(credentials, channel).then(function (res) {
+
+			_this2.emit('deviceCode', res);
+
+			var pollIntervalSec = res.interval > 0 ? res.interval : 5;
+
+			return new Promise(function (resolve, reject) {
+
+				resolve();
+			});
+		});
 	};
 
 	Auth.prototype.removeToken = function removeToken() {
@@ -513,9 +540,15 @@ var _productAppAppService = require('./product/app/app-service');
 
 var _netChannel = require('./net/channel');
 
+var _eventemitter3 = require('eventemitter3');
+
+var _eventemitter32 = _interopRequireDefault(_eventemitter3);
+
 var ClientContext = (function () {
 	function ClientContext(config, environment) {
 		_classCallCheck(this, ClientContext);
+
+		Object.assign(this, _eventemitter32['default'].prototype);
 
 		var auth = new _authAuth.Auth();
 		auth.configureWithContext(this);
@@ -699,12 +732,12 @@ var ClientContext = (function () {
 })();
 
 exports.ClientContext = ClientContext;
-},{"./auth/auth":2,"./auth/credentials":3,"./net/channel":11,"./net/rest":14,"./product/app/app-service":19,"lodash":65}],9:[function(require,module,exports){
+},{"./auth/auth":2,"./auth/credentials":3,"./net/channel":11,"./net/rest":14,"./product/app/app-service":19,"eventemitter3":64,"lodash":65}],9:[function(require,module,exports){
 "use strict";
 
 exports.__esModule = true;
 var Version = {
-	name: "0.1.0-pre.2"
+	"name": "0.1.0-pre.5"
 };
 exports.Version = Version;
 },{}],10:[function(require,module,exports){

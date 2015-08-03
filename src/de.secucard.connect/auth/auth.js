@@ -13,6 +13,8 @@ export class Auth {
 	
 	configureWithContext(context) {
 		
+		this.emit = context.emit.bind(context);
+		
 		this.getChannel = context.getRestChannel.bind(context);
 		this.getCredentials = context.getCredentials.bind(context);
 		
@@ -61,17 +63,49 @@ export class Auth {
 			throw error;
 		};
 		
+		let req;
+		
 		if(token != null && token.getRefreshToken() != null) {
 			
-			return this._tokenRefreshRequest(cr, token.getRefreshToken(), ch)
-				.then(tokenSuccess)
-				.catch(tokenError);
+			req = this._tokenRefreshRequest(cr, token.getRefreshToken(), ch);
+			
+		} else {
+			
+			req = this.isDeviceAuth(cr)? this.getDeviceToken(cr, ch) : this._tokenClientCredentialsRequest(cr, ch);
 			
 		}
 		
-		return this._tokenClientCredentialsRequest(cr, ch)
-			.then(tokenSuccess)
-			.catch(tokenError);
+		return req.then(tokenSuccess).catch(tokenError);
+		
+	}
+	
+	isDeviceAuth(credentials) {
+		return credentials.uuid != undefined && credentials.uuid != null;
+	}
+	
+	getDeviceToken(credentials, channel) {
+		
+		return this._tokenDeviceCodeRequest(credentials, channel).then((res) => {
+			
+			this.emit('deviceCode', res);
+			
+			/*
+			{ device_code: '4b3e0c6733bf616f438ac2992be2a610',
+			  user_code: 'vfazyp5f',
+			  verification_url: 'http://www.secuoffice.com',
+			  expires_in: 1200,
+			  interval: 5 }
+			 */
+			
+			let pollIntervalSec = res.interval > 0? res.interval : 5;
+			
+			return new Promise((resolve, reject) => {
+				
+				resolve();
+				
+			});
+			
+		});
 		
 	}
 	

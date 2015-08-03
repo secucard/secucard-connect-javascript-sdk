@@ -4,10 +4,13 @@ import {Auth} from './auth/auth';
 import {Credentials} from './auth/credentials';
 import {AppService} from './product/app/app-service';
 import {Channel} from './net/channel';
+import EE from 'eventemitter3';
 
 export class ClientContext {
 	
 	constructor(config, environment) {
+		
+		Object.assign(this, EE.prototype);
 		
 		let auth = new Auth();
 		auth.configureWithContext(this);

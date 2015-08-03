@@ -26,6 +26,8 @@ var Auth = (function () {
 
 	Auth.prototype.configureWithContext = function configureWithContext(context) {
 
+		this.emit = context.emit.bind(context);
+
 		this.getChannel = context.getRestChannel.bind(context);
 		this.getCredentials = context.getCredentials.bind(context);
 
@@ -67,12 +69,37 @@ var Auth = (function () {
 			throw error;
 		};
 
+		var req = undefined;
+
 		if (token != null && token.getRefreshToken() != null) {
 
-			return this._tokenRefreshRequest(cr, token.getRefreshToken(), ch).then(tokenSuccess)['catch'](tokenError);
+			req = this._tokenRefreshRequest(cr, token.getRefreshToken(), ch);
+		} else {
+
+			req = this.isDeviceAuth(cr) ? this.getDeviceToken(cr, ch) : this._tokenClientCredentialsRequest(cr, ch);
 		}
 
-		return this._tokenClientCredentialsRequest(cr, ch).then(tokenSuccess)['catch'](tokenError);
+		return req.then(tokenSuccess)['catch'](tokenError);
+	};
+
+	Auth.prototype.isDeviceAuth = function isDeviceAuth(credentials) {
+		return credentials.uuid != undefined && credentials.uuid != null;
+	};
+
+	Auth.prototype.getDeviceToken = function getDeviceToken(credentials, channel) {
+		var _this2 = this;
+
+		return this._tokenDeviceCodeRequest(credentials, channel).then(function (res) {
+
+			_this2.emit('deviceCode', res);
+
+			var pollIntervalSec = res.interval > 0 ? res.interval : 5;
+
+			return new Promise(function (resolve, reject) {
+
+				resolve();
+			});
+		});
 	};
 
 	Auth.prototype.removeToken = function removeToken() {

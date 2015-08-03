@@ -31,6 +31,8 @@ var client = secucardConnect.SecucardConnect.create({
 	//stompEnabled: false
 });
 
+console.log('Client version:', client.getVersion());
+
 var app = client.addAppService(SecuofficeMixin);
 app.authenticate('developer@secucard.de', '').then(function (result) {
 	

@@ -20,9 +20,15 @@ var _productAppAppService = require('./product/app/app-service');
 
 var _netChannel = require('./net/channel');
 
+var _eventemitter3 = require('eventemitter3');
+
+var _eventemitter32 = _interopRequireDefault(_eventemitter3);
+
 var ClientContext = (function () {
 	function ClientContext(config, environment) {
 		_classCallCheck(this, ClientContext);
+
+		Object.assign(this, _eventemitter32['default'].prototype);
 
 		var auth = new _authAuth.Auth();
 		auth.configureWithContext(this);
