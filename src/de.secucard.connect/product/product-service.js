@@ -53,6 +53,20 @@ export class ProductService {
 		return this._request(Channel.METHOD.GET, params, options);
 		
 	}
+	
+	retrieveWithAction(id, action, actionArg, options) {
+		
+		let params = {
+			endpoint: this.getEndpoint(), 
+			objectId: id,
+			action: action,
+			actionArg: actionArg,
+			options: options
+		};
+		
+		return this._request(Channel.METHOD.GET, params, options);
+		
+	}
 	 
 	/**
 	* Retrieves a promise for a collection of objects (resources) of a given type according to a given query.<br/>

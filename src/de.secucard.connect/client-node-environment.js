@@ -6,12 +6,15 @@ import {Loyalty} from './product/loyalty/loyalty';
 import {Payment} from './product/payment/payment';
 import {Services} from './product/services/services';
 import {Document} from './product/document/document';
+import {Auth} from './product/auth/auth';
 
 export const ClientNodeEnvironment = {
 	config: {
 		stompPort: 61614
 	},
 	services: [
+		Auth.SessionService,
+		
 		Document.UploadService,
 		
 		General.SkeletonService,
@@ -60,6 +63,9 @@ ClientNodeEnvironment.StompChannel = {
 };
 
 export const ServiceMap = {
+	Auth: {
+		Sessions: Auth.SessionService.Uid
+	},
 	Document: {
 		Uploads: Document.UploadService.Uid
 	},
