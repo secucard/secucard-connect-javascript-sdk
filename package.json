@@ -3,9 +3,10 @@
   "version": "0.1.2-pre.2",
   "main": "dist/commonjs/index.js",
   "license": "Apache-2.0",
+  "homepage": "https://github.com/secucard/secucard-connect-javascript-sdk",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/secucard/secucard-connect-javascript-client-lib.git"
+    "url": "git+https://github.com/secucard/secucard-connect-javascript-sdk.git"
   },
   "directories": {
     "lib": "dist/commonjs"

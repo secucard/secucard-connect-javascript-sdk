@@ -1,9 +1,4 @@
-# secucard connect Javascript client library
-
-[![Latest Stable Version](https://poser.pugx.org/secucard/secucard-connect-javascript-client-lib/v/stable)](https://packagist.org/packages/secucard/secucard-connect-javascript-client-lib)
-[![Total Downloads](https://poser.pugx.org/secucard/secucard-connect-javascript-client-lib/downloads)](https://packagist.org/packages/secucard/secucard-connect-javascript-client-lib)
-[![License](https://poser.pugx.org/secucard/secucard-connect-javascript-client-lib/license)](https://packagist.org/packages/secucard/secucard-connect-javascript-client-lib)
-
+# secucard connect Javascript SDK
 
 ## Installing
 
@@ -16,7 +11,7 @@ npm install secucard-connect
 [jspm](http://jspm.io/):
 
 ```
-jspm install github:secucard/secucard-connect-javascript-client-lib 
+jspm install github:secucard/secucard-connect-javascript-sdk
 ```
 
 Browserify standalone:
@@ -107,4 +102,4 @@ client.open().then(function(){
 
 ## Documentation
 
-Please see http://developer.secucard.com/api/index.html for up-to-date documentation.
+Please see http://developer.secucard.com/api/ for up-to-date documentation.
