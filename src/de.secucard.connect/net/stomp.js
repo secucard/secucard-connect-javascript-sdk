@@ -12,6 +12,7 @@
 import UUID from 'uuid';
 import QS from 'qs';
 import EE from 'eventemitter3';
+import minilog from 'minilog';
 
 import {Channel} from './channel';
 import {Stomp as StompImpl} from './stomp-impl/stomp';
@@ -133,11 +134,11 @@ export class Stomp {
 	
 	connect () {
 		
-		console.log('stomp start connection');
+		minilog('secucard.stomp').debug('stomp start connection');
 		
 		return this.getToken().then((token) => {
 			
-			console.log('Got token', token);
+			minilog('secucard.stomp').debug('Got token', token);
 			return this._connect(token.access_token);
 			
 			
@@ -169,7 +170,7 @@ export class Stomp {
 				this.connection.disconnect();
 				
 				this._stompOnDisconnected = () => {
-					console.log('stomp disconnected');
+					minilog('secucard.stomp').debug('stomp disconnected');
 					this.connection.removeListener('disconnected', this._stompOnDisconnected);
 					delete this._stompOnDisconnected;
 					resolve();
@@ -272,13 +273,13 @@ export class Stomp {
 		return new Promise((resolve, reject) => {
 			
 			this._stompOnConnected = () => {
-				console.log('stomp connected');
+				minilog('secucard.stomp').debug('stomp connected');
 				this._stompClearListeners();
 				resolve(true);
 			};
 			
 			this._stompOnError = (message) => {
-				console.log('stomp error', message);
+				minilog('secucard.stomp').error('stomp error', message);
 				this._stompClearListeners();
 				this.close().then(() => {
 					if(message.headers && message.headers.message == 'Bad CONNECT') {
@@ -308,7 +309,7 @@ export class Stomp {
 	
 	_sendMessage(destinationObj, message) {
 		
-		console.log('_sendMessage', destinationObj, message);
+		minilog('secucard.stomp').debug('message', destinationObj, message);
 		
 		return this.getToken().then((token) => {
 			
@@ -364,7 +365,7 @@ export class Stomp {
 			if(!this.connection.isConnected() || (accessToken != this.connectAccessToken)) {
 
 				if (this.connection.isConnected()) {
-					console.log("Reconnect due token change.");
+					minilog('secucard.stomp').warn('Reconnect due token change.');
 				}
 				
 				return this._disconnect().then(() => {
@@ -385,7 +386,8 @@ export class Stomp {
 	
 	_startSessionRefresh() {
 		
-		console.log('Stomp session refresh loop started');
+		minilog('secucard.stomp').debug('Stomp session refresh loop started');
+		
 		let initial = true;
 		
 		// always refresh session with interval less than stomp heart-beat if defined
@@ -416,14 +418,14 @@ export class Stomp {
 			}).then((res) => {
 
 				this.emit('sessionRefresh');
-				console.log('Session refresh sent');
+				minilog('secucard.stomp').debug('Session refresh sent');
 				this.skipSessionRefresh = false;
 				return res;
 
 			}).catch((err) => {
 
 				this.emit('sessionRefreshError');
-				console.log('Session refresh failed');
+				minilog('secucard.stomp').error('Session refresh failed');
 				if (initial) {
 					throw err;
 				}
@@ -449,7 +451,8 @@ export class Stomp {
 		// skip next session refresh 
 		this.skipSessionRefresh = true;
 		
-		console.log('_handleStompMessage', frame);
+		minilog('secucard.stomp').debug('_handleStompMessage', frame);
+		
 		let body;
 		// execute correlation-id callback
 		if (frame && frame.headers && frame.headers['correlation-id']) {

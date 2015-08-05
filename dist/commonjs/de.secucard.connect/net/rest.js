@@ -18,6 +18,10 @@ var _authException = require('../auth/exception');
 
 var _exception = require('./exception');
 
+var _minilog = require('minilog');
+
+var _minilog2 = _interopRequireDefault(_minilog);
+
 var Rest = (function () {
 	function Rest() {
 		_classCallCheck(this, Rest);
@@ -182,7 +186,7 @@ var Rest = (function () {
 			message.setBody(params.data);
 		}
 
-		console.log(message);
+		_minilog2['default']('secucard.rest').debug('message', message);
 
 		return message;
 	};

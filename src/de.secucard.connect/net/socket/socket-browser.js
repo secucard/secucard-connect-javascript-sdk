@@ -10,6 +10,7 @@
  limitations under the License.
  */
 import EE from 'eventemitter3';
+import minilog from 'minilog';
 export class SocketAtBrowser {
 	
 	constructor(url) {
@@ -21,14 +22,14 @@ export class SocketAtBrowser {
 		
 		ws.onopen = () => {
 			
-			console.log('ws.onopen');
+			minilog('secucard.socket.browser').debug('onopen');
 			this.emit('connect');
 			
 		};
 		
 		ws.onmessage = (event) => {
 			
-			console.log('ws.onmessage', event);
+			minilog('secucard.socket.browser').debug('onmessage', event);
 			this.emit('data', event.data);
 			
 		};
@@ -82,7 +83,7 @@ SocketAtBrowser.connect = (host, port, endpoint, sslEnabled, ssl_options, ssl_va
 
 SocketAtBrowser.disconnect = (socket) => {
 	
-	console.log('SocketNode', 'disconnect called');
+	minilog('secucard.socket.browser').debug('disconnect called');
 	socket.close();
 	
 };

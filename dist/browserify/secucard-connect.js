@@ -13,20 +13,29 @@ var _deSecucardConnectClientBrowserEnvironment = require('./de.secucard.connect/
 
 var _deSecucardConnectClient = require('./de.secucard.connect/client');
 
+var _minilog = require('minilog');
+
+var _minilog2 = _interopRequireDefault(_minilog);
+
 exports.Services = _deSecucardConnectClientBrowserEnvironment.ServiceMap;
 
 var _deSecucardConnectNetChannel = require('./de.secucard.connect/net/channel');
 
 exports.Channel = _deSecucardConnectNetChannel.Channel;
+var MiniLog = _minilog2['default'];
+exports.MiniLog = MiniLog;
+_minilog2['default'].suggest.deny(/secucard\..*/, 'warn');
+
 var SecucardConnect = {
   description: 'SecucardConnect for browser'
 };
+
 exports.SecucardConnect = SecucardConnect;
 SecucardConnect.create = function (config) {
 
   return _deSecucardConnectClient.Client.create(_deSecucardConnectClientBrowserEnvironment.ClientBrowserEnvironment, config);
 };
-},{"./de.secucard.connect/client":10,"./de.secucard.connect/client-browser-environment":6,"./de.secucard.connect/net/channel":11,"es6-shim":65}],2:[function(require,module,exports){
+},{"./de.secucard.connect/client":10,"./de.secucard.connect/client-browser-environment":6,"./de.secucard.connect/net/channel":11,"es6-shim":65,"minilog":76}],2:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -44,6 +53,10 @@ var _netMessage = require('../net/message');
 var _token2 = require('./token');
 
 var _exception = require('./exception');
+
+var _minilog = require('minilog');
+
+var _minilog2 = _interopRequireDefault(_minilog);
 
 var Auth = (function () {
 	function Auth() {
@@ -137,7 +150,6 @@ var Auth = (function () {
 
 				_this2.pollTimer = setInterval(function () {
 
-					console.log(data.user_code);
 					if (new Date().getTime() < pollExpireTime) {
 
 						_this2._tokenDeviceRequest(codeCredentials, channel).then(function (res) {
@@ -190,7 +202,7 @@ var Auth = (function () {
 
 	Auth.prototype._tokenRequest = function _tokenRequest(credentials, channel) {
 		var m = channel.createMessage().setBaseUrl(this.oAuthUrl()).setUrl('token').setHeaders(this.baseHeaders).setMethod(_netMessage.POST).setBody(credentials);
-		console.log('token request', m);
+		_minilog2['default']('secucard.auth').debug('token request', m);
 		return channel.send(m);
 	};
 
@@ -228,7 +240,7 @@ var Auth = (function () {
 })();
 
 exports.Auth = Auth;
-},{"../net/message":13,"./exception":4,"./token":5,"lodash":67}],3:[function(require,module,exports){
+},{"../net/message":13,"./exception":4,"./token":5,"lodash":67,"minilog":76}],3:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -800,7 +812,7 @@ exports.ClientContext = ClientContext;
 
 exports.__esModule = true;
 var Version = {
-  "name": "0.1.2-pre.1"
+  "name": "0.1.2-pre.2"
 };
 exports.Version = Version;
 },{}],10:[function(require,module,exports){
@@ -1068,6 +1080,10 @@ var _authException = require('../auth/exception');
 
 var _exception = require('./exception');
 
+var _minilog = require('minilog');
+
+var _minilog2 = _interopRequireDefault(_minilog);
+
 var Rest = (function () {
 	function Rest() {
 		_classCallCheck(this, Rest);
@@ -1232,7 +1248,7 @@ var Rest = (function () {
 			message.setBody(params.data);
 		}
 
-		console.log(message);
+		_minilog2['default']('secucard.rest').debug('message', message);
 
 		return message;
 	};
@@ -1250,7 +1266,7 @@ var Rest = (function () {
 })();
 
 exports.Rest = Rest;
-},{"../auth/exception":4,"./channel":11,"./exception":12,"./message":13,"superagent":72}],15:[function(require,module,exports){
+},{"../auth/exception":4,"./channel":11,"./exception":12,"./message":13,"minilog":76,"superagent":84}],15:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -1262,6 +1278,10 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 var _eventemitter3 = require('eventemitter3');
 
 var _eventemitter32 = _interopRequireDefault(_eventemitter3);
+
+var _minilog = require('minilog');
+
+var _minilog2 = _interopRequireDefault(_minilog);
 
 var SocketAtBrowser = (function () {
 	function SocketAtBrowser(url) {
@@ -1276,13 +1296,13 @@ var SocketAtBrowser = (function () {
 
 		ws.onopen = function () {
 
-			console.log('ws.onopen');
+			_minilog2['default']('secucard.socket.browser').debug('onopen');
 			_this.emit('connect');
 		};
 
 		ws.onmessage = function (event) {
 
-			console.log('ws.onmessage', event);
+			_minilog2['default']('secucard.socket.browser').debug('onmessage', event);
 			_this.emit('data', event.data);
 		};
 
@@ -1329,10 +1349,10 @@ SocketAtBrowser.connect = function (host, port, endpoint, sslEnabled, ssl_option
 
 SocketAtBrowser.disconnect = function (socket) {
 
-	console.log('SocketNode', 'disconnect called');
+	_minilog2['default']('secucard.socket.browser').debug('disconnect called');
 	socket.close();
 };
-},{"eventemitter3":66}],16:[function(require,module,exports){
+},{"eventemitter3":66,"minilog":76}],16:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -1404,6 +1424,10 @@ var _uuid = require('uuid');
 
 var _uuid2 = _interopRequireDefault(_uuid);
 
+var _minilog = require('minilog');
+
+var _minilog2 = _interopRequireDefault(_minilog);
+
 var utils = {};
 utils.really_defined = function (var_to_test) {
 	return !(var_to_test == null || var_to_test == undefined);
@@ -1465,7 +1489,7 @@ var Stomp = (function () {
 				}
 				break;
 			case 'CONNECTED':
-				console.log('Connected to STOMP');
+				_minilog2['default']('secucard.STOMP').debug('Connected');
 				this.session = this_frame.headers['session'];
 				this.emit('connected');
 				break;
@@ -1476,7 +1500,7 @@ var Stomp = (function () {
 				this.emit('error', this_frame);
 				break;
 			default:
-				console.log('Could not parse command: ' + this_frame.command);
+				_minilog2['default']('secucard.STOMP').error('Could not parse command', this_frame.command);
 		}
 	};
 
@@ -1491,7 +1515,6 @@ var Stomp = (function () {
 		this.send_command(this, 'SUBSCRIBE', headers);
 
 		this._subscribed_to[destination] = { enabled: true, callback: callback };
-		console.log('subscribed to: ' + destination + ' with headers ', headers);
 	};
 
 	Stomp.prototype.unsubscribe = function unsubscribe(headers) {
@@ -1499,35 +1522,31 @@ var Stomp = (function () {
 		headers['session'] = this.session;
 		this.send_command(this, 'UNSUBSCRIBE', headers);
 		this._subscribed_to[destination].enabled = false;
-		console.log('no longer subscribed to: ' + destination);
 	};
 
 	Stomp.prototype.ack = function ack(message_id) {
 		this.send_command(this, 'ACK', { 'message-id': message_id });
-		console.log('acknowledged message: ' + message_id);
 	};
 
 	Stomp.prototype.begin = function begin() {
 		var transaction_id = Math.floor(Math.random() * 99999999999).toString();
 		this.send_command(this, 'BEGIN', { 'transaction': transaction_id });
-		console.log('begin transaction: ' + transaction_id);
+
 		return transaction_id;
 	};
 
 	Stomp.prototype.commit = function commit(transaction_id) {
 		this.send_command(this, 'COMMIT', { 'transaction': transaction_id });
-		console.log('commit transaction: ' + transaction_id);
 	};
 
 	Stomp.prototype.abort = function abort(transaction_id) {
 		this.send_command(this, 'ABORT', { 'transaction': transaction_id });
-		console.log('abort transaction: ' + transaction_id);
 	};
 
 	Stomp.prototype.send = function send(destination, headers, body, withReceipt) {
 		headers['session'] = this.session;
 		headers['destination'] = destination;
-		console.log('STOMP :: ', headers, body);
+		_minilog2['default']('secucard.STOMP').debug(headers, body);
 		return this.send_command(this, 'SEND', headers, body, withReceipt);
 	};
 
@@ -1612,7 +1631,7 @@ var Stomp = (function () {
 
 		var _connected = function _connected() {
 
-			console.log('Connected to socket');
+			_minilog2['default']('secucard.STOMP').debug('Connected to socket');
 			_this2.connected = true;
 
 			var headers = {};
@@ -1635,7 +1654,7 @@ var Stomp = (function () {
 		var socket = stomp.socket;
 
 		socket.on('drain', function (data) {
-			console.log('draining');
+			_minilog2['default']('secucard.STOMP').debug('draining');
 		});
 
 		var buffer = '';
@@ -1660,15 +1679,10 @@ var Stomp = (function () {
 			}
 		});
 
-		socket.on('end', function () {
-			console.log('end');
-		});
+		socket.on('end', function () {});
 
 		socket.on('close', function (error) {
-			console.log('disconnected');
-			if (error) {
-				console.log('Disconnected with error: ' + error);
-			}
+			_minilog2['default']('secucard.STOMP').debug('Disconnected with error:', error);
 			stomp.session = null;
 			stomp.connected = false;
 			stomp.emit('disconnected', error);
@@ -1732,10 +1746,10 @@ var Stomp = (function () {
 		var socket = stomp.socket;
 		var frame_str = _frame.as_string();
 
-		console.log('socket.write', frame_str);
+		_minilog2['default']('secucard.STOMP').debug('socket write:', frame_str);
 
 		if (socket.write(frame_str) === false) {
-			console.log('Write buffered');
+			_minilog2['default']('secucard.STOMP').debug('Write buffered');
 		}
 
 		return true;
@@ -1750,7 +1764,7 @@ var Stomp = (function () {
 })();
 
 exports.Stomp = Stomp;
-},{"./frame":16,"eventemitter3":66,"uuid":76}],18:[function(require,module,exports){
+},{"./frame":16,"eventemitter3":66,"minilog":76,"uuid":88}],18:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -1770,6 +1784,10 @@ var _qs2 = _interopRequireDefault(_qs);
 var _eventemitter3 = require('eventemitter3');
 
 var _eventemitter32 = _interopRequireDefault(_eventemitter3);
+
+var _minilog = require('minilog');
+
+var _minilog2 = _interopRequireDefault(_minilog);
 
 var _channel = require('./channel');
 
@@ -1889,11 +1907,11 @@ var Stomp = (function () {
 	Stomp.prototype.connect = function connect() {
 		var _this = this;
 
-		console.log('stomp start connection');
+		_minilog2['default']('secucard.stomp').debug('stomp start connection');
 
 		return this.getToken().then(function (token) {
 
-			console.log('Got token', token);
+			_minilog2['default']('secucard.stomp').debug('Got token', token);
 			return _this._connect(token.access_token);
 		});
 	};
@@ -1923,7 +1941,7 @@ var Stomp = (function () {
 				_this2.connection.disconnect();
 
 				_this2._stompOnDisconnected = function () {
-					console.log('stomp disconnected');
+					_minilog2['default']('secucard.stomp').debug('stomp disconnected');
 					_this2.connection.removeListener('disconnected', _this2._stompOnDisconnected);
 					delete _this2._stompOnDisconnected;
 					resolve();
@@ -2016,13 +2034,13 @@ var Stomp = (function () {
 		return new Promise(function (resolve, reject) {
 
 			_this3._stompOnConnected = function () {
-				console.log('stomp connected');
+				_minilog2['default']('secucard.stomp').debug('stomp connected');
 				_this3._stompClearListeners();
 				resolve(true);
 			};
 
 			_this3._stompOnError = function (message) {
-				console.log('stomp error', message);
+				_minilog2['default']('secucard.stomp').error('stomp error', message);
 				_this3._stompClearListeners();
 				_this3.close().then(function () {
 					if (message.headers && message.headers.message == 'Bad CONNECT') {
@@ -2049,7 +2067,7 @@ var Stomp = (function () {
 	Stomp.prototype._sendMessage = function _sendMessage(destinationObj, message) {
 		var _this4 = this;
 
-		console.log('_sendMessage', destinationObj, message);
+		_minilog2['default']('secucard.stomp').debug('message', destinationObj, message);
 
 		return this.getToken().then(function (token) {
 
@@ -2100,7 +2118,7 @@ var Stomp = (function () {
 			if (!_this4.connection.isConnected() || accessToken != _this4.connectAccessToken) {
 
 				if (_this4.connection.isConnected()) {
-					console.log('Reconnect due token change.');
+					_minilog2['default']('secucard.stomp').warn('Reconnect due token change.');
 				}
 
 				return _this4._disconnect().then(function () {
@@ -2115,7 +2133,8 @@ var Stomp = (function () {
 	Stomp.prototype._startSessionRefresh = function _startSessionRefresh() {
 		var _this5 = this;
 
-		console.log('Stomp session refresh loop started');
+		_minilog2['default']('secucard.stomp').debug('Stomp session refresh loop started');
+
 		var initial = true;
 
 		var sessionInterval = this.getStompHeartbeatMs() > 0 ? this.getStompHeartbeatMs() - 500 : 25 * 1000;
@@ -2144,13 +2163,13 @@ var Stomp = (function () {
 			}).then(function (res) {
 
 				_this6.emit('sessionRefresh');
-				console.log('Session refresh sent');
+				_minilog2['default']('secucard.stomp').debug('Session refresh sent');
 				_this6.skipSessionRefresh = false;
 				return res;
 			})['catch'](function (err) {
 
 				_this6.emit('sessionRefreshError');
-				console.log('Session refresh failed');
+				_minilog2['default']('secucard.stomp').error('Session refresh failed');
 				if (initial) {
 					throw err;
 				}
@@ -2169,7 +2188,8 @@ var Stomp = (function () {
 	Stomp.prototype._handleStompMessage = function _handleStompMessage(frame) {
 		this.skipSessionRefresh = true;
 
-		console.log('_handleStompMessage', frame);
+		_minilog2['default']('secucard.stomp').debug('_handleStompMessage', frame);
+
 		var body = undefined;
 
 		if (frame && frame.headers && frame.headers['correlation-id']) {
@@ -2200,7 +2220,7 @@ var Stomp = (function () {
 })();
 
 exports.Stomp = Stomp;
-},{"../auth/exception":4,"./channel":11,"./exception":12,"./stomp-impl/stomp":17,"eventemitter3":66,"qs":68,"uuid":76}],19:[function(require,module,exports){
+},{"../auth/exception":4,"./channel":11,"./exception":12,"./stomp-impl/stomp":17,"eventemitter3":66,"minilog":76,"qs":80,"uuid":88}],19:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -19636,6 +19656,490 @@ if ('undefined' !== typeof module) {
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
 },{}],68:[function(require,module,exports){
+// default filter
+var Transform = require('./transform.js');
+
+var levelMap = { debug: 1, info: 2, warn: 3, error: 4 };
+
+function Filter() {
+  this.enabled = true;
+  this.defaultResult = true;
+  this.clear();
+}
+
+Transform.mixin(Filter);
+
+// allow all matching, with level >= given level
+Filter.prototype.allow = function(name, level) {
+  this._white.push({ n: name, l: levelMap[level] });
+  return this;
+};
+
+// deny all matching, with level <= given level
+Filter.prototype.deny = function(name, level) {
+  this._black.push({ n: name, l: levelMap[level] });
+  return this;
+};
+
+Filter.prototype.clear = function() {
+  this._white = [];
+  this._black = [];
+  return this;
+};
+
+function test(rule, name) {
+  // use .test for RegExps
+  return (rule.n.test ? rule.n.test(name) : rule.n == name);
+};
+
+Filter.prototype.test = function(name, level) {
+  var i, len = Math.max(this._white.length, this._black.length);
+  for(i = 0; i < len; i++) {
+    if(this._white[i] && test(this._white[i], name) && levelMap[level] >= this._white[i].l) {
+      return true;
+    }
+    if(this._black[i] && test(this._black[i], name) && levelMap[level] < this._black[i].l) {
+      return false;
+    }
+  }
+  return this.defaultResult;
+};
+
+Filter.prototype.write = function(name, level, args) {
+  if(!this.enabled || this.test(name, level)) {
+    return this.emit('item', name, level, args);
+  }
+};
+
+module.exports = Filter;
+
+},{"./transform.js":70}],69:[function(require,module,exports){
+var Transform = require('./transform.js'),
+    Filter = require('./filter.js');
+
+var log = new Transform(),
+    slice = Array.prototype.slice;
+
+exports = module.exports = function create(name) {
+  var o   = function() { log.write(name, undefined, slice.call(arguments)); return o; };
+  o.debug = function() { log.write(name, 'debug', slice.call(arguments)); return o; };
+  o.info  = function() { log.write(name, 'info',  slice.call(arguments)); return o; };
+  o.warn  = function() { log.write(name, 'warn',  slice.call(arguments)); return o; };
+  o.error = function() { log.write(name, 'error', slice.call(arguments)); return o; };
+  o.log   = o.debug; // for interface compliance with Node and browser consoles
+  o.suggest = exports.suggest;
+  o.format = log.format;
+  return o;
+};
+
+// filled in separately
+exports.defaultBackend = exports.defaultFormatter = null;
+
+exports.pipe = function(dest) {
+  return log.pipe(dest);
+};
+
+exports.end = exports.unpipe = exports.disable = function(from) {
+  return log.unpipe(from);
+};
+
+exports.Transform = Transform;
+exports.Filter = Filter;
+// this is the default filter that's applied when .enable() is called normally
+// you can bypass it completely and set up your own pipes
+exports.suggest = new Filter();
+
+exports.enable = function() {
+  if(exports.defaultFormatter) {
+    return log.pipe(exports.suggest) // filter
+              .pipe(exports.defaultFormatter) // formatter
+              .pipe(exports.defaultBackend); // backend
+  }
+  return log.pipe(exports.suggest) // filter
+            .pipe(exports.defaultBackend); // formatter
+};
+
+
+},{"./filter.js":68,"./transform.js":70}],70:[function(require,module,exports){
+var microee = require('microee');
+
+// Implements a subset of Node's stream.Transform - in a cross-platform manner.
+function Transform() {}
+
+microee.mixin(Transform);
+
+// The write() signature is different from Node's
+// --> makes it much easier to work with objects in logs.
+// One of the lessons from v1 was that it's better to target
+// a good browser rather than the lowest common denominator
+// internally.
+// If you want to use external streams, pipe() to ./stringify.js first.
+Transform.prototype.write = function(name, level, args) {
+  this.emit('item', name, level, args);
+};
+
+Transform.prototype.end = function() {
+  this.emit('end');
+  this.removeAllListeners();
+};
+
+Transform.prototype.pipe = function(dest) {
+  var s = this;
+  // prevent double piping
+  s.emit('unpipe', dest);
+  // tell the dest that it's being piped to
+  dest.emit('pipe', s);
+
+  function onItem() {
+    dest.write.apply(dest, Array.prototype.slice.call(arguments));
+  }
+  function onEnd() { !dest._isStdio && dest.end(); }
+
+  s.on('item', onItem);
+  s.on('end', onEnd);
+
+  s.when('unpipe', function(from) {
+    var match = (from === dest) || typeof from == 'undefined';
+    if(match) {
+      s.removeListener('item', onItem);
+      s.removeListener('end', onEnd);
+      dest.emit('unpipe');
+    }
+    return match;
+  });
+
+  return dest;
+};
+
+Transform.prototype.unpipe = function(from) {
+  this.emit('unpipe', from);
+  return this;
+};
+
+Transform.prototype.format = function(dest) {
+  throw new Error([
+    'Warning: .format() is deprecated in Minilog v2! Use .pipe() instead. For example:',
+    'var Minilog = require(\'minilog\');',
+    'Minilog',
+    '  .pipe(Minilog.backends.console.formatClean)',
+    '  .pipe(Minilog.backends.console);'].join('\n'));
+};
+
+Transform.mixin = function(dest) {
+  var o = Transform.prototype, k;
+  for (k in o) {
+    o.hasOwnProperty(k) && (dest.prototype[k] = o[k]);
+  }
+};
+
+module.exports = Transform;
+
+},{"microee":79}],71:[function(require,module,exports){
+var Transform = require('../common/transform.js'),
+    cache = [ ];
+
+var logger = new Transform();
+
+logger.write = function(name, level, args) {
+  cache.push([ name, level, args ]);
+};
+
+// utility functions
+logger.get = function() { return cache; };
+logger.empty = function() { cache = []; };
+
+module.exports = logger;
+
+},{"../common/transform.js":70}],72:[function(require,module,exports){
+var Transform = require('../common/transform.js');
+
+var newlines = /\n+$/,
+    logger = new Transform();
+
+logger.write = function(name, level, args) {
+  var i = args.length-1;
+  if (typeof console === 'undefined' || !console.log) {
+    return;
+  }
+  if(console.log.apply) {
+    return console.log.apply(console, [name, level].concat(args));
+  } else if(JSON && JSON.stringify) {
+    // console.log.apply is undefined in IE8 and IE9
+    // for IE8/9: make console.log at least a bit less awful
+    if(args[i] && typeof args[i] == 'string') {
+      args[i] = args[i].replace(newlines, '');
+    }
+    try {
+      for(i = 0; i < args.length; i++) {
+        args[i] = JSON.stringify(args[i]);
+      }
+    } catch(e) {}
+    console.log(args.join(' '));
+  }
+};
+
+logger.formatters = ['color', 'minilog'];
+logger.color = require('./formatters/color.js');
+logger.minilog = require('./formatters/minilog.js');
+
+module.exports = logger;
+
+},{"../common/transform.js":70,"./formatters/color.js":73,"./formatters/minilog.js":74}],73:[function(require,module,exports){
+var Transform = require('../../common/transform.js'),
+    color = require('./util.js');
+
+var colors = { debug: ['cyan'], info: ['purple' ], warn: [ 'yellow', true ], error: [ 'red', true ] },
+    logger = new Transform();
+
+logger.write = function(name, level, args) {
+  var fn = console.log;
+  if(console[level] && console[level].apply) {
+    fn = console[level];
+    fn.apply(console, [ '%c'+name+' %c'+level, color('gray'), color.apply(color, colors[level])].concat(args));
+  }
+};
+
+// NOP, because piping the formatted logs can only cause trouble.
+logger.pipe = function() { };
+
+module.exports = logger;
+
+},{"../../common/transform.js":70,"./util.js":75}],74:[function(require,module,exports){
+var Transform = require('../../common/transform.js'),
+    color = require('./util.js'),
+    colors = { debug: ['gray'], info: ['purple' ], warn: [ 'yellow', true ], error: [ 'red', true ] },
+    logger = new Transform();
+
+logger.write = function(name, level, args) {
+  var fn = console.log;
+  if(level != 'debug' && console[level]) {
+    fn = console[level];
+  }
+
+  var subset = [], i = 0;
+  if(level != 'info') {
+    for(; i < args.length; i++) {
+      if(typeof args[i] != 'string') break;
+    }
+    fn.apply(console, [ '%c'+name +' '+ args.slice(0, i).join(' '), color.apply(color, colors[level]) ].concat(args.slice(i)));
+  } else {
+    fn.apply(console, [ '%c'+name, color.apply(color, colors[level]) ].concat(args));
+  }
+};
+
+// NOP, because piping the formatted logs can only cause trouble.
+logger.pipe = function() { };
+
+module.exports = logger;
+
+},{"../../common/transform.js":70,"./util.js":75}],75:[function(require,module,exports){
+var hex = {
+  black: '#000',
+  red: '#c23621',
+  green: '#25bc26',
+  yellow: '#bbbb00',
+  blue:  '#492ee1',
+  magenta: '#d338d3',
+  cyan: '#33bbc8',
+  gray: '#808080',
+  purple: '#708'
+};
+function color(fg, isInverse) {
+  if(isInverse) {
+    return 'color: #fff; background: '+hex[fg]+';';
+  } else {
+    return 'color: '+hex[fg]+';';
+  }
+}
+
+module.exports = color;
+
+},{}],76:[function(require,module,exports){
+var Minilog = require('../common/minilog.js');
+
+var oldEnable = Minilog.enable,
+    oldDisable = Minilog.disable,
+    isChrome = (typeof navigator != 'undefined' && /chrome/i.test(navigator.userAgent)),
+    console = require('./console.js');
+
+// Use a more capable logging backend if on Chrome
+Minilog.defaultBackend = (isChrome ? console.minilog : console);
+
+// apply enable inputs from localStorage and from the URL
+if(typeof window != 'undefined') {
+  try {
+    Minilog.enable(JSON.parse(window.localStorage['minilogSettings']));
+  } catch(e) {}
+  if(window.location && window.location.search) {
+    var match = RegExp('[?&]minilog=([^&]*)').exec(window.location.search);
+    match && Minilog.enable(decodeURIComponent(match[1]));
+  }
+}
+
+// Make enable also add to localStorage
+Minilog.enable = function() {
+  oldEnable.call(Minilog, true);
+  try { window.localStorage['minilogSettings'] = JSON.stringify(true); } catch(e) {}
+  return this;
+};
+
+Minilog.disable = function() {
+  oldDisable.call(Minilog);
+  try { delete window.localStorage.minilogSettings; } catch(e) {}
+  return this;
+};
+
+exports = module.exports = Minilog;
+
+exports.backends = {
+  array: require('./array.js'),
+  browser: Minilog.defaultBackend,
+  localStorage: require('./localstorage.js'),
+  jQuery: require('./jquery_simple.js')
+};
+
+},{"../common/minilog.js":69,"./array.js":71,"./console.js":72,"./jquery_simple.js":77,"./localstorage.js":78}],77:[function(require,module,exports){
+var Transform = require('../common/transform.js');
+
+var cid = new Date().valueOf().toString(36);
+
+function AjaxLogger(options) {
+  this.url = options.url || '';
+  this.cache = [];
+  this.timer = null;
+  this.interval = options.interval || 30*1000;
+  this.enabled = true;
+  this.jQuery = window.jQuery;
+  this.extras = {};
+}
+
+Transform.mixin(AjaxLogger);
+
+AjaxLogger.prototype.write = function(name, level, args) {
+  if(!this.timer) { this.init(); }
+  this.cache.push([name, level].concat(args));
+};
+
+AjaxLogger.prototype.init = function() {
+  if(!this.enabled || !this.jQuery) return;
+  var self = this;
+  this.timer = setTimeout(function() {
+    var i, logs = [], ajaxData, url = self.url;
+    if(self.cache.length == 0) return self.init();
+    // Need to convert each log line individually
+    // so that having invalid (circular) references won't impact all the lines.
+
+    for(i = 0; i < self.cache.length; i++) {
+      try {
+        logs.push(JSON.stringify(self.cache[i]));
+      } catch(e) { }
+    }
+    if(self.jQuery.isEmptyObject(self.extras)) {
+        ajaxData = logs.join('\n');
+        url = self.url + '?client_id=' + cid;
+    } else {
+        ajaxData = JSON.stringify(self.jQuery.extend({logs: logs}, self.extras));
+    }
+
+    self.jQuery.ajax(url, {
+      type: 'POST',
+      cache: false,
+      processData: false,
+      data: ajaxData,
+      contentType: 'application/json',
+      timeout: 10000
+    }).success(function(data, status, jqxhr) {
+      if(data.interval) {
+        self.interval = Math.max(1000, data.interval);
+      }
+    }).error(function() {
+      self.interval = 30000;
+    }).always(function() {
+      self.init();
+    });
+    self.cache = [];
+  }, this.interval);
+};
+
+AjaxLogger.prototype.end = function() {};
+
+// wait until jQuery is defined. Useful if you don't control the load order.
+AjaxLogger.jQueryWait = function(onDone) {
+  if(typeof window !== 'undefined' && (window.jQuery || window.$)) {
+    return onDone(window.jQuery || window.$);
+  } else if (typeof window !== 'undefined') {
+    setTimeout(function() { AjaxLogger.jQueryWait(onDone); }, 200);
+  }
+};
+
+module.exports = AjaxLogger;
+
+},{"../common/transform.js":70}],78:[function(require,module,exports){
+var Transform = require('../common/transform.js'),
+    cache = false;
+
+var logger = new Transform();
+
+logger.write = function(name, level, args) {
+  if(typeof window == 'undefined' || typeof JSON == 'undefined' || !JSON.stringify || !JSON.parse) return;
+  try {
+    if(!cache) { cache = (window.localStorage.minilog ? JSON.parse(window.localStorage.minilog) : []); }
+    cache.push([ new Date().toString(), name, level, args ]);
+    window.localStorage.minilog = JSON.stringify(cache);
+  } catch(e) {}
+};
+
+module.exports = logger;
+},{"../common/transform.js":70}],79:[function(require,module,exports){
+function M() { this._events = {}; }
+M.prototype = {
+  on: function(ev, cb) {
+    this._events || (this._events = {});
+    var e = this._events;
+    (e[ev] || (e[ev] = [])).push(cb);
+    return this;
+  },
+  removeListener: function(ev, cb) {
+    var e = this._events[ev] || [], i;
+    for(i = e.length-1; i >= 0 && e[i]; i--){
+      if(e[i] === cb || e[i].cb === cb) { e.splice(i, 1); }
+    }
+  },
+  removeAllListeners: function(ev) {
+    if(!ev) { this._events = {}; }
+    else { this._events[ev] && (this._events[ev] = []); }
+  },
+  emit: function(ev) {
+    this._events || (this._events = {});
+    var args = Array.prototype.slice.call(arguments, 1), i, e = this._events[ev] || [];
+    for(i = e.length-1; i >= 0 && e[i]; i--){
+      e[i].apply(this, args);
+    }
+    return this;
+  },
+  when: function(ev, cb) {
+    return this.once(ev, cb, true);
+  },
+  once: function(ev, cb, when) {
+    if(!cb) return this;
+    function c() {
+      if(!when) this.removeListener(ev, c);
+      if(cb.apply(this, arguments) && when) this.removeListener(ev, c);
+    }
+    c.cb = cb;
+    this.on(ev, c);
+    return this;
+  }
+};
+M.mixin = function(dest) {
+  var o = M.prototype, k;
+  for (k in o) {
+    o.hasOwnProperty(k) && (dest.prototype[k] = o[k]);
+  }
+};
+module.exports = M;
+
+},{}],80:[function(require,module,exports){
 // Load modules
 
 var Stringify = require('./stringify');
@@ -19652,7 +20156,7 @@ module.exports = {
     parse: Parse
 };
 
-},{"./parse":69,"./stringify":70}],69:[function(require,module,exports){
+},{"./parse":81,"./stringify":82}],81:[function(require,module,exports){
 // Load modules
 
 var Utils = require('./utils');
@@ -19840,7 +20344,7 @@ module.exports = function (str, options) {
     return Utils.compact(obj);
 };
 
-},{"./utils":71}],70:[function(require,module,exports){
+},{"./utils":83}],82:[function(require,module,exports){
 // Load modules
 
 var Utils = require('./utils');
@@ -19963,7 +20467,7 @@ module.exports = function (obj, options) {
     return keys.join(delimiter);
 };
 
-},{"./utils":71}],71:[function(require,module,exports){
+},{"./utils":83}],83:[function(require,module,exports){
 // Load modules
 
 
@@ -20155,7 +20659,7 @@ exports.isBuffer = function (obj) {
               obj.constructor.isBuffer(obj));
 };
 
-},{}],72:[function(require,module,exports){
+},{}],84:[function(require,module,exports){
 /**
  * Module dependencies.
  */
@@ -21280,7 +21784,7 @@ request.put = function(url, data, fn){
 
 module.exports = request;
 
-},{"emitter":73,"reduce":74}],73:[function(require,module,exports){
+},{"emitter":85,"reduce":86}],85:[function(require,module,exports){
 
 /**
  * Expose `Emitter`.
@@ -21446,7 +21950,7 @@ Emitter.prototype.hasListeners = function(event){
   return !! this.listeners(event).length;
 };
 
-},{}],74:[function(require,module,exports){
+},{}],86:[function(require,module,exports){
 
 /**
  * Reduce `arr` with `fn`.
@@ -21471,7 +21975,7 @@ module.exports = function(arr, fn, initial){
   
   return curr;
 };
-},{}],75:[function(require,module,exports){
+},{}],87:[function(require,module,exports){
 (function (global){
 
 var rng;
@@ -21506,7 +22010,7 @@ module.exports = rng;
 
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],76:[function(require,module,exports){
+},{}],88:[function(require,module,exports){
 //     uuid.js
 //
 //     Copyright (c) 2010-2012 Robert Kieffer
@@ -21691,5 +22195,5 @@ uuid.unparse = unparse;
 
 module.exports = uuid;
 
-},{"./rng":75}]},{},[1])(1)
+},{"./rng":87}]},{},[1])(1)
 });

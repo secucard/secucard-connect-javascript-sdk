@@ -11,7 +11,7 @@
  */
 import net from 'net';
 import tls from 'tls';
-
+import minilog from 'minilog';
 export const SocketAtNode = {};
 
 SocketAtNode.connect = (host, port, endpoint, sslEnabled, ssl_options, ssl_validate, onInit, onError) => {
@@ -19,12 +19,14 @@ SocketAtNode.connect = (host, port, endpoint, sslEnabled, ssl_options, ssl_valid
 	let socket = null;
 	
 	if (sslEnabled) {
-		console.log('SocketNode', 'ssl', 'Connecting to ' + host + ':' + port + ' using SSL');
+		
+		minilog('secucard.socket.node').debug('Connecting to ' + host + ':' + port + ' using SSL');
+		
 		socket = tls.connect(port, host, ssl_options, () => {
-			console.log('SocketNode', 'SSL connection complete');
+			minilog('secucard.socket.node').debug('SSL connection complete');
 			
 			if (!socket.authorized) {
-				console.log('SocketNode', 'SSL is not authorized: ' + socket.authorizationError);
+				minilog('secucard.socket.node').error('SSL is not authorized:', socket.authorizationError);
 				if (ssl_validate) {
 					onError(socket.authorizationError);
 					SocketNode.disconnect(socket);
@@ -35,14 +37,13 @@ SocketAtNode.connect = (host, port, endpoint, sslEnabled, ssl_options, ssl_valid
 			onInit(socket, true);
 			
 		}).on('error', function (err, obj) {
-			console.log(err);
-			console.log(obj);
+			minilog('secucard.socket.node').error(err, obj);
 			onError(err);
 		});
 	}
 	
 	else {
-		console.log('SocketNode', 'Connecting to ' + host + ':' + port);
+		minilog('secucard.socket.node').debug('Connecting to ' + host + ':' + port);
 		
 		socket = new net.Socket();
 		socket.connect(port, host);
@@ -59,6 +60,6 @@ SocketAtNode.disconnect = (socket) => {
 		socket.destroy();
 	}
 	
-	console.log('SocketNode', 'disconnect called');
+	minilog('secucard.socket.node').debug('disconnect called');
 	
 };

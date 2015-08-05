@@ -13,6 +13,8 @@ import _ from 'lodash';
 import {POST} from '../net/message';
 import {Token} from './token';
 import {AuthenticationFailedException, AuthenticationTimeoutException} from './exception';
+import minilog from 'minilog';
+
 export class Auth {
 	
 	baseCredentialNames = ['client_id', 'client_secret'];
@@ -122,7 +124,6 @@ export class Auth {
 				
 				this.pollTimer = setInterval(() => {
 					
-					console.log(data.user_code);
 					if ((new Date()).getTime() < pollExpireTime) {
 						
 						this._tokenDeviceRequest(codeCredentials, channel)
@@ -194,7 +195,7 @@ export class Auth {
 			.setHeaders(this.baseHeaders)
 			.setMethod(POST)
 			.setBody(credentials);
-		console.log('token request', m);
+		minilog('secucard.auth').debug('token request', m);
 		return channel.send(m);
 	}
 	

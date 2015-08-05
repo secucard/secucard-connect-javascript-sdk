@@ -18,6 +18,11 @@ export {Channel} from './de.secucard.connect/net/channel';
 export const SecucardConnect = {
 	description: 'SecucardConnect for nodejs'
 };
+
+import minilog from 'minilog';
+export const MiniLog = minilog;
+minilog.suggest.deny(/secucard\..*/, 'warn');
+
 SecucardConnect.create = (config) => {
 	
 	return Client.create(ClientNodeEnvironment, config);

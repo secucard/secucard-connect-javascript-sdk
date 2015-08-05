@@ -16,6 +16,10 @@ var _uuid = require('uuid');
 
 var _uuid2 = _interopRequireDefault(_uuid);
 
+var _minilog = require('minilog');
+
+var _minilog2 = _interopRequireDefault(_minilog);
+
 var utils = {};
 utils.really_defined = function (var_to_test) {
 	return !(var_to_test == null || var_to_test == undefined);
@@ -77,7 +81,7 @@ var Stomp = (function () {
 				}
 				break;
 			case 'CONNECTED':
-				console.log('Connected to STOMP');
+				_minilog2['default']('secucard.STOMP').debug('Connected');
 				this.session = this_frame.headers['session'];
 				this.emit('connected');
 				break;
@@ -88,7 +92,7 @@ var Stomp = (function () {
 				this.emit('error', this_frame);
 				break;
 			default:
-				console.log('Could not parse command: ' + this_frame.command);
+				_minilog2['default']('secucard.STOMP').error('Could not parse command', this_frame.command);
 		}
 	};
 
@@ -103,7 +107,6 @@ var Stomp = (function () {
 		this.send_command(this, 'SUBSCRIBE', headers);
 
 		this._subscribed_to[destination] = { enabled: true, callback: callback };
-		console.log('subscribed to: ' + destination + ' with headers ', headers);
 	};
 
 	Stomp.prototype.unsubscribe = function unsubscribe(headers) {
@@ -111,35 +114,31 @@ var Stomp = (function () {
 		headers['session'] = this.session;
 		this.send_command(this, 'UNSUBSCRIBE', headers);
 		this._subscribed_to[destination].enabled = false;
-		console.log('no longer subscribed to: ' + destination);
 	};
 
 	Stomp.prototype.ack = function ack(message_id) {
 		this.send_command(this, 'ACK', { 'message-id': message_id });
-		console.log('acknowledged message: ' + message_id);
 	};
 
 	Stomp.prototype.begin = function begin() {
 		var transaction_id = Math.floor(Math.random() * 99999999999).toString();
 		this.send_command(this, 'BEGIN', { 'transaction': transaction_id });
-		console.log('begin transaction: ' + transaction_id);
+
 		return transaction_id;
 	};
 
 	Stomp.prototype.commit = function commit(transaction_id) {
 		this.send_command(this, 'COMMIT', { 'transaction': transaction_id });
-		console.log('commit transaction: ' + transaction_id);
 	};
 
 	Stomp.prototype.abort = function abort(transaction_id) {
 		this.send_command(this, 'ABORT', { 'transaction': transaction_id });
-		console.log('abort transaction: ' + transaction_id);
 	};
 
 	Stomp.prototype.send = function send(destination, headers, body, withReceipt) {
 		headers['session'] = this.session;
 		headers['destination'] = destination;
-		console.log('STOMP :: ', headers, body);
+		_minilog2['default']('secucard.STOMP').debug(headers, body);
 		return this.send_command(this, 'SEND', headers, body, withReceipt);
 	};
 
@@ -224,7 +223,7 @@ var Stomp = (function () {
 
 		var _connected = function _connected() {
 
-			console.log('Connected to socket');
+			_minilog2['default']('secucard.STOMP').debug('Connected to socket');
 			_this2.connected = true;
 
 			var headers = {};
@@ -247,7 +246,7 @@ var Stomp = (function () {
 		var socket = stomp.socket;
 
 		socket.on('drain', function (data) {
-			console.log('draining');
+			_minilog2['default']('secucard.STOMP').debug('draining');
 		});
 
 		var buffer = '';
@@ -272,15 +271,10 @@ var Stomp = (function () {
 			}
 		});
 
-		socket.on('end', function () {
-			console.log('end');
-		});
+		socket.on('end', function () {});
 
 		socket.on('close', function (error) {
-			console.log('disconnected');
-			if (error) {
-				console.log('Disconnected with error: ' + error);
-			}
+			_minilog2['default']('secucard.STOMP').debug('Disconnected with error:', error);
 			stomp.session = null;
 			stomp.connected = false;
 			stomp.emit('disconnected', error);
@@ -344,10 +338,10 @@ var Stomp = (function () {
 		var socket = stomp.socket;
 		var frame_str = _frame.as_string();
 
-		console.log('socket.write', frame_str);
+		_minilog2['default']('secucard.STOMP').debug('socket write:', frame_str);
 
 		if (socket.write(frame_str) === false) {
-			console.log('Write buffered');
+			_minilog2['default']('secucard.STOMP').debug('Write buffered');
 		}
 
 		return true;

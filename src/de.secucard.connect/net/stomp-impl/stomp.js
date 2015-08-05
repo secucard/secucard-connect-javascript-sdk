@@ -12,6 +12,7 @@
 import {Frame} from './frame'
 import EE from 'eventemitter3';
 import UUID from 'uuid';
+import minilog from 'minilog';
 
 let utils = {};
 utils.really_defined = (var_to_test) => {
@@ -87,7 +88,7 @@ export class Stomp {
 				}
 				break;
 			case "CONNECTED":
-				console.log('Connected to STOMP');
+				minilog('secucard.STOMP').debug('Connected');
 				this.session = this_frame.headers['session'];
 				this.emit('connected');
 				break;
@@ -98,7 +99,7 @@ export class Stomp {
 				this.emit('error', this_frame);
 				break;
 			default:
-				console.log("Could not parse command: " + this_frame.command);
+				minilog('secucard.STOMP').error('Could not parse command', this_frame.command);
 		}
 	}
 	
@@ -126,7 +127,7 @@ export class Stomp {
 		 */
 
 		this._subscribed_to[destination] = {enabled: true, callback: callback};
-		console.log('subscribed to: ' + destination + ' with headers ', headers);
+		//console.log('subscribed to: ' + destination + ' with headers ', headers);
 	}
 
 	unsubscribe (headers) {
@@ -134,35 +135,35 @@ export class Stomp {
 		headers['session'] = this.session;
 		this.send_command(this, 'UNSUBSCRIBE', headers);
 		this._subscribed_to[destination].enabled = false;
-		console.log('no longer subscribed to: ' + destination);
+		//console.log('no longer subscribed to: ' + destination);
 	}
 
 	ack (message_id) {
 		this.send_command(this, 'ACK', {'message-id': message_id});
-		console.log('acknowledged message: ' + message_id);
+		//console.log('acknowledged message: ' + message_id);
 	}
 
 	begin () {
 		var transaction_id = Math.floor(Math.random() * 99999999999).toString();
 		this.send_command(this, 'BEGIN', {'transaction': transaction_id});
-		console.log('begin transaction: ' + transaction_id);
+		//console.log('begin transaction: ' + transaction_id);
 		return transaction_id;
 	}
 
 	commit (transaction_id) {
 		this.send_command(this, 'COMMIT', {'transaction': transaction_id});
-		console.log('commit transaction: ' + transaction_id);
+		//console.log('commit transaction: ' + transaction_id);
 	}
 
 	abort (transaction_id) {
 		this.send_command(this, 'ABORT', {'transaction': transaction_id});
-		console.log('abort transaction: ' + transaction_id);
+		//console.log('abort transaction: ' + transaction_id);
 	}
 
 	send (destination, headers, body, withReceipt) {
 		headers['session'] = this.session;
 		headers['destination'] = destination;
-		console.log('STOMP :: ', headers, body);
+		minilog('secucard.STOMP').debug(headers, body);
 		return this.send_command(this, 'SEND', headers, body, withReceipt);
 	}
 	
@@ -251,7 +252,7 @@ export class Stomp {
 
 		let _connected = () => {
 			
-			console.log('Connected to socket');
+			minilog('secucard.STOMP').debug('Connected to socket');
 			this.connected = true;
 			
 			let headers = {};
@@ -275,7 +276,7 @@ export class Stomp {
 		var socket = stomp.socket;
 
 		socket.on('drain', (data) => {
-			console.log('draining');
+			minilog('secucard.STOMP').debug('draining');
 		});
 
 		let buffer = '';
@@ -304,14 +305,11 @@ export class Stomp {
 		});
 
 		socket.on('end', function () {
-			console.log("end");
+			
 		});
 
 		socket.on('close', function (error) {
-			console.log('disconnected');
-			if (error) {
-				console.log('Disconnected with error: ' + error);
-			}
+			minilog('secucard.STOMP').debug('Disconnected with error:', error);
 			stomp.session = null;
 			stomp.connected = false;
 			stomp.emit("disconnected", error);
@@ -379,10 +377,10 @@ export class Stomp {
 		var socket = stomp.socket;
 		var frame_str = _frame.as_string();
 		
-		console.log('socket.write', frame_str);
+		minilog('secucard.STOMP').debug('socket write:', frame_str);
 		
 		if (socket.write(frame_str) === false) {
-			console.log('Write buffered');
+			minilog('secucard.STOMP').debug('Write buffered');
 		}
 		
 		return true;

@@ -31,6 +31,10 @@ var client = secucardConnect.SecucardConnect.create({
 	//stompEnabled: false
 });
 
+minilog = secucardConnect.MiniLog;
+minilog.suggest.clear(); // comment this to hide 'debug' messages
+minilog.enable();
+
 console.log('Client version:', client.getVersion());
 
 var app = client.addAppService(SecuofficeMixin);

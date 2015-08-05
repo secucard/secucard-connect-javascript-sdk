@@ -1,7 +1,7 @@
-System.register(['es6-shim', './de.secucard.connect/client-node-environment', './de.secucard.connect/client', './de.secucard.connect/net/channel'], function (_export) {
+System.register(['es6-shim', './de.secucard.connect/client-node-environment', './de.secucard.connect/client', 'minilog', './de.secucard.connect/net/channel'], function (_export) {
   'use strict';
 
-  var es6shim, ClientNodeEnvironment, Client, SecucardConnect;
+  var es6shim, ClientNodeEnvironment, Client, minilog, SecucardConnect, MiniLog;
   return {
     setters: [function (_es6Shim) {
       es6shim = _es6Shim['default'];
@@ -11,6 +11,8 @@ System.register(['es6-shim', './de.secucard.connect/client-node-environment', '.
       _export('Services', _deSecucardConnectClientNodeEnvironment.ServiceMap);
     }, function (_deSecucardConnectClient) {
       Client = _deSecucardConnectClient.Client;
+    }, function (_minilog) {
+      minilog = _minilog['default'];
     }, function (_deSecucardConnectNetChannel) {
       _export('Channel', _deSecucardConnectNetChannel.Channel);
     }],
@@ -21,6 +23,12 @@ System.register(['es6-shim', './de.secucard.connect/client-node-environment', '.
 
       _export('SecucardConnect', SecucardConnect);
 
+      MiniLog = minilog;
+
+      _export('MiniLog', MiniLog);
+
+      minilog.suggest.deny(/secucard\..*/, 'warn');
+
       SecucardConnect.create = function (config) {
 
         return Client.create(ClientNodeEnvironment, config);
@@ -28,4 +36,4 @@ System.register(['es6-shim', './de.secucard.connect/client-node-environment', '.
     }
   };
 });
-//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbImluZGV4LmpzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7Ozs4Q0FpQmEsZUFBZTs7Ozs7c0VBTHBCLHFCQUFxQjs7a0VBRXJCLFVBQVU7O3dDQURWLE1BQU07O3NEQUVOLE9BQU87OztBQUVGLHFCQUFlLEdBQUc7QUFDOUIsbUJBQVcsRUFBRSw0QkFBNEI7T0FDekM7O2lDQUZZLGVBQWU7O0FBRzVCLHFCQUFlLENBQUMsTUFBTSxHQUFHLFVBQUMsTUFBTSxFQUFLOztBQUVwQyxlQUFPLE1BQU0sQ0FBQyxNQUFNLENBQUMscUJBQXFCLEVBQUUsTUFBTSxDQUFDLENBQUM7T0FFcEQsQ0FBQyIsImZpbGUiOiJpbmRleC5qcyIsInNvdXJjZVJvb3QiOiIuLi9zcmMvIn0=
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbImluZGV4LmpzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7Ozt1REFpQmEsZUFBZSxFQUtmLE9BQU87Ozs7O3NFQVZaLHFCQUFxQjs7a0VBRXJCLFVBQVU7O3dDQURWLE1BQU07Ozs7c0RBRU4sT0FBTzs7O0FBRUYscUJBQWUsR0FBRztBQUM5QixtQkFBVyxFQUFFLDRCQUE0QjtPQUN6Qzs7aUNBRlksZUFBZTs7QUFLZixhQUFPLEdBQUcsT0FBTzs7eUJBQWpCLE9BQU87O0FBQ3BCLGFBQU8sQ0FBQyxPQUFPLENBQUMsSUFBSSxDQUFDLGNBQWMsRUFBRSxNQUFNLENBQUMsQ0FBQzs7QUFFN0MscUJBQWUsQ0FBQyxNQUFNLEdBQUcsVUFBQyxNQUFNLEVBQUs7O0FBRXBDLGVBQU8sTUFBTSxDQUFDLE1BQU0sQ0FBQyxxQkFBcUIsRUFBRSxNQUFNLENBQUMsQ0FBQztPQUVwRCxDQUFDIiwiZmlsZSI6ImluZGV4LmpzIiwic291cmNlUm9vdCI6Ii4uL3NyYy8ifQ==

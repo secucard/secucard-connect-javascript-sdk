@@ -18,6 +18,10 @@ var _eventemitter3 = require('eventemitter3');
 
 var _eventemitter32 = _interopRequireDefault(_eventemitter3);
 
+var _minilog = require('minilog');
+
+var _minilog2 = _interopRequireDefault(_minilog);
+
 var _channel = require('./channel');
 
 var _stompImplStomp = require('./stomp-impl/stomp');
@@ -136,11 +140,11 @@ var Stomp = (function () {
 	Stomp.prototype.connect = function connect() {
 		var _this = this;
 
-		console.log('stomp start connection');
+		_minilog2['default']('secucard.stomp').debug('stomp start connection');
 
 		return this.getToken().then(function (token) {
 
-			console.log('Got token', token);
+			_minilog2['default']('secucard.stomp').debug('Got token', token);
 			return _this._connect(token.access_token);
 		});
 	};
@@ -170,7 +174,7 @@ var Stomp = (function () {
 				_this2.connection.disconnect();
 
 				_this2._stompOnDisconnected = function () {
-					console.log('stomp disconnected');
+					_minilog2['default']('secucard.stomp').debug('stomp disconnected');
 					_this2.connection.removeListener('disconnected', _this2._stompOnDisconnected);
 					delete _this2._stompOnDisconnected;
 					resolve();
@@ -263,13 +267,13 @@ var Stomp = (function () {
 		return new Promise(function (resolve, reject) {
 
 			_this3._stompOnConnected = function () {
-				console.log('stomp connected');
+				_minilog2['default']('secucard.stomp').debug('stomp connected');
 				_this3._stompClearListeners();
 				resolve(true);
 			};
 
 			_this3._stompOnError = function (message) {
-				console.log('stomp error', message);
+				_minilog2['default']('secucard.stomp').error('stomp error', message);
 				_this3._stompClearListeners();
 				_this3.close().then(function () {
 					if (message.headers && message.headers.message == 'Bad CONNECT') {
@@ -296,7 +300,7 @@ var Stomp = (function () {
 	Stomp.prototype._sendMessage = function _sendMessage(destinationObj, message) {
 		var _this4 = this;
 
-		console.log('_sendMessage', destinationObj, message);
+		_minilog2['default']('secucard.stomp').debug('message', destinationObj, message);
 
 		return this.getToken().then(function (token) {
 
@@ -347,7 +351,7 @@ var Stomp = (function () {
 			if (!_this4.connection.isConnected() || accessToken != _this4.connectAccessToken) {
 
 				if (_this4.connection.isConnected()) {
-					console.log('Reconnect due token change.');
+					_minilog2['default']('secucard.stomp').warn('Reconnect due token change.');
 				}
 
 				return _this4._disconnect().then(function () {
@@ -362,7 +366,8 @@ var Stomp = (function () {
 	Stomp.prototype._startSessionRefresh = function _startSessionRefresh() {
 		var _this5 = this;
 
-		console.log('Stomp session refresh loop started');
+		_minilog2['default']('secucard.stomp').debug('Stomp session refresh loop started');
+
 		var initial = true;
 
 		var sessionInterval = this.getStompHeartbeatMs() > 0 ? this.getStompHeartbeatMs() - 500 : 25 * 1000;
@@ -391,13 +396,13 @@ var Stomp = (function () {
 			}).then(function (res) {
 
 				_this6.emit('sessionRefresh');
-				console.log('Session refresh sent');
+				_minilog2['default']('secucard.stomp').debug('Session refresh sent');
 				_this6.skipSessionRefresh = false;
 				return res;
 			})['catch'](function (err) {
 
 				_this6.emit('sessionRefreshError');
-				console.log('Session refresh failed');
+				_minilog2['default']('secucard.stomp').error('Session refresh failed');
 				if (initial) {
 					throw err;
 				}
@@ -416,7 +421,8 @@ var Stomp = (function () {
 	Stomp.prototype._handleStompMessage = function _handleStompMessage(frame) {
 		this.skipSessionRefresh = true;
 
-		console.log('_handleStompMessage', frame);
+		_minilog2['default']('secucard.stomp').debug('_handleStompMessage', frame);
+
 		var body = undefined;
 
 		if (frame && frame.headers && frame.headers['correlation-id']) {

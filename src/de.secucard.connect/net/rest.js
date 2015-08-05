@@ -15,6 +15,7 @@ import {Message} from './message';
 import {Channel} from './channel';
 import {AuthenticationFailedException} from '../auth/exception';
 import {SecucardConnectException} from './exception';
+import minilog from 'minilog';
 
 export class Rest {
 	
@@ -210,7 +211,7 @@ export class Rest {
 			message.setBody(params.data);
 		}
 		
-		console.log(message);
+		minilog('secucard.rest').debug('message', message);
 		
 		return message;
 		

@@ -12,6 +12,10 @@ var _tls = require('tls');
 
 var _tls2 = _interopRequireDefault(_tls);
 
+var _minilog = require('minilog');
+
+var _minilog2 = _interopRequireDefault(_minilog);
+
 var SocketAtNode = {};
 
 exports.SocketAtNode = SocketAtNode;
@@ -20,12 +24,14 @@ SocketAtNode.connect = function (host, port, endpoint, sslEnabled, ssl_options, 
 	var socket = null;
 
 	if (sslEnabled) {
-		console.log('SocketNode', 'ssl', 'Connecting to ' + host + ':' + port + ' using SSL');
+
+		_minilog2['default']('secucard.socket.node').debug('Connecting to ' + host + ':' + port + ' using SSL');
+
 		socket = _tls2['default'].connect(port, host, ssl_options, function () {
-			console.log('SocketNode', 'SSL connection complete');
+			_minilog2['default']('secucard.socket.node').debug('SSL connection complete');
 
 			if (!socket.authorized) {
-				console.log('SocketNode', 'SSL is not authorized: ' + socket.authorizationError);
+				_minilog2['default']('secucard.socket.node').error('SSL is not authorized:', socket.authorizationError);
 				if (ssl_validate) {
 					onError(socket.authorizationError);
 					SocketNode.disconnect(socket);
@@ -35,12 +41,11 @@ SocketAtNode.connect = function (host, port, endpoint, sslEnabled, ssl_options, 
 
 			onInit(socket, true);
 		}).on('error', function (err, obj) {
-			console.log(err);
-			console.log(obj);
+			_minilog2['default']('secucard.socket.node').error(err, obj);
 			onError(err);
 		});
 	} else {
-		console.log('SocketNode', 'Connecting to ' + host + ':' + port);
+		_minilog2['default']('secucard.socket.node').debug('Connecting to ' + host + ':' + port);
 
 		socket = new _net2['default'].Socket();
 		socket.connect(port, host);
@@ -55,5 +60,5 @@ SocketAtNode.disconnect = function (socket) {
 		socket.destroy();
 	}
 
-	console.log('SocketNode', 'disconnect called');
+	_minilog2['default']('secucard.socket.node').debug('disconnect called');
 };

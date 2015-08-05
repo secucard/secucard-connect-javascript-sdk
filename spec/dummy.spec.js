@@ -2,9 +2,9 @@ import EE from 'eventemitter3';
 import _ from 'lodash';
 
 import {ClientNodeEnvironment} from '../src/de.secucard.connect/client-node-environment';
-import {Services} from '../src/index.js';
-import {Client} from '../src/de.secucard.connect/client';
-import devCredentialsDevice from './support/dev-credentials-device.json'
+import {Services, MiniLog, SecucardConnect as Client} from '../src/index.js';
+//import {Client} from '../src/de.secucard.connect/client';
+import devCredentialRefreshToken from './support/dev-credentials-refresh-token.json';
 
 class CustomEventEmitter {
 	constructor () {
@@ -22,6 +22,8 @@ describe("dummy, temp testing", function() {
 	
 	it("tests", async function(){
 		
+		MiniLog.suggest.clear();
+		MiniLog.enable();
 		
 		let client = Client.create(ClientNodeEnvironment, {
 			oAuthUrl: 'https://connect-dev10.secupay-ag.de/oauth/',
@@ -38,11 +40,7 @@ describe("dummy, temp testing", function() {
 			}
 		};
 		
-		client.on('deviceCode', (deviceCode) => {
-			console.log('deviceCode', deviceCode);
-		});
-		
-		client.setCredentials(Object.assign({}, devCredentialsDevice, {uuid: "/vendor/secucard/parameter1/test1/parameter2/test2"}));
+		client.setCredentials(devCredentialRefreshToken);
 		
 		await client.open().catch((err) => {
 			

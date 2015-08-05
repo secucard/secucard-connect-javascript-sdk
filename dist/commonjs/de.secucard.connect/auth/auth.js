@@ -16,6 +16,10 @@ var _token2 = require('./token');
 
 var _exception = require('./exception');
 
+var _minilog = require('minilog');
+
+var _minilog2 = _interopRequireDefault(_minilog);
+
 var Auth = (function () {
 	function Auth() {
 		_classCallCheck(this, Auth);
@@ -108,7 +112,6 @@ var Auth = (function () {
 
 				_this2.pollTimer = setInterval(function () {
 
-					console.log(data.user_code);
 					if (new Date().getTime() < pollExpireTime) {
 
 						_this2._tokenDeviceRequest(codeCredentials, channel).then(function (res) {
@@ -161,7 +164,7 @@ var Auth = (function () {
 
 	Auth.prototype._tokenRequest = function _tokenRequest(credentials, channel) {
 		var m = channel.createMessage().setBaseUrl(this.oAuthUrl()).setUrl('token').setHeaders(this.baseHeaders).setMethod(_netMessage.POST).setBody(credentials);
-		console.log('token request', m);
+		_minilog2['default']('secucard.auth').debug('token request', m);
 		return channel.send(m);
 	};
 
