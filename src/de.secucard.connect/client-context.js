@@ -23,6 +23,8 @@ export class ClientContext {
 		
 		Object.assign(this, EE.prototype);
 		
+		this.tokenStorageCreate = environment.TokenStorage.create;
+		
 		let auth = new Auth();
 		auth.configureWithContext(this);
 		this.auth = auth;
@@ -116,12 +118,23 @@ export class ClientContext {
 		
 	}
 	
-	setCredentials(credentials) {
+	setCredentials(credentials, TokenStorage) {
+		
 		this.credentials = Credentials.create(credentials);
+		if(TokenStorage){
+			this.tokenStorage = new TokenStorage(Object.assign({}, credentials));
+		} else {
+			this.tokenStorage = this.tokenStorageCreate(Object.assign({}, credentials));
+		}
+		
 	}
 	
 	getCredentials() {
 		return this.credentials;
+	}
+	
+	getTokenStorage() {
+		return this.tokenStorage;
 	}
 	
 	getConfig() {

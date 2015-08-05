@@ -9,34 +9,42 @@
  See the License for the specific language governing permissions and
  limitations under the License.
  */
-
-export class Credentials {
+import {Token} from './token';
+export class TokenStorageInMem {
 	
-	constructor() {
+	constructor(credentials) {
 		
-		/*
-		---- basic ------
-		 */
-		this.client_id = null;
-		this.client_secret = null;
+		// use credentials as additional data and primary source when storing token
+		this.credentials = credentials;
 		
-		// ---------------
-		this.uuid = null;
-		// ---------------
-		this.code = null;
-		// ---------------
-		this.username = null;
-		this.password = null;
-		this.device = null;
-		this.deviveinfo = {name: null};
+		let token = null;
+		
+		if (credentials.token) {
+			token = Token.create(credentials.token);
+			token.setExpireTime();
+			delete credentials.token;
+		}
+		
+		this.storeToken(token);
+		
+	}
+	
+	removeToken() {
+		
+		this.token = null;
+		
+	}
+	
+	storeToken(token) {
+		
+		this.token = token? token : null;
+		
+	}
+	
+	getStoredToken() {
+		
+		return this.token;
 		
 	}
 	
 }
-
-Credentials.create = (credentials) => {
-	
-	let cr = new Credentials();
-	return Object.assign(cr, credentials);
-	
-};

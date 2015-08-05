@@ -30,6 +30,7 @@ export class Auth {
 		
 		this.getChannel = context.getRestChannel.bind(context);
 		this.getCredentials = context.getCredentials.bind(context);
+		this.getTokenStorage = context.getTokenStorage.bind(context);
 		
 		this.oAuthUrl = () => {
 			
@@ -159,33 +160,32 @@ export class Auth {
 	
 	removeToken() {
 		
-		let cr = this.getCredentials();
-		if(!cr) {
+		let storage = this.getTokenStorage();
+		if(!storage) {
 			let err = new AuthenticationFailedException('Credentials error');
 			throw err;
 		}
-		cr.token = null;
-		
+		storage.removeToken();
 	}
 	
 	storeToken(token) {
 		
-		let cr = this.getCredentials();
-		if(!cr) {
+		let storage = this.getTokenStorage();
+		if(!storage) {
 			let err = new AuthenticationFailedException('Credentials error');
 			throw err;
 		}
-		cr.token = token;
+		storage.storeToken(token);
 		
 	}
 	
 	getStoredToken() {
-		let cr = this.getCredentials();
-		if(!cr) {
+		let storage = this.getTokenStorage();
+		if(!storage) {
 			let err = new AuthenticationFailedException('Credentials error');
 			throw err;
 		}
-		return cr.token;
+		return storage.getStoredToken();
 	}
 	
 	_tokenRequest(credentials, channel) {
