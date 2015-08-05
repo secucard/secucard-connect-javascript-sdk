@@ -12,7 +12,7 @@ class CustomEventEmitter {
 	}
 }
 
-describe("dummy, temp testing", function() {
+describe("device authorization with polling", function() {
 	var originalTimeout;
 	
 	beforeEach(function() {
@@ -29,30 +29,13 @@ describe("dummy, temp testing", function() {
 			restUrl: 'https://connect-dev10.secupay-ag.de/api/v2/'
 		});
 		
-		let credentials = {
-			token: {
-				access_token: '',
-				expires_in: 1200,
-				token_type: 'bearer',
-				scope: 'https://scope.secucard.com/e/api'
-			}
-		};
-		
 		client.on('deviceCode', (deviceCode) => {
 			console.log('deviceCode', deviceCode);
 		});
 		
 		client.setCredentials(Object.assign({}, devCredentialsDevice, {uuid: "/vendor/secucard/parameter1/test1/parameter2/test2"}));
 		
-		await client.open().catch((err) => {
-			
-			console.log(err.message);
-			
-			return new Promise(() => {
-				
-			});
-			
-		});
+		await client.open();
 		
 	});
 	

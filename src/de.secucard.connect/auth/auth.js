@@ -12,7 +12,7 @@
 import _ from 'lodash';
 import {POST} from '../net/message';
 import {Token} from './token';
-import {AuthenticationFailedException} from './exception';
+import {AuthenticationFailedException, AuthenticationTimeoutException} from './exception';
 export class Auth {
 	
 	baseCredentialNames = ['client_id', 'client_secret'];
@@ -38,8 +38,6 @@ export class Auth {
 	}
 	
 	getToken(extend){
-		
-		//TODO implement auth for device
 		
 		let token = this.getStoredToken();
 		
@@ -67,10 +65,17 @@ export class Auth {
 		};
 		
 		let tokenError = (err) => {
-			// refreshing failed, clear the token
+			
+			// failed, clear the token
 			this.removeToken();
-			let error = Object.assign(new AuthenticationFailedException(), err.response.body);
-			//error.data = err.response.body;
+			
+			let error;
+			if(err instanceof AuthenticationTimeoutException) {
+				error = err;
+			} else {
+				error = Object.assign(new AuthenticationFailedException(), err.response.body);
+			}
+			
 			throw error;
 		};
 		
@@ -98,7 +103,8 @@ export class Auth {
 		
 		return this._tokenDeviceCodeRequest(credentials, channel).then((res) => {
 			
-			this.emit('deviceCode', res);
+			let data = res.body;
+			this.emit('deviceCode', data);
 			
 			/*
 			{ device_code: '4b3e0c6733bf616f438ac2992be2a610',
@@ -108,11 +114,41 @@ export class Auth {
 			  interval: 5 }
 			 */
 			
-			let pollIntervalSec = res.interval > 0? res.interval : 5;
+			let pollIntervalSec = data.interval > 0? data.interval : 5;
+			let pollExpireTime = parseInt(data.expires_in) * 1000 + (new Date()).getTime();
+			let codeCredentials = Object.assign({}, credentials, {code: data.device_code});
 			
 			return new Promise((resolve, reject) => {
 				
-				resolve();
+				this.pollTimer = setInterval(() => {
+					
+					console.log(data.user_code);
+					if ((new Date()).getTime() < pollExpireTime) {
+						
+						this._tokenDeviceRequest(codeCredentials, channel)
+							.then((res) => {
+								// got token
+								clearInterval(this.pollTimer);
+								resolve(res);
+							})
+							.catch((err) => {
+								
+								if(err.status == 401) {
+									// authorization pending, do nothing, wait for next poll
+								} else {
+									clearInterval(this.pollTimer);
+									reject(err);
+								}
+								
+							});
+						
+					} else {
+						// device_code expired, stop polling, throw error
+						clearInterval(this.pollTimer);
+						reject(new AuthenticationTimeoutException());
+					}
+
+				}, pollIntervalSec*1000);
 				
 			});
 			
