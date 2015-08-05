@@ -18,6 +18,7 @@ import {Payment} from './product/payment/payment';
 import {Services} from './product/services/services';
 import {Document} from './product/document/document';
 import {Auth} from './product/auth/auth';
+import {TokenStorageInMem} from './auth/token-storage';
 
 export const ClientBrowserEnvironment = {
 	config: {
@@ -71,6 +72,12 @@ export const ClientBrowserEnvironment = {
 ClientBrowserEnvironment.StompChannel = {
 	create: () => {
 		return new Stomp(SocketAtBrowser);
+	}
+};
+
+ClientBrowserEnvironment.TokenStorage = {
+	create: (credentials) => {
+		return new TokenStorageInMem(credentials);
 	}
 };
 

@@ -25,12 +25,9 @@ export class Client {
 		this.removeAppService = this.context.removeAppService.bind(this.context);
 		this.emitServiceEvent = this.context.emitServiceEvent.bind(this.context);
 		this.on = this.context.on.bind(this.context);
+		this.setCredentials = this.context.setCredentials.bind(this.context);
 		this.connected = false;
 		
-	}
-	
-	setCredentials(credentials) {
-		this.context.setCredentials(credentials);
 	}
 	
 	open() {

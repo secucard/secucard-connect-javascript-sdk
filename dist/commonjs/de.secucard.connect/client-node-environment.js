@@ -20,6 +20,8 @@ var _productDocumentDocument = require('./product/document/document');
 
 var _productAuthAuth = require('./product/auth/auth');
 
+var _authTokenStorage = require('./auth/token-storage');
+
 var ClientNodeEnvironment = {
 	config: {
 		stompPort: 61614
@@ -30,6 +32,12 @@ exports.ClientNodeEnvironment = ClientNodeEnvironment;
 ClientNodeEnvironment.StompChannel = {
 	create: function create() {
 		return new _netStomp.Stomp(_netSocketSocketNode.SocketAtNode);
+	}
+};
+
+ClientNodeEnvironment.TokenStorage = {
+	create: function create(credentials) {
+		return new _authTokenStorage.TokenStorageInMem(credentials);
 	}
 };
 

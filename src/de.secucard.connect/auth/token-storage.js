@@ -9,6 +9,42 @@
  See the License for the specific language governing permissions and
  limitations under the License.
  */
-export const Version = {
-	"name": "0.1.2-pre.3"
-};
+import {Token} from './token';
+export class TokenStorageInMem {
+	
+	constructor(credentials) {
+		
+		// use credentials as additional data and primary source when storing token
+		this.credentials = credentials;
+		
+		let token = null;
+		
+		if (credentials.token) {
+			token = Token.create(credentials.token);
+			token.setExpireTime();
+			delete credentials.token;
+		}
+		
+		this.storeToken(token);
+		
+	}
+	
+	removeToken() {
+		
+		this.token = null;
+		
+	}
+	
+	storeToken(token) {
+		
+		this.token = token? token : null;
+		
+	}
+	
+	getStoredToken() {
+		
+		return this.token;
+		
+	}
+	
+}

@@ -16,6 +16,10 @@ import devTransaction from './support/dev-transaction.json';
 import {ClientNodeEnvironment} from '../src/de.secucard.connect/client-node-environment';
 import {Services} from '../src/index.js';
 
+import minilog from 'minilog';
+minilog.suggest.clear();
+minilog.enable();
+
 install();
 
 describe('Smart Services', function() {

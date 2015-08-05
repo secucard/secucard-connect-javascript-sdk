@@ -100,10 +100,6 @@ export class Stomp {
 			return context.getConfig().getStompEndpoint();
 		};
 		
-		this.isDevice = () => {
-			return context.getConfig().isDevice();
-		};
-		
 		this.getStompHeartbeatMs = () => {
 			return context.getConfig().getStompHeartbeatMs();
 		}

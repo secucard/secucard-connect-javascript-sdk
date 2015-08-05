@@ -6,6 +6,10 @@ import {Services} from '../src/index.js';
 import {Client} from '../src/de.secucard.connect/client';
 import devCredentialsDevice from './support/dev-credentials-device.json'
 
+import minilog from 'minilog';
+minilog.suggest.clear();
+minilog.enable();
+
 class CustomEventEmitter {
 	constructor () {
 		Object.assign(this, EE.prototype);
@@ -26,14 +30,15 @@ describe("device authorization with polling", function() {
 		let client = Client.create(ClientNodeEnvironment, {
 			oAuthUrl: 'https://connect-dev10.secupay-ag.de/oauth/',
 			stompHost: 'connect-dev10.secupay-ag.de',
-			restUrl: 'https://connect-dev10.secupay-ag.de/api/v2/'
+			restUrl: 'https://connect-dev10.secupay-ag.de/api/v2/',
+			deviceUUID: "/vendor/secucard/parameter1/test1/parameter2/test2"
 		});
 		
 		client.on('deviceCode', (deviceCode) => {
 			console.log('deviceCode', deviceCode);
 		});
 		
-		client.setCredentials(Object.assign({}, devCredentialsDevice, {uuid: "/vendor/secucard/parameter1/test1/parameter2/test2"}));
+		client.setCredentials(Object.assign({}, devCredentialsDevice));
 		
 		await client.open();
 		

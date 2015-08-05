@@ -108,10 +108,6 @@ var Stomp = (function () {
 			return context.getConfig().getStompEndpoint();
 		};
 
-		this.isDevice = function () {
-			return context.getConfig().isDevice();
-		};
-
 		this.getStompHeartbeatMs = function () {
 			return context.getConfig().getStompHeartbeatMs();
 		};

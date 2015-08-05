@@ -30,11 +30,16 @@ export class Auth {
 		
 		this.getChannel = context.getRestChannel.bind(context);
 		this.getCredentials = context.getCredentials.bind(context);
+		this.getTokenStorage = context.getTokenStorage.bind(context);
 		
 		this.oAuthUrl = () => {
 			
 			return context.getConfig().getOAuthUrl();
 			
+		};
+		
+		this.getDeviceUUID = () => {
+			return context.getConfig().getDeviceUUID();
 		};
 		
 	}
@@ -89,7 +94,7 @@ export class Auth {
 			
 		} else {
 			
-			req = this.isDeviceAuth(cr)? this.getDeviceToken(cr, ch) : this._tokenClientCredentialsRequest(cr, ch);
+			req = this.isDeviceAuth()? this.getDeviceToken(Object.assign({}, cr, {uuid: this.getDeviceUUID()}), ch) : this._tokenClientCredentialsRequest(cr, ch);
 			
 		}
 		
@@ -97,8 +102,8 @@ export class Auth {
 		
 	}
 	
-	isDeviceAuth(credentials) {
-		return credentials.uuid != undefined && credentials.uuid != null;
+	isDeviceAuth() {
+		return Boolean(this.getDeviceUUID());
 	}
 	
 	getDeviceToken(credentials, channel) {
@@ -159,33 +164,32 @@ export class Auth {
 	
 	removeToken() {
 		
-		let cr = this.getCredentials();
-		if(!cr) {
+		let storage = this.getTokenStorage();
+		if(!storage) {
 			let err = new AuthenticationFailedException('Credentials error');
 			throw err;
 		}
-		cr.token = null;
-		
+		storage.removeToken();
 	}
 	
 	storeToken(token) {
 		
-		let cr = this.getCredentials();
-		if(!cr) {
+		let storage = this.getTokenStorage();
+		if(!storage) {
 			let err = new AuthenticationFailedException('Credentials error');
 			throw err;
 		}
-		cr.token = token;
+		storage.storeToken(token);
 		
 	}
 	
 	getStoredToken() {
-		let cr = this.getCredentials();
-		if(!cr) {
+		let storage = this.getTokenStorage();
+		if(!storage) {
 			let err = new AuthenticationFailedException('Credentials error');
 			throw err;
 		}
-		return cr.token;
+		return storage.getStoredToken();
 	}
 	
 	_tokenRequest(credentials, channel) {
