@@ -45,6 +45,19 @@ var ProductService = (function () {
 		return this._request(_netChannel.Channel.METHOD.GET, params, options);
 	};
 
+	ProductService.prototype.retrieveWithAction = function retrieveWithAction(id, action, actionArg, options) {
+
+		var params = {
+			endpoint: this.getEndpoint(),
+			objectId: id,
+			action: action,
+			actionArg: actionArg,
+			options: options
+		};
+
+		return this._request(_netChannel.Channel.METHOD.GET, params, options);
+	};
+
 	ProductService.prototype.retrieveList = function retrieveList(queryParams, options) {
 
 		var params = {

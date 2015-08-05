@@ -10,5 +10,5 @@
  limitations under the License.
  */
 export const Version = {
-	"name": "0.1.2-pre.0"
+	"name": "0.1.2-pre.1"
 };

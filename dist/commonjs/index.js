@@ -18,10 +18,10 @@ var _deSecucardConnectNetChannel = require('./de.secucard.connect/net/channel');
 
 exports.Channel = _deSecucardConnectNetChannel.Channel;
 var SecucardConnect = {
-	description: 'SecucardConnect for nodejs'
+  description: 'SecucardConnect for nodejs'
 };
 exports.SecucardConnect = SecucardConnect;
 SecucardConnect.create = function (config) {
 
-	return _deSecucardConnectClient.Client.create(_deSecucardConnectClientNodeEnvironment.ClientNodeEnvironment, config);
+  return _deSecucardConnectClient.Client.create(_deSecucardConnectClientNodeEnvironment.ClientNodeEnvironment, config);
 };

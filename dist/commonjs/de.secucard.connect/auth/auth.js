@@ -64,7 +64,13 @@ var Auth = (function () {
 
 		var tokenError = function tokenError(err) {
 			_this.removeToken();
-			var error = Object.assign(new _exception.AuthenticationFailedException(), err.response.body);
+
+			var error = undefined;
+			if (err instanceof _exception.AuthenticationTimeoutException) {
+				error = err;
+			} else {
+				error = Object.assign(new _exception.AuthenticationFailedException(), err.response.body);
+			}
 
 			throw error;
 		};
@@ -91,13 +97,35 @@ var Auth = (function () {
 
 		return this._tokenDeviceCodeRequest(credentials, channel).then(function (res) {
 
-			_this2.emit('deviceCode', res);
+			var data = res.body;
+			_this2.emit('deviceCode', data);
 
-			var pollIntervalSec = res.interval > 0 ? res.interval : 5;
+			var pollIntervalSec = data.interval > 0 ? data.interval : 5;
+			var pollExpireTime = parseInt(data.expires_in) * 1000 + new Date().getTime();
+			var codeCredentials = Object.assign({}, credentials, { code: data.device_code });
 
 			return new Promise(function (resolve, reject) {
 
-				resolve();
+				_this2.pollTimer = setInterval(function () {
+
+					console.log(data.user_code);
+					if (new Date().getTime() < pollExpireTime) {
+
+						_this2._tokenDeviceRequest(codeCredentials, channel).then(function (res) {
+							clearInterval(_this2.pollTimer);
+							resolve(res);
+						})['catch'](function (err) {
+
+							if (err.status == 401) {} else {
+								clearInterval(_this2.pollTimer);
+								reject(err);
+							}
+						});
+					} else {
+						clearInterval(_this2.pollTimer);
+						reject(new _exception.AuthenticationTimeoutException());
+					}
+				}, pollIntervalSec * 1000);
 			});
 		});
 	};
