@@ -61,7 +61,7 @@
       "es6-shim": "npm:es6-shim@^0.32.2",
       "eventemitter3": "npm:eventemitter3@^1.1.1",
       "lodash": "npm:lodash@^3.9.3",
-      "minilog": "npm:minilog^2.0.8",
+      "minilog": "npm:minilog@^2.0.8",
       "qs": "npm:qs@^4.0.0",
       "superagent": "npm:superagent@^1.2.0",
       "uuid": "npm:uuid@^2.0.1"
