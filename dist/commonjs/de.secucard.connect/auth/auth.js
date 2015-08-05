@@ -34,10 +34,15 @@ var Auth = (function () {
 
 		this.getChannel = context.getRestChannel.bind(context);
 		this.getCredentials = context.getCredentials.bind(context);
+		this.getTokenStorage = context.getTokenStorage.bind(context);
 
 		this.oAuthUrl = function () {
 
 			return context.getConfig().getOAuthUrl();
+		};
+
+		this.getDeviceUUID = function () {
+			return context.getConfig().getDeviceUUID();
 		};
 	};
 
@@ -86,14 +91,14 @@ var Auth = (function () {
 			req = this._tokenRefreshRequest(cr, token.getRefreshToken(), ch);
 		} else {
 
-			req = this.isDeviceAuth(cr) ? this.getDeviceToken(cr, ch) : this._tokenClientCredentialsRequest(cr, ch);
+			req = this.isDeviceAuth() ? this.getDeviceToken(Object.assign({}, cr, { uuid: this.getDeviceUUID() }), ch) : this._tokenClientCredentialsRequest(cr, ch);
 		}
 
 		return req.then(tokenSuccess)['catch'](tokenError);
 	};
 
-	Auth.prototype.isDeviceAuth = function isDeviceAuth(credentials) {
-		return credentials.uuid != undefined && credentials.uuid != null;
+	Auth.prototype.isDeviceAuth = function isDeviceAuth() {
+		return Boolean(this.getDeviceUUID());
 	};
 
 	Auth.prototype.getDeviceToken = function getDeviceToken(credentials, channel) {
@@ -135,31 +140,31 @@ var Auth = (function () {
 
 	Auth.prototype.removeToken = function removeToken() {
 
-		var cr = this.getCredentials();
-		if (!cr) {
+		var storage = this.getTokenStorage();
+		if (!storage) {
 			var err = new _exception.AuthenticationFailedException('Credentials error');
 			throw err;
 		}
-		cr.token = null;
+		storage.removeToken();
 	};
 
 	Auth.prototype.storeToken = function storeToken(token) {
 
-		var cr = this.getCredentials();
-		if (!cr) {
+		var storage = this.getTokenStorage();
+		if (!storage) {
 			var err = new _exception.AuthenticationFailedException('Credentials error');
 			throw err;
 		}
-		cr.token = token;
+		storage.storeToken(token);
 	};
 
 	Auth.prototype.getStoredToken = function getStoredToken() {
-		var cr = this.getCredentials();
-		if (!cr) {
+		var storage = this.getTokenStorage();
+		if (!storage) {
 			var err = new _exception.AuthenticationFailedException('Credentials error');
 			throw err;
 		}
-		return cr.token;
+		return storage.getStoredToken();
 	};
 
 	Auth.prototype._tokenRequest = function _tokenRequest(credentials, channel) {

@@ -10,7 +10,9 @@ import {ClientConfig} from '../src/de.secucard.connect/client-config';
 import devCredentials from './support/dev-credentials.json';
 import devCredentialsRefreshToken from './support/dev-credentials-refresh-token.json';
 import {ClientNodeEnvironment} from '../src/de.secucard.connect/client-node-environment';
+
 import minilog from 'minilog';
+minilog.suggest.clear();
 minilog.enable();
 
 install();

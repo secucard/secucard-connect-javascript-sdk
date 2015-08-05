@@ -30,6 +30,8 @@ var ClientContext = (function () {
 
 		Object.assign(this, _eventemitter32['default'].prototype);
 
+		this.tokenStorageCreate = environment.TokenStorage.create;
+
 		var auth = new _authAuth.Auth();
 		auth.configureWithContext(this);
 		this.auth = auth;
@@ -116,12 +118,22 @@ var ClientContext = (function () {
 		}
 	};
 
-	ClientContext.prototype.setCredentials = function setCredentials(credentials) {
+	ClientContext.prototype.setCredentials = function setCredentials(credentials, TokenStorage) {
+
 		this.credentials = _authCredentials.Credentials.create(credentials);
+		if (TokenStorage) {
+			this.tokenStorage = new TokenStorage(Object.assign({}, credentials));
+		} else {
+			this.tokenStorage = this.tokenStorageCreate(Object.assign({}, credentials));
+		}
 	};
 
 	ClientContext.prototype.getCredentials = function getCredentials() {
 		return this.credentials;
+	};
+
+	ClientContext.prototype.getTokenStorage = function getTokenStorage() {
+		return this.tokenStorage;
 	};
 
 	ClientContext.prototype.getConfig = function getConfig() {

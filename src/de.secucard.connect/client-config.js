@@ -65,6 +65,10 @@ export class ClientConfig {
 		
 	}
 	
+	getDeviceUUID() {
+		return this.deviceUUID;
+	}
+	
 	_getCompleteUrl(value) {
 		
 		let url = value;
@@ -86,7 +90,7 @@ ClientConfig._defaults = {
 	cacheDir: '', // TODO implement cacheDir
 	
 	// Unique device id like UUID. Mandatory when using device auth type.
-	deviceUUID: '', // TODO implement deviceUUID
+	deviceUUID: null,
 	
 	// URL of the OAuth service to use.
 	oAuthUrl:'https://connect.secucard.com/oauth/',

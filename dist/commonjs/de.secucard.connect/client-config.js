@@ -58,6 +58,10 @@ var ClientConfig = (function () {
 		return Boolean(this.deviceUUID);
 	};
 
+	ClientConfig.prototype.getDeviceUUID = function getDeviceUUID() {
+		return this.deviceUUID;
+	};
+
 	ClientConfig.prototype._getCompleteUrl = function _getCompleteUrl(value) {
 
 		var url = value;
@@ -75,7 +79,8 @@ exports.ClientConfig = ClientConfig;
 ClientConfig._defaults = {
 	channelDefault: '',
 	cacheDir: '',
-	deviceUUID: '',
+	deviceUUID: null,
+
 	oAuthUrl: 'https://connect.secucard.com/oauth/',
 
 	authDeviceTimeout: 0,

@@ -38,6 +38,10 @@ export class Auth {
 			
 		};
 		
+		this.getDeviceUUID = () => {
+			return context.getConfig().getDeviceUUID();
+		};
+		
 	}
 	
 	getToken(extend){
@@ -90,7 +94,7 @@ export class Auth {
 			
 		} else {
 			
-			req = this.isDeviceAuth(cr)? this.getDeviceToken(cr, ch) : this._tokenClientCredentialsRequest(cr, ch);
+			req = this.isDeviceAuth()? this.getDeviceToken(Object.assign({}, cr, {uuid: this.getDeviceUUID()}), ch) : this._tokenClientCredentialsRequest(cr, ch);
 			
 		}
 		
@@ -98,8 +102,8 @@ export class Auth {
 		
 	}
 	
-	isDeviceAuth(credentials) {
-		return credentials.uuid != undefined && credentials.uuid != null;
+	isDeviceAuth() {
+		return Boolean(this.getDeviceUUID());
 	}
 	
 	getDeviceToken(credentials, channel) {
