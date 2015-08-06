@@ -10,6 +10,7 @@
  limitations under the License.
  */
 import {Token} from './token';
+import mixins from '../util/mixins';
 export class TokenStorageInMem {
 	
 	constructor(credentials) {
@@ -48,3 +49,10 @@ export class TokenStorageInMem {
 	}
 	
 }
+
+TokenStorageInMem.createWithMixin = (credentials, TokenStorageMixin) => {
+	
+	let Mixed = mixins(TokenStorageInMem, TokenStorageMixin);
+	return new Mixed(credentials);
+	
+};

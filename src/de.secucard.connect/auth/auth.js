@@ -189,7 +189,11 @@ export class Auth {
 			let err = new AuthenticationFailedException('Credentials error');
 			throw err;
 		}
-		return storage.getStoredToken();
+		let token = storage.getStoredToken();
+		if(token && !(token instanceof Token)) {
+			token = Token.create(token);
+		}
+		return token;
 	}
 	
 	_tokenRequest(credentials, channel) {

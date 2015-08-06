@@ -16,6 +16,7 @@ import {Credentials} from './auth/credentials';
 import {AppService} from './product/app/app-service';
 import {Channel} from './net/channel';
 import EE from 'eventemitter3';
+import {TokenStorageInMem} from './auth/token-storage';
 
 export class ClientContext {
 	
@@ -118,11 +119,11 @@ export class ClientContext {
 		
 	}
 	
-	setCredentials(credentials, TokenStorage) {
+	setCredentials(credentials, TokenStorageMixin) {
 		
 		this.credentials = Credentials.create(credentials);
-		if(TokenStorage){
-			this.tokenStorage = new TokenStorage(Object.assign({}, credentials));
+		if(TokenStorageMixin){
+			this.tokenStorage = TokenStorageInMem.createWithMixin(Object.assign({}, credentials), TokenStorageMixin);
 		} else {
 			this.tokenStorage = this.tokenStorageCreate(Object.assign({}, credentials));
 		}
