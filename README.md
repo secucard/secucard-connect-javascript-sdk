@@ -11,7 +11,7 @@ npm install secucard-connect
 [jspm](http://jspm.io/):
 
 ```
-jspm install github:secucard/secucard-connect-javascript-sdk
+jspm install secucard-connect=github:secucard/secucard-connect-javascript-sdk
 ```
 
 Browserify standalone:
