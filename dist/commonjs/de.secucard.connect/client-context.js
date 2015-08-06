@@ -24,6 +24,8 @@ var _eventemitter3 = require('eventemitter3');
 
 var _eventemitter32 = _interopRequireDefault(_eventemitter3);
 
+var _authTokenStorage = require('./auth/token-storage');
+
 var ClientContext = (function () {
 	function ClientContext(config, environment) {
 		_classCallCheck(this, ClientContext);
@@ -118,14 +120,16 @@ var ClientContext = (function () {
 		}
 	};
 
-	ClientContext.prototype.setCredentials = function setCredentials(credentials, TokenStorage) {
+	ClientContext.prototype.setCredentials = function setCredentials(credentials, TokenStorageMixin) {
 
 		this.credentials = _authCredentials.Credentials.create(credentials);
-		if (TokenStorage) {
-			this.tokenStorage = new TokenStorage(Object.assign({}, credentials));
+		if (TokenStorageMixin) {
+			this.tokenStorage = _authTokenStorage.TokenStorageInMem.createWithMixin(TokenStorageMixin);
 		} else {
-			this.tokenStorage = this.tokenStorageCreate(Object.assign({}, credentials));
+			this.tokenStorage = this.tokenStorageCreate();
 		}
+
+		return this.tokenStorage.setCredentials(Object.assign({}, credentials));
 	};
 
 	ClientContext.prototype.getCredentials = function getCredentials() {
@@ -134,6 +138,10 @@ var ClientContext = (function () {
 
 	ClientContext.prototype.getTokenStorage = function getTokenStorage() {
 		return this.tokenStorage;
+	};
+
+	ClientContext.prototype.getStoredToken = function getStoredToken() {
+		return this.tokenStorage ? this.tokenStorage.getStoredToken() : Promise.resolve(null);
 	};
 
 	ClientContext.prototype.getConfig = function getConfig() {

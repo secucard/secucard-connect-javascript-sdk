@@ -24,6 +24,7 @@ var Client = (function () {
 		this.emitServiceEvent = this.context.emitServiceEvent.bind(this.context);
 		this.on = this.context.on.bind(this.context);
 		this.setCredentials = this.context.setCredentials.bind(this.context);
+		this.getStoredToken = this.context.getStoredToken.bind(this.context);
 		this.connected = false;
 	}
 

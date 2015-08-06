@@ -264,13 +264,13 @@ var Stomp = (function () {
 
 			_this3._stompOnConnected = function () {
 				_minilog2['default']('secucard.stomp').debug('stomp connected');
-				_this3._stompClearListeners();
+				_this3._stompClearListeners ? _this3._stompClearListeners() : null;
 				resolve(true);
 			};
 
 			_this3._stompOnError = function (message) {
 				_minilog2['default']('secucard.stomp').error('stomp error', message);
-				_this3._stompClearListeners();
+				_this3._stompClearListeners ? _this3._stompClearListeners() : null;
 				_this3.close().then(function () {
 					if (message.headers && message.headers.message == 'Bad CONNECT') {
 						reject(new _authException.AuthenticationFailedException(message.body[0]));

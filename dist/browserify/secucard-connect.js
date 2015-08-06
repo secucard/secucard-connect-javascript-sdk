@@ -87,52 +87,53 @@ var Auth = (function () {
 	Auth.prototype.getToken = function getToken(extend) {
 		var _this = this;
 
-		var token = this.getStoredToken();
+		return this.getStoredToken().then(function (token) {
 
-		if (token != null && !token.isExpired()) {
-			if (extend) {
-				token.setExpireTime();
-				this.storeToken(token);
+			if (token != null && !token.isExpired()) {
+				if (extend) {
+					token.setExpireTime();
+					_this.storeToken(token);
+				}
+
+				return Promise.resolve(token);
 			}
 
-			return Promise.resolve(token);
-		}
+			var cr = _this.getCredentials();
+			var ch = _this.getChannel();
 
-		var cr = this.getCredentials();
-		var ch = this.getChannel();
+			var tokenSuccess = function tokenSuccess(res) {
 
-		var tokenSuccess = function tokenSuccess(res) {
+				var _token = token ? token.update(res.body) : _token2.Token.create(res.body);
+				_token.setExpireTime();
+				_this.storeToken(_token);
+				return _token;
+			};
 
-			var _token = token ? token.update(res.body) : _token2.Token.create(res.body);
-			_token.setExpireTime();
-			_this.storeToken(_token);
-			return _token;
-		};
+			var tokenError = function tokenError(err) {
+				_this.removeToken();
 
-		var tokenError = function tokenError(err) {
-			_this.removeToken();
+				var error = undefined;
+				if (err instanceof _exception.AuthenticationTimeoutException) {
+					error = err;
+				} else {
+					error = Object.assign(new _exception.AuthenticationFailedException(), err.response.body);
+				}
 
-			var error = undefined;
-			if (err instanceof _exception.AuthenticationTimeoutException) {
-				error = err;
+				throw error;
+			};
+
+			var req = undefined;
+
+			if (token != null && token.getRefreshToken() != null) {
+
+				req = _this._tokenRefreshRequest(cr, token.getRefreshToken(), ch);
 			} else {
-				error = Object.assign(new _exception.AuthenticationFailedException(), err.response.body);
+
+				req = _this.isDeviceAuth() ? _this.getDeviceToken(Object.assign({}, cr, { uuid: _this.getDeviceUUID() }), ch) : _this._tokenClientCredentialsRequest(cr, ch);
 			}
 
-			throw error;
-		};
-
-		var req = undefined;
-
-		if (token != null && token.getRefreshToken() != null) {
-
-			req = this._tokenRefreshRequest(cr, token.getRefreshToken(), ch);
-		} else {
-
-			req = this.isDeviceAuth() ? this.getDeviceToken(Object.assign({}, cr, { uuid: this.getDeviceUUID() }), ch) : this._tokenClientCredentialsRequest(cr, ch);
-		}
-
-		return req.then(tokenSuccess)['catch'](tokenError);
+			return req.then(tokenSuccess)['catch'](tokenError);
+		});
 	};
 
 	Auth.prototype.isDeviceAuth = function isDeviceAuth() {
@@ -202,7 +203,14 @@ var Auth = (function () {
 			var err = new _exception.AuthenticationFailedException('Credentials error');
 			throw err;
 		}
-		return storage.getStoredToken();
+		return storage.getStoredToken().then(function (token) {
+
+			if (token && !(token instanceof _token2.Token)) {
+				return _token2.Token.create(token);
+			}
+
+			return token;
+		});
 	};
 
 	Auth.prototype._tokenRequest = function _tokenRequest(credentials, channel) {
@@ -346,14 +354,22 @@ exports.AuthenticationTimeoutException = AuthenticationTimeoutException;
 
 exports.__esModule = true;
 
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 
 var _token = require('./token');
 
-var TokenStorageInMem = (function () {
-	function TokenStorageInMem(credentials) {
-		_classCallCheck(this, TokenStorageInMem);
+var _utilMixins = require('../util/mixins');
 
+var _utilMixins2 = _interopRequireDefault(_utilMixins);
+
+var TokenStorageInMem = (function () {
+	function TokenStorageInMem() {
+		_classCallCheck(this, TokenStorageInMem);
+	}
+
+	TokenStorageInMem.prototype.setCredentials = function setCredentials(credentials) {
 		this.credentials = credentials;
 
 		var token = null;
@@ -364,29 +380,36 @@ var TokenStorageInMem = (function () {
 			delete credentials.token;
 		}
 
-		this.storeToken(token);
-	}
+		return this.storeToken(token).then();
+	};
 
 	TokenStorageInMem.prototype.removeToken = function removeToken() {
-
 		this.token = null;
+		return Promise.resolve(this.token);
 	};
 
 	TokenStorageInMem.prototype.storeToken = function storeToken(token) {
 
 		this.token = token ? token : null;
+		return Promise.resolve(this.token);
 	};
 
 	TokenStorageInMem.prototype.getStoredToken = function getStoredToken() {
 
-		return this.token;
+		return Promise.resolve(this.token);
 	};
 
 	return TokenStorageInMem;
 })();
 
 exports.TokenStorageInMem = TokenStorageInMem;
-},{"./token":6}],6:[function(require,module,exports){
+
+TokenStorageInMem.createWithMixin = function (TokenStorageMixin) {
+
+	var Mixed = _utilMixins2['default'](TokenStorageInMem, TokenStorageMixin);
+	return new Mixed();
+};
+},{"../util/mixins":64,"./token":6}],6:[function(require,module,exports){
 "use strict";
 
 exports.__esModule = true;
@@ -484,8 +507,8 @@ ClientBrowserEnvironment.StompChannel = {
 };
 
 ClientBrowserEnvironment.TokenStorage = {
-	create: function create(credentials) {
-		return new _authTokenStorage.TokenStorageInMem(credentials);
+	create: function create() {
+		return new _authTokenStorage.TokenStorageInMem();
 	}
 };
 
@@ -674,6 +697,8 @@ var _eventemitter3 = require('eventemitter3');
 
 var _eventemitter32 = _interopRequireDefault(_eventemitter3);
 
+var _authTokenStorage = require('./auth/token-storage');
+
 var ClientContext = (function () {
 	function ClientContext(config, environment) {
 		_classCallCheck(this, ClientContext);
@@ -768,14 +793,16 @@ var ClientContext = (function () {
 		}
 	};
 
-	ClientContext.prototype.setCredentials = function setCredentials(credentials, TokenStorage) {
+	ClientContext.prototype.setCredentials = function setCredentials(credentials, TokenStorageMixin) {
 
 		this.credentials = _authCredentials.Credentials.create(credentials);
-		if (TokenStorage) {
-			this.tokenStorage = new TokenStorage(Object.assign({}, credentials));
+		if (TokenStorageMixin) {
+			this.tokenStorage = _authTokenStorage.TokenStorageInMem.createWithMixin(TokenStorageMixin);
 		} else {
-			this.tokenStorage = this.tokenStorageCreate(Object.assign({}, credentials));
+			this.tokenStorage = this.tokenStorageCreate();
 		}
+
+		return this.tokenStorage.setCredentials(Object.assign({}, credentials));
 	};
 
 	ClientContext.prototype.getCredentials = function getCredentials() {
@@ -784,6 +811,10 @@ var ClientContext = (function () {
 
 	ClientContext.prototype.getTokenStorage = function getTokenStorage() {
 		return this.tokenStorage;
+	};
+
+	ClientContext.prototype.getStoredToken = function getStoredToken() {
+		return this.tokenStorage ? this.tokenStorage.getStoredToken() : Promise.resolve(null);
 	};
 
 	ClientContext.prototype.getConfig = function getConfig() {
@@ -874,12 +905,12 @@ var ClientContext = (function () {
 })();
 
 exports.ClientContext = ClientContext;
-},{"./auth/auth":2,"./auth/credentials":3,"./net/channel":12,"./net/rest":15,"./product/app/app-service":20,"eventemitter3":67,"lodash":68}],10:[function(require,module,exports){
+},{"./auth/auth":2,"./auth/credentials":3,"./auth/token-storage":5,"./net/channel":12,"./net/rest":15,"./product/app/app-service":20,"eventemitter3":67,"lodash":68}],10:[function(require,module,exports){
 "use strict";
 
 exports.__esModule = true;
 var Version = {
-  "name": "0.1.2-pre.3"
+  "name": "0.1.2"
 };
 exports.Version = Version;
 },{}],11:[function(require,module,exports){
@@ -909,6 +940,7 @@ var Client = (function () {
 		this.emitServiceEvent = this.context.emitServiceEvent.bind(this.context);
 		this.on = this.context.on.bind(this.context);
 		this.setCredentials = this.context.setCredentials.bind(this.context);
+		this.getStoredToken = this.context.getStoredToken.bind(this.context);
 		this.connected = false;
 	}
 
@@ -2095,13 +2127,13 @@ var Stomp = (function () {
 
 			_this3._stompOnConnected = function () {
 				_minilog2['default']('secucard.stomp').debug('stomp connected');
-				_this3._stompClearListeners();
+				_this3._stompClearListeners ? _this3._stompClearListeners() : null;
 				resolve(true);
 			};
 
 			_this3._stompOnError = function (message) {
 				_minilog2['default']('secucard.stomp').error('stomp error', message);
-				_this3._stompClearListeners();
+				_this3._stompClearListeners ? _this3._stompClearListeners() : null;
 				_this3.close().then(function () {
 					if (message.headers && message.headers.message == 'Bad CONNECT') {
 						reject(new _authException.AuthenticationFailedException(message.body[0]));
