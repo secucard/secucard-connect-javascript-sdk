@@ -11,6 +11,10 @@ import {Stomp} from '../src/de.secucard.connect/net/stomp';
 import {SocketAtNode} from '../src/de.secucard.connect/net/socket/socket-node';
 import {Services} from '../src/index.js';
 
+import minilog from 'minilog';
+minilog.suggest.clear();
+minilog.enable();
+
 install();
 
 describe('Stomp', function () {
@@ -30,7 +34,7 @@ describe('Stomp', function () {
 		//this.transactions = transactions;
 		
 		originalTimeout = jasmine.DEFAULT_TIMEOUT_INTERVAL;
-	  	jasmine.DEFAULT_TIMEOUT_INTERVAL = 10000;
+	  	jasmine.DEFAULT_TIMEOUT_INTERVAL = 30000;
 		
 	});
 	

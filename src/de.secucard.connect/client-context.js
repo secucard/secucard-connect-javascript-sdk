@@ -123,10 +123,12 @@ export class ClientContext {
 		
 		this.credentials = Credentials.create(credentials);
 		if(TokenStorageMixin){
-			this.tokenStorage = TokenStorageInMem.createWithMixin(Object.assign({}, credentials), TokenStorageMixin);
+			this.tokenStorage = TokenStorageInMem.createWithMixin(TokenStorageMixin);
 		} else {
-			this.tokenStorage = this.tokenStorageCreate(Object.assign({}, credentials));
+			this.tokenStorage = this.tokenStorageCreate();
 		}
+		
+		return this.tokenStorage.setCredentials(Object.assign({}, credentials));
 		
 	}
 	
@@ -136,6 +138,10 @@ export class ClientContext {
 	
 	getTokenStorage() {
 		return this.tokenStorage;
+	}
+	
+	getStoredToken() {
+		return this.tokenStorage? this.tokenStorage.getStoredToken() : Promise.resolve(null);
 	}
 	
 	getConfig() {

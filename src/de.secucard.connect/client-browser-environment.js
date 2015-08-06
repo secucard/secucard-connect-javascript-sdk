@@ -76,8 +76,8 @@ ClientBrowserEnvironment.StompChannel = {
 };
 
 ClientBrowserEnvironment.TokenStorage = {
-	create: (credentials) => {
-		return new TokenStorageInMem(credentials);
+	create: () => {
+		return new TokenStorageInMem();
 	}
 };
 

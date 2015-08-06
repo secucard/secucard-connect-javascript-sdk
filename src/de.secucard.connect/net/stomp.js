@@ -270,13 +270,13 @@ export class Stomp {
 			
 			this._stompOnConnected = () => {
 				minilog('secucard.stomp').debug('stomp connected');
-				this._stompClearListeners();
+				this._stompClearListeners? this._stompClearListeners() : null;
 				resolve(true);
 			};
 			
 			this._stompOnError = (message) => {
 				minilog('secucard.stomp').error('stomp error', message);
-				this._stompClearListeners();
+				this._stompClearListeners? this._stompClearListeners() : null;
 				this.close().then(() => {
 					if(message.headers && message.headers.message == 'Bad CONNECT') {
 						reject(new AuthenticationFailedException(message.body[0]));

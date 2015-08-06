@@ -13,7 +13,11 @@ import {Token} from './token';
 import mixins from '../util/mixins';
 export class TokenStorageInMem {
 	
-	constructor(credentials) {
+	constructor() {
+		
+	}
+	
+	setCredentials(credentials) {
 		
 		// use credentials as additional data and primary source when storing token
 		this.credentials = credentials;
@@ -26,33 +30,33 @@ export class TokenStorageInMem {
 			delete credentials.token;
 		}
 		
-		this.storeToken(token);
+		return this.storeToken(token).then();
 		
 	}
 	
 	removeToken() {
-		
 		this.token = null;
-		
+		return Promise.resolve(this.token);
 	}
 	
 	storeToken(token) {
 		
 		this.token = token? token : null;
+		return Promise.resolve(this.token);
 		
 	}
 	
 	getStoredToken() {
 		
-		return this.token;
+		return Promise.resolve(this.token);
 		
 	}
 	
 }
 
-TokenStorageInMem.createWithMixin = (credentials, TokenStorageMixin) => {
+TokenStorageInMem.createWithMixin = (TokenStorageMixin) => {
 	
 	let Mixed = mixins(TokenStorageInMem, TokenStorageMixin);
-	return new Mixed(credentials);
+	return new Mixed();
 	
 };

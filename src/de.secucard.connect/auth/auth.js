@@ -46,59 +46,61 @@ export class Auth {
 	
 	getToken(extend){
 		
-		let token = this.getStoredToken();
-		
-		if(token != null && !token.isExpired()){
-			if(extend){
-				// extend expire time on every token access, assuming the token is used, if not this could cause auth failure
-				token.setExpireTime();
-        		this.storeToken(token);
+		return this.getStoredToken().then((token) => {
+			
+			if (token != null && !token.isExpired()) {
+				if (extend) {
+					// extend expire time on every token access, assuming the token is used, if not this could cause auth failure
+					token.setExpireTime();
+					this.storeToken(token);
+				}
+
+				return Promise.resolve(token);
+
 			}
-			
-			return Promise.resolve(token);
-			
-		}
-		
-		let cr = this.getCredentials();
-		let ch = this.getChannel();
-		
-		let tokenSuccess = (res) => {
-			
-			let _token = token? token.update(res.body) : Token.create(res.body);
-			_token.setExpireTime();
-			this.storeToken(_token);
-			return _token;
-			
-		};
-		
-		let tokenError = (err) => {
-			
-			// failed, clear the token
-			this.removeToken();
-			
-			let error;
-			if(err instanceof AuthenticationTimeoutException) {
-				error = err;
+
+			let cr = this.getCredentials();
+			let ch = this.getChannel();
+
+			let tokenSuccess = (res) => {
+
+				let _token = token ? token.update(res.body) : Token.create(res.body);
+				_token.setExpireTime();
+				this.storeToken(_token);
+				return _token;
+
+			};
+
+			let tokenError = (err) => {
+
+				// failed, clear the token
+				this.removeToken();
+
+				let error;
+				if (err instanceof AuthenticationTimeoutException) {
+					error = err;
+				} else {
+					error = Object.assign(new AuthenticationFailedException(), err.response.body);
+				}
+
+				throw error;
+			};
+
+			let req;
+
+			if (token != null && token.getRefreshToken() != null) {
+
+				req = this._tokenRefreshRequest(cr, token.getRefreshToken(), ch);
+
 			} else {
-				error = Object.assign(new AuthenticationFailedException(), err.response.body);
+
+				req = this.isDeviceAuth() ? this.getDeviceToken(Object.assign({}, cr, {uuid: this.getDeviceUUID()}), ch) : this._tokenClientCredentialsRequest(cr, ch);
+
 			}
 			
-			throw error;
-		};
-		
-		let req;
-		
-		if(token != null && token.getRefreshToken() != null) {
+			return req.then(tokenSuccess).catch(tokenError);
 			
-			req = this._tokenRefreshRequest(cr, token.getRefreshToken(), ch);
-			
-		} else {
-			
-			req = this.isDeviceAuth()? this.getDeviceToken(Object.assign({}, cr, {uuid: this.getDeviceUUID()}), ch) : this._tokenClientCredentialsRequest(cr, ch);
-			
-		}
-		
-		return req.then(tokenSuccess).catch(tokenError);
+		});
 		
 	}
 	
@@ -189,11 +191,15 @@ export class Auth {
 			let err = new AuthenticationFailedException('Credentials error');
 			throw err;
 		}
-		let token = storage.getStoredToken();
-		if(token && !(token instanceof Token)) {
-			token = Token.create(token);
-		}
-		return token;
+		return storage.getStoredToken().then((token) => {
+			
+			if(token && !(token instanceof Token)) {
+				return Token.create(token);
+			}
+			
+			return token;
+			
+		});
 	}
 	
 	_tokenRequest(credentials, channel) {
