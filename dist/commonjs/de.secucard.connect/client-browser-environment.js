@@ -37,8 +37,8 @@ ClientBrowserEnvironment.StompChannel = {
 };
 
 ClientBrowserEnvironment.TokenStorage = {
-	create: function create(credentials) {
-		return new _authTokenStorage.TokenStorageInMem(credentials);
+	create: function create() {
+		return new _authTokenStorage.TokenStorageInMem();
 	}
 };
 
