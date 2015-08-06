@@ -1,3 +1,14 @@
+/*
+ Copyright 2015 hp.weber GmbH & Co secucard KG (www.secucard.com)
+ Licensed under the Apache License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at http://www.apache.org/licenses/LICENSE-2.0
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+ */
 import _ from 'lodash';
 import {Rest} from './net/rest';
 import {Auth} from './auth/auth';
@@ -5,12 +16,15 @@ import {Credentials} from './auth/credentials';
 import {AppService} from './product/app/app-service';
 import {Channel} from './net/channel';
 import EE from 'eventemitter3';
+import {TokenStorageInMem} from './auth/token-storage';
 
 export class ClientContext {
 	
 	constructor(config, environment) {
 		
 		Object.assign(this, EE.prototype);
+		
+		this.tokenStorageCreate = environment.TokenStorage.create;
 		
 		let auth = new Auth();
 		auth.configureWithContext(this);
@@ -105,12 +119,29 @@ export class ClientContext {
 		
 	}
 	
-	setCredentials(credentials) {
+	setCredentials(credentials, TokenStorageMixin) {
+		
 		this.credentials = Credentials.create(credentials);
+		if(TokenStorageMixin){
+			this.tokenStorage = TokenStorageInMem.createWithMixin(TokenStorageMixin);
+		} else {
+			this.tokenStorage = this.tokenStorageCreate();
+		}
+		
+		return this.tokenStorage.setCredentials(Object.assign({}, credentials));
+		
 	}
 	
 	getCredentials() {
 		return this.credentials;
+	}
+	
+	getTokenStorage() {
+		return this.tokenStorage;
+	}
+	
+	getStoredToken() {
+		return this.tokenStorage? this.tokenStorage.getStoredToken() : Promise.resolve(null);
 	}
 	
 	getConfig() {

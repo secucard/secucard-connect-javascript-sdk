@@ -1,3 +1,14 @@
+/*
+ Copyright 2015 hp.weber GmbH & Co secucard KG (www.secucard.com)
+ Licensed under the Apache License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at http://www.apache.org/licenses/LICENSE-2.0
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+ */
 import {Message} from './net/message';
 import {ClientConfig} from './client-config';
 import {ClientContext} from './client-context';
@@ -13,12 +24,11 @@ export class Client {
 		this.addAppService = this.context.addAppService.bind(this.context);
 		this.removeAppService = this.context.removeAppService.bind(this.context);
 		this.emitServiceEvent = this.context.emitServiceEvent.bind(this.context);
+		this.on = this.context.on.bind(this.context);
+		this.setCredentials = this.context.setCredentials.bind(this.context);
+		this.getStoredToken = this.context.getStoredToken.bind(this.context);
 		this.connected = false;
 		
-	}
-	
-	setCredentials(credentials) {
-		this.context.setCredentials(credentials);
 	}
 	
 	open() {

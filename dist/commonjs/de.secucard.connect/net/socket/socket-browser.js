@@ -10,6 +10,10 @@ var _eventemitter3 = require('eventemitter3');
 
 var _eventemitter32 = _interopRequireDefault(_eventemitter3);
 
+var _minilog = require('minilog');
+
+var _minilog2 = _interopRequireDefault(_minilog);
+
 var SocketAtBrowser = (function () {
 	function SocketAtBrowser(url) {
 		var _this = this;
@@ -23,13 +27,13 @@ var SocketAtBrowser = (function () {
 
 		ws.onopen = function () {
 
-			console.log('ws.onopen');
+			_minilog2['default']('secucard.socket.browser').debug('onopen');
 			_this.emit('connect');
 		};
 
 		ws.onmessage = function (event) {
 
-			console.log('ws.onmessage', event);
+			_minilog2['default']('secucard.socket.browser').debug('onmessage', event);
 			_this.emit('data', event.data);
 		};
 
@@ -76,6 +80,6 @@ SocketAtBrowser.connect = function (host, port, endpoint, sslEnabled, ssl_option
 
 SocketAtBrowser.disconnect = function (socket) {
 
-	console.log('SocketNode', 'disconnect called');
+	_minilog2['default']('secucard.socket.browser').debug('disconnect called');
 	socket.close();
 };

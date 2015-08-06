@@ -11,15 +11,28 @@ import devCredentials from './support/dev-credentials.json';
 import devCredentialsRefreshToken from './support/dev-credentials-refresh-token.json';
 import {ClientNodeEnvironment} from '../src/de.secucard.connect/client-node-environment';
 
+import minilog from 'minilog';
+minilog.suggest.clear();
+minilog.enable();
+
 install();
 
 describe('Client', function() {
+	
+	var originalTimeout;
 	
 	beforeEach('', async function () {
 		
 		let client = Client.create(ClientNodeEnvironment);
 		this.client = client;
 		
+		originalTimeout = jasmine.DEFAULT_TIMEOUT_INTERVAL;
+	  	jasmine.DEFAULT_TIMEOUT_INTERVAL = 10000;
+		
+	});
+	
+	afterEach(function() {
+	  	jasmine.DEFAULT_TIMEOUT_INTERVAL = originalTimeout;
 	});
 	
 	it('checks ClientConfig apiUrl', async function() {
@@ -55,7 +68,7 @@ describe('Client', function() {
 		
 		expect(client.context.getCredentials().client_id == devCredentials.client_id).toBe(true);
 		expect(client.context.getCredentials().client_secret == devCredentials.client_secret).toBe(true);
-		expect(client.context.getCredentials().token === null).toBe(true);
+		expect(client.context.getCredentials().token).toBe(undefined);
 		
 	});
 	
@@ -98,12 +111,15 @@ describe('Client', function() {
 			
 		client.setCredentials(devCredentialsRefreshToken);
 		
+		await client.open();
+		
+		/*
 		await client.open().then((res) => {
 			console.log(res);
 		}).catch((err) => {
 			console.log(err);
 		});
-		
+		*/
 	});
 	
 });

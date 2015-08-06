@@ -53,6 +53,15 @@ gulp.task('prepare-release', function () {
 	return runSequence(
 		'bump-version',
 		'update-code-version',
-		'build'
+		'build',
+		'changelog'
+	);
+});
+
+gulp.task('pre-release', function () {
+
+	return runSequence(
+		'bump-version',
+		'update-code-version'
 	);
 });

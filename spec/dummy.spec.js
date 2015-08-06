@@ -2,8 +2,9 @@ import EE from 'eventemitter3';
 import _ from 'lodash';
 
 import {ClientNodeEnvironment} from '../src/de.secucard.connect/client-node-environment';
-import {Services} from '../src/index.js';
-import {Client} from '../src/de.secucard.connect/client';
+import {Services, MiniLog, SecucardConnect as Client} from '../src/index.js';
+//import {Client} from '../src/de.secucard.connect/client';
+import devCredentialRefreshToken from './support/dev-credentials-refresh-token.json';
 
 class CustomEventEmitter {
 	constructor () {
@@ -16,23 +17,19 @@ describe("dummy, temp testing", function() {
 	
 	beforeEach(function() {
 		originalTimeout = jasmine.DEFAULT_TIMEOUT_INTERVAL;
-	  	jasmine.DEFAULT_TIMEOUT_INTERVAL = 30000;
+	  	jasmine.DEFAULT_TIMEOUT_INTERVAL = 10*60*1000;
 	});
 	
 	it("tests", async function(){
 		
-		
-		//let obj = {};
-		//obj.length = 10;
-		//console.log(JSON.stringify(obj));
-		
+		MiniLog.suggest.clear();
+		MiniLog.enable();
 		
 		let client = Client.create(ClientNodeEnvironment, {
 			oAuthUrl: 'https://connect-dev10.secupay-ag.de/oauth/',
-			stompHost: 'connect-dev10.secupay-ag.de'
+			stompHost: 'connect-dev10.secupay-ag.de',
+			restUrl: 'https://connect-dev10.secupay-ag.de/api/v2/'
 		});
-		
-		client.config.stompHeartbeatSec = 5;
 		
 		let credentials = {
 			token: {
@@ -43,13 +40,11 @@ describe("dummy, temp testing", function() {
 			}
 		};
 		
-		client.setCredentials(credentials);
+		client.setCredentials(devCredentialRefreshToken);
 		
-		await client.open();
-		
-		let res = await client.open().catch((err) => {
+		await client.open().catch((err) => {
 			
-			console.log(err, err.message);
+			console.log(err.message);
 			
 			return new Promise(() => {
 				

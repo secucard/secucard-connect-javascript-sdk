@@ -13,20 +13,29 @@ var _deSecucardConnectClientBrowserEnvironment = require('./de.secucard.connect/
 
 var _deSecucardConnectClient = require('./de.secucard.connect/client');
 
+var _minilog = require('minilog');
+
+var _minilog2 = _interopRequireDefault(_minilog);
+
 exports.Services = _deSecucardConnectClientBrowserEnvironment.ServiceMap;
 
 var _deSecucardConnectNetChannel = require('./de.secucard.connect/net/channel');
 
 exports.Channel = _deSecucardConnectNetChannel.Channel;
+var MiniLog = _minilog2['default'];
+exports.MiniLog = MiniLog;
+_minilog2['default'].suggest.deny(/secucard\..*/, 'warn');
+
 var SecucardConnect = {
-	description: 'SecucardConnect for browser'
+  description: 'SecucardConnect for browser'
 };
+
 exports.SecucardConnect = SecucardConnect;
 SecucardConnect.create = function (config) {
 
-	return _deSecucardConnectClient.Client.create(_deSecucardConnectClientBrowserEnvironment.ClientBrowserEnvironment, config);
+  return _deSecucardConnectClient.Client.create(_deSecucardConnectClientBrowserEnvironment.ClientBrowserEnvironment, config);
 };
-},{"./de.secucard.connect/client":10,"./de.secucard.connect/client-browser-environment":6,"./de.secucard.connect/net/channel":11,"es6-shim":63}],2:[function(require,module,exports){
+},{"./de.secucard.connect/client":11,"./de.secucard.connect/client-browser-environment":7,"./de.secucard.connect/net/channel":12,"es6-shim":66,"minilog":77}],2:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -45,6 +54,10 @@ var _token2 = require('./token');
 
 var _exception = require('./exception');
 
+var _minilog = require('minilog');
+
+var _minilog2 = _interopRequireDefault(_minilog);
+
 var Auth = (function () {
 	function Auth() {
 		_classCallCheck(this, Auth);
@@ -59,60 +72,72 @@ var Auth = (function () {
 
 		this.getChannel = context.getRestChannel.bind(context);
 		this.getCredentials = context.getCredentials.bind(context);
+		this.getTokenStorage = context.getTokenStorage.bind(context);
 
 		this.oAuthUrl = function () {
 
 			return context.getConfig().getOAuthUrl();
+		};
+
+		this.getDeviceUUID = function () {
+			return context.getConfig().getDeviceUUID();
 		};
 	};
 
 	Auth.prototype.getToken = function getToken(extend) {
 		var _this = this;
 
-		var token = this.getStoredToken();
+		return this.getStoredToken().then(function (token) {
 
-		if (token != null && !token.isExpired()) {
-			if (extend) {
-				token.setExpireTime();
-				this.storeToken(token);
+			if (token != null && !token.isExpired()) {
+				if (extend) {
+					token.setExpireTime();
+					_this.storeToken(token);
+				}
+
+				return Promise.resolve(token);
 			}
 
-			return Promise.resolve(token);
-		}
+			var cr = _this.getCredentials();
+			var ch = _this.getChannel();
 
-		var cr = this.getCredentials();
-		var ch = this.getChannel();
+			var tokenSuccess = function tokenSuccess(res) {
 
-		var tokenSuccess = function tokenSuccess(res) {
+				var _token = token ? token.update(res.body) : _token2.Token.create(res.body);
+				_token.setExpireTime();
+				_this.storeToken(_token);
+				return _token;
+			};
 
-			var _token = token ? token.update(res.body) : _token2.Token.create(res.body);
-			_token.setExpireTime();
-			_this.storeToken(_token);
-			return _token;
-		};
+			var tokenError = function tokenError(err) {
+				_this.removeToken();
 
-		var tokenError = function tokenError(err) {
-			_this.removeToken();
-			var error = Object.assign(new _exception.AuthenticationFailedException(), err.response.body);
+				var error = undefined;
+				if (err instanceof _exception.AuthenticationTimeoutException) {
+					error = err;
+				} else {
+					error = Object.assign(new _exception.AuthenticationFailedException(), err.response.body);
+				}
 
-			throw error;
-		};
+				throw error;
+			};
 
-		var req = undefined;
+			var req = undefined;
 
-		if (token != null && token.getRefreshToken() != null) {
+			if (token != null && token.getRefreshToken() != null) {
 
-			req = this._tokenRefreshRequest(cr, token.getRefreshToken(), ch);
-		} else {
+				req = _this._tokenRefreshRequest(cr, token.getRefreshToken(), ch);
+			} else {
 
-			req = this.isDeviceAuth(cr) ? this.getDeviceToken(cr, ch) : this._tokenClientCredentialsRequest(cr, ch);
-		}
+				req = _this.isDeviceAuth() ? _this.getDeviceToken(Object.assign({}, cr, { uuid: _this.getDeviceUUID() }), ch) : _this._tokenClientCredentialsRequest(cr, ch);
+			}
 
-		return req.then(tokenSuccess)['catch'](tokenError);
+			return req.then(tokenSuccess)['catch'](tokenError);
+		});
 	};
 
-	Auth.prototype.isDeviceAuth = function isDeviceAuth(credentials) {
-		return credentials.uuid != undefined && credentials.uuid != null;
+	Auth.prototype.isDeviceAuth = function isDeviceAuth() {
+		return Boolean(this.getDeviceUUID());
 	};
 
 	Auth.prototype.getDeviceToken = function getDeviceToken(credentials, channel) {
@@ -120,49 +145,77 @@ var Auth = (function () {
 
 		return this._tokenDeviceCodeRequest(credentials, channel).then(function (res) {
 
-			_this2.emit('deviceCode', res);
+			var data = res.body;
+			_this2.emit('deviceCode', data);
 
-			var pollIntervalSec = res.interval > 0 ? res.interval : 5;
+			var pollIntervalSec = data.interval > 0 ? data.interval : 5;
+			var pollExpireTime = parseInt(data.expires_in) * 1000 + new Date().getTime();
+			var codeCredentials = Object.assign({}, credentials, { code: data.device_code });
 
 			return new Promise(function (resolve, reject) {
 
-				resolve();
+				_this2.pollTimer = setInterval(function () {
+
+					if (new Date().getTime() < pollExpireTime) {
+
+						_this2._tokenDeviceRequest(codeCredentials, channel).then(function (res) {
+							clearInterval(_this2.pollTimer);
+							resolve(res);
+						})['catch'](function (err) {
+
+							if (err.status == 401) {} else {
+								clearInterval(_this2.pollTimer);
+								reject(err);
+							}
+						});
+					} else {
+						clearInterval(_this2.pollTimer);
+						reject(new _exception.AuthenticationTimeoutException());
+					}
+				}, pollIntervalSec * 1000);
 			});
 		});
 	};
 
 	Auth.prototype.removeToken = function removeToken() {
 
-		var cr = this.getCredentials();
-		if (!cr) {
+		var storage = this.getTokenStorage();
+		if (!storage) {
 			var err = new _exception.AuthenticationFailedException('Credentials error');
 			throw err;
 		}
-		cr.token = null;
+		storage.removeToken();
 	};
 
 	Auth.prototype.storeToken = function storeToken(token) {
 
-		var cr = this.getCredentials();
-		if (!cr) {
+		var storage = this.getTokenStorage();
+		if (!storage) {
 			var err = new _exception.AuthenticationFailedException('Credentials error');
 			throw err;
 		}
-		cr.token = token;
+		storage.storeToken(token);
 	};
 
 	Auth.prototype.getStoredToken = function getStoredToken() {
-		var cr = this.getCredentials();
-		if (!cr) {
+		var storage = this.getTokenStorage();
+		if (!storage) {
 			var err = new _exception.AuthenticationFailedException('Credentials error');
 			throw err;
 		}
-		return cr.token;
+		return storage.getStoredToken().then(function (token) {
+
+			if (token && !(token instanceof _token2.Token)) {
+				return _token2.Token.create(token);
+			}
+
+			return token;
+		});
 	};
 
 	Auth.prototype._tokenRequest = function _tokenRequest(credentials, channel) {
 		var m = channel.createMessage().setBaseUrl(this.oAuthUrl()).setUrl('token').setHeaders(this.baseHeaders).setMethod(_netMessage.POST).setBody(credentials);
-		console.log('token request', m);
+		_minilog2['default']('secucard.auth').debug('token request', m);
 		return channel.send(m);
 	};
 
@@ -200,19 +253,15 @@ var Auth = (function () {
 })();
 
 exports.Auth = Auth;
-},{"../net/message":13,"./exception":4,"./token":5,"lodash":65}],3:[function(require,module,exports){
-'use strict';
+},{"../net/message":14,"./exception":4,"./token":6,"lodash":68,"minilog":77}],3:[function(require,module,exports){
+"use strict";
 
 exports.__esModule = true;
 
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
-
-var _token = require('./token');
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 var Credentials = function Credentials() {
 	_classCallCheck(this, Credentials);
-
-	this.token = null;
 
 	this.client_id = null;
 	this.client_secret = null;
@@ -232,13 +281,9 @@ exports.Credentials = Credentials;
 Credentials.create = function (credentials) {
 
 	var cr = new Credentials();
-	if (credentials.token) {
-		credentials.token = _token.Token.create(credentials.token);
-		credentials.token.setExpireTime();
-	}
 	return Object.assign(cr, credentials);
 };
-},{"./token":5}],4:[function(require,module,exports){
+},{}],4:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -274,7 +319,97 @@ var AuthenticationFailedException = function AuthenticationFailedException() {
 };
 
 exports.AuthenticationFailedException = AuthenticationFailedException;
+
+var AuthenticationTimeoutException = function AuthenticationTimeoutException() {
+	var message = arguments[0] === undefined ? 'Authentication timeout' : arguments[0];
+
+	_classCallCheck(this, AuthenticationTimeoutException);
+
+	if (Error.captureStackTrace) {
+		Error.captureStackTrace(this, this.constructor);
+	} else {
+		Object.defineProperty(this, 'stack', {
+			configurable: true,
+			enumerable: false,
+			value: Error(message).stack
+		});
+	}
+
+	Object.defineProperty(this, 'message', {
+		configurable: true,
+		enumerable: false,
+		value: message
+	});
+
+	Object.defineProperty(this, 'name', {
+		configurable: true,
+		enumerable: false,
+		value: this.constructor.name
+	});
+};
+
+exports.AuthenticationTimeoutException = AuthenticationTimeoutException;
 },{}],5:[function(require,module,exports){
+'use strict';
+
+exports.__esModule = true;
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
+
+var _token = require('./token');
+
+var _utilMixins = require('../util/mixins');
+
+var _utilMixins2 = _interopRequireDefault(_utilMixins);
+
+var TokenStorageInMem = (function () {
+	function TokenStorageInMem() {
+		_classCallCheck(this, TokenStorageInMem);
+	}
+
+	TokenStorageInMem.prototype.setCredentials = function setCredentials(credentials) {
+		this.credentials = credentials;
+
+		var token = null;
+
+		if (credentials.token) {
+			token = _token.Token.create(credentials.token);
+			token.setExpireTime();
+			delete credentials.token;
+		}
+
+		return this.storeToken(token).then();
+	};
+
+	TokenStorageInMem.prototype.removeToken = function removeToken() {
+		this.token = null;
+		return Promise.resolve(this.token);
+	};
+
+	TokenStorageInMem.prototype.storeToken = function storeToken(token) {
+
+		this.token = token ? token : null;
+		return Promise.resolve(this.token);
+	};
+
+	TokenStorageInMem.prototype.getStoredToken = function getStoredToken() {
+
+		return Promise.resolve(this.token);
+	};
+
+	return TokenStorageInMem;
+})();
+
+exports.TokenStorageInMem = TokenStorageInMem;
+
+TokenStorageInMem.createWithMixin = function (TokenStorageMixin) {
+
+	var Mixed = _utilMixins2['default'](TokenStorageInMem, TokenStorageMixin);
+	return new Mixed();
+};
+},{"../util/mixins":64,"./token":6}],6:[function(require,module,exports){
 "use strict";
 
 exports.__esModule = true;
@@ -332,7 +467,7 @@ Token.create = function (data) {
 	token = Object.assign(token, data);
 	return token;
 };
-},{}],6:[function(require,module,exports){
+},{}],7:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -353,12 +488,16 @@ var _productServicesServices = require('./product/services/services');
 
 var _productDocumentDocument = require('./product/document/document');
 
+var _productAuthAuth = require('./product/auth/auth');
+
+var _authTokenStorage = require('./auth/token-storage');
+
 var ClientBrowserEnvironment = {
 	config: {
 		stompPort: 15671,
 		stompEndpoint: '/stomp/websocket'
 	},
-	services: [_productDocumentDocument.Document.UploadService, _productGeneralGeneral.General.SkeletonService, _productGeneralGeneral.General.AccountService, _productGeneralGeneral.General.AccountDeviceService, _productGeneralGeneral.General.ContactService, _productGeneralGeneral.General.DeliveryAddressService, _productGeneralGeneral.General.FileAccessService, _productGeneralGeneral.General.MerchantService, _productGeneralGeneral.General.NewsService, _productGeneralGeneral.General.NotificationService, _productGeneralGeneral.General.PublicMerchantService, _productGeneralGeneral.General.StoreService, _productGeneralGeneral.General.TransactionService, _productLoyaltyLoyalty.Loyalty.BeaconService, _productLoyaltyLoyalty.Loyalty.CardGroupService, _productLoyaltyLoyalty.Loyalty.CardService, _productLoyaltyLoyalty.Loyalty.ChargeService, _productLoyaltyLoyalty.Loyalty.CheckinService, _productLoyaltyLoyalty.Loyalty.CustomerService, _productLoyaltyLoyalty.Loyalty.MerchantCardService, _productLoyaltyLoyalty.Loyalty.ProgramService, _productLoyaltyLoyalty.Loyalty.ProgramSpecialService, _productLoyaltyLoyalty.Loyalty.SaleService, _productPaymentPayment.Payment.ContainerService, _productPaymentPayment.Payment.ContractService, _productPaymentPayment.Payment.CustomerService, _productPaymentPayment.Payment.SecupayDebitService, _productPaymentPayment.Payment.SecupayPrepayService, _productServicesServices.Services.IdentContractService, _productServicesServices.Services.IdentRequestService, _productServicesServices.Services.IdentResultService, _productSmartSmart.Smart.TransactionService, _productSmartSmart.Smart.IdentService, _productSmartSmart.Smart.CheckinService]
+	services: [_productAuthAuth.Auth.SessionService, _productDocumentDocument.Document.UploadService, _productGeneralGeneral.General.SkeletonService, _productGeneralGeneral.General.AccountService, _productGeneralGeneral.General.AccountDeviceService, _productGeneralGeneral.General.ContactService, _productGeneralGeneral.General.DeliveryAddressService, _productGeneralGeneral.General.FileAccessService, _productGeneralGeneral.General.MerchantService, _productGeneralGeneral.General.NewsService, _productGeneralGeneral.General.NotificationService, _productGeneralGeneral.General.PublicMerchantService, _productGeneralGeneral.General.StoreService, _productGeneralGeneral.General.TransactionService, _productLoyaltyLoyalty.Loyalty.BeaconService, _productLoyaltyLoyalty.Loyalty.CardGroupService, _productLoyaltyLoyalty.Loyalty.CardService, _productLoyaltyLoyalty.Loyalty.ChargeService, _productLoyaltyLoyalty.Loyalty.CheckinService, _productLoyaltyLoyalty.Loyalty.CustomerService, _productLoyaltyLoyalty.Loyalty.MerchantCardService, _productLoyaltyLoyalty.Loyalty.ProgramService, _productLoyaltyLoyalty.Loyalty.ProgramSpecialService, _productLoyaltyLoyalty.Loyalty.SaleService, _productPaymentPayment.Payment.ContainerService, _productPaymentPayment.Payment.ContractService, _productPaymentPayment.Payment.CustomerService, _productPaymentPayment.Payment.SecupayDebitService, _productPaymentPayment.Payment.SecupayPrepayService, _productServicesServices.Services.IdentContractService, _productServicesServices.Services.IdentRequestService, _productServicesServices.Services.IdentResultService, _productSmartSmart.Smart.TransactionService, _productSmartSmart.Smart.IdentService, _productSmartSmart.Smart.CheckinService]
 };
 exports.ClientBrowserEnvironment = ClientBrowserEnvironment;
 ClientBrowserEnvironment.StompChannel = {
@@ -367,7 +506,16 @@ ClientBrowserEnvironment.StompChannel = {
 	}
 };
 
+ClientBrowserEnvironment.TokenStorage = {
+	create: function create() {
+		return new _authTokenStorage.TokenStorageInMem();
+	}
+};
+
 var ServiceMap = {
+	Auth: {
+		Sessions: _productAuthAuth.Auth.SessionService.Uid
+	},
 	Document: {
 		Uploads: _productDocumentDocument.Document.UploadService.Uid
 	},
@@ -409,7 +557,7 @@ var ServiceMap = {
 	}
 };
 exports.ServiceMap = ServiceMap;
-},{"./net/socket/socket-browser":15,"./net/stomp":18,"./product/document/document":20,"./product/general/general":27,"./product/loyalty/loyalty":41,"./product/payment/payment":49,"./product/services/services":56,"./product/smart/smart":59}],7:[function(require,module,exports){
+},{"./auth/token-storage":5,"./net/socket/socket-browser":16,"./net/stomp":19,"./product/auth/auth":21,"./product/document/document":23,"./product/general/general":30,"./product/loyalty/loyalty":44,"./product/payment/payment":52,"./product/services/services":59,"./product/smart/smart":62}],8:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -470,6 +618,10 @@ var ClientConfig = (function () {
 		return Boolean(this.deviceUUID);
 	};
 
+	ClientConfig.prototype.getDeviceUUID = function getDeviceUUID() {
+		return this.deviceUUID;
+	};
+
 	ClientConfig.prototype._getCompleteUrl = function _getCompleteUrl(value) {
 
 		var url = value;
@@ -487,7 +639,8 @@ exports.ClientConfig = ClientConfig;
 ClientConfig._defaults = {
 	channelDefault: '',
 	cacheDir: '',
-	deviceUUID: '',
+	deviceUUID: null,
+
 	oAuthUrl: 'https://connect.secucard.com/oauth/',
 
 	authDeviceTimeout: 0,
@@ -517,7 +670,7 @@ ClientConfig.defaults = function () {
 	Object.assign(config, ClientConfig._defaults);
 	return config;
 };
-},{}],8:[function(require,module,exports){
+},{}],9:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -544,11 +697,15 @@ var _eventemitter3 = require('eventemitter3');
 
 var _eventemitter32 = _interopRequireDefault(_eventemitter3);
 
+var _authTokenStorage = require('./auth/token-storage');
+
 var ClientContext = (function () {
 	function ClientContext(config, environment) {
 		_classCallCheck(this, ClientContext);
 
 		Object.assign(this, _eventemitter32['default'].prototype);
+
+		this.tokenStorageCreate = environment.TokenStorage.create;
 
 		var auth = new _authAuth.Auth();
 		auth.configureWithContext(this);
@@ -636,12 +793,28 @@ var ClientContext = (function () {
 		}
 	};
 
-	ClientContext.prototype.setCredentials = function setCredentials(credentials) {
+	ClientContext.prototype.setCredentials = function setCredentials(credentials, TokenStorageMixin) {
+
 		this.credentials = _authCredentials.Credentials.create(credentials);
+		if (TokenStorageMixin) {
+			this.tokenStorage = _authTokenStorage.TokenStorageInMem.createWithMixin(TokenStorageMixin);
+		} else {
+			this.tokenStorage = this.tokenStorageCreate();
+		}
+
+		return this.tokenStorage.setCredentials(Object.assign({}, credentials));
 	};
 
 	ClientContext.prototype.getCredentials = function getCredentials() {
 		return this.credentials;
+	};
+
+	ClientContext.prototype.getTokenStorage = function getTokenStorage() {
+		return this.tokenStorage;
+	};
+
+	ClientContext.prototype.getStoredToken = function getStoredToken() {
+		return this.tokenStorage ? this.tokenStorage.getStoredToken() : Promise.resolve(null);
 	};
 
 	ClientContext.prototype.getConfig = function getConfig() {
@@ -732,15 +905,15 @@ var ClientContext = (function () {
 })();
 
 exports.ClientContext = ClientContext;
-},{"./auth/auth":2,"./auth/credentials":3,"./net/channel":11,"./net/rest":14,"./product/app/app-service":19,"eventemitter3":64,"lodash":65}],9:[function(require,module,exports){
+},{"./auth/auth":2,"./auth/credentials":3,"./auth/token-storage":5,"./net/channel":12,"./net/rest":15,"./product/app/app-service":20,"eventemitter3":67,"lodash":68}],10:[function(require,module,exports){
 "use strict";
 
 exports.__esModule = true;
 var Version = {
-	"name": "0.1.1"
+  "name": "0.1.2"
 };
 exports.Version = Version;
-},{}],10:[function(require,module,exports){
+},{}],11:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -765,12 +938,11 @@ var Client = (function () {
 		this.addAppService = this.context.addAppService.bind(this.context);
 		this.removeAppService = this.context.removeAppService.bind(this.context);
 		this.emitServiceEvent = this.context.emitServiceEvent.bind(this.context);
+		this.on = this.context.on.bind(this.context);
+		this.setCredentials = this.context.setCredentials.bind(this.context);
+		this.getStoredToken = this.context.getStoredToken.bind(this.context);
 		this.connected = false;
 	}
-
-	Client.prototype.setCredentials = function setCredentials(credentials) {
-		this.context.setCredentials(credentials);
-	};
 
 	Client.prototype.open = function open() {
 		var _this = this;
@@ -804,7 +976,7 @@ Client.create = function (environment, config) {
 
 	return new Client(config, environment);
 };
-},{"./client-config":7,"./client-context":8,"./client-version":9,"./net/message":13}],11:[function(require,module,exports){
+},{"./client-config":8,"./client-context":9,"./client-version":10,"./net/message":14}],12:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -835,7 +1007,7 @@ Channel.METHOD = {
 	DELETE: 'DELETE',
 	EXECUTE: 'EXECUTE'
 };
-},{}],12:[function(require,module,exports){
+},{}],13:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -920,7 +1092,7 @@ SecucardConnectException.create = function (data) {
 
 	return error;
 };
-},{"../auth/exception":4}],13:[function(require,module,exports){
+},{"../auth/exception":4}],14:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -983,7 +1155,7 @@ var Message = (function () {
 })();
 
 exports.Message = Message;
-},{}],14:[function(require,module,exports){
+},{}],15:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -1003,6 +1175,10 @@ var _channel = require('./channel');
 var _authException = require('../auth/exception');
 
 var _exception = require('./exception');
+
+var _minilog = require('minilog');
+
+var _minilog2 = _interopRequireDefault(_minilog);
 
 var Rest = (function () {
 	function Rest() {
@@ -1168,7 +1344,7 @@ var Rest = (function () {
 			message.setBody(params.data);
 		}
 
-		console.log(message);
+		_minilog2['default']('secucard.rest').debug('message', message);
 
 		return message;
 	};
@@ -1186,7 +1362,7 @@ var Rest = (function () {
 })();
 
 exports.Rest = Rest;
-},{"../auth/exception":4,"./channel":11,"./exception":12,"./message":13,"superagent":70}],15:[function(require,module,exports){
+},{"../auth/exception":4,"./channel":12,"./exception":13,"./message":14,"minilog":77,"superagent":85}],16:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -1198,6 +1374,10 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 var _eventemitter3 = require('eventemitter3');
 
 var _eventemitter32 = _interopRequireDefault(_eventemitter3);
+
+var _minilog = require('minilog');
+
+var _minilog2 = _interopRequireDefault(_minilog);
 
 var SocketAtBrowser = (function () {
 	function SocketAtBrowser(url) {
@@ -1212,13 +1392,13 @@ var SocketAtBrowser = (function () {
 
 		ws.onopen = function () {
 
-			console.log('ws.onopen');
+			_minilog2['default']('secucard.socket.browser').debug('onopen');
 			_this.emit('connect');
 		};
 
 		ws.onmessage = function (event) {
 
-			console.log('ws.onmessage', event);
+			_minilog2['default']('secucard.socket.browser').debug('onmessage', event);
 			_this.emit('data', event.data);
 		};
 
@@ -1265,10 +1445,10 @@ SocketAtBrowser.connect = function (host, port, endpoint, sslEnabled, ssl_option
 
 SocketAtBrowser.disconnect = function (socket) {
 
-	console.log('SocketNode', 'disconnect called');
+	_minilog2['default']('secucard.socket.browser').debug('disconnect called');
 	socket.close();
 };
-},{"eventemitter3":64}],16:[function(require,module,exports){
+},{"eventemitter3":67,"minilog":77}],17:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -1321,7 +1501,7 @@ var Frame = (function () {
 })();
 
 exports.Frame = Frame;
-},{}],17:[function(require,module,exports){
+},{}],18:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -1339,6 +1519,10 @@ var _eventemitter32 = _interopRequireDefault(_eventemitter3);
 var _uuid = require('uuid');
 
 var _uuid2 = _interopRequireDefault(_uuid);
+
+var _minilog = require('minilog');
+
+var _minilog2 = _interopRequireDefault(_minilog);
 
 var utils = {};
 utils.really_defined = function (var_to_test) {
@@ -1401,7 +1585,7 @@ var Stomp = (function () {
 				}
 				break;
 			case 'CONNECTED':
-				console.log('Connected to STOMP');
+				_minilog2['default']('secucard.STOMP').debug('Connected');
 				this.session = this_frame.headers['session'];
 				this.emit('connected');
 				break;
@@ -1412,7 +1596,7 @@ var Stomp = (function () {
 				this.emit('error', this_frame);
 				break;
 			default:
-				console.log('Could not parse command: ' + this_frame.command);
+				_minilog2['default']('secucard.STOMP').error('Could not parse command', this_frame.command);
 		}
 	};
 
@@ -1427,7 +1611,6 @@ var Stomp = (function () {
 		this.send_command(this, 'SUBSCRIBE', headers);
 
 		this._subscribed_to[destination] = { enabled: true, callback: callback };
-		console.log('subscribed to: ' + destination + ' with headers ', headers);
 	};
 
 	Stomp.prototype.unsubscribe = function unsubscribe(headers) {
@@ -1435,35 +1618,31 @@ var Stomp = (function () {
 		headers['session'] = this.session;
 		this.send_command(this, 'UNSUBSCRIBE', headers);
 		this._subscribed_to[destination].enabled = false;
-		console.log('no longer subscribed to: ' + destination);
 	};
 
 	Stomp.prototype.ack = function ack(message_id) {
 		this.send_command(this, 'ACK', { 'message-id': message_id });
-		console.log('acknowledged message: ' + message_id);
 	};
 
 	Stomp.prototype.begin = function begin() {
 		var transaction_id = Math.floor(Math.random() * 99999999999).toString();
 		this.send_command(this, 'BEGIN', { 'transaction': transaction_id });
-		console.log('begin transaction: ' + transaction_id);
+
 		return transaction_id;
 	};
 
 	Stomp.prototype.commit = function commit(transaction_id) {
 		this.send_command(this, 'COMMIT', { 'transaction': transaction_id });
-		console.log('commit transaction: ' + transaction_id);
 	};
 
 	Stomp.prototype.abort = function abort(transaction_id) {
 		this.send_command(this, 'ABORT', { 'transaction': transaction_id });
-		console.log('abort transaction: ' + transaction_id);
 	};
 
 	Stomp.prototype.send = function send(destination, headers, body, withReceipt) {
 		headers['session'] = this.session;
 		headers['destination'] = destination;
-		console.log('STOMP :: ', headers, body);
+		_minilog2['default']('secucard.STOMP').debug(headers, body);
 		return this.send_command(this, 'SEND', headers, body, withReceipt);
 	};
 
@@ -1548,7 +1727,7 @@ var Stomp = (function () {
 
 		var _connected = function _connected() {
 
-			console.log('Connected to socket');
+			_minilog2['default']('secucard.STOMP').debug('Connected to socket');
 			_this2.connected = true;
 
 			var headers = {};
@@ -1571,7 +1750,7 @@ var Stomp = (function () {
 		var socket = stomp.socket;
 
 		socket.on('drain', function (data) {
-			console.log('draining');
+			_minilog2['default']('secucard.STOMP').debug('draining');
 		});
 
 		var buffer = '';
@@ -1596,15 +1775,10 @@ var Stomp = (function () {
 			}
 		});
 
-		socket.on('end', function () {
-			console.log('end');
-		});
+		socket.on('end', function () {});
 
 		socket.on('close', function (error) {
-			console.log('disconnected');
-			if (error) {
-				console.log('Disconnected with error: ' + error);
-			}
+			_minilog2['default']('secucard.STOMP').debug('Disconnected with error:', error);
 			stomp.session = null;
 			stomp.connected = false;
 			stomp.emit('disconnected', error);
@@ -1668,10 +1842,10 @@ var Stomp = (function () {
 		var socket = stomp.socket;
 		var frame_str = _frame.as_string();
 
-		console.log('socket.write', frame_str);
+		_minilog2['default']('secucard.STOMP').debug('socket write:', frame_str);
 
 		if (socket.write(frame_str) === false) {
-			console.log('Write buffered');
+			_minilog2['default']('secucard.STOMP').debug('Write buffered');
 		}
 
 		return true;
@@ -1686,7 +1860,7 @@ var Stomp = (function () {
 })();
 
 exports.Stomp = Stomp;
-},{"./frame":16,"eventemitter3":64,"uuid":74}],18:[function(require,module,exports){
+},{"./frame":17,"eventemitter3":67,"minilog":77,"uuid":89}],19:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -1706,6 +1880,10 @@ var _qs2 = _interopRequireDefault(_qs);
 var _eventemitter3 = require('eventemitter3');
 
 var _eventemitter32 = _interopRequireDefault(_eventemitter3);
+
+var _minilog = require('minilog');
+
+var _minilog2 = _interopRequireDefault(_minilog);
 
 var _channel = require('./channel');
 
@@ -1793,10 +1971,6 @@ var Stomp = (function () {
 			return context.getConfig().getStompEndpoint();
 		};
 
-		this.isDevice = function () {
-			return context.getConfig().isDevice();
-		};
-
 		this.getStompHeartbeatMs = function () {
 			return context.getConfig().getStompHeartbeatMs();
 		};
@@ -1825,11 +1999,11 @@ var Stomp = (function () {
 	Stomp.prototype.connect = function connect() {
 		var _this = this;
 
-		console.log('stomp start connection');
+		_minilog2['default']('secucard.stomp').debug('stomp start connection');
 
 		return this.getToken().then(function (token) {
 
-			console.log('Got token', token);
+			_minilog2['default']('secucard.stomp').debug('Got token', token);
 			return _this._connect(token.access_token);
 		});
 	};
@@ -1859,7 +2033,7 @@ var Stomp = (function () {
 				_this2.connection.disconnect();
 
 				_this2._stompOnDisconnected = function () {
-					console.log('stomp disconnected');
+					_minilog2['default']('secucard.stomp').debug('stomp disconnected');
 					_this2.connection.removeListener('disconnected', _this2._stompOnDisconnected);
 					delete _this2._stompOnDisconnected;
 					resolve();
@@ -1952,14 +2126,14 @@ var Stomp = (function () {
 		return new Promise(function (resolve, reject) {
 
 			_this3._stompOnConnected = function () {
-				console.log('stomp connected');
-				_this3._stompClearListeners();
+				_minilog2['default']('secucard.stomp').debug('stomp connected');
+				_this3._stompClearListeners ? _this3._stompClearListeners() : null;
 				resolve(true);
 			};
 
 			_this3._stompOnError = function (message) {
-				console.log('stomp error', message);
-				_this3._stompClearListeners();
+				_minilog2['default']('secucard.stomp').error('stomp error', message);
+				_this3._stompClearListeners ? _this3._stompClearListeners() : null;
 				_this3.close().then(function () {
 					if (message.headers && message.headers.message == 'Bad CONNECT') {
 						reject(new _authException.AuthenticationFailedException(message.body[0]));
@@ -1985,7 +2159,7 @@ var Stomp = (function () {
 	Stomp.prototype._sendMessage = function _sendMessage(destinationObj, message) {
 		var _this4 = this;
 
-		console.log('_sendMessage', destinationObj, message);
+		_minilog2['default']('secucard.stomp').debug('message', destinationObj, message);
 
 		return this.getToken().then(function (token) {
 
@@ -2036,7 +2210,7 @@ var Stomp = (function () {
 			if (!_this4.connection.isConnected() || accessToken != _this4.connectAccessToken) {
 
 				if (_this4.connection.isConnected()) {
-					console.log('Reconnect due token change.');
+					_minilog2['default']('secucard.stomp').warn('Reconnect due token change.');
 				}
 
 				return _this4._disconnect().then(function () {
@@ -2051,7 +2225,8 @@ var Stomp = (function () {
 	Stomp.prototype._startSessionRefresh = function _startSessionRefresh() {
 		var _this5 = this;
 
-		console.log('Stomp session refresh loop started');
+		_minilog2['default']('secucard.stomp').debug('Stomp session refresh loop started');
+
 		var initial = true;
 
 		var sessionInterval = this.getStompHeartbeatMs() > 0 ? this.getStompHeartbeatMs() - 500 : 25 * 1000;
@@ -2080,13 +2255,13 @@ var Stomp = (function () {
 			}).then(function (res) {
 
 				_this6.emit('sessionRefresh');
-				console.log('Session refresh sent');
+				_minilog2['default']('secucard.stomp').debug('Session refresh sent');
 				_this6.skipSessionRefresh = false;
 				return res;
 			})['catch'](function (err) {
 
 				_this6.emit('sessionRefreshError');
-				console.log('Session refresh failed');
+				_minilog2['default']('secucard.stomp').error('Session refresh failed');
 				if (initial) {
 					throw err;
 				}
@@ -2105,7 +2280,8 @@ var Stomp = (function () {
 	Stomp.prototype._handleStompMessage = function _handleStompMessage(frame) {
 		this.skipSessionRefresh = true;
 
-		console.log('_handleStompMessage', frame);
+		_minilog2['default']('secucard.stomp').debug('_handleStompMessage', frame);
+
 		var body = undefined;
 
 		if (frame && frame.headers && frame.headers['correlation-id']) {
@@ -2136,7 +2312,7 @@ var Stomp = (function () {
 })();
 
 exports.Stomp = Stomp;
-},{"../auth/exception":4,"./channel":11,"./exception":12,"./stomp-impl/stomp":17,"eventemitter3":64,"qs":66,"uuid":74}],19:[function(require,module,exports){
+},{"../auth/exception":4,"./channel":12,"./exception":13,"./stomp-impl/stomp":18,"eventemitter3":67,"minilog":77,"qs":81,"uuid":89}],20:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -2188,7 +2364,55 @@ AppService.createWithMixin = function (ServiceMixin) {
 	var Mixed = _utilMixins2['default'](AppService, ServiceMixin);
 	return new Mixed();
 };
-},{"../../util/mixins":61,"../product-service":52}],20:[function(require,module,exports){
+},{"../../util/mixins":64,"../product-service":55}],21:[function(require,module,exports){
+'use strict';
+
+exports.__esModule = true;
+
+var _sessionService = require('./session-service');
+
+var Auth = {};
+exports.Auth = Auth;
+Auth.SessionService = _sessionService.SessionService;
+},{"./session-service":22}],22:[function(require,module,exports){
+'use strict';
+
+exports.__esModule = true;
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; }
+
+var _productService = require('../product-service');
+
+var SessionService = (function (_ProductService) {
+	function SessionService() {
+		_classCallCheck(this, SessionService);
+
+		_ProductService.call(this);
+	}
+
+	_inherits(SessionService, _ProductService);
+
+	SessionService.prototype.getEndpoint = function getEndpoint() {
+		return ['auth', 'sessions'];
+	};
+
+	SessionService.prototype.getEventTargets = function getEventTargets() {
+		return [];
+	};
+
+	SessionService.prototype.check = function check() {
+		return this.retrieveWithAction('me', 'debug');
+	};
+
+	return SessionService;
+})(_productService.ProductService);
+
+exports.SessionService = SessionService;
+
+SessionService.Uid = ['auth', 'sessions'].join('.');
+},{"../product-service":55}],23:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -2199,7 +2423,7 @@ var Document = {};
 
 exports.Document = Document;
 Document.UploadService = _uploadService.UploadService;
-},{"./upload-service":21}],21:[function(require,module,exports){
+},{"./upload-service":24}],24:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -2239,7 +2463,7 @@ var UploadService = (function (_ProductService) {
 exports.UploadService = UploadService;
 
 UploadService.Uid = ['document', 'uploads'].join('.');
-},{"../product-service":52}],22:[function(require,module,exports){
+},{"../product-service":55}],25:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -2273,7 +2497,7 @@ var AccountDeviceService = (function (_ProductService) {
 exports.AccountDeviceService = AccountDeviceService;
 
 AccountDeviceService.Uid = ['general', 'accountdevices'].join('.');
-},{"../product-service":52}],23:[function(require,module,exports){
+},{"../product-service":55}],26:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -2328,7 +2552,7 @@ var AccountService = (function (_ProductService) {
 exports.AccountService = AccountService;
 
 AccountService.Uid = ['general', 'accounts'].join('.');
-},{"../product-service":52}],24:[function(require,module,exports){
+},{"../product-service":55}],27:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -2362,7 +2586,7 @@ var ContactService = (function (_ProductService) {
 exports.ContactService = ContactService;
 
 ContactService.Uid = ['general', 'contacts'].join('.');
-},{"../product-service":52}],25:[function(require,module,exports){
+},{"../product-service":55}],28:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -2396,7 +2620,7 @@ var DeliveryAddressService = (function (_ProductService) {
 exports.DeliveryAddressService = DeliveryAddressService;
 
 DeliveryAddressService.Uid = ['general', 'deliveryaddresses'].join('.');
-},{"../product-service":52}],26:[function(require,module,exports){
+},{"../product-service":55}],29:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -2430,7 +2654,7 @@ var FileAccessService = (function (_ProductService) {
 exports.FileAccessService = FileAccessService;
 
 FileAccessService.Uid = ['general', 'fileaccesses'].join('.');
-},{"../product-service":52}],27:[function(require,module,exports){
+},{"../product-service":55}],30:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -2474,7 +2698,7 @@ General.NotificationService = _notificationService.NotificationService;
 General.PublicMerchantService = _publicMerchantService.PublicMerchantService;
 General.StoreService = _storeService.StoreService;
 General.TransactionService = _transactionService.TransactionService;
-},{"./account-device-service":22,"./account-service":23,"./contact-service":24,"./delivery-address-service":25,"./file-access-service":26,"./merchant-service":28,"./news-service":29,"./notification-service":30,"./public-merchant-service":31,"./skeleton-service":32,"./store-service":33,"./transaction-service":34}],28:[function(require,module,exports){
+},{"./account-device-service":25,"./account-service":26,"./contact-service":27,"./delivery-address-service":28,"./file-access-service":29,"./merchant-service":31,"./news-service":32,"./notification-service":33,"./public-merchant-service":34,"./skeleton-service":35,"./store-service":36,"./transaction-service":37}],31:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -2508,7 +2732,7 @@ var MerchantService = (function (_ProductService) {
 exports.MerchantService = MerchantService;
 
 MerchantService.Uid = ['general', 'merchants'].join('.');
-},{"../product-service":52}],29:[function(require,module,exports){
+},{"../product-service":55}],32:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -2546,7 +2770,7 @@ var NewsService = (function (_ProductService) {
 exports.NewsService = NewsService;
 
 NewsService.Uid = ['general', 'news'].join('.');
-},{"../product-service":52}],30:[function(require,module,exports){
+},{"../product-service":55}],33:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -2580,7 +2804,7 @@ var NotificationService = (function (_ProductService) {
 exports.NotificationService = NotificationService;
 
 NotificationService.Uid = ['general', 'notifications'].join('.');
-},{"../product-service":52}],31:[function(require,module,exports){
+},{"../product-service":55}],34:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -2614,7 +2838,7 @@ var PublicMerchantService = (function (_ProductService) {
 exports.PublicMerchantService = PublicMerchantService;
 
 PublicMerchantService.Uid = ['general', 'publicmerchants'].join('.');
-},{"../product-service":52}],32:[function(require,module,exports){
+},{"../product-service":55}],35:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -2652,7 +2876,7 @@ var SkeletonService = (function (_ProductService) {
 exports.SkeletonService = SkeletonService;
 
 SkeletonService.Uid = ['general', 'skeletons'].join('.');
-},{"../product-service":52}],33:[function(require,module,exports){
+},{"../product-service":55}],36:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -2694,7 +2918,7 @@ var StoreService = (function (_ProductService) {
 exports.StoreService = StoreService;
 
 StoreService.Uid = ['general', 'stores'].join('.');
-},{"../product-service":52}],34:[function(require,module,exports){
+},{"../product-service":55}],37:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -2728,7 +2952,7 @@ var TransactionService = (function (_ProductService) {
 exports.TransactionService = TransactionService;
 
 TransactionService.Uid = ['general', 'transactions'].join('.');
-},{"../product-service":52}],35:[function(require,module,exports){
+},{"../product-service":55}],38:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -2762,7 +2986,7 @@ var BeaconService = (function (_ProductService) {
 exports.BeaconService = BeaconService;
 
 BeaconService.Uid = ['loyalty', 'beacons'].join('.');
-},{"../product-service":52}],36:[function(require,module,exports){
+},{"../product-service":55}],39:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -2796,7 +3020,7 @@ var CardGroupService = (function (_ProductService) {
 exports.CardGroupService = CardGroupService;
 
 CardGroupService.Uid = ['loyalty', 'cardgroups'].join('.');
-},{"../product-service":52}],37:[function(require,module,exports){
+},{"../product-service":55}],40:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -2838,7 +3062,7 @@ var CardService = (function (_ProductService) {
 exports.CardService = CardService;
 
 CardService.Uid = ['loyalty', 'cards'].join('.');
-},{"../product-service":52}],38:[function(require,module,exports){
+},{"../product-service":55}],41:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -2872,7 +3096,7 @@ var ChargeService = (function (_ProductService) {
 exports.ChargeService = ChargeService;
 
 ChargeService.Uid = ['loyalty', 'charges'].join('.');
-},{"../product-service":52}],39:[function(require,module,exports){
+},{"../product-service":55}],42:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -2906,7 +3130,7 @@ var CheckinService = (function (_ProductService) {
 exports.CheckinService = CheckinService;
 
 CheckinService.Uid = ['loyalty', 'checkins'].join('.');
-},{"../product-service":52}],40:[function(require,module,exports){
+},{"../product-service":55}],43:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -2940,7 +3164,7 @@ var CustomerService = (function (_ProductService) {
 exports.CustomerService = CustomerService;
 
 CustomerService.Uid = ['loyalty', 'customers'].join('.');
-},{"../product-service":52}],41:[function(require,module,exports){
+},{"../product-service":55}],44:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -2977,7 +3201,7 @@ Loyalty.MerchantCardService = _merchantCardService.MerchantCardService;
 Loyalty.ProgramService = _programService.ProgramService;
 Loyalty.ProgramSpecialService = _programSpecialService.ProgramSpecialService;
 Loyalty.SaleService = _saleService.SaleService;
-},{"./beacon-service":35,"./card-group-service":36,"./card-service":37,"./charge-service":38,"./checkin-service":39,"./customer-service":40,"./merchant-card-service":42,"./program-service":43,"./program-special-service":44,"./sale-service":45}],42:[function(require,module,exports){
+},{"./beacon-service":38,"./card-group-service":39,"./card-service":40,"./charge-service":41,"./checkin-service":42,"./customer-service":43,"./merchant-card-service":45,"./program-service":46,"./program-special-service":47,"./sale-service":48}],45:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -3011,7 +3235,7 @@ var MerchantCardService = (function (_ProductService) {
 exports.MerchantCardService = MerchantCardService;
 
 MerchantCardService.Uid = ['loyalty', 'merchantcards'].join('.');
-},{"../product-service":52}],43:[function(require,module,exports){
+},{"../product-service":55}],46:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -3045,7 +3269,7 @@ var ProgramService = (function (_ProductService) {
 exports.ProgramService = ProgramService;
 
 ProgramService.Uid = ['loyalty', 'programs'].join('.');
-},{"../product-service":52}],44:[function(require,module,exports){
+},{"../product-service":55}],47:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -3079,7 +3303,7 @@ var ProgramSpecialService = (function (_ProductService) {
 exports.ProgramSpecialService = ProgramSpecialService;
 
 ProgramSpecialService.Uid = ['loyalty', 'programspecials'].join('.');
-},{"../product-service":52}],45:[function(require,module,exports){
+},{"../product-service":55}],48:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -3113,7 +3337,7 @@ var SaleService = (function (_ProductService) {
 exports.SaleService = SaleService;
 
 SaleService.Uid = ['loyalty', 'sales'].join('.');
-},{"../product-service":52}],46:[function(require,module,exports){
+},{"../product-service":55}],49:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -3155,7 +3379,7 @@ var ContainerService = (function (_ProductService) {
 exports.ContainerService = ContainerService;
 
 ContainerService.Uid = ['payment', 'containers'].join('.');
-},{"../product-service":52}],47:[function(require,module,exports){
+},{"../product-service":55}],50:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -3197,7 +3421,7 @@ var ContractService = (function (_ProductService) {
 exports.ContractService = ContractService;
 
 ContractService.Uid = ['payment', 'contracts'].join('.');
-},{"../product-service":52}],48:[function(require,module,exports){
+},{"../product-service":55}],51:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -3231,7 +3455,7 @@ var CustomerService = (function (_ProductService) {
 exports.CustomerService = CustomerService;
 
 CustomerService.Uid = ['payment', 'customers'].join('.');
-},{"../product-service":52}],49:[function(require,module,exports){
+},{"../product-service":55}],52:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -3253,7 +3477,7 @@ Payment.ContractService = _contractService.ContractService;
 Payment.CustomerService = _customerService.CustomerService;
 Payment.SecupayDebitService = _secupayDebitService.SecupayDebitService;
 Payment.SecupayPrepayService = _secupayPrepayService.SecupayPrepayService;
-},{"./container-service":46,"./contract-service":47,"./customer-service":48,"./secupay-debit-service":50,"./secupay-prepay-service":51}],50:[function(require,module,exports){
+},{"./container-service":49,"./contract-service":50,"./customer-service":51,"./secupay-debit-service":53,"./secupay-prepay-service":54}],53:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -3291,7 +3515,7 @@ var SecupayDebitService = (function (_ProductService) {
 exports.SecupayDebitService = SecupayDebitService;
 
 SecupayDebitService.Uid = ['payment', 'secupaydebit'].join('.');
-},{"../product-service":52}],51:[function(require,module,exports){
+},{"../product-service":55}],54:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -3329,7 +3553,7 @@ var SecupayPrepayService = (function (_ProductService) {
 exports.SecupayPrepayService = SecupayPrepayService;
 
 SecupayPrepayService.Uid = ['payment', 'secupayprepay'].join('.');
-},{"../product-service":52}],52:[function(require,module,exports){
+},{"../product-service":55}],55:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -3371,6 +3595,19 @@ var ProductService = (function () {
 		var params = {
 			endpoint: this.getEndpoint(),
 			objectId: id,
+			options: options
+		};
+
+		return this._request(_netChannel.Channel.METHOD.GET, params, options);
+	};
+
+	ProductService.prototype.retrieveWithAction = function retrieveWithAction(id, action, actionArg, options) {
+
+		var params = {
+			endpoint: this.getEndpoint(),
+			objectId: id,
+			action: action,
+			actionArg: actionArg,
 			options: options
 		};
 
@@ -3492,7 +3729,7 @@ var ProductService = (function () {
 })();
 
 exports.ProductService = ProductService;
-},{"../net/channel":11,"eventemitter3":64}],53:[function(require,module,exports){
+},{"../net/channel":12,"eventemitter3":67}],56:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -3526,7 +3763,7 @@ var IdentContractService = (function (_ProductService) {
 exports.IdentContractService = IdentContractService;
 
 IdentContractService.Uid = ['services', 'identcontracts'].join('.');
-},{"../product-service":52}],54:[function(require,module,exports){
+},{"../product-service":55}],57:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -3560,7 +3797,7 @@ var IdentRequestService = (function (_ProductService) {
 exports.IdentRequestService = IdentRequestService;
 
 IdentRequestService.Uid = ['services', 'identrequests'].join('.');
-},{"../product-service":52}],55:[function(require,module,exports){
+},{"../product-service":55}],58:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -3594,7 +3831,7 @@ var IdentResultService = (function (_ProductService) {
 exports.IdentResultService = IdentResultService;
 
 IdentResultService.Uid = ['services', 'identresults'].join('.');
-},{"../product-service":52}],56:[function(require,module,exports){
+},{"../product-service":55}],59:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -3610,7 +3847,7 @@ exports.Services = Services;
 Services.IdentContractService = _identContractService.IdentContractService;
 Services.IdentRequestService = _identRequestService.IdentRequestService;
 Services.IdentResultService = _identResultService.IdentResultService;
-},{"./ident-contract-service":53,"./ident-request-service":54,"./ident-result-service":55}],57:[function(require,module,exports){
+},{"./ident-contract-service":56,"./ident-request-service":57,"./ident-result-service":58}],60:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -3644,7 +3881,7 @@ var CheckinService = (function (_ProductService) {
 exports.CheckinService = CheckinService;
 
 CheckinService.Uid = ['smart', 'checkins'].join('.');
-},{"../product-service":52}],58:[function(require,module,exports){
+},{"../product-service":55}],61:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -3686,7 +3923,7 @@ var IdentService = (function (_ProductService) {
 exports.IdentService = IdentService;
 
 IdentService.Uid = ['smart', 'idents'].join('.');
-},{"../product-service":52}],59:[function(require,module,exports){
+},{"../product-service":55}],62:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -3702,7 +3939,7 @@ exports.Smart = Smart;
 Smart.TransactionService = _transactionService.TransactionService;
 Smart.IdentService = _identService.IdentService;
 Smart.CheckinService = _checkinService.CheckinService;
-},{"./checkin-service":57,"./ident-service":58,"./transaction-service":60}],60:[function(require,module,exports){
+},{"./checkin-service":60,"./ident-service":61,"./transaction-service":63}],63:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -3744,7 +3981,7 @@ var TransactionService = (function (_ProductService) {
 exports.TransactionService = TransactionService;
 
 TransactionService.Uid = ['smart', 'transactions'].join('.');
-},{"../product-service":52}],61:[function(require,module,exports){
+},{"../product-service":55}],64:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -3815,7 +4052,7 @@ var mixins = function mixins(Parent) {
 
 exports['default'] = mixins;
 module.exports = exports['default'];
-},{}],62:[function(require,module,exports){
+},{}],65:[function(require,module,exports){
 // shim for using process in browser
 
 var process = module.exports = {};
@@ -3907,7 +4144,7 @@ process.chdir = function (dir) {
 };
 process.umask = function() { return 0; };
 
-},{}],63:[function(require,module,exports){
+},{}],66:[function(require,module,exports){
 (function (process){
  /*!
   * https://github.com/paulmillr/es6-shim
@@ -7007,7 +7244,7 @@ process.umask = function() { return 0; };
 }));
 
 }).call(this,require('_process'))
-},{"_process":62}],64:[function(require,module,exports){
+},{"_process":65}],67:[function(require,module,exports){
 'use strict';
 
 //
@@ -7271,7 +7508,7 @@ if ('undefined' !== typeof module) {
   module.exports = EventEmitter;
 }
 
-},{}],65:[function(require,module,exports){
+},{}],68:[function(require,module,exports){
 (function (global){
 /**
  * @license
@@ -19510,7 +19747,491 @@ if ('undefined' !== typeof module) {
 }.call(this));
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],66:[function(require,module,exports){
+},{}],69:[function(require,module,exports){
+// default filter
+var Transform = require('./transform.js');
+
+var levelMap = { debug: 1, info: 2, warn: 3, error: 4 };
+
+function Filter() {
+  this.enabled = true;
+  this.defaultResult = true;
+  this.clear();
+}
+
+Transform.mixin(Filter);
+
+// allow all matching, with level >= given level
+Filter.prototype.allow = function(name, level) {
+  this._white.push({ n: name, l: levelMap[level] });
+  return this;
+};
+
+// deny all matching, with level <= given level
+Filter.prototype.deny = function(name, level) {
+  this._black.push({ n: name, l: levelMap[level] });
+  return this;
+};
+
+Filter.prototype.clear = function() {
+  this._white = [];
+  this._black = [];
+  return this;
+};
+
+function test(rule, name) {
+  // use .test for RegExps
+  return (rule.n.test ? rule.n.test(name) : rule.n == name);
+};
+
+Filter.prototype.test = function(name, level) {
+  var i, len = Math.max(this._white.length, this._black.length);
+  for(i = 0; i < len; i++) {
+    if(this._white[i] && test(this._white[i], name) && levelMap[level] >= this._white[i].l) {
+      return true;
+    }
+    if(this._black[i] && test(this._black[i], name) && levelMap[level] < this._black[i].l) {
+      return false;
+    }
+  }
+  return this.defaultResult;
+};
+
+Filter.prototype.write = function(name, level, args) {
+  if(!this.enabled || this.test(name, level)) {
+    return this.emit('item', name, level, args);
+  }
+};
+
+module.exports = Filter;
+
+},{"./transform.js":71}],70:[function(require,module,exports){
+var Transform = require('./transform.js'),
+    Filter = require('./filter.js');
+
+var log = new Transform(),
+    slice = Array.prototype.slice;
+
+exports = module.exports = function create(name) {
+  var o   = function() { log.write(name, undefined, slice.call(arguments)); return o; };
+  o.debug = function() { log.write(name, 'debug', slice.call(arguments)); return o; };
+  o.info  = function() { log.write(name, 'info',  slice.call(arguments)); return o; };
+  o.warn  = function() { log.write(name, 'warn',  slice.call(arguments)); return o; };
+  o.error = function() { log.write(name, 'error', slice.call(arguments)); return o; };
+  o.log   = o.debug; // for interface compliance with Node and browser consoles
+  o.suggest = exports.suggest;
+  o.format = log.format;
+  return o;
+};
+
+// filled in separately
+exports.defaultBackend = exports.defaultFormatter = null;
+
+exports.pipe = function(dest) {
+  return log.pipe(dest);
+};
+
+exports.end = exports.unpipe = exports.disable = function(from) {
+  return log.unpipe(from);
+};
+
+exports.Transform = Transform;
+exports.Filter = Filter;
+// this is the default filter that's applied when .enable() is called normally
+// you can bypass it completely and set up your own pipes
+exports.suggest = new Filter();
+
+exports.enable = function() {
+  if(exports.defaultFormatter) {
+    return log.pipe(exports.suggest) // filter
+              .pipe(exports.defaultFormatter) // formatter
+              .pipe(exports.defaultBackend); // backend
+  }
+  return log.pipe(exports.suggest) // filter
+            .pipe(exports.defaultBackend); // formatter
+};
+
+
+},{"./filter.js":69,"./transform.js":71}],71:[function(require,module,exports){
+var microee = require('microee');
+
+// Implements a subset of Node's stream.Transform - in a cross-platform manner.
+function Transform() {}
+
+microee.mixin(Transform);
+
+// The write() signature is different from Node's
+// --> makes it much easier to work with objects in logs.
+// One of the lessons from v1 was that it's better to target
+// a good browser rather than the lowest common denominator
+// internally.
+// If you want to use external streams, pipe() to ./stringify.js first.
+Transform.prototype.write = function(name, level, args) {
+  this.emit('item', name, level, args);
+};
+
+Transform.prototype.end = function() {
+  this.emit('end');
+  this.removeAllListeners();
+};
+
+Transform.prototype.pipe = function(dest) {
+  var s = this;
+  // prevent double piping
+  s.emit('unpipe', dest);
+  // tell the dest that it's being piped to
+  dest.emit('pipe', s);
+
+  function onItem() {
+    dest.write.apply(dest, Array.prototype.slice.call(arguments));
+  }
+  function onEnd() { !dest._isStdio && dest.end(); }
+
+  s.on('item', onItem);
+  s.on('end', onEnd);
+
+  s.when('unpipe', function(from) {
+    var match = (from === dest) || typeof from == 'undefined';
+    if(match) {
+      s.removeListener('item', onItem);
+      s.removeListener('end', onEnd);
+      dest.emit('unpipe');
+    }
+    return match;
+  });
+
+  return dest;
+};
+
+Transform.prototype.unpipe = function(from) {
+  this.emit('unpipe', from);
+  return this;
+};
+
+Transform.prototype.format = function(dest) {
+  throw new Error([
+    'Warning: .format() is deprecated in Minilog v2! Use .pipe() instead. For example:',
+    'var Minilog = require(\'minilog\');',
+    'Minilog',
+    '  .pipe(Minilog.backends.console.formatClean)',
+    '  .pipe(Minilog.backends.console);'].join('\n'));
+};
+
+Transform.mixin = function(dest) {
+  var o = Transform.prototype, k;
+  for (k in o) {
+    o.hasOwnProperty(k) && (dest.prototype[k] = o[k]);
+  }
+};
+
+module.exports = Transform;
+
+},{"microee":80}],72:[function(require,module,exports){
+var Transform = require('../common/transform.js'),
+    cache = [ ];
+
+var logger = new Transform();
+
+logger.write = function(name, level, args) {
+  cache.push([ name, level, args ]);
+};
+
+// utility functions
+logger.get = function() { return cache; };
+logger.empty = function() { cache = []; };
+
+module.exports = logger;
+
+},{"../common/transform.js":71}],73:[function(require,module,exports){
+var Transform = require('../common/transform.js');
+
+var newlines = /\n+$/,
+    logger = new Transform();
+
+logger.write = function(name, level, args) {
+  var i = args.length-1;
+  if (typeof console === 'undefined' || !console.log) {
+    return;
+  }
+  if(console.log.apply) {
+    return console.log.apply(console, [name, level].concat(args));
+  } else if(JSON && JSON.stringify) {
+    // console.log.apply is undefined in IE8 and IE9
+    // for IE8/9: make console.log at least a bit less awful
+    if(args[i] && typeof args[i] == 'string') {
+      args[i] = args[i].replace(newlines, '');
+    }
+    try {
+      for(i = 0; i < args.length; i++) {
+        args[i] = JSON.stringify(args[i]);
+      }
+    } catch(e) {}
+    console.log(args.join(' '));
+  }
+};
+
+logger.formatters = ['color', 'minilog'];
+logger.color = require('./formatters/color.js');
+logger.minilog = require('./formatters/minilog.js');
+
+module.exports = logger;
+
+},{"../common/transform.js":71,"./formatters/color.js":74,"./formatters/minilog.js":75}],74:[function(require,module,exports){
+var Transform = require('../../common/transform.js'),
+    color = require('./util.js');
+
+var colors = { debug: ['cyan'], info: ['purple' ], warn: [ 'yellow', true ], error: [ 'red', true ] },
+    logger = new Transform();
+
+logger.write = function(name, level, args) {
+  var fn = console.log;
+  if(console[level] && console[level].apply) {
+    fn = console[level];
+    fn.apply(console, [ '%c'+name+' %c'+level, color('gray'), color.apply(color, colors[level])].concat(args));
+  }
+};
+
+// NOP, because piping the formatted logs can only cause trouble.
+logger.pipe = function() { };
+
+module.exports = logger;
+
+},{"../../common/transform.js":71,"./util.js":76}],75:[function(require,module,exports){
+var Transform = require('../../common/transform.js'),
+    color = require('./util.js'),
+    colors = { debug: ['gray'], info: ['purple' ], warn: [ 'yellow', true ], error: [ 'red', true ] },
+    logger = new Transform();
+
+logger.write = function(name, level, args) {
+  var fn = console.log;
+  if(level != 'debug' && console[level]) {
+    fn = console[level];
+  }
+
+  var subset = [], i = 0;
+  if(level != 'info') {
+    for(; i < args.length; i++) {
+      if(typeof args[i] != 'string') break;
+    }
+    fn.apply(console, [ '%c'+name +' '+ args.slice(0, i).join(' '), color.apply(color, colors[level]) ].concat(args.slice(i)));
+  } else {
+    fn.apply(console, [ '%c'+name, color.apply(color, colors[level]) ].concat(args));
+  }
+};
+
+// NOP, because piping the formatted logs can only cause trouble.
+logger.pipe = function() { };
+
+module.exports = logger;
+
+},{"../../common/transform.js":71,"./util.js":76}],76:[function(require,module,exports){
+var hex = {
+  black: '#000',
+  red: '#c23621',
+  green: '#25bc26',
+  yellow: '#bbbb00',
+  blue:  '#492ee1',
+  magenta: '#d338d3',
+  cyan: '#33bbc8',
+  gray: '#808080',
+  purple: '#708'
+};
+function color(fg, isInverse) {
+  if(isInverse) {
+    return 'color: #fff; background: '+hex[fg]+';';
+  } else {
+    return 'color: '+hex[fg]+';';
+  }
+}
+
+module.exports = color;
+
+},{}],77:[function(require,module,exports){
+var Minilog = require('../common/minilog.js');
+
+var oldEnable = Minilog.enable,
+    oldDisable = Minilog.disable,
+    isChrome = (typeof navigator != 'undefined' && /chrome/i.test(navigator.userAgent)),
+    console = require('./console.js');
+
+// Use a more capable logging backend if on Chrome
+Minilog.defaultBackend = (isChrome ? console.minilog : console);
+
+// apply enable inputs from localStorage and from the URL
+if(typeof window != 'undefined') {
+  try {
+    Minilog.enable(JSON.parse(window.localStorage['minilogSettings']));
+  } catch(e) {}
+  if(window.location && window.location.search) {
+    var match = RegExp('[?&]minilog=([^&]*)').exec(window.location.search);
+    match && Minilog.enable(decodeURIComponent(match[1]));
+  }
+}
+
+// Make enable also add to localStorage
+Minilog.enable = function() {
+  oldEnable.call(Minilog, true);
+  try { window.localStorage['minilogSettings'] = JSON.stringify(true); } catch(e) {}
+  return this;
+};
+
+Minilog.disable = function() {
+  oldDisable.call(Minilog);
+  try { delete window.localStorage.minilogSettings; } catch(e) {}
+  return this;
+};
+
+exports = module.exports = Minilog;
+
+exports.backends = {
+  array: require('./array.js'),
+  browser: Minilog.defaultBackend,
+  localStorage: require('./localstorage.js'),
+  jQuery: require('./jquery_simple.js')
+};
+
+},{"../common/minilog.js":70,"./array.js":72,"./console.js":73,"./jquery_simple.js":78,"./localstorage.js":79}],78:[function(require,module,exports){
+var Transform = require('../common/transform.js');
+
+var cid = new Date().valueOf().toString(36);
+
+function AjaxLogger(options) {
+  this.url = options.url || '';
+  this.cache = [];
+  this.timer = null;
+  this.interval = options.interval || 30*1000;
+  this.enabled = true;
+  this.jQuery = window.jQuery;
+  this.extras = {};
+}
+
+Transform.mixin(AjaxLogger);
+
+AjaxLogger.prototype.write = function(name, level, args) {
+  if(!this.timer) { this.init(); }
+  this.cache.push([name, level].concat(args));
+};
+
+AjaxLogger.prototype.init = function() {
+  if(!this.enabled || !this.jQuery) return;
+  var self = this;
+  this.timer = setTimeout(function() {
+    var i, logs = [], ajaxData, url = self.url;
+    if(self.cache.length == 0) return self.init();
+    // Need to convert each log line individually
+    // so that having invalid (circular) references won't impact all the lines.
+
+    for(i = 0; i < self.cache.length; i++) {
+      try {
+        logs.push(JSON.stringify(self.cache[i]));
+      } catch(e) { }
+    }
+    if(self.jQuery.isEmptyObject(self.extras)) {
+        ajaxData = logs.join('\n');
+        url = self.url + '?client_id=' + cid;
+    } else {
+        ajaxData = JSON.stringify(self.jQuery.extend({logs: logs}, self.extras));
+    }
+
+    self.jQuery.ajax(url, {
+      type: 'POST',
+      cache: false,
+      processData: false,
+      data: ajaxData,
+      contentType: 'application/json',
+      timeout: 10000
+    }).success(function(data, status, jqxhr) {
+      if(data.interval) {
+        self.interval = Math.max(1000, data.interval);
+      }
+    }).error(function() {
+      self.interval = 30000;
+    }).always(function() {
+      self.init();
+    });
+    self.cache = [];
+  }, this.interval);
+};
+
+AjaxLogger.prototype.end = function() {};
+
+// wait until jQuery is defined. Useful if you don't control the load order.
+AjaxLogger.jQueryWait = function(onDone) {
+  if(typeof window !== 'undefined' && (window.jQuery || window.$)) {
+    return onDone(window.jQuery || window.$);
+  } else if (typeof window !== 'undefined') {
+    setTimeout(function() { AjaxLogger.jQueryWait(onDone); }, 200);
+  }
+};
+
+module.exports = AjaxLogger;
+
+},{"../common/transform.js":71}],79:[function(require,module,exports){
+var Transform = require('../common/transform.js'),
+    cache = false;
+
+var logger = new Transform();
+
+logger.write = function(name, level, args) {
+  if(typeof window == 'undefined' || typeof JSON == 'undefined' || !JSON.stringify || !JSON.parse) return;
+  try {
+    if(!cache) { cache = (window.localStorage.minilog ? JSON.parse(window.localStorage.minilog) : []); }
+    cache.push([ new Date().toString(), name, level, args ]);
+    window.localStorage.minilog = JSON.stringify(cache);
+  } catch(e) {}
+};
+
+module.exports = logger;
+},{"../common/transform.js":71}],80:[function(require,module,exports){
+function M() { this._events = {}; }
+M.prototype = {
+  on: function(ev, cb) {
+    this._events || (this._events = {});
+    var e = this._events;
+    (e[ev] || (e[ev] = [])).push(cb);
+    return this;
+  },
+  removeListener: function(ev, cb) {
+    var e = this._events[ev] || [], i;
+    for(i = e.length-1; i >= 0 && e[i]; i--){
+      if(e[i] === cb || e[i].cb === cb) { e.splice(i, 1); }
+    }
+  },
+  removeAllListeners: function(ev) {
+    if(!ev) { this._events = {}; }
+    else { this._events[ev] && (this._events[ev] = []); }
+  },
+  emit: function(ev) {
+    this._events || (this._events = {});
+    var args = Array.prototype.slice.call(arguments, 1), i, e = this._events[ev] || [];
+    for(i = e.length-1; i >= 0 && e[i]; i--){
+      e[i].apply(this, args);
+    }
+    return this;
+  },
+  when: function(ev, cb) {
+    return this.once(ev, cb, true);
+  },
+  once: function(ev, cb, when) {
+    if(!cb) return this;
+    function c() {
+      if(!when) this.removeListener(ev, c);
+      if(cb.apply(this, arguments) && when) this.removeListener(ev, c);
+    }
+    c.cb = cb;
+    this.on(ev, c);
+    return this;
+  }
+};
+M.mixin = function(dest) {
+  var o = M.prototype, k;
+  for (k in o) {
+    o.hasOwnProperty(k) && (dest.prototype[k] = o[k]);
+  }
+};
+module.exports = M;
+
+},{}],81:[function(require,module,exports){
 // Load modules
 
 var Stringify = require('./stringify');
@@ -19527,7 +20248,7 @@ module.exports = {
     parse: Parse
 };
 
-},{"./parse":67,"./stringify":68}],67:[function(require,module,exports){
+},{"./parse":82,"./stringify":83}],82:[function(require,module,exports){
 // Load modules
 
 var Utils = require('./utils');
@@ -19715,7 +20436,7 @@ module.exports = function (str, options) {
     return Utils.compact(obj);
 };
 
-},{"./utils":69}],68:[function(require,module,exports){
+},{"./utils":84}],83:[function(require,module,exports){
 // Load modules
 
 var Utils = require('./utils');
@@ -19838,7 +20559,7 @@ module.exports = function (obj, options) {
     return keys.join(delimiter);
 };
 
-},{"./utils":69}],69:[function(require,module,exports){
+},{"./utils":84}],84:[function(require,module,exports){
 // Load modules
 
 
@@ -20030,7 +20751,7 @@ exports.isBuffer = function (obj) {
               obj.constructor.isBuffer(obj));
 };
 
-},{}],70:[function(require,module,exports){
+},{}],85:[function(require,module,exports){
 /**
  * Module dependencies.
  */
@@ -21155,7 +21876,7 @@ request.put = function(url, data, fn){
 
 module.exports = request;
 
-},{"emitter":71,"reduce":72}],71:[function(require,module,exports){
+},{"emitter":86,"reduce":87}],86:[function(require,module,exports){
 
 /**
  * Expose `Emitter`.
@@ -21321,7 +22042,7 @@ Emitter.prototype.hasListeners = function(event){
   return !! this.listeners(event).length;
 };
 
-},{}],72:[function(require,module,exports){
+},{}],87:[function(require,module,exports){
 
 /**
  * Reduce `arr` with `fn`.
@@ -21346,7 +22067,7 @@ module.exports = function(arr, fn, initial){
   
   return curr;
 };
-},{}],73:[function(require,module,exports){
+},{}],88:[function(require,module,exports){
 (function (global){
 
 var rng;
@@ -21381,7 +22102,7 @@ module.exports = rng;
 
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],74:[function(require,module,exports){
+},{}],89:[function(require,module,exports){
 //     uuid.js
 //
 //     Copyright (c) 2010-2012 Robert Kieffer
@@ -21566,5 +22287,5 @@ uuid.unparse = unparse;
 
 module.exports = uuid;
 
-},{"./rng":73}]},{},[1])(1)
+},{"./rng":88}]},{},[1])(1)
 });

@@ -9,16 +9,16 @@ function _inherits(subClass, superClass) { if (typeof superClass !== 'function' 
 var _transaction = require('./transaction');
 
 var SecupayDebit = (function (_Transaction) {
-	function SecupayDebit(container, customer, contract, amount, currency, purpose, order_id, trans_id, status, transaction_status) {
-		_classCallCheck(this, SecupayDebit);
+  function SecupayDebit(container, customer, contract, amount, currency, purpose, order_id, trans_id, status, transaction_status) {
+    _classCallCheck(this, SecupayDebit);
 
-		_Transaction.call(this, customer, contract, amount, currency, purpose, order_id, trans_id, status, transaction_status);
-		this.container = container;
-	}
+    _Transaction.call(this, customer, contract, amount, currency, purpose, order_id, trans_id, status, transaction_status);
+    this.container = container;
+  }
 
-	_inherits(SecupayDebit, _Transaction);
+  _inherits(SecupayDebit, _Transaction);
 
-	return SecupayDebit;
+  return SecupayDebit;
 })(_transaction.Transaction);
 
 exports.SecupayDebit = SecupayDebit;

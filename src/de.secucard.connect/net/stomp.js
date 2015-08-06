@@ -1,6 +1,18 @@
+/*
+ Copyright 2015 hp.weber GmbH & Co secucard KG (www.secucard.com)
+ Licensed under the Apache License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at http://www.apache.org/licenses/LICENSE-2.0
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+ */
 import UUID from 'uuid';
 import QS from 'qs';
 import EE from 'eventemitter3';
+import minilog from 'minilog';
 
 import {Channel} from './channel';
 import {Stomp as StompImpl} from './stomp-impl/stomp';
@@ -88,10 +100,6 @@ export class Stomp {
 			return context.getConfig().getStompEndpoint();
 		};
 		
-		this.isDevice = () => {
-			return context.getConfig().isDevice();
-		};
-		
 		this.getStompHeartbeatMs = () => {
 			return context.getConfig().getStompHeartbeatMs();
 		}
@@ -122,11 +130,11 @@ export class Stomp {
 	
 	connect () {
 		
-		console.log('stomp start connection');
+		minilog('secucard.stomp').debug('stomp start connection');
 		
 		return this.getToken().then((token) => {
 			
-			console.log('Got token', token);
+			minilog('secucard.stomp').debug('Got token', token);
 			return this._connect(token.access_token);
 			
 			
@@ -158,7 +166,7 @@ export class Stomp {
 				this.connection.disconnect();
 				
 				this._stompOnDisconnected = () => {
-					console.log('stomp disconnected');
+					minilog('secucard.stomp').debug('stomp disconnected');
 					this.connection.removeListener('disconnected', this._stompOnDisconnected);
 					delete this._stompOnDisconnected;
 					resolve();
@@ -261,14 +269,14 @@ export class Stomp {
 		return new Promise((resolve, reject) => {
 			
 			this._stompOnConnected = () => {
-				console.log('stomp connected');
-				this._stompClearListeners();
+				minilog('secucard.stomp').debug('stomp connected');
+				this._stompClearListeners? this._stompClearListeners() : null;
 				resolve(true);
 			};
 			
 			this._stompOnError = (message) => {
-				console.log('stomp error', message);
-				this._stompClearListeners();
+				minilog('secucard.stomp').error('stomp error', message);
+				this._stompClearListeners? this._stompClearListeners() : null;
 				this.close().then(() => {
 					if(message.headers && message.headers.message == 'Bad CONNECT') {
 						reject(new AuthenticationFailedException(message.body[0]));
@@ -297,7 +305,7 @@ export class Stomp {
 	
 	_sendMessage(destinationObj, message) {
 		
-		console.log('_sendMessage', destinationObj, message);
+		minilog('secucard.stomp').debug('message', destinationObj, message);
 		
 		return this.getToken().then((token) => {
 			
@@ -353,7 +361,7 @@ export class Stomp {
 			if(!this.connection.isConnected() || (accessToken != this.connectAccessToken)) {
 
 				if (this.connection.isConnected()) {
-					console.log("Reconnect due token change.");
+					minilog('secucard.stomp').warn('Reconnect due token change.');
 				}
 				
 				return this._disconnect().then(() => {
@@ -374,7 +382,8 @@ export class Stomp {
 	
 	_startSessionRefresh() {
 		
-		console.log('Stomp session refresh loop started');
+		minilog('secucard.stomp').debug('Stomp session refresh loop started');
+		
 		let initial = true;
 		
 		// always refresh session with interval less than stomp heart-beat if defined
@@ -405,14 +414,14 @@ export class Stomp {
 			}).then((res) => {
 
 				this.emit('sessionRefresh');
-				console.log('Session refresh sent');
+				minilog('secucard.stomp').debug('Session refresh sent');
 				this.skipSessionRefresh = false;
 				return res;
 
 			}).catch((err) => {
 
 				this.emit('sessionRefreshError');
-				console.log('Session refresh failed');
+				minilog('secucard.stomp').error('Session refresh failed');
 				if (initial) {
 					throw err;
 				}
@@ -438,7 +447,8 @@ export class Stomp {
 		// skip next session refresh 
 		this.skipSessionRefresh = true;
 		
-		console.log('_handleStompMessage', frame);
+		minilog('secucard.stomp').debug('_handleStompMessage', frame);
+		
 		let body;
 		// execute correlation-id callback
 		if (frame && frame.headers && frame.headers['correlation-id']) {

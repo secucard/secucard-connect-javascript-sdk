@@ -22,12 +22,11 @@ var Client = (function () {
 		this.addAppService = this.context.addAppService.bind(this.context);
 		this.removeAppService = this.context.removeAppService.bind(this.context);
 		this.emitServiceEvent = this.context.emitServiceEvent.bind(this.context);
+		this.on = this.context.on.bind(this.context);
+		this.setCredentials = this.context.setCredentials.bind(this.context);
+		this.getStoredToken = this.context.getStoredToken.bind(this.context);
 		this.connected = false;
 	}
-
-	Client.prototype.setCredentials = function setCredentials(credentials) {
-		this.context.setCredentials(credentials);
-	};
 
 	Client.prototype.open = function open() {
 		var _this = this;

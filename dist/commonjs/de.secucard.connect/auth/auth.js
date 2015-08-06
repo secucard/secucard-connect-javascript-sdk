@@ -16,6 +16,10 @@ var _token2 = require('./token');
 
 var _exception = require('./exception');
 
+var _minilog = require('minilog');
+
+var _minilog2 = _interopRequireDefault(_minilog);
+
 var Auth = (function () {
 	function Auth() {
 		_classCallCheck(this, Auth);
@@ -30,60 +34,72 @@ var Auth = (function () {
 
 		this.getChannel = context.getRestChannel.bind(context);
 		this.getCredentials = context.getCredentials.bind(context);
+		this.getTokenStorage = context.getTokenStorage.bind(context);
 
 		this.oAuthUrl = function () {
 
 			return context.getConfig().getOAuthUrl();
+		};
+
+		this.getDeviceUUID = function () {
+			return context.getConfig().getDeviceUUID();
 		};
 	};
 
 	Auth.prototype.getToken = function getToken(extend) {
 		var _this = this;
 
-		var token = this.getStoredToken();
+		return this.getStoredToken().then(function (token) {
 
-		if (token != null && !token.isExpired()) {
-			if (extend) {
-				token.setExpireTime();
-				this.storeToken(token);
+			if (token != null && !token.isExpired()) {
+				if (extend) {
+					token.setExpireTime();
+					_this.storeToken(token);
+				}
+
+				return Promise.resolve(token);
 			}
 
-			return Promise.resolve(token);
-		}
+			var cr = _this.getCredentials();
+			var ch = _this.getChannel();
 
-		var cr = this.getCredentials();
-		var ch = this.getChannel();
+			var tokenSuccess = function tokenSuccess(res) {
 
-		var tokenSuccess = function tokenSuccess(res) {
+				var _token = token ? token.update(res.body) : _token2.Token.create(res.body);
+				_token.setExpireTime();
+				_this.storeToken(_token);
+				return _token;
+			};
 
-			var _token = token ? token.update(res.body) : _token2.Token.create(res.body);
-			_token.setExpireTime();
-			_this.storeToken(_token);
-			return _token;
-		};
+			var tokenError = function tokenError(err) {
+				_this.removeToken();
 
-		var tokenError = function tokenError(err) {
-			_this.removeToken();
-			var error = Object.assign(new _exception.AuthenticationFailedException(), err.response.body);
+				var error = undefined;
+				if (err instanceof _exception.AuthenticationTimeoutException) {
+					error = err;
+				} else {
+					error = Object.assign(new _exception.AuthenticationFailedException(), err.response.body);
+				}
 
-			throw error;
-		};
+				throw error;
+			};
 
-		var req = undefined;
+			var req = undefined;
 
-		if (token != null && token.getRefreshToken() != null) {
+			if (token != null && token.getRefreshToken() != null) {
 
-			req = this._tokenRefreshRequest(cr, token.getRefreshToken(), ch);
-		} else {
+				req = _this._tokenRefreshRequest(cr, token.getRefreshToken(), ch);
+			} else {
 
-			req = this.isDeviceAuth(cr) ? this.getDeviceToken(cr, ch) : this._tokenClientCredentialsRequest(cr, ch);
-		}
+				req = _this.isDeviceAuth() ? _this.getDeviceToken(Object.assign({}, cr, { uuid: _this.getDeviceUUID() }), ch) : _this._tokenClientCredentialsRequest(cr, ch);
+			}
 
-		return req.then(tokenSuccess)['catch'](tokenError);
+			return req.then(tokenSuccess)['catch'](tokenError);
+		});
 	};
 
-	Auth.prototype.isDeviceAuth = function isDeviceAuth(credentials) {
-		return credentials.uuid != undefined && credentials.uuid != null;
+	Auth.prototype.isDeviceAuth = function isDeviceAuth() {
+		return Boolean(this.getDeviceUUID());
 	};
 
 	Auth.prototype.getDeviceToken = function getDeviceToken(credentials, channel) {
@@ -91,49 +107,77 @@ var Auth = (function () {
 
 		return this._tokenDeviceCodeRequest(credentials, channel).then(function (res) {
 
-			_this2.emit('deviceCode', res);
+			var data = res.body;
+			_this2.emit('deviceCode', data);
 
-			var pollIntervalSec = res.interval > 0 ? res.interval : 5;
+			var pollIntervalSec = data.interval > 0 ? data.interval : 5;
+			var pollExpireTime = parseInt(data.expires_in) * 1000 + new Date().getTime();
+			var codeCredentials = Object.assign({}, credentials, { code: data.device_code });
 
 			return new Promise(function (resolve, reject) {
 
-				resolve();
+				_this2.pollTimer = setInterval(function () {
+
+					if (new Date().getTime() < pollExpireTime) {
+
+						_this2._tokenDeviceRequest(codeCredentials, channel).then(function (res) {
+							clearInterval(_this2.pollTimer);
+							resolve(res);
+						})['catch'](function (err) {
+
+							if (err.status == 401) {} else {
+								clearInterval(_this2.pollTimer);
+								reject(err);
+							}
+						});
+					} else {
+						clearInterval(_this2.pollTimer);
+						reject(new _exception.AuthenticationTimeoutException());
+					}
+				}, pollIntervalSec * 1000);
 			});
 		});
 	};
 
 	Auth.prototype.removeToken = function removeToken() {
 
-		var cr = this.getCredentials();
-		if (!cr) {
+		var storage = this.getTokenStorage();
+		if (!storage) {
 			var err = new _exception.AuthenticationFailedException('Credentials error');
 			throw err;
 		}
-		cr.token = null;
+		storage.removeToken();
 	};
 
 	Auth.prototype.storeToken = function storeToken(token) {
 
-		var cr = this.getCredentials();
-		if (!cr) {
+		var storage = this.getTokenStorage();
+		if (!storage) {
 			var err = new _exception.AuthenticationFailedException('Credentials error');
 			throw err;
 		}
-		cr.token = token;
+		storage.storeToken(token);
 	};
 
 	Auth.prototype.getStoredToken = function getStoredToken() {
-		var cr = this.getCredentials();
-		if (!cr) {
+		var storage = this.getTokenStorage();
+		if (!storage) {
 			var err = new _exception.AuthenticationFailedException('Credentials error');
 			throw err;
 		}
-		return cr.token;
+		return storage.getStoredToken().then(function (token) {
+
+			if (token && !(token instanceof _token2.Token)) {
+				return _token2.Token.create(token);
+			}
+
+			return token;
+		});
 	};
 
 	Auth.prototype._tokenRequest = function _tokenRequest(credentials, channel) {
 		var m = channel.createMessage().setBaseUrl(this.oAuthUrl()).setUrl('token').setHeaders(this.baseHeaders).setMethod(_netMessage.POST).setBody(credentials);
-		console.log('token request', m);
+		_minilog2['default']('secucard.auth').debug('token request', m);
 		return channel.send(m);
 	};
 

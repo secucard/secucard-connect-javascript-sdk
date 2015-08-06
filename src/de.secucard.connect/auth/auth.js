@@ -1,7 +1,20 @@
+/*
+ Copyright 2015 hp.weber GmbH & Co secucard KG (www.secucard.com)
+ Licensed under the Apache License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at http://www.apache.org/licenses/LICENSE-2.0
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+ */
 import _ from 'lodash';
 import {POST} from '../net/message';
 import {Token} from './token';
-import {AuthenticationFailedException} from './exception';
+import {AuthenticationFailedException, AuthenticationTimeoutException} from './exception';
+import minilog from 'minilog';
+
 export class Auth {
 	
 	baseCredentialNames = ['client_id', 'client_secret'];
@@ -17,6 +30,7 @@ export class Auth {
 		
 		this.getChannel = context.getRestChannel.bind(context);
 		this.getCredentials = context.getCredentials.bind(context);
+		this.getTokenStorage = context.getTokenStorage.bind(context);
 		
 		this.oAuthUrl = () => {
 			
@@ -24,70 +38,82 @@ export class Auth {
 			
 		};
 		
+		this.getDeviceUUID = () => {
+			return context.getConfig().getDeviceUUID();
+		};
+		
 	}
 	
 	getToken(extend){
 		
-		//TODO implement auth for device
-		
-		let token = this.getStoredToken();
-		
-		if(token != null && !token.isExpired()){
-			if(extend){
-				// extend expire time on every token access, assuming the token is used, if not this could cause auth failure
-				token.setExpireTime();
-        		this.storeToken(token);
+		return this.getStoredToken().then((token) => {
+			
+			if (token != null && !token.isExpired()) {
+				if (extend) {
+					// extend expire time on every token access, assuming the token is used, if not this could cause auth failure
+					token.setExpireTime();
+					this.storeToken(token);
+				}
+
+				return Promise.resolve(token);
+
+			}
+
+			let cr = this.getCredentials();
+			let ch = this.getChannel();
+
+			let tokenSuccess = (res) => {
+
+				let _token = token ? token.update(res.body) : Token.create(res.body);
+				_token.setExpireTime();
+				this.storeToken(_token);
+				return _token;
+
+			};
+
+			let tokenError = (err) => {
+
+				// failed, clear the token
+				this.removeToken();
+
+				let error;
+				if (err instanceof AuthenticationTimeoutException) {
+					error = err;
+				} else {
+					error = Object.assign(new AuthenticationFailedException(), err.response.body);
+				}
+
+				throw error;
+			};
+
+			let req;
+
+			if (token != null && token.getRefreshToken() != null) {
+
+				req = this._tokenRefreshRequest(cr, token.getRefreshToken(), ch);
+
+			} else {
+
+				req = this.isDeviceAuth() ? this.getDeviceToken(Object.assign({}, cr, {uuid: this.getDeviceUUID()}), ch) : this._tokenClientCredentialsRequest(cr, ch);
+
 			}
 			
-			return Promise.resolve(token);
+			return req.then(tokenSuccess).catch(tokenError);
 			
-		}
-		
-		let cr = this.getCredentials();
-		let ch = this.getChannel();
-		
-		let tokenSuccess = (res) => {
-			
-			let _token = token? token.update(res.body) : Token.create(res.body);
-			_token.setExpireTime();
-			this.storeToken(_token);
-			return _token;
-			
-		};
-		
-		let tokenError = (err) => {
-			// refreshing failed, clear the token
-			this.removeToken();
-			let error = Object.assign(new AuthenticationFailedException(), err.response.body);
-			//error.data = err.response.body;
-			throw error;
-		};
-		
-		let req;
-		
-		if(token != null && token.getRefreshToken() != null) {
-			
-			req = this._tokenRefreshRequest(cr, token.getRefreshToken(), ch);
-			
-		} else {
-			
-			req = this.isDeviceAuth(cr)? this.getDeviceToken(cr, ch) : this._tokenClientCredentialsRequest(cr, ch);
-			
-		}
-		
-		return req.then(tokenSuccess).catch(tokenError);
+		});
 		
 	}
 	
-	isDeviceAuth(credentials) {
-		return credentials.uuid != undefined && credentials.uuid != null;
+	isDeviceAuth() {
+		return Boolean(this.getDeviceUUID());
 	}
 	
 	getDeviceToken(credentials, channel) {
 		
 		return this._tokenDeviceCodeRequest(credentials, channel).then((res) => {
 			
-			this.emit('deviceCode', res);
+			let data = res.body;
+			this.emit('deviceCode', data);
 			
 			/*
 			{ device_code: '4b3e0c6733bf616f438ac2992be2a610',
@@ -97,11 +123,40 @@ export class Auth {
 			  interval: 5 }
 			 */
 			
-			let pollIntervalSec = res.interval > 0? res.interval : 5;
+			let pollIntervalSec = data.interval > 0? data.interval : 5;
+			let pollExpireTime = parseInt(data.expires_in) * 1000 + (new Date()).getTime();
+			let codeCredentials = Object.assign({}, credentials, {code: data.device_code});
 			
 			return new Promise((resolve, reject) => {
 				
-				resolve();
+				this.pollTimer = setInterval(() => {
+					
+					if ((new Date()).getTime() < pollExpireTime) {
+						
+						this._tokenDeviceRequest(codeCredentials, channel)
+							.then((res) => {
+								// got token
+								clearInterval(this.pollTimer);
+								resolve(res);
+							})
+							.catch((err) => {
+								
+								if(err.status == 401) {
+									// authorization pending, do nothing, wait for next poll
+								} else {
+									clearInterval(this.pollTimer);
+									reject(err);
+								}
+								
+							});
+						
+					} else {
+						// device_code expired, stop polling, throw error
+						clearInterval(this.pollTimer);
+						reject(new AuthenticationTimeoutException());
+					}
+
+				}, pollIntervalSec*1000);
 				
 			});
 			
@@ -111,33 +166,40 @@ export class Auth {
 	
 	removeToken() {
 		
-		let cr = this.getCredentials();
-		if(!cr) {
+		let storage = this.getTokenStorage();
+		if(!storage) {
 			let err = new AuthenticationFailedException('Credentials error');
 			throw err;
 		}
-		cr.token = null;
-		
+		storage.removeToken();
 	}
 	
 	storeToken(token) {
 		
-		let cr = this.getCredentials();
-		if(!cr) {
+		let storage = this.getTokenStorage();
+		if(!storage) {
 			let err = new AuthenticationFailedException('Credentials error');
 			throw err;
 		}
-		cr.token = token;
+		storage.storeToken(token);
 		
 	}
 	
 	getStoredToken() {
-		let cr = this.getCredentials();
-		if(!cr) {
+		let storage = this.getTokenStorage();
+		if(!storage) {
 			let err = new AuthenticationFailedException('Credentials error');
 			throw err;
 		}
-		return cr.token;
+		return storage.getStoredToken().then((token) => {
+			
+			if(token && !(token instanceof Token)) {
+				return Token.create(token);
+			}
+			
+			return token;
+			
+		});
 	}
 	
 	_tokenRequest(credentials, channel) {
@@ -147,7 +209,7 @@ export class Auth {
 			.setHeaders(this.baseHeaders)
 			.setMethod(POST)
 			.setBody(credentials);
-		console.log('token request', m);
+		minilog('secucard.auth').debug('token request', m);
 		return channel.send(m);
 	}
 	

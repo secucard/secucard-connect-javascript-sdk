@@ -12,16 +12,25 @@ var _deSecucardConnectClientNodeEnvironment = require('./de.secucard.connect/cli
 
 var _deSecucardConnectClient = require('./de.secucard.connect/client');
 
+var _minilog = require('minilog');
+
+var _minilog2 = _interopRequireDefault(_minilog);
+
 exports.Services = _deSecucardConnectClientNodeEnvironment.ServiceMap;
 
 var _deSecucardConnectNetChannel = require('./de.secucard.connect/net/channel');
 
 exports.Channel = _deSecucardConnectNetChannel.Channel;
 var SecucardConnect = {
-	description: 'SecucardConnect for nodejs'
+  description: 'SecucardConnect for nodejs'
 };
+
 exports.SecucardConnect = SecucardConnect;
+var MiniLog = _minilog2['default'];
+exports.MiniLog = MiniLog;
+_minilog2['default'].suggest.deny(/secucard\..*/, 'warn');
+
 SecucardConnect.create = function (config) {
 
-	return _deSecucardConnectClient.Client.create(_deSecucardConnectClientNodeEnvironment.ClientNodeEnvironment, config);
+  return _deSecucardConnectClient.Client.create(_deSecucardConnectClientNodeEnvironment.ClientNodeEnvironment, config);
 };

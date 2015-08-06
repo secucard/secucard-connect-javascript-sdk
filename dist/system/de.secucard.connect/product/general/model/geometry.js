@@ -1,22 +1,22 @@
 System.register([], function (_export) {
-	"use strict";
+  "use strict";
 
-	var Geometry;
+  var Geometry;
 
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+  function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-	return {
-		setters: [],
-		execute: function () {
-			Geometry = function Geometry(lat, lon) {
-				_classCallCheck(this, Geometry);
+  return {
+    setters: [],
+    execute: function () {
+      Geometry = function Geometry(lat, lon) {
+        _classCallCheck(this, Geometry);
 
-				this.lat = lat;
-				this.lon = lon;
-			};
+        this.lat = lat;
+        this.lon = lon;
+      };
 
-			_export("Geometry", Geometry);
-		}
-	};
+      _export("Geometry", Geometry);
+    }
+  };
 });
-//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbImRlLnNlY3VjYXJkLmNvbm5lY3QvcHJvZHVjdC9nZW5lcmFsL21vZGVsL2dlb21ldHJ5LmpzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7OztLQUFhLFFBQVE7Ozs7Ozs7QUFBUixXQUFRLEdBRVQsU0FGQyxRQUFRLENBRVIsR0FBRyxFQUFFLEdBQUcsRUFBRTswQkFGVixRQUFROztBQUduQixRQUFJLENBQUMsR0FBRyxHQUFHLEdBQUcsQ0FBQztBQUNmLFFBQUksQ0FBQyxHQUFHLEdBQUcsR0FBRyxDQUFDO0lBQ2Y7O3VCQUxXLFFBQVEiLCJmaWxlIjoiZGUuc2VjdWNhcmQuY29ubmVjdC9wcm9kdWN0L2dlbmVyYWwvbW9kZWwvZ2VvbWV0cnkuanMiLCJzb3VyY2VSb290IjoiLi4vc3JjLyJ9
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbImRlLnNlY3VjYXJkLmNvbm5lY3QvcHJvZHVjdC9nZW5lcmFsL21vZGVsL2dlb21ldHJ5LmpzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7OztNQVdhLFFBQVE7Ozs7Ozs7QUFBUixjQUFRLEdBRVQsU0FGQyxRQUFRLENBRVIsR0FBRyxFQUFFLEdBQUcsRUFBRTs4QkFGVixRQUFROztBQUduQixZQUFJLENBQUMsR0FBRyxHQUFHLEdBQUcsQ0FBQztBQUNmLFlBQUksQ0FBQyxHQUFHLEdBQUcsR0FBRyxDQUFDO09BQ2Y7OzBCQUxXLFFBQVEiLCJmaWxlIjoiZGUuc2VjdWNhcmQuY29ubmVjdC9wcm9kdWN0L2dlbmVyYWwvbW9kZWwvZ2VvbWV0cnkuanMiLCJzb3VyY2VSb290IjoiLi4vc3JjLyJ9
