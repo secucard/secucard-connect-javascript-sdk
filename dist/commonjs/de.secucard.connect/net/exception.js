@@ -15,7 +15,7 @@ var SecucardConnectException = function SecucardConnectException(data) {
 		Object.defineProperty(this, 'stack', {
 			configurable: true,
 			enumerable: false,
-			value: Error(message).stack
+			value: Error(data.error_details).stack
 		});
 	}
 
