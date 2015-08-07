@@ -46,8 +46,8 @@ app.authenticate('developer@secucard.de', '').then(function (result) {
 	
 	var credentials = {
 		token: {
-			//access_token: result.token,
-			access_token: 'wrong',
+			access_token: result.token,
+			//access_token: 'wrong',
 			expires_in: 1200,
 			token_type: 'bearer',
 			scope: 'https://scope.secucard.com/e/api'
@@ -56,12 +56,14 @@ app.authenticate('developer@secucard.de', '').then(function (result) {
 
 	client.setCredentials(credentials);
 	return client.open();
-	
-	var accounts = client.getService(secucardConnect.Services.General.Accounts);
-	return accounts.retrieve("me");
 
 }).then(function (res) {
-
+	
+	var accounts = client.getService(secucardConnect.Services.General.Accounts);
+	accounts.retrieve("me").then((res) => {
+		console.log(res);
+	});
+	
 	console.log(res);
 
 }).catch(function (err) {

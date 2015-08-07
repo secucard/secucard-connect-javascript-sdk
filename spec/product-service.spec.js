@@ -13,6 +13,11 @@ import {Channel} from '../src/de.secucard.connect/net/channel'
 import {ProductService} from '../src/de.secucard.connect/product/product-service'
 import {ClientNodeEnvironment} from '../src/de.secucard.connect/client-node-environment';
 
+
+import minilog from 'minilog';
+minilog.suggest.clear();
+minilog.enable();
+
 install();
 
 describe('Product Service', function() {
@@ -139,7 +144,7 @@ describe('Product Service', function() {
 		
 	});
 	
-	it('gets object list from Product Service with count = 1' , async function() {
+	it('gets object list (REST) from Product Service with count = 1' , async function() {
 		
 		let data;
 		await this.client.service.retrieveList({count: 1}, null).then((res) => {
@@ -148,7 +153,23 @@ describe('Product Service', function() {
 			
 		});
 		
-		expect(data.length == 1).toBe(true);
+		expect(data.length).toBe(1);
+		
+	});
+	
+	it('gets object list (STOMP) from Product Service with count = 1' , async function() {
+		
+		let client = Client.create(ClientNodeEnvironment);
+		client.setCredentials(devCredentials);
+		await client.open();
+		
+		let data = await client.getService('general.skeletons').retrieveList({count: 1}, null).then((res) => {
+			
+			return res.data;
+			
+		});
+		
+		expect(data.length).toBe(1);
 		
 	});
 	

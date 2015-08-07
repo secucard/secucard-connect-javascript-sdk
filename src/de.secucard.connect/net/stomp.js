@@ -10,7 +10,6 @@
  limitations under the License.
  */
 import UUID from 'uuid';
-import QS from 'qs';
 import EE from 'eventemitter3';
 import minilog from 'minilog';
 
@@ -22,10 +21,6 @@ import {AuthenticationFailedException} from '../auth/exception';
 let utils = {};
 utils.really_defined = (var_to_test) => {
     return !(var_to_test == null || var_to_test == undefined);
-};
-
-utils.queryToString = (queryObject) => {
-	return QS.stringify(queryObject);
 };
 
 utils.sizeOfUTF8 = (str) => {
@@ -232,7 +227,7 @@ export class Stomp {
 		}
 		
 		if(utils.really_defined(params.queryParams)){
-			message.query = utils.queryToString(params.queryParams);
+			message.query = params.queryParams;
 		}
 		
 		if(utils.really_defined(params.data)){
