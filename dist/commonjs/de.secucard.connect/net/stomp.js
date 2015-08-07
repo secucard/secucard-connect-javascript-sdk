@@ -10,10 +10,6 @@ var _uuid = require('uuid');
 
 var _uuid2 = _interopRequireDefault(_uuid);
 
-var _qs = require('qs');
-
-var _qs2 = _interopRequireDefault(_qs);
-
 var _eventemitter3 = require('eventemitter3');
 
 var _eventemitter32 = _interopRequireDefault(_eventemitter3);
@@ -33,10 +29,6 @@ var _authException = require('../auth/exception');
 var utils = {};
 utils.really_defined = function (var_to_test) {
 	return !(var_to_test == null || var_to_test == undefined);
-};
-
-utils.queryToString = function (queryObject) {
-	return _qs2['default'].stringify(queryObject);
 };
 
 utils.sizeOfUTF8 = function (str) {
@@ -230,7 +222,7 @@ var Stomp = (function () {
 		}
 
 		if (utils.really_defined(params.queryParams)) {
-			message.query = utils.queryToString(params.queryParams);
+			message.query = params.queryParams;
 		}
 
 		if (utils.really_defined(params.data)) {

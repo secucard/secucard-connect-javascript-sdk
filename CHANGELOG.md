@@ -1,3 +1,13 @@
+<a name="0.1.3"></a>
+## 0.1.3 (2015-08-07)
+
+* fix exception + fix query params for stomp
+ ([a7fb624](https://github.com/secucard/secucard-connect-javascript-sdk/commit/a7fb624))
+* fix readme
+ ([5715353](https://github.com/secucard/secucard-connect-javascript-sdk/commit/5715353))
+
+
+
 <a name="0.1.2"></a>
 ## 0.1.2 (2015-08-06)
 
