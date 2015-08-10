@@ -51,9 +51,9 @@ var Rest = (function () {
 			return context.getConfig().getRestUrl();
 		};
 
-		this.getToken = function () {
+		this.getToken = function (extend) {
 
-			return context.getAuth().getToken();
+			return context.getAuth().getToken(extend);
 		};
 
 		this.isRequestWithToken = context.isRequestWithToken.bind(context);
@@ -114,7 +114,7 @@ var Rest = (function () {
 	Rest.prototype.sendWithToken = function sendWithToken(message) {
 		var _this2 = this;
 
-		return this.getToken().then(function (token) {
+		return this.getToken(true).then(function (token) {
 
 			var headers = Object.assign({}, message.headers, _this2.getAuthHeader(token));
 			message.setHeaders(headers);

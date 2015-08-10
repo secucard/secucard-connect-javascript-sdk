@@ -1,5 +1,19 @@
+<a name="0.1.4"></a>
+## 0.1.4 (2015-08-10)
+
+
+### Fix
+
+* Fix: token expire time not udated on api request
+ ([0662439](https://github.com/secucard/secucard-connect-javascript-sdk/commit/0662439))
+
+
+
 <a name="0.1.3"></a>
 ## 0.1.3 (2015-08-07)
+
+
+### Fix
 
 * fix exception + fix query params for stomp
  ([a7fb624](https://github.com/secucard/secucard-connect-javascript-sdk/commit/a7fb624))
