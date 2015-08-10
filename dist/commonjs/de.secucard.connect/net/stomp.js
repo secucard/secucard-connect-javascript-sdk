@@ -68,8 +68,8 @@ var Stomp = (function () {
 
 		this.emitServiceEvent = context.emitServiceEvent.bind(context);
 
-		this.getToken = function () {
-			return context.getAuth().getToken();
+		this.getToken = function (extend) {
+			return context.getAuth().getToken(extend);
 		};
 
 		this.getStompHost = function () {
@@ -290,7 +290,7 @@ var Stomp = (function () {
 
 		_minilog2['default']('secucard.stomp').debug('message', destinationObj, message);
 
-		return this.getToken().then(function (token) {
+		return this.getToken(true).then(function (token) {
 
 			var accessToken = token.access_token;
 			var correlationId = _this4.createCorrelationId();

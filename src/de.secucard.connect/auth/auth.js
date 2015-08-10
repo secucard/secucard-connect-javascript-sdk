@@ -61,7 +61,19 @@ export class Auth {
 
 			let cr = this.getCredentials();
 			let ch = this.getChannel();
-
+			
+			if(!cr.isValid()) {
+				
+				if(token != null && token.isExpired()) {
+					minilog('secucard.auth').error('Token is expired');
+					throw new AuthenticationFailedException('Token is expired');
+				} else {
+					minilog('secucard.auth').error('Credentials error');
+					throw new AuthenticationFailedException('Credentials error');
+				}
+				
+			}
+			
 			let tokenSuccess = (res) => {
 
 				let _token = token ? token.update(res.body) : Token.create(res.body);

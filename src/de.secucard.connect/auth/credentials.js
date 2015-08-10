@@ -32,6 +32,10 @@ export class Credentials {
 		
 	}
 	
+	isValid() {
+		return this.client_id && this.client_secret;
+	}
+	
 }
 
 Credentials.create = (credentials) => {

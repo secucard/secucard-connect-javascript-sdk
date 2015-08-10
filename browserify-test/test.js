@@ -48,7 +48,7 @@ app.authenticate('developer@secucard.de', '').then(function (result) {
 		token: {
 			access_token: result.token,
 			//access_token: 'wrong',
-			expires_in: 1200,
+			expires_in: 60,
 			token_type: 'bearer',
 			scope: 'https://scope.secucard.com/e/api'
 		}
