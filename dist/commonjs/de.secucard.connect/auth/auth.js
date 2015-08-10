@@ -63,6 +63,17 @@ var Auth = (function () {
 			var cr = _this.getCredentials();
 			var ch = _this.getChannel();
 
+			if (!cr.isValid()) {
+
+				if (token != null && token.isExpired()) {
+					_minilog2['default']('secucard.auth').error('Token is expired');
+					throw new _exception.AuthenticationFailedException('Token is expired');
+				} else {
+					_minilog2['default']('secucard.auth').error('Credentials error');
+					throw new _exception.AuthenticationFailedException('Credentials error');
+				}
+			}
+
 			var tokenSuccess = function tokenSuccess(res) {
 
 				var _token = token ? token.update(res.body) : _token2.Token.create(res.body);

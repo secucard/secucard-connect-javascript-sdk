@@ -101,6 +101,17 @@ var Auth = (function () {
 			var cr = _this.getCredentials();
 			var ch = _this.getChannel();
 
+			if (!cr.isValid()) {
+
+				if (token != null && token.isExpired()) {
+					_minilog2['default']('secucard.auth').error('Token is expired');
+					throw new _exception.AuthenticationFailedException('Token is expired');
+				} else {
+					_minilog2['default']('secucard.auth').error('Credentials error');
+					throw new _exception.AuthenticationFailedException('Credentials error');
+				}
+			}
+
 			var tokenSuccess = function tokenSuccess(res) {
 
 				var _token = token ? token.update(res.body) : _token2.Token.create(res.body);
@@ -260,21 +271,29 @@ exports.__esModule = true;
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-var Credentials = function Credentials() {
-	_classCallCheck(this, Credentials);
+var Credentials = (function () {
+	function Credentials() {
+		_classCallCheck(this, Credentials);
 
-	this.client_id = null;
-	this.client_secret = null;
+		this.client_id = null;
+		this.client_secret = null;
 
-	this.uuid = null;
+		this.uuid = null;
 
-	this.code = null;
+		this.code = null;
 
-	this.username = null;
-	this.password = null;
-	this.device = null;
-	this.deviveinfo = { name: null };
-};
+		this.username = null;
+		this.password = null;
+		this.device = null;
+		this.deviveinfo = { name: null };
+	}
+
+	Credentials.prototype.isValid = function isValid() {
+		return this.client_id && this.client_secret;
+	};
+
+	return Credentials;
+})();
 
 exports.Credentials = Credentials;
 
@@ -910,7 +929,7 @@ exports.ClientContext = ClientContext;
 
 exports.__esModule = true;
 var Version = {
-  "name": "0.1.3"
+  "name": "0.1.4"
 };
 exports.Version = Version;
 },{}],11:[function(require,module,exports){
@@ -1209,9 +1228,9 @@ var Rest = (function () {
 			return context.getConfig().getRestUrl();
 		};
 
-		this.getToken = function () {
+		this.getToken = function (extend) {
 
-			return context.getAuth().getToken();
+			return context.getAuth().getToken(extend);
 		};
 
 		this.isRequestWithToken = context.isRequestWithToken.bind(context);
@@ -1272,7 +1291,7 @@ var Rest = (function () {
 	Rest.prototype.sendWithToken = function sendWithToken(message) {
 		var _this2 = this;
 
-		return this.getToken().then(function (token) {
+		return this.getToken(true).then(function (token) {
 
 			var headers = Object.assign({}, message.headers, _this2.getAuthHeader(token));
 			message.setHeaders(headers);
@@ -1931,8 +1950,8 @@ var Stomp = (function () {
 
 		this.emitServiceEvent = context.emitServiceEvent.bind(context);
 
-		this.getToken = function () {
-			return context.getAuth().getToken();
+		this.getToken = function (extend) {
+			return context.getAuth().getToken(extend);
 		};
 
 		this.getStompHost = function () {
@@ -2153,7 +2172,7 @@ var Stomp = (function () {
 
 		_minilog2['default']('secucard.stomp').debug('message', destinationObj, message);
 
-		return this.getToken().then(function (token) {
+		return this.getToken(true).then(function (token) {
 
 			var accessToken = token.access_token;
 			var correlationId = _this4.createCorrelationId();
