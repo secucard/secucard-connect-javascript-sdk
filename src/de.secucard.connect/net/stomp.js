@@ -63,8 +63,8 @@ export class Stomp {
 		
 		this.emitServiceEvent = context.emitServiceEvent.bind(context);
 		
-		this.getToken = () => {
-			return context.getAuth().getToken();
+		this.getToken = (extend) => {
+			return context.getAuth().getToken(extend);
 		};
 		
 		this.getStompHost = () => {
@@ -302,7 +302,7 @@ export class Stomp {
 		
 		minilog('secucard.stomp').debug('message', destinationObj, message);
 		
-		return this.getToken().then((token) => {
+		return this.getToken(true).then((token) => {
 			
 			let accessToken = token.access_token;
 			let correlationId = this.createCorrelationId();

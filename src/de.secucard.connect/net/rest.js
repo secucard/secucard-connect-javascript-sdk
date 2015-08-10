@@ -48,9 +48,9 @@ export class Rest {
 			
 		};
 		
-		this.getToken = () => {
+		this.getToken = (extend) => {
 			
-			return context.getAuth().getToken();
+			return context.getAuth().getToken(extend);
 			
 		};
 		
@@ -129,7 +129,7 @@ export class Rest {
 	
 	sendWithToken(message) {
 		
-		return this.getToken().then((token => {
+		return this.getToken(true).then((token => {
 			
 			let headers = Object.assign({}, message.headers, this.getAuthHeader(token));
 			message.setHeaders(headers);
