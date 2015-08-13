@@ -31,10 +31,10 @@ describe('Smart.Idents Service', function() {
 	
 	it('gets list for smart idents with REST' , async function() {
 		
-		let client = Client.create(ClientNodeEnvironment, {
+		let client = Client.create({
 			oAuthUrl: 'https://connect-dev10.secupay-ag.de/oauth/',
 			stompHost: 'connect-dev10.secupay-ag.de'
-		});
+		}, ClientNodeEnvironment);
 		
 		client.setCredentials(devCredentialRefreshToken);
 		

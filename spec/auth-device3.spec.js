@@ -27,12 +27,12 @@ describe("device authorization with polling", function() {
 	it("tests", async function(){
 		
 		
-		let client = Client.create(ClientNodeEnvironment, {
+		let client = Client.create({
 			oAuthUrl: 'https://connect-dev10.secupay-ag.de/oauth/',
 			stompHost: 'connect-dev10.secupay-ag.de',
 			restUrl: 'https://connect-dev10.secupay-ag.de/api/v2/',
 			deviceUUID: "/vendor/secucard/parameter1/test1/parameter2/test2"
-		});
+		}, ClientNodeEnvironment);
 		
 		client.on('deviceCode', (deviceCode) => {
 			console.log('deviceCode', deviceCode);

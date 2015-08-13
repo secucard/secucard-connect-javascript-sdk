@@ -50,7 +50,7 @@ export class Client {
 	
 }
 
-Client.create = (environment, config) => {
+Client.create = (config, environment) => {
 	
 	if(!config){
 		config = Object.create(null);

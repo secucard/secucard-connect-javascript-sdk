@@ -24,7 +24,7 @@ describe('Product Service', function() {
 	
 	beforeEach('', async function () {
 		
-		let client = Client.create(ClientNodeEnvironment);
+		let client = Client.create(null, ClientNodeEnvironment);
 		client.setCredentials(devCredentials);
 		
 		let service = new ProductService();
@@ -159,7 +159,7 @@ describe('Product Service', function() {
 	
 	it('gets object list (STOMP) from Product Service with count = 1' , async function() {
 		
-		let client = Client.create(ClientNodeEnvironment);
+		let client = Client.create(null, ClientNodeEnvironment);
 		client.setCredentials(devCredentials);
 		await client.open();
 		

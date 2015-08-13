@@ -25,6 +25,6 @@ minilog.suggest.deny(/secucard\..*/, 'warn');
 
 SecucardConnect.create = (config) => {
 	
-	return Client.create(ClientNodeEnvironment, config);
+	return Client.create(config, ClientNodeEnvironment);
 	
 };

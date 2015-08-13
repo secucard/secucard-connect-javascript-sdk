@@ -25,6 +25,6 @@ export const SecucardConnect = {
 
 SecucardConnect.create = (config) => {
 	
-	return Client.create(ClientBrowserEnvironment, config);
+	return Client.create(config, ClientBrowserEnvironment);
 	
 };

@@ -35,10 +35,10 @@ describe('Smart Services', function() {
 	
 	it('gets list, creates/updates smart transaction with REST' , async function() {
 		
-		let client = Client.create(ClientNodeEnvironment, {
+		let client = Client.create({
 			oAuthUrl: 'https://connect-dev10.secupay-ag.de/oauth/',
 			stompHost: 'connect-dev10.secupay-ag.de'
-		});
+		}, ClientNodeEnvironment);
 		
 		client.setCredentials(devCredentials);
 		
@@ -82,10 +82,10 @@ describe('Smart Services', function() {
 	
 	it('gets list, creates/updates smart transaction with STOMP' , async function(done) {
 		
-		let client = Client.create(ClientNodeEnvironment, {
+		let client = Client.create({
 			oAuthUrl: 'https://connect-dev10.secupay-ag.de/oauth/',
 			stompHost: 'connect-dev10.secupay-ag.de'
-		});
+		}, ClientNodeEnvironment);
 		
 		client.setCredentials(devCredentialRefreshToken);
 		

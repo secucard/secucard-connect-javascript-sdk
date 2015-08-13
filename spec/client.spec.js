@@ -23,7 +23,7 @@ describe('Client', function() {
 	
 	beforeEach('', async function () {
 		
-		let client = Client.create(ClientNodeEnvironment);
+		let client = Client.create(null, ClientNodeEnvironment);
 		this.client = client;
 		
 		originalTimeout = jasmine.DEFAULT_TIMEOUT_INTERVAL;
@@ -87,10 +87,10 @@ describe('Client', function() {
 	
 	it('connects with refresh_token', async function() {
 		
-		let client = Client.create(ClientNodeEnvironment, {
+		let client = Client.create({
 			oAuthUrl: 'https://connect-dev10.secupay-ag.de/oauth/',
 			stompHost: 'connect-dev10.secupay-ag.de'
-		});
+		}, ClientNodeEnvironment);
 			
 		client.setCredentials(devCredentialsRefreshToken);
 		
@@ -104,10 +104,10 @@ describe('Client', function() {
 	
 	it('does not connect with wrong access_token and does not ping for session refresh', async function() {
 		
-		let client = Client.create(ClientNodeEnvironment, {
+		let client = Client.create({
 			oAuthUrl: 'https://connect-dev10.secupay-ag.de/oauth/',
 			stompHost: 'connect-dev10.secupay-ag.de'
-		});
+		}, ClientNodeEnvironment);
 			
 		client.setCredentials(devCredentialsRefreshToken);
 		

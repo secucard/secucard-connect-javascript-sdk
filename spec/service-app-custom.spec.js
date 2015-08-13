@@ -95,11 +95,11 @@ describe('Custom App Service', function() {
 	
 	it('creates custom app service and does some calls' , async function() {
 		
-		let client = Client.create(ClientNodeEnvironment, {
+		let client = Client.create({
 			restUrl: 'https://connect-dev10.secupay-ag.de/api/v2/',
 			oAuthUrl: 'https://connect-dev10.secupay-ag.de/oauth/',
 			stompHost: 'connect-dev10.secupay-ag.de'
-		});
+		}, ClientNodeEnvironment);
 		
 		client.setCredentials(devCredentialRefreshToken);
 		
@@ -126,16 +126,16 @@ describe('Custom App Service', function() {
 	
 	it('creates secuoffice app service and does some calls' , async function() {
 		
-		let client = Client.create(ClientNodeEnvironment, {
-			restUrl: 'https://connect-dev10.secupay-ag.de/api/v2/',
-			stompHost: 'connect-dev10.secupay-ag.de',
-			stompEnabled: false
-		});
+		let client = Client.create({
+			//restUrl: 'https://connect-dev10.secupay-ag.de/api/v2/',
+			//stompHost: 'connect-dev10.secupay-ag.de',
+			//stompEnabled: false
+		}, ClientNodeEnvironment);
 		
 		let app = client.addAppService(SecuofficeMixin);
-		let result = await app.authenticate('developer@secucard.de', 'Test12345!');
+		//let result = await app.authenticate('developer@secucard.de', 'Test12345!');
 		
-		
+		/*
 		let credentials = {
 			token: {
 				access_token: result.token,
@@ -144,16 +144,19 @@ describe('Custom App Service', function() {
 				scope: 'https://scope.secucard.com/e/api'
 			}
 		};
-		
 		client.setCredentials(credentials);
+		*/
 		
+		/*
 		await client.open().catch((err) => {
 			console.log(err);
 		});
-		
+		*/
 		
 		let accounts = client.getService(Services.General.Accounts);
-		let res = await accounts.retrieve("me", {channelConfig: [Channel.REST]});
+		let res = await accounts.retrieve("me", {channelConfig: [Channel.REST]}).catch((err) => {
+			console.log('Catched error', err.message);
+		});
 		
 		console.log(res);
 		

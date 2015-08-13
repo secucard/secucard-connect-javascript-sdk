@@ -90,7 +90,7 @@ describe('Authorization', function () {
 	
 	it('checks setting expire time on next getToken call', async function() {
 		
-		let client = Client.create(ClientNodeEnvironment);
+		let client = Client.create(null, ClientNodeEnvironment);
 		client.setCredentials(devCredentials);
 		
 		await client.context.auth.getToken().then((token) => {

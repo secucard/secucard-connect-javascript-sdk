@@ -40,11 +40,11 @@ describe("dummy, temp testing", function() {
 		MiniLog.suggest.clear();
 		MiniLog.enable();
 		
-		let client = Client.create(ClientNodeEnvironment, {
+		let client = Client.create({
 			oAuthUrl: 'https://connect-dev10.secupay-ag.de/oauth/',
 			stompHost: 'connect-dev10.secupay-ag.de',
 			restUrl: 'https://connect-dev10.secupay-ag.de/api/v2/'
-		});
+		}, ClientNodeEnvironment);
 		
 		client.setCredentials(devCredentialRefreshToken, TokenStorageMixin);
 		

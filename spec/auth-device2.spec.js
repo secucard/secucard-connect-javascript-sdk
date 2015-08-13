@@ -22,10 +22,10 @@ describe('Device Authorization. Obtain code', function () {
 
 	beforeEach('', async function () {
 		
-		let client = Client.create(ClientNodeEnvironment, {
+		let client = Client.create({
 			oAuthUrl: 'https://connect-dev10.secupay-ag.de/oauth/',
 			stompHost: 'connect-dev10.secupay-ag.de'
-		});
+		}, ClientNodeEnvironment);
 		
 		this.client = client;
 		this.auth = client.context.getAuth();
