@@ -10,9 +10,9 @@
  limitations under the License.
  */
 export class AccountDevice {
-	
-	constructor() {
-		//TODO add properties
-	}
-	
+
+    constructor() {
+        //TODO add properties
+    }
+
 }

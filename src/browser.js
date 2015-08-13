@@ -20,11 +20,11 @@ export const MiniLog = minilog;
 minilog.suggest.deny(/secucard\..*/, 'warn');
 
 export const SecucardConnect = {
-	description: 'SecucardConnect for browser'
+    description: 'SecucardConnect for browser'
 };
 
 SecucardConnect.create = (config) => {
-	
-	return Client.create(config, ClientBrowserEnvironment);
-	
+
+    return Client.create(config, ClientBrowserEnvironment);
+
 };

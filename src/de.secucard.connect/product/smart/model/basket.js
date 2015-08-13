@@ -10,10 +10,10 @@
  limitations under the License.
  */
 export class Basket {
-	
-	constructor(products, texts){
-		this.products = products;
-		this.texts = texts;
-	}
-	
+
+    constructor(products, texts) {
+        this.products = products;
+        this.texts = texts;
+    }
+
 }

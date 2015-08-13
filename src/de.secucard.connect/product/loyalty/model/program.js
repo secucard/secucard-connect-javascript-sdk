@@ -10,11 +10,11 @@
  limitations under the License.
  */
 export class Program {
-	
-	constructor(description, cardgroup, conditions) {
-		this.description = description;
-		this.cardgroup = cardgroup;
-		this.conditions = conditions;
-	}
-	
+
+    constructor(description, cardgroup, conditions) {
+        this.description = description;
+        this.cardgroup = cardgroup;
+        this.conditions = conditions;
+    }
+
 }

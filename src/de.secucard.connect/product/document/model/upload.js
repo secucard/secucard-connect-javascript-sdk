@@ -10,8 +10,8 @@
  limitations under the License.
  */
 export class Upload {
-	constructor(content, created) {
-		this.content = content;
-		this.created = created;
-	}
+    constructor(content, created) {
+        this.content = content;
+        this.created = created;
+    }
 }

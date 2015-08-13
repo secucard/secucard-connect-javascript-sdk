@@ -10,10 +10,10 @@
  limitations under the License.
  */
 export class BasketInfo {
-	
-	constructor(sum, currency) {
-		this.sum = sum;
-		this.currency = currency;
-	}
-	
+
+    constructor(sum, currency) {
+        this.sum = sum;
+        this.currency = currency;
+    }
+
 }

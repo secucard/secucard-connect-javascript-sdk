@@ -10,13 +10,13 @@
  limitations under the License.
  */
 export class Account {
-	
-	constructor(username, password, role, contact, assignment) {
-		this.username = username;
-		this.password = password;
-		this.role = role;
-		this.contact = contact;
-		this.assignment = assignment;
-	}
-	
+
+    constructor(username, password, role, contact, assignment) {
+        this.username = username;
+        this.password = password;
+        this.role = role;
+        this.contact = contact;
+        this.assignment = assignment;
+    }
+
 }

@@ -12,51 +12,51 @@
 import {Token} from './token';
 import mixins from '../util/mixins';
 export class TokenStorageInMem {
-	
-	constructor() {
-		
-	}
-	
-	setCredentials(credentials) {
-		
-		// use credentials as additional data and primary source when storing token
-		this.credentials = credentials;
-		
-		let token = null;
-		
-		if (credentials.token) {
-			token = Token.create(credentials.token);
-			token.setExpireTime();
-			delete credentials.token;
-		}
-		
-		return this.storeToken(token).then();
-		
-	}
-	
-	removeToken() {
-		this.token = null;
-		return Promise.resolve(this.token);
-	}
-	
-	storeToken(token) {
-		
-		this.token = token? token : null;
-		return Promise.resolve(this.token);
-		
-	}
-	
-	getStoredToken() {
-		
-		return Promise.resolve(this.token);
-		
-	}
-	
+
+    constructor() {
+
+    }
+
+    setCredentials(credentials) {
+
+        // use credentials as additional data and primary source when storing token
+        this.credentials = credentials;
+
+        let token = null;
+
+        if (credentials.token) {
+            token = Token.create(credentials.token);
+            token.setExpireTime();
+            delete credentials.token;
+        }
+
+        return this.storeToken(token).then();
+
+    }
+
+    removeToken() {
+        this.token = null;
+        return Promise.resolve(this.token);
+    }
+
+    storeToken(token) {
+
+        this.token = token ? token : null;
+        return Promise.resolve(this.token);
+
+    }
+
+    getStoredToken() {
+
+        return Promise.resolve(this.token);
+
+    }
+
 }
 
 TokenStorageInMem.createWithMixin = (TokenStorageMixin) => {
-	
-	let Mixed = mixins(TokenStorageInMem, TokenStorageMixin);
-	return new Mixed();
-	
+
+    let Mixed = mixins(TokenStorageInMem, TokenStorageMixin);
+    return new Mixed();
+
 };

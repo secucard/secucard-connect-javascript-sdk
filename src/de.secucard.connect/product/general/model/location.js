@@ -10,11 +10,11 @@
  limitations under the License.
  */
 export class Location {
-	
-	constructor(lat, lon, accuracy) {
-		this.lat = lat;
-		this.lon = lon;
-		this.accuracy = accuracy;
-	}
-	
+
+    constructor(lat, lon, accuracy) {
+        this.lat = lat;
+        this.lon = lon;
+        this.accuracy = accuracy;
+    }
+
 }

@@ -12,26 +12,26 @@
 import {ProductService} from '../product-service'
 
 export class SkeletonService extends ProductService {
-	
-	constructor() {
-		super()
-	}
-	
-	getEndpoint() {
-		return ['general','skeletons'];
-	}
-	
-	getEventTargets() {
-		return ['general.skeletons'];
-	}
-	
-	demoEvent() {
-		
-		// /exchange/connect.api/api:exec:General.Skeletons.Demoevent
-		return this.execute(1, 'demoevent');
-		
-	}
-	
+
+    constructor() {
+        super()
+    }
+
+    getEndpoint() {
+        return ['general', 'skeletons'];
+    }
+
+    getEventTargets() {
+        return ['general.skeletons'];
+    }
+
+    demoEvent() {
+
+        // /exchange/connect.api/api:exec:General.Skeletons.Demoevent
+        return this.execute(1, 'demoevent');
+
+    }
+
 }
 
-SkeletonService.Uid = (['general','skeletons']).join('.');
+SkeletonService.Uid = (['general', 'skeletons']).join('.');

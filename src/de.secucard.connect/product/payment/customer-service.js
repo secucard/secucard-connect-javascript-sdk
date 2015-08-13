@@ -12,19 +12,19 @@
 import {ProductService} from '../product-service'
 
 export class CustomerService extends ProductService {
-	
-	constructor() {
-		super()
-	}
-	
-	getEndpoint() {
-		return ['payment','customers'];
-	}
-	
-	getEventTargets() {
-		return [];
-	}
-	
+
+    constructor() {
+        super()
+    }
+
+    getEndpoint() {
+        return ['payment', 'customers'];
+    }
+
+    getEventTargets() {
+        return [];
+    }
+
 }
 
-CustomerService.Uid = (['payment','customers']).join('.');
+CustomerService.Uid = (['payment', 'customers']).join('.');
