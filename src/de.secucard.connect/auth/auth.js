@@ -181,7 +181,7 @@ export class Auth {
 		let storage = this.getTokenStorage();
 		if(!storage) {
 			let err = new AuthenticationFailedException('Credentials error');
-			throw err;
+			return Promise.reject(err);
 		}
 		storage.removeToken();
 	}
@@ -191,7 +191,7 @@ export class Auth {
 		let storage = this.getTokenStorage();
 		if(!storage) {
 			let err = new AuthenticationFailedException('Credentials error');
-			throw err;
+			return Promise.reject(err);
 		}
 		storage.storeToken(token);
 		
@@ -201,7 +201,7 @@ export class Auth {
 		let storage = this.getTokenStorage();
 		if(!storage) {
 			let err = new AuthenticationFailedException('Credentials error');
-			throw err;
+			return Promise.reject(err);
 		}
 		return storage.getStoredToken().then((token) => {
 			
