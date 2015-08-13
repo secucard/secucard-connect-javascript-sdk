@@ -13,6 +13,7 @@ import {Message} from './net/message';
 import {ClientConfig} from './client-config';
 import {ClientContext} from './client-context';
 import {Version} from './client-version';
+import minilog from 'minilog';
 
 export class Client {
 	
@@ -28,6 +29,8 @@ export class Client {
 		this.setCredentials = this.context.setCredentials.bind(this.context);
 		this.getStoredToken = this.context.getStoredToken.bind(this.context);
 		this.connected = false;
+		
+		minilog('secucard.client').debug(config);
 		
 	}
 	
