@@ -9,23 +9,23 @@ function _inherits(subClass, superClass) { if (typeof superClass !== 'function' 
 var _productService = require('../product-service');
 
 var FileAccessService = (function (_ProductService) {
-	function FileAccessService() {
-		_classCallCheck(this, FileAccessService);
+    function FileAccessService() {
+        _classCallCheck(this, FileAccessService);
 
-		_ProductService.call(this);
-	}
+        _ProductService.call(this);
+    }
 
-	_inherits(FileAccessService, _ProductService);
+    _inherits(FileAccessService, _ProductService);
 
-	FileAccessService.prototype.getEndpoint = function getEndpoint() {
-		return ['general', 'fileaccesses'];
-	};
+    FileAccessService.prototype.getEndpoint = function getEndpoint() {
+        return ['general', 'fileaccesses'];
+    };
 
-	FileAccessService.prototype.getEventTargets = function getEventTargets() {
-		return [];
-	};
+    FileAccessService.prototype.getEventTargets = function getEventTargets() {
+        return [];
+    };
 
-	return FileAccessService;
+    return FileAccessService;
 })(_productService.ProductService);
 
 exports.FileAccessService = FileAccessService;

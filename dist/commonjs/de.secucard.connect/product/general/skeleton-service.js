@@ -9,27 +9,27 @@ function _inherits(subClass, superClass) { if (typeof superClass !== 'function' 
 var _productService = require('../product-service');
 
 var SkeletonService = (function (_ProductService) {
-	function SkeletonService() {
-		_classCallCheck(this, SkeletonService);
+    function SkeletonService() {
+        _classCallCheck(this, SkeletonService);
 
-		_ProductService.call(this);
-	}
+        _ProductService.call(this);
+    }
 
-	_inherits(SkeletonService, _ProductService);
+    _inherits(SkeletonService, _ProductService);
 
-	SkeletonService.prototype.getEndpoint = function getEndpoint() {
-		return ['general', 'skeletons'];
-	};
+    SkeletonService.prototype.getEndpoint = function getEndpoint() {
+        return ['general', 'skeletons'];
+    };
 
-	SkeletonService.prototype.getEventTargets = function getEventTargets() {
-		return ['general.skeletons'];
-	};
+    SkeletonService.prototype.getEventTargets = function getEventTargets() {
+        return ['general.skeletons'];
+    };
 
-	SkeletonService.prototype.demoEvent = function demoEvent() {
-		return this.execute(1, 'demoevent');
-	};
+    SkeletonService.prototype.demoEvent = function demoEvent() {
+        return this.execute(1, 'demoevent');
+    };
 
-	return SkeletonService;
+    return SkeletonService;
 })(_productService.ProductService);
 
 exports.SkeletonService = SkeletonService;

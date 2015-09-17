@@ -26,11 +26,11 @@ exports.MiniLog = MiniLog;
 _minilog2['default'].suggest.deny(/secucard\..*/, 'warn');
 
 var SecucardConnect = {
-  description: 'SecucardConnect for browser'
+    description: 'SecucardConnect for browser'
 };
 
 exports.SecucardConnect = SecucardConnect;
 SecucardConnect.create = function (config) {
 
-  return _deSecucardConnectClient.Client.create(_deSecucardConnectClientBrowserEnvironment.ClientBrowserEnvironment, config);
+    return _deSecucardConnectClient.Client.create(config, _deSecucardConnectClientBrowserEnvironment.ClientBrowserEnvironment);
 };

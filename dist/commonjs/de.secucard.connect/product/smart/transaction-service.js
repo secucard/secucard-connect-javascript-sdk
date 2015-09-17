@@ -9,31 +9,31 @@ function _inherits(subClass, superClass) { if (typeof superClass !== 'function' 
 var _productService = require('../product-service');
 
 var TransactionService = (function (_ProductService) {
-	function TransactionService() {
-		_classCallCheck(this, TransactionService);
+    function TransactionService() {
+        _classCallCheck(this, TransactionService);
 
-		_ProductService.call(this);
-	}
+        _ProductService.call(this);
+    }
 
-	_inherits(TransactionService, _ProductService);
+    _inherits(TransactionService, _ProductService);
 
-	TransactionService.prototype.getEndpoint = function getEndpoint() {
-		return ['smart', 'transactions'];
-	};
+    TransactionService.prototype.getEndpoint = function getEndpoint() {
+        return ['smart', 'transactions'];
+    };
 
-	TransactionService.prototype.getEventTargets = function getEventTargets() {
-		return ['general.notifications'];
-	};
+    TransactionService.prototype.getEventTargets = function getEventTargets() {
+        return ['general.notifications'];
+    };
 
-	TransactionService.prototype.start = function start(id, type) {
-		return this.execute(id, 'start', type);
-	};
+    TransactionService.prototype.start = function start(id, type) {
+        return this.execute(id, 'start', type);
+    };
 
-	TransactionService.prototype.cancel = function cancel(id) {
-		return this.execute(id, 'cancel');
-	};
+    TransactionService.prototype.cancel = function cancel(id) {
+        return this.execute(id, 'cancel');
+    };
 
-	return TransactionService;
+    return TransactionService;
 })(_productService.ProductService);
 
 exports.TransactionService = TransactionService;

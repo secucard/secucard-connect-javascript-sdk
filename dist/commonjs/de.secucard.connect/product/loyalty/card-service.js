@@ -9,31 +9,31 @@ function _inherits(subClass, superClass) { if (typeof superClass !== 'function' 
 var _productService = require('../product-service');
 
 var CardService = (function (_ProductService) {
-	function CardService() {
-		_classCallCheck(this, CardService);
+    function CardService() {
+        _classCallCheck(this, CardService);
 
-		_ProductService.call(this);
-	}
+        _ProductService.call(this);
+    }
 
-	_inherits(CardService, _ProductService);
+    _inherits(CardService, _ProductService);
 
-	CardService.prototype.getEndpoint = function getEndpoint() {
-		return ['loyalty', 'cards'];
-	};
+    CardService.prototype.getEndpoint = function getEndpoint() {
+        return ['loyalty', 'cards'];
+    };
 
-	CardService.prototype.getEventTargets = function getEventTargets() {
-		return [];
-	};
+    CardService.prototype.getEventTargets = function getEventTargets() {
+        return [];
+    };
 
-	CardService.prototype.assignUser = function assignUser(cardNumber, pin) {
-		return this.execute(cardNumber, 'assignUser', 'me', pin);
-	};
+    CardService.prototype.assignUser = function assignUser(cardNumber, pin) {
+        return this.execute(cardNumber, 'assignUser', 'me', pin);
+    };
 
-	CardService.prototype.removeUser = function removeUser(cardNumber) {
-		return this.removeWithAction(cardNumber, 'assignUser', 'me');
-	};
+    CardService.prototype.removeUser = function removeUser(cardNumber) {
+        return this.removeWithAction(cardNumber, 'assignUser', 'me');
+    };
 
-	return CardService;
+    return CardService;
 })(_productService.ProductService);
 
 exports.CardService = CardService;

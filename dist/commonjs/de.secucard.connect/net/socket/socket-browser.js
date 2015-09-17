@@ -15,71 +15,71 @@ var _minilog = require('minilog');
 var _minilog2 = _interopRequireDefault(_minilog);
 
 var SocketAtBrowser = (function () {
-	function SocketAtBrowser(url) {
-		var _this = this;
+    function SocketAtBrowser(url) {
+        var _this = this;
 
-		_classCallCheck(this, SocketAtBrowser);
+        _classCallCheck(this, SocketAtBrowser);
 
-		Object.assign(this, _eventemitter32['default'].prototype);
+        Object.assign(this, _eventemitter32['default'].prototype);
 
-		var ws = new WebSocket(url);
-		ws.binaryType = 'arraybuffer';
+        var ws = new WebSocket(url);
+        ws.binaryType = 'arraybuffer';
 
-		ws.onopen = function () {
+        ws.onopen = function () {
 
-			_minilog2['default']('secucard.socket.browser').debug('onopen');
-			_this.emit('connect');
-		};
+            _minilog2['default']('secucard.socket.browser').debug('onopen');
+            _this.emit('connect');
+        };
 
-		ws.onmessage = function (event) {
+        ws.onmessage = function (event) {
 
-			_minilog2['default']('secucard.socket.browser').debug('onmessage', event);
-			_this.emit('data', event.data);
-		};
+            _minilog2['default']('secucard.socket.browser').debug('onmessage', event);
+            _this.emit('data', event.data);
+        };
 
-		ws.onclose = function (event) {
+        ws.onclose = function (event) {
 
-			if (event.code == 1000) {
-				_this.emit('close');
-			} else {
-				_this.emit('close', event.reason);
-			}
-		};
+            if (event.code == 1000) {
+                _this.emit('close');
+            } else {
+                _this.emit('close', event.reason);
+            }
+        };
 
-		this.ws = ws;
-	}
+        this.ws = ws;
+    }
 
-	SocketAtBrowser.prototype.close = function close() {
+    SocketAtBrowser.prototype.close = function close() {
 
-		this.ws.close();
-	};
+        this.ws.close();
+    };
 
-	SocketAtBrowser.prototype.write = function write(chunk) {
+    SocketAtBrowser.prototype.write = function write(chunk) {
 
-		this.ws.send(chunk);
-		return true;
-	};
+        this.ws.send(chunk);
+        return true;
+    };
 
-	return SocketAtBrowser;
+    return SocketAtBrowser;
 })();
 
 exports.SocketAtBrowser = SocketAtBrowser;
 
 SocketAtBrowser.connect = function (host, port, endpoint, sslEnabled, ssl_options, ssl_validate, onInit, onError) {
 
-	var url = host + ':' + port + endpoint;
-	if (sslEnabled) {
-		url = 'wss://' + url;
-	} else {
-		url = 'ws://' + url;
-	}
+    var url = host + ':' + port + endpoint;
+    if (sslEnabled) {
+        url = 'wss://' + url;
+    } else {
+        url = 'ws://' + url;
+    }
 
-	var socket = new SocketAtBrowser(url);
-	onInit(socket, false);
+    var socket = new SocketAtBrowser(url);
+    onInit(socket, false);
 };
 
 SocketAtBrowser.disconnect = function (socket) {
 
-	_minilog2['default']('secucard.socket.browser').debug('disconnect called');
-	socket.close();
+    _minilog2['default']('secucard.socket.browser').debug('disconnect called');
+    socket.close();
 };

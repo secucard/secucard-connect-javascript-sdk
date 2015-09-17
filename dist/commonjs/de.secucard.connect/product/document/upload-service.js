@@ -9,29 +9,29 @@ function _inherits(subClass, superClass) { if (typeof superClass !== 'function' 
 var _productService = require('../product-service');
 
 var UploadService = (function (_ProductService) {
-	function UploadService() {
-		_classCallCheck(this, UploadService);
+    function UploadService() {
+        _classCallCheck(this, UploadService);
 
-		_ProductService.call(this);
-	}
+        _ProductService.call(this);
+    }
 
-	_inherits(UploadService, _ProductService);
+    _inherits(UploadService, _ProductService);
 
-	UploadService.prototype.getEndpoint = function getEndpoint() {
-		return ['document', 'uploads'];
-	};
+    UploadService.prototype.getEndpoint = function getEndpoint() {
+        return ['document', 'uploads'];
+    };
 
-	UploadService.prototype.getEventTargets = function getEventTargets() {
-		return [];
-	};
+    UploadService.prototype.getEventTargets = function getEventTargets() {
+        return [];
+    };
 
-	UploadService.prototype.upload = function upload(base64str) {
-		return _ProductService.prototype.execute.call(this, null, null, null, { content: base64str }, {
-			channelConfig: ['rest'],
-			useAuth: false });
-	};
+    UploadService.prototype.upload = function upload(base64str) {
+        return _ProductService.prototype.execute.call(this, null, null, null, { content: base64str }, {
+            channelConfig: ['rest'],
+            useAuth: false });
+    };
 
-	return UploadService;
+    return UploadService;
 })(_productService.ProductService);
 
 exports.UploadService = UploadService;

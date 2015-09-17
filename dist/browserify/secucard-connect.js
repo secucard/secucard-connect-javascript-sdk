@@ -27,15 +27,15 @@ exports.MiniLog = MiniLog;
 _minilog2['default'].suggest.deny(/secucard\..*/, 'warn');
 
 var SecucardConnect = {
-  description: 'SecucardConnect for browser'
+    description: 'SecucardConnect for browser'
 };
 
 exports.SecucardConnect = SecucardConnect;
 SecucardConnect.create = function (config) {
 
-  return _deSecucardConnectClient.Client.create(_deSecucardConnectClientBrowserEnvironment.ClientBrowserEnvironment, config);
+    return _deSecucardConnectClient.Client.create(config, _deSecucardConnectClientBrowserEnvironment.ClientBrowserEnvironment);
 };
-},{"./de.secucard.connect/client":11,"./de.secucard.connect/client-browser-environment":7,"./de.secucard.connect/net/channel":12,"es6-shim":66,"minilog":77}],2:[function(require,module,exports){
+},{"./de.secucard.connect/client":11,"./de.secucard.connect/client-browser-environment":7,"./de.secucard.connect/net/channel":12,"es6-shim":67,"minilog":78}],2:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -59,212 +59,212 @@ var _minilog = require('minilog');
 var _minilog2 = _interopRequireDefault(_minilog);
 
 var Auth = (function () {
-	function Auth() {
-		_classCallCheck(this, Auth);
+    function Auth() {
+        _classCallCheck(this, Auth);
 
-		this.baseCredentialNames = ['client_id', 'client_secret'];
-		this.baseHeaders = { 'Content-Type': 'application/x-www-form-urlencoded' };
-	}
+        this.baseCredentialNames = ['client_id', 'client_secret'];
+        this.baseHeaders = { 'Content-Type': 'application/x-www-form-urlencoded' };
+    }
 
-	Auth.prototype.configureWithContext = function configureWithContext(context) {
+    Auth.prototype.configureWithContext = function configureWithContext(context) {
 
-		this.emit = context.emit.bind(context);
+        this.emit = context.emit.bind(context);
 
-		this.getChannel = context.getRestChannel.bind(context);
-		this.getCredentials = context.getCredentials.bind(context);
-		this.getTokenStorage = context.getTokenStorage.bind(context);
+        this.getChannel = context.getRestChannel.bind(context);
+        this.getCredentials = context.getCredentials.bind(context);
+        this.getTokenStorage = context.getTokenStorage.bind(context);
 
-		this.oAuthUrl = function () {
+        this.oAuthUrl = function () {
 
-			return context.getConfig().getOAuthUrl();
-		};
+            return context.getConfig().getOAuthUrl();
+        };
 
-		this.getDeviceUUID = function () {
-			return context.getConfig().getDeviceUUID();
-		};
-	};
+        this.getDeviceUUID = function () {
+            return context.getConfig().getDeviceUUID();
+        };
+    };
 
-	Auth.prototype.getToken = function getToken(extend) {
-		var _this = this;
+    Auth.prototype.getToken = function getToken(extend) {
+        var _this = this;
 
-		return this.getStoredToken().then(function (token) {
+        return this.getStoredToken().then(function (token) {
 
-			if (token != null && !token.isExpired()) {
-				if (extend) {
-					token.setExpireTime();
-					_this.storeToken(token);
-				}
+            if (token != null && !token.isExpired()) {
+                if (extend) {
+                    token.setExpireTime();
+                    _this.storeToken(token);
+                }
 
-				return Promise.resolve(token);
-			}
+                return Promise.resolve(token);
+            }
 
-			var cr = _this.getCredentials();
-			var ch = _this.getChannel();
+            var cr = _this.getCredentials();
+            var ch = _this.getChannel();
 
-			if (!cr.isValid()) {
+            if (!cr.isValid()) {
 
-				if (token != null && token.isExpired()) {
-					_minilog2['default']('secucard.auth').error('Token is expired');
-					throw new _exception.AuthenticationFailedException('Token is expired');
-				} else {
-					_minilog2['default']('secucard.auth').error('Credentials error');
-					throw new _exception.AuthenticationFailedException('Credentials error');
-				}
-			}
+                if (token != null && token.isExpired()) {
+                    _minilog2['default']('secucard.auth').error('Token is expired');
+                    throw new _exception.AuthenticationFailedException('Token is expired');
+                } else {
+                    _minilog2['default']('secucard.auth').error('Credentials error');
+                    throw new _exception.AuthenticationFailedException('Credentials error');
+                }
+            }
 
-			var tokenSuccess = function tokenSuccess(res) {
+            var tokenSuccess = function tokenSuccess(res) {
 
-				var _token = token ? token.update(res.body) : _token2.Token.create(res.body);
-				_token.setExpireTime();
-				_this.storeToken(_token);
-				return _token;
-			};
+                var _token = token ? token.update(res.body) : _token2.Token.create(res.body);
+                _token.setExpireTime();
+                _this.storeToken(_token);
+                return _token;
+            };
 
-			var tokenError = function tokenError(err) {
-				_this.removeToken();
+            var tokenError = function tokenError(err) {
+                _this.removeToken();
 
-				var error = undefined;
-				if (err instanceof _exception.AuthenticationTimeoutException) {
-					error = err;
-				} else {
-					error = Object.assign(new _exception.AuthenticationFailedException(), err.response.body);
-				}
+                var error = undefined;
+                if (err instanceof _exception.AuthenticationTimeoutException) {
+                    error = err;
+                } else {
+                    error = Object.assign(new _exception.AuthenticationFailedException(), err.response.body);
+                }
 
-				throw error;
-			};
+                throw error;
+            };
 
-			var req = undefined;
+            var req = undefined;
 
-			if (token != null && token.getRefreshToken() != null) {
+            if (token != null && token.getRefreshToken() != null) {
 
-				req = _this._tokenRefreshRequest(cr, token.getRefreshToken(), ch);
-			} else {
+                req = _this._tokenRefreshRequest(cr, token.getRefreshToken(), ch);
+            } else {
 
-				req = _this.isDeviceAuth() ? _this.getDeviceToken(Object.assign({}, cr, { uuid: _this.getDeviceUUID() }), ch) : _this._tokenClientCredentialsRequest(cr, ch);
-			}
+                req = _this.isDeviceAuth() ? _this.getDeviceToken(Object.assign({}, cr, { uuid: _this.getDeviceUUID() }), ch) : _this._tokenClientCredentialsRequest(cr, ch);
+            }
 
-			return req.then(tokenSuccess)['catch'](tokenError);
-		});
-	};
+            return req.then(tokenSuccess)['catch'](tokenError);
+        });
+    };
 
-	Auth.prototype.isDeviceAuth = function isDeviceAuth() {
-		return Boolean(this.getDeviceUUID());
-	};
+    Auth.prototype.isDeviceAuth = function isDeviceAuth() {
+        return Boolean(this.getDeviceUUID());
+    };
 
-	Auth.prototype.getDeviceToken = function getDeviceToken(credentials, channel) {
-		var _this2 = this;
+    Auth.prototype.getDeviceToken = function getDeviceToken(credentials, channel) {
+        var _this2 = this;
 
-		return this._tokenDeviceCodeRequest(credentials, channel).then(function (res) {
+        return this._tokenDeviceCodeRequest(credentials, channel).then(function (res) {
 
-			var data = res.body;
-			_this2.emit('deviceCode', data);
+            var data = res.body;
+            _this2.emit('deviceCode', data);
 
-			var pollIntervalSec = data.interval > 0 ? data.interval : 5;
-			var pollExpireTime = parseInt(data.expires_in) * 1000 + new Date().getTime();
-			var codeCredentials = Object.assign({}, credentials, { code: data.device_code });
+            var pollIntervalSec = data.interval > 0 ? data.interval : 5;
+            var pollExpireTime = parseInt(data.expires_in) * 1000 + new Date().getTime();
+            var codeCredentials = Object.assign({}, credentials, { code: data.device_code });
 
-			return new Promise(function (resolve, reject) {
+            return new Promise(function (resolve, reject) {
 
-				_this2.pollTimer = setInterval(function () {
+                _this2.pollTimer = setInterval(function () {
 
-					if (new Date().getTime() < pollExpireTime) {
+                    if (new Date().getTime() < pollExpireTime) {
 
-						_this2._tokenDeviceRequest(codeCredentials, channel).then(function (res) {
-							clearInterval(_this2.pollTimer);
-							resolve(res);
-						})['catch'](function (err) {
+                        _this2._tokenDeviceRequest(codeCredentials, channel).then(function (res) {
+                            clearInterval(_this2.pollTimer);
+                            resolve(res);
+                        })['catch'](function (err) {
 
-							if (err.status == 401) {} else {
-								clearInterval(_this2.pollTimer);
-								reject(err);
-							}
-						});
-					} else {
-						clearInterval(_this2.pollTimer);
-						reject(new _exception.AuthenticationTimeoutException());
-					}
-				}, pollIntervalSec * 1000);
-			});
-		});
-	};
+                            if (err.status == 401) {} else {
+                                clearInterval(_this2.pollTimer);
+                                reject(err);
+                            }
+                        });
+                    } else {
+                        clearInterval(_this2.pollTimer);
+                        reject(new _exception.AuthenticationTimeoutException());
+                    }
+                }, pollIntervalSec * 1000);
+            });
+        });
+    };
 
-	Auth.prototype.removeToken = function removeToken() {
+    Auth.prototype.removeToken = function removeToken() {
 
-		var storage = this.getTokenStorage();
-		if (!storage) {
-			var err = new _exception.AuthenticationFailedException('Credentials error');
-			throw err;
-		}
-		storage.removeToken();
-	};
+        var storage = this.getTokenStorage();
+        if (!storage) {
+            var err = new _exception.AuthenticationFailedException('Credentials error');
+            return Promise.reject(err);
+        }
+        storage.removeToken();
+    };
 
-	Auth.prototype.storeToken = function storeToken(token) {
+    Auth.prototype.storeToken = function storeToken(token) {
 
-		var storage = this.getTokenStorage();
-		if (!storage) {
-			var err = new _exception.AuthenticationFailedException('Credentials error');
-			throw err;
-		}
-		storage.storeToken(token);
-	};
+        var storage = this.getTokenStorage();
+        if (!storage) {
+            var err = new _exception.AuthenticationFailedException('Credentials error');
+            return Promise.reject(err);
+        }
+        storage.storeToken(token);
+    };
 
-	Auth.prototype.getStoredToken = function getStoredToken() {
-		var storage = this.getTokenStorage();
-		if (!storage) {
-			var err = new _exception.AuthenticationFailedException('Credentials error');
-			throw err;
-		}
-		return storage.getStoredToken().then(function (token) {
+    Auth.prototype.getStoredToken = function getStoredToken() {
+        var storage = this.getTokenStorage();
+        if (!storage) {
+            var err = new _exception.AuthenticationFailedException('Credentials error');
+            return Promise.reject(err);
+        }
+        return storage.getStoredToken().then(function (token) {
 
-			if (token && !(token instanceof _token2.Token)) {
-				return _token2.Token.create(token);
-			}
+            if (token && !(token instanceof _token2.Token)) {
+                return _token2.Token.create(token);
+            }
 
-			return token;
-		});
-	};
+            return token;
+        });
+    };
 
-	Auth.prototype._tokenRequest = function _tokenRequest(credentials, channel) {
-		var m = channel.createMessage().setBaseUrl(this.oAuthUrl()).setUrl('token').setHeaders(this.baseHeaders).setMethod(_netMessage.POST).setBody(credentials);
-		_minilog2['default']('secucard.auth').debug('token request', m);
-		return channel.send(m);
-	};
+    Auth.prototype._tokenRequest = function _tokenRequest(credentials, channel) {
+        var m = channel.createMessage().setBaseUrl(this.oAuthUrl()).setUrl('token').setHeaders(this.baseHeaders).setMethod(_netMessage.POST).setBody(credentials);
+        _minilog2['default']('secucard.auth').debug('token request', m);
+        return channel.send(m);
+    };
 
-	Auth.prototype._tokenClientCredentialsRequest = function _tokenClientCredentialsRequest(credentials, channel) {
-		var cr = _lodash2['default'].pick(credentials, this.baseCredentialNames);
-		cr = _lodash2['default'].assign({}, cr, { grant_type: 'client_credentials' });
-		return this._tokenRequest(cr, channel);
-	};
+    Auth.prototype._tokenClientCredentialsRequest = function _tokenClientCredentialsRequest(credentials, channel) {
+        var cr = _lodash2['default'].pick(credentials, this.baseCredentialNames);
+        cr = _lodash2['default'].assign({}, cr, { grant_type: 'client_credentials' });
+        return this._tokenRequest(cr, channel);
+    };
 
-	Auth.prototype._tokenRefreshRequest = function _tokenRefreshRequest(credentials, refresh_token, channel) {
-		var cr = _lodash2['default'].pick(credentials, this.baseCredentialNames);
-		cr = _lodash2['default'].assign({}, cr, { grant_type: 'refresh_token', refresh_token: refresh_token });
-		return this._tokenRequest(cr, channel);
-	};
+    Auth.prototype._tokenRefreshRequest = function _tokenRefreshRequest(credentials, refresh_token, channel) {
+        var cr = _lodash2['default'].pick(credentials, this.baseCredentialNames);
+        cr = _lodash2['default'].assign({}, cr, { grant_type: 'refresh_token', refresh_token: refresh_token });
+        return this._tokenRequest(cr, channel);
+    };
 
-	Auth.prototype._tokenDeviceCodeRequest = function _tokenDeviceCodeRequest(credentials, channel) {
-		var cr = _lodash2['default'].pick(credentials, this.baseCredentialNames.concat(['uuid']));
-		cr = _lodash2['default'].assign({}, cr, { grant_type: 'device' });
-		return this._tokenRequest(cr, channel);
-	};
+    Auth.prototype._tokenDeviceCodeRequest = function _tokenDeviceCodeRequest(credentials, channel) {
+        var cr = _lodash2['default'].pick(credentials, this.baseCredentialNames.concat(['uuid']));
+        cr = _lodash2['default'].assign({}, cr, { grant_type: 'device' });
+        return this._tokenRequest(cr, channel);
+    };
 
-	Auth.prototype._tokenDeviceRequest = function _tokenDeviceRequest(credentials, channel) {
-		var cr = _lodash2['default'].pick(credentials, this.baseCredentialNames.concat(['code']));
-		cr = _lodash2['default'].assign({}, cr, { grant_type: 'device' });
-		return this._tokenRequest(cr, channel);
-	};
+    Auth.prototype._tokenDeviceRequest = function _tokenDeviceRequest(credentials, channel) {
+        var cr = _lodash2['default'].pick(credentials, this.baseCredentialNames.concat(['code']));
+        cr = _lodash2['default'].assign({}, cr, { grant_type: 'device' });
+        return this._tokenRequest(cr, channel);
+    };
 
-	Auth.prototype._tokenAppUserRequest = function _tokenAppUserRequest(credentials, channel) {
-		var cr = _lodash2['default'].pick(credentials, this.baseCredentialNames.concat(['username', 'password', 'device', 'deviceinfo']));
-		cr = _lodash2['default'].assign({}, cr, { grant_type: 'appuser' });
-		return this._tokenRequest(cr, channel);
-	};
+    Auth.prototype._tokenAppUserRequest = function _tokenAppUserRequest(credentials, channel) {
+        var cr = _lodash2['default'].pick(credentials, this.baseCredentialNames.concat(['username', 'password', 'device', 'deviceinfo']));
+        cr = _lodash2['default'].assign({}, cr, { grant_type: 'appuser' });
+        return this._tokenRequest(cr, channel);
+    };
 
-	return Auth;
+    return Auth;
 })();
 
 exports.Auth = Auth;
-},{"../net/message":14,"./exception":4,"./token":6,"lodash":68,"minilog":77}],3:[function(require,module,exports){
+},{"../net/message":14,"./exception":4,"./token":6,"lodash":69,"minilog":78}],3:[function(require,module,exports){
 "use strict";
 
 exports.__esModule = true;
@@ -272,35 +272,35 @@ exports.__esModule = true;
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 var Credentials = (function () {
-	function Credentials() {
-		_classCallCheck(this, Credentials);
+    function Credentials() {
+        _classCallCheck(this, Credentials);
 
-		this.client_id = null;
-		this.client_secret = null;
+        this.client_id = null;
+        this.client_secret = null;
 
-		this.uuid = null;
+        this.uuid = null;
 
-		this.code = null;
+        this.code = null;
 
-		this.username = null;
-		this.password = null;
-		this.device = null;
-		this.deviveinfo = { name: null };
-	}
+        this.username = null;
+        this.password = null;
+        this.device = null;
+        this.deviveinfo = { name: null };
+    }
 
-	Credentials.prototype.isValid = function isValid() {
-		return this.client_id && this.client_secret;
-	};
+    Credentials.prototype.isValid = function isValid() {
+        return this.client_id && this.client_secret;
+    };
 
-	return Credentials;
+    return Credentials;
 })();
 
 exports.Credentials = Credentials;
 
 Credentials.create = function (credentials) {
 
-	var cr = new Credentials();
-	return Object.assign(cr, credentials);
+    var cr = new Credentials();
+    return Object.assign(cr, credentials);
 };
 },{}],4:[function(require,module,exports){
 'use strict';
@@ -310,61 +310,61 @@ exports.__esModule = true;
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 
 var AuthenticationFailedException = function AuthenticationFailedException() {
-	var message = arguments[0] === undefined ? 'Authentication failed' : arguments[0];
+    var message = arguments[0] === undefined ? 'Authentication failed' : arguments[0];
 
-	_classCallCheck(this, AuthenticationFailedException);
+    _classCallCheck(this, AuthenticationFailedException);
 
-	if (Error.captureStackTrace) {
-		Error.captureStackTrace(this, this.constructor);
-	} else {
-		Object.defineProperty(this, 'stack', {
-			configurable: true,
-			enumerable: false,
-			value: Error(message).stack
-		});
-	}
+    if (Error.captureStackTrace) {
+        Error.captureStackTrace(this, this.constructor);
+    } else {
+        Object.defineProperty(this, 'stack', {
+            configurable: true,
+            enumerable: false,
+            value: Error(message).stack
+        });
+    }
 
-	Object.defineProperty(this, 'message', {
-		configurable: true,
-		enumerable: false,
-		value: message
-	});
+    Object.defineProperty(this, 'message', {
+        configurable: true,
+        enumerable: false,
+        value: message
+    });
 
-	Object.defineProperty(this, 'name', {
-		configurable: true,
-		enumerable: false,
-		value: this.constructor.name
-	});
+    Object.defineProperty(this, 'name', {
+        configurable: true,
+        enumerable: false,
+        value: this.constructor.name
+    });
 };
 
 exports.AuthenticationFailedException = AuthenticationFailedException;
 
 var AuthenticationTimeoutException = function AuthenticationTimeoutException() {
-	var message = arguments[0] === undefined ? 'Authentication timeout' : arguments[0];
+    var message = arguments[0] === undefined ? 'Authentication timeout' : arguments[0];
 
-	_classCallCheck(this, AuthenticationTimeoutException);
+    _classCallCheck(this, AuthenticationTimeoutException);
 
-	if (Error.captureStackTrace) {
-		Error.captureStackTrace(this, this.constructor);
-	} else {
-		Object.defineProperty(this, 'stack', {
-			configurable: true,
-			enumerable: false,
-			value: Error(message).stack
-		});
-	}
+    if (Error.captureStackTrace) {
+        Error.captureStackTrace(this, this.constructor);
+    } else {
+        Object.defineProperty(this, 'stack', {
+            configurable: true,
+            enumerable: false,
+            value: Error(message).stack
+        });
+    }
 
-	Object.defineProperty(this, 'message', {
-		configurable: true,
-		enumerable: false,
-		value: message
-	});
+    Object.defineProperty(this, 'message', {
+        configurable: true,
+        enumerable: false,
+        value: message
+    });
 
-	Object.defineProperty(this, 'name', {
-		configurable: true,
-		enumerable: false,
-		value: this.constructor.name
-	});
+    Object.defineProperty(this, 'name', {
+        configurable: true,
+        enumerable: false,
+        value: this.constructor.name
+    });
 };
 
 exports.AuthenticationTimeoutException = AuthenticationTimeoutException;
@@ -384,51 +384,51 @@ var _utilMixins = require('../util/mixins');
 var _utilMixins2 = _interopRequireDefault(_utilMixins);
 
 var TokenStorageInMem = (function () {
-	function TokenStorageInMem() {
-		_classCallCheck(this, TokenStorageInMem);
-	}
+    function TokenStorageInMem() {
+        _classCallCheck(this, TokenStorageInMem);
+    }
 
-	TokenStorageInMem.prototype.setCredentials = function setCredentials(credentials) {
-		this.credentials = credentials;
+    TokenStorageInMem.prototype.setCredentials = function setCredentials(credentials) {
+        this.credentials = credentials;
 
-		var token = null;
+        var token = null;
 
-		if (credentials.token) {
-			token = _token.Token.create(credentials.token);
-			token.setExpireTime();
-			delete credentials.token;
-		}
+        if (credentials.token) {
+            token = _token.Token.create(credentials.token);
+            token.setExpireTime();
+            delete credentials.token;
+        }
 
-		return this.storeToken(token).then();
-	};
+        return this.storeToken(token).then();
+    };
 
-	TokenStorageInMem.prototype.removeToken = function removeToken() {
-		this.token = null;
-		return Promise.resolve(this.token);
-	};
+    TokenStorageInMem.prototype.removeToken = function removeToken() {
+        this.token = null;
+        return Promise.resolve(this.token);
+    };
 
-	TokenStorageInMem.prototype.storeToken = function storeToken(token) {
+    TokenStorageInMem.prototype.storeToken = function storeToken(token) {
 
-		this.token = token ? token : null;
-		return Promise.resolve(this.token);
-	};
+        this.token = token ? token : null;
+        return Promise.resolve(this.token);
+    };
 
-	TokenStorageInMem.prototype.getStoredToken = function getStoredToken() {
+    TokenStorageInMem.prototype.getStoredToken = function getStoredToken() {
 
-		return Promise.resolve(this.token);
-	};
+        return Promise.resolve(this.token);
+    };
 
-	return TokenStorageInMem;
+    return TokenStorageInMem;
 })();
 
 exports.TokenStorageInMem = TokenStorageInMem;
 
 TokenStorageInMem.createWithMixin = function (TokenStorageMixin) {
 
-	var Mixed = _utilMixins2['default'](TokenStorageInMem, TokenStorageMixin);
-	return new Mixed();
+    var Mixed = _utilMixins2['default'](TokenStorageInMem, TokenStorageMixin);
+    return new Mixed();
 };
-},{"../util/mixins":64,"./token":6}],6:[function(require,module,exports){
+},{"../util/mixins":65,"./token":6}],6:[function(require,module,exports){
 "use strict";
 
 exports.__esModule = true;
@@ -436,55 +436,55 @@ exports.__esModule = true;
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 var Token = (function () {
-	function Token() {
-		_classCallCheck(this, Token);
+    function Token() {
+        _classCallCheck(this, Token);
 
-		this.access_token = null;
-		this.refresh_token = null;
-		this.token_type = null;
-		this.expires_in = null;
-		this.scope = null;
-	}
+        this.access_token = null;
+        this.refresh_token = null;
+        this.token_type = null;
+        this.expires_in = null;
+        this.scope = null;
+    }
 
-	Token.prototype.getRefreshToken = function getRefreshToken() {
+    Token.prototype.getRefreshToken = function getRefreshToken() {
 
-		return this.refresh_token;
-	};
+        return this.refresh_token;
+    };
 
-	Token.prototype.getAccessToken = function getAccessToken() {
+    Token.prototype.getAccessToken = function getAccessToken() {
 
-		return this.access_token;
-	};
+        return this.access_token;
+    };
 
-	Token.prototype.isExpired = function isExpired() {
+    Token.prototype.isExpired = function isExpired() {
 
-		return !this.expireTime || new Date().getTime() > this.expireTime;
-	};
+        return !this.expireTime || new Date().getTime() > this.expireTime;
+    };
 
-	Token.prototype.setExpireTime = function setExpireTime() {
+    Token.prototype.setExpireTime = function setExpireTime() {
 
-		this.expireTime = parseInt(this.expires_in) * 1000 + new Date().getTime();
-	};
+        this.expireTime = parseInt(this.expires_in) * 1000 + new Date().getTime();
+    };
 
-	Token.prototype.getExpireTime = function getExpireTime() {
+    Token.prototype.getExpireTime = function getExpireTime() {
 
-		return this.expireTime;
-	};
+        return this.expireTime;
+    };
 
-	Token.prototype.update = function update(data) {
-		return Object.assign(this, data);
-	};
+    Token.prototype.update = function update(data) {
+        return Object.assign(this, data);
+    };
 
-	return Token;
+    return Token;
 })();
 
 exports.Token = Token;
 
 Token.create = function (data) {
 
-	var token = new Token();
-	token = Object.assign(token, data);
-	return token;
+    var token = new Token();
+    token = Object.assign(token, data);
+    return token;
 };
 },{}],7:[function(require,module,exports){
 'use strict';
@@ -512,71 +512,72 @@ var _productAuthAuth = require('./product/auth/auth');
 var _authTokenStorage = require('./auth/token-storage');
 
 var ClientBrowserEnvironment = {
-	config: {
-		stompPort: 15671,
-		stompEndpoint: '/stomp/websocket'
-	},
-	services: [_productAuthAuth.Auth.SessionService, _productDocumentDocument.Document.UploadService, _productGeneralGeneral.General.SkeletonService, _productGeneralGeneral.General.AccountService, _productGeneralGeneral.General.AccountDeviceService, _productGeneralGeneral.General.ContactService, _productGeneralGeneral.General.DeliveryAddressService, _productGeneralGeneral.General.FileAccessService, _productGeneralGeneral.General.MerchantService, _productGeneralGeneral.General.NewsService, _productGeneralGeneral.General.NotificationService, _productGeneralGeneral.General.PublicMerchantService, _productGeneralGeneral.General.StoreService, _productGeneralGeneral.General.TransactionService, _productLoyaltyLoyalty.Loyalty.BeaconService, _productLoyaltyLoyalty.Loyalty.CardGroupService, _productLoyaltyLoyalty.Loyalty.CardService, _productLoyaltyLoyalty.Loyalty.ChargeService, _productLoyaltyLoyalty.Loyalty.CheckinService, _productLoyaltyLoyalty.Loyalty.CustomerService, _productLoyaltyLoyalty.Loyalty.MerchantCardService, _productLoyaltyLoyalty.Loyalty.ProgramService, _productLoyaltyLoyalty.Loyalty.ProgramSpecialService, _productLoyaltyLoyalty.Loyalty.SaleService, _productPaymentPayment.Payment.ContainerService, _productPaymentPayment.Payment.ContractService, _productPaymentPayment.Payment.CustomerService, _productPaymentPayment.Payment.SecupayDebitService, _productPaymentPayment.Payment.SecupayPrepayService, _productServicesServices.Services.IdentContractService, _productServicesServices.Services.IdentRequestService, _productServicesServices.Services.IdentResultService, _productSmartSmart.Smart.TransactionService, _productSmartSmart.Smart.IdentService, _productSmartSmart.Smart.CheckinService]
+    config: {
+        stompPort: 15671,
+        stompEndpoint: '/stomp/websocket'
+    },
+    services: [_productAuthAuth.Auth.SessionService, _productDocumentDocument.Document.UploadService, _productGeneralGeneral.General.SkeletonService, _productGeneralGeneral.General.AccountService, _productGeneralGeneral.General.AccountDeviceService, _productGeneralGeneral.General.ContactService, _productGeneralGeneral.General.DeliveryAddressService, _productGeneralGeneral.General.FileAccessService, _productGeneralGeneral.General.MerchantService, _productGeneralGeneral.General.NewsService, _productGeneralGeneral.General.NotificationService, _productGeneralGeneral.General.PublicMerchantService, _productGeneralGeneral.General.StoreService, _productGeneralGeneral.General.TransactionService, _productLoyaltyLoyalty.Loyalty.ActionProfileService, _productLoyaltyLoyalty.Loyalty.BeaconService, _productLoyaltyLoyalty.Loyalty.CardGroupService, _productLoyaltyLoyalty.Loyalty.CardService, _productLoyaltyLoyalty.Loyalty.ChargeService, _productLoyaltyLoyalty.Loyalty.CheckinService, _productLoyaltyLoyalty.Loyalty.CustomerService, _productLoyaltyLoyalty.Loyalty.MerchantCardService, _productLoyaltyLoyalty.Loyalty.ProgramService, _productLoyaltyLoyalty.Loyalty.ProgramSpecialService, _productLoyaltyLoyalty.Loyalty.SaleService, _productPaymentPayment.Payment.ContainerService, _productPaymentPayment.Payment.ContractService, _productPaymentPayment.Payment.CustomerService, _productPaymentPayment.Payment.SecupayDebitService, _productPaymentPayment.Payment.SecupayPrepayService, _productServicesServices.Services.IdentContractService, _productServicesServices.Services.IdentRequestService, _productServicesServices.Services.IdentResultService, _productSmartSmart.Smart.TransactionService, _productSmartSmart.Smart.IdentService, _productSmartSmart.Smart.CheckinService]
 };
 exports.ClientBrowserEnvironment = ClientBrowserEnvironment;
 ClientBrowserEnvironment.StompChannel = {
-	create: function create() {
-		return new _netStomp.Stomp(_netSocketSocketBrowser.SocketAtBrowser);
-	}
+    create: function create() {
+        return new _netStomp.Stomp(_netSocketSocketBrowser.SocketAtBrowser);
+    }
 };
 
 ClientBrowserEnvironment.TokenStorage = {
-	create: function create() {
-		return new _authTokenStorage.TokenStorageInMem();
-	}
+    create: function create() {
+        return new _authTokenStorage.TokenStorageInMem();
+    }
 };
 
 var ServiceMap = {
-	Auth: {
-		Sessions: _productAuthAuth.Auth.SessionService.Uid
-	},
-	Document: {
-		Uploads: _productDocumentDocument.Document.UploadService.Uid
-	},
-	General: {
-		Skeletons: _productGeneralGeneral.General.SkeletonService.Uid,
-		Accounts: _productGeneralGeneral.General.AccountService.Uid,
-		AccountDevices: _productGeneralGeneral.General.AccountDeviceService.Uid,
-		Contacts: _productGeneralGeneral.General.ContactService.Uid,
-		DeliveryAddresses: _productGeneralGeneral.General.DeliveryAddressService.Uid,
-		FileAccesses: _productGeneralGeneral.General.FileAccessService.Uid,
-		Merchants: _productGeneralGeneral.General.MerchantService.Uid,
-		News: _productGeneralGeneral.General.NewsService.Uid,
-		Notifications: _productGeneralGeneral.General.NotificationService.Uid,
-		PublicMerchants: _productGeneralGeneral.General.PublicMerchantService.Uid,
-		Stores: _productGeneralGeneral.General.StoreService.Uid,
-		Transactions: _productGeneralGeneral.General.TransactionService.Uid
-	},
-	Loyalty: {
-		Beacons: _productLoyaltyLoyalty.Loyalty.BeaconService.Uid,
-		CardGroups: _productLoyaltyLoyalty.Loyalty.CardGroupService.Uid,
-		Cards: _productLoyaltyLoyalty.Loyalty.CardService.Uid,
-		Charges: _productLoyaltyLoyalty.Loyalty.ChargeService.Uid,
-		Checkins: _productLoyaltyLoyalty.Loyalty.CheckinService.Uid,
-		Customers: _productLoyaltyLoyalty.Loyalty.CustomerService.Uid,
-		MerchantCards: _productLoyaltyLoyalty.Loyalty.MerchantCardService.Uid,
-		Programs: _productLoyaltyLoyalty.Loyalty.ProgramService.Uid,
-		ProrgamSpecials: _productLoyaltyLoyalty.Loyalty.ProgramSpecialService.Uid,
-		Sales: _productLoyaltyLoyalty.Loyalty.SaleService.Uid
-	},
-	Services: {
-		IdentContracts: _productServicesServices.Services.IdentContractService.Uid,
-		IdentRequests: _productServicesServices.Services.IdentRequestService.Uid,
-		IdentResults: _productServicesServices.Services.IdentResultService.Uid
-	},
-	Smart: {
-		Transactions: _productSmartSmart.Smart.TransactionService.Uid,
-		Checkins: _productSmartSmart.Smart.CheckinService.Uid,
-		Idents: _productSmartSmart.Smart.IdentService.Uid
-	}
+    Auth: {
+        Sessions: _productAuthAuth.Auth.SessionService.Uid
+    },
+    Document: {
+        Uploads: _productDocumentDocument.Document.UploadService.Uid
+    },
+    General: {
+        Skeletons: _productGeneralGeneral.General.SkeletonService.Uid,
+        Accounts: _productGeneralGeneral.General.AccountService.Uid,
+        AccountDevices: _productGeneralGeneral.General.AccountDeviceService.Uid,
+        Contacts: _productGeneralGeneral.General.ContactService.Uid,
+        DeliveryAddresses: _productGeneralGeneral.General.DeliveryAddressService.Uid,
+        FileAccesses: _productGeneralGeneral.General.FileAccessService.Uid,
+        Merchants: _productGeneralGeneral.General.MerchantService.Uid,
+        News: _productGeneralGeneral.General.NewsService.Uid,
+        Notifications: _productGeneralGeneral.General.NotificationService.Uid,
+        PublicMerchants: _productGeneralGeneral.General.PublicMerchantService.Uid,
+        Stores: _productGeneralGeneral.General.StoreService.Uid,
+        Transactions: _productGeneralGeneral.General.TransactionService.Uid
+    },
+    Loyalty: {
+        ActionProfiles: _productLoyaltyLoyalty.Loyalty.ActionProfileService.Uid,
+        Beacons: _productLoyaltyLoyalty.Loyalty.BeaconService.Uid,
+        CardGroups: _productLoyaltyLoyalty.Loyalty.CardGroupService.Uid,
+        Cards: _productLoyaltyLoyalty.Loyalty.CardService.Uid,
+        Charges: _productLoyaltyLoyalty.Loyalty.ChargeService.Uid,
+        Checkins: _productLoyaltyLoyalty.Loyalty.CheckinService.Uid,
+        Customers: _productLoyaltyLoyalty.Loyalty.CustomerService.Uid,
+        MerchantCards: _productLoyaltyLoyalty.Loyalty.MerchantCardService.Uid,
+        Programs: _productLoyaltyLoyalty.Loyalty.ProgramService.Uid,
+        ProrgamSpecials: _productLoyaltyLoyalty.Loyalty.ProgramSpecialService.Uid,
+        Sales: _productLoyaltyLoyalty.Loyalty.SaleService.Uid
+    },
+    Services: {
+        IdentContracts: _productServicesServices.Services.IdentContractService.Uid,
+        IdentRequests: _productServicesServices.Services.IdentRequestService.Uid,
+        IdentResults: _productServicesServices.Services.IdentResultService.Uid
+    },
+    Smart: {
+        Transactions: _productSmartSmart.Smart.TransactionService.Uid,
+        Checkins: _productSmartSmart.Smart.CheckinService.Uid,
+        Idents: _productSmartSmart.Smart.IdentService.Uid
+    }
 };
 exports.ServiceMap = ServiceMap;
-},{"./auth/token-storage":5,"./net/socket/socket-browser":16,"./net/stomp":19,"./product/auth/auth":21,"./product/document/document":23,"./product/general/general":30,"./product/loyalty/loyalty":44,"./product/payment/payment":52,"./product/services/services":59,"./product/smart/smart":62}],8:[function(require,module,exports){
+},{"./auth/token-storage":5,"./net/socket/socket-browser":16,"./net/stomp":19,"./product/auth/auth":21,"./product/document/document":23,"./product/general/general":30,"./product/loyalty/loyalty":45,"./product/payment/payment":53,"./product/services/services":60,"./product/smart/smart":63}],8:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -584,110 +585,110 @@ exports.__esModule = true;
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 
 var ClientConfig = (function () {
-	function ClientConfig() {
-		_classCallCheck(this, ClientConfig);
-	}
+    function ClientConfig() {
+        _classCallCheck(this, ClientConfig);
+    }
 
-	ClientConfig.prototype.getOAuthUrl = function getOAuthUrl() {
-		return this._getCompleteUrl(this.oAuthUrl);
-	};
+    ClientConfig.prototype.getOAuthUrl = function getOAuthUrl() {
+        return this._getCompleteUrl(this.oAuthUrl);
+    };
 
-	ClientConfig.prototype.getRestUrl = function getRestUrl() {
-		return this._getCompleteUrl(this.restUrl);
-	};
+    ClientConfig.prototype.getRestUrl = function getRestUrl() {
+        return this._getCompleteUrl(this.restUrl);
+    };
 
-	ClientConfig.prototype.getStompHost = function getStompHost() {
-		var value = this.stompHost;
-		if (value.endsWith('/')) {
-			value = value.slice(0, value.length - 1);
-		}
-		return value;
-	};
+    ClientConfig.prototype.getStompHost = function getStompHost() {
+        var value = this.stompHost;
+        if (value.endsWith('/')) {
+            value = value.slice(0, value.length - 1);
+        }
+        return value;
+    };
 
-	ClientConfig.prototype.getStompPort = function getStompPort() {
-		return this.stompPort;
-	};
+    ClientConfig.prototype.getStompPort = function getStompPort() {
+        return this.stompPort;
+    };
 
-	ClientConfig.prototype.getStompSslEnabled = function getStompSslEnabled() {
-		return this.stompSslEnabled;
-	};
+    ClientConfig.prototype.getStompSslEnabled = function getStompSslEnabled() {
+        return this.stompSslEnabled;
+    };
 
-	ClientConfig.prototype.getStompVHost = function getStompVHost() {
-		return this.stompVHost;
-	};
+    ClientConfig.prototype.getStompVHost = function getStompVHost() {
+        return this.stompVHost;
+    };
 
-	ClientConfig.prototype.getStompQueue = function getStompQueue() {
-		return this.stompQueue;
-	};
+    ClientConfig.prototype.getStompQueue = function getStompQueue() {
+        return this.stompQueue;
+    };
 
-	ClientConfig.prototype.getStompDestination = function getStompDestination() {
-		return this._getCompleteUrl(this.stompDestination);
-	};
+    ClientConfig.prototype.getStompDestination = function getStompDestination() {
+        return this._getCompleteUrl(this.stompDestination);
+    };
 
-	ClientConfig.prototype.getStompEndpoint = function getStompEndpoint() {
-		return this.stompEndpoint;
-	};
+    ClientConfig.prototype.getStompEndpoint = function getStompEndpoint() {
+        return this.stompEndpoint;
+    };
 
-	ClientConfig.prototype.getStompHeartbeatMs = function getStompHeartbeatMs() {
-		return this.stompHeartbeatSec * 1000;
-	};
+    ClientConfig.prototype.getStompHeartbeatMs = function getStompHeartbeatMs() {
+        return this.stompHeartbeatSec * 1000;
+    };
 
-	ClientConfig.prototype.isDevice = function isDevice() {
+    ClientConfig.prototype.isDevice = function isDevice() {
 
-		return Boolean(this.deviceUUID);
-	};
+        return Boolean(this.deviceUUID);
+    };
 
-	ClientConfig.prototype.getDeviceUUID = function getDeviceUUID() {
-		return this.deviceUUID;
-	};
+    ClientConfig.prototype.getDeviceUUID = function getDeviceUUID() {
+        return this.deviceUUID;
+    };
 
-	ClientConfig.prototype._getCompleteUrl = function _getCompleteUrl(value) {
+    ClientConfig.prototype._getCompleteUrl = function _getCompleteUrl(value) {
 
-		var url = value;
-		if (!url.endsWith('/')) {
-			url += '/';
-		}
-		return url;
-	};
+        var url = value;
+        if (!url.endsWith('/')) {
+            url += '/';
+        }
+        return url;
+    };
 
-	return ClientConfig;
+    return ClientConfig;
 })();
 
 exports.ClientConfig = ClientConfig;
 
 ClientConfig._defaults = {
-	channelDefault: '',
-	cacheDir: '',
-	deviceUUID: null,
+    channelDefault: '',
+    cacheDir: '',
+    deviceUUID: null,
 
-	oAuthUrl: 'https://connect.secucard.com/oauth/',
+    oAuthUrl: 'https://connect.secucard.com/oauth/',
 
-	authDeviceTimeout: 0,
-	restUrl: 'https://connect.secucard.com/api/v2/',
+    authDeviceTimeout: 0,
+    restUrl: 'https://connect.secucard.com/api/v2/',
 
-	restTimeout: 0,
-	stompEnabled: true,
-	stompHeartbeatSec: 30,
+    restTimeout: 0,
+    stompEnabled: true,
+    stompHeartbeatSec: 30,
 
-	stompHost: 'connect.secucard.com',
-	stompPort: 61614,
-	stompVHost: null,
-	stompEndpoint: '',
-	stompDestination: '/exchange/connect.api',
+    stompHost: 'connect.secucard.com',
+    stompPort: 61614,
+    stompVHost: null,
+    stompEndpoint: '',
+    stompDestination: '/exchange/connect.api',
 
-	stompSslEnabled: true,
+    stompSslEnabled: true,
 
-	stompQueue: '/temp-queue/main',
+    stompQueue: '/temp-queue/main',
 
-	stompConnectTimeoutSec: 0,
-	stompMessageTimeoutSec: 0,
-	stompMessageAge: 0 };
+    stompConnectTimeoutSec: 0,
+    stompMessageTimeoutSec: 0,
+    stompMessageAge: 0 };
 
 ClientConfig.defaults = function () {
 
-	var config = new ClientConfig();
-	Object.assign(config, ClientConfig._defaults);
-	return config;
+    var config = new ClientConfig();
+    Object.assign(config, ClientConfig._defaults);
+    return config;
 };
 },{}],9:[function(require,module,exports){
 'use strict';
@@ -719,212 +720,212 @@ var _eventemitter32 = _interopRequireDefault(_eventemitter3);
 var _authTokenStorage = require('./auth/token-storage');
 
 var ClientContext = (function () {
-	function ClientContext(config, environment) {
-		_classCallCheck(this, ClientContext);
+    function ClientContext(config, environment) {
+        _classCallCheck(this, ClientContext);
 
-		Object.assign(this, _eventemitter32['default'].prototype);
+        Object.assign(this, _eventemitter32['default'].prototype);
 
-		this.tokenStorageCreate = environment.TokenStorage.create;
+        this.tokenStorageCreate = environment.TokenStorage.create;
 
-		var auth = new _authAuth.Auth();
-		auth.configureWithContext(this);
-		this.auth = auth;
+        var auth = new _authAuth.Auth();
+        auth.configureWithContext(this);
+        this.auth = auth;
 
-		var restChannel = new _netRest.Rest();
-		restChannel.configureWithContext(this);
-		this.restChannel = restChannel;
+        var restChannel = new _netRest.Rest();
+        restChannel.configureWithContext(this);
+        this.restChannel = restChannel;
 
-		if (config.stompEnabled) {
-			var stompChannel = environment.StompChannel.create();
-			stompChannel.configureWithContext(this);
-			this.stompChannel = stompChannel;
-		}
+        if (config.stompEnabled) {
+            var stompChannel = environment.StompChannel.create();
+            stompChannel.configureWithContext(this);
+            this.stompChannel = stompChannel;
+        }
 
-		this.channels = {
-			stomp: this.stompChannel,
-			rest: this.restChannel
-		};
+        this.channels = {
+            stomp: this.stompChannel,
+            rest: this.restChannel
+        };
 
-		this.serviceEventTargets = Object.create(null);
+        this.serviceEventTargets = Object.create(null);
 
-		this.createServices(environment.services);
+        this.createServices(environment.services);
 
-		this.config = config;
-	}
+        this.config = config;
+    }
 
-	ClientContext.prototype.open = function open() {
-		var _this = this;
+    ClientContext.prototype.open = function open() {
+        var _this = this;
 
-		return this.getAuth().getToken().then(function () {
+        return this.getAuth().getToken().then(function () {
 
-			if (!_this.config.stompEnabled) {
-				return true;
-			}
+            if (!_this.config.stompEnabled) {
+                return true;
+            }
 
-			return Promise.all(_lodash2['default'].map(_lodash2['default'].values(_this.channels), function (channel) {
-				return channel.open();
-			}));
-		});
-	};
+            return Promise.all(_lodash2['default'].map(_lodash2['default'].values(_this.channels), function (channel) {
+                return channel.open();
+            }));
+        });
+    };
 
-	ClientContext.prototype.createServices = function createServices(classList) {
+    ClientContext.prototype.createServices = function createServices(classList) {
 
-		var services = Object.create(null);
-		var ServiceClass = undefined;
-		var service = undefined;
-		var uid = undefined;
-		for (var i = 0; i < classList.length; i++) {
+        var services = Object.create(null);
+        var ServiceClass = undefined;
+        var service = undefined;
+        var uid = undefined;
+        for (var i = 0; i < classList.length; i++) {
 
-			ServiceClass = classList[i];
-			service = new ServiceClass();
-			service.configureWithContext(this);
-			uid = service.getUid();
-			services[uid] = service;
-			this.registerServiceEventTargets(service, service.getEventTargets());
-		}
+            ServiceClass = classList[i];
+            service = new ServiceClass();
+            service.configureWithContext(this);
+            uid = service.getUid();
+            services[uid] = service;
+            this.registerServiceEventTargets(service, service.getEventTargets());
+        }
 
-		this.services = services;
-	};
+        this.services = services;
+    };
 
-	ClientContext.prototype.getService = function getService(uid) {
-		return this.services[uid.toLowerCase()];
-	};
+    ClientContext.prototype.getService = function getService(uid) {
+        return this.services[uid.toLowerCase()];
+    };
 
-	ClientContext.prototype.addAppService = function addAppService(AppMixin) {
+    ClientContext.prototype.addAppService = function addAppService(AppMixin) {
 
-		var appService = _productAppAppService.AppService.createWithMixin(AppMixin);
-		appService.configureWithContext(this);
-		this.services[appService.getUid()] = appService;
-		this.registerServiceEventTargets(appService, appService.getEventTargets());
-		return appService;
-	};
+        var appService = _productAppAppService.AppService.createWithMixin(AppMixin);
+        appService.configureWithContext(this);
+        this.services[appService.getUid()] = appService;
+        this.registerServiceEventTargets(appService, appService.getEventTargets());
+        return appService;
+    };
 
-	ClientContext.prototype.removeAppService = function removeAppService(uid) {
+    ClientContext.prototype.removeAppService = function removeAppService(uid) {
 
-		var appService = this.services[uid];
+        var appService = this.services[uid];
 
-		if (appService && appService.isApp) {
+        if (appService && appService.isApp) {
 
-			this.unregisterServiceEventTargets(appService.getEventTargets());
-			delete this.services[uid];
-		} else {
-			throw new Error('Service not found: ' + uid);
-		}
-	};
+            this.unregisterServiceEventTargets(appService.getEventTargets());
+            delete this.services[uid];
+        } else {
+            throw new Error('Service not found: ' + uid);
+        }
+    };
 
-	ClientContext.prototype.setCredentials = function setCredentials(credentials, TokenStorageMixin) {
+    ClientContext.prototype.setCredentials = function setCredentials(credentials, TokenStorageMixin) {
 
-		this.credentials = _authCredentials.Credentials.create(credentials);
-		if (TokenStorageMixin) {
-			this.tokenStorage = _authTokenStorage.TokenStorageInMem.createWithMixin(TokenStorageMixin);
-		} else {
-			this.tokenStorage = this.tokenStorageCreate();
-		}
+        this.credentials = _authCredentials.Credentials.create(credentials);
+        if (TokenStorageMixin) {
+            this.tokenStorage = _authTokenStorage.TokenStorageInMem.createWithMixin(TokenStorageMixin);
+        } else {
+            this.tokenStorage = this.tokenStorageCreate();
+        }
 
-		return this.tokenStorage.setCredentials(Object.assign({}, credentials));
-	};
+        return this.tokenStorage.setCredentials(Object.assign({}, credentials));
+    };
 
-	ClientContext.prototype.getCredentials = function getCredentials() {
-		return this.credentials;
-	};
+    ClientContext.prototype.getCredentials = function getCredentials() {
+        return this.credentials;
+    };
 
-	ClientContext.prototype.getTokenStorage = function getTokenStorage() {
-		return this.tokenStorage;
-	};
+    ClientContext.prototype.getTokenStorage = function getTokenStorage() {
+        return this.tokenStorage;
+    };
 
-	ClientContext.prototype.getStoredToken = function getStoredToken() {
-		return this.tokenStorage ? this.tokenStorage.getStoredToken() : Promise.resolve(null);
-	};
+    ClientContext.prototype.getStoredToken = function getStoredToken() {
+        return this.tokenStorage ? this.tokenStorage.getStoredToken() : Promise.resolve(null);
+    };
 
-	ClientContext.prototype.getConfig = function getConfig() {
-		return this.config;
-	};
+    ClientContext.prototype.getConfig = function getConfig() {
+        return this.config;
+    };
 
-	ClientContext.prototype.getAuth = function getAuth() {
-		return this.auth;
-	};
+    ClientContext.prototype.getAuth = function getAuth() {
+        return this.auth;
+    };
 
-	ClientContext.prototype.getChannel = function getChannel(channelConfig) {
-		var _this2 = this;
+    ClientContext.prototype.getChannel = function getChannel(channelConfig) {
+        var _this2 = this;
 
-		var ch = null;
-		_lodash2['default'].each(_lodash2['default'](channelConfig).reverse().value(), function (type) {
-			if (_this2.getChannelByType(type)) {
-				ch = _this2.getChannelByType(type);
-			}
-		});
-		if (!ch) {
-			throw new Error('Channel not found, please, check channel config for the service: ' + JSON.stringify(channelConfig));
-		}
-		return ch;
-	};
+        var ch = null;
+        _lodash2['default'].each(_lodash2['default'](channelConfig).reverse().value(), function (type) {
+            if (_this2.getChannelByType(type)) {
+                ch = _this2.getChannelByType(type);
+            }
+        });
+        if (!ch) {
+            throw new Error('Channel not found, please, check channel config for the service: ' + JSON.stringify(channelConfig));
+        }
+        return ch;
+    };
 
-	ClientContext.prototype.getChannelByType = function getChannelByType(type) {
+    ClientContext.prototype.getChannelByType = function getChannelByType(type) {
 
-		return this.channels[type];
-	};
+        return this.channels[type];
+    };
 
-	ClientContext.prototype.getRestChannel = function getRestChannel() {
-		return this.restChannel;
-	};
+    ClientContext.prototype.getRestChannel = function getRestChannel() {
+        return this.restChannel;
+    };
 
-	ClientContext.prototype.getStompChannel = function getStompChannel() {
-		return this.stompChannel;
-	};
+    ClientContext.prototype.getStompChannel = function getStompChannel() {
+        return this.stompChannel;
+    };
 
-	ClientContext.prototype.getServiceDefaultOptions = function getServiceDefaultOptions() {
+    ClientContext.prototype.getServiceDefaultOptions = function getServiceDefaultOptions() {
 
-		return {
-			channelConfig: [_netChannel.Channel.STOMP, _netChannel.Channel.REST],
-			useAuth: true
-		};
-	};
+        return {
+            channelConfig: [_netChannel.Channel.STOMP, _netChannel.Channel.REST],
+            useAuth: true
+        };
+    };
 
-	ClientContext.prototype.isRequestWithToken = function isRequestWithToken(options) {
+    ClientContext.prototype.isRequestWithToken = function isRequestWithToken(options) {
 
-		return !options || options && (!options.hasOwnProperty('useAuth') || options.useAuth);
-	};
+        return !options || options && (!options.hasOwnProperty('useAuth') || options.useAuth);
+    };
 
-	ClientContext.prototype.registerServiceEventTargets = function registerServiceEventTargets(service, targets) {
-		var _this3 = this;
+    ClientContext.prototype.registerServiceEventTargets = function registerServiceEventTargets(service, targets) {
+        var _this3 = this;
 
-		_lodash2['default'].each(targets, function (target) {
+        _lodash2['default'].each(targets, function (target) {
 
-			if (_this3.serviceEventTargets[target.toLowerCase()]) {
-				throw new Error('Provided event target is registered already: ' + target.toLowerCase());
-			}
+            if (_this3.serviceEventTargets[target.toLowerCase()]) {
+                throw new Error('Provided event target is registered already: ' + target.toLowerCase());
+            }
 
-			_this3.serviceEventTargets[target.toLowerCase()] = service;
-		});
-	};
+            _this3.serviceEventTargets[target.toLowerCase()] = service;
+        });
+    };
 
-	ClientContext.prototype.unregisterServiceEventTargets = function unregisterServiceEventTargets(targets) {
-		var _this4 = this;
+    ClientContext.prototype.unregisterServiceEventTargets = function unregisterServiceEventTargets(targets) {
+        var _this4 = this;
 
-		_lodash2['default'].each(targets, function (target) {
+        _lodash2['default'].each(targets, function (target) {
 
-			delete _this4.serviceEventTargets[target.toLowerCase()];
-		});
-	};
+            delete _this4.serviceEventTargets[target.toLowerCase()];
+        });
+    };
 
-	ClientContext.prototype.emitServiceEvent = function emitServiceEvent(event, target, type, data) {
+    ClientContext.prototype.emitServiceEvent = function emitServiceEvent(event, target, type, data) {
 
-		if (event) {
-			target = event.target || target;
-			type = event.type || type;
-			data = event.data || data;
-		}
+        if (event) {
+            target = event.target || target;
+            type = event.type || type;
+            data = event.data || data;
+        }
 
-		target = target.toLowerCase();
-		var service = this.serviceEventTargets[target];
-		service.emit(type, data);
-	};
+        target = target.toLowerCase();
+        var service = this.serviceEventTargets[target];
+        service.emit(type, data);
+    };
 
-	return ClientContext;
+    return ClientContext;
 })();
 
 exports.ClientContext = ClientContext;
-},{"./auth/auth":2,"./auth/credentials":3,"./auth/token-storage":5,"./net/channel":12,"./net/rest":15,"./product/app/app-service":20,"eventemitter3":67,"lodash":68}],10:[function(require,module,exports){
+},{"./auth/auth":2,"./auth/credentials":3,"./auth/token-storage":5,"./net/channel":12,"./net/rest":15,"./product/app/app-service":20,"eventemitter3":68,"lodash":69}],10:[function(require,module,exports){
 "use strict";
 
 exports.__esModule = true;
@@ -937,6 +938,8 @@ exports.Version = Version;
 
 exports.__esModule = true;
 
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 
 var _netMessage = require('./net/message');
@@ -947,55 +950,61 @@ var _clientContext = require('./client-context');
 
 var _clientVersion = require('./client-version');
 
+var _minilog = require('minilog');
+
+var _minilog2 = _interopRequireDefault(_minilog);
+
 var Client = (function () {
-	function Client(config, environment) {
-		_classCallCheck(this, Client);
+    function Client(config, environment) {
+        _classCallCheck(this, Client);
 
-		this.config = config;
-		this.context = new _clientContext.ClientContext(config, environment);
-		this.getService = this.context.getService.bind(this.context);
-		this.addAppService = this.context.addAppService.bind(this.context);
-		this.removeAppService = this.context.removeAppService.bind(this.context);
-		this.emitServiceEvent = this.context.emitServiceEvent.bind(this.context);
-		this.on = this.context.on.bind(this.context);
-		this.setCredentials = this.context.setCredentials.bind(this.context);
-		this.getStoredToken = this.context.getStoredToken.bind(this.context);
-		this.connected = false;
-	}
+        this.config = config;
+        this.context = new _clientContext.ClientContext(config, environment);
+        this.getService = this.context.getService.bind(this.context);
+        this.addAppService = this.context.addAppService.bind(this.context);
+        this.removeAppService = this.context.removeAppService.bind(this.context);
+        this.emitServiceEvent = this.context.emitServiceEvent.bind(this.context);
+        this.on = this.context.on.bind(this.context);
+        this.setCredentials = this.context.setCredentials.bind(this.context);
+        this.getStoredToken = this.context.getStoredToken.bind(this.context);
+        this.connected = false;
 
-	Client.prototype.open = function open() {
-		var _this = this;
+        _minilog2['default']('secucard.client').debug(config);
+    }
 
-		if (this.connected) {
-			return Promise.resolve(this.connected);
-		}
+    Client.prototype.open = function open() {
+        var _this = this;
 
-		return this.context.open().then(function () {
-			_this.connected = true;
-			return _this.connected;
-		});
-	};
+        if (this.connected) {
+            return Promise.resolve(this.connected);
+        }
 
-	Client.prototype.getVersion = function getVersion() {
-		return _clientVersion.Version.name;
-	};
+        return this.context.open().then(function () {
+            _this.connected = true;
+            return _this.connected;
+        });
+    };
 
-	return Client;
+    Client.prototype.getVersion = function getVersion() {
+        return _clientVersion.Version.name;
+    };
+
+    return Client;
 })();
 
 exports.Client = Client;
 
-Client.create = function (environment, config) {
+Client.create = function (config, environment) {
 
-	if (!config) {
-		config = Object.create(null);
-	}
+    if (!config) {
+        config = Object.create(null);
+    }
 
-	config = Object.assign(_clientConfig.ClientConfig.defaults(), environment.config, config);
+    config = Object.assign(_clientConfig.ClientConfig.defaults(), environment.config, config);
 
-	return new Client(config, environment);
+    return new Client(config, environment);
 };
-},{"./client-config":8,"./client-context":9,"./client-version":10,"./net/message":14}],12:[function(require,module,exports){
+},{"./client-config":8,"./client-context":9,"./client-version":10,"./net/message":14,"minilog":78}],12:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -1003,15 +1012,15 @@ exports.__esModule = true;
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 
 var Channel = (function () {
-	function Channel() {
-		_classCallCheck(this, Channel);
-	}
+    function Channel() {
+        _classCallCheck(this, Channel);
+    }
 
-	Channel.prototype.send = function send() {};
+    Channel.prototype.send = function send() {};
 
-	Channel.prototype.request = function request(method, params) {};
+    Channel.prototype.request = function request(method, params) {};
 
-	return Channel;
+    return Channel;
 })();
 
 exports.Channel = Channel;
@@ -1020,11 +1029,11 @@ Channel.REST = 'rest';
 Channel.STOMP = 'stomp';
 
 Channel.METHOD = {
-	GET: 'GET',
-	CREATE: 'CREATE',
-	UPDATE: 'UPDATE',
-	DELETE: 'DELETE',
-	EXECUTE: 'EXECUTE'
+    GET: 'GET',
+    CREATE: 'CREATE',
+    UPDATE: 'UPDATE',
+    DELETE: 'DELETE',
+    EXECUTE: 'EXECUTE'
 };
 },{}],13:[function(require,module,exports){
 'use strict';
@@ -1036,80 +1045,80 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 var _authException = require('../auth/exception');
 
 var SecucardConnectException = function SecucardConnectException(data) {
-	_classCallCheck(this, SecucardConnectException);
+    _classCallCheck(this, SecucardConnectException);
 
-	if (Error.captureStackTrace) {
-		Error.captureStackTrace(this, this.constructor);
-	} else {
-		Object.defineProperty(this, 'stack', {
-			configurable: true,
-			enumerable: false,
-			value: Error(data.error_details).stack
-		});
-	}
+    if (Error.captureStackTrace) {
+        Error.captureStackTrace(this, this.constructor);
+    } else {
+        Object.defineProperty(this, 'stack', {
+            configurable: true,
+            enumerable: false,
+            value: Error(data.error_details).stack
+        });
+    }
 
-	Object.defineProperty(this, 'message', {
-		configurable: true,
-		enumerable: false,
-		value: data.error_details
-	});
+    Object.defineProperty(this, 'message', {
+        configurable: true,
+        enumerable: false,
+        value: data.error_details
+    });
 
-	Object.defineProperty(this, 'name', {
-		configurable: true,
-		enumerable: false,
-		value: this.constructor.name
-	});
+    Object.defineProperty(this, 'name', {
+        configurable: true,
+        enumerable: false,
+        value: this.constructor.name
+    });
 
-	Object.defineProperty(this, 'status', {
-		configurable: true,
-		enumerable: false,
-		value: data.status
-	});
+    Object.defineProperty(this, 'status', {
+        configurable: true,
+        enumerable: false,
+        value: data.status
+    });
 
-	Object.defineProperty(this, 'error', {
-		configurable: true,
-		enumerable: false,
-		value: data.error
-	});
+    Object.defineProperty(this, 'error', {
+        configurable: true,
+        enumerable: false,
+        value: data.error
+    });
 
-	Object.defineProperty(this, 'error_details', {
-		configurable: true,
-		enumerable: false,
-		value: data.error_details
-	});
+    Object.defineProperty(this, 'error_details', {
+        configurable: true,
+        enumerable: false,
+        value: data.error_details
+    });
 
-	Object.defineProperty(this, 'error_user', {
-		configurable: true,
-		enumerable: false,
-		value: data.error_user
-	});
+    Object.defineProperty(this, 'error_user', {
+        configurable: true,
+        enumerable: false,
+        value: data.error_user
+    });
 
-	Object.defineProperty(this, 'code', {
-		configurable: true,
-		enumerable: false,
-		value: data.code
-	});
+    Object.defineProperty(this, 'code', {
+        configurable: true,
+        enumerable: false,
+        value: data.code
+    });
 
-	Object.defineProperty(this, 'supportId', {
-		configurable: true,
-		enumerable: false,
-		value: data.supportId
-	});
+    Object.defineProperty(this, 'supportId', {
+        configurable: true,
+        enumerable: false,
+        value: data.supportId
+    });
 };
 
 exports.SecucardConnectException = SecucardConnectException;
 
 SecucardConnectException.create = function (data) {
 
-	var error = undefined;
+    var error = undefined;
 
-	if (data.error == 'ProductSecurityException') {
-		error = Object.assign(new _authException.AuthenticationFailedException(), data);
-	} else {
-		error = new SecucardConnectException(data);
-	}
+    if (data.error == 'ProductSecurityException') {
+        error = Object.assign(new _authException.AuthenticationFailedException(), data);
+    } else {
+        error = new SecucardConnectException(data);
+    }
 
-	return error;
+    return error;
 };
 },{"../auth/exception":4}],14:[function(require,module,exports){
 'use strict';
@@ -1131,46 +1140,46 @@ var DELETE = 'DELETE';
 exports.DELETE = DELETE;
 
 var Message = (function () {
-	function Message() {
-		_classCallCheck(this, Message);
-	}
+  function Message() {
+    _classCallCheck(this, Message);
+  }
 
-	Message.prototype.setBaseUrl = function setBaseUrl(value) {
-		this.baseUrl = value;
-		return this;
-	};
+  Message.prototype.setBaseUrl = function setBaseUrl(value) {
+    this.baseUrl = value;
+    return this;
+  };
 
-	Message.prototype.setUrl = function setUrl(value) {
-		this.url = value;
-		return this;
-	};
+  Message.prototype.setUrl = function setUrl(value) {
+    this.url = value;
+    return this;
+  };
 
-	Message.prototype.setMethod = function setMethod(value) {
-		this.method = value;
-		return this;
-	};
+  Message.prototype.setMethod = function setMethod(value) {
+    this.method = value;
+    return this;
+  };
 
-	Message.prototype.setHeaders = function setHeaders(value) {
-		this.headers = value;
-		return this;
-	};
+  Message.prototype.setHeaders = function setHeaders(value) {
+    this.headers = value;
+    return this;
+  };
 
-	Message.prototype.setQuery = function setQuery(value) {
-		this.query = value;
-		return this;
-	};
+  Message.prototype.setQuery = function setQuery(value) {
+    this.query = value;
+    return this;
+  };
 
-	Message.prototype.setBody = function setBody(value) {
-		this.body = value;
-		return this;
-	};
+  Message.prototype.setBody = function setBody(value) {
+    this.body = value;
+    return this;
+  };
 
-	Message.prototype.setAccept = function setAccept(value) {
-		this.accept = value;
-		return this;
-	};
+  Message.prototype.setAccept = function setAccept(value) {
+    this.accept = value;
+    return this;
+  };
 
-	return Message;
+  return Message;
 })();
 
 exports.Message = Message;
@@ -1200,188 +1209,188 @@ var _minilog = require('minilog');
 var _minilog2 = _interopRequireDefault(_minilog);
 
 var Rest = (function () {
-	function Rest() {
-		_classCallCheck(this, Rest);
+    function Rest() {
+        _classCallCheck(this, Rest);
 
-		this.methodFuns = {};
+        this.methodFuns = {};
 
-		this.methodFuns[_message.GET] = _superagent2['default'].get;
-		this.methodFuns[_message.POST] = _superagent2['default'].post;
+        this.methodFuns[_message.GET] = _superagent2['default'].get;
+        this.methodFuns[_message.POST] = _superagent2['default'].post;
 
-		this.methodFuns[_message.PUT] = _superagent2['default'].put;
-		this.methodFuns[_message.HEAD] = _superagent2['default'].head;
-		this.methodFuns[_message.DELETE] = _superagent2['default']['delete'];
+        this.methodFuns[_message.PUT] = _superagent2['default'].put;
+        this.methodFuns[_message.HEAD] = _superagent2['default'].head;
+        this.methodFuns[_message.DELETE] = _superagent2['default']['delete'];
 
-		this.methodFuns[_channel.Channel.METHOD.GET] = _superagent2['default'].get;
+        this.methodFuns[_channel.Channel.METHOD.GET] = _superagent2['default'].get;
 
-		this.methodFuns[_channel.Channel.METHOD.CREATE] = _superagent2['default'].post;
-		this.methodFuns[_channel.Channel.METHOD.EXECUTE] = _superagent2['default'].post;
+        this.methodFuns[_channel.Channel.METHOD.CREATE] = _superagent2['default'].post;
+        this.methodFuns[_channel.Channel.METHOD.EXECUTE] = _superagent2['default'].post;
 
-		this.methodFuns[_channel.Channel.METHOD.UPDATE] = _superagent2['default'].put;
-		this.methodFuns[_channel.Channel.METHOD.DELETE] = _superagent2['default']['delete'];
-	}
+        this.methodFuns[_channel.Channel.METHOD.UPDATE] = _superagent2['default'].put;
+        this.methodFuns[_channel.Channel.METHOD.DELETE] = _superagent2['default']['delete'];
+    }
 
-	Rest.prototype.configureWithContext = function configureWithContext(context) {
+    Rest.prototype.configureWithContext = function configureWithContext(context) {
 
-		this.restUrl = function () {
+        this.restUrl = function () {
 
-			return context.getConfig().getRestUrl();
-		};
+            return context.getConfig().getRestUrl();
+        };
 
-		this.getToken = function (extend) {
+        this.getToken = function (extend) {
 
-			return context.getAuth().getToken(extend);
-		};
+            return context.getAuth().getToken(extend);
+        };
 
-		this.isRequestWithToken = context.isRequestWithToken.bind(context);
-	};
+        this.isRequestWithToken = context.isRequestWithToken.bind(context);
+    };
 
-	Rest.prototype.open = function open() {
-		return Promise.resolve(true);
-	};
+    Rest.prototype.open = function open() {
+        return Promise.resolve(true);
+    };
 
-	Rest.prototype.createMessage = function createMessage() {
-		var message = new _message.Message();
-		return message.setBaseUrl(this.restUrl());
-	};
+    Rest.prototype.createMessage = function createMessage() {
+        var message = new _message.Message();
+        return message.setBaseUrl(this.restUrl());
+    };
 
-	Rest.prototype.r = function r(url, method) {
-		return this.methodFuns[method](url);
-	};
+    Rest.prototype.r = function r(url, method) {
+        return this.methodFuns[method](url);
+    };
 
-	Rest.prototype.send = function send(message) {
-		var _this = this;
+    Rest.prototype.send = function send(message) {
+        var _this = this;
 
-		return new Promise(function (resolve, reject) {
+        return new Promise(function (resolve, reject) {
 
-			var url = message.baseUrl ? message.baseUrl + message.url : message.url;
-			var request = _this.r(url, message.method);
+            var url = message.baseUrl ? message.baseUrl + message.url : message.url;
+            var request = _this.r(url, message.method);
 
-			if (message.headers) {
-				request.set(message.headers);
-			}
+            if (message.headers) {
+                request.set(message.headers);
+            }
 
-			if (message.query) {
-				request.query(message.query);
-			}
+            if (message.query) {
+                request.query(message.query);
+            }
 
-			if (message.body) {
-				request.send(message.body);
-			}
+            if (message.body) {
+                request.send(message.body);
+            }
 
-			if (message.accept) {
-				request.accept(message.accept);
-			}
+            if (message.accept) {
+                request.accept(message.accept);
+            }
 
-			request.end(function (err, res) {
-				if (err) {
-					reject(err, res);
-				} else {
-					resolve(res);
-				}
-			});
-		});
-	};
+            request.end(function (err, res) {
+                if (err) {
+                    reject(err, res);
+                } else {
+                    resolve(res);
+                }
+            });
+        });
+    };
 
-	Rest.prototype.getAuthHeader = function getAuthHeader(token) {
+    Rest.prototype.getAuthHeader = function getAuthHeader(token) {
 
-		return { 'Authorization': 'Bearer ' + token.access_token };
-	};
+        return { 'Authorization': 'Bearer ' + token.access_token };
+    };
 
-	Rest.prototype.sendWithToken = function sendWithToken(message) {
-		var _this2 = this;
+    Rest.prototype.sendWithToken = function sendWithToken(message) {
+        var _this2 = this;
 
-		return this.getToken(true).then(function (token) {
+        return this.getToken(true).then(function (token) {
 
-			var headers = Object.assign({}, message.headers, _this2.getAuthHeader(token));
-			message.setHeaders(headers);
-			return _this2.send(message);
-		});
-	};
+            var headers = Object.assign({}, message.headers, _this2.getAuthHeader(token));
+            message.setHeaders(headers);
+            return _this2.send(message);
+        });
+    };
 
-	Rest.prototype.request = function request(method, params) {
+    Rest.prototype.request = function request(method, params) {
 
-		var requestSuccess = function requestSuccess(res) {
-			return res.body;
-		};
+        var requestSuccess = function requestSuccess(res) {
+            return res.body;
+        };
 
-		var requestError = function requestError(err) {
-			var error = err;
-			var request = JSON.stringify({ method: method, params: params });
+        var requestError = function requestError(err) {
+            var error = err;
+            var request = JSON.stringify({ method: method, params: params });
 
-			if (error instanceof _authException.AuthenticationFailedException) {} else {
-				error = _exception.SecucardConnectException.create(err.response.body);
-			}
+            if (error instanceof _authException.AuthenticationFailedException) {} else {
+                error = _exception.SecucardConnectException.create(err.response.body);
+            }
 
-			error.request = request;
+            error.request = request;
 
-			throw error;
-		};
+            throw error;
+        };
 
-		var message = this.createMessageForRequest(method, params);
+        var message = this.createMessageForRequest(method, params);
 
-		var pr = !this.isRequestWithToken || this.isRequestWithToken(params.options) ? this.sendWithToken(message) : this.send(message);
+        var pr = !this.isRequestWithToken || this.isRequestWithToken(params.options) ? this.sendWithToken(message) : this.send(message);
 
-		return pr.then(requestSuccess)['catch'](requestError);
-	};
+        return pr.then(requestSuccess)['catch'](requestError);
+    };
 
-	Rest.prototype.createMessageForRequest = function createMessageForRequest(method, params) {
+    Rest.prototype.createMessageForRequest = function createMessageForRequest(method, params) {
 
-		var message = this.createMessage();
-		message.setHeaders({ 'Content-Type': 'application/json' });
-		message.setMethod(method);
+        var message = this.createMessage();
+        message.setHeaders({ 'Content-Type': 'application/json' });
+        message.setMethod(method);
 
-		var endPointSpec = [];
+        var endPointSpec = [];
 
-		if (params.appId) {
-			endPointSpec = ['General', 'Apps', params.appId, 'callBackend'];
-		} else if (params.endpoint) {
-			endPointSpec = params.endpoint;
-		} else {
-			throw new Error('Missing endpoint spec or app id.');
-		}
+        if (params.appId) {
+            endPointSpec = ['General', 'Apps', params.appId, 'callBackend'];
+        } else if (params.endpoint) {
+            endPointSpec = params.endpoint;
+        } else {
+            throw new Error('Missing endpoint spec or app id.');
+        }
 
-		if (params.objectId != null) {
-			endPointSpec.push(params.objectId);
-		}
+        if (params.objectId != null) {
+            endPointSpec.push(params.objectId);
+        }
 
-		if (params.action) {
-			endPointSpec.push(params.action);
-		}
+        if (params.action) {
+            endPointSpec.push(params.action);
+        }
 
-		if (params.actionArg) {
-			endPointSpec.push(params.actionArg);
-		}
+        if (params.actionArg) {
+            endPointSpec.push(params.actionArg);
+        }
 
-		message.setUrl(this.buildEndpoint(endPointSpec));
+        message.setUrl(this.buildEndpoint(endPointSpec));
 
-		if (params.queryParams) {
-			message.setQuery(params.queryParams);
-		}
+        if (params.queryParams) {
+            message.setQuery(params.queryParams);
+        }
 
-		if (params.data) {
-			message.setBody(params.data);
-		}
+        if (params.data) {
+            message.setBody(params.data);
+        }
 
-		_minilog2['default']('secucard.rest').debug('message', message);
+        _minilog2['default']('secucard.rest').debug('message', message);
 
-		return message;
-	};
+        return message;
+    };
 
-	Rest.prototype.buildEndpoint = function buildEndpoint(endpoint) {
+    Rest.prototype.buildEndpoint = function buildEndpoint(endpoint) {
 
-		if (!endpoint || endpoint.length < 2) {
-			throw new Error('Invalid endpoint specification.');
-		}
+        if (!endpoint || endpoint.length < 2) {
+            throw new Error('Invalid endpoint specification.');
+        }
 
-		return endpoint.join('/');
-	};
+        return endpoint.join('/');
+    };
 
-	return Rest;
+    return Rest;
 })();
 
 exports.Rest = Rest;
-},{"../auth/exception":4,"./channel":12,"./exception":13,"./message":14,"minilog":77,"superagent":81}],16:[function(require,module,exports){
+},{"../auth/exception":4,"./channel":12,"./exception":13,"./message":14,"minilog":78,"superagent":82}],16:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -1399,75 +1408,75 @@ var _minilog = require('minilog');
 var _minilog2 = _interopRequireDefault(_minilog);
 
 var SocketAtBrowser = (function () {
-	function SocketAtBrowser(url) {
-		var _this = this;
+    function SocketAtBrowser(url) {
+        var _this = this;
 
-		_classCallCheck(this, SocketAtBrowser);
+        _classCallCheck(this, SocketAtBrowser);
 
-		Object.assign(this, _eventemitter32['default'].prototype);
+        Object.assign(this, _eventemitter32['default'].prototype);
 
-		var ws = new WebSocket(url);
-		ws.binaryType = 'arraybuffer';
+        var ws = new WebSocket(url);
+        ws.binaryType = 'arraybuffer';
 
-		ws.onopen = function () {
+        ws.onopen = function () {
 
-			_minilog2['default']('secucard.socket.browser').debug('onopen');
-			_this.emit('connect');
-		};
+            _minilog2['default']('secucard.socket.browser').debug('onopen');
+            _this.emit('connect');
+        };
 
-		ws.onmessage = function (event) {
+        ws.onmessage = function (event) {
 
-			_minilog2['default']('secucard.socket.browser').debug('onmessage', event);
-			_this.emit('data', event.data);
-		};
+            _minilog2['default']('secucard.socket.browser').debug('onmessage', event);
+            _this.emit('data', event.data);
+        };
 
-		ws.onclose = function (event) {
+        ws.onclose = function (event) {
 
-			if (event.code == 1000) {
-				_this.emit('close');
-			} else {
-				_this.emit('close', event.reason);
-			}
-		};
+            if (event.code == 1000) {
+                _this.emit('close');
+            } else {
+                _this.emit('close', event.reason);
+            }
+        };
 
-		this.ws = ws;
-	}
+        this.ws = ws;
+    }
 
-	SocketAtBrowser.prototype.close = function close() {
+    SocketAtBrowser.prototype.close = function close() {
 
-		this.ws.close();
-	};
+        this.ws.close();
+    };
 
-	SocketAtBrowser.prototype.write = function write(chunk) {
+    SocketAtBrowser.prototype.write = function write(chunk) {
 
-		this.ws.send(chunk);
-		return true;
-	};
+        this.ws.send(chunk);
+        return true;
+    };
 
-	return SocketAtBrowser;
+    return SocketAtBrowser;
 })();
 
 exports.SocketAtBrowser = SocketAtBrowser;
 
 SocketAtBrowser.connect = function (host, port, endpoint, sslEnabled, ssl_options, ssl_validate, onInit, onError) {
 
-	var url = host + ':' + port + endpoint;
-	if (sslEnabled) {
-		url = 'wss://' + url;
-	} else {
-		url = 'ws://' + url;
-	}
+    var url = host + ':' + port + endpoint;
+    if (sslEnabled) {
+        url = 'wss://' + url;
+    } else {
+        url = 'ws://' + url;
+    }
 
-	var socket = new SocketAtBrowser(url);
-	onInit(socket, false);
+    var socket = new SocketAtBrowser(url);
+    onInit(socket, false);
 };
 
 SocketAtBrowser.disconnect = function (socket) {
 
-	_minilog2['default']('secucard.socket.browser').debug('disconnect called');
-	socket.close();
+    _minilog2['default']('secucard.socket.browser').debug('disconnect called');
+    socket.close();
 };
-},{"eventemitter3":67,"minilog":77}],17:[function(require,module,exports){
+},{"eventemitter3":68,"minilog":78}],17:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -1475,48 +1484,48 @@ exports.__esModule = true;
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 
 var Frame = (function () {
-	function Frame() {
-		_classCallCheck(this, Frame);
+    function Frame() {
+        _classCallCheck(this, Frame);
 
-		this.command = null;
-		this.headers = null;
-		this.body = null;
-	}
+        this.command = null;
+        this.headers = null;
+        this.body = null;
+    }
 
-	Frame.prototype.build_frame = function build_frame(args) {
+    Frame.prototype.build_frame = function build_frame(args) {
 
-		this.command = args['command'];
-		this.headers = args['headers'];
-		this.body = args['body'];
+        this.command = args['command'];
+        this.headers = args['headers'];
+        this.body = args['body'];
 
-		return this;
-	};
+        return this;
+    };
 
-	Frame.prototype.as_string = function as_string() {
-		var header_strs = [],
-		    frame = '',
-		    command = this.command,
-		    headers = this.headers,
-		    body = this.body;
+    Frame.prototype.as_string = function as_string() {
+        var header_strs = [],
+            frame = '',
+            command = this.command,
+            headers = this.headers,
+            body = this.body;
 
-		for (var header in headers) {
-			header_strs.push(header + ':' + headers[header]);
-		}
+        for (var header in headers) {
+            header_strs.push(header + ':' + headers[header]);
+        }
 
-		frame += command + '\n';
-		frame += header_strs.join('\n');
-		frame += '\n\n';
+        frame += command + '\n';
+        frame += header_strs.join('\n');
+        frame += '\n\n';
 
-		if (body) {
-			frame += body;
-		}
+        if (body) {
+            frame += body;
+        }
 
-		frame += '\u0000';
+        frame += '\u0000';
 
-		return frame;
-	};
+        return frame;
+    };
 
-	return Frame;
+    return Frame;
 })();
 
 exports.Frame = Frame;
@@ -1545,341 +1554,341 @@ var _minilog2 = _interopRequireDefault(_minilog);
 
 var utils = {};
 utils.really_defined = function (var_to_test) {
-	return !(var_to_test == null || var_to_test == undefined);
+    return !(var_to_test == null || var_to_test == undefined);
 };
 
 var Stomp = (function () {
-	function Stomp(SocketImpl) {
-		_classCallCheck(this, Stomp);
-
-		Object.assign(this, _eventemitter32['default'].prototype);
-
-		this._subscribed_to = {};
-		this.session = null;
-		this.connected = false;
-		this.SocketImpl = SocketImpl;
-	}
-
-	Stomp.prototype.isConnected = function isConnected(ignoreSession) {
-		return this.connected && (ignoreSession || this.session);
-	};
-
-	Stomp.prototype.configure = function configure(config) {
-
-		this.port = config['port'] || 61613;
-		this.host = config['host'] || '127.0.0.1';
-		this.debug = config['debug'];
-		this.login = config['login'] || null;
-		this.passcode = config['passcode'] || null;
-
-		this.ssl = config['ssl'] ? true : false;
-		this.ssl_validate = config['ssl_validate'] ? true : false;
-		this.ssl_options = config['ssl_options'] || {};
-		this.vhost = config['vhost'];
-		this.heartbeatMs = config['heartbeatMs'];
-		this.endpoint = config['endpoint'] || '';
-
-		this['client-id'] = config['client-id'] || null;
-	};
-
-	Stomp.prototype.connect = function connect(credentials) {
-		this.login = credentials.login;
-		this.passcode = credentials.passcode;
-		this._connect(this);
-	};
-
-	Stomp.prototype.is_a_message = function is_a_message(this_frame) {
-		return this_frame.headers !== null && utils.really_defined(this_frame.headers['message-id']);
-	};
-
-	Stomp.prototype.should_run_message_callback = function should_run_message_callback(this_frame) {};
-
-	Stomp.prototype.handle_new_frame = function handle_new_frame(this_frame) {
-
-		switch (this_frame.command) {
-			case 'MESSAGE':
-				if (this.is_a_message(this_frame)) {
-					this.should_run_message_callback(this_frame);
-					this.emit('message', this_frame);
-				}
-				break;
-			case 'CONNECTED':
-				_minilog2['default']('secucard.STOMP').debug('Connected');
-				this.session = this_frame.headers['session'];
-				this.emit('connected');
-				break;
-			case 'RECEIPT':
-				this.emit('receipt', this_frame.headers['receipt-id']);
-				break;
-			case 'ERROR':
-				this.emit('error', this_frame);
-				break;
-			default:
-				_minilog2['default']('secucard.STOMP').error('Could not parse command', this_frame.command);
-		}
-	};
-
-	Stomp.prototype.disconnect = function disconnect() {
-		this._disconnect(this);
-	};
-
-	Stomp.prototype.subscribe = function subscribe(headers, callback) {
-
-		var destination = headers['destination'];
-		headers['session'] = this.session;
-		this.send_command(this, 'SUBSCRIBE', headers);
-
-		this._subscribed_to[destination] = { enabled: true, callback: callback };
-	};
-
-	Stomp.prototype.unsubscribe = function unsubscribe(headers) {
-		var destination = headers['destination'];
-		headers['session'] = this.session;
-		this.send_command(this, 'UNSUBSCRIBE', headers);
-		this._subscribed_to[destination].enabled = false;
-	};
-
-	Stomp.prototype.ack = function ack(message_id) {
-		this.send_command(this, 'ACK', { 'message-id': message_id });
-	};
-
-	Stomp.prototype.begin = function begin() {
-		var transaction_id = Math.floor(Math.random() * 99999999999).toString();
-		this.send_command(this, 'BEGIN', { 'transaction': transaction_id });
-
-		return transaction_id;
-	};
-
-	Stomp.prototype.commit = function commit(transaction_id) {
-		this.send_command(this, 'COMMIT', { 'transaction': transaction_id });
-	};
-
-	Stomp.prototype.abort = function abort(transaction_id) {
-		this.send_command(this, 'ABORT', { 'transaction': transaction_id });
-	};
-
-	Stomp.prototype.send = function send(destination, headers, body, withReceipt) {
-		headers['session'] = this.session;
-		headers['destination'] = destination;
-		_minilog2['default']('secucard.STOMP').debug(headers, body);
-		return this.send_command(this, 'SEND', headers, body, withReceipt);
-	};
-
-	Stomp.prototype.parse_command = function parse_command(data) {
-		var command,
-		    this_string = data.toString('utf8', 0, data.length);
-		command = this_string.split('\n');
-		return command[0];
-	};
-
-	Stomp.prototype.parse_headers = function parse_headers(raw_headers) {
-		var headers = {},
-		    headers_split = raw_headers.split('\n');
-
-		for (var i = 0; i < headers_split.length; i++) {
-			var header = headers_split[i].split(':');
-			if (header.length > 1) {
-				var header_key = header.shift().trim();
-				var header_val = header.join(':').trim();
-				headers[header_key] = header_val;
-				continue;
-			}
-			headers[header[0].trim()] = header[1].trim();
-		}
-		return headers;
-	};
-
-	Stomp.prototype.parse_frame = function parse_frame(chunk) {
-		var args = {},
-		    data = null,
-		    command = null,
-		    headers = null,
-		    body = null,
-		    headers_str = null;
-
-		if (!utils.really_defined(chunk)) {
-			return null;
-		}
-
-		command = this.parse_command(chunk);
-		data = chunk.slice(command.length + 1, chunk.length);
-		data = data.toString('utf8', 0, data.length);
-
-		var the_rest = data.split('\n\n');
-		headers = this.parse_headers(the_rest[0]);
-		body = the_rest.slice(1, the_rest.length);
-
-		if ('content-length' in headers) {
-			headers['bytes_message'] = true;
-		}
-
-		args = {
-			command: command,
-			headers: headers,
-			body: body
-		};
-
-		var this_frame = new _frame2.Frame();
-		var return_frame = this_frame.build_frame(args);
-
-		return return_frame;
-	};
-
-	Stomp.prototype._connect = function _connect(stomp) {
-		var _this = this;
-
-		var onInit = function onInit(socket, handleConnected) {
-
-			stomp.socket = socket;
-			_this._setupListeners(stomp, handleConnected);
-		};
-
-		var onError = function onError(err) {
-			stomp.emit('connectionError', err);
-		};
+    function Stomp(SocketImpl) {
+        _classCallCheck(this, Stomp);
+
+        Object.assign(this, _eventemitter32['default'].prototype);
+
+        this._subscribed_to = {};
+        this.session = null;
+        this.connected = false;
+        this.SocketImpl = SocketImpl;
+    }
+
+    Stomp.prototype.isConnected = function isConnected(ignoreSession) {
+        return this.connected && (ignoreSession || this.session);
+    };
+
+    Stomp.prototype.configure = function configure(config) {
+
+        this.port = config['port'] || 61613;
+        this.host = config['host'] || '127.0.0.1';
+        this.debug = config['debug'];
+        this.login = config['login'] || null;
+        this.passcode = config['passcode'] || null;
+
+        this.ssl = config['ssl'] ? true : false;
+        this.ssl_validate = config['ssl_validate'] ? true : false;
+        this.ssl_options = config['ssl_options'] || {};
+        this.vhost = config['vhost'];
+        this.heartbeatMs = config['heartbeatMs'];
+        this.endpoint = config['endpoint'] || '';
+
+        this['client-id'] = config['client-id'] || null;
+    };
+
+    Stomp.prototype.connect = function connect(credentials) {
+        this.login = credentials.login;
+        this.passcode = credentials.passcode;
+        this._connect(this);
+    };
+
+    Stomp.prototype.is_a_message = function is_a_message(this_frame) {
+        return this_frame.headers !== null && utils.really_defined(this_frame.headers['message-id']);
+    };
+
+    Stomp.prototype.should_run_message_callback = function should_run_message_callback(this_frame) {};
+
+    Stomp.prototype.handle_new_frame = function handle_new_frame(this_frame) {
+
+        switch (this_frame.command) {
+            case 'MESSAGE':
+                if (this.is_a_message(this_frame)) {
+                    this.should_run_message_callback(this_frame);
+                    this.emit('message', this_frame);
+                }
+                break;
+            case 'CONNECTED':
+                _minilog2['default']('secucard.STOMP').debug('Connected');
+                this.session = this_frame.headers['session'];
+                this.emit('connected');
+                break;
+            case 'RECEIPT':
+                this.emit('receipt', this_frame.headers['receipt-id']);
+                break;
+            case 'ERROR':
+                this.emit('error', this_frame);
+                break;
+            default:
+                _minilog2['default']('secucard.STOMP').error('Could not parse command', this_frame.command);
+        }
+    };
+
+    Stomp.prototype.disconnect = function disconnect() {
+        this._disconnect(this);
+    };
+
+    Stomp.prototype.subscribe = function subscribe(headers, callback) {
+
+        var destination = headers['destination'];
+        headers['session'] = this.session;
+        this.send_command(this, 'SUBSCRIBE', headers);
+
+        this._subscribed_to[destination] = { enabled: true, callback: callback };
+    };
+
+    Stomp.prototype.unsubscribe = function unsubscribe(headers) {
+        var destination = headers['destination'];
+        headers['session'] = this.session;
+        this.send_command(this, 'UNSUBSCRIBE', headers);
+        this._subscribed_to[destination].enabled = false;
+    };
+
+    Stomp.prototype.ack = function ack(message_id) {
+        this.send_command(this, 'ACK', { 'message-id': message_id });
+    };
+
+    Stomp.prototype.begin = function begin() {
+        var transaction_id = Math.floor(Math.random() * 99999999999).toString();
+        this.send_command(this, 'BEGIN', { 'transaction': transaction_id });
+
+        return transaction_id;
+    };
+
+    Stomp.prototype.commit = function commit(transaction_id) {
+        this.send_command(this, 'COMMIT', { 'transaction': transaction_id });
+    };
+
+    Stomp.prototype.abort = function abort(transaction_id) {
+        this.send_command(this, 'ABORT', { 'transaction': transaction_id });
+    };
+
+    Stomp.prototype.send = function send(destination, headers, body, withReceipt) {
+        headers['session'] = this.session;
+        headers['destination'] = destination;
+        _minilog2['default']('secucard.STOMP').debug(headers, body);
+        return this.send_command(this, 'SEND', headers, body, withReceipt);
+    };
+
+    Stomp.prototype.parse_command = function parse_command(data) {
+        var command,
+            this_string = data.toString('utf8', 0, data.length);
+        command = this_string.split('\n');
+        return command[0];
+    };
+
+    Stomp.prototype.parse_headers = function parse_headers(raw_headers) {
+        var headers = {},
+            headers_split = raw_headers.split('\n');
+
+        for (var i = 0; i < headers_split.length; i++) {
+            var header = headers_split[i].split(':');
+            if (header.length > 1) {
+                var header_key = header.shift().trim();
+                var header_val = header.join(':').trim();
+                headers[header_key] = header_val;
+                continue;
+            }
+            headers[header[0].trim()] = header[1].trim();
+        }
+        return headers;
+    };
+
+    Stomp.prototype.parse_frame = function parse_frame(chunk) {
+        var args = {},
+            data = null,
+            command = null,
+            headers = null,
+            body = null,
+            headers_str = null;
+
+        if (!utils.really_defined(chunk)) {
+            return null;
+        }
+
+        command = this.parse_command(chunk);
+        data = chunk.slice(command.length + 1, chunk.length);
+        data = data.toString('utf8', 0, data.length);
+
+        var the_rest = data.split('\n\n');
+        headers = this.parse_headers(the_rest[0]);
+        body = the_rest.slice(1, the_rest.length);
+
+        if ('content-length' in headers) {
+            headers['bytes_message'] = true;
+        }
+
+        args = {
+            command: command,
+            headers: headers,
+            body: body
+        };
+
+        var this_frame = new _frame2.Frame();
+        var return_frame = this_frame.build_frame(args);
+
+        return return_frame;
+    };
+
+    Stomp.prototype._connect = function _connect(stomp) {
+        var _this = this;
+
+        var onInit = function onInit(socket, handleConnected) {
+
+            stomp.socket = socket;
+            _this._setupListeners(stomp, handleConnected);
+        };
+
+        var onError = function onError(err) {
+            stomp.emit('connectionError', err);
+        };
 
-		stomp.SocketImpl.connect(stomp.host, stomp.port, stomp.endpoint, stomp.ssl, stomp.ssl_options, stomp.ssl_validate, onInit, onError);
-	};
+        stomp.SocketImpl.connect(stomp.host, stomp.port, stomp.endpoint, stomp.ssl, stomp.ssl_options, stomp.ssl_validate, onInit, onError);
+    };
 
-	Stomp.prototype._setupListeners = function _setupListeners(stomp, handleConnected) {
-		var _this2 = this;
-
-		var _connected = function _connected() {
+    Stomp.prototype._setupListeners = function _setupListeners(stomp, handleConnected) {
+        var _this2 = this;
+
+        var _connected = function _connected() {
 
-			_minilog2['default']('secucard.STOMP').debug('Connected to socket');
-			_this2.connected = true;
-
-			var headers = {};
-
-			if (utils.really_defined(stomp.login) && utils.really_defined(stomp.passcode)) {
-				headers.login = stomp.login;
-				headers.passcode = stomp.passcode;
-			}
-
-			if (utils.really_defined(stomp['client-id'])) {
-				headers['client-id'] = stomp['client-id'];
-			}
-			if (utils.really_defined(stomp['vhost'])) {
-				headers['host'] = stomp['vhost'];
-			}
-
-			_this2.stomp_connect(stomp, headers);
-		};
+            _minilog2['default']('secucard.STOMP').debug('Connected to socket');
+            _this2.connected = true;
+
+            var headers = {};
+
+            if (utils.really_defined(stomp.login) && utils.really_defined(stomp.passcode)) {
+                headers.login = stomp.login;
+                headers.passcode = stomp.passcode;
+            }
+
+            if (utils.really_defined(stomp['client-id'])) {
+                headers['client-id'] = stomp['client-id'];
+            }
+            if (utils.really_defined(stomp['vhost'])) {
+                headers['host'] = stomp['vhost'];
+            }
+
+            _this2.stomp_connect(stomp, headers);
+        };
 
-		var socket = stomp.socket;
+        var socket = stomp.socket;
 
-		socket.on('drain', function (data) {
-			_minilog2['default']('secucard.STOMP').debug('draining');
-		});
+        socket.on('drain', function (data) {
+            _minilog2['default']('secucard.STOMP').debug('draining');
+        });
 
-		var buffer = '';
+        var buffer = '';
 
-		socket.on('data', function (chunk) {
+        socket.on('data', function (chunk) {
 
-			buffer += chunk;
-			var frames = buffer.split('\u0000\n');
+            buffer += chunk;
+            var frames = buffer.split('\u0000\n');
 
-			if (frames.length == 1) {
-				frames = buffer.split('\u0000');
-			}
+            if (frames.length == 1) {
+                frames = buffer.split('\u0000');
+            }
 
-			if (frames.length == 1) return;
-			buffer = frames.pop();
+            if (frames.length == 1) return;
+            buffer = frames.pop();
 
-			var parsed_frame = null;
-			var _frame = null;
-			while (_frame = frames.shift()) {
-				parsed_frame = _this2.parse_frame(_frame);
-				stomp.handle_new_frame(parsed_frame);
-			}
-		});
+            var parsed_frame = null;
+            var _frame = null;
+            while (_frame = frames.shift()) {
+                parsed_frame = _this2.parse_frame(_frame);
+                stomp.handle_new_frame(parsed_frame);
+            }
+        });
 
-		socket.on('end', function () {});
+        socket.on('end', function () {});
 
-		socket.on('close', function (error) {
-			_minilog2['default']('secucard.STOMP').debug('Disconnected with error:', error);
-			stomp.session = null;
-			stomp.connected = false;
-			stomp.emit('disconnected', error);
-		});
+        socket.on('close', function (error) {
+            _minilog2['default']('secucard.STOMP').debug('Disconnected with error:', error);
+            stomp.session = null;
+            stomp.connected = false;
+            stomp.emit('disconnected', error);
+        });
 
-		if (handleConnected) {
-			_connected();
-		} else {
-			socket.on('connect', _connected);
-		}
-	};
+        if (handleConnected) {
+            _connected();
+        } else {
+            socket.on('connect', _connected);
+        }
+    };
 
-	Stomp.prototype.stomp_connect = function stomp_connect(stomp, headers) {
+    Stomp.prototype.stomp_connect = function stomp_connect(stomp, headers) {
 
-		var _frame = new _frame2.Frame(),
-		    args = {},
-		    headers = headers || {};
+        var _frame = new _frame2.Frame(),
+            args = {},
+            headers = headers || {};
 
-		if (this.heartbeatMs > 0) {
-			headers['heart-beat'] = this.heartbeatMs + ',0';
-		}
+        if (this.heartbeatMs > 0) {
+            headers['heart-beat'] = this.heartbeatMs + ',0';
+        }
 
-		args['command'] = 'CONNECT';
-		args['headers'] = headers;
+        args['command'] = 'CONNECT';
+        args['headers'] = headers;
 
-		var frame_to_send = _frame.build_frame(args);
-		this.send_frame(stomp, frame_to_send);
-	};
+        var frame_to_send = _frame.build_frame(args);
+        this.send_frame(stomp, frame_to_send);
+    };
 
-	Stomp.prototype._disconnect = function _disconnect(stomp) {
+    Stomp.prototype._disconnect = function _disconnect(stomp) {
 
-		stomp.SocketImpl.disconnect(stomp.socket);
-	};
+        stomp.SocketImpl.disconnect(stomp.socket);
+    };
 
-	Stomp.prototype.send_command = function send_command(stomp, command, headers, body, withReceipt) {
+    Stomp.prototype.send_command = function send_command(stomp, command, headers, body, withReceipt) {
 
-		var withReceipt = withReceipt || false;
+        var withReceipt = withReceipt || false;
 
-		if (!utils.really_defined(headers)) {
-			headers = {};
-		}
+        if (!utils.really_defined(headers)) {
+            headers = {};
+        }
 
-		if (withReceipt) {
-			headers['receipt'] = this.createReceiptId();
-		}
+        if (withReceipt) {
+            headers['receipt'] = this.createReceiptId();
+        }
 
-		var args = {
-			'command': command,
-			'headers': headers,
-			'body': body
-		};
+        var args = {
+            'command': command,
+            'headers': headers,
+            'body': body
+        };
 
-		var _frame = new _frame2.Frame();
-		var this_frame = _frame.build_frame(args);
-		this.send_frame(stomp, this_frame);
-		return this_frame;
-	};
+        var _frame = new _frame2.Frame();
+        var this_frame = _frame.build_frame(args);
+        this.send_frame(stomp, this_frame);
+        return this_frame;
+    };
 
-	Stomp.prototype.send_frame = function send_frame(stomp, _frame) {
+    Stomp.prototype.send_frame = function send_frame(stomp, _frame) {
 
-		var socket = stomp.socket;
-		var frame_str = _frame.as_string();
+        var socket = stomp.socket;
+        var frame_str = _frame.as_string();
 
-		_minilog2['default']('secucard.STOMP').debug('socket write:', frame_str);
+        _minilog2['default']('secucard.STOMP').debug('socket write:', frame_str);
 
-		if (socket.write(frame_str) === false) {
-			_minilog2['default']('secucard.STOMP').debug('Write buffered');
-		}
+        if (socket.write(frame_str) === false) {
+            _minilog2['default']('secucard.STOMP').debug('Write buffered');
+        }
 
-		return true;
-	};
+        return true;
+    };
 
-	Stomp.prototype.createReceiptId = function createReceiptId() {
+    Stomp.prototype.createReceiptId = function createReceiptId() {
 
-		return 'rcpt-' + _uuid2['default'].v1();
-	};
+        return 'rcpt-' + _uuid2['default'].v1();
+    };
 
-	return Stomp;
+    return Stomp;
 })();
 
 exports.Stomp = Stomp;
-},{"./frame":17,"eventemitter3":67,"minilog":77,"uuid":85}],19:[function(require,module,exports){
+},{"./frame":17,"eventemitter3":68,"minilog":78,"uuid":86}],19:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -1910,420 +1919,420 @@ var _authException = require('../auth/exception');
 
 var utils = {};
 utils.really_defined = function (var_to_test) {
-	return !(var_to_test == null || var_to_test == undefined);
+    return !(var_to_test == null || var_to_test == undefined);
 };
 
 utils.sizeOfUTF8 = function (str) {
-	var size = 0;
-	if (str) {
-		size = encodeURI(str).match(/%..|./g).length;
-	}
-	return size;
+    var size = 0;
+    if (str) {
+        size = encodeURI(str).match(/%..|./g).length;
+    }
+    return size;
 };
 
 var Stomp = (function () {
-	function Stomp(SocketImpl) {
-		_classCallCheck(this, Stomp);
+    function Stomp(SocketImpl) {
+        _classCallCheck(this, Stomp);
 
-		Object.assign(this, _eventemitter32['default'].prototype);
+        Object.assign(this, _eventemitter32['default'].prototype);
 
-		this.connection = null;
-		this.messages = {};
+        this.connection = null;
+        this.messages = {};
 
-		this.skipSessionRefresh = false;
-		this.sessionTimer = null;
+        this.skipSessionRefresh = false;
+        this.sessionTimer = null;
 
-		this.connectAccessToken = null;
+        this.connectAccessToken = null;
 
-		this.stompCommands = {};
-		this.stompCommands[_channel.Channel.METHOD.GET] = 'get';
-		this.stompCommands[_channel.Channel.METHOD.CREATE] = 'add';
-		this.stompCommands[_channel.Channel.METHOD.EXECUTE] = 'exec';
-		this.stompCommands[_channel.Channel.METHOD.UPDATE] = 'update';
-		this.stompCommands[_channel.Channel.METHOD.DELETE] = 'delete';
+        this.stompCommands = {};
+        this.stompCommands[_channel.Channel.METHOD.GET] = 'get';
+        this.stompCommands[_channel.Channel.METHOD.CREATE] = 'add';
+        this.stompCommands[_channel.Channel.METHOD.EXECUTE] = 'exec';
+        this.stompCommands[_channel.Channel.METHOD.UPDATE] = 'update';
+        this.stompCommands[_channel.Channel.METHOD.DELETE] = 'delete';
 
-		this.connection = new _stompImplStomp.Stomp(SocketImpl);
-		this.connection.on('message', this._handleStompMessage.bind(this));
-	}
+        this.connection = new _stompImplStomp.Stomp(SocketImpl);
+        this.connection.on('message', this._handleStompMessage.bind(this));
+    }
 
-	Stomp.prototype.configureWithContext = function configureWithContext(context) {
+    Stomp.prototype.configureWithContext = function configureWithContext(context) {
 
-		this.emitServiceEvent = context.emitServiceEvent.bind(context);
+        this.emitServiceEvent = context.emitServiceEvent.bind(context);
 
-		this.getToken = function (extend) {
-			return context.getAuth().getToken(extend);
-		};
+        this.getToken = function (extend) {
+            return context.getAuth().getToken(extend);
+        };
 
-		this.getStompHost = function () {
-			return context.getConfig().getStompHost();
-		};
+        this.getStompHost = function () {
+            return context.getConfig().getStompHost();
+        };
 
-		this.getStompPort = function () {
-			return context.getConfig().getStompPort();
-		};
+        this.getStompPort = function () {
+            return context.getConfig().getStompPort();
+        };
 
-		this.getStompSslEnabled = function () {
-			return context.getConfig().getStompSslEnabled();
-		};
+        this.getStompSslEnabled = function () {
+            return context.getConfig().getStompSslEnabled();
+        };
 
-		this.getStompVHost = function () {
-			return context.getConfig().getStompVHost();
-		};
+        this.getStompVHost = function () {
+            return context.getConfig().getStompVHost();
+        };
 
-		this.getStompQueue = function () {
-			return context.getConfig().getStompQueue();
-		};
+        this.getStompQueue = function () {
+            return context.getConfig().getStompQueue();
+        };
 
-		this.getStompDestination = function () {
-			return context.getConfig().getStompDestination();
-		};
+        this.getStompDestination = function () {
+            return context.getConfig().getStompDestination();
+        };
 
-		this.getStompEndpoint = function () {
-			return context.getConfig().getStompEndpoint();
-		};
+        this.getStompEndpoint = function () {
+            return context.getConfig().getStompEndpoint();
+        };
 
-		this.getStompHeartbeatMs = function () {
-			return context.getConfig().getStompHeartbeatMs();
-		};
-	};
+        this.getStompHeartbeatMs = function () {
+            return context.getConfig().getStompHeartbeatMs();
+        };
+    };
 
-	Stomp.prototype.getStompConfig = function getStompConfig() {
+    Stomp.prototype.getStompConfig = function getStompConfig() {
 
-		return {
+        return {
 
-			host: this.getStompHost(),
-			port: this.getStompPort(),
-			ssl: this.getStompSslEnabled(),
-			vhost: this.getStompVHost(),
-			heartbeatMs: this.getStompHeartbeatMs(),
-			endpoint: this.getStompEndpoint(),
-			login: '',
-			passcode: ''
-		};
-	};
+            host: this.getStompHost(),
+            port: this.getStompPort(),
+            ssl: this.getStompSslEnabled(),
+            vhost: this.getStompVHost(),
+            heartbeatMs: this.getStompHeartbeatMs(),
+            endpoint: this.getStompEndpoint(),
+            login: '',
+            passcode: ''
+        };
+    };
 
-	Stomp.prototype.open = function open() {
+    Stomp.prototype.open = function open() {
 
-		return this._startSessionRefresh();
-	};
+        return this._startSessionRefresh();
+    };
 
-	Stomp.prototype.connect = function connect() {
-		var _this = this;
+    Stomp.prototype.connect = function connect() {
+        var _this = this;
 
-		_minilog2['default']('secucard.stomp').debug('stomp start connection');
+        _minilog2['default']('secucard.stomp').debug('stomp start connection');
 
-		return this.getToken().then(function (token) {
+        return this.getToken().then(function (token) {
 
-			_minilog2['default']('secucard.stomp').debug('Got token', token);
-			return _this._connect(token.access_token);
-		});
-	};
+            _minilog2['default']('secucard.stomp').debug('Got token', token);
+            return _this._connect(token.access_token);
+        });
+    };
 
-	Stomp.prototype.close = function close() {
+    Stomp.prototype.close = function close() {
 
-		if (this.sessionTimer) {
-			clearInterval(this.sessionTimer);
-		}
+        if (this.sessionTimer) {
+            clearInterval(this.sessionTimer);
+        }
 
-		return this._disconnect();
-	};
+        return this._disconnect();
+    };
 
-	Stomp.prototype._disconnect = function _disconnect() {
-		var _this2 = this;
+    Stomp.prototype._disconnect = function _disconnect() {
+        var _this2 = this;
 
-		return new Promise(function (resolve, reject) {
+        return new Promise(function (resolve, reject) {
 
-			var ignoreSession = true;
-			if (!_this2.connection.isConnected(ignoreSession)) {
-				resolve();
-				return;
-			}
+            var ignoreSession = true;
+            if (!_this2.connection.isConnected(ignoreSession)) {
+                resolve();
+                return;
+            }
 
-			if (_this2.connection && _this2.connection.disconnect) {
+            if (_this2.connection && _this2.connection.disconnect) {
 
-				_this2.connection.disconnect();
+                _this2.connection.disconnect();
 
-				_this2._stompOnDisconnected = function () {
-					_minilog2['default']('secucard.stomp').debug('stomp disconnected');
-					_this2.connection.removeListener('disconnected', _this2._stompOnDisconnected);
-					delete _this2._stompOnDisconnected;
-					resolve();
-				};
+                _this2._stompOnDisconnected = function () {
+                    _minilog2['default']('secucard.stomp').debug('stomp disconnected');
+                    _this2.connection.removeListener('disconnected', _this2._stompOnDisconnected);
+                    delete _this2._stompOnDisconnected;
+                    resolve();
+                };
 
-				_this2.connection.on('disconnected', _this2._stompOnDisconnected);
-			} else {
+                _this2.connection.on('disconnected', _this2._stompOnDisconnected);
+            } else {
 
-				resolve();
-			}
-		});
-	};
+                resolve();
+            }
+        });
+    };
 
-	Stomp.prototype.request = function request(method, params) {
+    Stomp.prototype.request = function request(method, params) {
 
-		var destination = this.buildDestination(method, params);
-		var message = this.createMessage(params);
-		return this._sendMessage(destination, message)['catch'](function (err) {
-			err.request = JSON.stringify({ method: method, params: params });
-			throw err;
-		});
-	};
+        var destination = this.buildDestination(method, params);
+        var message = this.createMessage(params);
+        return this._sendMessage(destination, message)['catch'](function (err) {
+            err.request = JSON.stringify({ method: method, params: params });
+            throw err;
+        });
+    };
 
-	Stomp.prototype.buildDestination = function buildDestination(method, params) {
+    Stomp.prototype.buildDestination = function buildDestination(method, params) {
 
-		var destination = {};
+        var destination = {};
 
-		if (params.endpoint != null) {
-			destination.endpoint = params.endpoint;
-		} else if (params.appId != null) {
-			destination.appId = params.appId;
-		} else {
-			throw new Error('Missing object spec or app id');
-		}
+        if (params.endpoint != null) {
+            destination.endpoint = params.endpoint;
+        } else if (params.appId != null) {
+            destination.appId = params.appId;
+        } else {
+            throw new Error('Missing object spec or app id');
+        }
 
-		destination.command = this.stompCommands[method];
+        destination.command = this.stompCommands[method];
 
-		if (!destination.command) {
-			throw new Error('Invalid method arg');
-		}
+        if (!destination.command) {
+            throw new Error('Invalid method arg');
+        }
 
-		destination.action = params.action;
+        destination.action = params.action;
 
-		return destination;
-	};
+        return destination;
+    };
 
-	Stomp.prototype.createMessage = function createMessage(params) {
+    Stomp.prototype.createMessage = function createMessage(params) {
 
-		var message = {};
+        var message = {};
 
-		if (utils.really_defined(params.objectId)) {
-			message.pid = params.objectId;
-		}
+        if (utils.really_defined(params.objectId)) {
+            message.pid = params.objectId;
+        }
 
-		if (utils.really_defined(params.actionArg)) {
-			message.sid = params.actionArg;
-		}
+        if (utils.really_defined(params.actionArg)) {
+            message.sid = params.actionArg;
+        }
 
-		if (utils.really_defined(params.queryParams)) {
-			message.query = params.queryParams;
-		}
+        if (utils.really_defined(params.queryParams)) {
+            message.query = params.queryParams;
+        }
 
-		if (utils.really_defined(params.data)) {
-			message.data = params.data;
-		}
+        if (utils.really_defined(params.data)) {
+            message.data = params.data;
+        }
 
-		return message;
-	};
+        return message;
+    };
 
-	Stomp.prototype._connect = function _connect(accessToken) {
-		var _this3 = this;
+    Stomp.prototype._connect = function _connect(accessToken) {
+        var _this3 = this;
 
-		if (!accessToken) {
+        if (!accessToken) {
 
-			return this.close().then(function () {
-				return Promise.reject(new _authException.AuthenticationFailedException('Access token is not valid'));
-			});
-		}
+            return this.close().then(function () {
+                return Promise.reject(new _authException.AuthenticationFailedException('Access token is not valid'));
+            });
+        }
 
-		this.connectAccessToken = accessToken;
+        this.connectAccessToken = accessToken;
 
-		var stompCredentials = {
-			login: accessToken,
-			passcode: accessToken
-		};
+        var stompCredentials = {
+            login: accessToken,
+            passcode: accessToken
+        };
 
-		this.connection.configure(this.getStompConfig());
-		this.connection.connect(stompCredentials);
+        this.connection.configure(this.getStompConfig());
+        this.connection.connect(stompCredentials);
 
-		return new Promise(function (resolve, reject) {
+        return new Promise(function (resolve, reject) {
 
-			_this3._stompOnConnected = function () {
-				_minilog2['default']('secucard.stomp').debug('stomp connected');
-				_this3._stompClearListeners ? _this3._stompClearListeners() : null;
-				resolve(true);
-			};
+            _this3._stompOnConnected = function () {
+                _minilog2['default']('secucard.stomp').debug('stomp connected');
+                _this3._stompClearListeners ? _this3._stompClearListeners() : null;
+                resolve(true);
+            };
 
-			_this3._stompOnError = function (message) {
-				_minilog2['default']('secucard.stomp').error('stomp error', message);
-				_this3._stompClearListeners ? _this3._stompClearListeners() : null;
-				_this3.close().then(function () {
-					if (message.headers && message.headers.message == 'Bad CONNECT') {
-						reject(new _authException.AuthenticationFailedException(message.body[0]));
-					} else {
-						reject(message);
-					}
-				});
-			};
+            _this3._stompOnError = function (message) {
+                _minilog2['default']('secucard.stomp').error('stomp error', message);
+                _this3._stompClearListeners ? _this3._stompClearListeners() : null;
+                _this3.close().then(function () {
+                    if (message.headers && message.headers.message == 'Bad CONNECT') {
+                        reject(new _authException.AuthenticationFailedException(message.body[0]));
+                    } else {
+                        reject(message);
+                    }
+                });
+            };
 
-			_this3._stompClearListeners = function () {
-				_this3.connection.removeListener('connected', _this3._stompOnConnected);
-				_this3.connection.removeListener('error', _this3._stompOnError);
-				delete _this3._stompOnConnected;
-				delete _this3._stompOnError;
-				delete _this3._stompClearListeners;
-			};
+            _this3._stompClearListeners = function () {
+                _this3.connection.removeListener('connected', _this3._stompOnConnected);
+                _this3.connection.removeListener('error', _this3._stompOnError);
+                delete _this3._stompOnConnected;
+                delete _this3._stompOnError;
+                delete _this3._stompClearListeners;
+            };
 
-			_this3.connection.on('connected', _this3._stompOnConnected);
-			_this3.connection.on('error', _this3._stompOnError);
-		});
-	};
+            _this3.connection.on('connected', _this3._stompOnConnected);
+            _this3.connection.on('error', _this3._stompOnError);
+        });
+    };
 
-	Stomp.prototype._sendMessage = function _sendMessage(destinationObj, message) {
-		var _this4 = this;
+    Stomp.prototype._sendMessage = function _sendMessage(destinationObj, message) {
+        var _this4 = this;
 
-		_minilog2['default']('secucard.stomp').debug('message', destinationObj, message);
+        _minilog2['default']('secucard.stomp').debug('message', destinationObj, message);
 
-		return this.getToken(true).then(function (token) {
+        return this.getToken(true).then(function (token) {
 
-			var accessToken = token.access_token;
-			var correlationId = _this4.createCorrelationId();
+            var accessToken = token.access_token;
+            var correlationId = _this4.createCorrelationId();
 
-			var headers = {};
-			headers['reply-to'] = _this4.getStompQueue();
-			headers['content-type'] = 'application/json';
-			headers['user-id'] = accessToken;
-			headers['correlation-id'] = correlationId;
+            var headers = {};
+            headers['reply-to'] = _this4.getStompQueue();
+            headers['content-type'] = 'application/json';
+            headers['user-id'] = accessToken;
+            headers['correlation-id'] = correlationId;
 
-			if (destinationObj.appId) {
-				headers['app-id'] = destinationObj.appId;
-			}
+            if (destinationObj.appId) {
+                headers['app-id'] = destinationObj.appId;
+            }
 
-			var body = JSON.stringify(message);
-			headers['content-length'] = utils.sizeOfUTF8(body);
+            var body = JSON.stringify(message);
+            headers['content-length'] = utils.sizeOfUTF8(body);
 
-			var destination = _this4.getStompDestination();
-			if (destinationObj.appId) {
+            var destination = _this4.getStompDestination();
+            if (destinationObj.appId) {
 
-				destination += 'app:' + destinationObj.action;
-			} else {
+                destination += 'app:' + destinationObj.action;
+            } else {
 
-				destination += 'api:' + destinationObj.command + ':';
+                destination += 'api:' + destinationObj.command + ':';
 
-				var endpoint = [];
-				if (destinationObj.endpoint) {
-					endpoint = endpoint.concat(destinationObj.endpoint);
-				}
-				if (destinationObj.action) {
-					endpoint.push(destinationObj.action);
-				}
+                var endpoint = [];
+                if (destinationObj.endpoint) {
+                    endpoint = endpoint.concat(destinationObj.endpoint);
+                }
+                if (destinationObj.action) {
+                    endpoint.push(destinationObj.action);
+                }
 
-				destination += endpoint.join('.');
-			}
+                destination += endpoint.join('.');
+            }
 
-			var sendWithStomp = function sendWithStomp() {
+            var sendWithStomp = function sendWithStomp() {
 
-				return new Promise(function (resolve, reject) {
+                return new Promise(function (resolve, reject) {
 
-					_this4.messages[correlationId] = { resolve: resolve, reject: reject };
-					_this4.connection.send(destination, headers, body);
-				});
-			};
+                    _this4.messages[correlationId] = { resolve: resolve, reject: reject };
+                    _this4.connection.send(destination, headers, body);
+                });
+            };
 
-			if (!_this4.connection.isConnected() || accessToken != _this4.connectAccessToken) {
+            if (!_this4.connection.isConnected() || accessToken != _this4.connectAccessToken) {
 
-				if (_this4.connection.isConnected()) {
-					_minilog2['default']('secucard.stomp').warn('Reconnect due token change.');
-				}
+                if (_this4.connection.isConnected()) {
+                    _minilog2['default']('secucard.stomp').warn('Reconnect due token change.');
+                }
 
-				return _this4._disconnect().then(function () {
-					return _this4._runSessionRefresh().then(sendWithStomp);
-				});
-			}
+                return _this4._disconnect().then(function () {
+                    return _this4._runSessionRefresh().then(sendWithStomp);
+                });
+            }
 
-			return sendWithStomp();
-		});
-	};
+            return sendWithStomp();
+        });
+    };
 
-	Stomp.prototype._startSessionRefresh = function _startSessionRefresh() {
-		var _this5 = this;
+    Stomp.prototype._startSessionRefresh = function _startSessionRefresh() {
+        var _this5 = this;
 
-		_minilog2['default']('secucard.stomp').debug('Stomp session refresh loop started');
+        _minilog2['default']('secucard.stomp').debug('Stomp session refresh loop started');
 
-		var initial = true;
+        var initial = true;
 
-		var sessionInterval = this.getStompHeartbeatMs() > 0 ? this.getStompHeartbeatMs() - 500 : 25 * 1000;
+        var sessionInterval = this.getStompHeartbeatMs() > 0 ? this.getStompHeartbeatMs() - 500 : 25 * 1000;
 
-		this.sessionTimer = setInterval(function () {
+        this.sessionTimer = setInterval(function () {
 
-			if (_this5.skipSessionRefresh) {
-				_this5.skipSessionRefresh = false;
-			} else {
-				_this5._runSessionRefresh(false);
-			}
-		}, sessionInterval);
+            if (_this5.skipSessionRefresh) {
+                _this5.skipSessionRefresh = false;
+            } else {
+                _this5._runSessionRefresh(false);
+            }
+        }, sessionInterval);
 
-		return this._runSessionRefresh(initial);
-	};
+        return this._runSessionRefresh(initial);
+    };
 
-	Stomp.prototype._runSessionRefresh = function _runSessionRefresh(initial) {
-		var _this6 = this;
+    Stomp.prototype._runSessionRefresh = function _runSessionRefresh(initial) {
+        var _this6 = this;
 
-		var createRefreshRequest = function createRefreshRequest() {
+        var createRefreshRequest = function createRefreshRequest() {
 
-			return _this6.request(_channel.Channel.METHOD.EXECUTE, {
-				endpoint: ['auth', 'sessions'],
-				objectId: 'me',
-				action: 'refresh'
-			}).then(function (res) {
+            return _this6.request(_channel.Channel.METHOD.EXECUTE, {
+                endpoint: ['auth', 'sessions'],
+                objectId: 'me',
+                action: 'refresh'
+            }).then(function (res) {
 
-				_this6.emit('sessionRefresh');
-				_minilog2['default']('secucard.stomp').debug('Session refresh sent');
-				_this6.skipSessionRefresh = false;
-				return res;
-			})['catch'](function (err) {
+                _this6.emit('sessionRefresh');
+                _minilog2['default']('secucard.stomp').debug('Session refresh sent');
+                _this6.skipSessionRefresh = false;
+                return res;
+            })['catch'](function (err) {
 
-				_this6.emit('sessionRefreshError');
-				_minilog2['default']('secucard.stomp').error('Session refresh failed');
-				if (initial) {
-					throw err;
-				}
-			});
-		};
+                _this6.emit('sessionRefreshError');
+                _minilog2['default']('secucard.stomp').error('Session refresh failed');
+                if (initial) {
+                    throw err;
+                }
+            });
+        };
 
-		if (!this.connection.isConnected()) {
+        if (!this.connection.isConnected()) {
 
-			return this.connect().then(createRefreshRequest);
-		} else {
+            return this.connect().then(createRefreshRequest);
+        } else {
 
-			return createRefreshRequest();
-		}
-	};
+            return createRefreshRequest();
+        }
+    };
 
-	Stomp.prototype._handleStompMessage = function _handleStompMessage(frame) {
-		this.skipSessionRefresh = true;
+    Stomp.prototype._handleStompMessage = function _handleStompMessage(frame) {
+        this.skipSessionRefresh = true;
 
-		_minilog2['default']('secucard.stomp').debug('_handleStompMessage', frame);
+        _minilog2['default']('secucard.stomp').debug('_handleStompMessage', frame);
 
-		var body = undefined;
+        var body = undefined;
 
-		if (frame && frame.headers && frame.headers['correlation-id']) {
+        if (frame && frame.headers && frame.headers['correlation-id']) {
 
-			var correlationId = frame.headers['correlation-id'];
-			body = JSON.parse(frame.body[0]);
+            var correlationId = frame.headers['correlation-id'];
+            body = JSON.parse(frame.body[0]);
 
-			if (body.status == 'ok') {
-				this.messages[correlationId].resolve(body.data);
-			} else {
-				var error = _exception.SecucardConnectException.create(body);
-				this.messages[correlationId].reject(error);
-			}
+            if (body.status == 'ok') {
+                this.messages[correlationId].resolve(body.data);
+            } else {
+                var error = _exception.SecucardConnectException.create(body);
+                this.messages[correlationId].reject(error);
+            }
 
-			delete this.messages[correlationId];
-		} else if (frame) {
+            delete this.messages[correlationId];
+        } else if (frame) {
 
-			body = JSON.parse(frame.body[0]);
-			this.emitServiceEvent(null, body.target, body.type, body.data);
-		}
-	};
+            body = JSON.parse(frame.body[0]);
+            this.emitServiceEvent(null, body.target, body.type, body.data);
+        }
+    };
 
-	Stomp.prototype.createCorrelationId = function createCorrelationId() {
-		return _uuid2['default'].v1();
-	};
+    Stomp.prototype.createCorrelationId = function createCorrelationId() {
+        return _uuid2['default'].v1();
+    };
 
-	return Stomp;
+    return Stomp;
 })();
 
 exports.Stomp = Stomp;
-},{"../auth/exception":4,"./channel":12,"./exception":13,"./stomp-impl/stomp":18,"eventemitter3":67,"minilog":77,"uuid":85}],20:[function(require,module,exports){
+},{"../auth/exception":4,"./channel":12,"./exception":13,"./stomp-impl/stomp":18,"eventemitter3":68,"minilog":78,"uuid":86}],20:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -2341,41 +2350,41 @@ var _utilMixins = require('../../util/mixins');
 var _utilMixins2 = _interopRequireDefault(_utilMixins);
 
 var AppService = (function (_ProductService) {
-	function AppService() {
-		_classCallCheck(this, AppService);
+    function AppService() {
+        _classCallCheck(this, AppService);
 
-		_ProductService.call(this);
-		this.isApp = true;
-		this.init();
-	}
+        _ProductService.call(this);
+        this.isApp = true;
+        this.init();
+    }
 
-	_inherits(AppService, _ProductService);
+    _inherits(AppService, _ProductService);
 
-	AppService.prototype.init = function init() {};
+    AppService.prototype.init = function init() {};
 
-	AppService.prototype.getEndpoint = function getEndpoint() {
-		return ['general', 'apps'];
-	};
+    AppService.prototype.getEndpoint = function getEndpoint() {
+        return ['general', 'apps'];
+    };
 
-	AppService.prototype.getEventTargets = function getEventTargets() {
-		return [];
-	};
+    AppService.prototype.getEventTargets = function getEventTargets() {
+        return [];
+    };
 
-	AppService.prototype.getUid = function getUid() {
-		return _ProductService.prototype.getUid.call(this) + '.' + this.getAppId();
-	};
+    AppService.prototype.getUid = function getUid() {
+        return _ProductService.prototype.getUid.call(this) + '.' + this.getAppId();
+    };
 
-	return AppService;
+    return AppService;
 })(_productService.ProductService);
 
 exports.AppService = AppService;
 
 AppService.createWithMixin = function (ServiceMixin) {
 
-	var Mixed = _utilMixins2['default'](AppService, ServiceMixin);
-	return new Mixed();
+    var Mixed = _utilMixins2['default'](AppService, ServiceMixin);
+    return new Mixed();
 };
-},{"../../util/mixins":64,"../product-service":55}],21:[function(require,module,exports){
+},{"../../util/mixins":65,"../product-service":56}],21:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -2397,33 +2406,33 @@ function _inherits(subClass, superClass) { if (typeof superClass !== 'function' 
 var _productService = require('../product-service');
 
 var SessionService = (function (_ProductService) {
-	function SessionService() {
-		_classCallCheck(this, SessionService);
+    function SessionService() {
+        _classCallCheck(this, SessionService);
 
-		_ProductService.call(this);
-	}
+        _ProductService.call(this);
+    }
 
-	_inherits(SessionService, _ProductService);
+    _inherits(SessionService, _ProductService);
 
-	SessionService.prototype.getEndpoint = function getEndpoint() {
-		return ['auth', 'sessions'];
-	};
+    SessionService.prototype.getEndpoint = function getEndpoint() {
+        return ['auth', 'sessions'];
+    };
 
-	SessionService.prototype.getEventTargets = function getEventTargets() {
-		return [];
-	};
+    SessionService.prototype.getEventTargets = function getEventTargets() {
+        return [];
+    };
 
-	SessionService.prototype.check = function check() {
-		return this.retrieveWithAction('me', 'debug');
-	};
+    SessionService.prototype.check = function check() {
+        return this.retrieveWithAction('me', 'debug');
+    };
 
-	return SessionService;
+    return SessionService;
 })(_productService.ProductService);
 
 exports.SessionService = SessionService;
 
 SessionService.Uid = ['auth', 'sessions'].join('.');
-},{"../product-service":55}],23:[function(require,module,exports){
+},{"../product-service":56}],23:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -2446,35 +2455,35 @@ function _inherits(subClass, superClass) { if (typeof superClass !== 'function' 
 var _productService = require('../product-service');
 
 var UploadService = (function (_ProductService) {
-	function UploadService() {
-		_classCallCheck(this, UploadService);
+    function UploadService() {
+        _classCallCheck(this, UploadService);
 
-		_ProductService.call(this);
-	}
+        _ProductService.call(this);
+    }
 
-	_inherits(UploadService, _ProductService);
+    _inherits(UploadService, _ProductService);
 
-	UploadService.prototype.getEndpoint = function getEndpoint() {
-		return ['document', 'uploads'];
-	};
+    UploadService.prototype.getEndpoint = function getEndpoint() {
+        return ['document', 'uploads'];
+    };
 
-	UploadService.prototype.getEventTargets = function getEventTargets() {
-		return [];
-	};
+    UploadService.prototype.getEventTargets = function getEventTargets() {
+        return [];
+    };
 
-	UploadService.prototype.upload = function upload(base64str) {
-		return _ProductService.prototype.execute.call(this, null, null, null, { content: base64str }, {
-			channelConfig: ['rest'],
-			useAuth: false });
-	};
+    UploadService.prototype.upload = function upload(base64str) {
+        return _ProductService.prototype.execute.call(this, null, null, null, { content: base64str }, {
+            channelConfig: ['rest'],
+            useAuth: false });
+    };
 
-	return UploadService;
+    return UploadService;
 })(_productService.ProductService);
 
 exports.UploadService = UploadService;
 
 UploadService.Uid = ['document', 'uploads'].join('.');
-},{"../product-service":55}],25:[function(require,module,exports){
+},{"../product-service":56}],25:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -2486,29 +2495,29 @@ function _inherits(subClass, superClass) { if (typeof superClass !== 'function' 
 var _productService = require('../product-service');
 
 var AccountDeviceService = (function (_ProductService) {
-	function AccountDeviceService() {
-		_classCallCheck(this, AccountDeviceService);
+    function AccountDeviceService() {
+        _classCallCheck(this, AccountDeviceService);
 
-		_ProductService.call(this);
-	}
+        _ProductService.call(this);
+    }
 
-	_inherits(AccountDeviceService, _ProductService);
+    _inherits(AccountDeviceService, _ProductService);
 
-	AccountDeviceService.prototype.getEndpoint = function getEndpoint() {
-		return ['general', 'accountdevices'];
-	};
+    AccountDeviceService.prototype.getEndpoint = function getEndpoint() {
+        return ['general', 'accountdevices'];
+    };
 
-	AccountDeviceService.prototype.getEventTargets = function getEventTargets() {
-		return ['general.accountdevices'];
-	};
+    AccountDeviceService.prototype.getEventTargets = function getEventTargets() {
+        return ['general.accountdevices'];
+    };
 
-	return AccountDeviceService;
+    return AccountDeviceService;
 })(_productService.ProductService);
 
 exports.AccountDeviceService = AccountDeviceService;
 
 AccountDeviceService.Uid = ['general', 'accountdevices'].join('.');
-},{"../product-service":55}],26:[function(require,module,exports){
+},{"../product-service":56}],26:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -2520,50 +2529,50 @@ function _inherits(subClass, superClass) { if (typeof superClass !== 'function' 
 var _productService = require('../product-service');
 
 var AccountService = (function (_ProductService) {
-	function AccountService() {
-		_classCallCheck(this, AccountService);
+    function AccountService() {
+        _classCallCheck(this, AccountService);
 
-		_ProductService.call(this);
-	}
+        _ProductService.call(this);
+    }
 
-	_inherits(AccountService, _ProductService);
+    _inherits(AccountService, _ProductService);
 
-	AccountService.prototype.getEndpoint = function getEndpoint() {
-		return ['general', 'accounts'];
-	};
+    AccountService.prototype.getEndpoint = function getEndpoint() {
+        return ['general', 'accounts'];
+    };
 
-	AccountService.prototype.getEventTargets = function getEventTargets() {
-		return ['general.accounts'];
-	};
+    AccountService.prototype.getEventTargets = function getEventTargets() {
+        return ['general.accounts'];
+    };
 
-	AccountService.prototype.create = function create(data, options) {
+    AccountService.prototype.create = function create(data, options) {
 
-		options = Object.assign({}, options, {
-			channelConfig: ['rest'],
-			useAuth: false });
+        options = Object.assign({}, options, {
+            channelConfig: ['rest'],
+            useAuth: false });
 
-		return _ProductService.prototype.create.call(this, data, options);
-	};
+        return _ProductService.prototype.create.call(this, data, options);
+    };
 
-	AccountService.prototype.updateLocation = function updateLocation(accountId, location) {
-		return this.updateWithAction(accountId, 'location', null, location);
-	};
+    AccountService.prototype.updateLocation = function updateLocation(accountId, location) {
+        return this.updateWithAction(accountId, 'location', null, location);
+    };
 
-	AccountService.prototype.updateBeacons = function updateBeacons(beaconList) {
-		return this.updateWithAction('me', 'beaconEnvironment', null, beaconList);
-	};
+    AccountService.prototype.updateBeacons = function updateBeacons(beaconList) {
+        return this.updateWithAction('me', 'beaconEnvironment', null, beaconList);
+    };
 
-	AccountService.prototype.updateGCM = function updateGCM(accountId, gcm) {
-		return this.updateWithAction(accountId, 'gcm', null, gcm);
-	};
+    AccountService.prototype.updateGCM = function updateGCM(accountId, gcm) {
+        return this.updateWithAction(accountId, 'gcm', null, gcm);
+    };
 
-	return AccountService;
+    return AccountService;
 })(_productService.ProductService);
 
 exports.AccountService = AccountService;
 
 AccountService.Uid = ['general', 'accounts'].join('.');
-},{"../product-service":55}],27:[function(require,module,exports){
+},{"../product-service":56}],27:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -2575,29 +2584,29 @@ function _inherits(subClass, superClass) { if (typeof superClass !== 'function' 
 var _productService = require('../product-service');
 
 var ContactService = (function (_ProductService) {
-	function ContactService() {
-		_classCallCheck(this, ContactService);
+    function ContactService() {
+        _classCallCheck(this, ContactService);
 
-		_ProductService.call(this);
-	}
+        _ProductService.call(this);
+    }
 
-	_inherits(ContactService, _ProductService);
+    _inherits(ContactService, _ProductService);
 
-	ContactService.prototype.getEndpoint = function getEndpoint() {
-		return ['general', 'contacts'];
-	};
+    ContactService.prototype.getEndpoint = function getEndpoint() {
+        return ['general', 'contacts'];
+    };
 
-	ContactService.prototype.getEventTargets = function getEventTargets() {
-		return [];
-	};
+    ContactService.prototype.getEventTargets = function getEventTargets() {
+        return [];
+    };
 
-	return ContactService;
+    return ContactService;
 })(_productService.ProductService);
 
 exports.ContactService = ContactService;
 
 ContactService.Uid = ['general', 'contacts'].join('.');
-},{"../product-service":55}],28:[function(require,module,exports){
+},{"../product-service":56}],28:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -2609,29 +2618,29 @@ function _inherits(subClass, superClass) { if (typeof superClass !== 'function' 
 var _productService = require('../product-service');
 
 var DeliveryAddressService = (function (_ProductService) {
-	function DeliveryAddressService() {
-		_classCallCheck(this, DeliveryAddressService);
+    function DeliveryAddressService() {
+        _classCallCheck(this, DeliveryAddressService);
 
-		_ProductService.call(this);
-	}
+        _ProductService.call(this);
+    }
 
-	_inherits(DeliveryAddressService, _ProductService);
+    _inherits(DeliveryAddressService, _ProductService);
 
-	DeliveryAddressService.prototype.getEndpoint = function getEndpoint() {
-		return ['general', 'deliveryaddresses'];
-	};
+    DeliveryAddressService.prototype.getEndpoint = function getEndpoint() {
+        return ['general', 'deliveryaddresses'];
+    };
 
-	DeliveryAddressService.prototype.getEventTargets = function getEventTargets() {
-		return [];
-	};
+    DeliveryAddressService.prototype.getEventTargets = function getEventTargets() {
+        return [];
+    };
 
-	return DeliveryAddressService;
+    return DeliveryAddressService;
 })(_productService.ProductService);
 
 exports.DeliveryAddressService = DeliveryAddressService;
 
 DeliveryAddressService.Uid = ['general', 'deliveryaddresses'].join('.');
-},{"../product-service":55}],29:[function(require,module,exports){
+},{"../product-service":56}],29:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -2643,29 +2652,29 @@ function _inherits(subClass, superClass) { if (typeof superClass !== 'function' 
 var _productService = require('../product-service');
 
 var FileAccessService = (function (_ProductService) {
-	function FileAccessService() {
-		_classCallCheck(this, FileAccessService);
+    function FileAccessService() {
+        _classCallCheck(this, FileAccessService);
 
-		_ProductService.call(this);
-	}
+        _ProductService.call(this);
+    }
 
-	_inherits(FileAccessService, _ProductService);
+    _inherits(FileAccessService, _ProductService);
 
-	FileAccessService.prototype.getEndpoint = function getEndpoint() {
-		return ['general', 'fileaccesses'];
-	};
+    FileAccessService.prototype.getEndpoint = function getEndpoint() {
+        return ['general', 'fileaccesses'];
+    };
 
-	FileAccessService.prototype.getEventTargets = function getEventTargets() {
-		return [];
-	};
+    FileAccessService.prototype.getEventTargets = function getEventTargets() {
+        return [];
+    };
 
-	return FileAccessService;
+    return FileAccessService;
 })(_productService.ProductService);
 
 exports.FileAccessService = FileAccessService;
 
 FileAccessService.Uid = ['general', 'fileaccesses'].join('.');
-},{"../product-service":55}],30:[function(require,module,exports){
+},{"../product-service":56}],30:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -2721,29 +2730,29 @@ function _inherits(subClass, superClass) { if (typeof superClass !== 'function' 
 var _productService = require('../product-service');
 
 var MerchantService = (function (_ProductService) {
-	function MerchantService() {
-		_classCallCheck(this, MerchantService);
+    function MerchantService() {
+        _classCallCheck(this, MerchantService);
 
-		_ProductService.call(this);
-	}
+        _ProductService.call(this);
+    }
 
-	_inherits(MerchantService, _ProductService);
+    _inherits(MerchantService, _ProductService);
 
-	MerchantService.prototype.getEndpoint = function getEndpoint() {
-		return ['general', 'merchants'];
-	};
+    MerchantService.prototype.getEndpoint = function getEndpoint() {
+        return ['general', 'merchants'];
+    };
 
-	MerchantService.prototype.getEventTargets = function getEventTargets() {
-		return [];
-	};
+    MerchantService.prototype.getEventTargets = function getEventTargets() {
+        return [];
+    };
 
-	return MerchantService;
+    return MerchantService;
 })(_productService.ProductService);
 
 exports.MerchantService = MerchantService;
 
 MerchantService.Uid = ['general', 'merchants'].join('.');
-},{"../product-service":55}],32:[function(require,module,exports){
+},{"../product-service":56}],32:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -2755,33 +2764,33 @@ function _inherits(subClass, superClass) { if (typeof superClass !== 'function' 
 var _productService = require('../product-service');
 
 var NewsService = (function (_ProductService) {
-	function NewsService() {
-		_classCallCheck(this, NewsService);
+    function NewsService() {
+        _classCallCheck(this, NewsService);
 
-		_ProductService.call(this);
-	}
+        _ProductService.call(this);
+    }
 
-	_inherits(NewsService, _ProductService);
+    _inherits(NewsService, _ProductService);
 
-	NewsService.prototype.getEndpoint = function getEndpoint() {
-		return ['general', 'news'];
-	};
+    NewsService.prototype.getEndpoint = function getEndpoint() {
+        return ['general', 'news'];
+    };
 
-	NewsService.prototype.getEventTargets = function getEventTargets() {
-		return [];
-	};
+    NewsService.prototype.getEventTargets = function getEventTargets() {
+        return [];
+    };
 
-	NewsService.prototype.markRead = function markRead(newsId) {
-		return this.updateWithAction(newsId, 'markRead');
-	};
+    NewsService.prototype.markRead = function markRead(newsId) {
+        return this.updateWithAction(newsId, 'markRead');
+    };
 
-	return NewsService;
+    return NewsService;
 })(_productService.ProductService);
 
 exports.NewsService = NewsService;
 
 NewsService.Uid = ['general', 'news'].join('.');
-},{"../product-service":55}],33:[function(require,module,exports){
+},{"../product-service":56}],33:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -2793,29 +2802,29 @@ function _inherits(subClass, superClass) { if (typeof superClass !== 'function' 
 var _productService = require('../product-service');
 
 var NotificationService = (function (_ProductService) {
-	function NotificationService() {
-		_classCallCheck(this, NotificationService);
+    function NotificationService() {
+        _classCallCheck(this, NotificationService);
 
-		_ProductService.call(this);
-	}
+        _ProductService.call(this);
+    }
 
-	_inherits(NotificationService, _ProductService);
+    _inherits(NotificationService, _ProductService);
 
-	NotificationService.prototype.getEndpoint = function getEndpoint() {
-		return ['general', 'notifications'];
-	};
+    NotificationService.prototype.getEndpoint = function getEndpoint() {
+        return ['general', 'notifications'];
+    };
 
-	NotificationService.prototype.getEventTargets = function getEventTargets() {
-		return [];
-	};
+    NotificationService.prototype.getEventTargets = function getEventTargets() {
+        return [];
+    };
 
-	return NotificationService;
+    return NotificationService;
 })(_productService.ProductService);
 
 exports.NotificationService = NotificationService;
 
 NotificationService.Uid = ['general', 'notifications'].join('.');
-},{"../product-service":55}],34:[function(require,module,exports){
+},{"../product-service":56}],34:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -2827,29 +2836,29 @@ function _inherits(subClass, superClass) { if (typeof superClass !== 'function' 
 var _productService = require('../product-service');
 
 var PublicMerchantService = (function (_ProductService) {
-	function PublicMerchantService() {
-		_classCallCheck(this, PublicMerchantService);
+    function PublicMerchantService() {
+        _classCallCheck(this, PublicMerchantService);
 
-		_ProductService.call(this);
-	}
+        _ProductService.call(this);
+    }
 
-	_inherits(PublicMerchantService, _ProductService);
+    _inherits(PublicMerchantService, _ProductService);
 
-	PublicMerchantService.prototype.getEndpoint = function getEndpoint() {
-		return ['general', 'publicmerchants'];
-	};
+    PublicMerchantService.prototype.getEndpoint = function getEndpoint() {
+        return ['general', 'publicmerchants'];
+    };
 
-	PublicMerchantService.prototype.getEventTargets = function getEventTargets() {
-		return [];
-	};
+    PublicMerchantService.prototype.getEventTargets = function getEventTargets() {
+        return [];
+    };
 
-	return PublicMerchantService;
+    return PublicMerchantService;
 })(_productService.ProductService);
 
 exports.PublicMerchantService = PublicMerchantService;
 
 PublicMerchantService.Uid = ['general', 'publicmerchants'].join('.');
-},{"../product-service":55}],35:[function(require,module,exports){
+},{"../product-service":56}],35:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -2861,33 +2870,33 @@ function _inherits(subClass, superClass) { if (typeof superClass !== 'function' 
 var _productService = require('../product-service');
 
 var SkeletonService = (function (_ProductService) {
-	function SkeletonService() {
-		_classCallCheck(this, SkeletonService);
+    function SkeletonService() {
+        _classCallCheck(this, SkeletonService);
 
-		_ProductService.call(this);
-	}
+        _ProductService.call(this);
+    }
 
-	_inherits(SkeletonService, _ProductService);
+    _inherits(SkeletonService, _ProductService);
 
-	SkeletonService.prototype.getEndpoint = function getEndpoint() {
-		return ['general', 'skeletons'];
-	};
+    SkeletonService.prototype.getEndpoint = function getEndpoint() {
+        return ['general', 'skeletons'];
+    };
 
-	SkeletonService.prototype.getEventTargets = function getEventTargets() {
-		return ['general.skeletons'];
-	};
+    SkeletonService.prototype.getEventTargets = function getEventTargets() {
+        return ['general.skeletons'];
+    };
 
-	SkeletonService.prototype.demoEvent = function demoEvent() {
-		return this.execute(1, 'demoevent');
-	};
+    SkeletonService.prototype.demoEvent = function demoEvent() {
+        return this.execute(1, 'demoevent');
+    };
 
-	return SkeletonService;
+    return SkeletonService;
 })(_productService.ProductService);
 
 exports.SkeletonService = SkeletonService;
 
 SkeletonService.Uid = ['general', 'skeletons'].join('.');
-},{"../product-service":55}],36:[function(require,module,exports){
+},{"../product-service":56}],36:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -2899,37 +2908,37 @@ function _inherits(subClass, superClass) { if (typeof superClass !== 'function' 
 var _productService = require('../product-service');
 
 var StoreService = (function (_ProductService) {
-	function StoreService() {
-		_classCallCheck(this, StoreService);
+    function StoreService() {
+        _classCallCheck(this, StoreService);
 
-		_ProductService.call(this);
-	}
+        _ProductService.call(this);
+    }
 
-	_inherits(StoreService, _ProductService);
+    _inherits(StoreService, _ProductService);
 
-	StoreService.prototype.getEndpoint = function getEndpoint() {
-		return ['general', 'stores'];
-	};
+    StoreService.prototype.getEndpoint = function getEndpoint() {
+        return ['general', 'stores'];
+    };
 
-	StoreService.prototype.getEventTargets = function getEventTargets() {
-		return [];
-	};
+    StoreService.prototype.getEventTargets = function getEventTargets() {
+        return [];
+    };
 
-	StoreService.prototype.checkIn = function checkIn(storeId, checkInState) {
-		return this.updateWithAction(storeId, 'checkin', checkInState);
-	};
+    StoreService.prototype.checkIn = function checkIn(storeId, checkInState) {
+        return this.updateWithAction(storeId, 'checkin', checkInState);
+    };
 
-	StoreService.prototype.setDefault = function setDefault(storeId) {
-		return this.updateWithAction(storeId, 'setDefault');
-	};
+    StoreService.prototype.setDefault = function setDefault(storeId) {
+        return this.updateWithAction(storeId, 'setDefault');
+    };
 
-	return StoreService;
+    return StoreService;
 })(_productService.ProductService);
 
 exports.StoreService = StoreService;
 
 StoreService.Uid = ['general', 'stores'].join('.');
-},{"../product-service":55}],37:[function(require,module,exports){
+},{"../product-service":56}],37:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -2941,29 +2950,63 @@ function _inherits(subClass, superClass) { if (typeof superClass !== 'function' 
 var _productService = require('../product-service');
 
 var TransactionService = (function (_ProductService) {
-	function TransactionService() {
-		_classCallCheck(this, TransactionService);
+    function TransactionService() {
+        _classCallCheck(this, TransactionService);
 
-		_ProductService.call(this);
-	}
+        _ProductService.call(this);
+    }
 
-	_inherits(TransactionService, _ProductService);
+    _inherits(TransactionService, _ProductService);
 
-	TransactionService.prototype.getEndpoint = function getEndpoint() {
-		return ['general', 'transactions'];
-	};
+    TransactionService.prototype.getEndpoint = function getEndpoint() {
+        return ['general', 'transactions'];
+    };
 
-	TransactionService.prototype.getEventTargets = function getEventTargets() {
-		return ['general.transactions'];
-	};
+    TransactionService.prototype.getEventTargets = function getEventTargets() {
+        return ['general.transactions'];
+    };
 
-	return TransactionService;
+    return TransactionService;
 })(_productService.ProductService);
 
 exports.TransactionService = TransactionService;
 
 TransactionService.Uid = ['general', 'transactions'].join('.');
-},{"../product-service":55}],38:[function(require,module,exports){
+},{"../product-service":56}],38:[function(require,module,exports){
+'use strict';
+
+exports.__esModule = true;
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; }
+
+var _productService = require('../product-service');
+
+var ActionProfileService = (function (_ProductService) {
+    function ActionProfileService() {
+        _classCallCheck(this, ActionProfileService);
+
+        _ProductService.call(this);
+    }
+
+    _inherits(ActionProfileService, _ProductService);
+
+    ActionProfileService.prototype.getEndpoint = function getEndpoint() {
+        return ['loyalty', 'actionprofiles'];
+    };
+
+    ActionProfileService.prototype.getEventTargets = function getEventTargets() {
+        return [];
+    };
+
+    return ActionProfileService;
+})(_productService.ProductService);
+
+exports.ActionProfileService = ActionProfileService;
+
+ActionProfileService.Uid = ['loyalty', 'actionprofiles'].join('.');
+},{"../product-service":56}],39:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -2975,29 +3018,29 @@ function _inherits(subClass, superClass) { if (typeof superClass !== 'function' 
 var _productService = require('../product-service');
 
 var BeaconService = (function (_ProductService) {
-	function BeaconService() {
-		_classCallCheck(this, BeaconService);
+    function BeaconService() {
+        _classCallCheck(this, BeaconService);
 
-		_ProductService.call(this);
-	}
+        _ProductService.call(this);
+    }
 
-	_inherits(BeaconService, _ProductService);
+    _inherits(BeaconService, _ProductService);
 
-	BeaconService.prototype.getEndpoint = function getEndpoint() {
-		return ['loyalty', 'beacons'];
-	};
+    BeaconService.prototype.getEndpoint = function getEndpoint() {
+        return ['loyalty', 'beacons'];
+    };
 
-	BeaconService.prototype.getEventTargets = function getEventTargets() {
-		return [];
-	};
+    BeaconService.prototype.getEventTargets = function getEventTargets() {
+        return [];
+    };
 
-	return BeaconService;
+    return BeaconService;
 })(_productService.ProductService);
 
 exports.BeaconService = BeaconService;
 
 BeaconService.Uid = ['loyalty', 'beacons'].join('.');
-},{"../product-service":55}],39:[function(require,module,exports){
+},{"../product-service":56}],40:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -3009,29 +3052,29 @@ function _inherits(subClass, superClass) { if (typeof superClass !== 'function' 
 var _productService = require('../product-service');
 
 var CardGroupService = (function (_ProductService) {
-	function CardGroupService() {
-		_classCallCheck(this, CardGroupService);
+    function CardGroupService() {
+        _classCallCheck(this, CardGroupService);
 
-		_ProductService.call(this);
-	}
+        _ProductService.call(this);
+    }
 
-	_inherits(CardGroupService, _ProductService);
+    _inherits(CardGroupService, _ProductService);
 
-	CardGroupService.prototype.getEndpoint = function getEndpoint() {
-		return ['loyalty', 'cardgroups'];
-	};
+    CardGroupService.prototype.getEndpoint = function getEndpoint() {
+        return ['loyalty', 'cardgroups'];
+    };
 
-	CardGroupService.prototype.getEventTargets = function getEventTargets() {
-		return [];
-	};
+    CardGroupService.prototype.getEventTargets = function getEventTargets() {
+        return [];
+    };
 
-	return CardGroupService;
+    return CardGroupService;
 })(_productService.ProductService);
 
 exports.CardGroupService = CardGroupService;
 
 CardGroupService.Uid = ['loyalty', 'cardgroups'].join('.');
-},{"../product-service":55}],40:[function(require,module,exports){
+},{"../product-service":56}],41:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -3043,37 +3086,37 @@ function _inherits(subClass, superClass) { if (typeof superClass !== 'function' 
 var _productService = require('../product-service');
 
 var CardService = (function (_ProductService) {
-	function CardService() {
-		_classCallCheck(this, CardService);
+    function CardService() {
+        _classCallCheck(this, CardService);
 
-		_ProductService.call(this);
-	}
+        _ProductService.call(this);
+    }
 
-	_inherits(CardService, _ProductService);
+    _inherits(CardService, _ProductService);
 
-	CardService.prototype.getEndpoint = function getEndpoint() {
-		return ['loyalty', 'cards'];
-	};
+    CardService.prototype.getEndpoint = function getEndpoint() {
+        return ['loyalty', 'cards'];
+    };
 
-	CardService.prototype.getEventTargets = function getEventTargets() {
-		return [];
-	};
+    CardService.prototype.getEventTargets = function getEventTargets() {
+        return [];
+    };
 
-	CardService.prototype.assignUser = function assignUser(cardNumber, pin) {
-		return this.execute(cardNumber, 'assignUser', 'me', pin);
-	};
+    CardService.prototype.assignUser = function assignUser(cardNumber, pin) {
+        return this.execute(cardNumber, 'assignUser', 'me', pin);
+    };
 
-	CardService.prototype.removeUser = function removeUser(cardNumber) {
-		return this.removeWithAction(cardNumber, 'assignUser', 'me');
-	};
+    CardService.prototype.removeUser = function removeUser(cardNumber) {
+        return this.removeWithAction(cardNumber, 'assignUser', 'me');
+    };
 
-	return CardService;
+    return CardService;
 })(_productService.ProductService);
 
 exports.CardService = CardService;
 
 CardService.Uid = ['loyalty', 'cards'].join('.');
-},{"../product-service":55}],41:[function(require,module,exports){
+},{"../product-service":56}],42:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -3085,29 +3128,29 @@ function _inherits(subClass, superClass) { if (typeof superClass !== 'function' 
 var _productService = require('../product-service');
 
 var ChargeService = (function (_ProductService) {
-	function ChargeService() {
-		_classCallCheck(this, ChargeService);
+    function ChargeService() {
+        _classCallCheck(this, ChargeService);
 
-		_ProductService.call(this);
-	}
+        _ProductService.call(this);
+    }
 
-	_inherits(ChargeService, _ProductService);
+    _inherits(ChargeService, _ProductService);
 
-	ChargeService.prototype.getEndpoint = function getEndpoint() {
-		return ['loyalty', 'charges'];
-	};
+    ChargeService.prototype.getEndpoint = function getEndpoint() {
+        return ['loyalty', 'charges'];
+    };
 
-	ChargeService.prototype.getEventTargets = function getEventTargets() {
-		return [];
-	};
+    ChargeService.prototype.getEventTargets = function getEventTargets() {
+        return [];
+    };
 
-	return ChargeService;
+    return ChargeService;
 })(_productService.ProductService);
 
 exports.ChargeService = ChargeService;
 
 ChargeService.Uid = ['loyalty', 'charges'].join('.');
-},{"../product-service":55}],42:[function(require,module,exports){
+},{"../product-service":56}],43:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -3119,29 +3162,29 @@ function _inherits(subClass, superClass) { if (typeof superClass !== 'function' 
 var _productService = require('../product-service');
 
 var CheckinService = (function (_ProductService) {
-	function CheckinService() {
-		_classCallCheck(this, CheckinService);
+    function CheckinService() {
+        _classCallCheck(this, CheckinService);
 
-		_ProductService.call(this);
-	}
+        _ProductService.call(this);
+    }
 
-	_inherits(CheckinService, _ProductService);
+    _inherits(CheckinService, _ProductService);
 
-	CheckinService.prototype.getEndpoint = function getEndpoint() {
-		return ['loyalty', 'checkins'];
-	};
+    CheckinService.prototype.getEndpoint = function getEndpoint() {
+        return ['loyalty', 'checkins'];
+    };
 
-	CheckinService.prototype.getEventTargets = function getEventTargets() {
-		return [];
-	};
+    CheckinService.prototype.getEventTargets = function getEventTargets() {
+        return [];
+    };
 
-	return CheckinService;
+    return CheckinService;
 })(_productService.ProductService);
 
 exports.CheckinService = CheckinService;
 
 CheckinService.Uid = ['loyalty', 'checkins'].join('.');
-},{"../product-service":55}],43:[function(require,module,exports){
+},{"../product-service":56}],44:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -3153,32 +3196,34 @@ function _inherits(subClass, superClass) { if (typeof superClass !== 'function' 
 var _productService = require('../product-service');
 
 var CustomerService = (function (_ProductService) {
-	function CustomerService() {
-		_classCallCheck(this, CustomerService);
+    function CustomerService() {
+        _classCallCheck(this, CustomerService);
 
-		_ProductService.call(this);
-	}
+        _ProductService.call(this);
+    }
 
-	_inherits(CustomerService, _ProductService);
+    _inherits(CustomerService, _ProductService);
 
-	CustomerService.prototype.getEndpoint = function getEndpoint() {
-		return ['loyalty', 'customers'];
-	};
+    CustomerService.prototype.getEndpoint = function getEndpoint() {
+        return ['loyalty', 'customers'];
+    };
 
-	CustomerService.prototype.getEventTargets = function getEventTargets() {
-		return [];
-	};
+    CustomerService.prototype.getEventTargets = function getEventTargets() {
+        return [];
+    };
 
-	return CustomerService;
+    return CustomerService;
 })(_productService.ProductService);
 
 exports.CustomerService = CustomerService;
 
 CustomerService.Uid = ['loyalty', 'customers'].join('.');
-},{"../product-service":55}],44:[function(require,module,exports){
+},{"../product-service":56}],45:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
+
+var _actionProfileService = require('./action-profile-service');
 
 var _beaconService = require('./beacon-service');
 
@@ -3202,6 +3247,7 @@ var _saleService = require('./sale-service');
 
 var Loyalty = {};
 exports.Loyalty = Loyalty;
+Loyalty.ActionProfileService = _actionProfileService.ActionProfileService;
 Loyalty.BeaconService = _beaconService.BeaconService;
 Loyalty.CardGroupService = _cardGroupService.CardGroupService;
 Loyalty.CardService = _cardService.CardService;
@@ -3212,7 +3258,7 @@ Loyalty.MerchantCardService = _merchantCardService.MerchantCardService;
 Loyalty.ProgramService = _programService.ProgramService;
 Loyalty.ProgramSpecialService = _programSpecialService.ProgramSpecialService;
 Loyalty.SaleService = _saleService.SaleService;
-},{"./beacon-service":38,"./card-group-service":39,"./card-service":40,"./charge-service":41,"./checkin-service":42,"./customer-service":43,"./merchant-card-service":45,"./program-service":46,"./program-special-service":47,"./sale-service":48}],45:[function(require,module,exports){
+},{"./action-profile-service":38,"./beacon-service":39,"./card-group-service":40,"./card-service":41,"./charge-service":42,"./checkin-service":43,"./customer-service":44,"./merchant-card-service":46,"./program-service":47,"./program-special-service":48,"./sale-service":49}],46:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -3224,29 +3270,29 @@ function _inherits(subClass, superClass) { if (typeof superClass !== 'function' 
 var _productService = require('../product-service');
 
 var MerchantCardService = (function (_ProductService) {
-	function MerchantCardService() {
-		_classCallCheck(this, MerchantCardService);
+    function MerchantCardService() {
+        _classCallCheck(this, MerchantCardService);
 
-		_ProductService.call(this);
-	}
+        _ProductService.call(this);
+    }
 
-	_inherits(MerchantCardService, _ProductService);
+    _inherits(MerchantCardService, _ProductService);
 
-	MerchantCardService.prototype.getEndpoint = function getEndpoint() {
-		return ['loyalty', 'merchantcards'];
-	};
+    MerchantCardService.prototype.getEndpoint = function getEndpoint() {
+        return ['loyalty', 'merchantcards'];
+    };
 
-	MerchantCardService.prototype.getEventTargets = function getEventTargets() {
-		return [];
-	};
+    MerchantCardService.prototype.getEventTargets = function getEventTargets() {
+        return [];
+    };
 
-	return MerchantCardService;
+    return MerchantCardService;
 })(_productService.ProductService);
 
 exports.MerchantCardService = MerchantCardService;
 
 MerchantCardService.Uid = ['loyalty', 'merchantcards'].join('.');
-},{"../product-service":55}],46:[function(require,module,exports){
+},{"../product-service":56}],47:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -3258,29 +3304,29 @@ function _inherits(subClass, superClass) { if (typeof superClass !== 'function' 
 var _productService = require('../product-service');
 
 var ProgramService = (function (_ProductService) {
-	function ProgramService() {
-		_classCallCheck(this, ProgramService);
+    function ProgramService() {
+        _classCallCheck(this, ProgramService);
 
-		_ProductService.call(this);
-	}
+        _ProductService.call(this);
+    }
 
-	_inherits(ProgramService, _ProductService);
+    _inherits(ProgramService, _ProductService);
 
-	ProgramService.prototype.getEndpoint = function getEndpoint() {
-		return ['loyalty', 'programs'];
-	};
+    ProgramService.prototype.getEndpoint = function getEndpoint() {
+        return ['loyalty', 'programs'];
+    };
 
-	ProgramService.prototype.getEventTargets = function getEventTargets() {
-		return [];
-	};
+    ProgramService.prototype.getEventTargets = function getEventTargets() {
+        return [];
+    };
 
-	return ProgramService;
+    return ProgramService;
 })(_productService.ProductService);
 
 exports.ProgramService = ProgramService;
 
 ProgramService.Uid = ['loyalty', 'programs'].join('.');
-},{"../product-service":55}],47:[function(require,module,exports){
+},{"../product-service":56}],48:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -3292,29 +3338,29 @@ function _inherits(subClass, superClass) { if (typeof superClass !== 'function' 
 var _productService = require('../product-service');
 
 var ProgramSpecialService = (function (_ProductService) {
-	function ProgramSpecialService() {
-		_classCallCheck(this, ProgramSpecialService);
+    function ProgramSpecialService() {
+        _classCallCheck(this, ProgramSpecialService);
 
-		_ProductService.call(this);
-	}
+        _ProductService.call(this);
+    }
 
-	_inherits(ProgramSpecialService, _ProductService);
+    _inherits(ProgramSpecialService, _ProductService);
 
-	ProgramSpecialService.prototype.getEndpoint = function getEndpoint() {
-		return ['loyalty', 'programspecials'];
-	};
+    ProgramSpecialService.prototype.getEndpoint = function getEndpoint() {
+        return ['loyalty', 'programspecials'];
+    };
 
-	ProgramSpecialService.prototype.getEventTargets = function getEventTargets() {
-		return [];
-	};
+    ProgramSpecialService.prototype.getEventTargets = function getEventTargets() {
+        return [];
+    };
 
-	return ProgramSpecialService;
+    return ProgramSpecialService;
 })(_productService.ProductService);
 
 exports.ProgramSpecialService = ProgramSpecialService;
 
 ProgramSpecialService.Uid = ['loyalty', 'programspecials'].join('.');
-},{"../product-service":55}],48:[function(require,module,exports){
+},{"../product-service":56}],49:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -3326,29 +3372,29 @@ function _inherits(subClass, superClass) { if (typeof superClass !== 'function' 
 var _productService = require('../product-service');
 
 var SaleService = (function (_ProductService) {
-	function SaleService() {
-		_classCallCheck(this, SaleService);
+    function SaleService() {
+        _classCallCheck(this, SaleService);
 
-		_ProductService.call(this);
-	}
+        _ProductService.call(this);
+    }
 
-	_inherits(SaleService, _ProductService);
+    _inherits(SaleService, _ProductService);
 
-	SaleService.prototype.getEndpoint = function getEndpoint() {
-		return ['loyalty', 'sales'];
-	};
+    SaleService.prototype.getEndpoint = function getEndpoint() {
+        return ['loyalty', 'sales'];
+    };
 
-	SaleService.prototype.getEventTargets = function getEventTargets() {
-		return [];
-	};
+    SaleService.prototype.getEventTargets = function getEventTargets() {
+        return [];
+    };
 
-	return SaleService;
+    return SaleService;
 })(_productService.ProductService);
 
 exports.SaleService = SaleService;
 
 SaleService.Uid = ['loyalty', 'sales'].join('.');
-},{"../product-service":55}],49:[function(require,module,exports){
+},{"../product-service":56}],50:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -3360,37 +3406,37 @@ function _inherits(subClass, superClass) { if (typeof superClass !== 'function' 
 var _productService = require('../product-service');
 
 var ContainerService = (function (_ProductService) {
-	function ContainerService() {
-		_classCallCheck(this, ContainerService);
+    function ContainerService() {
+        _classCallCheck(this, ContainerService);
 
-		_ProductService.call(this);
-	}
+        _ProductService.call(this);
+    }
 
-	_inherits(ContainerService, _ProductService);
+    _inherits(ContainerService, _ProductService);
 
-	ContainerService.prototype.getEndpoint = function getEndpoint() {
-		return ['payment', 'containers'];
-	};
+    ContainerService.prototype.getEndpoint = function getEndpoint() {
+        return ['payment', 'containers'];
+    };
 
-	ContainerService.prototype.getEventTargets = function getEventTargets() {
-		return [];
-	};
+    ContainerService.prototype.getEventTargets = function getEventTargets() {
+        return [];
+    };
 
-	ContainerService.prototype.assignCustomer = function assignCustomer(containerId, customerId) {
-		return this.execute(containerId, 'assign', customerId);
-	};
+    ContainerService.prototype.assignCustomer = function assignCustomer(containerId, customerId) {
+        return this.execute(containerId, 'assign', customerId);
+    };
 
-	ContainerService.prototype.removeCustomer = function removeCustomer(containerId) {
-		return this.removeWithAction(containerId, 'assign');
-	};
+    ContainerService.prototype.removeCustomer = function removeCustomer(containerId) {
+        return this.removeWithAction(containerId, 'assign');
+    };
 
-	return ContainerService;
+    return ContainerService;
 })(_productService.ProductService);
 
 exports.ContainerService = ContainerService;
 
 ContainerService.Uid = ['payment', 'containers'].join('.');
-},{"../product-service":55}],50:[function(require,module,exports){
+},{"../product-service":56}],51:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -3402,37 +3448,37 @@ function _inherits(subClass, superClass) { if (typeof superClass !== 'function' 
 var _productService = require('../product-service');
 
 var ContractService = (function (_ProductService) {
-	function ContractService() {
-		_classCallCheck(this, ContractService);
+    function ContractService() {
+        _classCallCheck(this, ContractService);
 
-		_ProductService.call(this);
-	}
+        _ProductService.call(this);
+    }
 
-	_inherits(ContractService, _ProductService);
+    _inherits(ContractService, _ProductService);
 
-	ContractService.prototype.getEndpoint = function getEndpoint() {
-		return ['payment', 'contracts'];
-	};
+    ContractService.prototype.getEndpoint = function getEndpoint() {
+        return ['payment', 'contracts'];
+    };
 
-	ContractService.prototype.getEventTargets = function getEventTargets() {
-		return [];
-	};
+    ContractService.prototype.getEventTargets = function getEventTargets() {
+        return [];
+    };
 
-	ContractService.prototype.clone = function clone(contractId, cloneParams) {
-		return this.execute(contractId, 'clone');
-	};
+    ContractService.prototype.clone = function clone(contractId, cloneParams) {
+        return this.execute(contractId, 'clone');
+    };
 
-	ContractService.prototype.cloneMine = function cloneMine(cloneParams) {
-		return this.clone('me', cloneParams);
-	};
+    ContractService.prototype.cloneMine = function cloneMine(cloneParams) {
+        return this.clone('me', cloneParams);
+    };
 
-	return ContractService;
+    return ContractService;
 })(_productService.ProductService);
 
 exports.ContractService = ContractService;
 
 ContractService.Uid = ['payment', 'contracts'].join('.');
-},{"../product-service":55}],51:[function(require,module,exports){
+},{"../product-service":56}],52:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -3444,29 +3490,29 @@ function _inherits(subClass, superClass) { if (typeof superClass !== 'function' 
 var _productService = require('../product-service');
 
 var CustomerService = (function (_ProductService) {
-	function CustomerService() {
-		_classCallCheck(this, CustomerService);
+    function CustomerService() {
+        _classCallCheck(this, CustomerService);
 
-		_ProductService.call(this);
-	}
+        _ProductService.call(this);
+    }
 
-	_inherits(CustomerService, _ProductService);
+    _inherits(CustomerService, _ProductService);
 
-	CustomerService.prototype.getEndpoint = function getEndpoint() {
-		return ['payment', 'customers'];
-	};
+    CustomerService.prototype.getEndpoint = function getEndpoint() {
+        return ['payment', 'customers'];
+    };
 
-	CustomerService.prototype.getEventTargets = function getEventTargets() {
-		return [];
-	};
+    CustomerService.prototype.getEventTargets = function getEventTargets() {
+        return [];
+    };
 
-	return CustomerService;
+    return CustomerService;
 })(_productService.ProductService);
 
 exports.CustomerService = CustomerService;
 
 CustomerService.Uid = ['payment', 'customers'].join('.');
-},{"../product-service":55}],52:[function(require,module,exports){
+},{"../product-service":56}],53:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -3488,7 +3534,7 @@ Payment.ContractService = _contractService.ContractService;
 Payment.CustomerService = _customerService.CustomerService;
 Payment.SecupayDebitService = _secupayDebitService.SecupayDebitService;
 Payment.SecupayPrepayService = _secupayPrepayService.SecupayPrepayService;
-},{"./container-service":49,"./contract-service":50,"./customer-service":51,"./secupay-debit-service":53,"./secupay-prepay-service":54}],53:[function(require,module,exports){
+},{"./container-service":50,"./contract-service":51,"./customer-service":52,"./secupay-debit-service":54,"./secupay-prepay-service":55}],54:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -3500,33 +3546,33 @@ function _inherits(subClass, superClass) { if (typeof superClass !== 'function' 
 var _productService = require('../product-service');
 
 var SecupayDebitService = (function (_ProductService) {
-	function SecupayDebitService() {
-		_classCallCheck(this, SecupayDebitService);
+    function SecupayDebitService() {
+        _classCallCheck(this, SecupayDebitService);
 
-		_ProductService.call(this);
-	}
+        _ProductService.call(this);
+    }
 
-	_inherits(SecupayDebitService, _ProductService);
+    _inherits(SecupayDebitService, _ProductService);
 
-	SecupayDebitService.prototype.getEndpoint = function getEndpoint() {
-		return ['payment', 'secupaydebit'];
-	};
+    SecupayDebitService.prototype.getEndpoint = function getEndpoint() {
+        return ['payment', 'secupaydebit'];
+    };
 
-	SecupayDebitService.prototype.getEventTargets = function getEventTargets() {
-		return ['payment.secupaydebit'];
-	};
+    SecupayDebitService.prototype.getEventTargets = function getEventTargets() {
+        return ['payment.secupaydebit'];
+    };
 
-	SecupayDebitService.prototype.cancel = function cancel(id) {
-		return this.execute(id, 'cancel');
-	};
+    SecupayDebitService.prototype.cancel = function cancel(id) {
+        return this.execute(id, 'cancel');
+    };
 
-	return SecupayDebitService;
+    return SecupayDebitService;
 })(_productService.ProductService);
 
 exports.SecupayDebitService = SecupayDebitService;
 
 SecupayDebitService.Uid = ['payment', 'secupaydebit'].join('.');
-},{"../product-service":55}],54:[function(require,module,exports){
+},{"../product-service":56}],55:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -3538,33 +3584,33 @@ function _inherits(subClass, superClass) { if (typeof superClass !== 'function' 
 var _productService = require('../product-service');
 
 var SecupayPrepayService = (function (_ProductService) {
-	function SecupayPrepayService() {
-		_classCallCheck(this, SecupayPrepayService);
+    function SecupayPrepayService() {
+        _classCallCheck(this, SecupayPrepayService);
 
-		_ProductService.call(this);
-	}
+        _ProductService.call(this);
+    }
 
-	_inherits(SecupayPrepayService, _ProductService);
+    _inherits(SecupayPrepayService, _ProductService);
 
-	SecupayPrepayService.prototype.getEndpoint = function getEndpoint() {
-		return ['payment', 'secupayprepay'];
-	};
+    SecupayPrepayService.prototype.getEndpoint = function getEndpoint() {
+        return ['payment', 'secupayprepay'];
+    };
 
-	SecupayPrepayService.prototype.getEventTargets = function getEventTargets() {
-		return ['payment.secupayprepay'];
-	};
+    SecupayPrepayService.prototype.getEventTargets = function getEventTargets() {
+        return ['payment.secupayprepay'];
+    };
 
-	SecupayPrepayService.prototype.cancel = function cancel(id) {
-		return this.execute(id, 'cancel');
-	};
+    SecupayPrepayService.prototype.cancel = function cancel(id) {
+        return this.execute(id, 'cancel');
+    };
 
-	return SecupayPrepayService;
+    return SecupayPrepayService;
 })(_productService.ProductService);
 
 exports.SecupayPrepayService = SecupayPrepayService;
 
 SecupayPrepayService.Uid = ['payment', 'secupayprepay'].join('.');
-},{"../product-service":55}],55:[function(require,module,exports){
+},{"../product-service":56}],56:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -3580,167 +3626,167 @@ var _eventemitter3 = require('eventemitter3');
 var _eventemitter32 = _interopRequireDefault(_eventemitter3);
 
 var ProductService = (function () {
-	function ProductService() {
-		_classCallCheck(this, ProductService);
+    function ProductService() {
+        _classCallCheck(this, ProductService);
 
-		Object.assign(this, _eventemitter32['default'].prototype);
-	}
+        Object.assign(this, _eventemitter32['default'].prototype);
+    }
 
-	ProductService.prototype.configureWithContext = function configureWithContext(context) {
+    ProductService.prototype.configureWithContext = function configureWithContext(context) {
 
-		this.getChannel = context.getChannel.bind(context);
-		this.getServiceDefaultOptions = context.getServiceDefaultOptions.bind(context);
-	};
+        this.getChannel = context.getChannel.bind(context);
+        this.getServiceDefaultOptions = context.getServiceDefaultOptions.bind(context);
+    };
 
-	ProductService.prototype.getEndpoint = function getEndpoint() {};
+    ProductService.prototype.getEndpoint = function getEndpoint() {};
 
-	ProductService.prototype.getEventTargets = function getEventTargets() {};
+    ProductService.prototype.getEventTargets = function getEventTargets() {};
 
-	ProductService.prototype.getUid = function getUid() {
+    ProductService.prototype.getUid = function getUid() {
 
-		return this.getEndpoint().join('.').toLowerCase();
-	};
+        return this.getEndpoint().join('.').toLowerCase();
+    };
 
-	ProductService.prototype.retrieve = function retrieve(id, options) {
+    ProductService.prototype.retrieve = function retrieve(id, options) {
 
-		var params = {
-			endpoint: this.getEndpoint(),
-			objectId: id,
-			options: options
-		};
+        var params = {
+            endpoint: this.getEndpoint(),
+            objectId: id,
+            options: options
+        };
 
-		return this._request(_netChannel.Channel.METHOD.GET, params, options);
-	};
+        return this._request(_netChannel.Channel.METHOD.GET, params, options);
+    };
 
-	ProductService.prototype.retrieveWithAction = function retrieveWithAction(id, action, actionArg, options) {
+    ProductService.prototype.retrieveWithAction = function retrieveWithAction(id, action, actionArg, options) {
 
-		var params = {
-			endpoint: this.getEndpoint(),
-			objectId: id,
-			action: action,
-			actionArg: actionArg,
-			options: options
-		};
+        var params = {
+            endpoint: this.getEndpoint(),
+            objectId: id,
+            action: action,
+            actionArg: actionArg,
+            options: options
+        };
 
-		return this._request(_netChannel.Channel.METHOD.GET, params, options);
-	};
+        return this._request(_netChannel.Channel.METHOD.GET, params, options);
+    };
 
-	ProductService.prototype.retrieveList = function retrieveList(queryParams, options) {
+    ProductService.prototype.retrieveList = function retrieveList(queryParams, options) {
 
-		var params = {
-			endpoint: this.getEndpoint(),
-			queryParams: queryParams,
-			options: options
-		};
+        var params = {
+            endpoint: this.getEndpoint(),
+            queryParams: queryParams,
+            options: options
+        };
 
-		return this._request(_netChannel.Channel.METHOD.GET, params, options);
-	};
+        return this._request(_netChannel.Channel.METHOD.GET, params, options);
+    };
 
-	ProductService.prototype.create = function create(data, options) {
+    ProductService.prototype.create = function create(data, options) {
 
-		var params = {
-			endpoint: this.getEndpoint(),
-			data: data,
-			options: options
-		};
+        var params = {
+            endpoint: this.getEndpoint(),
+            data: data,
+            options: options
+        };
 
-		return this._request(_netChannel.Channel.METHOD.CREATE, params, options);
-	};
+        return this._request(_netChannel.Channel.METHOD.CREATE, params, options);
+    };
 
-	ProductService.prototype.update = function update(data, options) {
+    ProductService.prototype.update = function update(data, options) {
 
-		var params = {
-			endpoint: this.getEndpoint(),
-			objectId: data.id,
-			data: data,
-			options: options
-		};
+        var params = {
+            endpoint: this.getEndpoint(),
+            objectId: data.id,
+            data: data,
+            options: options
+        };
 
-		return this._request(_netChannel.Channel.METHOD.UPDATE, params, options);
-	};
+        return this._request(_netChannel.Channel.METHOD.UPDATE, params, options);
+    };
 
-	ProductService.prototype.updateWithAction = function updateWithAction(id, action, actionArg, data, options) {
+    ProductService.prototype.updateWithAction = function updateWithAction(id, action, actionArg, data, options) {
 
-		var params = {
-			endpoint: this.getEndpoint(),
-			objectId: id,
-			data: data,
-			action: action,
-			actionArg: actionArg,
-			options: options
-		};
+        var params = {
+            endpoint: this.getEndpoint(),
+            objectId: id,
+            data: data,
+            action: action,
+            actionArg: actionArg,
+            options: options
+        };
 
-		return this._request(_netChannel.Channel.METHOD.UPDATE, params, options);
-	};
+        return this._request(_netChannel.Channel.METHOD.UPDATE, params, options);
+    };
 
-	ProductService.prototype.remove = function remove(id, options) {
+    ProductService.prototype.remove = function remove(id, options) {
 
-		var params = {
-			endpoint: this.getEndpoint(),
-			objectId: id,
-			options: options
-		};
+        var params = {
+            endpoint: this.getEndpoint(),
+            objectId: id,
+            options: options
+        };
 
-		return this._request(_netChannel.Channel.METHOD.DELETE, params, options);
-	};
+        return this._request(_netChannel.Channel.METHOD.DELETE, params, options);
+    };
 
-	ProductService.prototype.removeWithAction = function removeWithAction(id, action, actionArg, options) {
+    ProductService.prototype.removeWithAction = function removeWithAction(id, action, actionArg, options) {
 
-		var params = {
-			endpoint: this.getEndpoint(),
-			objectId: id,
-			action: action,
-			actionArg: actionArg,
-			options: options
-		};
+        var params = {
+            endpoint: this.getEndpoint(),
+            objectId: id,
+            action: action,
+            actionArg: actionArg,
+            options: options
+        };
 
-		return this._request(_netChannel.Channel.METHOD.DELETE, params, options);
-	};
+        return this._request(_netChannel.Channel.METHOD.DELETE, params, options);
+    };
 
-	ProductService.prototype.execute = function execute(id, action, actionArg, data, options) {
+    ProductService.prototype.execute = function execute(id, action, actionArg, data, options) {
 
-		var params = {
-			endpoint: this.getEndpoint(),
-			objectId: id,
-			action: action,
-			actionArg: actionArg,
-			data: data,
-			options: options
-		};
+        var params = {
+            endpoint: this.getEndpoint(),
+            objectId: id,
+            action: action,
+            actionArg: actionArg,
+            data: data,
+            options: options
+        };
 
-		return this._request(_netChannel.Channel.METHOD.EXECUTE, params, options);
-	};
+        return this._request(_netChannel.Channel.METHOD.EXECUTE, params, options);
+    };
 
-	ProductService.prototype.executeAppAction = function executeAppAction(appId, action, data, options) {
+    ProductService.prototype.executeAppAction = function executeAppAction(appId, action, data, options) {
 
-		var params = {
-			appId: appId,
-			action: action,
-			data: data,
-			options: options
-		};
+        var params = {
+            appId: appId,
+            action: action,
+            data: data,
+            options: options
+        };
 
-		return this._request(_netChannel.Channel.METHOD.EXECUTE, params, options);
-	};
+        return this._request(_netChannel.Channel.METHOD.EXECUTE, params, options);
+    };
 
-	ProductService.prototype._request = function _request(method, params, options) {
+    ProductService.prototype._request = function _request(method, params, options) {
 
-		if (options == null) {
-			options = this.getServiceDefaultOptions();
-		}
+        if (options == null) {
+            options = this.getServiceDefaultOptions();
+        }
 
-		if (params.options == null) {
-			params.options = options;
-		}
+        if (params.options == null) {
+            params.options = options;
+        }
 
-		return this.getChannel(options.channelConfig).request(method, params);
-	};
+        return this.getChannel(options.channelConfig).request(method, params);
+    };
 
-	return ProductService;
+    return ProductService;
 })();
 
 exports.ProductService = ProductService;
-},{"../net/channel":12,"eventemitter3":67}],56:[function(require,module,exports){
+},{"../net/channel":12,"eventemitter3":68}],57:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -3752,29 +3798,29 @@ function _inherits(subClass, superClass) { if (typeof superClass !== 'function' 
 var _productService = require('../product-service');
 
 var IdentContractService = (function (_ProductService) {
-	function IdentContractService() {
-		_classCallCheck(this, IdentContractService);
+    function IdentContractService() {
+        _classCallCheck(this, IdentContractService);
 
-		_ProductService.call(this);
-	}
+        _ProductService.call(this);
+    }
 
-	_inherits(IdentContractService, _ProductService);
+    _inherits(IdentContractService, _ProductService);
 
-	IdentContractService.prototype.getEndpoint = function getEndpoint() {
-		return ['services', 'identcontracts'];
-	};
+    IdentContractService.prototype.getEndpoint = function getEndpoint() {
+        return ['services', 'identcontracts'];
+    };
 
-	IdentContractService.prototype.getEventTargets = function getEventTargets() {
-		return [];
-	};
+    IdentContractService.prototype.getEventTargets = function getEventTargets() {
+        return [];
+    };
 
-	return IdentContractService;
+    return IdentContractService;
 })(_productService.ProductService);
 
 exports.IdentContractService = IdentContractService;
 
 IdentContractService.Uid = ['services', 'identcontracts'].join('.');
-},{"../product-service":55}],57:[function(require,module,exports){
+},{"../product-service":56}],58:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -3786,29 +3832,29 @@ function _inherits(subClass, superClass) { if (typeof superClass !== 'function' 
 var _productService = require('../product-service');
 
 var IdentRequestService = (function (_ProductService) {
-	function IdentRequestService() {
-		_classCallCheck(this, IdentRequestService);
+    function IdentRequestService() {
+        _classCallCheck(this, IdentRequestService);
 
-		_ProductService.call(this);
-	}
+        _ProductService.call(this);
+    }
 
-	_inherits(IdentRequestService, _ProductService);
+    _inherits(IdentRequestService, _ProductService);
 
-	IdentRequestService.prototype.getEndpoint = function getEndpoint() {
-		return ['services', 'identrequests'];
-	};
+    IdentRequestService.prototype.getEndpoint = function getEndpoint() {
+        return ['services', 'identrequests'];
+    };
 
-	IdentRequestService.prototype.getEventTargets = function getEventTargets() {
-		return [];
-	};
+    IdentRequestService.prototype.getEventTargets = function getEventTargets() {
+        return [];
+    };
 
-	return IdentRequestService;
+    return IdentRequestService;
 })(_productService.ProductService);
 
 exports.IdentRequestService = IdentRequestService;
 
 IdentRequestService.Uid = ['services', 'identrequests'].join('.');
-},{"../product-service":55}],58:[function(require,module,exports){
+},{"../product-service":56}],59:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -3820,29 +3866,29 @@ function _inherits(subClass, superClass) { if (typeof superClass !== 'function' 
 var _productService = require('../product-service');
 
 var IdentResultService = (function (_ProductService) {
-	function IdentResultService() {
-		_classCallCheck(this, IdentResultService);
+    function IdentResultService() {
+        _classCallCheck(this, IdentResultService);
 
-		_ProductService.call(this);
-	}
+        _ProductService.call(this);
+    }
 
-	_inherits(IdentResultService, _ProductService);
+    _inherits(IdentResultService, _ProductService);
 
-	IdentResultService.prototype.getEndpoint = function getEndpoint() {
-		return ['services', 'identresults'];
-	};
+    IdentResultService.prototype.getEndpoint = function getEndpoint() {
+        return ['services', 'identresults'];
+    };
 
-	IdentResultService.prototype.getEventTargets = function getEventTargets() {
-		return ['services.identresults'];
-	};
+    IdentResultService.prototype.getEventTargets = function getEventTargets() {
+        return ['services.identresults'];
+    };
 
-	return IdentResultService;
+    return IdentResultService;
 })(_productService.ProductService);
 
 exports.IdentResultService = IdentResultService;
 
 IdentResultService.Uid = ['services', 'identresults'].join('.');
-},{"../product-service":55}],59:[function(require,module,exports){
+},{"../product-service":56}],60:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -3858,7 +3904,7 @@ exports.Services = Services;
 Services.IdentContractService = _identContractService.IdentContractService;
 Services.IdentRequestService = _identRequestService.IdentRequestService;
 Services.IdentResultService = _identResultService.IdentResultService;
-},{"./ident-contract-service":56,"./ident-request-service":57,"./ident-result-service":58}],60:[function(require,module,exports){
+},{"./ident-contract-service":57,"./ident-request-service":58,"./ident-result-service":59}],61:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -3870,29 +3916,29 @@ function _inherits(subClass, superClass) { if (typeof superClass !== 'function' 
 var _productService = require('../product-service');
 
 var CheckinService = (function (_ProductService) {
-	function CheckinService() {
-		_classCallCheck(this, CheckinService);
+    function CheckinService() {
+        _classCallCheck(this, CheckinService);
 
-		_ProductService.call(this);
-	}
+        _ProductService.call(this);
+    }
 
-	_inherits(CheckinService, _ProductService);
+    _inherits(CheckinService, _ProductService);
 
-	CheckinService.prototype.getEndpoint = function getEndpoint() {
-		return ['smart', 'checkins'];
-	};
+    CheckinService.prototype.getEndpoint = function getEndpoint() {
+        return ['smart', 'checkins'];
+    };
 
-	CheckinService.prototype.getEventTargets = function getEventTargets() {
-		return ['smart.checkins'];
-	};
+    CheckinService.prototype.getEventTargets = function getEventTargets() {
+        return ['smart.checkins'];
+    };
 
-	return CheckinService;
+    return CheckinService;
 })(_productService.ProductService);
 
 exports.CheckinService = CheckinService;
 
 CheckinService.Uid = ['smart', 'checkins'].join('.');
-},{"../product-service":55}],61:[function(require,module,exports){
+},{"../product-service":56}],62:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -3904,37 +3950,37 @@ function _inherits(subClass, superClass) { if (typeof superClass !== 'function' 
 var _productService = require('../product-service');
 
 var IdentService = (function (_ProductService) {
-	function IdentService() {
-		_classCallCheck(this, IdentService);
+    function IdentService() {
+        _classCallCheck(this, IdentService);
 
-		_ProductService.call(this);
-	}
+        _ProductService.call(this);
+    }
 
-	_inherits(IdentService, _ProductService);
+    _inherits(IdentService, _ProductService);
 
-	IdentService.prototype.getEndpoint = function getEndpoint() {
-		return ['smart', 'idents'];
-	};
+    IdentService.prototype.getEndpoint = function getEndpoint() {
+        return ['smart', 'idents'];
+    };
 
-	IdentService.prototype.getEventTargets = function getEventTargets() {
-		return [];
-	};
+    IdentService.prototype.getEventTargets = function getEventTargets() {
+        return [];
+    };
 
-	IdentService.prototype.validate = function validate(id) {
-		return this.execute(id, 'validate');
-	};
+    IdentService.prototype.validate = function validate(id) {
+        return this.execute(id, 'validate');
+    };
 
-	IdentService.prototype.read = function read(id) {
-		return this.execute(id, 'read');
-	};
+    IdentService.prototype.read = function read(id) {
+        return this.execute(id, 'read');
+    };
 
-	return IdentService;
+    return IdentService;
 })(_productService.ProductService);
 
 exports.IdentService = IdentService;
 
 IdentService.Uid = ['smart', 'idents'].join('.');
-},{"../product-service":55}],62:[function(require,module,exports){
+},{"../product-service":56}],63:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -3950,7 +3996,7 @@ exports.Smart = Smart;
 Smart.TransactionService = _transactionService.TransactionService;
 Smart.IdentService = _identService.IdentService;
 Smart.CheckinService = _checkinService.CheckinService;
-},{"./checkin-service":60,"./ident-service":61,"./transaction-service":63}],63:[function(require,module,exports){
+},{"./checkin-service":61,"./ident-service":62,"./transaction-service":64}],64:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -3962,37 +4008,37 @@ function _inherits(subClass, superClass) { if (typeof superClass !== 'function' 
 var _productService = require('../product-service');
 
 var TransactionService = (function (_ProductService) {
-	function TransactionService() {
-		_classCallCheck(this, TransactionService);
+    function TransactionService() {
+        _classCallCheck(this, TransactionService);
 
-		_ProductService.call(this);
-	}
+        _ProductService.call(this);
+    }
 
-	_inherits(TransactionService, _ProductService);
+    _inherits(TransactionService, _ProductService);
 
-	TransactionService.prototype.getEndpoint = function getEndpoint() {
-		return ['smart', 'transactions'];
-	};
+    TransactionService.prototype.getEndpoint = function getEndpoint() {
+        return ['smart', 'transactions'];
+    };
 
-	TransactionService.prototype.getEventTargets = function getEventTargets() {
-		return ['general.notifications'];
-	};
+    TransactionService.prototype.getEventTargets = function getEventTargets() {
+        return ['general.notifications'];
+    };
 
-	TransactionService.prototype.start = function start(id, type) {
-		return this.execute(id, 'start', type);
-	};
+    TransactionService.prototype.start = function start(id, type) {
+        return this.execute(id, 'start', type);
+    };
 
-	TransactionService.prototype.cancel = function cancel(id) {
-		return this.execute(id, 'cancel');
-	};
+    TransactionService.prototype.cancel = function cancel(id) {
+        return this.execute(id, 'cancel');
+    };
 
-	return TransactionService;
+    return TransactionService;
 })(_productService.ProductService);
 
 exports.TransactionService = TransactionService;
 
 TransactionService.Uid = ['smart', 'transactions'].join('.');
-},{"../product-service":55}],64:[function(require,module,exports){
+},{"../product-service":56}],65:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -4002,68 +4048,68 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; }
 
 var mixins = function mixins(Parent) {
-	var Mixed = (function (_Parent) {
-		function Mixed() {
-			_classCallCheck(this, Mixed);
+    var Mixed = (function (_Parent) {
+        function Mixed() {
+            _classCallCheck(this, Mixed);
 
-			_Parent.apply(this, arguments);
-		}
+            _Parent.apply(this, arguments);
+        }
 
-		_inherits(Mixed, _Parent);
+        _inherits(Mixed, _Parent);
 
-		return Mixed;
-	})(Parent);
+        return Mixed;
+    })(Parent);
 
-	var merged = Object.create(null);
+    var merged = Object.create(null);
 
-	for (var _len = arguments.length, _mixins = Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
-		_mixins[_key - 1] = arguments[_key];
-	}
+    for (var _len = arguments.length, _mixins = Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
+        _mixins[_key - 1] = arguments[_key];
+    }
 
-	for (var _iterator = _mixins, _isArray = Array.isArray(_iterator), _i = 0, _iterator = _isArray ? _iterator : _iterator[Symbol.iterator]();;) {
-		var _ref;
+    for (var _iterator = _mixins, _isArray = Array.isArray(_iterator), _i = 0, _iterator = _isArray ? _iterator : _iterator[Symbol.iterator]();;) {
+        var _ref;
 
-		if (_isArray) {
-			if (_i >= _iterator.length) break;
-			_ref = _iterator[_i++];
-		} else {
-			_i = _iterator.next();
-			if (_i.done) break;
-			_ref = _i.value;
-		}
+        if (_isArray) {
+            if (_i >= _iterator.length) break;
+            _ref = _iterator[_i++];
+        } else {
+            _i = _iterator.next();
+            if (_i.done) break;
+            _ref = _i.value;
+        }
 
-		var mixin = _ref;
+        var mixin = _ref;
 
-		for (var _iterator2 = Object.getOwnPropertyNames(mixin.prototype), _isArray2 = Array.isArray(_iterator2), _i2 = 0, _iterator2 = _isArray2 ? _iterator2 : _iterator2[Symbol.iterator]();;) {
-			var _ref2;
+        for (var _iterator2 = Object.getOwnPropertyNames(mixin.prototype), _isArray2 = Array.isArray(_iterator2), _i2 = 0, _iterator2 = _isArray2 ? _iterator2 : _iterator2[Symbol.iterator]();;) {
+            var _ref2;
 
-			if (_isArray2) {
-				if (_i2 >= _iterator2.length) break;
-				_ref2 = _iterator2[_i2++];
-			} else {
-				_i2 = _iterator2.next();
-				if (_i2.done) break;
-				_ref2 = _i2.value;
-			}
+            if (_isArray2) {
+                if (_i2 >= _iterator2.length) break;
+                _ref2 = _iterator2[_i2++];
+            } else {
+                _i2 = _iterator2.next();
+                if (_i2.done) break;
+                _ref2 = _i2.value;
+            }
 
-			var prop = _ref2;
+            var prop = _ref2;
 
-			if (prop == 'constructor') {
-				if (!merged[prop]) {
-					merged[prop] = [];
-				}
-				merged[prop].push(mixin.prototype[prop]);
-			} else {
-				Mixed.prototype[prop] = mixin.prototype[prop];
-			}
-		}
-	}
-	return Mixed;
+            if (prop == 'constructor') {
+                if (!merged[prop]) {
+                    merged[prop] = [];
+                }
+                merged[prop].push(mixin.prototype[prop]);
+            } else {
+                Mixed.prototype[prop] = mixin.prototype[prop];
+            }
+        }
+    }
+    return Mixed;
 };
 
 exports['default'] = mixins;
 module.exports = exports['default'];
-},{}],65:[function(require,module,exports){
+},{}],66:[function(require,module,exports){
 // shim for using process in browser
 
 var process = module.exports = {};
@@ -4155,7 +4201,7 @@ process.chdir = function (dir) {
 };
 process.umask = function() { return 0; };
 
-},{}],66:[function(require,module,exports){
+},{}],67:[function(require,module,exports){
 (function (process){
  /*!
   * https://github.com/paulmillr/es6-shim
@@ -7255,7 +7301,7 @@ process.umask = function() { return 0; };
 }));
 
 }).call(this,require('_process'))
-},{"_process":65}],67:[function(require,module,exports){
+},{"_process":66}],68:[function(require,module,exports){
 'use strict';
 
 //
@@ -7519,7 +7565,7 @@ if ('undefined' !== typeof module) {
   module.exports = EventEmitter;
 }
 
-},{}],68:[function(require,module,exports){
+},{}],69:[function(require,module,exports){
 (function (global){
 /**
  * @license
@@ -19758,7 +19804,7 @@ if ('undefined' !== typeof module) {
 }.call(this));
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],69:[function(require,module,exports){
+},{}],70:[function(require,module,exports){
 // default filter
 var Transform = require('./transform.js');
 
@@ -19816,7 +19862,7 @@ Filter.prototype.write = function(name, level, args) {
 
 module.exports = Filter;
 
-},{"./transform.js":71}],70:[function(require,module,exports){
+},{"./transform.js":72}],71:[function(require,module,exports){
 var Transform = require('./transform.js'),
     Filter = require('./filter.js');
 
@@ -19863,7 +19909,7 @@ exports.enable = function() {
 };
 
 
-},{"./filter.js":69,"./transform.js":71}],71:[function(require,module,exports){
+},{"./filter.js":70,"./transform.js":72}],72:[function(require,module,exports){
 var microee = require('microee');
 
 // Implements a subset of Node's stream.Transform - in a cross-platform manner.
@@ -19937,7 +19983,7 @@ Transform.mixin = function(dest) {
 
 module.exports = Transform;
 
-},{"microee":80}],72:[function(require,module,exports){
+},{"microee":81}],73:[function(require,module,exports){
 var Transform = require('../common/transform.js'),
     cache = [ ];
 
@@ -19953,7 +19999,7 @@ logger.empty = function() { cache = []; };
 
 module.exports = logger;
 
-},{"../common/transform.js":71}],73:[function(require,module,exports){
+},{"../common/transform.js":72}],74:[function(require,module,exports){
 var Transform = require('../common/transform.js');
 
 var newlines = /\n+$/,
@@ -19987,7 +20033,7 @@ logger.minilog = require('./formatters/minilog.js');
 
 module.exports = logger;
 
-},{"../common/transform.js":71,"./formatters/color.js":74,"./formatters/minilog.js":75}],74:[function(require,module,exports){
+},{"../common/transform.js":72,"./formatters/color.js":75,"./formatters/minilog.js":76}],75:[function(require,module,exports){
 var Transform = require('../../common/transform.js'),
     color = require('./util.js');
 
@@ -20007,7 +20053,7 @@ logger.pipe = function() { };
 
 module.exports = logger;
 
-},{"../../common/transform.js":71,"./util.js":76}],75:[function(require,module,exports){
+},{"../../common/transform.js":72,"./util.js":77}],76:[function(require,module,exports){
 var Transform = require('../../common/transform.js'),
     color = require('./util.js'),
     colors = { debug: ['gray'], info: ['purple' ], warn: [ 'yellow', true ], error: [ 'red', true ] },
@@ -20035,7 +20081,7 @@ logger.pipe = function() { };
 
 module.exports = logger;
 
-},{"../../common/transform.js":71,"./util.js":76}],76:[function(require,module,exports){
+},{"../../common/transform.js":72,"./util.js":77}],77:[function(require,module,exports){
 var hex = {
   black: '#000',
   red: '#c23621',
@@ -20057,7 +20103,7 @@ function color(fg, isInverse) {
 
 module.exports = color;
 
-},{}],77:[function(require,module,exports){
+},{}],78:[function(require,module,exports){
 var Minilog = require('../common/minilog.js');
 
 var oldEnable = Minilog.enable,
@@ -20101,7 +20147,7 @@ exports.backends = {
   jQuery: require('./jquery_simple.js')
 };
 
-},{"../common/minilog.js":70,"./array.js":72,"./console.js":73,"./jquery_simple.js":78,"./localstorage.js":79}],78:[function(require,module,exports){
+},{"../common/minilog.js":71,"./array.js":73,"./console.js":74,"./jquery_simple.js":79,"./localstorage.js":80}],79:[function(require,module,exports){
 var Transform = require('../common/transform.js');
 
 var cid = new Date().valueOf().toString(36);
@@ -20177,7 +20223,7 @@ AjaxLogger.jQueryWait = function(onDone) {
 
 module.exports = AjaxLogger;
 
-},{"../common/transform.js":71}],79:[function(require,module,exports){
+},{"../common/transform.js":72}],80:[function(require,module,exports){
 var Transform = require('../common/transform.js'),
     cache = false;
 
@@ -20193,7 +20239,7 @@ logger.write = function(name, level, args) {
 };
 
 module.exports = logger;
-},{"../common/transform.js":71}],80:[function(require,module,exports){
+},{"../common/transform.js":72}],81:[function(require,module,exports){
 function M() { this._events = {}; }
 M.prototype = {
   on: function(ev, cb) {
@@ -20242,7 +20288,7 @@ M.mixin = function(dest) {
 };
 module.exports = M;
 
-},{}],81:[function(require,module,exports){
+},{}],82:[function(require,module,exports){
 /**
  * Module dependencies.
  */
@@ -21367,7 +21413,7 @@ request.put = function(url, data, fn){
 
 module.exports = request;
 
-},{"emitter":82,"reduce":83}],82:[function(require,module,exports){
+},{"emitter":83,"reduce":84}],83:[function(require,module,exports){
 
 /**
  * Expose `Emitter`.
@@ -21533,7 +21579,7 @@ Emitter.prototype.hasListeners = function(event){
   return !! this.listeners(event).length;
 };
 
-},{}],83:[function(require,module,exports){
+},{}],84:[function(require,module,exports){
 
 /**
  * Reduce `arr` with `fn`.
@@ -21558,7 +21604,7 @@ module.exports = function(arr, fn, initial){
   
   return curr;
 };
-},{}],84:[function(require,module,exports){
+},{}],85:[function(require,module,exports){
 (function (global){
 
 var rng;
@@ -21593,7 +21639,7 @@ module.exports = rng;
 
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],85:[function(require,module,exports){
+},{}],86:[function(require,module,exports){
 //     uuid.js
 //
 //     Copyright (c) 2010-2012 Robert Kieffer
@@ -21778,5 +21824,5 @@ uuid.unparse = unparse;
 
 module.exports = uuid;
 
-},{"./rng":84}]},{},[1])(1)
+},{"./rng":85}]},{},[1])(1)
 });

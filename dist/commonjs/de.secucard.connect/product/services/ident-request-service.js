@@ -9,23 +9,23 @@ function _inherits(subClass, superClass) { if (typeof superClass !== 'function' 
 var _productService = require('../product-service');
 
 var IdentRequestService = (function (_ProductService) {
-	function IdentRequestService() {
-		_classCallCheck(this, IdentRequestService);
+    function IdentRequestService() {
+        _classCallCheck(this, IdentRequestService);
 
-		_ProductService.call(this);
-	}
+        _ProductService.call(this);
+    }
 
-	_inherits(IdentRequestService, _ProductService);
+    _inherits(IdentRequestService, _ProductService);
 
-	IdentRequestService.prototype.getEndpoint = function getEndpoint() {
-		return ['services', 'identrequests'];
-	};
+    IdentRequestService.prototype.getEndpoint = function getEndpoint() {
+        return ['services', 'identrequests'];
+    };
 
-	IdentRequestService.prototype.getEventTargets = function getEventTargets() {
-		return [];
-	};
+    IdentRequestService.prototype.getEventTargets = function getEventTargets() {
+        return [];
+    };
 
-	return IdentRequestService;
+    return IdentRequestService;
 })(_productService.ProductService);
 
 exports.IdentRequestService = IdentRequestService;

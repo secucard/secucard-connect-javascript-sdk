@@ -2,6 +2,8 @@
 
 exports.__esModule = true;
 
+var _actionProfileService = require('./action-profile-service');
+
 var _beaconService = require('./beacon-service');
 
 var _cardGroupService = require('./card-group-service');
@@ -24,6 +26,7 @@ var _saleService = require('./sale-service');
 
 var Loyalty = {};
 exports.Loyalty = Loyalty;
+Loyalty.ActionProfileService = _actionProfileService.ActionProfileService;
 Loyalty.BeaconService = _beaconService.BeaconService;
 Loyalty.CardGroupService = _cardGroupService.CardGroupService;
 Loyalty.CardService = _cardService.CardService;

@@ -1,23 +1,23 @@
 System.register([], function (_export) {
-  "use strict";
+    "use strict";
 
-  var AddressComponent;
+    var AddressComponent;
 
-  function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+    function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-  return {
-    setters: [],
-    execute: function () {
-      AddressComponent = function AddressComponent(short_name, long_name, types) {
-        _classCallCheck(this, AddressComponent);
+    return {
+        setters: [],
+        execute: function () {
+            AddressComponent = function AddressComponent(short_name, long_name, types) {
+                _classCallCheck(this, AddressComponent);
 
-        this.short_name = short_name;
-        this.long_name = long_name;
-        this.types = types;
-      };
+                this.short_name = short_name;
+                this.long_name = long_name;
+                this.types = types;
+            };
 
-      _export("AddressComponent", AddressComponent);
-    }
-  };
+            _export("AddressComponent", AddressComponent);
+        }
+    };
 });
-//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbImRlLnNlY3VjYXJkLmNvbm5lY3QvcHJvZHVjdC9nZW5lcmFsL21vZGVsL2FkZHJlc3MtY29tcG9uZW50LmpzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7OztNQVdhLGdCQUFnQjs7Ozs7OztBQUFoQixzQkFBZ0IsR0FFakIsU0FGQyxnQkFBZ0IsQ0FFaEIsVUFBVSxFQUFFLFNBQVMsRUFBRSxLQUFLLEVBQUU7OEJBRjlCLGdCQUFnQjs7QUFHM0IsWUFBSSxDQUFDLFVBQVUsR0FBRyxVQUFVLENBQUM7QUFDN0IsWUFBSSxDQUFDLFNBQVMsR0FBRyxTQUFTLENBQUM7QUFDM0IsWUFBSSxDQUFDLEtBQUssR0FBRyxLQUFLLENBQUM7T0FDbkI7O2tDQU5XLGdCQUFnQiIsImZpbGUiOiJkZS5zZWN1Y2FyZC5jb25uZWN0L3Byb2R1Y3QvZ2VuZXJhbC9tb2RlbC9hZGRyZXNzLWNvbXBvbmVudC5qcyIsInNvdXJjZVJvb3QiOiIuLi9zcmMvIn0=
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbImRlLnNlY3VjYXJkLmNvbm5lY3QvcHJvZHVjdC9nZW5lcmFsL21vZGVsL2FkZHJlc3MtY29tcG9uZW50LmpzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7OztRQVdhLGdCQUFnQjs7Ozs7OztBQUFoQiw0QkFBZ0IsR0FFZCxTQUZGLGdCQUFnQixDQUViLFVBQVUsRUFBRSxTQUFTLEVBQUUsS0FBSyxFQUFFO3NDQUZqQyxnQkFBZ0I7O0FBR3JCLG9CQUFJLENBQUMsVUFBVSxHQUFHLFVBQVUsQ0FBQztBQUM3QixvQkFBSSxDQUFDLFNBQVMsR0FBRyxTQUFTLENBQUM7QUFDM0Isb0JBQUksQ0FBQyxLQUFLLEdBQUcsS0FBSyxDQUFDO2FBQ3RCOzt3Q0FOUSxnQkFBZ0IiLCJmaWxlIjoiZGUuc2VjdWNhcmQuY29ubmVjdC9wcm9kdWN0L2dlbmVyYWwvbW9kZWwvYWRkcmVzcy1jb21wb25lbnQuanMiLCJzb3VyY2VSb290IjoiLi4vc3JjLyJ9

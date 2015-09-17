@@ -9,31 +9,31 @@ function _inherits(subClass, superClass) { if (typeof superClass !== 'function' 
 var _productService = require('../product-service');
 
 var StoreService = (function (_ProductService) {
-	function StoreService() {
-		_classCallCheck(this, StoreService);
+    function StoreService() {
+        _classCallCheck(this, StoreService);
 
-		_ProductService.call(this);
-	}
+        _ProductService.call(this);
+    }
 
-	_inherits(StoreService, _ProductService);
+    _inherits(StoreService, _ProductService);
 
-	StoreService.prototype.getEndpoint = function getEndpoint() {
-		return ['general', 'stores'];
-	};
+    StoreService.prototype.getEndpoint = function getEndpoint() {
+        return ['general', 'stores'];
+    };
 
-	StoreService.prototype.getEventTargets = function getEventTargets() {
-		return [];
-	};
+    StoreService.prototype.getEventTargets = function getEventTargets() {
+        return [];
+    };
 
-	StoreService.prototype.checkIn = function checkIn(storeId, checkInState) {
-		return this.updateWithAction(storeId, 'checkin', checkInState);
-	};
+    StoreService.prototype.checkIn = function checkIn(storeId, checkInState) {
+        return this.updateWithAction(storeId, 'checkin', checkInState);
+    };
 
-	StoreService.prototype.setDefault = function setDefault(storeId) {
-		return this.updateWithAction(storeId, 'setDefault');
-	};
+    StoreService.prototype.setDefault = function setDefault(storeId) {
+        return this.updateWithAction(storeId, 'setDefault');
+    };
 
-	return StoreService;
+    return StoreService;
 })(_productService.ProductService);
 
 exports.StoreService = StoreService;

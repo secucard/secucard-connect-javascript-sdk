@@ -9,27 +9,27 @@ function _inherits(subClass, superClass) { if (typeof superClass !== 'function' 
 var _productService = require('../product-service');
 
 var NewsService = (function (_ProductService) {
-	function NewsService() {
-		_classCallCheck(this, NewsService);
+    function NewsService() {
+        _classCallCheck(this, NewsService);
 
-		_ProductService.call(this);
-	}
+        _ProductService.call(this);
+    }
 
-	_inherits(NewsService, _ProductService);
+    _inherits(NewsService, _ProductService);
 
-	NewsService.prototype.getEndpoint = function getEndpoint() {
-		return ['general', 'news'];
-	};
+    NewsService.prototype.getEndpoint = function getEndpoint() {
+        return ['general', 'news'];
+    };
 
-	NewsService.prototype.getEventTargets = function getEventTargets() {
-		return [];
-	};
+    NewsService.prototype.getEventTargets = function getEventTargets() {
+        return [];
+    };
 
-	NewsService.prototype.markRead = function markRead(newsId) {
-		return this.updateWithAction(newsId, 'markRead');
-	};
+    NewsService.prototype.markRead = function markRead(newsId) {
+        return this.updateWithAction(newsId, 'markRead');
+    };
 
-	return NewsService;
+    return NewsService;
 })(_productService.ProductService);
 
 exports.NewsService = NewsService;

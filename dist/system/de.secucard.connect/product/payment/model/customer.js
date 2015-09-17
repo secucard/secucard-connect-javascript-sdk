@@ -1,25 +1,25 @@
 System.register([], function (_export) {
-  "use strict";
+    "use strict";
 
-  var Customer;
+    var Customer;
 
-  function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+    function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-  return {
-    setters: [],
-    execute: function () {
-      Customer = function Customer(merchant, contact, created, updated, contract) {
-        _classCallCheck(this, Customer);
+    return {
+        setters: [],
+        execute: function () {
+            Customer = function Customer(merchant, contact, created, updated, contract) {
+                _classCallCheck(this, Customer);
 
-        this.merchant = merchant;
-        this.contact = contact;
-        this.created = created;
-        this.updated = updated;
-        this.contract = contract;
-      };
+                this.merchant = merchant;
+                this.contact = contact;
+                this.created = created;
+                this.updated = updated;
+                this.contract = contract;
+            };
 
-      _export("Customer", Customer);
-    }
-  };
+            _export("Customer", Customer);
+        }
+    };
 });
-//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbImRlLnNlY3VjYXJkLmNvbm5lY3QvcHJvZHVjdC9wYXltZW50L21vZGVsL2N1c3RvbWVyLmpzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7OztNQVdhLFFBQVE7Ozs7Ozs7QUFBUixjQUFRLEdBRVQsU0FGQyxRQUFRLENBRVIsUUFBUSxFQUFFLE9BQU8sRUFBRSxPQUFPLEVBQUUsT0FBTyxFQUFFLFFBQVEsRUFBRTs4QkFGL0MsUUFBUTs7QUFHbkIsWUFBSSxDQUFDLFFBQVEsR0FBRyxRQUFRLENBQUM7QUFDekIsWUFBSSxDQUFDLE9BQU8sR0FBRyxPQUFPLENBQUM7QUFDdkIsWUFBSSxDQUFDLE9BQU8sR0FBRyxPQUFPLENBQUM7QUFDdkIsWUFBSSxDQUFDLE9BQU8sR0FBRyxPQUFPLENBQUM7QUFDdkIsWUFBSSxDQUFDLFFBQVEsR0FBRyxRQUFRLENBQUM7T0FDekI7OzBCQVJXLFFBQVEiLCJmaWxlIjoiZGUuc2VjdWNhcmQuY29ubmVjdC9wcm9kdWN0L3BheW1lbnQvbW9kZWwvY3VzdG9tZXIuanMiLCJzb3VyY2VSb290IjoiLi4vc3JjLyJ9
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbImRlLnNlY3VjYXJkLmNvbm5lY3QvcHJvZHVjdC9wYXltZW50L21vZGVsL2N1c3RvbWVyLmpzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7OztRQVdhLFFBQVE7Ozs7Ozs7QUFBUixvQkFBUSxHQUVOLFNBRkYsUUFBUSxDQUVMLFFBQVEsRUFBRSxPQUFPLEVBQUUsT0FBTyxFQUFFLE9BQU8sRUFBRSxRQUFRLEVBQUU7c0NBRmxELFFBQVE7O0FBR2Isb0JBQUksQ0FBQyxRQUFRLEdBQUcsUUFBUSxDQUFDO0FBQ3pCLG9CQUFJLENBQUMsT0FBTyxHQUFHLE9BQU8sQ0FBQztBQUN2QixvQkFBSSxDQUFDLE9BQU8sR0FBRyxPQUFPLENBQUM7QUFDdkIsb0JBQUksQ0FBQyxPQUFPLEdBQUcsT0FBTyxDQUFDO0FBQ3ZCLG9CQUFJLENBQUMsUUFBUSxHQUFHLFFBQVEsQ0FBQzthQUM1Qjs7Z0NBUlEsUUFBUSIsImZpbGUiOiJkZS5zZWN1Y2FyZC5jb25uZWN0L3Byb2R1Y3QvcGF5bWVudC9tb2RlbC9jdXN0b21lci5qcyIsInNvdXJjZVJvb3QiOiIuLi9zcmMvIn0=

@@ -9,27 +9,27 @@ function _inherits(subClass, superClass) { if (typeof superClass !== 'function' 
 var _productService = require('../product-service');
 
 var SessionService = (function (_ProductService) {
-	function SessionService() {
-		_classCallCheck(this, SessionService);
+    function SessionService() {
+        _classCallCheck(this, SessionService);
 
-		_ProductService.call(this);
-	}
+        _ProductService.call(this);
+    }
 
-	_inherits(SessionService, _ProductService);
+    _inherits(SessionService, _ProductService);
 
-	SessionService.prototype.getEndpoint = function getEndpoint() {
-		return ['auth', 'sessions'];
-	};
+    SessionService.prototype.getEndpoint = function getEndpoint() {
+        return ['auth', 'sessions'];
+    };
 
-	SessionService.prototype.getEventTargets = function getEventTargets() {
-		return [];
-	};
+    SessionService.prototype.getEventTargets = function getEventTargets() {
+        return [];
+    };
 
-	SessionService.prototype.check = function check() {
-		return this.retrieveWithAction('me', 'debug');
-	};
+    SessionService.prototype.check = function check() {
+        return this.retrieveWithAction('me', 'debug');
+    };
 
-	return SessionService;
+    return SessionService;
 })(_productService.ProductService);
 
 exports.SessionService = SessionService;

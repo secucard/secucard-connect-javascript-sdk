@@ -2,6 +2,8 @@
 
 exports.__esModule = true;
 
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 
 var _netMessage = require('./net/message');
@@ -12,51 +14,57 @@ var _clientContext = require('./client-context');
 
 var _clientVersion = require('./client-version');
 
+var _minilog = require('minilog');
+
+var _minilog2 = _interopRequireDefault(_minilog);
+
 var Client = (function () {
-	function Client(config, environment) {
-		_classCallCheck(this, Client);
+    function Client(config, environment) {
+        _classCallCheck(this, Client);
 
-		this.config = config;
-		this.context = new _clientContext.ClientContext(config, environment);
-		this.getService = this.context.getService.bind(this.context);
-		this.addAppService = this.context.addAppService.bind(this.context);
-		this.removeAppService = this.context.removeAppService.bind(this.context);
-		this.emitServiceEvent = this.context.emitServiceEvent.bind(this.context);
-		this.on = this.context.on.bind(this.context);
-		this.setCredentials = this.context.setCredentials.bind(this.context);
-		this.getStoredToken = this.context.getStoredToken.bind(this.context);
-		this.connected = false;
-	}
+        this.config = config;
+        this.context = new _clientContext.ClientContext(config, environment);
+        this.getService = this.context.getService.bind(this.context);
+        this.addAppService = this.context.addAppService.bind(this.context);
+        this.removeAppService = this.context.removeAppService.bind(this.context);
+        this.emitServiceEvent = this.context.emitServiceEvent.bind(this.context);
+        this.on = this.context.on.bind(this.context);
+        this.setCredentials = this.context.setCredentials.bind(this.context);
+        this.getStoredToken = this.context.getStoredToken.bind(this.context);
+        this.connected = false;
 
-	Client.prototype.open = function open() {
-		var _this = this;
+        _minilog2['default']('secucard.client').debug(config);
+    }
 
-		if (this.connected) {
-			return Promise.resolve(this.connected);
-		}
+    Client.prototype.open = function open() {
+        var _this = this;
 
-		return this.context.open().then(function () {
-			_this.connected = true;
-			return _this.connected;
-		});
-	};
+        if (this.connected) {
+            return Promise.resolve(this.connected);
+        }
 
-	Client.prototype.getVersion = function getVersion() {
-		return _clientVersion.Version.name;
-	};
+        return this.context.open().then(function () {
+            _this.connected = true;
+            return _this.connected;
+        });
+    };
 
-	return Client;
+    Client.prototype.getVersion = function getVersion() {
+        return _clientVersion.Version.name;
+    };
+
+    return Client;
 })();
 
 exports.Client = Client;
 
-Client.create = function (environment, config) {
+Client.create = function (config, environment) {
 
-	if (!config) {
-		config = Object.create(null);
-	}
+    if (!config) {
+        config = Object.create(null);
+    }
 
-	config = Object.assign(_clientConfig.ClientConfig.defaults(), environment.config, config);
+    config = Object.assign(_clientConfig.ClientConfig.defaults(), environment.config, config);
 
-	return new Client(config, environment);
+    return new Client(config, environment);
 };

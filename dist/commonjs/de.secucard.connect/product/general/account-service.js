@@ -9,44 +9,44 @@ function _inherits(subClass, superClass) { if (typeof superClass !== 'function' 
 var _productService = require('../product-service');
 
 var AccountService = (function (_ProductService) {
-	function AccountService() {
-		_classCallCheck(this, AccountService);
+    function AccountService() {
+        _classCallCheck(this, AccountService);
 
-		_ProductService.call(this);
-	}
+        _ProductService.call(this);
+    }
 
-	_inherits(AccountService, _ProductService);
+    _inherits(AccountService, _ProductService);
 
-	AccountService.prototype.getEndpoint = function getEndpoint() {
-		return ['general', 'accounts'];
-	};
+    AccountService.prototype.getEndpoint = function getEndpoint() {
+        return ['general', 'accounts'];
+    };
 
-	AccountService.prototype.getEventTargets = function getEventTargets() {
-		return ['general.accounts'];
-	};
+    AccountService.prototype.getEventTargets = function getEventTargets() {
+        return ['general.accounts'];
+    };
 
-	AccountService.prototype.create = function create(data, options) {
+    AccountService.prototype.create = function create(data, options) {
 
-		options = Object.assign({}, options, {
-			channelConfig: ['rest'],
-			useAuth: false });
+        options = Object.assign({}, options, {
+            channelConfig: ['rest'],
+            useAuth: false });
 
-		return _ProductService.prototype.create.call(this, data, options);
-	};
+        return _ProductService.prototype.create.call(this, data, options);
+    };
 
-	AccountService.prototype.updateLocation = function updateLocation(accountId, location) {
-		return this.updateWithAction(accountId, 'location', null, location);
-	};
+    AccountService.prototype.updateLocation = function updateLocation(accountId, location) {
+        return this.updateWithAction(accountId, 'location', null, location);
+    };
 
-	AccountService.prototype.updateBeacons = function updateBeacons(beaconList) {
-		return this.updateWithAction('me', 'beaconEnvironment', null, beaconList);
-	};
+    AccountService.prototype.updateBeacons = function updateBeacons(beaconList) {
+        return this.updateWithAction('me', 'beaconEnvironment', null, beaconList);
+    };
 
-	AccountService.prototype.updateGCM = function updateGCM(accountId, gcm) {
-		return this.updateWithAction(accountId, 'gcm', null, gcm);
-	};
+    AccountService.prototype.updateGCM = function updateGCM(accountId, gcm) {
+        return this.updateWithAction(accountId, 'gcm', null, gcm);
+    };
 
-	return AccountService;
+    return AccountService;
 })(_productService.ProductService);
 
 exports.AccountService = AccountService;

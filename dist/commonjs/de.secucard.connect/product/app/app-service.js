@@ -15,37 +15,37 @@ var _utilMixins = require('../../util/mixins');
 var _utilMixins2 = _interopRequireDefault(_utilMixins);
 
 var AppService = (function (_ProductService) {
-	function AppService() {
-		_classCallCheck(this, AppService);
+    function AppService() {
+        _classCallCheck(this, AppService);
 
-		_ProductService.call(this);
-		this.isApp = true;
-		this.init();
-	}
+        _ProductService.call(this);
+        this.isApp = true;
+        this.init();
+    }
 
-	_inherits(AppService, _ProductService);
+    _inherits(AppService, _ProductService);
 
-	AppService.prototype.init = function init() {};
+    AppService.prototype.init = function init() {};
 
-	AppService.prototype.getEndpoint = function getEndpoint() {
-		return ['general', 'apps'];
-	};
+    AppService.prototype.getEndpoint = function getEndpoint() {
+        return ['general', 'apps'];
+    };
 
-	AppService.prototype.getEventTargets = function getEventTargets() {
-		return [];
-	};
+    AppService.prototype.getEventTargets = function getEventTargets() {
+        return [];
+    };
 
-	AppService.prototype.getUid = function getUid() {
-		return _ProductService.prototype.getUid.call(this) + '.' + this.getAppId();
-	};
+    AppService.prototype.getUid = function getUid() {
+        return _ProductService.prototype.getUid.call(this) + '.' + this.getAppId();
+    };
 
-	return AppService;
+    return AppService;
 })(_productService.ProductService);
 
 exports.AppService = AppService;
 
 AppService.createWithMixin = function (ServiceMixin) {
 
-	var Mixed = _utilMixins2['default'](AppService, ServiceMixin);
-	return new Mixed();
+    var Mixed = _utilMixins2['default'](AppService, ServiceMixin);
+    return new Mixed();
 };

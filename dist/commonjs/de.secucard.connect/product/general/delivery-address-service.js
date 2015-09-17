@@ -9,23 +9,23 @@ function _inherits(subClass, superClass) { if (typeof superClass !== 'function' 
 var _productService = require('../product-service');
 
 var DeliveryAddressService = (function (_ProductService) {
-	function DeliveryAddressService() {
-		_classCallCheck(this, DeliveryAddressService);
+    function DeliveryAddressService() {
+        _classCallCheck(this, DeliveryAddressService);
 
-		_ProductService.call(this);
-	}
+        _ProductService.call(this);
+    }
 
-	_inherits(DeliveryAddressService, _ProductService);
+    _inherits(DeliveryAddressService, _ProductService);
 
-	DeliveryAddressService.prototype.getEndpoint = function getEndpoint() {
-		return ['general', 'deliveryaddresses'];
-	};
+    DeliveryAddressService.prototype.getEndpoint = function getEndpoint() {
+        return ['general', 'deliveryaddresses'];
+    };
 
-	DeliveryAddressService.prototype.getEventTargets = function getEventTargets() {
-		return [];
-	};
+    DeliveryAddressService.prototype.getEventTargets = function getEventTargets() {
+        return [];
+    };
 
-	return DeliveryAddressService;
+    return DeliveryAddressService;
 })(_productService.ProductService);
 
 exports.DeliveryAddressService = DeliveryAddressService;
