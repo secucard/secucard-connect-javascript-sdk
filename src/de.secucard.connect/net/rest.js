@@ -155,8 +155,7 @@ export class Rest {
 
             if (error instanceof AuthenticationFailedException) {
 
-            } else {
-                console.log(err, err.message);
+            } else if(err.response){
                 error = SecucardConnectException.create(err.response.body);
             }
 
