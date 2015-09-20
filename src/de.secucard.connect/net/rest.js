@@ -28,7 +28,7 @@ export class Rest {
 
         this.methodFuns[PUT] = Request.put;
         this.methodFuns[HEAD] = Request.head;
-        this.methodFuns[DELETE] = Request.delete;
+        this.methodFuns[DELETE] = Request.del;
 
         this.methodFuns[Channel.METHOD.GET] = Request.get;
 
@@ -36,7 +36,7 @@ export class Rest {
         this.methodFuns[Channel.METHOD.EXECUTE] = Request.post;
 
         this.methodFuns[Channel.METHOD.UPDATE] = Request.put;
-        this.methodFuns[Channel.METHOD.DELETE] = Request.delete;
+        this.methodFuns[Channel.METHOD.DELETE] = Request.del;
 
     }
 
@@ -156,6 +156,7 @@ export class Rest {
             if (error instanceof AuthenticationFailedException) {
 
             } else {
+                console.log(err, err.message);
                 error = SecucardConnectException.create(err.response.body);
             }
 

@@ -33,7 +33,7 @@ var Rest = (function () {
 
         this.methodFuns[_message.PUT] = _superagent2['default'].put;
         this.methodFuns[_message.HEAD] = _superagent2['default'].head;
-        this.methodFuns[_message.DELETE] = _superagent2['default']['delete'];
+        this.methodFuns[_message.DELETE] = _superagent2['default'].del;
 
         this.methodFuns[_channel.Channel.METHOD.GET] = _superagent2['default'].get;
 
@@ -41,7 +41,7 @@ var Rest = (function () {
         this.methodFuns[_channel.Channel.METHOD.EXECUTE] = _superagent2['default'].post;
 
         this.methodFuns[_channel.Channel.METHOD.UPDATE] = _superagent2['default'].put;
-        this.methodFuns[_channel.Channel.METHOD.DELETE] = _superagent2['default']['delete'];
+        this.methodFuns[_channel.Channel.METHOD.DELETE] = _superagent2['default'].del;
     }
 
     Rest.prototype.configureWithContext = function configureWithContext(context) {
@@ -133,6 +133,7 @@ var Rest = (function () {
             var request = JSON.stringify({ method: method, params: params });
 
             if (error instanceof _authException.AuthenticationFailedException) {} else {
+                console.log(err, err.message);
                 error = _exception.SecucardConnectException.create(err.response.body);
             }
 
