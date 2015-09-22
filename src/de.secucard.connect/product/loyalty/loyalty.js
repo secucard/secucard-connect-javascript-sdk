@@ -20,6 +20,7 @@ import {MerchantCardService} from './merchant-card-service';
 import {ProgramService} from './program-service';
 import {ProgramSpecialService} from './program-special-service';
 import {SaleService} from './sale-service';
+import {StoreGroupService} from './store-group-service';
 
 export const Loyalty = {};
 Loyalty.ActionProfileService = ActionProfileService;
@@ -33,3 +34,4 @@ Loyalty.MerchantCardService = MerchantCardService;
 Loyalty.ProgramService = ProgramService;
 Loyalty.ProgramSpecialService = ProgramSpecialService;
 Loyalty.SaleService = SaleService;
+Loyalty.StoreGroupService = StoreGroupService;
