@@ -40,6 +40,7 @@ export const ClientBrowserEnvironment = {
         General.NewsService,
         General.NotificationService,
         General.PublicMerchantService,
+        General.StoreGroupService,
         General.StoreService,
         General.TransactionService,
 
@@ -54,6 +55,7 @@ export const ClientBrowserEnvironment = {
         Loyalty.ProgramService,
         Loyalty.ProgramSpecialService,
         Loyalty.SaleService,
+        Loyalty.StoreGroupService,
 
         Payment.ContainerService,
         Payment.ContractService,
@@ -100,6 +102,7 @@ export const ServiceMap = {
         News: General.NewsService.Uid,
         Notifications: General.NotificationService.Uid,
         PublicMerchants: General.PublicMerchantService.Uid,
+        StoreGroups: General.StoreGroupService.Uid,
         Stores: General.StoreService.Uid,
         Transactions: General.TransactionService.Uid
     },
@@ -114,7 +117,8 @@ export const ServiceMap = {
         MerchantCards: Loyalty.MerchantCardService.Uid,
         Programs: Loyalty.ProgramService.Uid,
         ProrgamSpecials: Loyalty.ProgramSpecialService.Uid,
-        Sales: Loyalty.SaleService.Uid
+        Sales: Loyalty.SaleService.Uid,
+        StoreGroups: Loyalty.StoreGroupService.Uid
     },
     Services: {
         IdentContracts: Services.IdentContractService.Uid,

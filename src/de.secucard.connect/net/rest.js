@@ -16,6 +16,7 @@ import {Channel} from './channel';
 import {AuthenticationFailedException} from '../auth/exception';
 import {SecucardConnectException} from './exception';
 import minilog from 'minilog';
+import QS from 'qs';
 
 export class Rest {
 
@@ -98,6 +99,8 @@ export class Rest {
             }
 
             if (message.query) {
+                console.log(QS.stringify(message.query), message.query);
+                //request.query(QS.stringify(message.query))
                 request.query(message.query);
             }
 
@@ -143,6 +146,7 @@ export class Rest {
     request(method, params) {
 
         let requestSuccess = (res) => {
+            minilog('secucard.rest').debug('requestSuccess', res.req.path);
             return res.body;
         };
 
