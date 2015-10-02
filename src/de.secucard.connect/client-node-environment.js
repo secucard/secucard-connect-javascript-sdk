@@ -43,6 +43,7 @@ export const ClientNodeEnvironment = {
         General.StoreService,
         General.TransactionService,
 
+        Loyalty.ActionActionService,
         Loyalty.ActionProfileService,
         Loyalty.BeaconService,
         Loyalty.CardGroupService,
@@ -107,6 +108,7 @@ export const ServiceMap = {
     },
     Loyalty: {
         ActionProfiles: Loyalty.ActionProfileService.Uid,
+        ActionActions: Loyalty.ActionActionService.Uid,
         Beacons: Loyalty.BeaconService.Uid,
         CardGroups: Loyalty.CardGroupService.Uid,
         Cards: Loyalty.CardService.Uid,

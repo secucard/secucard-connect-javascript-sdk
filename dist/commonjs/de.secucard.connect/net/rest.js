@@ -22,6 +22,10 @@ var _minilog = require('minilog');
 
 var _minilog2 = _interopRequireDefault(_minilog);
 
+var _qs = require('qs');
+
+var _qs2 = _interopRequireDefault(_qs);
+
 var Rest = (function () {
     function Rest() {
         _classCallCheck(this, Rest);
@@ -85,6 +89,8 @@ var Rest = (function () {
             }
 
             if (message.query) {
+                console.log(_qs2['default'].stringify(message.query), message.query);
+
                 request.query(message.query);
             }
 
@@ -125,6 +131,7 @@ var Rest = (function () {
     Rest.prototype.request = function request(method, params) {
 
         var requestSuccess = function requestSuccess(res) {
+            _minilog2['default']('secucard.rest').debug('requestSuccess', res.req.path);
             return res.body;
         };
 
