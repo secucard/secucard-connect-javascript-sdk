@@ -90,5 +90,15 @@ export class Message {
         this.accept = value;
         return this;
     }
+    
+    /**
+     * 
+     * @param value
+     * @returns {Message}
+     */
+    
+    setMultipart(value) {
+        this.multipart = value;
+    }
 
 }

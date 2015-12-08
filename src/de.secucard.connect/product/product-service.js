@@ -109,20 +109,23 @@ export class ProductService {
      * @param data   The object holding data to create. The type/class of the object is used to determine the target
      *                   destination.
      * @param options        will be used to determine actual target destination.
+     * @param multipart object contains data for multipart form content, {files: [Blob|File], fields: [{name,value}]}
      * @return {Promise}
      */
 
-    create(data, options) {
+    create(data, options, multipart) {
 
         let params = {
             endpoint: this.getEndpoint(),
             data: data,
-            options: options
+            options: options,
+            multipart: multipart
         };
 
         return this._request(Channel.METHOD.CREATE, params, options);
     }
-
+    
+    
     /**
      * Retrieves a promise for updating an object.<br/>
      * Would invoke for example: PUT /object/objectId with object mapped to JSON as _request body.<br/>
@@ -131,18 +134,20 @@ export class ProductService {
      * @param data    The object holding data to update with, must also provide unique source id. The type/class of the
      *                    object is used to determine the target destination.
      * @param options        will be used to determine actual target destination.
-     *
+     * @param multipart object contains data for multipart form content, {files: [Blob|File], fields: [{name,value}]}
+     * 
      * @return {Promise} The actual updated object, never null. Throws exception if object cannot be updated. May contain additional
      * or corrected data, like id.  So using this object later on instead the provided is necessary.
      */
 
-    update(data, options) {
+    update(data, options, multipart) {
 
         let params = {
             endpoint: this.getEndpoint(),
             objectId: data.id,
             data: data,
-            options: options
+            options: options,
+            multipart: multipart
         };
 
         return this._request(Channel.METHOD.UPDATE, params, options);
@@ -160,13 +165,14 @@ export class ProductService {
      * @param actionArg  Additional argument to the action, optional.
      * @param data        The new data to update with.
      * @param options        will be used to determine actual target destination.
-     *
+     * @param multipart object contains data for multipart form content, {files: [Blob|File], fields: [{name,value}]}
+     
      * @return {Promise} The actual updated object, or the result of the update, never null. Throws exception if object cannot be
      * updated. May contain additional or corrected data, like id. So using this object later on instead the provided is
      * necessary.
      */
 
-    updateWithAction(id, action, actionArg, data, options) {
+    updateWithAction(id, action, actionArg, data, options, multipart) {
 
         let params = {
             endpoint: this.getEndpoint(),
@@ -174,7 +180,8 @@ export class ProductService {
             data: data,
             action: action,
             actionArg: actionArg,
-            options: options
+            options: options,
+            multipart: multipart
         };
 
         return this._request(Channel.METHOD.UPDATE, params, options);

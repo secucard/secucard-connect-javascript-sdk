@@ -23,7 +23,7 @@ describe('Using Document services', function () {
         jasmine.DEFAULT_TIMEOUT_INTERVAL = 30000;
 
     });
-
+    /*
     it('Uploading/downloading files via STOMP', async function () {
 
         let testBase64str = "SGVsbG8h";
@@ -76,6 +76,42 @@ describe('Using Document services', function () {
         let doc = await uploads.retrieve(documentId);
         console.log(doc);
         expect(doc.content).toBe(testBase64str);
+
+    });
+    
+    */
+    
+    it('Uploading/downloading BLOB files via REST', async function () {
+
+        let buffer = new Buffer('<b>Hello world</b>');
+
+        let client = SecucardConnect.create({
+            restUrl: 'https://connect-dev10.secupay-ag.de/api/v2/',
+            oAuthUrl: 'https://connect-dev10.secupay-ag.de/oauth/',
+            stompHost: 'connect-dev10.secupay-ag.de',
+            stompEnabled: false
+        });
+
+        let uploads = client.getService(Services.Document.Uploads);
+        
+        // TODO fix errors, uploading Buffer doesn't work, but works for Files in browser
+        let documentId = null;
+        await uploads.uploadMultiForm([{field: 'file', path: buffer}]).then((res) => {
+            //documentId = res.id;
+            console.log(res);
+        })
+        /*.catch((err) => {
+            console.log('Error', err.message);
+        });
+        */
+
+        //expect(documentId != null).toBe(true);
+
+        //client.setCredentials(devCredentialRefreshToken);
+
+        //let doc = await uploads.retrieve(documentId);
+        //console.log(doc);
+        //expect(doc.content).toBe(testBase64str);
 
     });
 

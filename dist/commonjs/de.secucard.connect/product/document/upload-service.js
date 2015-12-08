@@ -31,6 +31,12 @@ var UploadService = (function (_ProductService) {
             useAuth: false });
     };
 
+    UploadService.prototype.uploadMultiForm = function uploadMultiForm(files) {
+        return _ProductService.prototype.create.call(this, null, {
+            channelConfig: ['rest'],
+            useAuth: false }, { files: files });
+    };
+
     return UploadService;
 })(_productService.ProductService);
 

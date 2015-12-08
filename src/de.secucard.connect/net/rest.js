@@ -16,7 +16,7 @@ import {Channel} from './channel';
 import {AuthenticationFailedException} from '../auth/exception';
 import {SecucardConnectException} from './exception';
 import minilog from 'minilog';
-import QS from 'qs';
+//import QS from 'qs';
 
 export class Rest {
 
@@ -99,7 +99,7 @@ export class Rest {
             }
 
             if (message.query) {
-                console.log(QS.stringify(message.query), message.query);
+                //console.log(QS.stringify(message.query), message.query);
                 //request.query(QS.stringify(message.query))
                 request.query(message.query);
             }
@@ -111,9 +111,22 @@ export class Rest {
             if (message.accept) {
                 request.accept(message.accept);
             }
+            
+            if (message.multipart && message.multipart.files) {
+                message.multipart.files.forEach((item) => {
+                    request.attach(item.field, item.path, item.filename);
+                });
+            }
+            
+            if (message.multipart && message.multipart.fields) {
+                message.multipart.fields.forEach((item) => {
+                    request.field(item.name, item.value);
+                });
+            }
 
             request.end((err, res) => {
                 if (err) {
+                    //minilog('secucard.rest').debug(err);
                     reject(err, res);
                 } else {
                     resolve(res);
@@ -180,7 +193,13 @@ export class Rest {
     createMessageForRequest(method, params) {
 
         let message = this.createMessage();
-        message.setHeaders({'Content-Type': 'application/json'});
+        
+        if(!params.multipart && params.headers) {
+            message.setHeaders(Object.assign({}, {'Content-Type': 'application/json'}, params.headers));
+        } else if(!params.multipart){
+            message.setHeaders({'Content-Type': 'application/json'});
+        }
+        
         message.setMethod(method);
 
         let endPointSpec = [];
@@ -213,6 +232,10 @@ export class Rest {
 
         if (params.data) {
             message.setBody(params.data);
+        }
+        
+        if(params.multipart) {
+            message.setMultipart(params.multipart);
         }
 
         minilog('secucard.rest').debug('message', message);

@@ -22,10 +22,6 @@ var _minilog = require('minilog');
 
 var _minilog2 = _interopRequireDefault(_minilog);
 
-var _qs = require('qs');
-
-var _qs2 = _interopRequireDefault(_qs);
-
 var Rest = (function () {
     function Rest() {
         _classCallCheck(this, Rest);
@@ -89,8 +85,6 @@ var Rest = (function () {
             }
 
             if (message.query) {
-                console.log(_qs2['default'].stringify(message.query), message.query);
-
                 request.query(message.query);
             }
 
@@ -100,6 +94,18 @@ var Rest = (function () {
 
             if (message.accept) {
                 request.accept(message.accept);
+            }
+
+            if (message.multipart && message.multipart.files) {
+                message.multipart.files.forEach(function (item) {
+                    request.attach(item.field, item.path, item.filename);
+                });
+            }
+
+            if (message.multipart && message.multipart.fields) {
+                message.multipart.fields.forEach(function (item) {
+                    request.field(item.name, item.value);
+                });
             }
 
             request.end(function (err, res) {
@@ -158,7 +164,13 @@ var Rest = (function () {
     Rest.prototype.createMessageForRequest = function createMessageForRequest(method, params) {
 
         var message = this.createMessage();
-        message.setHeaders({ 'Content-Type': 'application/json' });
+
+        if (!params.multipart && params.headers) {
+            message.setHeaders(Object.assign({}, { 'Content-Type': 'application/json' }, params.headers));
+        } else if (!params.multipart) {
+            message.setHeaders({ 'Content-Type': 'application/json' });
+        }
+
         message.setMethod(method);
 
         var endPointSpec = [];
@@ -191,6 +203,10 @@ var Rest = (function () {
 
         if (params.data) {
             message.setBody(params.data);
+        }
+
+        if (params.multipart) {
+            message.setMultipart(params.multipart);
         }
 
         _minilog2['default']('secucard.rest').debug('message', message);

@@ -56,6 +56,10 @@ var Message = (function () {
     return this;
   };
 
+  Message.prototype.setMultipart = function setMultipart(value) {
+    this.multipart = value;
+  };
+
   return Message;
 })();
 

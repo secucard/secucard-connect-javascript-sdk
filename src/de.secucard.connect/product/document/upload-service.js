@@ -31,6 +31,13 @@ export class UploadService extends ProductService {
             useAuth: false // don't need auth token
         });
     }
+    
+    uploadMultiForm(files) {
+        return super.create(null, {
+            channelConfig: ['rest'], // use only rest
+            useAuth: false // don't need auth token
+        }, {files: files});
+    }
 
 }
 

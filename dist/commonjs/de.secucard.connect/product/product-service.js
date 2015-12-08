@@ -69,30 +69,32 @@ var ProductService = (function () {
         return this._request(_netChannel.Channel.METHOD.GET, params, options);
     };
 
-    ProductService.prototype.create = function create(data, options) {
+    ProductService.prototype.create = function create(data, options, multipart) {
 
         var params = {
             endpoint: this.getEndpoint(),
             data: data,
-            options: options
+            options: options,
+            multipart: multipart
         };
 
         return this._request(_netChannel.Channel.METHOD.CREATE, params, options);
     };
 
-    ProductService.prototype.update = function update(data, options) {
+    ProductService.prototype.update = function update(data, options, multipart) {
 
         var params = {
             endpoint: this.getEndpoint(),
             objectId: data.id,
             data: data,
-            options: options
+            options: options,
+            multipart: multipart
         };
 
         return this._request(_netChannel.Channel.METHOD.UPDATE, params, options);
     };
 
-    ProductService.prototype.updateWithAction = function updateWithAction(id, action, actionArg, data, options) {
+    ProductService.prototype.updateWithAction = function updateWithAction(id, action, actionArg, data, options, multipart) {
 
         var params = {
             endpoint: this.getEndpoint(),
@@ -100,7 +102,8 @@ var ProductService = (function () {
             data: data,
             action: action,
             actionArg: actionArg,
-            options: options
+            options: options,
+            multipart: multipart
         };
 
         return this._request(_netChannel.Channel.METHOD.UPDATE, params, options);
