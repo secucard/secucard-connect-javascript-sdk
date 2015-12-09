@@ -35,7 +35,7 @@ SecucardConnect.create = function (config) {
 
     return _deSecucardConnectClient.Client.create(config, _deSecucardConnectClientBrowserEnvironment.ClientBrowserEnvironment);
 };
-},{"./de.secucard.connect/client":11,"./de.secucard.connect/client-browser-environment":7,"./de.secucard.connect/net/channel":12,"es6-shim":70,"minilog":81}],2:[function(require,module,exports){
+},{"./de.secucard.connect/client":11,"./de.secucard.connect/client-browser-environment":7,"./de.secucard.connect/net/channel":12,"es6-shim":71,"minilog":82}],2:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -264,7 +264,7 @@ var Auth = (function () {
 })();
 
 exports.Auth = Auth;
-},{"../net/message":14,"./exception":4,"./token":6,"lodash":72,"minilog":81}],3:[function(require,module,exports){
+},{"../net/message":14,"./exception":4,"./token":6,"lodash":73,"minilog":82}],3:[function(require,module,exports){
 "use strict";
 
 exports.__esModule = true;
@@ -428,7 +428,7 @@ TokenStorageInMem.createWithMixin = function (TokenStorageMixin) {
     var Mixed = _utilMixins2['default'](TokenStorageInMem, TokenStorageMixin);
     return new Mixed();
 };
-},{"../util/mixins":68,"./token":6}],6:[function(require,module,exports){
+},{"../util/mixins":69,"./token":6}],6:[function(require,module,exports){
 "use strict";
 
 exports.__esModule = true;
@@ -516,7 +516,7 @@ var ClientBrowserEnvironment = {
         stompPort: 15671,
         stompEndpoint: '/stomp/websocket'
     },
-    services: [_productAuthAuth.Auth.SessionService, _productDocumentDocument.Document.UploadService, _productGeneralGeneral.General.SkeletonService, _productGeneralGeneral.General.AccountService, _productGeneralGeneral.General.AccountDeviceService, _productGeneralGeneral.General.ContactService, _productGeneralGeneral.General.DeliveryAddressService, _productGeneralGeneral.General.FileAccessService, _productGeneralGeneral.General.MerchantService, _productGeneralGeneral.General.NewsService, _productGeneralGeneral.General.NotificationService, _productGeneralGeneral.General.PublicMerchantService, _productGeneralGeneral.General.StoreGroupService, _productGeneralGeneral.General.StoreService, _productGeneralGeneral.General.TransactionService, _productLoyaltyLoyalty.Loyalty.ActionActionService, _productLoyaltyLoyalty.Loyalty.ActionProfileService, _productLoyaltyLoyalty.Loyalty.BeaconService, _productLoyaltyLoyalty.Loyalty.CardGroupService, _productLoyaltyLoyalty.Loyalty.CardService, _productLoyaltyLoyalty.Loyalty.ChargeService, _productLoyaltyLoyalty.Loyalty.CheckinService, _productLoyaltyLoyalty.Loyalty.CustomerService, _productLoyaltyLoyalty.Loyalty.MerchantCardService, _productLoyaltyLoyalty.Loyalty.ProgramService, _productLoyaltyLoyalty.Loyalty.ProgramSpecialService, _productLoyaltyLoyalty.Loyalty.SaleService, _productLoyaltyLoyalty.Loyalty.StoreGroupService, _productPaymentPayment.Payment.ContainerService, _productPaymentPayment.Payment.ContractService, _productPaymentPayment.Payment.CustomerService, _productPaymentPayment.Payment.SecupayDebitService, _productPaymentPayment.Payment.SecupayPrepayService, _productServicesServices.Services.IdentContractService, _productServicesServices.Services.IdentRequestService, _productServicesServices.Services.IdentResultService, _productSmartSmart.Smart.TransactionService, _productSmartSmart.Smart.IdentService, _productSmartSmart.Smart.CheckinService]
+    services: [_productAuthAuth.Auth.SessionService, _productDocumentDocument.Document.UploadService, _productGeneralGeneral.General.SkeletonService, _productGeneralGeneral.General.AccountService, _productGeneralGeneral.General.AccountDeviceService, _productGeneralGeneral.General.ContactService, _productGeneralGeneral.General.DeliveryAddressService, _productGeneralGeneral.General.FileAccessService, _productGeneralGeneral.General.MerchantService, _productGeneralGeneral.General.NewsService, _productGeneralGeneral.General.NotificationService, _productGeneralGeneral.General.PublicMerchantService, _productGeneralGeneral.General.StoreGroupService, _productGeneralGeneral.General.StoreService, _productGeneralGeneral.General.TransactionService, _productLoyaltyLoyalty.Loyalty.ActionActionService, _productLoyaltyLoyalty.Loyalty.ActionProfileService, _productLoyaltyLoyalty.Loyalty.BeaconService, _productLoyaltyLoyalty.Loyalty.CardGroupService, _productLoyaltyLoyalty.Loyalty.CardService, _productLoyaltyLoyalty.Loyalty.ChargeService, _productLoyaltyLoyalty.Loyalty.CheckinService, _productLoyaltyLoyalty.Loyalty.CustomerService, _productLoyaltyLoyalty.Loyalty.MerchantCardService, _productLoyaltyLoyalty.Loyalty.ProgramService, _productLoyaltyLoyalty.Loyalty.ProgramSpecialService, _productLoyaltyLoyalty.Loyalty.SaleService, _productLoyaltyLoyalty.Loyalty.StoreGroupService, _productPaymentPayment.Payment.ContainerService, _productPaymentPayment.Payment.ContractService, _productPaymentPayment.Payment.CustomerService, _productPaymentPayment.Payment.SecupayDebitService, _productPaymentPayment.Payment.SecupayPrepayService, _productServicesServices.Services.IdentCaseService, _productServicesServices.Services.IdentContractService, _productServicesServices.Services.IdentRequestService, _productServicesServices.Services.IdentResultService, _productSmartSmart.Smart.TransactionService, _productSmartSmart.Smart.IdentService, _productSmartSmart.Smart.CheckinService]
 };
 exports.ClientBrowserEnvironment = ClientBrowserEnvironment;
 ClientBrowserEnvironment.StompChannel = {
@@ -569,6 +569,7 @@ var ServiceMap = {
         StoreGroups: _productLoyaltyLoyalty.Loyalty.StoreGroupService.Uid
     },
     Services: {
+        IdentCases: _productServicesServices.Services.IdentCaseService.Uid,
         IdentContracts: _productServicesServices.Services.IdentContractService.Uid,
         IdentRequests: _productServicesServices.Services.IdentRequestService.Uid,
         IdentResults: _productServicesServices.Services.IdentResultService.Uid
@@ -580,7 +581,7 @@ var ServiceMap = {
     }
 };
 exports.ServiceMap = ServiceMap;
-},{"./auth/token-storage":5,"./net/socket/socket-browser":16,"./net/stomp":19,"./product/auth/auth":21,"./product/document/document":23,"./product/general/general":30,"./product/loyalty/loyalty":47,"./product/payment/payment":56,"./product/services/services":63,"./product/smart/smart":66}],8:[function(require,module,exports){
+},{"./auth/token-storage":5,"./net/socket/socket-browser":16,"./net/stomp":19,"./product/auth/auth":21,"./product/document/document":23,"./product/general/general":30,"./product/loyalty/loyalty":47,"./product/payment/payment":56,"./product/services/services":64,"./product/smart/smart":67}],8:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -928,7 +929,7 @@ var ClientContext = (function () {
 })();
 
 exports.ClientContext = ClientContext;
-},{"./auth/auth":2,"./auth/credentials":3,"./auth/token-storage":5,"./net/channel":12,"./net/rest":15,"./product/app/app-service":20,"eventemitter3":71,"lodash":72}],10:[function(require,module,exports){
+},{"./auth/auth":2,"./auth/credentials":3,"./auth/token-storage":5,"./net/channel":12,"./net/rest":15,"./product/app/app-service":20,"eventemitter3":72,"lodash":73}],10:[function(require,module,exports){
 "use strict";
 
 exports.__esModule = true;
@@ -1007,7 +1008,7 @@ Client.create = function (config, environment) {
 
     return new Client(config, environment);
 };
-},{"./client-config":8,"./client-context":9,"./client-version":10,"./net/message":14,"minilog":81}],12:[function(require,module,exports){
+},{"./client-config":8,"./client-context":9,"./client-version":10,"./net/message":14,"minilog":82}],12:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -1420,7 +1421,7 @@ var Rest = (function () {
 })();
 
 exports.Rest = Rest;
-},{"../auth/exception":4,"./channel":12,"./exception":13,"./message":14,"minilog":81,"superagent":85}],16:[function(require,module,exports){
+},{"../auth/exception":4,"./channel":12,"./exception":13,"./message":14,"minilog":82,"superagent":86}],16:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -1506,7 +1507,7 @@ SocketAtBrowser.disconnect = function (socket) {
     _minilog2['default']('secucard.socket.browser').debug('disconnect called');
     socket.close();
 };
-},{"eventemitter3":71,"minilog":81}],17:[function(require,module,exports){
+},{"eventemitter3":72,"minilog":82}],17:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -1918,7 +1919,7 @@ var Stomp = (function () {
 })();
 
 exports.Stomp = Stomp;
-},{"./frame":17,"eventemitter3":71,"minilog":81,"uuid":89}],19:[function(require,module,exports){
+},{"./frame":17,"eventemitter3":72,"minilog":82,"uuid":90}],19:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -2362,7 +2363,7 @@ var Stomp = (function () {
 })();
 
 exports.Stomp = Stomp;
-},{"../auth/exception":4,"./channel":12,"./exception":13,"./stomp-impl/stomp":18,"eventemitter3":71,"minilog":81,"uuid":89}],20:[function(require,module,exports){
+},{"../auth/exception":4,"./channel":12,"./exception":13,"./stomp-impl/stomp":18,"eventemitter3":72,"minilog":82,"uuid":90}],20:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -2414,7 +2415,7 @@ AppService.createWithMixin = function (ServiceMixin) {
     var Mixed = _utilMixins2['default'](AppService, ServiceMixin);
     return new Mixed();
 };
-},{"../../util/mixins":68,"../product-service":59}],21:[function(require,module,exports){
+},{"../../util/mixins":69,"../product-service":59}],21:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -3936,7 +3937,41 @@ var ProductService = (function () {
 })();
 
 exports.ProductService = ProductService;
-},{"../net/channel":12,"eventemitter3":71}],60:[function(require,module,exports){
+},{"../net/channel":12,"eventemitter3":72}],60:[function(require,module,exports){
+'use strict';
+
+exports.__esModule = true;
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; }
+
+var _productService = require('../product-service');
+
+var IdentCaseService = (function (_ProductService) {
+    function IdentCaseService() {
+        _classCallCheck(this, IdentCaseService);
+
+        _ProductService.call(this);
+    }
+
+    _inherits(IdentCaseService, _ProductService);
+
+    IdentCaseService.prototype.getEndpoint = function getEndpoint() {
+        return ['services', 'identcases'];
+    };
+
+    IdentCaseService.prototype.getEventTargets = function getEventTargets() {
+        return ['services.identcases'];
+    };
+
+    return IdentCaseService;
+})(_productService.ProductService);
+
+exports.IdentCaseService = IdentCaseService;
+
+IdentCaseService.Uid = ['services', 'identcases'].join('.');
+},{"../product-service":59}],61:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -3970,7 +4005,7 @@ var IdentContractService = (function (_ProductService) {
 exports.IdentContractService = IdentContractService;
 
 IdentContractService.Uid = ['services', 'identcontracts'].join('.');
-},{"../product-service":59}],61:[function(require,module,exports){
+},{"../product-service":59}],62:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -4004,7 +4039,7 @@ var IdentRequestService = (function (_ProductService) {
 exports.IdentRequestService = IdentRequestService;
 
 IdentRequestService.Uid = ['services', 'identrequests'].join('.');
-},{"../product-service":59}],62:[function(require,module,exports){
+},{"../product-service":59}],63:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -4038,10 +4073,12 @@ var IdentResultService = (function (_ProductService) {
 exports.IdentResultService = IdentResultService;
 
 IdentResultService.Uid = ['services', 'identresults'].join('.');
-},{"../product-service":59}],63:[function(require,module,exports){
+},{"../product-service":59}],64:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
+
+var _identCaseService = require('./ident-case-service');
 
 var _identContractService = require('./ident-contract-service');
 
@@ -4051,10 +4088,11 @@ var _identResultService = require('./ident-result-service');
 
 var Services = {};
 exports.Services = Services;
+Services.IdentCaseService = _identCaseService.IdentCaseService;
 Services.IdentContractService = _identContractService.IdentContractService;
 Services.IdentRequestService = _identRequestService.IdentRequestService;
 Services.IdentResultService = _identResultService.IdentResultService;
-},{"./ident-contract-service":60,"./ident-request-service":61,"./ident-result-service":62}],64:[function(require,module,exports){
+},{"./ident-case-service":60,"./ident-contract-service":61,"./ident-request-service":62,"./ident-result-service":63}],65:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -4088,7 +4126,7 @@ var CheckinService = (function (_ProductService) {
 exports.CheckinService = CheckinService;
 
 CheckinService.Uid = ['smart', 'checkins'].join('.');
-},{"../product-service":59}],65:[function(require,module,exports){
+},{"../product-service":59}],66:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -4130,7 +4168,7 @@ var IdentService = (function (_ProductService) {
 exports.IdentService = IdentService;
 
 IdentService.Uid = ['smart', 'idents'].join('.');
-},{"../product-service":59}],66:[function(require,module,exports){
+},{"../product-service":59}],67:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -4146,7 +4184,7 @@ exports.Smart = Smart;
 Smart.TransactionService = _transactionService.TransactionService;
 Smart.IdentService = _identService.IdentService;
 Smart.CheckinService = _checkinService.CheckinService;
-},{"./checkin-service":64,"./ident-service":65,"./transaction-service":67}],67:[function(require,module,exports){
+},{"./checkin-service":65,"./ident-service":66,"./transaction-service":68}],68:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -4188,7 +4226,7 @@ var TransactionService = (function (_ProductService) {
 exports.TransactionService = TransactionService;
 
 TransactionService.Uid = ['smart', 'transactions'].join('.');
-},{"../product-service":59}],68:[function(require,module,exports){
+},{"../product-service":59}],69:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -4259,7 +4297,7 @@ var mixins = function mixins(Parent) {
 
 exports['default'] = mixins;
 module.exports = exports['default'];
-},{}],69:[function(require,module,exports){
+},{}],70:[function(require,module,exports){
 // shim for using process in browser
 
 var process = module.exports = {};
@@ -4351,7 +4389,7 @@ process.chdir = function (dir) {
 };
 process.umask = function() { return 0; };
 
-},{}],70:[function(require,module,exports){
+},{}],71:[function(require,module,exports){
 (function (process){
  /*!
   * https://github.com/paulmillr/es6-shim
@@ -7451,7 +7489,7 @@ process.umask = function() { return 0; };
 }));
 
 }).call(this,require('_process'))
-},{"_process":69}],71:[function(require,module,exports){
+},{"_process":70}],72:[function(require,module,exports){
 'use strict';
 
 //
@@ -7715,7 +7753,7 @@ if ('undefined' !== typeof module) {
   module.exports = EventEmitter;
 }
 
-},{}],72:[function(require,module,exports){
+},{}],73:[function(require,module,exports){
 (function (global){
 /**
  * @license
@@ -19954,7 +19992,7 @@ if ('undefined' !== typeof module) {
 }.call(this));
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],73:[function(require,module,exports){
+},{}],74:[function(require,module,exports){
 // default filter
 var Transform = require('./transform.js');
 
@@ -20012,7 +20050,7 @@ Filter.prototype.write = function(name, level, args) {
 
 module.exports = Filter;
 
-},{"./transform.js":75}],74:[function(require,module,exports){
+},{"./transform.js":76}],75:[function(require,module,exports){
 var Transform = require('./transform.js'),
     Filter = require('./filter.js');
 
@@ -20059,7 +20097,7 @@ exports.enable = function() {
 };
 
 
-},{"./filter.js":73,"./transform.js":75}],75:[function(require,module,exports){
+},{"./filter.js":74,"./transform.js":76}],76:[function(require,module,exports){
 var microee = require('microee');
 
 // Implements a subset of Node's stream.Transform - in a cross-platform manner.
@@ -20133,7 +20171,7 @@ Transform.mixin = function(dest) {
 
 module.exports = Transform;
 
-},{"microee":84}],76:[function(require,module,exports){
+},{"microee":85}],77:[function(require,module,exports){
 var Transform = require('../common/transform.js'),
     cache = [ ];
 
@@ -20149,7 +20187,7 @@ logger.empty = function() { cache = []; };
 
 module.exports = logger;
 
-},{"../common/transform.js":75}],77:[function(require,module,exports){
+},{"../common/transform.js":76}],78:[function(require,module,exports){
 var Transform = require('../common/transform.js');
 
 var newlines = /\n+$/,
@@ -20183,7 +20221,7 @@ logger.minilog = require('./formatters/minilog.js');
 
 module.exports = logger;
 
-},{"../common/transform.js":75,"./formatters/color.js":78,"./formatters/minilog.js":79}],78:[function(require,module,exports){
+},{"../common/transform.js":76,"./formatters/color.js":79,"./formatters/minilog.js":80}],79:[function(require,module,exports){
 var Transform = require('../../common/transform.js'),
     color = require('./util.js');
 
@@ -20203,7 +20241,7 @@ logger.pipe = function() { };
 
 module.exports = logger;
 
-},{"../../common/transform.js":75,"./util.js":80}],79:[function(require,module,exports){
+},{"../../common/transform.js":76,"./util.js":81}],80:[function(require,module,exports){
 var Transform = require('../../common/transform.js'),
     color = require('./util.js'),
     colors = { debug: ['gray'], info: ['purple' ], warn: [ 'yellow', true ], error: [ 'red', true ] },
@@ -20231,7 +20269,7 @@ logger.pipe = function() { };
 
 module.exports = logger;
 
-},{"../../common/transform.js":75,"./util.js":80}],80:[function(require,module,exports){
+},{"../../common/transform.js":76,"./util.js":81}],81:[function(require,module,exports){
 var hex = {
   black: '#000',
   red: '#c23621',
@@ -20253,7 +20291,7 @@ function color(fg, isInverse) {
 
 module.exports = color;
 
-},{}],81:[function(require,module,exports){
+},{}],82:[function(require,module,exports){
 var Minilog = require('../common/minilog.js');
 
 var oldEnable = Minilog.enable,
@@ -20297,7 +20335,7 @@ exports.backends = {
   jQuery: require('./jquery_simple.js')
 };
 
-},{"../common/minilog.js":74,"./array.js":76,"./console.js":77,"./jquery_simple.js":82,"./localstorage.js":83}],82:[function(require,module,exports){
+},{"../common/minilog.js":75,"./array.js":77,"./console.js":78,"./jquery_simple.js":83,"./localstorage.js":84}],83:[function(require,module,exports){
 var Transform = require('../common/transform.js');
 
 var cid = new Date().valueOf().toString(36);
@@ -20373,7 +20411,7 @@ AjaxLogger.jQueryWait = function(onDone) {
 
 module.exports = AjaxLogger;
 
-},{"../common/transform.js":75}],83:[function(require,module,exports){
+},{"../common/transform.js":76}],84:[function(require,module,exports){
 var Transform = require('../common/transform.js'),
     cache = false;
 
@@ -20389,7 +20427,7 @@ logger.write = function(name, level, args) {
 };
 
 module.exports = logger;
-},{"../common/transform.js":75}],84:[function(require,module,exports){
+},{"../common/transform.js":76}],85:[function(require,module,exports){
 function M() { this._events = {}; }
 M.prototype = {
   on: function(ev, cb) {
@@ -20438,7 +20476,7 @@ M.mixin = function(dest) {
 };
 module.exports = M;
 
-},{}],85:[function(require,module,exports){
+},{}],86:[function(require,module,exports){
 /**
  * Module dependencies.
  */
@@ -21563,7 +21601,7 @@ request.put = function(url, data, fn){
 
 module.exports = request;
 
-},{"emitter":86,"reduce":87}],86:[function(require,module,exports){
+},{"emitter":87,"reduce":88}],87:[function(require,module,exports){
 
 /**
  * Expose `Emitter`.
@@ -21729,7 +21767,7 @@ Emitter.prototype.hasListeners = function(event){
   return !! this.listeners(event).length;
 };
 
-},{}],87:[function(require,module,exports){
+},{}],88:[function(require,module,exports){
 
 /**
  * Reduce `arr` with `fn`.
@@ -21754,7 +21792,7 @@ module.exports = function(arr, fn, initial){
   
   return curr;
 };
-},{}],88:[function(require,module,exports){
+},{}],89:[function(require,module,exports){
 (function (global){
 
 var rng;
@@ -21789,7 +21827,7 @@ module.exports = rng;
 
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],89:[function(require,module,exports){
+},{}],90:[function(require,module,exports){
 //     uuid.js
 //
 //     Copyright (c) 2010-2012 Robert Kieffer
@@ -21974,5 +22012,5 @@ uuid.unparse = unparse;
 
 module.exports = uuid;
 
-},{"./rng":88}]},{},[1])(1)
+},{"./rng":89}]},{},[1])(1)
 });
