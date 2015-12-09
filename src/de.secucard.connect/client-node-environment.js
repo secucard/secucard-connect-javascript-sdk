@@ -63,6 +63,7 @@ export const ClientNodeEnvironment = {
         Payment.SecupayDebitService,
         Payment.SecupayPrepayService,
 
+        Services.IdentCaseService,
         Services.IdentContractService,
         Services.IdentRequestService,
         Services.IdentResultService,
@@ -129,6 +130,7 @@ export const ServiceMap = {
         SecupayPrepays: Payment.SecupayPrepayService.Uid
     },
     Services: {
+        IdentCases: Services.IdentCaseService.Uid,
         IdentContracts: Services.IdentContractService.Uid,
         IdentRequests: Services.IdentRequestService.Uid,
         IdentResults: Services.IdentResultService.Uid

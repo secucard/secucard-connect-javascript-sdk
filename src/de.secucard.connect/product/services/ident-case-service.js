@@ -9,13 +9,22 @@
  See the License for the specific language governing permissions and
  limitations under the License.
  */
-import {IdentCaseService} from './ident-case-service';
-import {IdentContractService} from './ident-contract-service';
-import {IdentRequestService} from './ident-request-service';
-import {IdentResultService} from './ident-result-service';
+import {ProductService} from '../product-service'
 
-export const Services = {};
-Services.IdentCaseService = IdentCaseService;
-Services.IdentContractService = IdentContractService;
-Services.IdentRequestService = IdentRequestService;
-Services.IdentResultService = IdentResultService;
+export class IdentCaseService extends ProductService {
+
+    constructor() {
+        super()
+    }
+
+    getEndpoint() {
+        return ['services', 'identcases'];
+    }
+
+    getEventTargets() {
+        return ['services.identcases'];
+    }
+
+}
+
+IdentCaseService.Uid = (['services', 'identcases']).join('.');
