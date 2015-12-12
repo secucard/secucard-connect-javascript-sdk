@@ -29,8 +29,8 @@ export class IdentCaseService extends ProductService {
         return this.execute(id, "start");
     }
     
-    task(id, taskId) {
-        return this.execute(id, "task", taskId);
+    task(id, taskId, data) {
+        return this.updateWithAction(id, "task", taskId, data);
     }
     
     finish(id) {
