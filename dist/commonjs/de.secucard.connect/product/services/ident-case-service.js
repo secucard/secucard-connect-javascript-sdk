@@ -29,8 +29,8 @@ var IdentCaseService = (function (_ProductService) {
         return this.execute(id, 'start');
     };
 
-    IdentCaseService.prototype.task = function task(id, taskId) {
-        return this.execute(id, 'task', taskId);
+    IdentCaseService.prototype.task = function task(id, taskId, data) {
+        return this.updateWithAction(id, 'task', taskId, data);
     };
 
     IdentCaseService.prototype.finish = function finish(id) {
