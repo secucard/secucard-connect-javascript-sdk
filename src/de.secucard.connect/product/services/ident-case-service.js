@@ -24,6 +24,18 @@ export class IdentCaseService extends ProductService {
     getEventTargets() {
         return ['services.identcases'];
     }
+    
+    start(id) {
+        return this.execute(id, "start");
+    }
+    
+    task(id, taskId) {
+        return this.execute(id, "task", taskId);
+    }
+    
+    finish(id) {
+        return this.execute(id, "finish");
+    }
 
 }
 
