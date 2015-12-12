@@ -34,11 +34,12 @@ var ProductService = (function () {
         return this.getEndpoint().join('.').toLowerCase();
     };
 
-    ProductService.prototype.retrieve = function retrieve(id, options) {
+    ProductService.prototype.retrieve = function retrieve(id, queryParams, options) {
 
         var params = {
             endpoint: this.getEndpoint(),
             objectId: id,
+            queryParams: queryParams,
             options: options
         };
 
