@@ -156,7 +156,7 @@ describe('Custom App Service', function () {
 
 
         let accounts = client.getService(Services.General.Accounts);
-        let res = await accounts.retrieve("me", {channelConfig: [Channel.REST]}).catch((err) => {
+        let res = await accounts.retrieve("me", null, {channelConfig: [Channel.REST]}).catch((err) => {
             console.log('Catched error', err.message);
         });
 

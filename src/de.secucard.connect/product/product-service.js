@@ -52,11 +52,12 @@ export class ProductService {
      * @return {Promise}
      */
 
-    retrieve(id, options) {
+    retrieve(id, queryParams, options) {
 
         let params = {
             endpoint: this.getEndpoint(),
             objectId: id,
+            queryParams: queryParams,
             options: options
         };
 
@@ -64,6 +65,15 @@ export class ProductService {
 
     }
 
+    /**
+     * Retrieves a promise for a single object (resource) of a given type, never null<br/>
+     * Would invoke for example: GET /targetType/objectId/action/actionArg .<br/>
+     * An exception is thrown if the id is unknown.
+     * @param id
+     * @param action
+     * @param actionArg
+     * @return {Promise}
+     */
     retrieveWithAction(id, action, actionArg, options) {
 
         let params = {

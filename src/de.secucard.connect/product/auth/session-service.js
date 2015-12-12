@@ -20,9 +20,7 @@ export class SessionService extends ProductService {
     getEndpoint() {
         return ['auth', 'sessions'];
     }
-
-;
-
+    
     getEventTargets() {
         return [];
     }
