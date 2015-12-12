@@ -3965,6 +3965,18 @@ var IdentCaseService = (function (_ProductService) {
         return ['services.identcases'];
     };
 
+    IdentCaseService.prototype.start = function start(id) {
+        return this.execute(id, 'start');
+    };
+
+    IdentCaseService.prototype.task = function task(id, taskId) {
+        return this.execute(id, 'task', taskId);
+    };
+
+    IdentCaseService.prototype.finish = function finish(id) {
+        return this.execute(id, 'finish');
+    };
+
     return IdentCaseService;
 })(_productService.ProductService);
 
