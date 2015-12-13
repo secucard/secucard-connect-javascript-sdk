@@ -3974,8 +3974,8 @@ var IdentCaseService = (function (_ProductService) {
         return this.updateWithAction(id, 'task', taskId, data);
     };
 
-    IdentCaseService.prototype.finish = function finish(id) {
-        return this.execute(id, 'finish');
+    IdentCaseService.prototype.close = function close(id) {
+        return this.execute(id, 'close');
     };
 
     return IdentCaseService;
