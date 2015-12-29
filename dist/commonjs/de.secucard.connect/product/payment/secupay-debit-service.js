@@ -18,11 +18,11 @@ var SecupayDebitService = (function (_ProductService) {
     _inherits(SecupayDebitService, _ProductService);
 
     SecupayDebitService.prototype.getEndpoint = function getEndpoint() {
-        return ['payment', 'secupaydebit'];
+        return ['payment', 'secupaydebits'];
     };
 
     SecupayDebitService.prototype.getEventTargets = function getEventTargets() {
-        return ['payment.secupaydebit'];
+        return ['payment.secupaydebits'];
     };
 
     SecupayDebitService.prototype.cancel = function cancel(id) {
@@ -34,4 +34,4 @@ var SecupayDebitService = (function (_ProductService) {
 
 exports.SecupayDebitService = SecupayDebitService;
 
-SecupayDebitService.Uid = ['payment', 'secupaydebit'].join('.');
+SecupayDebitService.Uid = ['payment', 'secupaydebits'].join('.');
