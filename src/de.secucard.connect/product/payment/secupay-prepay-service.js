@@ -18,11 +18,11 @@ export class SecupayPrepayService extends ProductService {
     }
 
     getEndpoint() {
-        return ['payment', 'secupayprepay'];
+        return ['payment', 'secupayprepays'];
     }
 
     getEventTargets() {
-        return ['payment.secupayprepay'];
+        return ['payment.secupayprepays'];
     }
 
     cancel(id) {
@@ -31,4 +31,4 @@ export class SecupayPrepayService extends ProductService {
 
 }
 
-SecupayPrepayService.Uid = (['payment', 'secupayprepay']).join('.');
+SecupayPrepayService.Uid = (['payment', 'secupayprepays']).join('.');

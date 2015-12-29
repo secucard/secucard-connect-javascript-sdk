@@ -63,6 +63,7 @@ export const ClientBrowserEnvironment = {
         Payment.CustomerService,
         Payment.SecupayDebitService,
         Payment.SecupayPrepayService,
+        Payment.TransactionService,
 
         Services.IdentCaseService,
         Services.IdentContractService,
@@ -122,6 +123,14 @@ export const ServiceMap = {
         ProrgamSpecials: Loyalty.ProgramSpecialService.Uid,
         Sales: Loyalty.SaleService.Uid,
         StoreGroups: Loyalty.StoreGroupService.Uid
+    },
+    Payment: {
+        Containers: Payment.ContainerService.Uid,
+        Contracts: Payment.ContractService.Uid,
+        Customers: Payment.CustomerService.Uid,
+        SecupayDebits: Payment.SecupayDebitService.Uid,
+        SecupayPrepays: Payment.SecupayPrepayService.Uid,
+        Transactions: Payment.TransactionService.Uid
     },
     Services: {
         IdentCases: Services.IdentCaseService.Uid,

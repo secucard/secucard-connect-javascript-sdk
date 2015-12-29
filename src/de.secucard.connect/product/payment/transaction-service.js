@@ -11,24 +11,20 @@
  */
 import {ProductService} from '../product-service'
 
-export class SecupayDebitService extends ProductService {
+export class TransactionService extends ProductService {
 
     constructor() {
         super()
     }
 
     getEndpoint() {
-        return ['payment', 'secupaydebits'];
+        return ['payment', 'transactions'];
     }
 
     getEventTargets() {
-        return ['payment.secupaydebits'];
-    }
-
-    cancel(id) {
-        return this.execute(id, 'cancel');
+        return [];
     }
 
 }
 
-SecupayDebitService.Uid = (['payment', 'secupaydebits']).join('.');
+TransactionService.Uid = (['payment', 'transactions']).join('.');
