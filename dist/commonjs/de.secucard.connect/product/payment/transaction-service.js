@@ -17,6 +17,14 @@ var TransactionService = (function (_ProductService) {
 
     _inherits(TransactionService, _ProductService);
 
+    TransactionService.prototype.getShippingUrl = function getShippingUrl(id) {
+        return this.retrieveWithAction(id, 'shippingUrl');
+    };
+
+    TransactionService.prototype.cancel = function cancel(id, data) {
+        return this.execute(id, 'cancel', null, data);
+    };
+
     TransactionService.prototype.getEndpoint = function getEndpoint() {
         return ['payment', 'transactions'];
     };
