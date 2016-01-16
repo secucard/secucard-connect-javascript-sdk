@@ -14,7 +14,11 @@ import EE from 'eventemitter3';
 
 export class ProductService {
 
-
+    /**
+     * contains meta data for product
+     */
+    _meta;
+    
     constructor() {
 
         Object.assign(this, EE.prototype);
@@ -41,6 +45,71 @@ export class ProductService {
 
         return this.getEndpoint().join('.').toLowerCase();
 
+    }
+    
+    _parseMeta(data) {
+        
+        if(!data) {
+            return data;
+        }
+        
+        data.describe = function (property) {
+
+            var _this = this;
+
+            let res = property.split('.').reduce((collector, item) => {
+                return collector.properties[item];
+            }, _this);
+
+            if (res.type == 'object') {
+                res.describe = this.describe;
+            }
+
+            return res;
+
+        };
+        
+        return data;
+    }
+
+    /**
+     * get a promise for a meta of product, that describes type of product and its properties<br/>
+     * is being cached<br/>
+     * to get property description call describe(property) method<br/>
+     * Example of Product item {prop1: {prop2: 'string_value'}}:<br/>
+     * Example of Meta object:<br/>
+     * {type: 'object', properties: {prop1: {type: 'object', properties: {prop2: {type: 'string'}}}}}
+     * meta.describe('prop1.prop2') => {type: 'string'}
+     * @see http://json-schema.org/draft-04/schema#
+     * @param options when options are set, send request
+     * @return {Promise}
+     */
+    
+    getMeta(options) {
+        return this._meta && !options? 
+            Promise.resolve(this._meta) : 
+            this.retrieveMeta(options).then((res) => { 
+                this._meta = this._parseMeta(res.meta);
+                return this._meta; 
+            });
+    }
+    
+    /**
+     * Retrieves a promise for a meta of object (resource) of a given type<br/>
+     * Would invoke for example: GET /targetType/objectId/?meta=only .<br/>
+     * @param options
+     * @return {Promise}
+     */
+    retrieveMeta(options) {
+        
+        let params = {
+            endpoint: this.getEndpoint(),
+            queryParams: {meta: 'only'},
+            options: options
+        };
+        
+        return this._request(Channel.METHOD.GET, params, options);
+        
     }
 
     /**
