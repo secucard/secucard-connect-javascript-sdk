@@ -3848,6 +3848,50 @@ var ProductService = (function () {
         return this.getEndpoint().join('.').toLowerCase();
     };
 
+    ProductService.prototype._parseMeta = function _parseMeta(data) {
+
+        if (!data) {
+            return data;
+        }
+
+        data.describe = function (property) {
+
+            var _this = this;
+
+            var res = property.split('.').reduce(function (collector, item) {
+                return collector.properties[item];
+            }, _this);
+
+            if (res.type == 'object') {
+                res.describe = this.describe;
+            }
+
+            return res;
+        };
+
+        return data;
+    };
+
+    ProductService.prototype.getMeta = function getMeta(options) {
+        var _this2 = this;
+
+        return this._meta && !options ? Promise.resolve(this._meta) : this.retrieveMeta(options).then(function (res) {
+            _this2._meta = _this2._parseMeta(res.meta);
+            return _this2._meta;
+        });
+    };
+
+    ProductService.prototype.retrieveMeta = function retrieveMeta(options) {
+
+        var params = {
+            endpoint: this.getEndpoint(),
+            queryParams: { meta: 'only' },
+            options: options
+        };
+
+        return this._request(_netChannel.Channel.METHOD.GET, params, options);
+    };
+
     ProductService.prototype.retrieve = function retrieve(id, queryParams, options) {
 
         var params = {
