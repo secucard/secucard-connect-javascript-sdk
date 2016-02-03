@@ -9,6 +9,7 @@
  See the License for the specific language governing permissions and
  limitations under the License.
  */
+import es6shim from 'es6-shim';
 import {ClientBrowserEnvironment} from './de.secucard.connect/client-browser-environment';
 import {Client} from './de.secucard.connect/client';
 export {ServiceMap as Services} from './de.secucard.connect/client-browser-environment';
