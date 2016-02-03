@@ -1,11 +1,9 @@
-System.register(['es6-shim', './de.secucard.connect/client-browser-environment', './de.secucard.connect/client', 'minilog', './de.secucard.connect/net/channel'], function (_export) {
+System.register(['./de.secucard.connect/client-browser-environment', './de.secucard.connect/client', 'minilog', './de.secucard.connect/net/channel'], function (_export) {
     'use strict';
 
-    var es6shim, ClientBrowserEnvironment, Client, minilog, MiniLog, SecucardConnect;
+    var ClientBrowserEnvironment, Client, minilog, MiniLog, SecucardConnect;
     return {
-        setters: [function (_es6Shim) {
-            es6shim = _es6Shim['default'];
-        }, function (_deSecucardConnectClientBrowserEnvironment) {
+        setters: [function (_deSecucardConnectClientBrowserEnvironment) {
             ClientBrowserEnvironment = _deSecucardConnectClientBrowserEnvironment.ClientBrowserEnvironment;
 
             _export('Services', _deSecucardConnectClientBrowserEnvironment.ServiceMap);
@@ -36,4 +34,4 @@ System.register(['es6-shim', './de.secucard.connect/client-browser-environment',
         }
     };
 });
-//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbImJyb3dzZXIuanMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7OzREQWtCYSxPQUFPLEVBR1AsZUFBZTs7Ozs7a0ZBVHBCLHdCQUF3Qjs7MkVBRXhCLFVBQVU7OzhDQURWLE1BQU07Ozs7NERBRU4sT0FBTzs7O0FBR0YsbUJBQU8sR0FBRyxPQUFPOzsrQkFBakIsT0FBTzs7QUFDcEIsbUJBQU8sQ0FBQyxPQUFPLENBQUMsSUFBSSxDQUFDLGNBQWMsRUFBRSxNQUFNLENBQUMsQ0FBQzs7QUFFaEMsMkJBQWUsR0FBRztBQUMzQiwyQkFBVyxFQUFFLDZCQUE2QjthQUM3Qzs7dUNBRlksZUFBZTs7QUFJNUIsMkJBQWUsQ0FBQyxNQUFNLEdBQUcsVUFBQyxNQUFNLEVBQUs7O0FBRWpDLHVCQUFPLE1BQU0sQ0FBQyxNQUFNLENBQUMsTUFBTSxFQUFFLHdCQUF3QixDQUFDLENBQUM7YUFFMUQsQ0FBQyIsImZpbGUiOiJicm93c2VyLmpzIiwic291cmNlUm9vdCI6Ii4uL3NyYy8ifQ==
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbImJyb3dzZXIuanMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7O21EQWlCYSxPQUFPLEVBR1AsZUFBZTs7O2tGQVRwQix3QkFBd0I7OzJFQUV4QixVQUFVOzs4Q0FEVixNQUFNOzs7OzREQUVOLE9BQU87OztBQUdGLG1CQUFPLEdBQUcsT0FBTzs7K0JBQWpCLE9BQU87O0FBQ3BCLG1CQUFPLENBQUMsT0FBTyxDQUFDLElBQUksQ0FBQyxjQUFjLEVBQUUsTUFBTSxDQUFDLENBQUM7O0FBRWhDLDJCQUFlLEdBQUc7QUFDM0IsMkJBQVcsRUFBRSw2QkFBNkI7YUFDN0M7O3VDQUZZLGVBQWU7O0FBSTVCLDJCQUFlLENBQUMsTUFBTSxHQUFHLFVBQUMsTUFBTSxFQUFLOztBQUVqQyx1QkFBTyxNQUFNLENBQUMsTUFBTSxDQUFDLE1BQU0sRUFBRSx3QkFBd0IsQ0FBQyxDQUFDO2FBRTFELENBQUMiLCJmaWxlIjoiYnJvd3Nlci5qcyIsInNvdXJjZVJvb3QiOiIuLi9zcmMvIn0=
