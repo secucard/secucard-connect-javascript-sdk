@@ -21,8 +21,6 @@ export class IdentService extends ProductService {
         return ['smart', 'idents'];
     }
 
-;
-
     getEventTargets() {
         return [];
     }

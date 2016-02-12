@@ -69,9 +69,11 @@ export const ClientNodeEnvironment = {
         Services.IdentRequestService,
         Services.IdentResultService,
 
-        Smart.TransactionService,
+        Smart.CheckinService,
+        Smart.DeviceService,
         Smart.IdentService,
-        Smart.CheckinService
+        Smart.RoutingService,
+        Smart.TransactionService
     ]
 };
 ClientNodeEnvironment.StompChannel = {
@@ -138,8 +140,10 @@ export const ServiceMap = {
         IdentResults: Services.IdentResultService.Uid
     },
     Smart: {
-        Transactions: Smart.TransactionService.Uid,
         Checkins: Smart.CheckinService.Uid,
-        Idents: Smart.IdentService.Uid
+        Devices: Smart.DeviceService.Uid,
+        Idents: Smart.IdentService.Uid,
+        Routings: Smart.RoutingService.Uid,
+        Transactions: Smart.TransactionService.Uid
     }
 };

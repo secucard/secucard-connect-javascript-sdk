@@ -21,8 +21,6 @@ export class TransactionService extends ProductService {
         return ['smart', 'transactions'];
     }
 
-;
-
     getEventTargets() {
         return ['general.notifications'];
     }

@@ -21,8 +21,6 @@ export class CheckinService extends ProductService {
         return ['smart', 'checkins'];
     }
 
-;
-
     getEventTargets() {
         return ['smart.checkins'];
     }
