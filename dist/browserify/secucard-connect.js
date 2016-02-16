@@ -4342,6 +4342,14 @@ var RoutingService = (function (_ProductService) {
         return [];
     };
 
+    RoutingService.prototype.assignDevice = function assignDevice(id, deviceId) {
+        return this.execute(id, 'assign', deviceId);
+    };
+
+    RoutingService.prototype.removeDevice = function removeDevice(id, deviceId) {
+        return this.removeWithAction(id, 'assign', deviceId);
+    };
+
     return RoutingService;
 })(_productService.ProductService);
 
