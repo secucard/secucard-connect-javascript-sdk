@@ -24,6 +24,14 @@ export class RoutingService extends ProductService {
     getEventTargets() {
         return [];
     }
+    
+    assignDevice(id, deviceId) {
+        return this.execute(id, 'assign', deviceId);
+    }
+    
+    removeDevice(id, deviceId) {
+        return this.removeWithAction(id, 'assign', deviceId);
+    }
 
 }
 
