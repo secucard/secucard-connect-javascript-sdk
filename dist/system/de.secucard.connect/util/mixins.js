@@ -5,30 +5,29 @@ System.register([], function (_export) {
 
     function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 
-    function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; }
+    function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
     return {
         setters: [],
         execute: function () {
             mixins = function mixins(Parent) {
+                for (var _len = arguments.length, _mixins = Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
+                    _mixins[_key - 1] = arguments[_key];
+                }
+
                 var Mixed = (function (_Parent) {
+                    _inherits(Mixed, _Parent);
+
                     function Mixed() {
                         _classCallCheck(this, Mixed);
 
                         _Parent.apply(this, arguments);
                     }
 
-                    _inherits(Mixed, _Parent);
-
                     return Mixed;
                 })(Parent);
 
                 var merged = Object.create(null);
-
-                for (var _len = arguments.length, _mixins = Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
-                    _mixins[_key - 1] = arguments[_key];
-                }
-
                 for (var _iterator = _mixins, _isArray = Array.isArray(_iterator), _i = 0, _iterator = _isArray ? _iterator : _iterator[Symbol.iterator]();;) {
                     var _ref;
 
@@ -74,4 +73,4 @@ System.register([], function (_export) {
         }
     };
 });
-//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbImRlLnNlY3VjYXJkLmNvbm5lY3QvdXRpbC9taXhpbnMuanMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7O1FBV0ksTUFBTTs7Ozs7Ozs7O0FBQU4sa0JBQU0sR0FBRyxnQkFBVSxNQUFNLEVBQWE7b0JBQ2hDLEtBQUs7NkJBQUwsS0FBSzs4Q0FBTCxLQUFLOzs7Ozs4QkFBTCxLQUFLOzsyQkFBTCxLQUFLO21CQUFTLE1BQU07O0FBRTFCLG9CQUFJLE1BQU0sR0FBRyxNQUFNLENBQUMsTUFBTSxDQUFDLElBQUksQ0FBQyxDQUFDOztrREFISCxPQUFNO0FBQU4sMkJBQU07OztBQUlwQyxxQ0FBa0IsT0FBTSxrSEFBRTs7Ozs7Ozs7Ozs7O3dCQUFqQixLQUFLOztBQUNWLDBDQUFpQixNQUFNLENBQUMsbUJBQW1CLENBQUMsS0FBSyxDQUFDLFNBQVMsQ0FBQyx5SEFBRTs7Ozs7Ozs7Ozs7OzRCQUFyRCxJQUFJOztBQUNULDRCQUFJLElBQUksSUFBSSxhQUFhLEVBQUU7QUFDdkIsZ0NBQUksQ0FBQyxNQUFNLENBQUMsSUFBSSxDQUFDLEVBQUU7QUFDZixzQ0FBTSxDQUFDLElBQUksQ0FBQyxHQUFHLEVBQUUsQ0FBQzs2QkFDckI7QUFDRCxBQUFDLGtDQUFNLENBQUMsSUFBSSxDQUFDLENBQUUsSUFBSSxDQUFDLEtBQUssQ0FBQyxTQUFTLENBQUMsSUFBSSxDQUFDLENBQUMsQ0FBQzt5QkFDOUMsTUFBTTtBQUNILGlDQUFLLENBQUMsU0FBUyxDQUFDLElBQUksQ0FBQyxHQUFHLEtBQUssQ0FBQyxTQUFTLENBQUMsSUFBSSxDQUFDLENBQUM7eUJBQ2pEO3FCQUNKO2lCQUNKO0FBQ0QsdUJBQU8sS0FBSyxDQUFDO2FBQ2hCOzsrQkFFYyxNQUFNIiwiZmlsZSI6ImRlLnNlY3VjYXJkLmNvbm5lY3QvdXRpbC9taXhpbnMuanMiLCJzb3VyY2VSb290IjoiLi4vc3JjLyJ9
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbImRlLnNlY3VjYXJkLmNvbm5lY3QvdXRpbC9taXhpbnMuanMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7O1FBV0ksTUFBTTs7Ozs7Ozs7O0FBQU4sa0JBQU0sR0FBRyxnQkFBVSxNQUFNLEVBQWE7a0RBQVIsT0FBTTtBQUFOLDJCQUFNOzs7b0JBQzlCLEtBQUs7OEJBQUwsS0FBSzs7NkJBQUwsS0FBSzs4Q0FBTCxLQUFLOzs7OzsyQkFBTCxLQUFLO21CQUFTLE1BQU07O0FBRTFCLG9CQUFJLE1BQU0sR0FBRyxNQUFNLENBQUMsTUFBTSxDQUFDLElBQUksQ0FBQyxDQUFDO0FBQ2pDLHFDQUFrQixPQUFNLGtIQUFFOzs7Ozs7Ozs7Ozs7d0JBQWpCLEtBQUs7O0FBQ1YsMENBQWlCLE1BQU0sQ0FBQyxtQkFBbUIsQ0FBQyxLQUFLLENBQUMsU0FBUyxDQUFDLHlIQUFFOzs7Ozs7Ozs7Ozs7NEJBQXJELElBQUk7O0FBQ1QsNEJBQUksSUFBSSxJQUFJLGFBQWEsRUFBRTtBQUN2QixnQ0FBSSxDQUFDLE1BQU0sQ0FBQyxJQUFJLENBQUMsRUFBRTtBQUNmLHNDQUFNLENBQUMsSUFBSSxDQUFDLEdBQUcsRUFBRSxDQUFDOzZCQUNyQjtBQUNELEFBQUMsa0NBQU0sQ0FBQyxJQUFJLENBQUMsQ0FBRSxJQUFJLENBQUMsS0FBSyxDQUFDLFNBQVMsQ0FBQyxJQUFJLENBQUMsQ0FBQyxDQUFDO3lCQUM5QyxNQUFNO0FBQ0gsaUNBQUssQ0FBQyxTQUFTLENBQUMsSUFBSSxDQUFDLEdBQUcsS0FBSyxDQUFDLFNBQVMsQ0FBQyxJQUFJLENBQUMsQ0FBQzt5QkFDakQ7cUJBQ0o7aUJBQ0o7QUFDRCx1QkFBTyxLQUFLLENBQUM7YUFDaEI7OytCQUVjLE1BQU0iLCJmaWxlIjoiZGUuc2VjdWNhcmQuY29ubmVjdC91dGlsL21peGlucy5qcyIsInNvdXJjZVJvb3QiOiIuLi9zcmMvIn0=
