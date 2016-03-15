@@ -175,9 +175,9 @@ var Auth = (function () {
                         })['catch'](function (err) {
 
                             if (err.status == 401) {} else {
-                                clearInterval(_this2.pollTimer);
-                                reject(err);
-                            }
+                                    clearInterval(_this2.pollTimer);
+                                    reject(err);
+                                }
                         });
                     } else {
                         clearInterval(_this2.pollTimer);
@@ -310,7 +310,7 @@ exports.__esModule = true;
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 
 var AuthenticationFailedException = function AuthenticationFailedException() {
-    var message = arguments[0] === undefined ? 'Authentication failed' : arguments[0];
+    var message = arguments.length <= 0 || arguments[0] === undefined ? 'Authentication failed' : arguments[0];
 
     _classCallCheck(this, AuthenticationFailedException);
 
@@ -340,7 +340,7 @@ var AuthenticationFailedException = function AuthenticationFailedException() {
 exports.AuthenticationFailedException = AuthenticationFailedException;
 
 var AuthenticationTimeoutException = function AuthenticationTimeoutException() {
-    var message = arguments[0] === undefined ? 'Authentication timeout' : arguments[0];
+    var message = arguments.length <= 0 || arguments[0] === undefined ? 'Authentication timeout' : arguments[0];
 
     _classCallCheck(this, AuthenticationTimeoutException);
 
@@ -944,7 +944,7 @@ exports.ClientContext = ClientContext;
 
 exports.__esModule = true;
 var Version = {
-  "name": "0.1.4"
+  "name": "0.2.0"
 };
 exports.Version = Version;
 },{}],11:[function(require,module,exports){
@@ -1043,11 +1043,11 @@ Channel.REST = 'rest';
 Channel.STOMP = 'stomp';
 
 Channel.METHOD = {
-    GET: 'GET',
-    CREATE: 'CREATE',
-    UPDATE: 'UPDATE',
-    DELETE: 'DELETE',
-    EXECUTE: 'EXECUTE'
+    GET: "GET",
+    CREATE: "CREATE",
+    UPDATE: "UPDATE",
+    DELETE: "DELETE",
+    EXECUTE: "EXECUTE"
 };
 },{}],13:[function(require,module,exports){
 'use strict';
@@ -1457,7 +1457,7 @@ var SocketAtBrowser = (function () {
         Object.assign(this, _eventemitter32['default'].prototype);
 
         var ws = new WebSocket(url);
-        ws.binaryType = 'arraybuffer';
+        ws.binaryType = "arraybuffer";
 
         ws.onopen = function () {
 
@@ -1544,7 +1544,7 @@ var Frame = (function () {
 
     Frame.prototype.as_string = function as_string() {
         var header_strs = [],
-            frame = '',
+            frame = "",
             command = this.command,
             headers = this.headers,
             body = this.body;
@@ -1553,15 +1553,15 @@ var Frame = (function () {
             header_strs.push(header + ':' + headers[header]);
         }
 
-        frame += command + '\n';
-        frame += header_strs.join('\n');
-        frame += '\n\n';
+        frame += command + "\n";
+        frame += header_strs.join("\n");
+        frame += "\n\n";
 
         if (body) {
             frame += body;
         }
 
-        frame += '\u0000';
+        frame += '\x00';
 
         return frame;
     };
@@ -1647,21 +1647,21 @@ var Stomp = (function () {
     Stomp.prototype.handle_new_frame = function handle_new_frame(this_frame) {
 
         switch (this_frame.command) {
-            case 'MESSAGE':
+            case "MESSAGE":
                 if (this.is_a_message(this_frame)) {
                     this.should_run_message_callback(this_frame);
                     this.emit('message', this_frame);
                 }
                 break;
-            case 'CONNECTED':
+            case "CONNECTED":
                 _minilog2['default']('secucard.STOMP').debug('Connected');
                 this.session = this_frame.headers['session'];
                 this.emit('connected');
                 break;
-            case 'RECEIPT':
+            case "RECEIPT":
                 this.emit('receipt', this_frame.headers['receipt-id']);
                 break;
-            case 'ERROR':
+            case "ERROR":
                 this.emit('error', this_frame);
                 break;
             default:
@@ -1806,11 +1806,11 @@ var Stomp = (function () {
                 headers.passcode = stomp.passcode;
             }
 
-            if (utils.really_defined(stomp['client-id'])) {
-                headers['client-id'] = stomp['client-id'];
+            if (utils.really_defined(stomp["client-id"])) {
+                headers["client-id"] = stomp["client-id"];
             }
-            if (utils.really_defined(stomp['vhost'])) {
-                headers['host'] = stomp['vhost'];
+            if (utils.really_defined(stomp["vhost"])) {
+                headers["host"] = stomp["vhost"];
             }
 
             _this2.stomp_connect(stomp, headers);
@@ -1827,10 +1827,10 @@ var Stomp = (function () {
         socket.on('data', function (chunk) {
 
             buffer += chunk;
-            var frames = buffer.split('\u0000\n');
+            var frames = buffer.split('\0\n');
 
             if (frames.length == 1) {
-                frames = buffer.split('\u0000');
+                frames = buffer.split('\0');
             }
 
             if (frames.length == 1) return;
@@ -1850,7 +1850,7 @@ var Stomp = (function () {
             _minilog2['default']('secucard.STOMP').debug('Disconnected with error:', error);
             stomp.session = null;
             stomp.connected = false;
-            stomp.emit('disconnected', error);
+            stomp.emit("disconnected", error);
         });
 
         if (handleConnected) {
@@ -2382,7 +2382,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'd
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 
-function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; }
+function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 var _productService = require('../product-service');
 
@@ -2391,6 +2391,8 @@ var _utilMixins = require('../../util/mixins');
 var _utilMixins2 = _interopRequireDefault(_utilMixins);
 
 var AppService = (function (_ProductService) {
+    _inherits(AppService, _ProductService);
+
     function AppService() {
         _classCallCheck(this, AppService);
 
@@ -2398,8 +2400,6 @@ var AppService = (function (_ProductService) {
         this.isApp = true;
         this.init();
     }
-
-    _inherits(AppService, _ProductService);
 
     AppService.prototype.init = function init() {};
 
@@ -2442,18 +2442,18 @@ exports.__esModule = true;
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 
-function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; }
+function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 var _productService = require('../product-service');
 
 var SessionService = (function (_ProductService) {
+    _inherits(SessionService, _ProductService);
+
     function SessionService() {
         _classCallCheck(this, SessionService);
 
         _ProductService.call(this);
     }
-
-    _inherits(SessionService, _ProductService);
 
     SessionService.prototype.getEndpoint = function getEndpoint() {
         return ['auth', 'sessions'];
@@ -2491,18 +2491,18 @@ exports.__esModule = true;
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 
-function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; }
+function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 var _productService = require('../product-service');
 
 var UploadService = (function (_ProductService) {
+    _inherits(UploadService, _ProductService);
+
     function UploadService() {
         _classCallCheck(this, UploadService);
 
         _ProductService.call(this);
     }
-
-    _inherits(UploadService, _ProductService);
 
     UploadService.prototype.getEndpoint = function getEndpoint() {
         return ['document', 'uploads'];
@@ -2537,18 +2537,18 @@ exports.__esModule = true;
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 
-function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; }
+function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 var _productService = require('../product-service');
 
 var AccountDeviceService = (function (_ProductService) {
+    _inherits(AccountDeviceService, _ProductService);
+
     function AccountDeviceService() {
         _classCallCheck(this, AccountDeviceService);
 
         _ProductService.call(this);
     }
-
-    _inherits(AccountDeviceService, _ProductService);
 
     AccountDeviceService.prototype.getEndpoint = function getEndpoint() {
         return ['general', 'accountdevices'];
@@ -2571,18 +2571,18 @@ exports.__esModule = true;
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 
-function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; }
+function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 var _productService = require('../product-service');
 
 var AccountService = (function (_ProductService) {
+    _inherits(AccountService, _ProductService);
+
     function AccountService() {
         _classCallCheck(this, AccountService);
 
         _ProductService.call(this);
     }
-
-    _inherits(AccountService, _ProductService);
 
     AccountService.prototype.getEndpoint = function getEndpoint() {
         return ['general', 'accounts'];
@@ -2606,7 +2606,7 @@ var AccountService = (function (_ProductService) {
     };
 
     AccountService.prototype.updateBeacons = function updateBeacons(beaconList) {
-        return this.updateWithAction('me', 'beaconEnvironment', null, beaconList);
+        return this.updateWithAction("me", 'beaconEnvironment', null, beaconList);
     };
 
     AccountService.prototype.updateGCM = function updateGCM(accountId, gcm) {
@@ -2626,18 +2626,18 @@ exports.__esModule = true;
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 
-function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; }
+function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 var _productService = require('../product-service');
 
 var ContactService = (function (_ProductService) {
+    _inherits(ContactService, _ProductService);
+
     function ContactService() {
         _classCallCheck(this, ContactService);
 
         _ProductService.call(this);
     }
-
-    _inherits(ContactService, _ProductService);
 
     ContactService.prototype.getEndpoint = function getEndpoint() {
         return ['general', 'contacts'];
@@ -2660,18 +2660,18 @@ exports.__esModule = true;
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 
-function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; }
+function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 var _productService = require('../product-service');
 
 var DeliveryAddressService = (function (_ProductService) {
+    _inherits(DeliveryAddressService, _ProductService);
+
     function DeliveryAddressService() {
         _classCallCheck(this, DeliveryAddressService);
 
         _ProductService.call(this);
     }
-
-    _inherits(DeliveryAddressService, _ProductService);
 
     DeliveryAddressService.prototype.getEndpoint = function getEndpoint() {
         return ['general', 'deliveryaddresses'];
@@ -2694,18 +2694,18 @@ exports.__esModule = true;
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 
-function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; }
+function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 var _productService = require('../product-service');
 
 var FileAccessService = (function (_ProductService) {
+    _inherits(FileAccessService, _ProductService);
+
     function FileAccessService() {
         _classCallCheck(this, FileAccessService);
 
         _ProductService.call(this);
     }
-
-    _inherits(FileAccessService, _ProductService);
 
     FileAccessService.prototype.getEndpoint = function getEndpoint() {
         return ['general', 'fileaccesses'];
@@ -2775,18 +2775,18 @@ exports.__esModule = true;
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 
-function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; }
+function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 var _productService = require('../product-service');
 
 var MerchantService = (function (_ProductService) {
+    _inherits(MerchantService, _ProductService);
+
     function MerchantService() {
         _classCallCheck(this, MerchantService);
 
         _ProductService.call(this);
     }
-
-    _inherits(MerchantService, _ProductService);
 
     MerchantService.prototype.getEndpoint = function getEndpoint() {
         return ['general', 'merchants'];
@@ -2809,18 +2809,18 @@ exports.__esModule = true;
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 
-function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; }
+function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 var _productService = require('../product-service');
 
 var NewsService = (function (_ProductService) {
+    _inherits(NewsService, _ProductService);
+
     function NewsService() {
         _classCallCheck(this, NewsService);
 
         _ProductService.call(this);
     }
-
-    _inherits(NewsService, _ProductService);
 
     NewsService.prototype.getEndpoint = function getEndpoint() {
         return ['general', 'news'];
@@ -2847,18 +2847,18 @@ exports.__esModule = true;
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 
-function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; }
+function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 var _productService = require('../product-service');
 
 var NotificationService = (function (_ProductService) {
+    _inherits(NotificationService, _ProductService);
+
     function NotificationService() {
         _classCallCheck(this, NotificationService);
 
         _ProductService.call(this);
     }
-
-    _inherits(NotificationService, _ProductService);
 
     NotificationService.prototype.getEndpoint = function getEndpoint() {
         return ['general', 'notifications'];
@@ -2881,18 +2881,18 @@ exports.__esModule = true;
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 
-function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; }
+function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 var _productService = require('../product-service');
 
 var PublicMerchantService = (function (_ProductService) {
+    _inherits(PublicMerchantService, _ProductService);
+
     function PublicMerchantService() {
         _classCallCheck(this, PublicMerchantService);
 
         _ProductService.call(this);
     }
-
-    _inherits(PublicMerchantService, _ProductService);
 
     PublicMerchantService.prototype.getEndpoint = function getEndpoint() {
         return ['general', 'publicmerchants'];
@@ -2915,18 +2915,18 @@ exports.__esModule = true;
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 
-function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; }
+function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 var _productService = require('../product-service');
 
 var SkeletonService = (function (_ProductService) {
+    _inherits(SkeletonService, _ProductService);
+
     function SkeletonService() {
         _classCallCheck(this, SkeletonService);
 
         _ProductService.call(this);
     }
-
-    _inherits(SkeletonService, _ProductService);
 
     SkeletonService.prototype.getEndpoint = function getEndpoint() {
         return ['general', 'skeletons'];
@@ -2953,18 +2953,18 @@ exports.__esModule = true;
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 
-function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; }
+function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 var _productService = require('../product-service');
 
 var StoreGroupService = (function (_ProductService) {
+    _inherits(StoreGroupService, _ProductService);
+
     function StoreGroupService() {
         _classCallCheck(this, StoreGroupService);
 
         _ProductService.call(this);
     }
-
-    _inherits(StoreGroupService, _ProductService);
 
     StoreGroupService.prototype.getEndpoint = function getEndpoint() {
         return ['general', 'storegroups'];
@@ -2987,18 +2987,18 @@ exports.__esModule = true;
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 
-function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; }
+function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 var _productService = require('../product-service');
 
 var StoreService = (function (_ProductService) {
+    _inherits(StoreService, _ProductService);
+
     function StoreService() {
         _classCallCheck(this, StoreService);
 
         _ProductService.call(this);
     }
-
-    _inherits(StoreService, _ProductService);
 
     StoreService.prototype.getEndpoint = function getEndpoint() {
         return ['general', 'stores'];
@@ -3029,18 +3029,18 @@ exports.__esModule = true;
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 
-function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; }
+function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 var _productService = require('../product-service');
 
 var TransactionService = (function (_ProductService) {
+    _inherits(TransactionService, _ProductService);
+
     function TransactionService() {
         _classCallCheck(this, TransactionService);
 
         _ProductService.call(this);
     }
-
-    _inherits(TransactionService, _ProductService);
 
     TransactionService.prototype.getEndpoint = function getEndpoint() {
         return ['general', 'transactions'];
@@ -3063,18 +3063,18 @@ exports.__esModule = true;
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 
-function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; }
+function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 var _productService = require('../product-service');
 
 var ActionActionService = (function (_ProductService) {
+    _inherits(ActionActionService, _ProductService);
+
     function ActionActionService() {
         _classCallCheck(this, ActionActionService);
 
         _ProductService.call(this);
     }
-
-    _inherits(ActionActionService, _ProductService);
 
     ActionActionService.prototype.getEndpoint = function getEndpoint() {
         return ['loyalty', 'actionactions'];
@@ -3097,18 +3097,18 @@ exports.__esModule = true;
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 
-function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; }
+function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 var _productService = require('../product-service');
 
 var ActionProfileService = (function (_ProductService) {
+    _inherits(ActionProfileService, _ProductService);
+
     function ActionProfileService() {
         _classCallCheck(this, ActionProfileService);
 
         _ProductService.call(this);
     }
-
-    _inherits(ActionProfileService, _ProductService);
 
     ActionProfileService.prototype.getEndpoint = function getEndpoint() {
         return ['loyalty', 'actionprofiles'];
@@ -3131,18 +3131,18 @@ exports.__esModule = true;
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 
-function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; }
+function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 var _productService = require('../product-service');
 
 var BeaconService = (function (_ProductService) {
+    _inherits(BeaconService, _ProductService);
+
     function BeaconService() {
         _classCallCheck(this, BeaconService);
 
         _ProductService.call(this);
     }
-
-    _inherits(BeaconService, _ProductService);
 
     BeaconService.prototype.getEndpoint = function getEndpoint() {
         return ['loyalty', 'beacons'];
@@ -3165,18 +3165,18 @@ exports.__esModule = true;
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 
-function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; }
+function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 var _productService = require('../product-service');
 
 var CardGroupService = (function (_ProductService) {
+    _inherits(CardGroupService, _ProductService);
+
     function CardGroupService() {
         _classCallCheck(this, CardGroupService);
 
         _ProductService.call(this);
     }
-
-    _inherits(CardGroupService, _ProductService);
 
     CardGroupService.prototype.getEndpoint = function getEndpoint() {
         return ['loyalty', 'cardgroups'];
@@ -3199,18 +3199,18 @@ exports.__esModule = true;
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 
-function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; }
+function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 var _productService = require('../product-service');
 
 var CardService = (function (_ProductService) {
+    _inherits(CardService, _ProductService);
+
     function CardService() {
         _classCallCheck(this, CardService);
 
         _ProductService.call(this);
     }
-
-    _inherits(CardService, _ProductService);
 
     CardService.prototype.getEndpoint = function getEndpoint() {
         return ['loyalty', 'cards'];
@@ -3241,18 +3241,18 @@ exports.__esModule = true;
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 
-function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; }
+function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 var _productService = require('../product-service');
 
 var ChargeService = (function (_ProductService) {
+    _inherits(ChargeService, _ProductService);
+
     function ChargeService() {
         _classCallCheck(this, ChargeService);
 
         _ProductService.call(this);
     }
-
-    _inherits(ChargeService, _ProductService);
 
     ChargeService.prototype.getEndpoint = function getEndpoint() {
         return ['loyalty', 'charges'];
@@ -3275,18 +3275,18 @@ exports.__esModule = true;
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 
-function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; }
+function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 var _productService = require('../product-service');
 
 var CheckinService = (function (_ProductService) {
+    _inherits(CheckinService, _ProductService);
+
     function CheckinService() {
         _classCallCheck(this, CheckinService);
 
         _ProductService.call(this);
     }
-
-    _inherits(CheckinService, _ProductService);
 
     CheckinService.prototype.getEndpoint = function getEndpoint() {
         return ['loyalty', 'checkins'];
@@ -3309,18 +3309,18 @@ exports.__esModule = true;
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 
-function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; }
+function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 var _productService = require('../product-service');
 
 var CustomerService = (function (_ProductService) {
+    _inherits(CustomerService, _ProductService);
+
     function CustomerService() {
         _classCallCheck(this, CustomerService);
 
         _ProductService.call(this);
     }
-
-    _inherits(CustomerService, _ProductService);
 
     CustomerService.prototype.getEndpoint = function getEndpoint() {
         return ['loyalty', 'customers'];
@@ -3389,18 +3389,18 @@ exports.__esModule = true;
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 
-function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; }
+function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 var _productService = require('../product-service');
 
 var MerchantCardService = (function (_ProductService) {
+    _inherits(MerchantCardService, _ProductService);
+
     function MerchantCardService() {
         _classCallCheck(this, MerchantCardService);
 
         _ProductService.call(this);
     }
-
-    _inherits(MerchantCardService, _ProductService);
 
     MerchantCardService.prototype.getEndpoint = function getEndpoint() {
         return ['loyalty', 'merchantcards'];
@@ -3423,18 +3423,18 @@ exports.__esModule = true;
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 
-function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; }
+function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 var _productService = require('../product-service');
 
 var ProgramService = (function (_ProductService) {
+    _inherits(ProgramService, _ProductService);
+
     function ProgramService() {
         _classCallCheck(this, ProgramService);
 
         _ProductService.call(this);
     }
-
-    _inherits(ProgramService, _ProductService);
 
     ProgramService.prototype.getEndpoint = function getEndpoint() {
         return ['loyalty', 'programs'];
@@ -3457,18 +3457,18 @@ exports.__esModule = true;
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 
-function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; }
+function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 var _productService = require('../product-service');
 
 var ProgramSpecialService = (function (_ProductService) {
+    _inherits(ProgramSpecialService, _ProductService);
+
     function ProgramSpecialService() {
         _classCallCheck(this, ProgramSpecialService);
 
         _ProductService.call(this);
     }
-
-    _inherits(ProgramSpecialService, _ProductService);
 
     ProgramSpecialService.prototype.getEndpoint = function getEndpoint() {
         return ['loyalty', 'programspecials'];
@@ -3491,18 +3491,18 @@ exports.__esModule = true;
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 
-function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; }
+function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 var _productService = require('../product-service');
 
 var SaleService = (function (_ProductService) {
+    _inherits(SaleService, _ProductService);
+
     function SaleService() {
         _classCallCheck(this, SaleService);
 
         _ProductService.call(this);
     }
-
-    _inherits(SaleService, _ProductService);
 
     SaleService.prototype.getEndpoint = function getEndpoint() {
         return ['loyalty', 'sales'];
@@ -3525,18 +3525,18 @@ exports.__esModule = true;
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 
-function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; }
+function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 var _productService = require('../product-service');
 
 var StoreGroupService = (function (_ProductService) {
+    _inherits(StoreGroupService, _ProductService);
+
     function StoreGroupService() {
         _classCallCheck(this, StoreGroupService);
 
         _ProductService.call(this);
     }
-
-    _inherits(StoreGroupService, _ProductService);
 
     StoreGroupService.prototype.getEndpoint = function getEndpoint() {
         return ['loyalty', 'storegroups'];
@@ -3559,18 +3559,18 @@ exports.__esModule = true;
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 
-function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; }
+function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 var _productService = require('../product-service');
 
 var ContainerService = (function (_ProductService) {
+    _inherits(ContainerService, _ProductService);
+
     function ContainerService() {
         _classCallCheck(this, ContainerService);
 
         _ProductService.call(this);
     }
-
-    _inherits(ContainerService, _ProductService);
 
     ContainerService.prototype.getEndpoint = function getEndpoint() {
         return ['payment', 'containers'];
@@ -3601,18 +3601,18 @@ exports.__esModule = true;
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 
-function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; }
+function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 var _productService = require('../product-service');
 
 var ContractService = (function (_ProductService) {
+    _inherits(ContractService, _ProductService);
+
     function ContractService() {
         _classCallCheck(this, ContractService);
 
         _ProductService.call(this);
     }
-
-    _inherits(ContractService, _ProductService);
 
     ContractService.prototype.getEndpoint = function getEndpoint() {
         return ['payment', 'contracts'];
@@ -3643,18 +3643,18 @@ exports.__esModule = true;
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 
-function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; }
+function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 var _productService = require('../product-service');
 
 var CustomerService = (function (_ProductService) {
+    _inherits(CustomerService, _ProductService);
+
     function CustomerService() {
         _classCallCheck(this, CustomerService);
 
         _ProductService.call(this);
     }
-
-    _inherits(CustomerService, _ProductService);
 
     CustomerService.prototype.getEndpoint = function getEndpoint() {
         return ['payment', 'customers'];
@@ -3702,18 +3702,18 @@ exports.__esModule = true;
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 
-function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; }
+function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 var _productService = require('../product-service');
 
 var SecupayDebitService = (function (_ProductService) {
+    _inherits(SecupayDebitService, _ProductService);
+
     function SecupayDebitService() {
         _classCallCheck(this, SecupayDebitService);
 
         _ProductService.call(this);
     }
-
-    _inherits(SecupayDebitService, _ProductService);
 
     SecupayDebitService.prototype.getEndpoint = function getEndpoint() {
         return ['payment', 'secupaydebits'];
@@ -3740,18 +3740,18 @@ exports.__esModule = true;
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 
-function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; }
+function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 var _productService = require('../product-service');
 
 var SecupayPrepayService = (function (_ProductService) {
+    _inherits(SecupayPrepayService, _ProductService);
+
     function SecupayPrepayService() {
         _classCallCheck(this, SecupayPrepayService);
 
         _ProductService.call(this);
     }
-
-    _inherits(SecupayPrepayService, _ProductService);
 
     SecupayPrepayService.prototype.getEndpoint = function getEndpoint() {
         return ['payment', 'secupayprepays'];
@@ -3778,18 +3778,18 @@ exports.__esModule = true;
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 
-function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; }
+function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 var _productService = require('../product-service');
 
 var TransactionService = (function (_ProductService) {
+    _inherits(TransactionService, _ProductService);
+
     function TransactionService() {
         _classCallCheck(this, TransactionService);
 
         _ProductService.call(this);
     }
-
-    _inherits(TransactionService, _ProductService);
 
     TransactionService.prototype.getShippingUrl = function getShippingUrl(id) {
         return this.retrieveWithAction(id, 'shippingUrl');
@@ -4044,18 +4044,18 @@ exports.__esModule = true;
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 
-function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; }
+function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 var _productService = require('../product-service');
 
 var IdentCaseService = (function (_ProductService) {
+    _inherits(IdentCaseService, _ProductService);
+
     function IdentCaseService() {
         _classCallCheck(this, IdentCaseService);
 
         _ProductService.call(this);
     }
-
-    _inherits(IdentCaseService, _ProductService);
 
     IdentCaseService.prototype.getEndpoint = function getEndpoint() {
         return ['services', 'identcases'];
@@ -4066,15 +4066,15 @@ var IdentCaseService = (function (_ProductService) {
     };
 
     IdentCaseService.prototype.start = function start(id) {
-        return this.execute(id, 'start');
+        return this.execute(id, "start");
     };
 
     IdentCaseService.prototype.task = function task(id, taskId, data) {
-        return this.updateWithAction(id, 'task', taskId, data);
+        return this.updateWithAction(id, "task", taskId, data);
     };
 
     IdentCaseService.prototype.close = function close(id) {
-        return this.execute(id, 'close');
+        return this.execute(id, "close");
     };
 
     return IdentCaseService;
@@ -4090,18 +4090,18 @@ exports.__esModule = true;
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 
-function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; }
+function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 var _productService = require('../product-service');
 
 var IdentContractService = (function (_ProductService) {
+    _inherits(IdentContractService, _ProductService);
+
     function IdentContractService() {
         _classCallCheck(this, IdentContractService);
 
         _ProductService.call(this);
     }
-
-    _inherits(IdentContractService, _ProductService);
 
     IdentContractService.prototype.getEndpoint = function getEndpoint() {
         return ['services', 'identcontracts'];
@@ -4124,18 +4124,18 @@ exports.__esModule = true;
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 
-function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; }
+function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 var _productService = require('../product-service');
 
 var IdentRequestService = (function (_ProductService) {
+    _inherits(IdentRequestService, _ProductService);
+
     function IdentRequestService() {
         _classCallCheck(this, IdentRequestService);
 
         _ProductService.call(this);
     }
-
-    _inherits(IdentRequestService, _ProductService);
 
     IdentRequestService.prototype.getEndpoint = function getEndpoint() {
         return ['services', 'identrequests'];
@@ -4158,18 +4158,18 @@ exports.__esModule = true;
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 
-function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; }
+function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 var _productService = require('../product-service');
 
 var IdentResultService = (function (_ProductService) {
+    _inherits(IdentResultService, _ProductService);
+
     function IdentResultService() {
         _classCallCheck(this, IdentResultService);
 
         _ProductService.call(this);
     }
-
-    _inherits(IdentResultService, _ProductService);
 
     IdentResultService.prototype.getEndpoint = function getEndpoint() {
         return ['services', 'identresults'];
@@ -4211,18 +4211,18 @@ exports.__esModule = true;
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 
-function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; }
+function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 var _productService = require('../product-service');
 
 var CheckinService = (function (_ProductService) {
+    _inherits(CheckinService, _ProductService);
+
     function CheckinService() {
         _classCallCheck(this, CheckinService);
 
         _ProductService.call(this);
     }
-
-    _inherits(CheckinService, _ProductService);
 
     CheckinService.prototype.getEndpoint = function getEndpoint() {
         return ['smart', 'checkins'];
@@ -4245,18 +4245,18 @@ exports.__esModule = true;
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 
-function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; }
+function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 var _productService = require('../product-service');
 
 var DeviceService = (function (_ProductService) {
+    _inherits(DeviceService, _ProductService);
+
     function DeviceService() {
         _classCallCheck(this, DeviceService);
 
         _ProductService.call(this);
     }
-
-    _inherits(DeviceService, _ProductService);
 
     DeviceService.prototype.getEndpoint = function getEndpoint() {
         return ['smart', 'devices'];
@@ -4279,18 +4279,18 @@ exports.__esModule = true;
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 
-function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; }
+function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 var _productService = require('../product-service');
 
 var IdentService = (function (_ProductService) {
+    _inherits(IdentService, _ProductService);
+
     function IdentService() {
         _classCallCheck(this, IdentService);
 
         _ProductService.call(this);
     }
-
-    _inherits(IdentService, _ProductService);
 
     IdentService.prototype.getEndpoint = function getEndpoint() {
         return ['smart', 'idents'];
@@ -4301,11 +4301,11 @@ var IdentService = (function (_ProductService) {
     };
 
     IdentService.prototype.validate = function validate(id) {
-        return this.execute(id, 'validate');
+        return this.execute(id, "validate");
     };
 
     IdentService.prototype.read = function read(id) {
-        return this.execute(id, 'read');
+        return this.execute(id, "read");
     };
 
     return IdentService;
@@ -4321,18 +4321,18 @@ exports.__esModule = true;
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 
-function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; }
+function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 var _productService = require('../product-service');
 
 var RoutingService = (function (_ProductService) {
+    _inherits(RoutingService, _ProductService);
+
     function RoutingService() {
         _classCallCheck(this, RoutingService);
 
         _ProductService.call(this);
     }
-
-    _inherits(RoutingService, _ProductService);
 
     RoutingService.prototype.getEndpoint = function getEndpoint() {
         return ['smart', 'routings'];
@@ -4385,18 +4385,18 @@ exports.__esModule = true;
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 
-function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; }
+function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 var _productService = require('../product-service');
 
 var TransactionService = (function (_ProductService) {
+    _inherits(TransactionService, _ProductService);
+
     function TransactionService() {
         _classCallCheck(this, TransactionService);
 
         _ProductService.call(this);
     }
-
-    _inherits(TransactionService, _ProductService);
 
     TransactionService.prototype.getEndpoint = function getEndpoint() {
         return ['smart', 'transactions'];
@@ -4407,11 +4407,11 @@ var TransactionService = (function (_ProductService) {
     };
 
     TransactionService.prototype.start = function start(id, type) {
-        return this.execute(id, 'start', type);
+        return this.execute(id, "start", type);
     };
 
     TransactionService.prototype.cancel = function cancel(id) {
-        return this.execute(id, 'cancel');
+        return this.execute(id, "cancel");
     };
 
     return TransactionService;
@@ -4427,27 +4427,26 @@ exports.__esModule = true;
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 
-function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; }
+function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 var mixins = function mixins(Parent) {
+    for (var _len = arguments.length, _mixins = Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
+        _mixins[_key - 1] = arguments[_key];
+    }
+
     var Mixed = (function (_Parent) {
+        _inherits(Mixed, _Parent);
+
         function Mixed() {
             _classCallCheck(this, Mixed);
 
             _Parent.apply(this, arguments);
         }
 
-        _inherits(Mixed, _Parent);
-
         return Mixed;
     })(Parent);
 
     var merged = Object.create(null);
-
-    for (var _len = arguments.length, _mixins = Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
-        _mixins[_key - 1] = arguments[_key];
-    }
-
     for (var _iterator = _mixins, _isArray = Array.isArray(_iterator), _i = 0, _iterator = _isArray ? _iterator : _iterator[Symbol.iterator]();;) {
         var _ref;
 
@@ -4584,13 +4583,13 @@ process.chdir = function (dir) {
 process.umask = function() { return 0; };
 
 },{}],74:[function(require,module,exports){
-(function (process,global){
+(function (process){
  /*!
   * https://github.com/paulmillr/es6-shim
-  * @license es6-shim Copyright 2013-2016 by Paul Miller (http://paulmillr.com)
+  * @license es6-shim Copyright 2013-2015 by Paul Miller (http://paulmillr.com)
   *   and contributors,  MIT License
-  * es6-shim: v0.34.2
-  * see https://github.com/paulmillr/es6-shim/blob/0.34.2/LICENSE
+  * es6-shim: v0.32.2
+  * see https://github.com/paulmillr/es6-shim/blob/0.32.2/LICENSE
   * Details and documentation:
   * https://github.com/paulmillr/es6-shim/
   */
@@ -4604,7 +4603,7 @@ process.umask = function() { return 0; };
     define(factory);
   } else if (typeof exports === 'object') {
     // Node. Does not work with strict CommonJS, but
-    // only CommonJS-like environments that support module.exports,
+    // only CommonJS-like enviroments that support module.exports,
     // like Node.
     module.exports = factory();
   } else {
@@ -4616,8 +4615,6 @@ process.umask = function() { return 0; };
 
   var _apply = Function.call.bind(Function.apply);
   var _call = Function.call.bind(Function.call);
-  var isArray = Array.isArray;
-  var keys = Object.keys;
 
   var not = function notThunker(func) {
     return function notThunk() { return !_apply(func, this, arguments); };
@@ -4641,15 +4638,14 @@ process.umask = function() { return 0; };
   var isCallableWithoutNew = not(throwsError);
   var arePropertyDescriptorsSupported = function () {
     // if Object.defineProperty exists but throws, it's IE 8
-    return !throwsError(function () { Object.defineProperty({}, 'x', { get: function () {} }); });
+    return !throwsError(function () { Object.defineProperty({}, 'x', {}); });
   };
   var supportsDescriptors = !!Object.defineProperty && arePropertyDescriptorsSupported();
-  var functionsHaveNames = (function foo() {}).name === 'foo';
 
   var _forEach = Function.call.bind(Array.prototype.forEach);
   var _reduce = Function.call.bind(Array.prototype.reduce);
   var _filter = Function.call.bind(Array.prototype.filter);
-  var _some = Function.call.bind(Array.prototype.some);
+  var _every = Function.call.bind(Array.prototype.every);
 
   var defineProperty = function (object, name, value, force) {
     if (!force && name in object) { return; }
@@ -4667,18 +4663,106 @@ process.umask = function() { return 0; };
 
   // Define configurable, writable and non-enumerable props
   // if they don’t exist.
-  var defineProperties = function (object, map, forceOverride) {
-    _forEach(keys(map), function (name) {
+  var defineProperties = function (object, map) {
+    _forEach(Object.keys(map), function (name) {
       var method = map[name];
-      defineProperty(object, name, method, !!forceOverride);
+      defineProperty(object, name, method, false);
     });
   };
 
+  // Simple shim for Object.create on ES3 browsers
+  // (unlike real shim, no attempt to support `prototype === null`)
+  var create = Object.create || function (prototype, properties) {
+    var Prototype = function Prototype() {};
+    Prototype.prototype = prototype;
+    var object = new Prototype();
+    if (typeof properties !== 'undefined') {
+      Object.keys(properties).forEach(function (key) {
+        Value.defineByDescriptor(object, key, properties[key]);
+      });
+    }
+    return object;
+  };
+
+  var supportsSubclassing = function (C, f) {
+    if (!Object.setPrototypeOf) { return false; /* skip test on IE < 11 */ }
+    return valueOrFalseIfThrows(function () {
+      var Sub = function Subclass(arg) {
+        var o = new C(arg);
+        Object.setPrototypeOf(o, Subclass.prototype);
+        return o;
+      };
+      Object.setPrototypeOf(Sub, C);
+      Sub.prototype = create(C.prototype, {
+        constructor: { value: Sub }
+      });
+      return f(Sub);
+    });
+  };
+
+  var startsWithRejectsRegex = function () {
+    return String.prototype.startsWith && throwsError(function () {
+      /* throws if spec-compliant */
+      '/a/'.startsWith(/a/);
+    });
+  };
+  var startsWithHandlesInfinity = (function () {
+    return String.prototype.startsWith && 'abc'.startsWith('a', Infinity) === false;
+  }());
+
+  /*jshint evil: true */
+  var getGlobal = new Function('return this;');
+  /*jshint evil: false */
+
+  var globals = getGlobal();
+  var globalIsFinite = globals.isFinite;
+  var hasStrictMode = (function () { return this === null; }.call(null));
+  var startsWithIsCompliant = startsWithRejectsRegex() && startsWithHandlesInfinity;
+  var _indexOf = Function.call.bind(String.prototype.indexOf);
   var _toString = Function.call.bind(Object.prototype.toString);
-  var isCallable = typeof /abc/ === 'function' ? function IsCallableSlow(x) {
-    // Some old browsers (IE, FF) say that typeof /abc/ === 'function'
-    return typeof x === 'function' && _toString(x) === '[object Function]';
-  } : function IsCallableFast(x) { return typeof x === 'function'; };
+  var _concat = Function.call.bind(Array.prototype.concat);
+  var _strSlice = Function.call.bind(String.prototype.slice);
+  var _push = Function.call.bind(Array.prototype.push);
+  var _pushApply = Function.apply.bind(Array.prototype.push);
+  var _shift = Function.call.bind(Array.prototype.shift);
+  var _max = Math.max;
+  var _min = Math.min;
+  var _floor = Math.floor;
+  var _abs = Math.abs;
+  var _log = Math.log;
+  var _sqrt = Math.sqrt;
+  var _hasOwnProperty = Function.call.bind(Object.prototype.hasOwnProperty);
+  var ArrayIterator; // make our implementation private
+  var noop = function () {};
+
+  var Symbol = globals.Symbol || {};
+  var symbolSpecies = Symbol.species || '@@species';
+  var defaultSpeciesGetter = function () { return this; };
+  var addDefaultSpecies = function (C) {
+    if (supportsDescriptors && !_hasOwnProperty(C, symbolSpecies)) {
+      Value.getter(C, symbolSpecies, defaultSpeciesGetter);
+    }
+  };
+  var Type = {
+    object: function (x) { return x !== null && typeof x === 'object'; },
+    string: function (x) { return _toString(x) === '[object String]'; },
+    regex: function (x) { return _toString(x) === '[object RegExp]'; },
+    symbol: function (x) {
+      return typeof globals.Symbol === 'function' && typeof x === 'symbol';
+    }
+  };
+
+  var numberIsNaN = Number.isNaN || function isNaN(value) {
+    // NaN !== NaN, but they are identical.
+    // NaNs are the only non-reflexive value, i.e., if x !== x,
+    // then x is NaN.
+    // isNaN is broken: it converts its argument to number, so
+    // isNaN('foo') => true
+    return value !== value;
+  };
+  var numberIsFinite = Number.isFinite || function isFinite(value) {
+    return typeof value === 'number' && globalIsFinite(value);
+  };
 
   var Value = {
     getter: function (object, name, getter) {
@@ -4720,109 +4804,7 @@ process.umask = function() { return 0; };
       }
     },
     preserveToString: function (target, source) {
-      if (source && isCallable(source.toString)) {
-        defineProperty(target, 'toString', source.toString.bind(source), true);
-      }
-    }
-  };
-
-  // Simple shim for Object.create on ES3 browsers
-  // (unlike real shim, no attempt to support `prototype === null`)
-  var create = Object.create || function (prototype, properties) {
-    var Prototype = function Prototype() {};
-    Prototype.prototype = prototype;
-    var object = new Prototype();
-    if (typeof properties !== 'undefined') {
-      keys(properties).forEach(function (key) {
-        Value.defineByDescriptor(object, key, properties[key]);
-      });
-    }
-    return object;
-  };
-
-  var supportsSubclassing = function (C, f) {
-    if (!Object.setPrototypeOf) { return false; /* skip test on IE < 11 */ }
-    return valueOrFalseIfThrows(function () {
-      var Sub = function Subclass(arg) {
-        var o = new C(arg);
-        Object.setPrototypeOf(o, Subclass.prototype);
-        return o;
-      };
-      Object.setPrototypeOf(Sub, C);
-      Sub.prototype = create(C.prototype, {
-        constructor: { value: Sub }
-      });
-      return f(Sub);
-    });
-  };
-
-  var getGlobal = function () {
-    /* global self, window, global */
-    // the only reliable means to get the global object is
-    // `Function('return this')()`
-    // However, this causes CSP violations in Chrome apps.
-    if (typeof self !== 'undefined') { return self; }
-    if (typeof window !== 'undefined') { return window; }
-    if (typeof global !== 'undefined') { return global; }
-    throw new Error('unable to locate global object');
-  };
-
-  var globals = getGlobal();
-  var globalIsFinite = globals.isFinite;
-  var _indexOf = Function.call.bind(String.prototype.indexOf);
-  var _concat = Function.call.bind(Array.prototype.concat);
-  var _sort = Function.call.bind(Array.prototype.sort);
-  var _strSlice = Function.call.bind(String.prototype.slice);
-  var _push = Function.call.bind(Array.prototype.push);
-  var _pushApply = Function.apply.bind(Array.prototype.push);
-  var _shift = Function.call.bind(Array.prototype.shift);
-  var _max = Math.max;
-  var _min = Math.min;
-  var _floor = Math.floor;
-  var _abs = Math.abs;
-  var _log = Math.log;
-  var _sqrt = Math.sqrt;
-  var _hasOwnProperty = Function.call.bind(Object.prototype.hasOwnProperty);
-  var ArrayIterator; // make our implementation private
-  var noop = function () {};
-
-  var Symbol = globals.Symbol || {};
-  var symbolSpecies = Symbol.species || '@@species';
-
-  var numberIsNaN = Number.isNaN || function isNaN(value) {
-    // NaN !== NaN, but they are identical.
-    // NaNs are the only non-reflexive value, i.e., if x !== x,
-    // then x is NaN.
-    // isNaN is broken: it converts its argument to number, so
-    // isNaN('foo') => true
-    return value !== value;
-  };
-  var numberIsFinite = Number.isFinite || function isFinite(value) {
-    return typeof value === 'number' && globalIsFinite(value);
-  };
-
-  // taken directly from https://github.com/ljharb/is-arguments/blob/master/index.js
-  // can be replaced with require('is-arguments') if we ever use a build process instead
-  var isStandardArguments = function isArguments(value) {
-    return _toString(value) === '[object Arguments]';
-  };
-  var isLegacyArguments = function isArguments(value) {
-    return value !== null &&
-      typeof value === 'object' &&
-      typeof value.length === 'number' &&
-      value.length >= 0 &&
-      _toString(value) !== '[object Array]' &&
-      _toString(value.callee) === '[object Function]';
-  };
-  var isArguments = isStandardArguments(arguments) ? isStandardArguments : isLegacyArguments;
-
-  var Type = {
-    primitive: function (x) { return x === null || (typeof x !== 'function' && typeof x !== 'object'); },
-    object: function (x) { return x !== null && typeof x === 'object'; },
-    string: function (x) { return _toString(x) === '[object String]'; },
-    regex: function (x) { return _toString(x) === '[object RegExp]'; },
-    symbol: function (x) {
-      return typeof globals.Symbol === 'function' && typeof x === 'symbol';
+      defineProperty(target, 'toString', source.toString.bind(source), true);
     }
   };
 
@@ -4831,8 +4813,6 @@ process.umask = function() { return 0; };
     defineProperty(object, property, replacement, true);
     Value.preserveToString(object[property], original);
   };
-
-  var hasSymbols = typeof Symbol === 'function' && typeof Symbol['for'] === 'function' && Type.symbol(Symbol());
 
   // This is a private name in the es6 spec, equal to '[Symbol.iterator]'
   // we're going to use an arbitrary _-prefixed name to make our shims
@@ -4846,14 +4826,32 @@ process.umask = function() { return 0; };
   if (globals.Set && typeof new globals.Set()['@@iterator'] === 'function') {
     $iterator$ = '@@iterator';
   }
+  var addIterator = function (prototype, impl) {
+    var implementation = impl || function iterator() { return this; };
+    var o = {};
+    o[$iterator$] = implementation;
+    defineProperties(prototype, o);
+    if (!prototype[$iterator$] && Type.symbol($iterator$)) {
+      // implementations are buggy when $iterator$ is a Symbol
+      prototype[$iterator$] = implementation;
+    }
+  };
 
-  // Reflect
-  if (!globals.Reflect) {
-    defineProperty(globals, 'Reflect', {});
-  }
-  var Reflect = globals.Reflect;
-
-  var $String = String;
+  // taken directly from https://github.com/ljharb/is-arguments/blob/master/index.js
+  // can be replaced with require('is-arguments') if we ever use a build process instead
+  var isArguments = function isArguments(value) {
+    var str = _toString(value);
+    var result = str === '[object Arguments]';
+    if (!result) {
+      result = str !== '[object Array]' &&
+        value !== null &&
+        typeof value === 'object' &&
+        typeof value.length === 'number' &&
+        value.length >= 0 &&
+        _toString(value.callee) === '[object Function]';
+    }
+    return result;
+  };
 
   var ES = {
     // https://people.mozilla.org/~jorendorff/es6-draft.html#sec-call-f-v-args
@@ -4870,30 +4868,24 @@ process.umask = function() { return 0; };
       if (x == null) {
         throw new TypeError(optMessage || 'Cannot call method on ' + x);
       }
-      return x;
     },
 
-    // This might miss the "(non-standard exotic and does not implement
-    // [[Call]])" case from
-    // http://www.ecma-international.org/ecma-262/6.0/#sec-typeof-operator-runtime-semantics-evaluation
-    // but we can't find any evidence these objects exist in practice.
-    // If we find some in the future, you could test `Object(x) === x`,
-    // which is reliable according to
-    // http://www.ecma-international.org/ecma-262/6.0/#sec-toobject
-    // but is not well optimized by runtimes and creates an object
-    // whenever it returns false, and thus is very slow.
     TypeIsObject: function (x) {
-      if (x === void 0 || x === null || x === true || x === false) {
-        return false;
-      }
-      return typeof x === 'function' || typeof x === 'object';
+      /* jshint eqnull:true */
+      // this is expensive when it returns false; use this function
+      // when you expect it to return true in the common case.
+      return x != null && Object(x) === x;
     },
 
     ToObject: function (o, optMessage) {
-      return Object(ES.RequireObjectCoercible(o, optMessage));
+      ES.RequireObjectCoercible(o, optMessage);
+      return Object(o);
     },
 
-    IsCallable: isCallable,
+    IsCallable: function (x) {
+      // some versions of IE say that typeof /abc/ === 'function'
+      return typeof x === 'function' && _toString(x) === '[object Function]';
+    },
 
     IsConstructor: function (x) {
       // We can't tell callables from constructors in ES5
@@ -4957,7 +4949,7 @@ process.umask = function() { return 0; };
         // Better diagnostics if itFn is null or undefined
         throw new TypeError('value is not an iterable');
       }
-      var it = ES.Call(itFn, o);
+      var it = _call(itFn, o);
       if (!ES.TypeIsObject(it)) {
         throw new TypeError('bad iterator');
       }
@@ -4986,7 +4978,7 @@ process.umask = function() { return 0; };
       }
       var innerResult, innerException;
       try {
-        innerResult = ES.Call(returnMethod, iterator);
+        innerResult = _call(returnMethod, iterator);
       } catch (e) {
         innerException = e;
       }
@@ -5016,18 +5008,19 @@ process.umask = function() { return 0; };
     },
 
     Construct: function (C, args, newTarget, isES6internal) {
-      var target = typeof newTarget === 'undefined' ? C : newTarget;
-
-      if (!isES6internal && Reflect.construct) {
+      if (newTarget === void 0) {
+        newTarget = C;
+      }
+      if (!isES6internal) {
         // Try to use Reflect.construct if available
-        return Reflect.construct(C, args, target);
+        return Reflect.construct(C, args, newTarget);
       }
       // OK, we have to fake it.  This will only work if the
       // C.[[ConstructorKind]] == "base" -- but that's the only
       // kind we can make in ES5 code anyway.
 
-      // OrdinaryCreateFromConstructor(target, "%ObjectPrototype%")
-      var proto = target.prototype;
+      // OrdinaryCreateFromConstructor(newTarget, "%ObjectPrototype%")
+      var proto = newTarget.prototype;
       if (!ES.TypeIsObject(proto)) {
         proto = Object.prototype;
       }
@@ -5056,186 +5049,16 @@ process.umask = function() { return 0; };
     },
 
     CreateHTML: function (string, tag, attribute, value) {
-      var S = ES.ToString(string);
+      var S = String(string);
       var p1 = '<' + tag;
       if (attribute !== '') {
-        var V = ES.ToString(value);
+        var V = String(value);
         var escapedV = V.replace(/"/g, '&quot;');
         p1 += ' ' + attribute + '="' + escapedV + '"';
       }
       var p2 = p1 + '>';
       var p3 = p2 + S;
       return p3 + '</' + tag + '>';
-    },
-
-    IsRegExp: function IsRegExp(argument) {
-      if (!ES.TypeIsObject(argument)) {
-        return false;
-      }
-      var isRegExp = argument[Symbol.match];
-      if (typeof isRegExp !== 'undefined') {
-        return !!isRegExp;
-      }
-      return Type.regex(argument);
-    },
-
-    ToString: function ToString(string) {
-      return $String(string);
-    }
-  };
-
-  // Well-known Symbol shims
-  if (supportsDescriptors && hasSymbols) {
-    var defineWellKnownSymbol = function defineWellKnownSymbol(name) {
-      if (Type.symbol(Symbol[name])) {
-        return Symbol[name];
-      }
-      var sym = Symbol['for']('Symbol.' + name);
-      Object.defineProperty(Symbol, name, {
-        configurable: false,
-        enumerable: false,
-        writable: false,
-        value: sym
-      });
-      return sym;
-    };
-    if (!Type.symbol(Symbol.search)) {
-      var symbolSearch = defineWellKnownSymbol('search');
-      var originalSearch = String.prototype.search;
-      defineProperty(RegExp.prototype, symbolSearch, function search(string) {
-        return ES.Call(originalSearch, string, [this]);
-      });
-      var searchShim = function search(regexp) {
-        var O = ES.RequireObjectCoercible(this);
-        if (regexp !== null && typeof regexp !== 'undefined') {
-          var searcher = ES.GetMethod(regexp, symbolSearch);
-          if (typeof searcher !== 'undefined') {
-            return ES.Call(searcher, regexp, [O]);
-          }
-        }
-        return ES.Call(originalSearch, O, [ES.ToString(regexp)]);
-      };
-      overrideNative(String.prototype, 'search', searchShim);
-    }
-    if (!Type.symbol(Symbol.replace)) {
-      var symbolReplace = defineWellKnownSymbol('replace');
-      var originalReplace = String.prototype.replace;
-      defineProperty(RegExp.prototype, symbolReplace, function replace(string, replaceValue) {
-        return ES.Call(originalReplace, string, [this, replaceValue]);
-      });
-      var replaceShim = function replace(searchValue, replaceValue) {
-        var O = ES.RequireObjectCoercible(this);
-        if (searchValue !== null && typeof searchValue !== 'undefined') {
-          var replacer = ES.GetMethod(searchValue, symbolReplace);
-          if (typeof replacer !== 'undefined') {
-            return ES.Call(replacer, searchValue, [O, replaceValue]);
-          }
-        }
-        return ES.Call(originalReplace, O, [ES.ToString(searchValue), replaceValue]);
-      };
-      overrideNative(String.prototype, 'replace', replaceShim);
-    }
-    if (!Type.symbol(Symbol.split)) {
-      var symbolSplit = defineWellKnownSymbol('split');
-      var originalSplit = String.prototype.split;
-      defineProperty(RegExp.prototype, symbolSplit, function split(string, limit) {
-        return ES.Call(originalSplit, string, [this, limit]);
-      });
-      var splitShim = function split(separator, limit) {
-        var O = ES.RequireObjectCoercible(this);
-        if (separator !== null && typeof separator !== 'undefined') {
-          var splitter = ES.GetMethod(separator, symbolSplit);
-          if (typeof splitter !== 'undefined') {
-            return ES.Call(splitter, separator, [O, limit]);
-          }
-        }
-        return ES.Call(originalSplit, O, [ES.ToString(separator), limit]);
-      };
-      overrideNative(String.prototype, 'split', splitShim);
-    }
-    var symbolMatchExists = Type.symbol(Symbol.match);
-    var stringMatchIgnoresSymbolMatch = symbolMatchExists && (function () {
-      // Firefox 41, through Nightly 45 has Symbol.match, but String#match ignores it.
-      // Firefox 40 and below have Symbol.match but String#match works fine.
-      var o = {};
-      o[Symbol.match] = function () { return 42; };
-      return 'a'.match(o) !== 42;
-    }());
-    if (!symbolMatchExists || stringMatchIgnoresSymbolMatch) {
-      var symbolMatch = defineWellKnownSymbol('match');
-
-      var originalMatch = String.prototype.match;
-      defineProperty(RegExp.prototype, symbolMatch, function match(string) {
-        return ES.Call(originalMatch, string, [this]);
-      });
-
-      var matchShim = function match(regexp) {
-        var O = ES.RequireObjectCoercible(this);
-        if (regexp !== null && typeof regexp !== 'undefined') {
-          var matcher = ES.GetMethod(regexp, symbolMatch);
-          if (typeof matcher !== 'undefined') {
-            return ES.Call(matcher, regexp, [O]);
-          }
-        }
-        return ES.Call(originalMatch, O, [ES.ToString(regexp)]);
-      };
-      overrideNative(String.prototype, 'match', matchShim);
-    }
-  }
-
-  var wrapConstructor = function wrapConstructor(original, replacement, keysToSkip) {
-    Value.preserveToString(replacement, original);
-    if (Object.setPrototypeOf) {
-      // sets up proper prototype chain where possible
-      Object.setPrototypeOf(original, replacement);
-    }
-    if (supportsDescriptors) {
-      _forEach(Object.getOwnPropertyNames(original), function (key) {
-        if (key in noop || keysToSkip[key]) { return; }
-        Value.proxy(original, key, replacement);
-      });
-    } else {
-      _forEach(Object.keys(original), function (key) {
-        if (key in noop || keysToSkip[key]) { return; }
-        replacement[key] = original[key];
-      });
-    }
-    replacement.prototype = original.prototype;
-    Value.redefine(original.prototype, 'constructor', replacement);
-  };
-
-  var defaultSpeciesGetter = function () { return this; };
-  var addDefaultSpecies = function (C) {
-    if (supportsDescriptors && !_hasOwnProperty(C, symbolSpecies)) {
-      Value.getter(C, symbolSpecies, defaultSpeciesGetter);
-    }
-  };
-
-  var addIterator = function (prototype, impl) {
-    var implementation = impl || function iterator() { return this; };
-    defineProperty(prototype, $iterator$, implementation);
-    if (!prototype[$iterator$] && Type.symbol($iterator$)) {
-      // implementations are buggy when $iterator$ is a Symbol
-      prototype[$iterator$] = implementation;
-    }
-  };
-
-  var createDataProperty = function createDataProperty(object, name, value) {
-    if (supportsDescriptors) {
-      Object.defineProperty(object, name, {
-        configurable: true,
-        enumerable: true,
-        writable: true,
-        value: value
-      });
-    } else {
-      object[name] = value;
-    }
-  };
-  var createDataPropertyOrThrow = function createDataPropertyOrThrow(object, name, value) {
-    createDataProperty(object, name, value);
-    if (!ES.SameValue(object[name], value)) {
-      throw new TypeError('property is nonconfigurable');
     }
   };
 
@@ -5257,21 +5080,21 @@ process.umask = function() { return 0; };
     if (!ES.TypeIsObject(proto)) {
       proto = defaultProto;
     }
-    var obj = create(proto);
+    o = create(proto);
     for (var name in slots) {
       if (_hasOwnProperty(slots, name)) {
         var value = slots[name];
-        defineProperty(obj, name, value, true);
+        defineProperty(o, name, value, true);
       }
     }
-    return obj;
+    return o;
   };
 
   // Firefox 31 reports this function's length as 0
   // https://bugzilla.mozilla.org/show_bug.cgi?id=1062484
   if (String.fromCodePoint && String.fromCodePoint.length !== 1) {
     var originalFromCodePoint = String.fromCodePoint;
-    overrideNative(String, 'fromCodePoint', function fromCodePoint(codePoints) { return ES.Call(originalFromCodePoint, this, arguments); });
+    overrideNative(String, 'fromCodePoint', function fromCodePoint(codePoints) { return _apply(originalFromCodePoint, this, arguments); });
   }
 
   var StringShims = {
@@ -5308,25 +5131,25 @@ process.umask = function() { return 0; };
       var nextIndex = 0;
       var nextKey, next, nextSeg, nextSub;
       while (nextIndex < literalsegments) {
-        nextKey = ES.ToString(nextIndex);
-        nextSeg = ES.ToString(rawString[nextKey]);
+        nextKey = String(nextIndex);
+        nextSeg = String(rawString[nextKey]);
         _push(stringElements, nextSeg);
         if (nextIndex + 1 >= literalsegments) {
           break;
         }
         next = nextIndex + 1 < arguments.length ? arguments[nextIndex + 1] : '';
-        nextSub = ES.ToString(next);
+        nextSub = String(next);
         _push(stringElements, nextSub);
-        nextIndex += 1;
+        nextIndex++;
       }
       return stringElements.join('');
     }
   };
-  if (String.raw && String.raw({ raw: { 0: 'x', 1: 'y', length: 2 } }) !== 'xy') {
+  defineProperties(String, StringShims);
+  if (String.raw({ raw: { 0: 'x', 1: 'y', length: 2 } }) !== 'xy') {
     // IE 11 TP has a broken String.raw implementation
     overrideNative(String, 'raw', StringShims.raw);
   }
-  defineProperties(String, StringShims);
 
   // Fast repeat, uses the `Exponentiation by squaring` algorithm.
   // Perf: http://jsperf.com/string-repeat2/2
@@ -5340,7 +5163,8 @@ process.umask = function() { return 0; };
 
   var StringPrototypeShims = {
     repeat: function repeat(times) {
-      var thisStr = ES.ToString(ES.RequireObjectCoercible(this));
+      ES.RequireObjectCoercible(this);
+      var thisStr = String(this);
       var numTimes = ES.ToInteger(times);
       if (numTimes < 0 || numTimes >= stringMaxLength) {
         throw new RangeError('repeat count must be less than infinity and not overflow maximum string size');
@@ -5349,50 +5173,46 @@ process.umask = function() { return 0; };
     },
 
     startsWith: function startsWith(searchString) {
-      var S = ES.ToString(ES.RequireObjectCoercible(this));
-      if (ES.IsRegExp(searchString)) {
+      ES.RequireObjectCoercible(this);
+      var thisStr = String(this);
+      if (Type.regex(searchString)) {
         throw new TypeError('Cannot call method "startsWith" with a regex');
       }
-      var searchStr = ES.ToString(searchString);
-      var position;
-      if (arguments.length > 1) {
-        position = arguments[1];
-      }
-      var start = _max(ES.ToInteger(position), 0);
-      return _strSlice(S, start, start + searchStr.length) === searchStr;
+      var searchStr = String(searchString);
+      var startArg = arguments.length > 1 ? arguments[1] : void 0;
+      var start = _max(ES.ToInteger(startArg), 0);
+      return _strSlice(thisStr, start, start + searchStr.length) === searchStr;
     },
 
     endsWith: function endsWith(searchString) {
-      var S = ES.ToString(ES.RequireObjectCoercible(this));
-      if (ES.IsRegExp(searchString)) {
+      ES.RequireObjectCoercible(this);
+      var thisStr = String(this);
+      if (Type.regex(searchString)) {
         throw new TypeError('Cannot call method "endsWith" with a regex');
       }
-      var searchStr = ES.ToString(searchString);
-      var len = S.length;
-      var endPosition;
-      if (arguments.length > 1) {
-        endPosition = arguments[1];
-      }
-      var pos = typeof endPosition === 'undefined' ? len : ES.ToInteger(endPosition);
-      var end = _min(_max(pos, 0), len);
-      return _strSlice(S, end - searchStr.length, end) === searchStr;
+      var searchStr = String(searchString);
+      var thisLen = thisStr.length;
+      var posArg = arguments.length > 1 ? arguments[1] : void 0;
+      var pos = typeof posArg === 'undefined' ? thisLen : ES.ToInteger(posArg);
+      var end = _min(_max(pos, 0), thisLen);
+      return _strSlice(thisStr, end - searchStr.length, end) === searchStr;
     },
 
     includes: function includes(searchString) {
-      if (ES.IsRegExp(searchString)) {
+      if (Type.regex(searchString)) {
         throw new TypeError('"includes" does not accept a RegExp');
       }
-      var searchStr = ES.ToString(searchString);
       var position;
       if (arguments.length > 1) {
         position = arguments[1];
       }
       // Somehow this trick makes method 100% compat with the spec.
-      return _indexOf(this, searchStr, position) !== -1;
+      return _indexOf(this, searchString, position) !== -1;
     },
 
     codePointAt: function codePointAt(pos) {
-      var thisStr = ES.ToString(ES.RequireObjectCoercible(this));
+      ES.RequireObjectCoercible(this);
+      var thisStr = String(this);
       var position = ES.ToInteger(pos);
       var length = thisStr.length;
       if (position >= 0 && position < length) {
@@ -5405,72 +5225,37 @@ process.umask = function() { return 0; };
       }
     }
   };
-  if (String.prototype.includes && 'a'.includes('a', Infinity) !== false) {
+  defineProperties(String.prototype, StringPrototypeShims);
+
+  if ('a'.includes('a', Infinity) !== false) {
     overrideNative(String.prototype, 'includes', StringPrototypeShims.includes);
   }
 
-  if (String.prototype.startsWith && String.prototype.endsWith) {
-    var startsWithRejectsRegex = throwsError(function () {
-      /* throws if spec-compliant */
-      '/a/'.startsWith(/a/);
+  var hasStringTrimBug = '\u0085'.trim().length !== 1;
+  if (hasStringTrimBug) {
+    delete String.prototype.trim;
+    // whitespace from: http://es5.github.io/#x15.5.4.20
+    // implementation from https://github.com/es-shims/es5-shim/blob/v3.4.0/es5-shim.js#L1304-L1324
+    var ws = [
+      '\x09\x0A\x0B\x0C\x0D\x20\xA0\u1680\u180E\u2000\u2001\u2002\u2003',
+      '\u2004\u2005\u2006\u2007\u2008\u2009\u200A\u202F\u205F\u3000\u2028',
+      '\u2029\uFEFF'
+    ].join('');
+    var trimRegexp = new RegExp('(^[' + ws + ']+)|([' + ws + ']+$)', 'g');
+    defineProperties(String.prototype, {
+      trim: function trim() {
+        if (typeof this === 'undefined' || this === null) {
+          throw new TypeError("can't convert " + this + ' to object');
+        }
+        return String(this).replace(trimRegexp, '');
+      }
     });
-    var startsWithHandlesInfinity = 'abc'.startsWith('a', Infinity) === false;
-    if (!startsWithRejectsRegex || !startsWithHandlesInfinity) {
-      // Firefox (< 37?) and IE 11 TP have a noncompliant startsWith implementation
-      overrideNative(String.prototype, 'startsWith', StringPrototypeShims.startsWith);
-      overrideNative(String.prototype, 'endsWith', StringPrototypeShims.endsWith);
-    }
   }
-  if (hasSymbols) {
-    var startsWithSupportsSymbolMatch = valueOrFalseIfThrows(function () {
-      var re = /a/;
-      re[Symbol.match] = false;
-      return '/a/'.startsWith(re);
-    });
-    if (!startsWithSupportsSymbolMatch) {
-      overrideNative(String.prototype, 'startsWith', StringPrototypeShims.startsWith);
-    }
-    var endsWithSupportsSymbolMatch = valueOrFalseIfThrows(function () {
-      var re = /a/;
-      re[Symbol.match] = false;
-      return '/a/'.endsWith(re);
-    });
-    if (!endsWithSupportsSymbolMatch) {
-      overrideNative(String.prototype, 'endsWith', StringPrototypeShims.endsWith);
-    }
-    var includesSupportsSymbolMatch = valueOrFalseIfThrows(function () {
-      var re = /a/;
-      re[Symbol.match] = false;
-      return '/a/'.includes(re);
-    });
-    if (!includesSupportsSymbolMatch) {
-      overrideNative(String.prototype, 'includes', StringPrototypeShims.includes);
-    }
-  }
-
-  defineProperties(String.prototype, StringPrototypeShims);
-
-  // whitespace from: http://es5.github.io/#x15.5.4.20
-  // implementation from https://github.com/es-shims/es5-shim/blob/v3.4.0/es5-shim.js#L1304-L1324
-  var ws = [
-    '\x09\x0A\x0B\x0C\x0D\x20\xA0\u1680\u180E\u2000\u2001\u2002\u2003',
-    '\u2004\u2005\u2006\u2007\u2008\u2009\u200A\u202F\u205F\u3000\u2028',
-    '\u2029\uFEFF'
-  ].join('');
-  var trimRegexp = new RegExp('(^[' + ws + ']+)|([' + ws + ']+$)', 'g');
-  var trimShim = function trim() {
-    return ES.ToString(ES.RequireObjectCoercible(this)).replace(trimRegexp, '');
-  };
-  var nonWS = ['\u0085', '\u200b', '\ufffe'].join('');
-  var nonWSregex = new RegExp('[' + nonWS + ']', 'g');
-  var isBadHexRegex = /^[\-+]0x[0-9a-f]+$/i;
-  var hasStringTrimBug = nonWS.trim().length !== nonWS.length;
-  defineProperty(String.prototype, 'trim', trimShim, hasStringTrimBug);
 
   // see https://people.mozilla.org/~jorendorff/es6-draft.html#sec-string.prototype-@@iterator
   var StringIterator = function (s) {
     ES.RequireObjectCoercible(s);
-    this._s = ES.ToString(s);
+    this._s = String(s);
     this._i = 0;
   };
   StringIterator.prototype.next = function () {
@@ -5494,38 +5279,38 @@ process.umask = function() { return 0; };
     return new StringIterator(this);
   });
 
+  if (!startsWithIsCompliant) {
+    // Firefox (< 37?) and IE 11 TP have a noncompliant startsWith implementation
+    overrideNative(String.prototype, 'startsWith', StringPrototypeShims.startsWith);
+    overrideNative(String.prototype, 'endsWith', StringPrototypeShims.endsWith);
+  }
+
   var ArrayShims = {
     from: function from(items) {
       var C = this;
-      var mapFn;
-      if (arguments.length > 1) {
-        mapFn = arguments[1];
-      }
+      var mapFn = arguments.length > 1 ? arguments[1] : void 0;
       var mapping, T;
-      if (typeof mapFn === 'undefined') {
+      if (mapFn === void 0) {
         mapping = false;
       } else {
         if (!ES.IsCallable(mapFn)) {
           throw new TypeError('Array.from: when provided, the second argument must be a function');
         }
-        if (arguments.length > 2) {
-          T = arguments[2];
-        }
+        T = arguments.length > 2 ? arguments[2] : void 0;
         mapping = true;
       }
 
       // Note that that Arrays will use ArrayIterator:
       // https://bugs.ecmascript.org/show_bug.cgi?id=2416
-      var usingIterator = typeof (isArguments(items) || ES.GetMethod(items, $iterator$)) !== 'undefined';
+      var usingIterator = isArguments(items) || ES.GetMethod(items, $iterator$);
 
       var length, result, i;
-      if (usingIterator) {
+      if (usingIterator !== void 0) {
         result = ES.IsConstructor(C) ? Object(new C()) : [];
         var iterator = ES.GetIterator(items);
         var next, nextValue;
 
-        i = 0;
-        while (true) {
+        for (i = 0; ; ++i) {
           next = ES.IteratorStep(iterator);
           if (next === false) {
             break;
@@ -5533,14 +5318,13 @@ process.umask = function() { return 0; };
           nextValue = next.value;
           try {
             if (mapping) {
-              nextValue = typeof T === 'undefined' ? mapFn(nextValue, i) : _call(mapFn, T, nextValue, i);
+              nextValue = T !== undefined ? _call(mapFn, T, nextValue, i) : mapFn(nextValue, i);
             }
             result[i] = nextValue;
           } catch (e) {
             ES.IteratorClose(iterator, true);
             throw e;
           }
-          i += 1;
         }
         length = i;
       } else {
@@ -5551,7 +5335,7 @@ process.umask = function() { return 0; };
         for (i = 0; i < length; ++i) {
           value = arrayLike[i];
           if (mapping) {
-            value = typeof T === 'undefined' ? mapFn(value, i) : _call(mapFn, T, value, i);
+            value = T !== undefined ? _call(mapFn, T, value, i) : mapFn(value, i);
           }
           result[i] = value;
         }
@@ -5562,14 +5346,7 @@ process.umask = function() { return 0; };
     },
 
     of: function of() {
-      var len = arguments.length;
-      var C = this;
-      var A = isArray(C) || !ES.IsCallable(C) ? new Array(len) : ES.Construct(C, [len]);
-      for (var k = 0; k < len; ++k) {
-        createDataPropertyOrThrow(A, k, arguments[k]);
-      }
-      A.length = len;
-      return A;
+      return _call(Array.from, this, arguments);
     }
   };
   defineProperties(Array, ArrayShims);
@@ -5618,51 +5395,38 @@ process.umask = function() { return 0; };
   });
   addIterator(ArrayIterator.prototype);
 
-  var orderKeys = function orderKeys(a, b) {
-    var aNumeric = String(ES.ToInteger(a)) === a;
-    var bNumeric = String(ES.ToInteger(b)) === b;
-    if (aNumeric && bNumeric) {
-      return b - a;
-    } else if (aNumeric && !bNumeric) {
-      return -1;
-    } else if (!aNumeric && bNumeric) {
-      return 1;
-    } else {
-      return a.localeCompare(b);
-    }
+  var ObjectIterator = function (object, kind) {
+    this.object = object;
+    // Don't generate keys yet.
+    this.array = null;
+    this.kind = kind;
   };
+
   var getAllKeys = function getAllKeys(object) {
-    var ownKeys = [];
     var keys = [];
 
     for (var key in object) {
-      _push(_hasOwnProperty(object, key) ? ownKeys : keys, key);
+      _push(keys, key);
     }
-    _sort(ownKeys, orderKeys);
-    _sort(keys, orderKeys);
 
-    return _concat(ownKeys, keys);
-  };
-
-  var ObjectIterator = function (object, kind) {
-    defineProperties(this, {
-      object: object,
-      array: getAllKeys(object),
-      kind: kind
-    });
+    return keys;
   };
 
   defineProperties(ObjectIterator.prototype, {
-    next: function next() {
-      var key;
-      var array = this.array;
+    next: function () {
+      var key, array = this.array;
 
       if (!(this instanceof ObjectIterator)) {
         throw new TypeError('Not an ObjectIterator');
       }
 
+      // Keys not generated
+      if (array === null) {
+        array = this.array = getAllKeys(this.object);
+      }
+
       // Find next key in the object
-      while (array.length > 0) {
+      while (ES.ToLength(array.length) > 0) {
         key = _shift(array);
 
         // The candidate key isn't defined on object.
@@ -5687,7 +5451,7 @@ process.umask = function() { return 0; };
   addIterator(ObjectIterator.prototype);
 
   // note: this is positioned here because it depends on ArrayIterator
-  var arrayOfSupportsSubclassing = Array.of === ArrayShims.of || (function () {
+  var arrayOfSupportsSubclassing = (function () {
     // Detects a bug in Webkit nightly r181886
     var Foo = function Foo(len) { this.length = len; };
     Foo.prototype = [];
@@ -5700,19 +5464,16 @@ process.umask = function() { return 0; };
 
   var ArrayPrototypeShims = {
     copyWithin: function copyWithin(target, start) {
+      var end = arguments[2]; // copyWithin.length must be 2
       var o = ES.ToObject(this);
       var len = ES.ToLength(o.length);
       var relativeTarget = ES.ToInteger(target);
       var relativeStart = ES.ToInteger(start);
       var to = relativeTarget < 0 ? _max(len + relativeTarget, 0) : _min(relativeTarget, len);
       var from = relativeStart < 0 ? _max(len + relativeStart, 0) : _min(relativeStart, len);
-      var end;
-      if (arguments.length > 2) {
-        end = arguments[2];
-      }
-      var relativeEnd = typeof end === 'undefined' ? len : ES.ToInteger(end);
-      var finalItem = relativeEnd < 0 ? _max(len + relativeEnd, 0) : _min(relativeEnd, len);
-      var count = _min(finalItem - from, len - to);
+      end = typeof end === 'undefined' ? len : ES.ToInteger(end);
+      var fin = end < 0 ? _max(len + end, 0) : _min(end, len);
+      var count = _min(fin - from, len - to);
       var direction = 1;
       if (from < to && to < (from + count)) {
         direction = -1;
@@ -5720,10 +5481,10 @@ process.umask = function() { return 0; };
         to += count - 1;
       }
       while (count > 0) {
-        if (from in o) {
+        if (_hasOwnProperty(o, from)) {
           o[to] = o[from];
         } else {
-          delete o[to];
+          delete o[from];
         }
         from += direction;
         to += direction;
@@ -5733,14 +5494,8 @@ process.umask = function() { return 0; };
     },
 
     fill: function fill(value) {
-      var start;
-      if (arguments.length > 1) {
-        start = arguments[1];
-      }
-      var end;
-      if (arguments.length > 2) {
-        end = arguments[2];
-      }
+      var start = arguments.length > 1 ? arguments[1] : void 0;
+      var end = arguments.length > 2 ? arguments[2] : void 0;
       var O = ES.ToObject(this);
       var len = ES.ToLength(O.length);
       start = ES.ToInteger(typeof start === 'undefined' ? 0 : start);
@@ -5820,9 +5575,9 @@ process.umask = function() { return 0; };
     }
   }
   // Chrome 40 defines Array#values with the incorrect name, although Array#{keys,entries} have the correct name
-  if (functionsHaveNames && Array.prototype.values && Array.prototype.values.name !== 'values') {
+  if (Array.prototype.values && Array.prototype.values.name !== 'values') {
     var originalArrayPrototypeValues = Array.prototype.values;
-    overrideNative(Array.prototype, 'values', function values() { return ES.Call(originalArrayPrototypeValues, this, arguments); });
+    overrideNative(Array.prototype, 'values', function values() { return _call(originalArrayPrototypeValues, this); });
     defineProperty(Array.prototype, $iterator$, Array.prototype.values, true);
   }
   defineProperties(Array.prototype, ArrayPrototypeShims);
@@ -5843,155 +5598,64 @@ process.umask = function() { return 0; };
   var arrayFromHandlesIterables = (function () {
     // Detects a bug in Webkit nightly r181886
     var arr = Array.from([0].entries());
-    return arr.length === 1 && isArray(arr[0]) && arr[0][0] === 0 && arr[0][1] === 0;
+    return arr.length === 1 && arr[0][0] === 0 && arr[0][1] === 1;
   }());
   if (!arrayFromSwallowsNegativeLengths || !arrayFromHandlesIterables) {
     overrideNative(Array, 'from', ArrayShims.from);
   }
-  var arrayFromHandlesUndefinedMapFunction = (function () {
-    // Microsoft Edge v0.11 throws if the mapFn argument is *provided* but undefined,
-    // but the spec doesn't care if it's provided or not - undefined doesn't throw.
-    return valueOrFalseIfThrows(function () { return Array.from([0], void 0); });
-  }());
-  if (!arrayFromHandlesUndefinedMapFunction) {
-    var origArrayFrom = Array.from;
-    overrideNative(Array, 'from', function from(items) {
-      if (arguments.length > 1 && typeof arguments[1] !== 'undefined') {
-        return ES.Call(origArrayFrom, this, arguments);
-      } else {
-        return _call(origArrayFrom, this, items);
-      }
-    });
-  }
 
-  var int32sAsOne = -(Math.pow(2, 32) - 1);
   var toLengthsCorrectly = function (method, reversed) {
-    var obj = { length: int32sAsOne };
-    obj[reversed ? ((obj.length >>> 0) - 1) : 0] = true;
+    var obj = { length: -1 };
+    obj[reversed ? ((-1 >>> 0) - 1) : 0] = true;
     return valueOrFalseIfThrows(function () {
       _call(method, obj, function () {
         // note: in nonconforming browsers, this will be called
         // -1 >>> 0 times, which is 4294967295, so the throw matters.
         throw new RangeError('should not reach here');
       }, []);
-      return true;
     });
   };
   if (!toLengthsCorrectly(Array.prototype.forEach)) {
     var originalForEach = Array.prototype.forEach;
     overrideNative(Array.prototype, 'forEach', function forEach(callbackFn) {
-      return ES.Call(originalForEach, this.length >= 0 ? this : [], arguments);
+      return _apply(originalForEach, this.length >= 0 ? this : [], arguments);
     }, true);
   }
   if (!toLengthsCorrectly(Array.prototype.map)) {
     var originalMap = Array.prototype.map;
     overrideNative(Array.prototype, 'map', function map(callbackFn) {
-      return ES.Call(originalMap, this.length >= 0 ? this : [], arguments);
+      return _apply(originalMap, this.length >= 0 ? this : [], arguments);
     }, true);
   }
   if (!toLengthsCorrectly(Array.prototype.filter)) {
     var originalFilter = Array.prototype.filter;
     overrideNative(Array.prototype, 'filter', function filter(callbackFn) {
-      return ES.Call(originalFilter, this.length >= 0 ? this : [], arguments);
+      return _apply(originalFilter, this.length >= 0 ? this : [], arguments);
     }, true);
   }
   if (!toLengthsCorrectly(Array.prototype.some)) {
     var originalSome = Array.prototype.some;
     overrideNative(Array.prototype, 'some', function some(callbackFn) {
-      return ES.Call(originalSome, this.length >= 0 ? this : [], arguments);
+      return _apply(originalSome, this.length >= 0 ? this : [], arguments);
     }, true);
   }
   if (!toLengthsCorrectly(Array.prototype.every)) {
     var originalEvery = Array.prototype.every;
     overrideNative(Array.prototype, 'every', function every(callbackFn) {
-      return ES.Call(originalEvery, this.length >= 0 ? this : [], arguments);
+      return _apply(originalEvery, this.length >= 0 ? this : [], arguments);
     }, true);
   }
   if (!toLengthsCorrectly(Array.prototype.reduce)) {
     var originalReduce = Array.prototype.reduce;
     overrideNative(Array.prototype, 'reduce', function reduce(callbackFn) {
-      return ES.Call(originalReduce, this.length >= 0 ? this : [], arguments);
+      return _apply(originalReduce, this.length >= 0 ? this : [], arguments);
     }, true);
   }
   if (!toLengthsCorrectly(Array.prototype.reduceRight, true)) {
     var originalReduceRight = Array.prototype.reduceRight;
     overrideNative(Array.prototype, 'reduceRight', function reduceRight(callbackFn) {
-      return ES.Call(originalReduceRight, this.length >= 0 ? this : [], arguments);
+      return _apply(originalReduceRight, this.length >= 0 ? this : [], arguments);
     }, true);
-  }
-
-  var lacksOctalSupport = Number('0o10') !== 8;
-  var lacksBinarySupport = Number('0b10') !== 2;
-  var trimsNonWhitespace = _some(nonWS, function (c) {
-    return Number(c + 0 + c) === 0;
-  });
-  if (lacksOctalSupport || lacksBinarySupport || trimsNonWhitespace) {
-    var OrigNumber = Number;
-    var binaryRegex = /^0b[01]+$/i;
-    var octalRegex = /^0o[0-7]+$/i;
-    // Note that in IE 8, RegExp.prototype.test doesn't seem to exist: ie, "test" is an own property of regexes. wtf.
-    var isBinary = binaryRegex.test.bind(binaryRegex);
-    var isOctal = octalRegex.test.bind(octalRegex);
-    var toPrimitive = function (O) { // need to replace this with `es-to-primitive/es6`
-      var result;
-      if (typeof O.valueOf === 'function') {
-        result = O.valueOf();
-        if (Type.primitive(result)) {
-          return result;
-        }
-      }
-      if (typeof O.toString === 'function') {
-        result = O.toString();
-        if (Type.primitive(result)) {
-          return result;
-        }
-      }
-      throw new TypeError('No default value');
-    };
-    var hasNonWS = nonWSregex.test.bind(nonWSregex);
-    var isBadHex = isBadHexRegex.test.bind(isBadHexRegex);
-    var NumberShim = (function () {
-      // this is wrapped in an IIFE because of IE 6-8's wacky scoping issues with named function expressions.
-      var NumberShim = function Number(value) {
-        var primValue;
-        if (arguments.length > 0) {
-          primValue = Type.primitive(value) ? value : toPrimitive(value, 'number');
-        } else {
-          primValue = 0;
-        }
-        if (typeof primValue === 'string') {
-          primValue = ES.Call(trimShim, primValue);
-          if (isBinary(primValue)) {
-            primValue = parseInt(_strSlice(primValue, 2), 2);
-          } else if (isOctal(primValue)) {
-            primValue = parseInt(_strSlice(primValue, 2), 8);
-          } else if (hasNonWS(primValue) || isBadHex(primValue)) {
-            primValue = NaN;
-          }
-        }
-        var receiver = this;
-        var valueOfSucceeds = valueOrFalseIfThrows(function () {
-          OrigNumber.prototype.valueOf.call(receiver);
-          return true;
-        });
-        if (receiver instanceof NumberShim && !valueOfSucceeds) {
-          return new OrigNumber(primValue);
-        }
-        /* jshint newcap: false */
-        return OrigNumber(primValue);
-        /* jshint newcap: true */
-      };
-      return NumberShim;
-    }());
-    wrapConstructor(OrigNumber, NumberShim, {});
-    /* globals Number: true */
-    /* eslint-disable no-undef */
-    /* jshint -W020 */
-    Number = NumberShim;
-    Value.redefine(globals, 'Number', NumberShim);
-    /* jshint +W020 */
-    /* eslint-enable no-undef */
-    /* globals Number: false */
   }
 
   var maxSafeInteger = Math.pow(2, 53) - 1;
@@ -6023,22 +5687,15 @@ process.umask = function() { return 0; };
   // implementations of find/findIndex indirectly use shimmed
   // methods of Number, so this test has to happen down here.)
   /*jshint elision: true */
-  /* eslint-disable no-sparse-arrays */
   if (![, 1].find(function (item, idx) { return idx === 0; })) {
     overrideNative(Array.prototype, 'find', ArrayPrototypeShims.find);
   }
   if ([, 1].findIndex(function (item, idx) { return idx === 0; }) !== 0) {
     overrideNative(Array.prototype, 'findIndex', ArrayPrototypeShims.findIndex);
   }
-  /* eslint-enable no-sparse-arrays */
   /*jshint elision: false */
 
   var isEnumerableOn = Function.bind.call(Function.bind, Object.prototype.propertyIsEnumerable);
-  var ensureEnumerable = function ensureEnumerable(obj, prop) {
-    if (supportsDescriptors && isEnumerableOn(obj, prop)) {
-      Object.defineProperty(obj, prop, { enumerable: false });
-    }
-  };
   var sliceArgs = function sliceArgs() {
     // per https://github.com/petkaantonov/bluebird/wiki/Optimization-killers#32-leaking-arguments
     // and https://gist.github.com/WebReflection/4327762cb87a8c634a29
@@ -6058,19 +5715,19 @@ process.umask = function() { return 0; };
     };
   };
   var assignReducer = function (target, source) {
-    var sourceKeys = keys(Object(source));
+    var keys = Object.keys(Object(source));
     var symbols;
     if (ES.IsCallable(Object.getOwnPropertySymbols)) {
       symbols = _filter(Object.getOwnPropertySymbols(Object(source)), isEnumerableOn(source));
     }
-    return _reduce(_concat(sourceKeys, symbols || []), assignTo(source), target);
+    return _reduce(_concat(keys, symbols || []), assignTo(source), target);
   };
 
   var ObjectShims = {
     // 19.1.3.1
     assign: function (target, source) {
       var to = ES.ToObject(target, 'Cannot convert undefined or null to object');
-      return _reduce(ES.Call(sliceArgs, 1, arguments), assignReducer, to);
+      return _reduce(_apply(sliceArgs, 1, arguments), assignReducer, to);
     },
 
     // Added in WebKit in https://bugs.webkit.org/show_bug.cgi?id=143865
@@ -6178,7 +5835,6 @@ process.umask = function() { return 0; };
     overrideNative(Object, 'keys', function keys(value) {
       return originalObjectKeys(ES.ToObject(value));
     });
-    keys = Object.keys;
   }
 
   if (Object.getOwnPropertyNames) {
@@ -6279,11 +5935,7 @@ process.umask = function() { return 0; };
     }
   }
 
-  var hasFlags = supportsDescriptors && (function () {
-    var desc = Object.getOwnPropertyDescriptor(RegExp.prototype, 'flags');
-    return desc && ES.IsCallable(desc.get);
-  }());
-  if (supportsDescriptors && !hasFlags) {
+  if (!RegExp.prototype.flags && supportsDescriptors) {
     var regExpFlagsGetter = function flags() {
       if (!ES.TypeIsObject(this)) {
         throw new TypeError('Method called on incompatible type: must be an object.');
@@ -6310,55 +5962,38 @@ process.umask = function() { return 0; };
     Value.getter(RegExp.prototype, 'flags', regExpFlagsGetter);
   }
 
-  var regExpSupportsFlagsWithRegex = supportsDescriptors && valueOrFalseIfThrows(function () {
+  var regExpSupportsFlagsWithRegex = valueOrFalseIfThrows(function () {
     return String(new RegExp(/a/g, 'i')) === '/a/i';
   });
-  var regExpNeedsToSupportSymbolMatch = hasSymbols && supportsDescriptors && (function () {
-    // Edge 0.12 supports flags fully, but does not support Symbol.match
-    var regex = /./;
-    regex[Symbol.match] = false;
-    return RegExp(regex) === regex;
-  }());
 
-  if (supportsDescriptors && (!regExpSupportsFlagsWithRegex || regExpNeedsToSupportSymbolMatch)) {
-    var flagsGetter = Object.getOwnPropertyDescriptor(RegExp.prototype, 'flags').get;
-    var sourceDesc = Object.getOwnPropertyDescriptor(RegExp.prototype, 'source') || {};
-    var legacySourceGetter = function () { return this.source; }; // prior to it being a getter, it's own + nonconfigurable
-    var sourceGetter = ES.IsCallable(sourceDesc.get) ? sourceDesc.get : legacySourceGetter;
-
+  if (!regExpSupportsFlagsWithRegex && supportsDescriptors) {
     var OrigRegExp = RegExp;
-    var RegExpShim = (function () {
-      return function RegExp(pattern, flags) {
-        var patternIsRegExp = ES.IsRegExp(pattern);
-        var calledWithNew = this instanceof RegExp;
-        if (!calledWithNew && patternIsRegExp && typeof flags === 'undefined' && pattern.constructor === RegExp) {
-          return pattern;
-        }
-
-        var P = pattern;
-        var F = flags;
-        if (Type.regex(pattern)) {
-          P = ES.Call(sourceGetter, pattern);
-          F = typeof flags === 'undefined' ? ES.Call(flagsGetter, pattern) : flags;
-          return new RegExp(P, F);
-        } else if (patternIsRegExp) {
-          P = pattern.source;
-          F = typeof flags === 'undefined' ? pattern.flags : flags;
-        }
-        return new OrigRegExp(pattern, flags);
-      };
-    }());
-    wrapConstructor(OrigRegExp, RegExpShim, {
-      $input: true // Chrome < v39 & Opera < 26 have a nonstandard "$input" property
+    var RegExpShim = function RegExp(pattern, flags) {
+      var calledWithNew = this instanceof RegExp;
+      if (!calledWithNew && (Type.regex(pattern) || (pattern && pattern.constructor === RegExp))) {
+        return pattern;
+      }
+      if (Type.regex(pattern) && Type.string(flags)) {
+        return new RegExp(pattern.source, flags);
+      }
+      return new OrigRegExp(pattern, flags);
+    };
+    Value.preserveToString(RegExpShim, OrigRegExp);
+    if (Object.setPrototypeOf) {
+      // sets up proper prototype chain where possible
+      Object.setPrototypeOf(OrigRegExp, RegExpShim);
+    }
+    _forEach(Object.getOwnPropertyNames(OrigRegExp), function (key) {
+      if (key === '$input') { return; } // Chrome < v39 & Opera < 26 have a nonstandard "$input" property
+      if (key in noop) { return; }
+      Value.proxy(OrigRegExp, key, RegExpShim);
     });
-    /* globals RegExp: true */
-    /* eslint-disable no-undef */
-    /* jshint -W020 */
+    RegExpShim.prototype = OrigRegExp.prototype;
+    Value.redefine(OrigRegExp.prototype, 'constructor', RegExpShim);
+    /*globals RegExp: true */
     RegExp = RegExpShim;
     Value.redefine(globals, 'RegExp', RegExpShim);
-    /* jshint +W020 */
-    /* eslint-enable no-undef */
-    /* globals RegExp: false */
+    /*globals RegExp: false */
   }
 
   if (supportsDescriptors) {
@@ -6369,7 +6004,7 @@ process.umask = function() { return 0; };
       leftContext: '$`',
       rightContext: '$\''
     };
-    _forEach(keys(regexGlobals), function (prop) {
+    _forEach(Object.keys(regexGlobals), function (prop) {
       if (prop in RegExp && !(regexGlobals[prop] in RegExp)) {
         Value.getter(RegExp, regexGlobals[prop], function get() {
           return RegExp[prop];
@@ -6440,7 +6075,7 @@ process.umask = function() { return 0; };
       if (number === 0) {
         return 32;
       }
-      return numberCLZ ? ES.Call(numberCLZ, number) : 31 - _floor(_log(number + 0.5) * Math.LOG2E);
+      return numberCLZ ? _call(numberCLZ, number) : 31 - _floor(_log(number + 0.5) * Math.LOG2E);
     },
 
     cosh: function cosh(value) {
@@ -6619,7 +6254,7 @@ process.umask = function() { return 0; };
     // Safari 8.0.4 has a length of 1
     // fixed in https://bugs.webkit.org/show_bug.cgi?id=143658
     overrideNative(Math, 'imul', function imul(x, y) {
-      return ES.Call(origImul, Math, arguments);
+      return _apply(origImul, Math, arguments);
     });
   }
 
@@ -6627,9 +6262,6 @@ process.umask = function() { return 0; };
   // Simplest possible implementation; use a 3rd-party library if you
   // want the best possible speed and/or long stack traces.
   var PromiseShim = (function () {
-    var setTimeout = globals.setTimeout;
-    // some environments don't have setTimeout - no way to shim here.
-    if (typeof setTimeout !== 'function' && typeof setTimeout !== 'object') { return; }
 
     ES.IsPromise = function (promise) {
       if (!ES.TypeIsObject(promise)) {
@@ -6655,9 +6287,6 @@ process.umask = function() { return 0; };
         capability.resolve = resolve;
         capability.reject = reject;
       };
-      // Initialize fields to inform optimizers about the object shape.
-      capability.resolve = void 0;
-      capability.reject = void 0;
       capability.promise = new C(resolver);
       if (!(ES.IsCallable(capability.resolve) && ES.IsCallable(capability.reject))) {
         throw new TypeError('Bad promise constructor');
@@ -6665,6 +6294,7 @@ process.umask = function() { return 0; };
     };
 
     // find an appropriate setImmediate-alike
+    var setTimeout = globals.setTimeout;
     var makeZeroTimeout;
     /*global window */
     if (typeof window !== 'undefined' && ES.IsCallable(window.postMessage)) {
@@ -6694,115 +6324,72 @@ process.umask = function() { return 0; };
       // global Promise below (in order to workaround bugs)
       // https://github.com/Raynos/observ-hash/issues/2#issuecomment-35857671
       var P = globals.Promise;
-      var pr = P && P.resolve && P.resolve();
-      return pr && function (task) {
-        return pr.then(task);
+      return P && P.resolve && function (task) {
+        return P.resolve().then(task);
       };
     };
     /*global process */
-    /* jscs:disable disallowMultiLineTernary */
     var enqueue = ES.IsCallable(globals.setImmediate) ?
-      globals.setImmediate :
+      globals.setImmediate.bind(globals) :
       typeof process === 'object' && process.nextTick ? process.nextTick :
       makePromiseAsap() ||
       (ES.IsCallable(makeZeroTimeout) ? makeZeroTimeout() :
       function (task) { setTimeout(task, 0); }); // fallback
-    /* jscs:enable disallowMultiLineTernary */
 
     // Constants for Promise implementation
-    var PROMISE_IDENTITY = function (x) { return x; };
-    var PROMISE_THROWER = function (e) { throw e; };
-    var PROMISE_PENDING = 0;
-    var PROMISE_FULFILLED = 1;
-    var PROMISE_REJECTED = 2;
-    // We store fulfill/reject handlers and capabilities in a single array.
-    var PROMISE_FULFILL_OFFSET = 0;
-    var PROMISE_REJECT_OFFSET = 1;
-    var PROMISE_CAPABILITY_OFFSET = 2;
-    // This is used in an optimization for chaining promises via then.
-    var PROMISE_FAKE_CAPABILITY = {};
+    var PROMISE_IDENTITY = 1;
+    var PROMISE_THROWER = 2;
+    var PROMISE_PENDING = 3;
+    var PROMISE_FULFILLED = 4;
+    var PROMISE_REJECTED = 5;
 
-    var enqueuePromiseReactionJob = function (handler, capability, argument) {
-      enqueue(function () {
-        promiseReactionJob(handler, capability, argument);
-      });
+    var promiseReactionJob = function (reaction, argument) {
+      var promiseCapability = reaction.capabilities;
+      var handler = reaction.handler;
+      var handlerResult, handlerException = false, f;
+      if (handler === PROMISE_IDENTITY) {
+        handlerResult = argument;
+      } else if (handler === PROMISE_THROWER) {
+        handlerResult = argument;
+        handlerException = true;
+      } else {
+        try {
+          handlerResult = handler(argument);
+        } catch (e) {
+          handlerResult = e;
+          handlerException = true;
+        }
+      }
+      f = handlerException ? promiseCapability.reject : promiseCapability.resolve;
+      f(handlerResult);
     };
 
-    var promiseReactionJob = function (handler, promiseCapability, argument) {
-      var handlerResult, f;
-      if (promiseCapability === PROMISE_FAKE_CAPABILITY) {
-        // Fast case, when we don't actually need to chain through to a
-        // (real) promiseCapability.
-        return handler(argument);
-      }
-      try {
-        handlerResult = handler(argument);
-        f = promiseCapability.resolve;
-      } catch (e) {
-        handlerResult = e;
-        f = promiseCapability.reject;
-      }
-      f(handlerResult);
+    var triggerPromiseReactions = function (reactions, argument) {
+      _forEach(reactions, function (reaction) {
+        enqueue(function () {
+          promiseReactionJob(reaction, argument);
+        });
+      });
     };
 
     var fulfillPromise = function (promise, value) {
       var _promise = promise._promise;
-      var length = _promise.reactionLength;
-      if (length > 0) {
-        enqueuePromiseReactionJob(
-          _promise.fulfillReactionHandler0,
-          _promise.reactionCapability0,
-          value
-        );
-        _promise.fulfillReactionHandler0 = void 0;
-        _promise.rejectReactions0 = void 0;
-        _promise.reactionCapability0 = void 0;
-        if (length > 1) {
-          for (var i = 1, idx = 0; i < length; i++, idx += 3) {
-            enqueuePromiseReactionJob(
-              _promise[idx + PROMISE_FULFILL_OFFSET],
-              _promise[idx + PROMISE_CAPABILITY_OFFSET],
-              value
-            );
-            promise[idx + PROMISE_FULFILL_OFFSET] = void 0;
-            promise[idx + PROMISE_REJECT_OFFSET] = void 0;
-            promise[idx + PROMISE_CAPABILITY_OFFSET] = void 0;
-          }
-        }
-      }
+      var reactions = _promise.fulfillReactions;
       _promise.result = value;
+      _promise.fulfillReactions = void 0;
+      _promise.rejectReactions = void 0;
       _promise.state = PROMISE_FULFILLED;
-      _promise.reactionLength = 0;
+      triggerPromiseReactions(reactions, value);
     };
 
     var rejectPromise = function (promise, reason) {
       var _promise = promise._promise;
-      var length = _promise.reactionLength;
-      if (length > 0) {
-        enqueuePromiseReactionJob(
-          _promise.rejectReactionHandler0,
-          _promise.reactionCapability0,
-          reason
-        );
-        _promise.fulfillReactionHandler0 = void 0;
-        _promise.rejectReactions0 = void 0;
-        _promise.reactionCapability0 = void 0;
-        if (length > 1) {
-          for (var i = 1, idx = 0; i < length; i++, idx += 3) {
-            enqueuePromiseReactionJob(
-              _promise[idx + PROMISE_REJECT_OFFSET],
-              _promise[idx + PROMISE_CAPABILITY_OFFSET],
-              reason
-            );
-            promise[idx + PROMISE_FULFILL_OFFSET] = void 0;
-            promise[idx + PROMISE_REJECT_OFFSET] = void 0;
-            promise[idx + PROMISE_CAPABILITY_OFFSET] = void 0;
-          }
-        }
-      }
+      var reactions = _promise.rejectReactions;
       _promise.result = reason;
+      _promise.fulfillReactions = void 0;
+      _promise.rejectReactions = void 0;
       _promise.state = PROMISE_REJECTED;
-      _promise.reactionLength = 0;
+      triggerPromiseReactions(reactions, reason);
     };
 
     var createResolvingFunctions = function (promise) {
@@ -6837,68 +6424,58 @@ process.umask = function() { return 0; };
       return { resolve: resolve, reject: reject };
     };
 
-    var optimizedThen = function (then, thenable, resolve, reject) {
-      // Optimization: since we discard the result, we can pass our
-      // own then implementation a special hint to let it know it
-      // doesn't have to create it.  (The PROMISE_FAKE_CAPABILITY
-      // object is local to this implementation and unforgeable outside.)
-      if (then === Promise$prototype$then) {
-        _call(then, thenable, resolve, reject, PROMISE_FAKE_CAPABILITY);
-      } else {
-        _call(then, thenable, resolve, reject);
-      }
-    };
     var promiseResolveThenableJob = function (promise, thenable, then) {
       var resolvingFunctions = createResolvingFunctions(promise);
       var resolve = resolvingFunctions.resolve;
       var reject = resolvingFunctions.reject;
       try {
-        optimizedThen(then, thenable, resolve, reject);
+        _call(then, thenable, resolve, reject);
       } catch (e) {
         reject(e);
       }
     };
 
-    var Promise$prototype, Promise$prototype$then;
-    var Promise = (function () {
-      var PromiseShim = function Promise(resolver) {
-        if (!(this instanceof PromiseShim)) {
-          throw new TypeError('Constructor Promise requires "new"');
+    // This is a common step in many Promise methods
+    var getPromiseSpecies = function (C) {
+      if (!ES.TypeIsObject(C)) {
+        throw new TypeError('Promise is not object');
+      }
+      var S = C[symbolSpecies];
+      if (S !== void 0 && S !== null) {
+        return S;
+      }
+      return C;
+    };
+
+    var Promise = function Promise(resolver) {
+      if (!(this instanceof Promise)) {
+        throw new TypeError('Constructor Promise requires "new"');
+      }
+      if (this && this._promise) {
+        throw new TypeError('Bad construction');
+      }
+      // see https://bugs.ecmascript.org/show_bug.cgi?id=2482
+      if (!ES.IsCallable(resolver)) {
+        throw new TypeError('not a valid resolver');
+      }
+      var promise = emulateES6construct(this, Promise, Promise$prototype, {
+        _promise: {
+          result: void 0,
+          state: PROMISE_PENDING,
+          fulfillReactions: [],
+          rejectReactions: []
         }
-        if (this && this._promise) {
-          throw new TypeError('Bad construction');
-        }
-        // see https://bugs.ecmascript.org/show_bug.cgi?id=2482
-        if (!ES.IsCallable(resolver)) {
-          throw new TypeError('not a valid resolver');
-        }
-        var promise = emulateES6construct(this, PromiseShim, Promise$prototype, {
-          _promise: {
-            result: void 0,
-            state: PROMISE_PENDING,
-            // The first member of the "reactions" array is inlined here,
-            // since most promises only have one reaction.
-            // We've also exploded the 'reaction' object to inline the
-            // "handler" and "capability" fields, since both fulfill and
-            // reject reactions share the same capability.
-            reactionLength: 0,
-            fulfillReactionHandler0: void 0,
-            rejectReactionHandler0: void 0,
-            reactionCapability0: void 0
-          }
-        });
-        var resolvingFunctions = createResolvingFunctions(promise);
-        var reject = resolvingFunctions.reject;
-        try {
-          resolver(resolvingFunctions.resolve, reject);
-        } catch (e) {
-          reject(e);
-        }
-        return promise;
-      };
-      return PromiseShim;
-    }());
-    Promise$prototype = Promise.prototype;
+      });
+      var resolvingFunctions = createResolvingFunctions(promise);
+      var reject = resolvingFunctions.reject;
+      try {
+        resolver(resolvingFunctions.resolve, reject);
+      } catch (e) {
+        reject(e);
+      }
+      return promise;
+    };
+    var Promise$prototype = Promise.prototype;
 
     var _promiseAllResolver = function (index, values, capability, remaining) {
       var alreadyCalled = false;
@@ -6916,8 +6493,7 @@ process.umask = function() { return 0; };
     var performPromiseAll = function (iteratorRecord, C, resultCapability) {
       var it = iteratorRecord.iterator;
       var values = [], remaining = { count: 1 }, next, nextValue;
-      var index = 0;
-      while (true) {
+      for (var index = 0; ; index++) {
         try {
           next = ES.IteratorStep(it);
           if (next === false) {
@@ -6934,9 +6510,8 @@ process.umask = function() { return 0; };
         var resolveElement = _promiseAllResolver(
           index, values, resultCapability, remaining
         );
-        remaining.count += 1;
-        optimizedThen(nextPromise.then, nextPromise, resolveElement, resultCapability.reject);
-        index += 1;
+        remaining.count++;
+        nextPromise.then(resolveElement, resultCapability.reject);
       }
       if ((--remaining.count) === 0) {
         var resolve = resultCapability.resolve;
@@ -6964,17 +6539,14 @@ process.umask = function() { return 0; };
           throw e;
         }
         nextPromise = C.resolve(nextValue);
-        optimizedThen(nextPromise.then, nextPromise, resultCapability.resolve, resultCapability.reject);
+        nextPromise.then(resultCapability.resolve, resultCapability.reject);
       }
       return resultCapability.promise;
     };
 
     defineProperties(Promise, {
       all: function all(iterable) {
-        var C = this;
-        if (!ES.TypeIsObject(C)) {
-          throw new TypeError('Promise is not object');
-        }
+        var C = getPromiseSpecies(this);
         var capability = new PromiseCapability(C);
         var iterator, iteratorRecord;
         try {
@@ -6982,25 +6554,21 @@ process.umask = function() { return 0; };
           iteratorRecord = { iterator: iterator, done: false };
           return performPromiseAll(iteratorRecord, C, capability);
         } catch (e) {
-          var exception = e;
           if (iteratorRecord && !iteratorRecord.done) {
             try {
               ES.IteratorClose(iterator, true);
             } catch (ee) {
-              exception = ee;
+              e = ee;
             }
           }
           var reject = capability.reject;
-          reject(exception);
+          reject(e);
           return capability.promise;
         }
       },
 
       race: function race(iterable) {
-        var C = this;
-        if (!ES.TypeIsObject(C)) {
-          throw new TypeError('Promise is not object');
-        }
+        var C = getPromiseSpecies(this);
         var capability = new PromiseCapability(C);
         var iterator, iteratorRecord;
         try {
@@ -7008,25 +6576,21 @@ process.umask = function() { return 0; };
           iteratorRecord = { iterator: iterator, done: false };
           return performPromiseRace(iteratorRecord, C, capability);
         } catch (e) {
-          var exception = e;
           if (iteratorRecord && !iteratorRecord.done) {
             try {
               ES.IteratorClose(iterator, true);
             } catch (ee) {
-              exception = ee;
+              e = ee;
             }
           }
           var reject = capability.reject;
-          reject(exception);
+          reject(e);
           return capability.promise;
         }
       },
 
       reject: function reject(reason) {
         var C = this;
-        if (!ES.TypeIsObject(C)) {
-          throw new TypeError('Bad promise constructor');
-        }
         var capability = new PromiseCapability(C);
         var rejectFunc = capability.reject;
         rejectFunc(reason); // call with this===undefined
@@ -7036,9 +6600,6 @@ process.umask = function() { return 0; };
       resolve: function resolve(v) {
         // See https://esdiscuss.org/topic/fixing-promise-resolve for spec
         var C = this;
-        if (!ES.TypeIsObject(C)) {
-          throw new TypeError('Bad promise constructor');
-        }
         if (ES.IsPromise(v)) {
           var constructor = v.constructor;
           if (constructor === C) { return v; }
@@ -7052,60 +6613,47 @@ process.umask = function() { return 0; };
 
     defineProperties(Promise$prototype, {
       'catch': function (onRejected) {
-        return this.then(null, onRejected);
+        return this.then(void 0, onRejected);
       },
 
       then: function then(onFulfilled, onRejected) {
         var promise = this;
         if (!ES.IsPromise(promise)) { throw new TypeError('not a promise'); }
         var C = ES.SpeciesConstructor(promise, Promise);
-        var resultCapability;
-        var returnValueIsIgnored = arguments.length > 2 && arguments[2] === PROMISE_FAKE_CAPABILITY;
-        if (returnValueIsIgnored && C === Promise) {
-          resultCapability = PROMISE_FAKE_CAPABILITY;
-        } else {
-          resultCapability = new PromiseCapability(C);
-        }
+        var resultCapability = new PromiseCapability(C);
         // PerformPromiseThen(promise, onFulfilled, onRejected, resultCapability)
-        // Note that we've split the 'reaction' object into its two
-        // components, "capabilities" and "handler"
-        // "capabilities" is always equal to `resultCapability`
-        var fulfillReactionHandler = ES.IsCallable(onFulfilled) ? onFulfilled : PROMISE_IDENTITY;
-        var rejectReactionHandler = ES.IsCallable(onRejected) ? onRejected : PROMISE_THROWER;
-        var _promise = promise._promise;
-        var value;
-        if (_promise.state === PROMISE_PENDING) {
-          if (_promise.reactionLength === 0) {
-            _promise.fulfillReactionHandler0 = fulfillReactionHandler;
-            _promise.rejectReactionHandler0 = rejectReactionHandler;
-            _promise.reactionCapability0 = resultCapability;
-          } else {
-            var idx = 3 * (_promise.reactionLength - 1);
-            _promise[idx + PROMISE_FULFILL_OFFSET] = fulfillReactionHandler;
-            _promise[idx + PROMISE_REJECT_OFFSET] = rejectReactionHandler;
-            _promise[idx + PROMISE_CAPABILITY_OFFSET] = resultCapability;
-          }
-          _promise.reactionLength += 1;
-        } else if (_promise.state === PROMISE_FULFILLED) {
-          value = _promise.result;
-          enqueuePromiseReactionJob(
-            fulfillReactionHandler, resultCapability, value
-          );
-        } else if (_promise.state === PROMISE_REJECTED) {
-          value = _promise.result;
-          enqueuePromiseReactionJob(
-            rejectReactionHandler, resultCapability, value
-          );
-        } else {
-          throw new TypeError('unexpected Promise state');
+        if (!ES.IsCallable(onFulfilled)) {
+          onFulfilled = PROMISE_IDENTITY;
+        }
+        if (!ES.IsCallable(onRejected)) {
+          onRejected = PROMISE_THROWER;
+        }
+        var fulfillReaction = { capabilities: resultCapability, handler: onFulfilled };
+        var rejectReaction = { capabilities: resultCapability, handler: onRejected };
+        var _promise = promise._promise, value;
+        switch (_promise.state) {
+          case PROMISE_PENDING:
+            _push(_promise.fulfillReactions, fulfillReaction);
+            _push(_promise.rejectReactions, rejectReaction);
+            break;
+          case PROMISE_FULFILLED:
+            value = _promise.result;
+            enqueue(function () {
+              promiseReactionJob(fulfillReaction, value);
+            });
+            break;
+          case PROMISE_REJECTED:
+            value = _promise.result;
+            enqueue(function () {
+              promiseReactionJob(rejectReaction, value);
+            });
+            break;
+          default:
+            throw new TypeError('unexpected');
         }
         return resultCapability.promise;
       }
     });
-    // This helps the optimizer by ensuring that methods which take
-    // capabilities aren't polymorphic.
-    PROMISE_FAKE_CAPABILITY = new PromiseCapability(Promise);
-    Promise$prototype$then = Promise$prototype.then;
 
     return Promise;
   }());
@@ -7117,98 +6665,41 @@ process.umask = function() { return 0; };
     delete globals.Promise.prototype.chain;
   }
 
-  if (typeof PromiseShim === 'function') {
-    // export the Promise constructor.
-    defineProperties(globals, { Promise: PromiseShim });
-    // In Chrome 33 (and thereabouts) Promise is defined, but the
-    // implementation is buggy in a number of ways.  Let's check subclassing
-    // support to see if we have a buggy implementation.
-    var promiseSupportsSubclassing = supportsSubclassing(globals.Promise, function (S) {
-      return S.resolve(42).then(function () {}) instanceof S;
-    });
-    var promiseIgnoresNonFunctionThenCallbacks = !throwsError(function () { globals.Promise.reject(42).then(null, 5).then(null, noop); });
-    var promiseRequiresObjectContext = throwsError(function () { globals.Promise.call(3, noop); });
-    // Promise.resolve() was errata'ed late in the ES6 process.
-    // See: https://bugzilla.mozilla.org/show_bug.cgi?id=1170742
-    //      https://code.google.com/p/v8/issues/detail?id=4161
-    // It serves as a proxy for a number of other bugs in early Promise
-    // implementations.
-    var promiseResolveBroken = (function (Promise) {
-      var p = Promise.resolve(5);
-      p.constructor = {};
-      var p2 = Promise.resolve(p);
-      return (p === p2); // This *should* be false!
-    }(globals.Promise));
-
-    // Chrome 46 (probably older too) does not retrieve a thenable's .then synchronously
-    var getsThenSynchronously = supportsDescriptors && (function () {
-      var count = 0;
-      var thenable = Object.defineProperty({}, 'then', { get: function () { count += 1; } });
-      Promise.resolve(thenable);
-      return count === 1;
-    }());
-
-    var BadResolverPromise = function BadResolverPromise(executor) {
-      var p = new Promise(executor);
-      executor(3, function () {});
-      this.then = p.then;
-      this.constructor = BadResolverPromise;
-    };
-    BadResolverPromise.prototype = Promise.prototype;
-    BadResolverPromise.all = Promise.all;
-    // Chrome Canary 49 (probably older too) has some implementation bugs
-    var hasBadResolverPromise = valueOrFalseIfThrows(function () {
-      return !!BadResolverPromise.all([1, 2]);
-    });
-
-    if (!promiseSupportsSubclassing || !promiseIgnoresNonFunctionThenCallbacks ||
-        !promiseRequiresObjectContext || promiseResolveBroken ||
-        !getsThenSynchronously || hasBadResolverPromise) {
-      /* globals Promise: true */
-      /* eslint-disable no-undef */
-      /* jshint -W020 */
-      Promise = PromiseShim;
-      /* jshint +W020 */
-      /* eslint-enable no-undef */
-      /* globals Promise: false */
-      overrideNative(globals, 'Promise', PromiseShim);
-    }
-    if (Promise.all.length !== 1) {
-      var origAll = Promise.all;
-      overrideNative(Promise, 'all', function all(iterable) {
-        return ES.Call(origAll, this, arguments);
-      });
-    }
-    if (Promise.race.length !== 1) {
-      var origRace = Promise.race;
-      overrideNative(Promise, 'race', function race(iterable) {
-        return ES.Call(origRace, this, arguments);
-      });
-    }
-    if (Promise.resolve.length !== 1) {
-      var origResolve = Promise.resolve;
-      overrideNative(Promise, 'resolve', function resolve(x) {
-        return ES.Call(origResolve, this, arguments);
-      });
-    }
-    if (Promise.reject.length !== 1) {
-      var origReject = Promise.reject;
-      overrideNative(Promise, 'reject', function reject(r) {
-        return ES.Call(origReject, this, arguments);
-      });
-    }
-    ensureEnumerable(Promise, 'all');
-    ensureEnumerable(Promise, 'race');
-    ensureEnumerable(Promise, 'resolve');
-    ensureEnumerable(Promise, 'reject');
-    addDefaultSpecies(Promise);
+  // export the Promise constructor.
+  defineProperties(globals, { Promise: PromiseShim });
+  // In Chrome 33 (and thereabouts) Promise is defined, but the
+  // implementation is buggy in a number of ways.  Let's check subclassing
+  // support to see if we have a buggy implementation.
+  var promiseSupportsSubclassing = supportsSubclassing(globals.Promise, function (S) {
+    return S.resolve(42).then(function () {}) instanceof S;
+  });
+  var promiseIgnoresNonFunctionThenCallbacks = !throwsError(function () { globals.Promise.reject(42).then(null, 5).then(null, noop); });
+  var promiseRequiresObjectContext = throwsError(function () { globals.Promise.call(3, noop); });
+  // Promise.resolve() was errata'ed late in the ES6 process.
+  // See: https://bugzilla.mozilla.org/show_bug.cgi?id=1170742
+  //      https://code.google.com/p/v8/issues/detail?id=4161
+  // It serves as a proxy for a number of other bugs in early Promise
+  // implementations.
+  var promiseResolveBroken = (function (Promise) {
+    var p = Promise.resolve(5);
+    p.constructor = {};
+    var p2 = Promise.resolve(p);
+    return (p === p2); // This *should* be false!
+  })(globals.Promise);
+  if (!promiseSupportsSubclassing || !promiseIgnoresNonFunctionThenCallbacks ||
+      !promiseRequiresObjectContext || promiseResolveBroken) {
+    /*globals Promise: true */
+    Promise = PromiseShim;
+    /*globals Promise: false */
+    overrideNative(globals, 'Promise', PromiseShim);
   }
+  addDefaultSpecies(Promise);
 
   // Map and Set require a true ES5 environment
   // Their fast path also requires that the environment preserve
   // property insertion order, which is not guaranteed by the spec.
   var testOrder = function (a) {
-    var b = keys(_reduce(a, function (o, k) {
+    var b = Object.keys(_reduce(a, function (o, k) {
       o[k] = true;
       return o;
     }, {}));
@@ -7224,17 +6715,18 @@ process.umask = function() { return 0; };
       if (!preservesInsertionOrder) {
         return null;
       }
-      if (typeof key === 'undefined' || key === null) {
-        return '^' + ES.ToString(key);
-      } else if (typeof key === 'string') {
+      var type = typeof key;
+      if (type === 'undefined' || key === null) {
+        return '^' + String(key);
+      } else if (type === 'string') {
         return '$' + key;
-      } else if (typeof key === 'number') {
+      } else if (type === 'number') {
         // note that -0 will get coerced to "0" when used as a property key
         if (!preservesNumericInsertionOrder) {
           return 'n' + key;
         }
         return key;
-      } else if (typeof key === 'boolean') {
+      } else if (type === 'boolean') {
         return 'b' + key;
       }
       return null;
@@ -7246,11 +6738,8 @@ process.umask = function() { return 0; };
     };
 
     var addIterableToMap = function addIterableToMap(MapConstructor, map, iterable) {
-      if (isArray(iterable) || Type.string(iterable)) {
+      if (Array.isArray(iterable) || Type.string(iterable)) {
         _forEach(iterable, function (entry) {
-          if (!ES.TypeIsObject(entry)) {
-            throw new TypeError('Iterator value ' + entry + ' is not an entry object');
-          }
           map.set(entry[0], entry[1]);
         });
       } else if (iterable instanceof MapConstructor) {
@@ -7271,7 +6760,7 @@ process.umask = function() { return 0; };
             var nextItem = next.value;
             try {
               if (!ES.TypeIsObject(nextItem)) {
-                throw new TypeError('Iterator value ' + nextItem + ' is not an entry object');
+                throw new TypeError('expected iterable of pairs');
               }
               _call(adder, map, nextItem[0], nextItem[1]);
             } catch (e) {
@@ -7283,7 +6772,7 @@ process.umask = function() { return 0; };
       }
     };
     var addIterableToSet = function addIterableToSet(SetConstructor, set, iterable) {
-      if (isArray(iterable) || Type.string(iterable)) {
+      if (Array.isArray(iterable) || Type.string(iterable)) {
         _forEach(iterable, function (value) {
           set.add(value);
         });
@@ -7336,7 +6825,7 @@ process.umask = function() { return 0; };
 
         var requireMapSlot = function requireMapSlot(map, method) {
           if (!ES.TypeIsObject(map) || !isMap(map)) {
-            throw new TypeError('Method Map.prototype.' + method + ' called on incompatible receiver ' + ES.ToString(map));
+            throw new TypeError('Method Map.prototype.' + method + ' called on incompatible receiver ' + String(map));
           }
         };
 
@@ -7379,7 +6868,6 @@ process.umask = function() { return 0; };
         };
         addIterator(MapIterator.prototype);
 
-        var Map$prototype;
         var MapShim = function Map() {
           if (!(this instanceof Map)) {
             throw new TypeError('Constructor Map requires "new"');
@@ -7405,7 +6893,7 @@ process.umask = function() { return 0; };
           }
           return map;
         };
-        Map$prototype = MapShim.prototype;
+        var Map$prototype = MapShim.prototype;
 
         Value.getter(Map$prototype, 'size', function () {
           if (typeof this._size === 'undefined') {
@@ -7562,7 +7050,7 @@ process.umask = function() { return 0; };
         var requireSetSlot = function requireSetSlot(set, method) {
           if (!ES.TypeIsObject(set) || !isSet(set)) {
             // https://github.com/paulmillr/es6-shim/issues/176
-            throw new TypeError('Set.prototype.' + method + ' called on incompatible receiver ' + ES.ToString(set));
+            throw new TypeError('Set.prototype.' + method + ' called on incompatible receiver ' + String(set));
           }
         };
 
@@ -7570,7 +7058,6 @@ process.umask = function() { return 0; };
         // Sets containing only string or numeric keys, we use an object
         // as backing storage and lazily create a full Map only when
         // required.
-        var Set$prototype;
         var SetShim = function Set() {
           if (!(this instanceof Set)) {
             throw new TypeError('Constructor Set requires "new"');
@@ -7593,44 +7080,37 @@ process.umask = function() { return 0; };
           }
           return set;
         };
-        Set$prototype = SetShim.prototype;
+        var Set$prototype = SetShim.prototype;
 
-        var decodeKey = function (key) {
-          var k = key;
-          if (k === '^null') {
-            return null;
-          } else if (k === '^undefined') {
-            return void 0;
-          } else {
-            var first = k.charAt(0);
-            if (first === '$') {
-              return _strSlice(k, 1);
-            } else if (first === 'n') {
-              return +_strSlice(k, 1);
-            } else if (first === 'b') {
-              return k === 'btrue';
-            }
-          }
-          return +k;
-        };
         // Switch from the object backing storage to a full Map.
         var ensureMap = function ensureMap(set) {
           if (!set['[[SetData]]']) {
             var m = set['[[SetData]]'] = new collectionShims.Map();
-            _forEach(keys(set._storage), function (key) {
-              var k = decodeKey(key);
+            _forEach(Object.keys(set._storage), function (k) {
+              if (k === '^null') {
+                k = null;
+              } else if (k === '^undefined') {
+                k = void 0;
+              } else {
+                var first = k.charAt(0);
+                if (first === '$') {
+                  k = _strSlice(k, 1);
+                } else if (first === 'n') {
+                  k = +_strSlice(k, 1);
+                } else if (first === 'b') {
+                  k = k === 'btrue';
+                } else {
+                  k = +k;
+                }
+              }
               m.set(k, k);
             });
-            set['[[SetData]]'] = m;
+            set._storage = null; // free old backing storage
           }
-          set._storage = null; // free old backing storage
         };
 
         Value.getter(SetShim.prototype, 'size', function () {
           requireSetSlot(this, 'size');
-          if (this._storage) {
-            return keys(this._storage).length;
-          }
           ensureMap(this);
           return this['[[SetData]]'].size;
         });
@@ -7673,8 +7153,7 @@ process.umask = function() { return 0; };
             requireSetSlot(this, 'clear');
             if (this._storage) {
               this._storage = emptyObject();
-            }
-            if (this['[[SetData]]']) {
+            } else {
               this['[[SetData]]'].clear();
             }
           },
@@ -7711,6 +7190,7 @@ process.umask = function() { return 0; };
         return SetShim;
       }())
     };
+    defineProperties(globals, collectionShims);
 
     if (globals.Map || globals.Set) {
       // Safari 8, for example, doesn't accept an iterable.
@@ -7725,21 +7205,21 @@ process.umask = function() { return 0; };
           if (arguments.length > 0) {
             addIterableToMap(Map, m, arguments[0]);
           }
-          delete m.constructor;
           Object.setPrototypeOf(m, globals.Map.prototype);
+          defineProperty(m, 'constructor', Map, true);
           return m;
         };
         globals.Map.prototype = create(OrigMapNoArgs.prototype);
-        defineProperty(globals.Map.prototype, 'constructor', globals.Map, true);
         Value.preserveToString(globals.Map, OrigMapNoArgs);
       }
       var testMap = new Map();
-      var mapUsesSameValueZero = (function () {
-        // Chrome 38-42, node 0.11/0.12, iojs 1/2 also have a bug when the Map has a size > 4
-        var m = new Map([[1, 0], [2, 0], [3, 0], [4, 0]]);
-        m.set(-0, m);
-        return m.get(0) === m && m.get(-0) === m && m.has(0) && m.has(-0);
-      }());
+      var mapUsesSameValueZero = (function (m) {
+        m['delete'](0);
+        m['delete'](-0);
+        m.set(0, 3);
+        m.get(-0, 4);
+        return m.get(0) === 3 && m.get(-0) === 4;
+      }(testMap));
       var mapSupportsChaining = testMap.set(1, 2) === testMap;
       if (!mapUsesSameValueZero || !mapSupportsChaining) {
         var origMapSet = Map.prototype.set;
@@ -7814,12 +7294,11 @@ process.umask = function() { return 0; };
           if (arguments.length > 0) {
             addIterableToMap(Map, m, arguments[0]);
           }
-          delete m.constructor;
           Object.setPrototypeOf(m, Map.prototype);
+          defineProperty(m, 'constructor', Map, true);
           return m;
         };
         globals.Map.prototype = OrigMap.prototype;
-        defineProperty(globals.Map.prototype, 'constructor', globals.Map, true);
         Value.preserveToString(globals.Map, OrigMap);
       }
       var setSupportsSubclassing = supportsSubclassing(globals.Set, function (S) {
@@ -7845,12 +7324,11 @@ process.umask = function() { return 0; };
           if (arguments.length > 0) {
             addIterableToSet(Set, s, arguments[0]);
           }
-          delete s.constructor;
           Object.setPrototypeOf(s, Set.prototype);
+          defineProperty(s, 'constructor', Set, true);
           return s;
         };
         globals.Set.prototype = OrigSet.prototype;
-        defineProperty(globals.Set.prototype, 'constructor', globals.Set, true);
         Value.preserveToString(globals.Set, OrigSet);
       }
       var mapIterationThrowsStopIterator = !valueOrFalseIfThrows(function () {
@@ -7877,33 +7355,30 @@ process.umask = function() { return 0; };
         mapIterationThrowsStopIterator || // Firefox 25
         !mapSupportsSubclassing
       ) {
+        delete globals.Map; // necessary to overwrite in Safari 8
+        delete globals.Set; // necessary to overwrite in Safari 8
         defineProperties(globals, {
           Map: collectionShims.Map,
           Set: collectionShims.Set
         }, true);
       }
-
-      if (globals.Set.prototype.keys !== globals.Set.prototype.values) {
-        // Fixed in WebKit with https://bugs.webkit.org/show_bug.cgi?id=144190
-        defineProperty(globals.Set.prototype, 'keys', globals.Set.prototype.values, true);
-      }
-
-      // Shim incomplete iterator implementations.
-      addIterator(Object.getPrototypeOf((new globals.Map()).keys()));
-      addIterator(Object.getPrototypeOf((new globals.Set()).keys()));
-
-      if (functionsHaveNames && globals.Set.prototype.has.name !== 'has') {
-        // Microsoft Edge v0.11.10074.0 is missing a name on Set#has
-        var anonymousSetHas = globals.Set.prototype.has;
-        overrideNative(globals.Set.prototype, 'has', function has(key) {
-          return _call(anonymousSetHas, this, key);
-        });
-      }
     }
-    defineProperties(globals, collectionShims);
-    addDefaultSpecies(globals.Map);
-    addDefaultSpecies(globals.Set);
+    if (globals.Set.prototype.keys !== globals.Set.prototype.values) {
+      // Fixed in WebKit with https://bugs.webkit.org/show_bug.cgi?id=144190
+      defineProperty(globals.Set.prototype, 'keys', globals.Set.prototype.values, true);
+    }
+    // Shim incomplete iterator implementations.
+    addIterator(Object.getPrototypeOf((new globals.Map()).keys()));
+    addIterator(Object.getPrototypeOf((new globals.Set()).keys()));
   }
+  addDefaultSpecies(Map);
+  addDefaultSpecies(Set);
+
+  // Reflect
+  if (!globals.Reflect) {
+    defineProperty(globals, 'Reflect', {});
+  }
+  var Reflect = globals.Reflect;
 
   var throwUnlessTargetIsObject = function throwUnlessTargetIsObject(target) {
     if (!ES.TypeIsObject(target)) {
@@ -7915,10 +7390,10 @@ process.umask = function() { return 0; };
   // those on the Object global, except that a TypeError is thrown if
   // target isn't an object. As well as returning a boolean indicating
   // the success of the operation.
-  var ReflectShims = {
+  defineProperties(globals.Reflect, {
     // Apply method in a functional form.
     apply: function apply() {
-      return ES.Call(ES.Call, null, arguments);
+      return _apply(ES.Call, null, arguments);
     },
 
     // New operator in a functional form.
@@ -7926,7 +7401,7 @@ process.umask = function() { return 0; };
       if (!ES.IsConstructor(constructor)) {
         throw new TypeError('First argument must be a constructor.');
       }
-      var newTarget = arguments.length > 2 ? arguments[2] : constructor;
+      var newTarget = (arguments.length < 3) ? constructor : arguments[2];
       if (!ES.IsConstructor(newTarget)) {
         throw new TypeError('new.target must be a constructor.');
       }
@@ -7960,10 +7435,10 @@ process.umask = function() { return 0; };
       throwUnlessTargetIsObject(target);
       return key in target;
     }
-  };
+  });
 
   if (Object.getOwnPropertyNames) {
-    Object.assign(ReflectShims, {
+    defineProperties(globals.Reflect, {
       // Basically the result of calling the internal [[OwnPropertyKeys]].
       // Concatenating propertyNames and propertySymbols should do the trick.
       // This should continue to work together with a Symbol shim
@@ -7987,7 +7462,7 @@ process.umask = function() { return 0; };
   };
 
   if (Object.preventExtensions) {
-    Object.assign(ReflectShims, {
+    defineProperties(globals.Reflect, {
       isExtensible: function isExtensible(target) {
         throwUnlessTargetIsObject(target);
         return Object.isExtensible(target);
@@ -8009,7 +7484,7 @@ process.umask = function() { return 0; };
         var parent = Object.getPrototypeOf(target);
 
         if (parent === null) {
-          return void 0;
+          return undefined;
         }
 
         return internalGet(parent, key, receiver);
@@ -8020,10 +7495,10 @@ process.umask = function() { return 0; };
       }
 
       if (desc.get) {
-        return ES.Call(desc.get, receiver);
+        return _call(desc.get, receiver);
       }
 
-      return void 0;
+      return undefined;
     };
 
     var internalSet = function set(target, key, value, receiver) {
@@ -8077,7 +7552,7 @@ process.umask = function() { return 0; };
       return false;
     };
 
-    Object.assign(ReflectShims, {
+    defineProperties(globals.Reflect, {
       defineProperty: function defineProperty(target, propertyKey, attributes) {
         throwUnlessTargetIsObject(target);
         return callAndCatchException(function () {
@@ -8109,25 +7584,26 @@ process.umask = function() { return 0; };
 
   if (Object.getPrototypeOf) {
     var objectDotGetPrototypeOf = Object.getPrototypeOf;
-    ReflectShims.getPrototypeOf = function getPrototypeOf(target) {
-      throwUnlessTargetIsObject(target);
-      return objectDotGetPrototypeOf(target);
-    };
+    defineProperties(globals.Reflect, {
+      getPrototypeOf: function getPrototypeOf(target) {
+        throwUnlessTargetIsObject(target);
+        return objectDotGetPrototypeOf(target);
+      }
+    });
   }
 
-  if (Object.setPrototypeOf && ReflectShims.getPrototypeOf) {
-    var willCreateCircularPrototype = function (object, lastProto) {
-      var proto = lastProto;
+  if (Object.setPrototypeOf) {
+    var willCreateCircularPrototype = function (object, proto) {
       while (proto) {
         if (object === proto) {
           return true;
         }
-        proto = ReflectShims.getPrototypeOf(proto);
+        proto = Reflect.getPrototypeOf(proto);
       }
       return false;
     };
 
-    Object.assign(ReflectShims, {
+    defineProperties(globals.Reflect, {
       // Sets the prototype of the given object.
       // Returns true on success, otherwise false.
       setPrototypeOf: function setPrototypeOf(object, proto) {
@@ -8157,56 +7633,6 @@ process.umask = function() { return 0; };
       }
     });
   }
-  var defineOrOverrideReflectProperty = function (key, shim) {
-    if (!ES.IsCallable(globals.Reflect[key])) {
-      defineProperty(globals.Reflect, key, shim);
-    } else {
-      var acceptsPrimitives = valueOrFalseIfThrows(function () {
-        globals.Reflect[key](1);
-        globals.Reflect[key](NaN);
-        globals.Reflect[key](true);
-        return true;
-      });
-      if (acceptsPrimitives) {
-        overrideNative(globals.Reflect, key, shim);
-      }
-    }
-  };
-  Object.keys(ReflectShims).forEach(function (key) {
-    defineOrOverrideReflectProperty(key, ReflectShims[key]);
-  });
-  if (functionsHaveNames && globals.Reflect.getPrototypeOf.name !== 'getPrototypeOf') {
-    var originalReflectGetProto = globals.Reflect.getPrototypeOf;
-    overrideNative(globals.Reflect, 'getPrototypeOf', function getPrototypeOf(target) {
-      return _call(originalReflectGetProto, globals.Reflect, target);
-    });
-  }
-  if (globals.Reflect.setPrototypeOf) {
-    if (valueOrFalseIfThrows(function () {
-      globals.Reflect.setPrototypeOf(1, {});
-      return true;
-    })) {
-      overrideNative(globals.Reflect, 'setPrototypeOf', ReflectShims.setPrototypeOf);
-    }
-  }
-  if (globals.Reflect.defineProperty) {
-    if (!valueOrFalseIfThrows(function () {
-      var basic = !globals.Reflect.defineProperty(1, 'test', { value: 1 });
-      // "extensible" fails on Edge 0.12
-      var extensible = typeof Object.preventExtensions !== 'function' || !globals.Reflect.defineProperty(Object.preventExtensions({}), 'test', {});
-      return basic && extensible;
-    })) {
-      overrideNative(globals.Reflect, 'defineProperty', ReflectShims.defineProperty);
-    }
-  }
-  if (globals.Reflect.construct) {
-    if (!valueOrFalseIfThrows(function () {
-      var F = function F() {};
-      return globals.Reflect.construct(function () {}, [], F) instanceof F;
-    })) {
-      overrideNative(globals.Reflect, 'construct', ReflectShims.construct);
-    }
-  }
 
   if (String(new Date(NaN)) !== 'Invalid Date') {
     var dateToString = Date.prototype.toString;
@@ -8215,7 +7641,7 @@ process.umask = function() { return 0; };
       if (valueOf !== valueOf) {
         return 'Invalid Date';
       }
-      return ES.Call(dateToString, this);
+      return _call(dateToString, this);
     };
     overrideNative(Date.prototype, 'toString', shimmedDateToString);
   }
@@ -8248,64 +7674,14 @@ process.umask = function() { return 0; };
       shouldOverwrite = true;
     }
     if (shouldOverwrite) {
-      overrideNative(String.prototype, key, stringHTMLshims[key]);
+      defineProperty(String.prototype, key, stringHTMLshims[key], true);
     }
   });
-
-  var JSONstringifiesSymbols = (function () {
-    // Microsoft Edge v0.12 stringifies Symbols incorrectly
-    if (!hasSymbols) { return false; } // Symbols are not supported
-    var stringify = typeof JSON === 'object' && typeof JSON.stringify === 'function' ? JSON.stringify : null;
-    if (!stringify) { return false; } // JSON.stringify is not supported
-    if (typeof stringify(Symbol()) !== 'undefined') { return true; } // Symbols should become `undefined`
-    if (stringify([Symbol()]) !== '[null]') { return true; } // Symbols in arrays should become `null`
-    var obj = { a: Symbol() };
-    obj[Symbol()] = true;
-    if (stringify(obj) !== '{}') { return true; } // Symbol-valued keys *and* Symbol-valued properties should be omitted
-    return false;
-  }());
-  var JSONstringifyAcceptsObjectSymbol = valueOrFalseIfThrows(function () {
-    // Chrome 45 throws on stringifying object symbols
-    if (!hasSymbols) { return true; } // Symbols are not supported
-    return JSON.stringify(Object(Symbol())) === '{}' && JSON.stringify([Object(Symbol())]) === '[{}]';
-  });
-  if (JSONstringifiesSymbols || !JSONstringifyAcceptsObjectSymbol) {
-    var origStringify = JSON.stringify;
-    overrideNative(JSON, 'stringify', function stringify(value) {
-      if (typeof value === 'symbol') { return; }
-      var replacer;
-      if (arguments.length > 1) {
-        replacer = arguments[1];
-      }
-      var args = [value];
-      if (!isArray(replacer)) {
-        var replaceFn = ES.IsCallable(replacer) ? replacer : null;
-        var wrappedReplacer = function (key, val) {
-          var parsedValue = replaceFn ? _call(replaceFn, this, key, val) : val;
-          if (typeof parsedValue !== 'symbol') {
-            if (Type.symbol(parsedValue)) {
-              return assignTo({})(parsedValue);
-            } else {
-              return parsedValue;
-            }
-          }
-        };
-        args.push(wrappedReplacer);
-      } else {
-        // create wrapped replacer that handles an array replacer?
-        args.push(replacer);
-      }
-      if (arguments.length > 2) {
-        args.push(arguments[2]);
-      }
-      return origStringify.apply(this, args);
-    });
-  }
 
   return globals;
 }));
 
-}).call(this,require('_process'),typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
+}).call(this,require('_process'))
 },{"_process":73}],75:[function(require,module,exports){
 'use strict';
 
@@ -8574,7 +7950,7 @@ if ('undefined' !== typeof module) {
 (function (global){
 /**
  * @license
- * lodash 3.9.3 (Custom Build) <https://lodash.com/>
+ * lodash 3.10.1 (Custom Build) <https://lodash.com/>
  * Build: `lodash modern -d -o ./index.js`
  * Copyright 2012-2015 The Dojo Foundation <http://dojofoundation.org/>
  * Based on Underscore.js 1.8.3 <http://underscorejs.org/LICENSE>
@@ -8587,7 +7963,7 @@ if ('undefined' !== typeof module) {
   var undefined;
 
   /** Used as the semantic version number. */
-  var VERSION = '3.9.3';
+  var VERSION = '3.10.1';
 
   /** Used to compose bitmasks for wrapper metadata. */
   var BIND_FLAG = 1,
@@ -8608,9 +7984,11 @@ if ('undefined' !== typeof module) {
   var HOT_COUNT = 150,
       HOT_SPAN = 16;
 
+  /** Used as the size to enable large array optimizations. */
+  var LARGE_ARRAY_SIZE = 200;
+
   /** Used to indicate the type of lazy iteratees. */
-  var LAZY_DROP_WHILE_FLAG = 0,
-      LAZY_FILTER_FLAG = 1,
+  var LAZY_FILTER_FLAG = 1,
       LAZY_MAP_FLAG = 2;
 
   /** Used as the `TypeError` message for "Functions" methods. */
@@ -8667,11 +8045,10 @@ if ('undefined' !== typeof module) {
       rePropName = /[^.[\]]+|\[(?:(-?\d+(?:\.\d+)?)|(["'])((?:(?!\2)[^\n\\]|\\.)*?)\2)\]/g;
 
   /**
-   * Used to match `RegExp` [special characters](http://www.regular-expressions.info/characters.html#special).
-   * In addition to special characters the forward slash is escaped to allow for
-   * easier `eval` use and `Function` compilation.
+   * Used to match `RegExp` [syntax characters](http://ecma-international.org/ecma-262/6.0/#sec-patterns)
+   * and those outlined by [`EscapeRegExpPattern`](http://ecma-international.org/ecma-262/6.0/#sec-escaperegexppattern).
    */
-  var reRegExpChars = /[.*+?^${}()|[\]\/\\]/g,
+  var reRegExpChars = /^[:!,]|[\\^$.*+?()[\]{}|\/]|(^[0-9a-fA-Fnrtuvx])|([\n\r\u2028\u2029])/g,
       reHasRegExpChars = RegExp(reRegExpChars.source);
 
   /** Used to match [combining diacritical marks](https://en.wikipedia.org/wiki/Combining_Diacritical_Marks). */
@@ -8680,7 +8057,7 @@ if ('undefined' !== typeof module) {
   /** Used to match backslashes in property paths. */
   var reEscapeChar = /\\(\\)?/g;
 
-  /** Used to match [ES template delimiters](https://people.mozilla.org/~jorendorff/es6-draft.html#sec-template-literal-lexical-components). */
+  /** Used to match [ES template delimiters](http://ecma-international.org/ecma-262/6.0/#sec-template-literal-lexical-components). */
   var reEsTemplate = /\$\{([^\\}]*(?:\\.[^\\}]*)*)\}/g;
 
   /** Used to match `RegExp` flags from their coerced string values. */
@@ -8712,25 +8089,13 @@ if ('undefined' !== typeof module) {
     return RegExp(upper + '+(?=' + upper + lower + ')|' + upper + '?' + lower + '|' + upper + '+|[0-9]+', 'g');
   }());
 
-  /** Used to detect and test for whitespace. */
-  var whitespace = (
-    // Basic whitespace characters.
-    ' \t\x0b\f\xa0\ufeff' +
-
-    // Line terminators.
-    '\n\r\u2028\u2029' +
-
-    // Unicode category "Zs" space separators.
-    '\u1680\u180e\u2000\u2001\u2002\u2003\u2004\u2005\u2006\u2007\u2008\u2009\u200a\u202f\u205f\u3000'
-  );
-
   /** Used to assign default `context` object properties. */
   var contextProps = [
     'Array', 'ArrayBuffer', 'Date', 'Error', 'Float32Array', 'Float64Array',
     'Function', 'Int8Array', 'Int16Array', 'Int32Array', 'Math', 'Number',
-    'Object', 'RegExp', 'Set', 'String', '_', 'clearTimeout', 'document',
-    'isFinite', 'parseFloat', 'parseInt', 'setTimeout', 'TypeError', 'Uint8Array',
-    'Uint8ClampedArray', 'Uint16Array', 'Uint32Array', 'WeakMap', 'window'
+    'Object', 'RegExp', 'Set', 'String', '_', 'clearTimeout', 'isFinite',
+    'parseFloat', 'parseInt', 'setTimeout', 'TypeError', 'Uint8Array',
+    'Uint8ClampedArray', 'Uint16Array', 'Uint32Array', 'WeakMap'
   ];
 
   /** Used to make template sourceURLs easier to identify. */
@@ -8765,13 +8130,6 @@ if ('undefined' !== typeof module) {
   cloneableTags[errorTag] = cloneableTags[funcTag] =
   cloneableTags[mapTag] = cloneableTags[setTag] =
   cloneableTags[weakMapTag] = false;
-
-  /** Used as an internal `_.debounce` options object by `_.throttle`. */
-  var debounceOptions = {
-    'leading': false,
-    'maxWait': 0,
-    'trailing': false
-  };
 
   /** Used to map latin-1 supplementary letters to basic latin letters. */
   var deburredLetters = {
@@ -8818,6 +8176,15 @@ if ('undefined' !== typeof module) {
   var objectTypes = {
     'function': true,
     'object': true
+  };
+
+  /** Used to escape characters for inclusion in compiled regexes. */
+  var regexpEscapes = {
+    '0': 'x30', '1': 'x31', '2': 'x32', '3': 'x33', '4': 'x34',
+    '5': 'x35', '6': 'x36', '7': 'x37', '8': 'x38', '9': 'x39',
+    'A': 'x41', 'B': 'x42', 'C': 'x43', 'D': 'x44', 'E': 'x45', 'F': 'x46',
+    'a': 'x61', 'b': 'x62', 'c': 'x63', 'd': 'x64', 'e': 'x65', 'f': 'x66',
+    'n': 'x6e', 'r': 'x72', 't': 'x74', 'u': 'x75', 'v': 'x76', 'x': 'x78'
   };
 
   /** Used to escape characters for inclusion in compiled string literals. */
@@ -8960,9 +8327,6 @@ if ('undefined' !== typeof module) {
    * @returns {string} Returns the string.
    */
   function baseToString(value) {
-    if (typeof value == 'string') {
-      return value;
-    }
     return value == null ? '' : (value + '');
   }
 
@@ -9004,8 +8368,8 @@ if ('undefined' !== typeof module) {
    * sort them in ascending order.
    *
    * @private
-   * @param {Object} object The object to compare to `other`.
-   * @param {Object} other The object to compare to `object`.
+   * @param {Object} object The object to compare.
+   * @param {Object} other The other object to compare.
    * @returns {number} Returns the sort order indicator for `object`.
    */
   function compareAscending(object, other) {
@@ -9013,16 +8377,16 @@ if ('undefined' !== typeof module) {
   }
 
   /**
-   * Used by `_.sortByOrder` to compare multiple properties of each element
-   * in a collection and stable sort them in the following order:
+   * Used by `_.sortByOrder` to compare multiple properties of a value to another
+   * and stable sort them.
    *
-   * If `orders` is unspecified, sort in ascending order for all properties.
-   * Otherwise, for each property, sort in ascending order if its corresponding value in
-   * orders is true, and descending order if false.
+   * If `orders` is unspecified, all valuess are sorted in ascending order. Otherwise,
+   * a value is sorted in ascending order if its corresponding order is "asc", and
+   * descending if "desc".
    *
    * @private
-   * @param {Object} object The object to compare to `other`.
-   * @param {Object} other The object to compare to `object`.
+   * @param {Object} object The object to compare.
+   * @param {Object} other The other object to compare.
    * @param {boolean[]} orders The order to sort by for each property.
    * @returns {number} Returns the sort order indicator for `object`.
    */
@@ -9039,7 +8403,8 @@ if ('undefined' !== typeof module) {
         if (index >= ordersLength) {
           return result;
         }
-        return result * (orders[index] ? 1 : -1);
+        var order = orders[index];
+        return result * ((order === 'asc' || order === true) ? 1 : -1);
       }
     }
     // Fixes an `Array#sort` bug in the JS engine embedded in Adobe applications
@@ -9075,8 +8440,25 @@ if ('undefined' !== typeof module) {
   }
 
   /**
-   * Used by `_.template` to escape characters for inclusion in compiled
-   * string literals.
+   * Used by `_.escapeRegExp` to escape characters for inclusion in compiled regexes.
+   *
+   * @private
+   * @param {string} chr The matched character to escape.
+   * @param {string} leadingChar The capture group for a leading character.
+   * @param {string} whitespaceChar The capture group for a whitespace character.
+   * @returns {string} Returns the escaped character.
+   */
+  function escapeRegExpChar(chr, leadingChar, whitespaceChar) {
+    if (leadingChar) {
+      chr = regexpEscapes[chr];
+    } else if (whitespaceChar) {
+      chr = stringEscapes[chr];
+    }
+    return '\\' + chr;
+  }
+
+  /**
+   * Used by `_.template` to escape characters for inclusion in compiled string literals.
    *
    * @private
    * @param {string} chr The matched character to escape.
@@ -9287,9 +8669,6 @@ if ('undefined' !== typeof module) {
         objectProto = Object.prototype,
         stringProto = String.prototype;
 
-    /** Used to detect DOM support. */
-    var document = (document = context.window) ? document.document : null;
-
     /** Used to resolve the decompiled source of functions. */
     var fnToString = Function.prototype.toString;
 
@@ -9300,56 +8679,42 @@ if ('undefined' !== typeof module) {
     var idCounter = 0;
 
     /**
-     * Used to resolve the [`toStringTag`](https://people.mozilla.org/~jorendorff/es6-draft.html#sec-object.prototype.tostring)
+     * Used to resolve the [`toStringTag`](http://ecma-international.org/ecma-262/6.0/#sec-object.prototype.tostring)
      * of values.
      */
     var objToString = objectProto.toString;
 
     /** Used to restore the original `_` reference in `_.noConflict`. */
-    var oldDash = context._;
+    var oldDash = root._;
 
     /** Used to detect if a method is native. */
     var reIsNative = RegExp('^' +
-      escapeRegExp(fnToString.call(hasOwnProperty))
+      fnToString.call(hasOwnProperty).replace(/[\\^$.*+?()[\]{}|]/g, '\\$&')
       .replace(/hasOwnProperty|(function).*?(?=\\\()| for .+?(?=\\\])/g, '$1.*?') + '$'
     );
 
     /** Native method references. */
-    var ArrayBuffer = getNative(context, 'ArrayBuffer'),
-        bufferSlice = getNative(ArrayBuffer && new ArrayBuffer(0), 'slice'),
-        ceil = Math.ceil,
+    var ArrayBuffer = context.ArrayBuffer,
         clearTimeout = context.clearTimeout,
-        floor = Math.floor,
-        getPrototypeOf = getNative(Object, 'getPrototypeOf'),
         parseFloat = context.parseFloat,
-        push = arrayProto.push,
+        pow = Math.pow,
+        propertyIsEnumerable = objectProto.propertyIsEnumerable,
         Set = getNative(context, 'Set'),
         setTimeout = context.setTimeout,
         splice = arrayProto.splice,
-        Uint8Array = getNative(context, 'Uint8Array'),
+        Uint8Array = context.Uint8Array,
         WeakMap = getNative(context, 'WeakMap');
 
-    /** Used to clone array buffers. */
-    var Float64Array = (function() {
-      // Safari 5 errors when using an array buffer to initialize a typed array
-      // where the array buffer's `byteLength` is not a multiple of the typed
-      // array's `BYTES_PER_ELEMENT`.
-      try {
-        var func = getNative(context, 'Float64Array'),
-            result = new func(new ArrayBuffer(10), 0, 1) && func;
-      } catch(e) {}
-      return result || null;
-    }());
-
     /* Native method references for those with the same name as other `lodash` methods. */
-    var nativeCreate = getNative(Object, 'create'),
+    var nativeCeil = Math.ceil,
+        nativeCreate = getNative(Object, 'create'),
+        nativeFloor = Math.floor,
         nativeIsArray = getNative(Array, 'isArray'),
         nativeIsFinite = context.isFinite,
         nativeKeys = getNative(Object, 'keys'),
         nativeMax = Math.max,
         nativeMin = Math.min,
         nativeNow = getNative(Date, 'now'),
-        nativeNumIsFinite = getNative(Number, 'isFinite'),
         nativeParseInt = context.parseInt,
         nativeRandom = Math.random;
 
@@ -9362,11 +8727,8 @@ if ('undefined' !== typeof module) {
         MAX_ARRAY_INDEX = MAX_ARRAY_LENGTH - 1,
         HALF_MAX_ARRAY_LENGTH = MAX_ARRAY_LENGTH >>> 1;
 
-    /** Used as the size, in bytes, of each `Float64Array` element. */
-    var FLOAT64_BYTES_PER_ELEMENT = Float64Array ? Float64Array.BYTES_PER_ELEMENT : 0;
-
     /**
-     * Used as the [maximum length](https://people.mozilla.org/~jorendorff/es6-draft.html#sec-number.max_safe_integer)
+     * Used as the [maximum length](http://ecma-international.org/ecma-262/6.0/#sec-number.max_safe_integer)
      * of an array-like value.
      */
     var MAX_SAFE_INTEGER = 9007199254740991;
@@ -9382,15 +8744,16 @@ if ('undefined' !== typeof module) {
     /**
      * Creates a `lodash` object which wraps `value` to enable implicit chaining.
      * Methods that operate on and return arrays, collections, and functions can
-     * be chained together. Methods that return a boolean or single value will
-     * automatically end the chain returning the unwrapped value. Explicit chaining
-     * may be enabled using `_.chain`. The execution of chained methods is lazy,
-     * that is, execution is deferred until `_#value` is implicitly or explicitly
-     * called.
+     * be chained together. Methods that retrieve a single value or may return a
+     * primitive value will automatically end the chain returning the unwrapped
+     * value. Explicit chaining may be enabled using `_.chain`. The execution of
+     * chained methods is lazy, that is, execution is deferred until `_#value`
+     * is implicitly or explicitly called.
      *
      * Lazy evaluation allows several methods to support shortcut fusion. Shortcut
-     * fusion is an optimization that merges iteratees to avoid creating intermediate
-     * arrays and reduce the number of iteratee executions.
+     * fusion is an optimization strategy which merge iteratee calls; this can help
+     * to avoid the creation of intermediate data structures and greatly reduce the
+     * number of iteratee executions.
      *
      * Chaining is supported in custom builds as long as the `_#value` method is
      * directly or indirectly included in the build.
@@ -9413,36 +8776,37 @@ if ('undefined' !== typeof module) {
      * The chainable wrapper methods are:
      * `after`, `ary`, `assign`, `at`, `before`, `bind`, `bindAll`, `bindKey`,
      * `callback`, `chain`, `chunk`, `commit`, `compact`, `concat`, `constant`,
-     * `countBy`, `create`, `curry`, `debounce`, `defaults`, `defer`, `delay`,
-     * `difference`, `drop`, `dropRight`, `dropRightWhile`, `dropWhile`, `fill`,
-     * `filter`, `flatten`, `flattenDeep`, `flow`, `flowRight`, `forEach`,
-     * `forEachRight`, `forIn`, `forInRight`, `forOwn`, `forOwnRight`, `functions`,
-     * `groupBy`, `indexBy`, `initial`, `intersection`, `invert`, `invoke`, `keys`,
-     * `keysIn`, `map`, `mapKeys`, `mapValues`, `matches`, `matchesProperty`,
-     * `memoize`, `merge`, `method`, `methodOf`, `mixin`, `negate`, `omit`, `once`,
-     * `pairs`, `partial`, `partialRight`, `partition`, `pick`, `plant`, `pluck`,
-     * `property`, `propertyOf`, `pull`, `pullAt`, `push`, `range`, `rearg`,
-     * `reject`, `remove`, `rest`, `restParam`, `reverse`, `set`, `shuffle`,
-     * `slice`, `sort`, `sortBy`, `sortByAll`, `sortByOrder`, `splice`, `spread`,
-     * `take`, `takeRight`, `takeRightWhile`, `takeWhile`, `tap`, `throttle`,
-     * `thru`, `times`, `toArray`, `toPlainObject`, `transform`, `union`, `uniq`,
-     * `unshift`, `unzip`, `unzipWith`, `values`, `valuesIn`, `where`, `without`,
-     * `wrap`, `xor`, `zip`, `zipObject`, `zipWith`
+     * `countBy`, `create`, `curry`, `debounce`, `defaults`, `defaultsDeep`,
+     * `defer`, `delay`, `difference`, `drop`, `dropRight`, `dropRightWhile`,
+     * `dropWhile`, `fill`, `filter`, `flatten`, `flattenDeep`, `flow`, `flowRight`,
+     * `forEach`, `forEachRight`, `forIn`, `forInRight`, `forOwn`, `forOwnRight`,
+     * `functions`, `groupBy`, `indexBy`, `initial`, `intersection`, `invert`,
+     * `invoke`, `keys`, `keysIn`, `map`, `mapKeys`, `mapValues`, `matches`,
+     * `matchesProperty`, `memoize`, `merge`, `method`, `methodOf`, `mixin`,
+     * `modArgs`, `negate`, `omit`, `once`, `pairs`, `partial`, `partialRight`,
+     * `partition`, `pick`, `plant`, `pluck`, `property`, `propertyOf`, `pull`,
+     * `pullAt`, `push`, `range`, `rearg`, `reject`, `remove`, `rest`, `restParam`,
+     * `reverse`, `set`, `shuffle`, `slice`, `sort`, `sortBy`, `sortByAll`,
+     * `sortByOrder`, `splice`, `spread`, `take`, `takeRight`, `takeRightWhile`,
+     * `takeWhile`, `tap`, `throttle`, `thru`, `times`, `toArray`, `toPlainObject`,
+     * `transform`, `union`, `uniq`, `unshift`, `unzip`, `unzipWith`, `values`,
+     * `valuesIn`, `where`, `without`, `wrap`, `xor`, `zip`, `zipObject`, `zipWith`
      *
      * The wrapper methods that are **not** chainable by default are:
-     * `add`, `attempt`, `camelCase`, `capitalize`, `clone`, `cloneDeep`, `deburr`,
-     * `endsWith`, `escape`, `escapeRegExp`, `every`, `find`, `findIndex`, `findKey`,
-     * `findLast`, `findLastIndex`, `findLastKey`, `findWhere`, `first`, `get`,
-     * `gt`, `gte`, `has`, `identity`, `includes`, `indexOf`, `inRange`, `isArguments`,
-     * `isArray`, `isBoolean`, `isDate`, `isElement`, `isEmpty`, `isEqual`, `isError`,
-     * `isFinite` `isFunction`, `isMatch`, `isNative`, `isNaN`, `isNull`, `isNumber`,
-     * `isObject`, `isPlainObject`, `isRegExp`, `isString`, `isUndefined`,
-     * `isTypedArray`, `join`, `kebabCase`, `last`, `lastIndexOf`, `lt`, `lte`,
-     * `max`, `min`, `noConflict`, `noop`, `now`, `pad`, `padLeft`, `padRight`,
-     * `parseInt`, `pop`, `random`, `reduce`, `reduceRight`, `repeat`, `result`,
-     * `runInContext`, `shift`, `size`, `snakeCase`, `some`, `sortedIndex`,
-     * `sortedLastIndex`, `startCase`, `startsWith`, `sum`, `template`, `trim`,
-     * `trimLeft`, `trimRight`, `trunc`, `unescape`, `uniqueId`, `value`, and `words`
+     * `add`, `attempt`, `camelCase`, `capitalize`, `ceil`, `clone`, `cloneDeep`,
+     * `deburr`, `endsWith`, `escape`, `escapeRegExp`, `every`, `find`, `findIndex`,
+     * `findKey`, `findLast`, `findLastIndex`, `findLastKey`, `findWhere`, `first`,
+     * `floor`, `get`, `gt`, `gte`, `has`, `identity`, `includes`, `indexOf`,
+     * `inRange`, `isArguments`, `isArray`, `isBoolean`, `isDate`, `isElement`,
+     * `isEmpty`, `isEqual`, `isError`, `isFinite` `isFunction`, `isMatch`,
+     * `isNative`, `isNaN`, `isNull`, `isNumber`, `isObject`, `isPlainObject`,
+     * `isRegExp`, `isString`, `isUndefined`, `isTypedArray`, `join`, `kebabCase`,
+     * `last`, `lastIndexOf`, `lt`, `lte`, `max`, `min`, `noConflict`, `noop`,
+     * `now`, `pad`, `padLeft`, `padRight`, `parseInt`, `pop`, `random`, `reduce`,
+     * `reduceRight`, `repeat`, `result`, `round`, `runInContext`, `shift`, `size`,
+     * `snakeCase`, `some`, `sortedIndex`, `sortedLastIndex`, `startCase`,
+     * `startsWith`, `sum`, `template`, `trim`, `trimLeft`, `trimRight`, `trunc`,
+     * `unescape`, `uniqueId`, `value`, and `words`
      *
      * The wrapper method `sample` will return a wrapped value when `n` is provided,
      * otherwise an unwrapped value is returned.
@@ -9517,27 +8881,6 @@ if ('undefined' !== typeof module) {
      */
     var support = lodash.support = {};
 
-    (function(x) {
-      var Ctor = function() { this.x = x; },
-          object = { '0': x, 'length': x },
-          props = [];
-
-      Ctor.prototype = { 'valueOf': x, 'y': x };
-      for (var key in new Ctor) { props.push(key); }
-
-      /**
-       * Detect if the DOM is supported.
-       *
-       * @memberOf _.support
-       * @type boolean
-       */
-      try {
-        support.dom = document.createDocumentFragment().nodeType === 11;
-      } catch(e) {
-        support.dom = false;
-      }
-    }(1, 0));
-
     /**
      * By default, the template delimiters used by lodash are like those in
      * embedded Ruby (ERB). Change the following template settings to use
@@ -9609,13 +8952,12 @@ if ('undefined' !== typeof module) {
      */
     function LazyWrapper(value) {
       this.__wrapped__ = value;
-      this.__actions__ = null;
+      this.__actions__ = [];
       this.__dir__ = 1;
-      this.__dropCount__ = 0;
       this.__filtered__ = false;
-      this.__iteratees__ = null;
+      this.__iteratees__ = [];
       this.__takeCount__ = POSITIVE_INFINITY;
-      this.__views__ = null;
+      this.__views__ = [];
     }
 
     /**
@@ -9627,17 +8969,13 @@ if ('undefined' !== typeof module) {
      * @returns {Object} Returns the cloned `LazyWrapper` object.
      */
     function lazyClone() {
-      var actions = this.__actions__,
-          iteratees = this.__iteratees__,
-          views = this.__views__,
-          result = new LazyWrapper(this.__wrapped__);
-
-      result.__actions__ = actions ? arrayCopy(actions) : null;
+      var result = new LazyWrapper(this.__wrapped__);
+      result.__actions__ = arrayCopy(this.__actions__);
       result.__dir__ = this.__dir__;
       result.__filtered__ = this.__filtered__;
-      result.__iteratees__ = iteratees ? arrayCopy(iteratees) : null;
+      result.__iteratees__ = arrayCopy(this.__iteratees__);
       result.__takeCount__ = this.__takeCount__;
-      result.__views__ = views ? arrayCopy(views) : null;
+      result.__views__ = arrayCopy(this.__views__);
       return result;
     }
 
@@ -9670,22 +9008,25 @@ if ('undefined' !== typeof module) {
      * @returns {*} Returns the unwrapped value.
      */
     function lazyValue() {
-      var array = this.__wrapped__.value();
-      if (!isArray(array)) {
-        return baseWrapperValue(array, this.__actions__);
-      }
-      var dir = this.__dir__,
+      var array = this.__wrapped__.value(),
+          dir = this.__dir__,
+          isArr = isArray(array),
           isRight = dir < 0,
-          view = getView(0, array.length, this.__views__),
+          arrLength = isArr ? array.length : 0,
+          view = getView(0, arrLength, this.__views__),
           start = view.start,
           end = view.end,
           length = end - start,
           index = isRight ? end : (start - 1),
-          takeCount = nativeMin(length, this.__takeCount__),
           iteratees = this.__iteratees__,
-          iterLength = iteratees ? iteratees.length : 0,
+          iterLength = iteratees.length,
           resIndex = 0,
-          result = [];
+          takeCount = nativeMin(length, this.__takeCount__);
+
+      if (!isArr || arrLength < LARGE_ARRAY_SIZE || (arrLength == length && takeCount == length)) {
+        return baseWrapperValue((isRight && isArr) ? array.reverse() : array, this.__actions__);
+      }
+      var result = [];
 
       outer:
       while (length-- && resIndex < takeCount) {
@@ -9697,30 +9038,16 @@ if ('undefined' !== typeof module) {
         while (++iterIndex < iterLength) {
           var data = iteratees[iterIndex],
               iteratee = data.iteratee,
-              type = data.type;
+              type = data.type,
+              computed = iteratee(value);
 
-          if (type == LAZY_DROP_WHILE_FLAG) {
-            if (data.done && (isRight ? (index > data.index) : (index < data.index))) {
-              data.count = 0;
-              data.done = false;
-            }
-            data.index = index;
-            if (!data.done) {
-              var limit = data.limit;
-              if (!(data.done = limit > -1 ? (data.count++ >= limit) : !iteratee(value))) {
-                continue outer;
-              }
-            }
-          } else {
-            var computed = iteratee(value);
-            if (type == LAZY_MAP_FLAG) {
-              value = computed;
-            } else if (!computed) {
-              if (type == LAZY_FILTER_FLAG) {
-                continue outer;
-              } else {
-                break outer;
-              }
+          if (type == LAZY_MAP_FLAG) {
+            value = computed;
+          } else if (!computed) {
+            if (type == LAZY_FILTER_FLAG) {
+              continue outer;
+            } else {
+              break outer;
             }
           }
         }
@@ -9851,6 +9178,30 @@ if ('undefined' !== typeof module) {
     }
 
     /*------------------------------------------------------------------------*/
+
+    /**
+     * Creates a new array joining `array` with `other`.
+     *
+     * @private
+     * @param {Array} array The array to join.
+     * @param {Array} other The other array to join.
+     * @returns {Array} Returns the new concatenated array.
+     */
+    function arrayConcat(array, other) {
+      var index = -1,
+          length = array.length,
+          othIndex = -1,
+          othLength = other.length,
+          result = Array(length + othLength);
+
+      while (++index < length) {
+        result[index] = array[index];
+      }
+      while (++othIndex < othLength) {
+        result[index++] = other[othIndex];
+      }
+      return result;
+    }
 
     /**
      * Copies the values of `source` to `array`.
@@ -10008,6 +9359,25 @@ if ('undefined' !== typeof module) {
     }
 
     /**
+     * Appends the elements of `values` to `array`.
+     *
+     * @private
+     * @param {Array} array The array to modify.
+     * @param {Array} values The values to append.
+     * @returns {Array} Returns `array`.
+     */
+    function arrayPush(array, values) {
+      var index = -1,
+          length = values.length,
+          offset = array.length;
+
+      while (++index < length) {
+        array[offset + index] = values[index];
+      }
+      return array;
+    }
+
+    /**
      * A specialized version of `_.reduce` for arrays without support for callback
      * shorthands and `this` binding.
      *
@@ -10078,18 +9448,20 @@ if ('undefined' !== typeof module) {
     }
 
     /**
-     * A specialized version of `_.sum` for arrays without support for iteratees.
+     * A specialized version of `_.sum` for arrays without support for callback
+     * shorthands and `this` binding..
      *
      * @private
      * @param {Array} array The array to iterate over.
+     * @param {Function} iteratee The function invoked per iteration.
      * @returns {number} Returns the sum.
      */
-    function arraySum(array) {
+    function arraySum(array, iteratee) {
       var length = array.length,
           result = 0;
 
       while (length--) {
-        result += +array[length] || 0;
+        result += +iteratee(array[length]) || 0;
       }
       return result;
     }
@@ -10293,7 +9665,7 @@ if ('undefined' !== typeof module) {
             : (object ? value : {});
         }
       }
-      // Check for circular references and return corresponding clone.
+      // Check for circular references and return its corresponding clone.
       stackA || (stackA = []);
       stackB || (stackB = []);
 
@@ -10328,7 +9700,7 @@ if ('undefined' !== typeof module) {
         if (isObject(prototype)) {
           object.prototype = prototype;
           var result = new object;
-          object.prototype = null;
+          object.prototype = undefined;
         }
         return result || {};
       };
@@ -10370,7 +9742,7 @@ if ('undefined' !== typeof module) {
       var index = -1,
           indexOf = getIndexOf(),
           isCommon = indexOf == baseIndexOf,
-          cache = (isCommon && values.length >= 200) ? createCache(values) : null,
+          cache = (isCommon && values.length >= LARGE_ARRAY_SIZE) ? createCache(values) : null,
           valuesLength = values.length;
 
       if (cache) {
@@ -10546,13 +9918,14 @@ if ('undefined' !== typeof module) {
      * @param {Array} array The array to flatten.
      * @param {boolean} [isDeep] Specify a deep flatten.
      * @param {boolean} [isStrict] Restrict flattening to arrays-like objects.
+     * @param {Array} [result=[]] The initial result value.
      * @returns {Array} Returns the new flattened array.
      */
-    function baseFlatten(array, isDeep, isStrict) {
+    function baseFlatten(array, isDeep, isStrict, result) {
+      result || (result = []);
+
       var index = -1,
-          length = array.length,
-          resIndex = -1,
-          result = [];
+          length = array.length;
 
       while (++index < length) {
         var value = array[index];
@@ -10560,16 +9933,12 @@ if ('undefined' !== typeof module) {
             (isStrict || isArray(value) || isArguments(value))) {
           if (isDeep) {
             // Recursively flatten arrays (susceptible to call stack limits).
-            value = baseFlatten(value, isDeep, isStrict);
-          }
-          var valIndex = -1,
-              valLength = value.length;
-
-          while (++valIndex < valLength) {
-            result[++resIndex] = value[valIndex];
+            baseFlatten(value, isDeep, isStrict, result);
+          } else {
+            arrayPush(result, value);
           }
         } else if (!isStrict) {
-          result[++resIndex] = value;
+          result[result.length] = value;
         }
       }
       return result;
@@ -10924,7 +10293,7 @@ if ('undefined' !== typeof module) {
      * @private
      * @param {Object} object The destination object.
      * @param {Object} source The source object.
-     * @param {Function} [customizer] The function to customize merging properties.
+     * @param {Function} [customizer] The function to customize merged values.
      * @param {Array} [stackA=[]] Tracks traversed source objects.
      * @param {Array} [stackB=[]] Associates values with source counterparts.
      * @returns {Object} Returns `object`.
@@ -10934,7 +10303,7 @@ if ('undefined' !== typeof module) {
         return object;
       }
       var isSrcArr = isArrayLike(source) && (isArray(source) || isTypedArray(source)),
-          props = isSrcArr ? null : keys(source);
+          props = isSrcArr ? undefined : keys(source);
 
       arrayEach(props || source, function(srcValue, key) {
         if (props) {
@@ -10973,7 +10342,7 @@ if ('undefined' !== typeof module) {
      * @param {Object} source The source object.
      * @param {string} key The key of the value to merge.
      * @param {Function} mergeFunc The function to merge values.
-     * @param {Function} [customizer] The function to customize merging properties.
+     * @param {Function} [customizer] The function to customize merged values.
      * @param {Array} [stackA=[]] Tracks traversed source objects.
      * @param {Array} [stackB=[]] Associates values with source counterparts.
      * @returns {boolean} Returns `true` if the objects are equivalent, else `false`.
@@ -11080,7 +10449,7 @@ if ('undefined' !== typeof module) {
      * @returns {number} Returns the random number.
      */
     function baseRandom(min, max) {
-      return min + floor(nativeRandom() * (max - min + 1));
+      return min + nativeFloor(nativeRandom() * (max - min + 1));
     }
 
     /**
@@ -11246,7 +10615,7 @@ if ('undefined' !== typeof module) {
           indexOf = getIndexOf(),
           length = array.length,
           isCommon = indexOf == baseIndexOf,
-          isLarge = isCommon && length >= 200,
+          isLarge = isCommon && length >= LARGE_ARRAY_SIZE,
           seen = isLarge ? createCache() : null,
           result = [];
 
@@ -11345,11 +10714,8 @@ if ('undefined' !== typeof module) {
           length = actions.length;
 
       while (++index < length) {
-        var args = [result],
-            action = actions[index];
-
-        push.apply(args, action.args);
-        result = action.func.apply(action.thisArg, args);
+        var action = actions[index];
+        result = action.func.apply(action.thisArg, arrayPush([result], action.args));
       }
       return result;
     }
@@ -11408,7 +10774,7 @@ if ('undefined' !== typeof module) {
           valIsUndef = value === undefined;
 
       while (low < high) {
-        var mid = floor((low + high) / 2),
+        var mid = nativeFloor((low + high) / 2),
             computed = iteratee(array[mid]),
             isDef = computed !== undefined,
             isReflexive = computed === computed;
@@ -11477,26 +10843,11 @@ if ('undefined' !== typeof module) {
      * @returns {ArrayBuffer} Returns the cloned array buffer.
      */
     function bufferClone(buffer) {
-      return bufferSlice.call(buffer, 0);
-    }
-    if (!bufferSlice) {
-      // PhantomJS has `ArrayBuffer` and `Uint8Array` but not `Float64Array`.
-      bufferClone = !(ArrayBuffer && Uint8Array) ? constant(null) : function(buffer) {
-        var byteLength = buffer.byteLength,
-            floatLength = Float64Array ? floor(byteLength / FLOAT64_BYTES_PER_ELEMENT) : 0,
-            offset = floatLength * FLOAT64_BYTES_PER_ELEMENT,
-            result = new ArrayBuffer(byteLength);
+      var result = new ArrayBuffer(buffer.byteLength),
+          view = new Uint8Array(result);
 
-        if (floatLength) {
-          var view = new Float64Array(result, 0, floatLength);
-          view.set(new Float64Array(buffer, 0, floatLength));
-        }
-        if (byteLength != offset) {
-          view = new Uint8Array(result, offset);
-          view.set(new Uint8Array(buffer, offset));
-        }
-        return result;
-      };
+      view.set(new Uint8Array(buffer));
+      return result;
     }
 
     /**
@@ -11515,7 +10866,7 @@ if ('undefined' !== typeof module) {
           argsLength = nativeMax(args.length - holdersLength, 0),
           leftIndex = -1,
           leftLength = partials.length,
-          result = Array(argsLength + leftLength);
+          result = Array(leftLength + argsLength);
 
       while (++leftIndex < leftLength) {
         result[leftIndex] = partials[leftIndex];
@@ -11562,12 +10913,7 @@ if ('undefined' !== typeof module) {
     }
 
     /**
-     * Creates a function that aggregates a collection, creating an accumulator
-     * object composed from the results of running each element in the collection
-     * through an iteratee.
-     *
-     * **Note:** This function is used to create `_.countBy`, `_.groupBy`, `_.indexBy`,
-     * and `_.partition`.
+     * Creates a `_.countBy`, `_.groupBy`, `_.indexBy`, or `_.partition` function.
      *
      * @private
      * @param {Function} setter The function to set keys and values of the accumulator object.
@@ -11597,10 +10943,7 @@ if ('undefined' !== typeof module) {
     }
 
     /**
-     * Creates a function that assigns properties of source object(s) to a given
-     * destination object.
-     *
-     * **Note:** This function is used to create `_.assign`, `_.defaults`, and `_.merge`.
+     * Creates a `_.assign`, `_.defaults`, or `_.merge` function.
      *
      * @private
      * @param {Function} assigner The function to assign values.
@@ -11711,9 +11054,9 @@ if ('undefined' !== typeof module) {
      * @param {Array} [values] The values to cache.
      * @returns {null|Object} Returns the new cache object if `Set` is supported, else `null`.
      */
-    var createCache = !(nativeCreate && Set) ? constant(null) : function(values) {
-      return new SetCache(values);
-    };
+    function createCache(values) {
+      return (nativeCreate && Set) ? new SetCache(values) : null;
+    }
 
     /**
      * Creates a function that produces compound words out of the words in a
@@ -11748,7 +11091,7 @@ if ('undefined' !== typeof module) {
     function createCtorWrapper(Ctor) {
       return function() {
         // Use a `switch` statement to work with class constructors.
-        // See https://people.mozilla.org/~jorendorff/es6-draft.html#sec-ecmascript-function-objects-call-thisargument-argumentslist
+        // See http://ecma-international.org/ecma-262/6.0/#sec-ecmascript-function-objects-call-thisargument-argumentslist
         // for more details.
         var args = arguments;
         switch (args.length) {
@@ -11758,6 +11101,8 @@ if ('undefined' !== typeof module) {
           case 3: return new Ctor(args[0], args[1], args[2]);
           case 4: return new Ctor(args[0], args[1], args[2], args[3]);
           case 5: return new Ctor(args[0], args[1], args[2], args[3], args[4]);
+          case 6: return new Ctor(args[0], args[1], args[2], args[3], args[4], args[5]);
+          case 7: return new Ctor(args[0], args[1], args[2], args[3], args[4], args[5], args[6]);
         }
         var thisBinding = baseCreate(Ctor.prototype),
             result = Ctor.apply(thisBinding, args);
@@ -11778,13 +11123,32 @@ if ('undefined' !== typeof module) {
     function createCurry(flag) {
       function curryFunc(func, arity, guard) {
         if (guard && isIterateeCall(func, arity, guard)) {
-          arity = null;
+          arity = undefined;
         }
-        var result = createWrapper(func, flag, null, null, null, null, null, arity);
+        var result = createWrapper(func, flag, undefined, undefined, undefined, undefined, undefined, arity);
         result.placeholder = curryFunc.placeholder;
         return result;
       }
       return curryFunc;
+    }
+
+    /**
+     * Creates a `_.defaults` or `_.defaultsDeep` function.
+     *
+     * @private
+     * @param {Function} assigner The function to assign values.
+     * @param {Function} customizer The function to customize assigned values.
+     * @returns {Function} Returns the new defaults function.
+     */
+    function createDefaults(assigner, customizer) {
+      return restParam(function(args) {
+        var object = args[0];
+        if (object == null) {
+          return object;
+        }
+        args.push(customizer);
+        return assigner.apply(undefined, args);
+      });
     }
 
     /**
@@ -11798,11 +11162,11 @@ if ('undefined' !== typeof module) {
     function createExtremum(comparator, exValue) {
       return function(collection, iteratee, thisArg) {
         if (thisArg && isIterateeCall(collection, iteratee, thisArg)) {
-          iteratee = null;
+          iteratee = undefined;
         }
         iteratee = getCallback(iteratee, thisArg, 3);
         if (iteratee.length == 1) {
-          collection = toIterable(collection);
+          collection = isArray(collection) ? collection : toIterable(collection);
           var result = arrayExtremum(collection, iteratee, comparator, exValue);
           if (!(collection.length && result === exValue)) {
             return result;
@@ -11883,7 +11247,7 @@ if ('undefined' !== typeof module) {
             throw new TypeError(FUNC_ERROR_TEXT);
           }
           if (!wrapper && LodashWrapper.prototype.thru && getFuncName(func) == 'wrapper') {
-            wrapper = new LodashWrapper([]);
+            wrapper = new LodashWrapper([], true);
           }
         }
         index = wrapper ? -1 : length;
@@ -11891,7 +11255,7 @@ if ('undefined' !== typeof module) {
           func = funcs[index];
 
           var funcName = getFuncName(func),
-              data = funcName == 'wrapper' ? getData(func) : null;
+              data = funcName == 'wrapper' ? getData(func) : undefined;
 
           if (data && isLaziable(data[0]) && data[1] == (ARY_FLAG | CURRY_FLAG | PARTIAL_FLAG | REARG_FLAG) && !data[4].length && data[9] == 1) {
             wrapper = wrapper[getFuncName(data[0])].apply(wrapper, data[3]);
@@ -11900,12 +11264,14 @@ if ('undefined' !== typeof module) {
           }
         }
         return function() {
-          var args = arguments;
-          if (wrapper && args.length == 1 && isArray(args[0])) {
-            return wrapper.plant(args[0]).value();
+          var args = arguments,
+              value = args[0];
+
+          if (wrapper && args.length == 1 && isArray(value) && value.length >= LARGE_ARRAY_SIZE) {
+            return wrapper.plant(value).value();
           }
           var index = 0,
-              result = length ? funcs[index].apply(this, args) : args[0];
+              result = length ? funcs[index].apply(this, args) : value;
 
           while (++index < length) {
             result = funcs[index].call(this, result);
@@ -12009,7 +11375,7 @@ if ('undefined' !== typeof module) {
     function createPartial(flag) {
       var partialFunc = restParam(function(func, partials) {
         var holders = replaceHolders(partials, partialFunc.placeholder);
-        return createWrapper(func, flag, null, partials, holders);
+        return createWrapper(func, flag, undefined, partials, holders);
       });
       return partialFunc;
     }
@@ -12055,7 +11421,7 @@ if ('undefined' !== typeof module) {
           isCurry = bitmask & CURRY_FLAG,
           isCurryBound = bitmask & CURRY_BOUND_FLAG,
           isCurryRight = bitmask & CURRY_RIGHT_FLAG,
-          Ctor = isBindKey ? null : createCtorWrapper(func);
+          Ctor = isBindKey ? undefined : createCtorWrapper(func);
 
       function wrapper() {
         // Avoid `arguments` object use disqualifying optimizations by
@@ -12079,12 +11445,12 @@ if ('undefined' !== typeof module) {
 
           length -= argsHolders.length;
           if (length < arity) {
-            var newArgPos = argPos ? arrayCopy(argPos) : null,
+            var newArgPos = argPos ? arrayCopy(argPos) : undefined,
                 newArity = nativeMax(arity - length, 0),
-                newsHolders = isCurry ? argsHolders : null,
-                newHoldersRight = isCurry ? null : argsHolders,
-                newPartials = isCurry ? args : null,
-                newPartialsRight = isCurry ? null : args;
+                newsHolders = isCurry ? argsHolders : undefined,
+                newHoldersRight = isCurry ? undefined : argsHolders,
+                newPartials = isCurry ? args : undefined,
+                newPartialsRight = isCurry ? undefined : args;
 
             bitmask |= (isCurry ? PARTIAL_FLAG : PARTIAL_RIGHT_FLAG);
             bitmask &= ~(isCurry ? PARTIAL_RIGHT_FLAG : PARTIAL_FLAG);
@@ -12138,7 +11504,7 @@ if ('undefined' !== typeof module) {
       }
       var padLength = length - strLength;
       chars = chars == null ? ' ' : (chars + '');
-      return repeat(chars, ceil(padLength / chars.length)).slice(0, padLength);
+      return repeat(chars, nativeCeil(padLength / chars.length)).slice(0, padLength);
     }
 
     /**
@@ -12164,7 +11530,7 @@ if ('undefined' !== typeof module) {
             argsLength = arguments.length,
             leftIndex = -1,
             leftLength = partials.length,
-            args = Array(argsLength + leftLength);
+            args = Array(leftLength + argsLength);
 
         while (++leftIndex < leftLength) {
           args[leftIndex] = partials[leftIndex];
@@ -12176,6 +11542,25 @@ if ('undefined' !== typeof module) {
         return fn.apply(isBind ? thisArg : this, args);
       }
       return wrapper;
+    }
+
+    /**
+     * Creates a `_.ceil`, `_.floor`, or `_.round` function.
+     *
+     * @private
+     * @param {string} methodName The name of the `Math` method to use when rounding.
+     * @returns {Function} Returns the new round function.
+     */
+    function createRound(methodName) {
+      var func = Math[methodName];
+      return function(number, precision) {
+        precision = precision === undefined ? 0 : (+precision || 0);
+        if (precision) {
+          precision = pow(10, precision);
+          return func(number * precision) / precision;
+        }
+        return func(number);
+      };
     }
 
     /**
@@ -12227,16 +11612,16 @@ if ('undefined' !== typeof module) {
       var length = partials ? partials.length : 0;
       if (!length) {
         bitmask &= ~(PARTIAL_FLAG | PARTIAL_RIGHT_FLAG);
-        partials = holders = null;
+        partials = holders = undefined;
       }
       length -= (holders ? holders.length : 0);
       if (bitmask & PARTIAL_RIGHT_FLAG) {
         var partialsRight = partials,
             holdersRight = holders;
 
-        partials = holders = null;
+        partials = holders = undefined;
       }
-      var data = isBindKey ? null : getData(func),
+      var data = isBindKey ? undefined : getData(func),
           newData = [func, bitmask, thisArg, partials, holders, partialsRight, holdersRight, argPos, ary, arity];
 
       if (data) {
@@ -12315,7 +11700,7 @@ if ('undefined' !== typeof module) {
      * `Boolean`, `Date`, `Error`, `Number`, `RegExp`, or `String`.
      *
      * @private
-     * @param {Object} value The object to compare.
+     * @param {Object} object The object to compare.
      * @param {Object} other The other object to compare.
      * @param {string} tag The `toStringTag` of the objects to compare.
      * @returns {boolean} Returns `true` if the objects are equivalent, else `false`.
@@ -12515,13 +11900,13 @@ if ('undefined' !== typeof module) {
      * @private
      * @param {number} start The start of the view.
      * @param {number} end The end of the view.
-     * @param {Array} [transforms] The transformations to apply to the view.
+     * @param {Array} transforms The transformations to apply to the view.
      * @returns {Object} Returns an object containing the `start` and `end`
      *  positions of the view.
      */
     function getView(start, end, transforms) {
       var index = -1,
-          length = transforms ? transforms.length : 0;
+          length = transforms.length;
 
       while (++index < length) {
         var data = transforms[index],
@@ -12720,7 +12105,7 @@ if ('undefined' !== typeof module) {
     /**
      * Checks if `value` is a valid array-like length.
      *
-     * **Note:** This function is based on [`ToLength`](https://people.mozilla.org/~jorendorff/es6-draft.html#sec-tolength).
+     * **Note:** This function is based on [`ToLength`](http://ecma-international.org/ecma-262/6.0/#sec-tolength).
      *
      * @private
      * @param {*} value The value to check.
@@ -12810,6 +12195,18 @@ if ('undefined' !== typeof module) {
       data[1] = newBitmask;
 
       return data;
+    }
+
+    /**
+     * Used by `_.defaultsDeep` to customize its `_.merge` use.
+     *
+     * @private
+     * @param {*} objectValue The destination object property value.
+     * @param {*} sourceValue The source object property value.
+     * @returns {*} Returns the value to assign to the destination object.
+     */
+    function mergeDefaults(objectValue, sourceValue) {
+      return objectValue === undefined ? sourceValue : merge(objectValue, sourceValue, mergeDefaults);
     }
 
     /**
@@ -12910,38 +12307,6 @@ if ('undefined' !== typeof module) {
         return baseSetData(key, value);
       };
     }());
-
-    /**
-     * A fallback implementation of `_.isPlainObject` which checks if `value`
-     * is an object created by the `Object` constructor or has a `[[Prototype]]`
-     * of `null`.
-     *
-     * @private
-     * @param {*} value The value to check.
-     * @returns {boolean} Returns `true` if `value` is a plain object, else `false`.
-     */
-    function shimIsPlainObject(value) {
-      var Ctor,
-          support = lodash.support;
-
-      // Exit early for non `Object` objects.
-      if (!(isObjectLike(value) && objToString.call(value) == objectTag) ||
-          (!hasOwnProperty.call(value, 'constructor') &&
-            (Ctor = value.constructor, typeof Ctor == 'function' && !(Ctor instanceof Ctor)))) {
-        return false;
-      }
-      // IE < 9 iterates inherited properties before own properties. If the first
-      // iterated property is an object's own property then there are no inherited
-      // enumerable properties.
-      var result;
-      // In most environments an object's own properties are iterated before
-      // its inherited properties. If the last iterated property is an object's
-      // own property then there are no inherited enumerable properties.
-      baseForIn(value, function(subValue, key) {
-        result = key;
-      });
-      return result === undefined || hasOwnProperty.call(value, result);
-    }
 
     /**
      * A fallback implementation of `Object.keys` which creates an array of the
@@ -13056,12 +12421,12 @@ if ('undefined' !== typeof module) {
       if (guard ? isIterateeCall(array, size, guard) : size == null) {
         size = 1;
       } else {
-        size = nativeMax(+size || 1, 1);
+        size = nativeMax(nativeFloor(size) || 1, 1);
       }
       var index = 0,
           length = array ? array.length : 0,
           resIndex = -1,
-          result = Array(ceil(length / size));
+          result = Array(nativeCeil(length / size));
 
       while (index < length) {
         result[++resIndex] = baseSlice(array, index, (index += size));
@@ -13100,7 +12465,7 @@ if ('undefined' !== typeof module) {
 
     /**
      * Creates an array of unique `array` values not included in the other
-     * provided arrays using [`SameValueZero`](https://people.mozilla.org/~jorendorff/es6-draft.html#sec-samevaluezero)
+     * provided arrays using [`SameValueZero`](http://ecma-international.org/ecma-262/6.0/#sec-samevaluezero)
      * for equality comparisons.
      *
      * @static
@@ -13115,7 +12480,7 @@ if ('undefined' !== typeof module) {
      * // => [1, 3]
      */
     var difference = restParam(function(array, values) {
-      return isArrayLike(array)
+      return (isObjectLike(array) && isArrayLike(array))
         ? baseDifference(array, baseFlatten(values, false, true))
         : [];
     });
@@ -13510,7 +12875,7 @@ if ('undefined' !== typeof module) {
 
     /**
      * Gets the index at which the first occurrence of `value` is found in `array`
-     * using [`SameValueZero`](https://people.mozilla.org/~jorendorff/es6-draft.html#sec-samevaluezero)
+     * using [`SameValueZero`](http://ecma-international.org/ecma-262/6.0/#sec-samevaluezero)
      * for equality comparisons. If `fromIndex` is negative, it is used as the offset
      * from the end of `array`. If `array` is sorted providing `true` for `fromIndex`
      * performs a faster binary search.
@@ -13544,10 +12909,9 @@ if ('undefined' !== typeof module) {
       if (typeof fromIndex == 'number') {
         fromIndex = fromIndex < 0 ? nativeMax(length + fromIndex, 0) : fromIndex;
       } else if (fromIndex) {
-        var index = binaryIndex(array, value),
-            other = array[index];
-
-        if (value === value ? (value === other) : (other !== other)) {
+        var index = binaryIndex(array, value);
+        if (index < length &&
+            (value === value ? (value === array[index]) : (array[index] !== array[index]))) {
           return index;
         }
         return -1;
@@ -13574,7 +12938,7 @@ if ('undefined' !== typeof module) {
 
     /**
      * Creates an array of unique values that are included in all of the provided
-     * arrays using [`SameValueZero`](https://people.mozilla.org/~jorendorff/es6-draft.html#sec-samevaluezero)
+     * arrays using [`SameValueZero`](http://ecma-international.org/ecma-262/6.0/#sec-samevaluezero)
      * for equality comparisons.
      *
      * @static
@@ -13695,7 +13059,7 @@ if ('undefined' !== typeof module) {
 
     /**
      * Removes all provided values from `array` using
-     * [`SameValueZero`](https://people.mozilla.org/~jorendorff/es6-draft.html#sec-samevaluezero)
+     * [`SameValueZero`](http://ecma-international.org/ecma-262/6.0/#sec-samevaluezero)
      * for equality comparisons.
      *
      * **Note:** Unlike `_.without`, this method mutates `array`.
@@ -14128,7 +13492,7 @@ if ('undefined' !== typeof module) {
 
     /**
      * Creates an array of unique values, in order, from all of the provided arrays
-     * using [`SameValueZero`](https://people.mozilla.org/~jorendorff/es6-draft.html#sec-samevaluezero)
+     * using [`SameValueZero`](http://ecma-international.org/ecma-262/6.0/#sec-samevaluezero)
      * for equality comparisons.
      *
      * @static
@@ -14147,7 +13511,7 @@ if ('undefined' !== typeof module) {
 
     /**
      * Creates a duplicate-free version of an array, using
-     * [`SameValueZero`](https://people.mozilla.org/~jorendorff/es6-draft.html#sec-samevaluezero)
+     * [`SameValueZero`](http://ecma-international.org/ecma-262/6.0/#sec-samevaluezero)
      * for equality comparisons, in which only the first occurence of each element
      * is kept. Providing `true` for `isSorted` performs a faster search algorithm
      * for sorted arrays. If an iteratee function is provided it is invoked for
@@ -14201,7 +13565,7 @@ if ('undefined' !== typeof module) {
       }
       if (isSorted != null && typeof isSorted != 'boolean') {
         thisArg = iteratee;
-        iteratee = isIterateeCall(array, isSorted, thisArg) ? null : isSorted;
+        iteratee = isIterateeCall(array, isSorted, thisArg) ? undefined : isSorted;
         isSorted = false;
       }
       var callback = getCallback();
@@ -14288,7 +13652,7 @@ if ('undefined' !== typeof module) {
 
     /**
      * Creates an array excluding all provided values using
-     * [`SameValueZero`](https://people.mozilla.org/~jorendorff/es6-draft.html#sec-samevaluezero)
+     * [`SameValueZero`](http://ecma-international.org/ecma-262/6.0/#sec-samevaluezero)
      * for equality comparisons.
      *
      * @static
@@ -14330,7 +13694,7 @@ if ('undefined' !== typeof module) {
         var array = arguments[index];
         if (isArrayLike(array)) {
           var result = result
-            ? baseDifference(result, array).concat(baseDifference(array, result))
+            ? arrayPush(baseDifference(result, array), baseDifference(array, result))
             : array;
         }
       }
@@ -14552,16 +13916,16 @@ if ('undefined' !== typeof module) {
      * @example
      *
      * var array = [1, 2];
-     * var wrapper = _(array).push(3);
+     * var wrapped = _(array).push(3);
      *
      * console.log(array);
      * // => [1, 2]
      *
-     * wrapper = wrapper.commit();
+     * wrapped = wrapped.commit();
      * console.log(array);
      * // => [1, 2, 3]
      *
-     * wrapper.last();
+     * wrapped.last();
      * // => 3
      *
      * console.log(array);
@@ -14570,6 +13934,33 @@ if ('undefined' !== typeof module) {
     function wrapperCommit() {
       return new LodashWrapper(this.value(), this.__chain__);
     }
+
+    /**
+     * Creates a new array joining a wrapped array with any additional arrays
+     * and/or values.
+     *
+     * @name concat
+     * @memberOf _
+     * @category Chain
+     * @param {...*} [values] The values to concatenate.
+     * @returns {Array} Returns the new concatenated array.
+     * @example
+     *
+     * var array = [1];
+     * var wrapped = _(array).concat(2, [3], [[4]]);
+     *
+     * console.log(wrapped.value());
+     * // => [1, 2, 3, [4]]
+     *
+     * console.log(array);
+     * // => [1]
+     */
+    var wrapperConcat = restParam(function(values) {
+      values = baseFlatten(values);
+      return this.thru(function(array) {
+        return arrayConcat(isArray(array) ? array : [toObject(array)], values);
+      });
+    });
 
     /**
      * Creates a clone of the chained sequence planting `value` as the wrapped value.
@@ -14581,17 +13972,17 @@ if ('undefined' !== typeof module) {
      * @example
      *
      * var array = [1, 2];
-     * var wrapper = _(array).map(function(value) {
+     * var wrapped = _(array).map(function(value) {
      *   return Math.pow(value, 2);
      * });
      *
      * var other = [3, 4];
-     * var otherWrapper = wrapper.plant(other);
+     * var otherWrapped = wrapped.plant(other);
      *
-     * otherWrapper.value();
+     * otherWrapped.value();
      * // => [9, 16]
      *
-     * wrapper.value();
+     * wrapped.value();
      * // => [1, 4]
      */
     function wrapperPlant(value) {
@@ -14634,15 +14025,20 @@ if ('undefined' !== typeof module) {
      */
     function wrapperReverse() {
       var value = this.__wrapped__;
+
+      var interceptor = function(value) {
+        return (wrapped && wrapped.__dir__ < 0) ? value : value.reverse();
+      };
       if (value instanceof LazyWrapper) {
+        var wrapped = value;
         if (this.__actions__.length) {
-          value = new LazyWrapper(this);
+          wrapped = new LazyWrapper(this);
         }
-        return new LodashWrapper(value.reverse(), this.__chain__);
+        wrapped = wrapped.reverse();
+        wrapped.__actions__.push({ 'func': thru, 'args': [interceptor], 'thisArg': undefined });
+        return new LodashWrapper(wrapped, this.__chain__);
       }
-      return this.thru(function(value) {
-        return value.reverse();
-      });
+      return this.thru(interceptor);
     }
 
     /**
@@ -14800,7 +14196,7 @@ if ('undefined' !== typeof module) {
     function every(collection, predicate, thisArg) {
       var func = isArray(collection) ? arrayEvery : baseEvery;
       if (thisArg && isIterateeCall(collection, predicate, thisArg)) {
-        predicate = null;
+        predicate = undefined;
       }
       if (typeof predicate != 'function' || thisArg !== undefined) {
         predicate = getCallback(predicate, thisArg, 3);
@@ -15074,7 +14470,7 @@ if ('undefined' !== typeof module) {
 
     /**
      * Checks if `value` is in `collection` using
-     * [`SameValueZero`](https://people.mozilla.org/~jorendorff/es6-draft.html#sec-samevaluezero)
+     * [`SameValueZero`](http://ecma-international.org/ecma-262/6.0/#sec-samevaluezero)
      * for equality comparisons. If `fromIndex` is negative, it is used as the offset
      * from the end of `collection`.
      *
@@ -15107,17 +14503,14 @@ if ('undefined' !== typeof module) {
         collection = values(collection);
         length = collection.length;
       }
-      if (!length) {
-        return false;
-      }
       if (typeof fromIndex != 'number' || (guard && isIterateeCall(target, fromIndex, guard))) {
         fromIndex = 0;
       } else {
         fromIndex = fromIndex < 0 ? nativeMax(length + fromIndex, 0) : (fromIndex || 0);
       }
       return (typeof collection == 'string' || !isArray(collection) && isString(collection))
-        ? (fromIndex < length && collection.indexOf(target, fromIndex) > -1)
-        : (getIndexOf(collection, target, fromIndex) > -1);
+        ? (fromIndex <= length && collection.indexOf(target, fromIndex) > -1)
+        : (!!length && getIndexOf(collection, target, fromIndex) > -1);
     }
 
     /**
@@ -15199,7 +14592,7 @@ if ('undefined' !== typeof module) {
           result = isArrayLike(collection) ? Array(collection.length) : [];
 
       baseEach(collection, function(value) {
-        var func = isFunc ? path : ((isProp && value != null) ? value[path] : null);
+        var func = isFunc ? path : ((isProp && value != null) ? value[path] : undefined);
         result[++index] = func ? func.apply(value, args) : invokePath(value, path, args);
       });
       return result;
@@ -15369,7 +14762,8 @@ if ('undefined' !== typeof module) {
      * `_.reduce`, `_.reduceRight`, and `_.transform`.
      *
      * The guarded methods are:
-     * `assign`, `defaults`, `includes`, `merge`, `sortByAll`, and `sortByOrder`
+     * `assign`, `defaults`, `defaultsDeep`, `includes`, `merge`, `sortByAll`,
+     * and `sortByOrder`
      *
      * @static
      * @memberOf _
@@ -15599,7 +14993,7 @@ if ('undefined' !== typeof module) {
     function some(collection, predicate, thisArg) {
       var func = isArray(collection) ? arraySome : baseSome;
       if (thisArg && isIterateeCall(collection, predicate, thisArg)) {
-        predicate = null;
+        predicate = undefined;
       }
       if (typeof predicate != 'function' || thisArg !== undefined) {
         predicate = getCallback(predicate, thisArg, 3);
@@ -15660,7 +15054,7 @@ if ('undefined' !== typeof module) {
         return [];
       }
       if (thisArg && isIterateeCall(collection, iteratee, thisArg)) {
-        iteratee = null;
+        iteratee = undefined;
       }
       var index = -1;
       iteratee = getCallback(iteratee, thisArg, 3);
@@ -15719,9 +15113,9 @@ if ('undefined' !== typeof module) {
 
     /**
      * This method is like `_.sortByAll` except that it allows specifying the
-     * sort orders of the iteratees to sort by. A truthy value in `orders` will
-     * sort the corresponding property name in ascending order while a falsey
-     * value will sort it in descending order.
+     * sort orders of the iteratees to sort by. If `orders` is unspecified, all
+     * values are sorted in ascending order. Otherwise, a value is sorted in
+     * ascending order if its corresponding order is "asc", and descending if "desc".
      *
      * If a property name is provided for an iteratee the created `_.property`
      * style callback returns the property value of the given element.
@@ -15735,7 +15129,7 @@ if ('undefined' !== typeof module) {
      * @category Collection
      * @param {Array|Object|string} collection The collection to iterate over.
      * @param {Function[]|Object[]|string[]} iteratees The iteratees to sort by.
-     * @param {boolean[]} orders The sort orders of `iteratees`.
+     * @param {boolean[]} [orders] The sort orders of `iteratees`.
      * @param- {Object} [guard] Enables use as a callback for functions like `_.reduce`.
      * @returns {Array} Returns the new sorted array.
      * @example
@@ -15748,7 +15142,7 @@ if ('undefined' !== typeof module) {
      * ];
      *
      * // sort by `user` in ascending order and by `age` in descending order
-     * _.map(_.sortByOrder(users, ['user', 'age'], [true, false]), _.values);
+     * _.map(_.sortByOrder(users, ['user', 'age'], ['asc', 'desc']), _.values);
      * // => [['barney', 36], ['barney', 34], ['fred', 48], ['fred', 42]]
      */
     function sortByOrder(collection, iteratees, orders, guard) {
@@ -15756,7 +15150,7 @@ if ('undefined' !== typeof module) {
         return [];
       }
       if (guard && isIterateeCall(iteratees, orders, guard)) {
-        orders = null;
+        orders = undefined;
       }
       if (!isArray(iteratees)) {
         iteratees = iteratees == null ? [] : [iteratees];
@@ -15881,10 +15275,10 @@ if ('undefined' !== typeof module) {
      */
     function ary(func, n, guard) {
       if (guard && isIterateeCall(func, n, guard)) {
-        n = null;
+        n = undefined;
       }
       n = (func && n == null) ? func.length : nativeMax(+n || 0, 0);
-      return createWrapper(func, ARY_FLAG, null, null, null, null, n);
+      return createWrapper(func, ARY_FLAG, undefined, undefined, undefined, undefined, n);
     }
 
     /**
@@ -15919,7 +15313,7 @@ if ('undefined' !== typeof module) {
           result = func.apply(this, arguments);
         }
         if (n <= 1) {
-          func = null;
+          func = undefined;
         }
         return result;
       };
@@ -16227,9 +15621,9 @@ if ('undefined' !== typeof module) {
         var leading = true;
         trailing = false;
       } else if (isObject(options)) {
-        leading = options.leading;
+        leading = !!options.leading;
         maxWait = 'maxWait' in options && nativeMax(+options.maxWait || 0, wait);
-        trailing = 'trailing' in options ? options.trailing : trailing;
+        trailing = 'trailing' in options ? !!options.trailing : trailing;
       }
 
       function cancel() {
@@ -16239,41 +15633,35 @@ if ('undefined' !== typeof module) {
         if (maxTimeoutId) {
           clearTimeout(maxTimeoutId);
         }
+        lastCalled = 0;
         maxTimeoutId = timeoutId = trailingCall = undefined;
+      }
+
+      function complete(isCalled, id) {
+        if (id) {
+          clearTimeout(id);
+        }
+        maxTimeoutId = timeoutId = trailingCall = undefined;
+        if (isCalled) {
+          lastCalled = now();
+          result = func.apply(thisArg, args);
+          if (!timeoutId && !maxTimeoutId) {
+            args = thisArg = undefined;
+          }
+        }
       }
 
       function delayed() {
         var remaining = wait - (now() - stamp);
         if (remaining <= 0 || remaining > wait) {
-          if (maxTimeoutId) {
-            clearTimeout(maxTimeoutId);
-          }
-          var isCalled = trailingCall;
-          maxTimeoutId = timeoutId = trailingCall = undefined;
-          if (isCalled) {
-            lastCalled = now();
-            result = func.apply(thisArg, args);
-            if (!timeoutId && !maxTimeoutId) {
-              args = thisArg = null;
-            }
-          }
+          complete(trailingCall, maxTimeoutId);
         } else {
           timeoutId = setTimeout(delayed, remaining);
         }
       }
 
       function maxDelayed() {
-        if (timeoutId) {
-          clearTimeout(timeoutId);
-        }
-        maxTimeoutId = timeoutId = trailingCall = undefined;
-        if (trailing || (maxWait !== wait)) {
-          lastCalled = now();
-          result = func.apply(thisArg, args);
-          if (!timeoutId && !maxTimeoutId) {
-            args = thisArg = null;
-          }
-        }
+        complete(trailing, timeoutId);
       }
 
       function debounced() {
@@ -16313,7 +15701,7 @@ if ('undefined' !== typeof module) {
           result = func.apply(thisArg, args);
         }
         if (isCalled && !timeoutId && !maxTimeoutId) {
-          args = thisArg = null;
+          args = thisArg = undefined;
         }
         return result;
       }
@@ -16418,7 +15806,7 @@ if ('undefined' !== typeof module) {
      *
      * **Note:** The cache is exposed as the `cache` property on the memoized
      * function. Its creation may be customized by replacing the `_.memoize.Cache`
-     * constructor with one whose instances implement the [`Map`](https://people.mozilla.org/~jorendorff/es6-draft.html#sec-properties-of-the-map-prototype-object)
+     * constructor with one whose instances implement the [`Map`](http://ecma-international.org/ecma-262/6.0/#sec-properties-of-the-map-prototype-object)
      * method interface of `get`, `has`, and `set`.
      *
      * @static
@@ -16478,6 +15866,52 @@ if ('undefined' !== typeof module) {
       memoized.cache = new memoize.Cache;
       return memoized;
     }
+
+    /**
+     * Creates a function that runs each argument through a corresponding
+     * transform function.
+     *
+     * @static
+     * @memberOf _
+     * @category Function
+     * @param {Function} func The function to wrap.
+     * @param {...(Function|Function[])} [transforms] The functions to transform
+     * arguments, specified as individual functions or arrays of functions.
+     * @returns {Function} Returns the new function.
+     * @example
+     *
+     * function doubled(n) {
+     *   return n * 2;
+     * }
+     *
+     * function square(n) {
+     *   return n * n;
+     * }
+     *
+     * var modded = _.modArgs(function(x, y) {
+     *   return [x, y];
+     * }, square, doubled);
+     *
+     * modded(1, 2);
+     * // => [1, 4]
+     *
+     * modded(5, 10);
+     * // => [25, 20]
+     */
+    var modArgs = restParam(function(func, transforms) {
+      transforms = baseFlatten(transforms);
+      if (typeof func != 'function' || !arrayEvery(transforms, baseIsFunction)) {
+        throw new TypeError(FUNC_ERROR_TEXT);
+      }
+      var length = transforms.length;
+      return restParam(function(args) {
+        var index = nativeMin(args.length, length);
+        while (index--) {
+          args[index] = transforms[index](args[index]);
+        }
+        return func.apply(this, args);
+      });
+    });
 
     /**
      * Creates a function that negates the result of the predicate `func`. The
@@ -16624,7 +16058,7 @@ if ('undefined' !== typeof module) {
      * // => [3, 6, 9]
      */
     var rearg = restParam(function(func, indexes) {
-      return createWrapper(func, REARG_FLAG, null, null, null, baseFlatten(indexes));
+      return createWrapper(func, REARG_FLAG, undefined, undefined, undefined, baseFlatten(indexes));
     });
 
     /**
@@ -16770,10 +16204,7 @@ if ('undefined' !== typeof module) {
         leading = 'leading' in options ? !!options.leading : leading;
         trailing = 'trailing' in options ? !!options.trailing : trailing;
       }
-      debounceOptions.leading = leading;
-      debounceOptions.maxWait = +wait;
-      debounceOptions.trailing = trailing;
-      return debounce(func, wait, debounceOptions);
+      return debounce(func, wait, { 'leading': leading, 'maxWait': +wait, 'trailing': trailing });
     }
 
     /**
@@ -16799,7 +16230,7 @@ if ('undefined' !== typeof module) {
      */
     function wrap(value, wrapper) {
       wrapper = wrapper == null ? identity : wrapper;
-      return createWrapper(wrapper, PARTIAL_FLAG, null, [value], []);
+      return createWrapper(wrapper, PARTIAL_FLAG, undefined, [value], []);
     }
 
     /*------------------------------------------------------------------------*/
@@ -16985,7 +16416,8 @@ if ('undefined' !== typeof module) {
      * // => false
      */
     function isArguments(value) {
-      return isObjectLike(value) && isArrayLike(value) && objToString.call(value) == argsTag;
+      return isObjectLike(value) && isArrayLike(value) &&
+        hasOwnProperty.call(value, 'callee') && !propertyIsEnumerable.call(value, 'callee');
     }
 
     /**
@@ -17065,14 +16497,7 @@ if ('undefined' !== typeof module) {
      * // => false
      */
     function isElement(value) {
-      return !!value && value.nodeType === 1 && isObjectLike(value) &&
-        (objToString.call(value).indexOf('Element') > -1);
-    }
-    // Fallback for environments without DOM support.
-    if (!support.dom) {
-      isElement = function(value) {
-        return !!value && value.nodeType === 1 && isObjectLike(value) && !isPlainObject(value);
-      };
+      return !!value && value.nodeType === 1 && isObjectLike(value) && !isPlainObject(value);
     }
 
     /**
@@ -17187,7 +16612,7 @@ if ('undefined' !== typeof module) {
     /**
      * Checks if `value` is a finite primitive number.
      *
-     * **Note:** This method is based on [`Number.isFinite`](https://people.mozilla.org/~jorendorff/es6-draft.html#sec-number.isfinite).
+     * **Note:** This method is based on [`Number.isFinite`](http://ecma-international.org/ecma-262/6.0/#sec-number.isfinite).
      *
      * @static
      * @memberOf _
@@ -17211,9 +16636,9 @@ if ('undefined' !== typeof module) {
      * _.isFinite(Infinity);
      * // => false
      */
-    var isFinite = nativeNumIsFinite || function(value) {
+    function isFinite(value) {
       return typeof value == 'number' && nativeIsFinite(value);
-    };
+    }
 
     /**
      * Checks if `value` is classified as a `Function` object.
@@ -17231,12 +16656,12 @@ if ('undefined' !== typeof module) {
      * _.isFunction(/abc/);
      * // => false
      */
-    var isFunction = !(baseIsFunction(/x/) || (Uint8Array && !baseIsFunction(Uint8Array))) ? baseIsFunction : function(value) {
+    function isFunction(value) {
       // The use of `Object#toString` avoids issues with the `typeof` operator
       // in older versions of Chrome and Safari which return 'function' for regexes
       // and Safari 8 equivalents which return 'object' for typed array constructors.
-      return objToString.call(value) == funcTag;
-    };
+      return isObject(value) && objToString.call(value) == funcTag;
+    }
 
     /**
      * Checks if `value` is the [language type](https://es5.github.io/#x8) of `Object`.
@@ -17360,7 +16785,7 @@ if ('undefined' !== typeof module) {
       if (value == null) {
         return false;
       }
-      if (objToString.call(value) == funcTag) {
+      if (isFunction(value)) {
         return reIsNative.test(fnToString.call(value));
       }
       return isObjectLike(value) && reIsHostCtor.test(value);
@@ -17442,17 +16867,26 @@ if ('undefined' !== typeof module) {
      * _.isPlainObject(Object.create(null));
      * // => true
      */
-    var isPlainObject = !getPrototypeOf ? shimIsPlainObject : function(value) {
-      if (!(value && objToString.call(value) == objectTag)) {
+    function isPlainObject(value) {
+      var Ctor;
+
+      // Exit early for non `Object` objects.
+      if (!(isObjectLike(value) && objToString.call(value) == objectTag && !isArguments(value)) ||
+          (!hasOwnProperty.call(value, 'constructor') && (Ctor = value.constructor, typeof Ctor == 'function' && !(Ctor instanceof Ctor)))) {
         return false;
       }
-      var valueOf = getNative(value, 'valueOf'),
-          objProto = valueOf && (objProto = getPrototypeOf(valueOf)) && getPrototypeOf(objProto);
-
-      return objProto
-        ? (value == objProto || getPrototypeOf(value) == objProto)
-        : shimIsPlainObject(value);
-    };
+      // IE < 9 iterates inherited properties before own properties. If the first
+      // iterated property is an object's own property then there are no inherited
+      // enumerable properties.
+      var result;
+      // In most environments an object's own properties are iterated before
+      // its inherited properties. If the last iterated property is an object's
+      // own property then there are no inherited enumerable properties.
+      baseForIn(value, function(subValue, key) {
+        result = key;
+      });
+      return result === undefined || hasOwnProperty.call(value, result);
+    }
 
     /**
      * Checks if `value` is classified as a `RegExp` object.
@@ -17471,7 +16905,7 @@ if ('undefined' !== typeof module) {
      * // => false
      */
     function isRegExp(value) {
-      return isObjectLike(value) && objToString.call(value) == regexpTag;
+      return isObject(value) && objToString.call(value) == regexpTag;
     }
 
     /**
@@ -17638,6 +17072,56 @@ if ('undefined' !== typeof module) {
     /*------------------------------------------------------------------------*/
 
     /**
+     * Recursively merges own enumerable properties of the source object(s), that
+     * don't resolve to `undefined` into the destination object. Subsequent sources
+     * overwrite property assignments of previous sources. If `customizer` is
+     * provided it is invoked to produce the merged values of the destination and
+     * source properties. If `customizer` returns `undefined` merging is handled
+     * by the method instead. The `customizer` is bound to `thisArg` and invoked
+     * with five arguments: (objectValue, sourceValue, key, object, source).
+     *
+     * @static
+     * @memberOf _
+     * @category Object
+     * @param {Object} object The destination object.
+     * @param {...Object} [sources] The source objects.
+     * @param {Function} [customizer] The function to customize assigned values.
+     * @param {*} [thisArg] The `this` binding of `customizer`.
+     * @returns {Object} Returns `object`.
+     * @example
+     *
+     * var users = {
+     *   'data': [{ 'user': 'barney' }, { 'user': 'fred' }]
+     * };
+     *
+     * var ages = {
+     *   'data': [{ 'age': 36 }, { 'age': 40 }]
+     * };
+     *
+     * _.merge(users, ages);
+     * // => { 'data': [{ 'user': 'barney', 'age': 36 }, { 'user': 'fred', 'age': 40 }] }
+     *
+     * // using a customizer callback
+     * var object = {
+     *   'fruits': ['apple'],
+     *   'vegetables': ['beet']
+     * };
+     *
+     * var other = {
+     *   'fruits': ['banana'],
+     *   'vegetables': ['carrot']
+     * };
+     *
+     * _.merge(object, other, function(a, b) {
+     *   if (_.isArray(a)) {
+     *     return a.concat(b);
+     *   }
+     * });
+     * // => { 'fruits': ['apple', 'banana'], 'vegetables': ['beet', 'carrot'] }
+     */
+    var merge = createAssigner(baseMerge);
+
+    /**
      * Assigns own enumerable properties of source object(s) to the destination
      * object. Subsequent sources overwrite property assignments of previous sources.
      * If `customizer` is provided it is invoked to produce the assigned values.
@@ -17645,7 +17129,7 @@ if ('undefined' !== typeof module) {
      * (objectValue, sourceValue, key, object, source).
      *
      * **Note:** This method mutates `object` and is based on
-     * [`Object.assign`](https://people.mozilla.org/~jorendorff/es6-draft.html#sec-object.assign).
+     * [`Object.assign`](http://ecma-international.org/ecma-262/6.0/#sec-object.assign).
      *
      * @static
      * @memberOf _
@@ -17712,7 +17196,7 @@ if ('undefined' !== typeof module) {
     function create(prototype, properties, guard) {
       var result = baseCreate(prototype);
       if (guard && isIterateeCall(prototype, properties, guard)) {
-        properties = null;
+        properties = undefined;
       }
       return properties ? baseAssign(result, properties) : result;
     }
@@ -17735,14 +17219,27 @@ if ('undefined' !== typeof module) {
      * _.defaults({ 'user': 'barney' }, { 'age': 36 }, { 'user': 'fred' });
      * // => { 'user': 'barney', 'age': 36 }
      */
-    var defaults = restParam(function(args) {
-      var object = args[0];
-      if (object == null) {
-        return object;
-      }
-      args.push(assignDefaults);
-      return assign.apply(undefined, args);
-    });
+    var defaults = createDefaults(assign, assignDefaults);
+
+    /**
+     * This method is like `_.defaults` except that it recursively assigns
+     * default properties.
+     *
+     * **Note:** This method mutates `object`.
+     *
+     * @static
+     * @memberOf _
+     * @category Object
+     * @param {Object} object The destination object.
+     * @param {...Object} [sources] The source objects.
+     * @returns {Object} Returns `object`.
+     * @example
+     *
+     * _.defaultsDeep({ 'user': { 'name': 'barney' } }, { 'user': { 'name': 'fred', 'age': 36 } });
+     * // => { 'user': { 'name': 'barney', 'age': 36 } }
+     *
+     */
+    var defaultsDeep = createDefaults(merge, mergeDefaults);
 
     /**
      * This method is like `_.find` except that it returns the key of the first
@@ -18069,7 +17566,7 @@ if ('undefined' !== typeof module) {
      */
     function invert(object, multiValue, guard) {
       if (guard && isIterateeCall(object, multiValue, guard)) {
-        multiValue = null;
+        multiValue = undefined;
       }
       var index = -1,
           props = keys(object),
@@ -18098,7 +17595,7 @@ if ('undefined' !== typeof module) {
      * Creates an array of the own enumerable property names of `object`.
      *
      * **Note:** Non-object values are coerced to objects. See the
-     * [ES spec](https://people.mozilla.org/~jorendorff/es6-draft.html#sec-object.keys)
+     * [ES spec](http://ecma-international.org/ecma-262/6.0/#sec-object.keys)
      * for more details.
      *
      * @static
@@ -18122,7 +17619,7 @@ if ('undefined' !== typeof module) {
      * // => ['0', '1']
      */
     var keys = !nativeKeys ? shimKeys : function(object) {
-      var Ctor = object == null ? null : object.constructor;
+      var Ctor = object == null ? undefined : object.constructor;
       if ((typeof Ctor == 'function' && Ctor.prototype === object) ||
           (typeof object != 'function' && isArrayLike(object))) {
         return shimKeys(object);
@@ -18245,56 +17742,6 @@ if ('undefined' !== typeof module) {
      * // => { 'fred': 40, 'pebbles': 1 } (iteration order is not guaranteed)
      */
     var mapValues = createObjectMapper();
-
-    /**
-     * Recursively merges own enumerable properties of the source object(s), that
-     * don't resolve to `undefined` into the destination object. Subsequent sources
-     * overwrite property assignments of previous sources. If `customizer` is
-     * provided it is invoked to produce the merged values of the destination and
-     * source properties. If `customizer` returns `undefined` merging is handled
-     * by the method instead. The `customizer` is bound to `thisArg` and invoked
-     * with five arguments: (objectValue, sourceValue, key, object, source).
-     *
-     * @static
-     * @memberOf _
-     * @category Object
-     * @param {Object} object The destination object.
-     * @param {...Object} [sources] The source objects.
-     * @param {Function} [customizer] The function to customize assigned values.
-     * @param {*} [thisArg] The `this` binding of `customizer`.
-     * @returns {Object} Returns `object`.
-     * @example
-     *
-     * var users = {
-     *   'data': [{ 'user': 'barney' }, { 'user': 'fred' }]
-     * };
-     *
-     * var ages = {
-     *   'data': [{ 'age': 36 }, { 'age': 40 }]
-     * };
-     *
-     * _.merge(users, ages);
-     * // => { 'data': [{ 'user': 'barney', 'age': 36 }, { 'user': 'fred', 'age': 40 }] }
-     *
-     * // using a customizer callback
-     * var object = {
-     *   'fruits': ['apple'],
-     *   'vegetables': ['beet']
-     * };
-     *
-     * var other = {
-     *   'fruits': ['banana'],
-     *   'vegetables': ['carrot']
-     * };
-     *
-     * _.merge(object, other, function(a, b) {
-     *   if (_.isArray(a)) {
-     *     return a.concat(b);
-     *   }
-     * });
-     * // => { 'fruits': ['apple', 'banana'], 'vegetables': ['beet', 'carrot'] }
-     */
-    var merge = createAssigner(baseMerge);
 
     /**
      * The opposite of `_.pick`; this method creates an object composed of the
@@ -18526,7 +17973,7 @@ if ('undefined' !== typeof module) {
           if (isArr) {
             accumulator = isArray(object) ? new Ctor : [];
           } else {
-            accumulator = baseCreate(isFunction(Ctor) ? Ctor.prototype : null);
+            accumulator = baseCreate(isFunction(Ctor) ? Ctor.prototype : undefined);
           }
         } else {
           accumulator = {};
@@ -18629,7 +18076,7 @@ if ('undefined' !== typeof module) {
      */
     function inRange(value, start, end) {
       start = +start || 0;
-      if (typeof end === 'undefined') {
+      if (end === undefined) {
         end = start;
         start = 0;
       } else {
@@ -18667,7 +18114,7 @@ if ('undefined' !== typeof module) {
      */
     function random(min, max, floating) {
       if (floating && isIterateeCall(min, max, floating)) {
-        max = floating = null;
+        max = floating = undefined;
       }
       var noMin = min == null,
           noMax = max == null;
@@ -18854,8 +18301,8 @@ if ('undefined' !== typeof module) {
     function escapeRegExp(string) {
       string = baseToString(string);
       return (string && reHasRegExpChars.test(string))
-        ? string.replace(reRegExpChars, '\\$&')
-        : string;
+        ? string.replace(reRegExpChars, escapeRegExpChar)
+        : (string || '(?:)');
     }
 
     /**
@@ -18912,8 +18359,8 @@ if ('undefined' !== typeof module) {
         return string;
       }
       var mid = (length - strLength) / 2,
-          leftLength = floor(mid),
-          rightLength = ceil(mid);
+          leftLength = nativeFloor(mid),
+          rightLength = nativeCeil(mid);
 
       chars = createPadding('', rightLength, chars);
       return chars.slice(0, leftLength) + string + chars;
@@ -18991,25 +18438,16 @@ if ('undefined' !== typeof module) {
      * // => [6, 8, 10]
      */
     function parseInt(string, radix, guard) {
-      if (guard && isIterateeCall(string, radix, guard)) {
+      // Firefox < 21 and Opera < 15 follow ES3 for `parseInt`.
+      // Chrome fails to trim leading <BOM> whitespace characters.
+      // See https://code.google.com/p/v8/issues/detail?id=3109 for more details.
+      if (guard ? isIterateeCall(string, radix, guard) : radix == null) {
         radix = 0;
+      } else if (radix) {
+        radix = +radix;
       }
-      return nativeParseInt(string, radix);
-    }
-    // Fallback for environments with pre-ES5 implementations.
-    if (nativeParseInt(whitespace + '08') != 8) {
-      parseInt = function(string, radix, guard) {
-        // Firefox < 21 and Opera < 15 follow ES3 for `parseInt`.
-        // Chrome fails to trim leading <BOM> whitespace characters.
-        // See https://code.google.com/p/v8/issues/detail?id=3109 for more details.
-        if (guard ? isIterateeCall(string, radix, guard) : radix == null) {
-          radix = 0;
-        } else if (radix) {
-          radix = +radix;
-        }
-        string = trim(string);
-        return nativeParseInt(string, radix || (reHasHexPrefix.test(string) ? 16 : 10));
-      };
+      string = trim(string);
+      return nativeParseInt(string, radix || (reHasHexPrefix.test(string) ? 16 : 10));
     }
 
     /**
@@ -19045,7 +18483,7 @@ if ('undefined' !== typeof module) {
         if (n % 2) {
           result += string;
         }
-        n = floor(n / 2);
+        n = nativeFloor(n / 2);
         string += string;
       } while (n);
 
@@ -19230,7 +18668,7 @@ if ('undefined' !== typeof module) {
       var settings = lodash.templateSettings;
 
       if (otherOptions && isIterateeCall(string, options, otherOptions)) {
-        options = otherOptions = null;
+        options = otherOptions = undefined;
       }
       string = baseToString(string);
       options = assignWith(baseAssign({}, otherOptions || options), settings, assignOwnDefaults);
@@ -19466,7 +18904,7 @@ if ('undefined' !== typeof module) {
      */
     function trunc(string, options, guard) {
       if (guard && isIterateeCall(string, options, guard)) {
-        options = null;
+        options = undefined;
       }
       var length = DEFAULT_TRUNC_LENGTH,
           omission = DEFAULT_TRUNC_OMISSION;
@@ -19561,7 +18999,7 @@ if ('undefined' !== typeof module) {
      */
     function words(string, pattern, guard) {
       if (guard && isIterateeCall(string, pattern, guard)) {
-        pattern = null;
+        pattern = undefined;
       }
       string = baseToString(string);
       return string.match(pattern || reWords) || [];
@@ -19637,7 +19075,7 @@ if ('undefined' !== typeof module) {
      */
     function callback(func, thisArg, guard) {
       if (guard && isIterateeCall(func, thisArg, guard)) {
-        thisArg = null;
+        thisArg = undefined;
       }
       return isObjectLike(func)
         ? matches(func)
@@ -19838,8 +19276,8 @@ if ('undefined' !== typeof module) {
     function mixin(object, source, options) {
       if (options == null) {
         var isObj = isObject(source),
-            props = isObj ? keys(source) : null,
-            methodNames = (props && props.length) ? baseFunctions(source, props) : null;
+            props = isObj ? keys(source) : undefined,
+            methodNames = (props && props.length) ? baseFunctions(source, props) : undefined;
 
         if (!(methodNames ? methodNames.length : isObj)) {
           methodNames = false;
@@ -19878,9 +19316,7 @@ if ('undefined' !== typeof module) {
                 result.__chain__ = chainAll;
                 return result;
               }
-              var args = [this.value()];
-              push.apply(args, arguments);
-              return func.apply(object, args);
+              return func.apply(object, arrayPush([this.value()], arguments));
             };
           }(func));
         }
@@ -19901,7 +19337,7 @@ if ('undefined' !== typeof module) {
      * var lodash = _.noConflict();
      */
     function noConflict() {
-      context._ = oldDash;
+      root._ = oldDash;
       return this;
     }
 
@@ -20010,7 +19446,7 @@ if ('undefined' !== typeof module) {
      */
     function range(start, end, step) {
       if (step && isIterateeCall(start, end, step)) {
-        end = step = null;
+        end = step = undefined;
       }
       start = +start || 0;
       step = step == null ? 1 : (+step || 0);
@@ -20024,7 +19460,7 @@ if ('undefined' !== typeof module) {
       // Use `Array(length)` so engines like Chakra and V8 avoid slower modes.
       // See https://youtu.be/XAqIpGU8ZZk#t=17m25s for more details.
       var index = -1,
-          length = nativeMax(ceil((end - start) / (step || 1)), 0),
+          length = nativeMax(nativeCeil((end - start) / (step || 1)), 0),
           result = Array(length);
 
       while (++index < length) {
@@ -20062,7 +19498,7 @@ if ('undefined' !== typeof module) {
      * // => also invokes `mage.castSpell(n)` three times
      */
     function times(n, iteratee, thisArg) {
-      n = floor(n);
+      n = nativeFloor(n);
 
       // Exit early to avoid a JSC JIT bug in Safari 8
       // where `Array(0)` is treated as `Array(1)`.
@@ -20123,6 +19559,50 @@ if ('undefined' !== typeof module) {
     function add(augend, addend) {
       return (+augend || 0) + (+addend || 0);
     }
+
+    /**
+     * Calculates `n` rounded up to `precision`.
+     *
+     * @static
+     * @memberOf _
+     * @category Math
+     * @param {number} n The number to round up.
+     * @param {number} [precision=0] The precision to round up to.
+     * @returns {number} Returns the rounded up number.
+     * @example
+     *
+     * _.ceil(4.006);
+     * // => 5
+     *
+     * _.ceil(6.004, 2);
+     * // => 6.01
+     *
+     * _.ceil(6040, -2);
+     * // => 6100
+     */
+    var ceil = createRound('ceil');
+
+    /**
+     * Calculates `n` rounded down to `precision`.
+     *
+     * @static
+     * @memberOf _
+     * @category Math
+     * @param {number} n The number to round down.
+     * @param {number} [precision=0] The precision to round down to.
+     * @returns {number} Returns the rounded down number.
+     * @example
+     *
+     * _.floor(4.006);
+     * // => 4
+     *
+     * _.floor(0.046, 2);
+     * // => 0.04
+     *
+     * _.floor(4060, -2);
+     * // => 4000
+     */
+    var floor = createRound('floor');
 
     /**
      * Gets the maximum value of `collection`. If `collection` is empty or falsey
@@ -20223,6 +19703,28 @@ if ('undefined' !== typeof module) {
     var min = createExtremum(lt, POSITIVE_INFINITY);
 
     /**
+     * Calculates `n` rounded to `precision`.
+     *
+     * @static
+     * @memberOf _
+     * @category Math
+     * @param {number} n The number to round.
+     * @param {number} [precision=0] The precision to round to.
+     * @returns {number} Returns the rounded number.
+     * @example
+     *
+     * _.round(4.006);
+     * // => 4
+     *
+     * _.round(4.006, 2);
+     * // => 4.01
+     *
+     * _.round(4060, -2);
+     * // => 4100
+     */
+    var round = createRound('round');
+
+    /**
      * Gets the sum of the values in `collection`.
      *
      * @static
@@ -20256,17 +19758,11 @@ if ('undefined' !== typeof module) {
      */
     function sum(collection, iteratee, thisArg) {
       if (thisArg && isIterateeCall(collection, iteratee, thisArg)) {
-        iteratee = null;
+        iteratee = undefined;
       }
-      var callback = getCallback(),
-          noIteratee = iteratee == null;
-
-      if (!(noIteratee && callback === baseCallback)) {
-        noIteratee = false;
-        iteratee = callback(iteratee, thisArg, 3);
-      }
-      return noIteratee
-        ? arraySum(isArray(collection) ? collection : toIterable(collection))
+      iteratee = getCallback(iteratee, thisArg, 3);
+      return iteratee.length == 1
+        ? arraySum(isArray(collection) ? collection : toIterable(collection), iteratee)
         : baseSum(collection, iteratee);
     }
 
@@ -20313,6 +19809,7 @@ if ('undefined' !== typeof module) {
     lodash.curryRight = curryRight;
     lodash.debounce = debounce;
     lodash.defaults = defaults;
+    lodash.defaultsDeep = defaultsDeep;
     lodash.defer = defer;
     lodash.delay = delay;
     lodash.difference = difference;
@@ -20351,6 +19848,7 @@ if ('undefined' !== typeof module) {
     lodash.method = method;
     lodash.methodOf = methodOf;
     lodash.mixin = mixin;
+    lodash.modArgs = modArgs;
     lodash.negate = negate;
     lodash.omit = omit;
     lodash.once = once;
@@ -20426,6 +19924,7 @@ if ('undefined' !== typeof module) {
     lodash.attempt = attempt;
     lodash.camelCase = camelCase;
     lodash.capitalize = capitalize;
+    lodash.ceil = ceil;
     lodash.clone = clone;
     lodash.cloneDeep = cloneDeep;
     lodash.deburr = deburr;
@@ -20441,6 +19940,7 @@ if ('undefined' !== typeof module) {
     lodash.findLastKey = findLastKey;
     lodash.findWhere = findWhere;
     lodash.first = first;
+    lodash.floor = floor;
     lodash.get = get;
     lodash.gt = gt;
     lodash.gte = gte;
@@ -20489,6 +19989,7 @@ if ('undefined' !== typeof module) {
     lodash.reduceRight = reduceRight;
     lodash.repeat = repeat;
     lodash.result = result;
+    lodash.round = round;
     lodash.runInContext = runInContext;
     lodash.size = size;
     lodash.snakeCase = snakeCase;
@@ -20559,48 +20060,20 @@ if ('undefined' !== typeof module) {
       lodash[methodName].placeholder = lodash;
     });
 
-    // Add `LazyWrapper` methods that accept an `iteratee` value.
-    arrayEach(['dropWhile', 'filter', 'map', 'takeWhile'], function(methodName, type) {
-      var isFilter = type != LAZY_MAP_FLAG,
-          isDropWhile = type == LAZY_DROP_WHILE_FLAG;
-
-      LazyWrapper.prototype[methodName] = function(iteratee, thisArg) {
-        var filtered = this.__filtered__,
-            result = (filtered && isDropWhile) ? new LazyWrapper(this) : this.clone(),
-            iteratees = result.__iteratees__ || (result.__iteratees__ = []);
-
-        iteratees.push({
-          'done': false,
-          'count': 0,
-          'index': 0,
-          'iteratee': getCallback(iteratee, thisArg, 1),
-          'limit': -1,
-          'type': type
-        });
-
-        result.__filtered__ = filtered || isFilter;
-        return result;
-      };
-    });
-
     // Add `LazyWrapper` methods for `_.drop` and `_.take` variants.
     arrayEach(['drop', 'take'], function(methodName, index) {
-      var whileName = methodName + 'While';
-
       LazyWrapper.prototype[methodName] = function(n) {
-        var filtered = this.__filtered__,
-            result = (filtered && !index) ? this.dropWhile() : this.clone();
+        var filtered = this.__filtered__;
+        if (filtered && !index) {
+          return new LazyWrapper(this);
+        }
+        n = n == null ? 1 : nativeMax(nativeFloor(n) || 0, 0);
 
-        n = n == null ? 1 : nativeMax(floor(n) || 0, 0);
+        var result = this.clone();
         if (filtered) {
-          if (index) {
-            result.__takeCount__ = nativeMin(result.__takeCount__, n);
-          } else {
-            last(result.__iteratees__).limit = n;
-          }
+          result.__takeCount__ = nativeMin(result.__takeCount__, n);
         } else {
-          var views = result.__views__ || (result.__views__ = []);
-          views.push({ 'size': n, 'type': methodName + (result.__dir__ < 0 ? 'Right' : '') });
+          result.__views__.push({ 'size': n, 'type': methodName + (result.__dir__ < 0 ? 'Right' : '') });
         }
         return result;
       };
@@ -20608,9 +20081,18 @@ if ('undefined' !== typeof module) {
       LazyWrapper.prototype[methodName + 'Right'] = function(n) {
         return this.reverse()[methodName](n).reverse();
       };
+    });
 
-      LazyWrapper.prototype[methodName + 'RightWhile'] = function(predicate, thisArg) {
-        return this.reverse()[whileName](predicate, thisArg).reverse();
+    // Add `LazyWrapper` methods that accept an `iteratee` value.
+    arrayEach(['filter', 'map', 'takeWhile'], function(methodName, index) {
+      var type = index + 1,
+          isFilter = type != LAZY_MAP_FLAG;
+
+      LazyWrapper.prototype[methodName] = function(iteratee, thisArg) {
+        var result = this.clone();
+        result.__iteratees__.push({ 'iteratee': getCallback(iteratee, thisArg, 1), 'type': type });
+        result.__filtered__ = result.__filtered__ || isFilter;
+        return result;
       };
     });
 
@@ -20628,7 +20110,7 @@ if ('undefined' !== typeof module) {
       var dropName = 'drop' + (index ? '' : 'Right');
 
       LazyWrapper.prototype[methodName] = function() {
-        return this[dropName](1);
+        return this.__filtered__ ? new LazyWrapper(this) : this[dropName](1);
       };
     });
 
@@ -20657,10 +20139,13 @@ if ('undefined' !== typeof module) {
       start = start == null ? 0 : (+start || 0);
 
       var result = this;
+      if (result.__filtered__ && (start > 0 || end < 0)) {
+        return new LazyWrapper(result);
+      }
       if (start < 0) {
-        result = this.takeRight(-start);
+        result = result.takeRight(-start);
       } else if (start) {
-        result = this.drop(start);
+        result = result.drop(start);
       }
       if (end !== undefined) {
         end = (+end || 0);
@@ -20669,21 +20154,25 @@ if ('undefined' !== typeof module) {
       return result;
     };
 
+    LazyWrapper.prototype.takeRightWhile = function(predicate, thisArg) {
+      return this.reverse().takeWhile(predicate, thisArg).reverse();
+    };
+
     LazyWrapper.prototype.toArray = function() {
-      return this.drop(0);
+      return this.take(POSITIVE_INFINITY);
     };
 
     // Add `LazyWrapper` methods to `lodash.prototype`.
     baseForOwn(LazyWrapper.prototype, function(func, methodName) {
-      var lodashFunc = lodash[methodName];
+      var checkIteratee = /^(?:filter|map|reject)|While$/.test(methodName),
+          retUnwrapped = /^(?:first|last)$/.test(methodName),
+          lodashFunc = lodash[retUnwrapped ? ('take' + (methodName == 'last' ? 'Right' : '')) : methodName];
+
       if (!lodashFunc) {
         return;
       }
-      var checkIteratee = /^(?:filter|map|reject)|While$/.test(methodName),
-          retUnwrapped = /^(?:first|last)$/.test(methodName);
-
       lodash.prototype[methodName] = function() {
-        var args = arguments,
+        var args = retUnwrapped ? [1] : arguments,
             chainAll = this.__chain__,
             value = this.__wrapped__,
             isHybrid = !!this.__actions__.length,
@@ -20692,28 +20181,30 @@ if ('undefined' !== typeof module) {
             useLazy = isLazy || isArray(value);
 
         if (useLazy && checkIteratee && typeof iteratee == 'function' && iteratee.length != 1) {
-          // avoid lazy use if the iteratee has a "length" value other than `1`
+          // Avoid lazy use if the iteratee has a "length" value other than `1`.
           isLazy = useLazy = false;
         }
-        var onlyLazy = isLazy && !isHybrid;
-        if (retUnwrapped && !chainAll) {
-          return onlyLazy
-            ? func.call(value)
-            : lodashFunc.call(lodash, this.value());
-        }
         var interceptor = function(value) {
-          var otherArgs = [value];
-          push.apply(otherArgs, args);
-          return lodashFunc.apply(lodash, otherArgs);
+          return (retUnwrapped && chainAll)
+            ? lodashFunc(value, 1)[0]
+            : lodashFunc.apply(undefined, arrayPush([value], args));
         };
-        if (useLazy) {
-          var wrapper = onlyLazy ? value : new LazyWrapper(this),
-              result = func.apply(wrapper, args);
 
-          if (!retUnwrapped && (isHybrid || result.__actions__)) {
-            var actions = result.__actions__ || (result.__actions__ = []);
-            actions.push({ 'func': thru, 'args': [interceptor], 'thisArg': lodash });
+        var action = { 'func': thru, 'args': [interceptor], 'thisArg': undefined },
+            onlyLazy = isLazy && !isHybrid;
+
+        if (retUnwrapped && !chainAll) {
+          if (onlyLazy) {
+            value = value.clone();
+            value.__actions__.push(action);
+            return func.call(value);
           }
+          return lodashFunc.call(undefined, this.value())[0];
+        }
+        if (!retUnwrapped && useLazy) {
+          value = onlyLazy ? value : new LazyWrapper(this);
+          var result = func.apply(value, args);
+          result.__actions__.push(action);
           return new LodashWrapper(result, chainAll);
         }
         return this.thru(interceptor);
@@ -20721,7 +20212,7 @@ if ('undefined' !== typeof module) {
     });
 
     // Add `Array` and `String` methods to `lodash.prototype`.
-    arrayEach(['concat', 'join', 'pop', 'push', 'replace', 'shift', 'sort', 'splice', 'split', 'unshift'], function(methodName) {
+    arrayEach(['join', 'pop', 'push', 'replace', 'shift', 'sort', 'splice', 'split', 'unshift'], function(methodName) {
       var func = (/^(?:replace|split)$/.test(methodName) ? stringProto : arrayProto)[methodName],
           chainName = /^(?:push|sort|unshift)$/.test(methodName) ? 'tap' : 'thru',
           retUnwrapped = /^(?:join|pop|replace|shift)$/.test(methodName);
@@ -20748,7 +20239,7 @@ if ('undefined' !== typeof module) {
       }
     });
 
-    realNames[createHybridWrapper(null, BIND_KEY_FLAG).name] = [{ 'name': 'wrapper', 'func': null }];
+    realNames[createHybridWrapper(undefined, BIND_KEY_FLAG).name] = [{ 'name': 'wrapper', 'func': undefined }];
 
     // Add functions to the lazy wrapper.
     LazyWrapper.prototype.clone = lazyClone;
@@ -20758,6 +20249,7 @@ if ('undefined' !== typeof module) {
     // Add chaining functions to the `lodash` wrapper.
     lodash.prototype.chain = wrapperChain;
     lodash.prototype.commit = wrapperCommit;
+    lodash.prototype.concat = wrapperConcat;
     lodash.prototype.plant = wrapperPlant;
     lodash.prototype.reverse = wrapperReverse;
     lodash.prototype.toString = wrapperToString;
@@ -21783,7 +21275,7 @@ function Request(method, url) {
     new_err.response = res;
     new_err.status = res.status;
 
-    self.callback(err || new_err, res);
+    self.callback(new_err, res);
   });
 }
 
@@ -22256,7 +21748,8 @@ Request.prototype.end = function(fn){
   // body
   if ('GET' != this.method && 'HEAD' != this.method && 'string' != typeof data && !isHost(data)) {
     // serialize stuff
-    var serialize = request.serialize[this.getHeader('Content-Type')];
+    var contentType = this.getHeader('Content-Type');
+    var serialize = request.serialize[contentType ? contentType.split(';')[0] : ''];
     if (serialize) data = serialize(data);
   }
 
@@ -22271,6 +21764,20 @@ Request.prototype.end = function(fn){
   xhr.send(data);
   return this;
 };
+
+/**
+ * Faux promise support
+ *
+ * @param {Function} fulfill
+ * @param {Function} reject
+ * @return {Request}
+ */
+
+Request.prototype.then = function (fulfill, reject) {
+  return this.end(function(err, res) {
+    err ? reject(err) : fulfill(res);
+  });
+}
 
 /**
  * Expose `Request`.

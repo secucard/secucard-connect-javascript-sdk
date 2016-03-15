@@ -1,3 +1,65 @@
+<a name="0.2.0"></a>
+# 0.2.0 (2016-03-15)
+
+
+### Fix
+
+* Fix: Make "Credentials error" to be catched from Promise
+ ([d0b2ee3](https://github.com/secucard/secucard-connect-javascript-sdk/commit/d0b2ee3))
+
+### New
+
+* New(ProductService): implement getMeta() feature for product service, that retrieves and caches meta ([7debad9](https://github.com/secucard/secucard-connect-javascript-sdk/commit/7debad9))
+* New(payment.transactions): add cancel and getShippingUrl actions
+ ([d86dfa0](https://github.com/secucard/secucard-connect-javascript-sdk/commit/d86dfa0))
+* New(smart.routings): assignDevice/removeDevice actions
+ ([a25e0f6](https://github.com/secucard/secucard-connect-javascript-sdk/commit/a25e0f6))
+* New: Services.Identcases endpoint
+ ([cf18cd7](https://github.com/secucard/secucard-connect-javascript-sdk/commit/cf18cd7))
+* New: add start, finish and task actions to Services.Identcases
+ ([ab76239](https://github.com/secucard/secucard-connect-javascript-sdk/commit/ab76239))
+* New: payment.transactions
+ ([91ff672](https://github.com/secucard/secucard-connect-javascript-sdk/commit/91ff672))
+* New: smart.devices and smart.routings endpoint
+ ([767e48b](https://github.com/secucard/secucard-connect-javascript-sdk/commit/767e48b))
+
+### Update
+
+* Update: IMPORTANT breaking change ProductService.retrieve params changed from (id, options) to (id,  ([93ac625](https://github.com/secucard/secucard-connect-javascript-sdk/commit/93ac625))
+* Update: add uploadMultiform to Document.Uploads
+ ([776cbc0](https://github.com/secucard/secucard-connect-javascript-sdk/commit/776cbc0))
+* Update: change Client params order
+ ([f8ead24](https://github.com/secucard/secucard-connect-javascript-sdk/commit/f8ead24))
+* Update: es6-shim removed for browser by default, added browser shimed endpoint
+ ([372db4b](https://github.com/secucard/secucard-connect-javascript-sdk/commit/372db4b))
+* Update: log client config
+ ([56d86ef](https://github.com/secucard/secucard-connect-javascript-sdk/commit/56d86ef))
+
+* Doc (guide): add dummy placeholder
+ ([eff3e0e](https://github.com/secucard/secucard-connect-javascript-sdk/commit/eff3e0e))
+* Reformat code to 4 spaces
+ ([da41c5f](https://github.com/secucard/secucard-connect-javascript-sdk/commit/da41c5f))
+* add Loyalty actionprofiles service
+ ([97f75a0](https://github.com/secucard/secucard-connect-javascript-sdk/commit/97f75a0))
+* add Loyalty.ActionActions
+ ([daf2fa5](https://github.com/secucard/secucard-connect-javascript-sdk/commit/daf2fa5))
+* add loyalty.storegroups and general.storegroups endpoints
+ ([eb8b13a](https://github.com/secucard/secucard-connect-javascript-sdk/commit/eb8b13a))
+* add loyalty.storegroups and general.storegroups endpoints
+ ([830fdcb](https://github.com/secucard/secucard-connect-javascript-sdk/commit/830fdcb))
+* better handling of internal sdk errors
+ ([5d55194](https://github.com/secucard/secucard-connect-javascript-sdk/commit/5d55194))
+* fix bug with DELETE req
+ ([d47ba6d](https://github.com/secucard/secucard-connect-javascript-sdk/commit/d47ba6d))
+* fix identcase.task() action, use PUT(Update) not POST(execute)
+ ([0ba0bb1](https://github.com/secucard/secucard-connect-javascript-sdk/commit/0ba0bb1))
+* rename Services.identcases finish task to close
+ ([ddc6651](https://github.com/secucard/secucard-connect-javascript-sdk/commit/ddc6651))
+* update es6-shim
+ ([90b2556](https://github.com/secucard/secucard-connect-javascript-sdk/commit/90b2556))
+
+
+
 <a name="0.1.4"></a>
 ## 0.1.4 (2015-08-10)
 

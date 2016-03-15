@@ -5,7 +5,7 @@ exports.__esModule = true;
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 
 var AuthenticationFailedException = function AuthenticationFailedException() {
-    var message = arguments[0] === undefined ? 'Authentication failed' : arguments[0];
+    var message = arguments.length <= 0 || arguments[0] === undefined ? 'Authentication failed' : arguments[0];
 
     _classCallCheck(this, AuthenticationFailedException);
 
@@ -35,7 +35,7 @@ var AuthenticationFailedException = function AuthenticationFailedException() {
 exports.AuthenticationFailedException = AuthenticationFailedException;
 
 var AuthenticationTimeoutException = function AuthenticationTimeoutException() {
-    var message = arguments[0] === undefined ? 'Authentication timeout' : arguments[0];
+    var message = arguments.length <= 0 || arguments[0] === undefined ? 'Authentication timeout' : arguments[0];
 
     _classCallCheck(this, AuthenticationTimeoutException);
 
