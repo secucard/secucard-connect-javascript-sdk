@@ -8,42 +8,42 @@ import {Message, HEAD, GET, POST, PUT, DELETE} from '../src/de.secucard.connect/
 
 install();
 
-describe('Rest', function() {
-  
-  it('run GET', async function() {
-    
-    let ch = new Rest();
-    
-    let message = new Message();
-    message.setMethod(GET).setUrl('http://google.com');
-    
-    let status = null;
-    let pr = ch.send(message);
-    
-    await pr.then(res => {
-      status = res.status;
+describe('Rest', function () {
+
+    it('run GET', async function () {
+
+        let ch = new Rest();
+
+        let message = new Message();
+        message.setMethod(GET).setUrl('http://google.com');
+
+        let status = null;
+        let pr = ch.send(message);
+
+        await pr.then(res => {
+            status = res.status;
+        });
+
+        expect(status).toBe(200);
+
     });
-    
-    expect(status).toBe(200);
-    
-  });
-  
-  it('run HEAD', async function() {
-    
-    let ch = new Rest();
-    
-    let message = new Message();
-    message.setMethod(HEAD).setUrl('http://google.com');
-    
-    let status = null;
-    await ch.send(message).then((res) => {
-      status = res.status;
-    }).catch((err) => {
-      status = err.status;
+
+    it('run HEAD', async function () {
+
+        let ch = new Rest();
+
+        let message = new Message();
+        message.setMethod(HEAD).setUrl('http://google.com');
+
+        let status = null;
+        await ch.send(message).then((res) => {
+            status = res.status;
+        }).catch((err) => {
+            status = err.status;
+        });
+
+        expect(status).toBe(302);
+
     });
-    
-    expect(status).toBe(302);
-    
-  });
-  
+
 });

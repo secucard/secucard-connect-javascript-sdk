@@ -10,10 +10,10 @@
  limitations under the License.
  */
 export class ProductGroup {
-	
-	constructor(desc, level) {
-		this.desc = desc;
-		this.level = level;
-	}
-	
+
+    constructor(desc, level) {
+        this.desc = desc;
+        this.level = level;
+    }
+
 }

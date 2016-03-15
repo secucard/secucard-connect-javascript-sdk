@@ -1,9 +1,13 @@
-System.register(['./beacon-service', './card-group-service', './card-service', './charge-service', './checkin-service', './customer-service', './merchant-card-service', './program-service', './program-special-service', './sale-service'], function (_export) {
+System.register(['./action-action-service.js', './action-profile-service', './beacon-service', './card-group-service', './card-service', './charge-service', './checkin-service', './customer-service', './merchant-card-service', './program-service', './program-special-service', './sale-service', './store-group-service'], function (_export) {
   'use strict';
 
-  var BeaconService, CardGroupService, CardService, ChargeService, CheckinService, CustomerService, MerchantCardService, ProgramService, ProgramSpecialService, SaleService, Loyalty;
+  var ActionActionService, ActionProfileService, BeaconService, CardGroupService, CardService, ChargeService, CheckinService, CustomerService, MerchantCardService, ProgramService, ProgramSpecialService, SaleService, StoreGroupService, Loyalty;
   return {
-    setters: [function (_beaconService) {
+    setters: [function (_actionActionServiceJs) {
+      ActionActionService = _actionActionServiceJs.ActionActionService;
+    }, function (_actionProfileService) {
+      ActionProfileService = _actionProfileService.ActionProfileService;
+    }, function (_beaconService) {
       BeaconService = _beaconService.BeaconService;
     }, function (_cardGroupService) {
       CardGroupService = _cardGroupService.CardGroupService;
@@ -23,12 +27,16 @@ System.register(['./beacon-service', './card-group-service', './card-service', '
       ProgramSpecialService = _programSpecialService.ProgramSpecialService;
     }, function (_saleService) {
       SaleService = _saleService.SaleService;
+    }, function (_storeGroupService) {
+      StoreGroupService = _storeGroupService.StoreGroupService;
     }],
     execute: function () {
       Loyalty = {};
 
       _export('Loyalty', Loyalty);
 
+      Loyalty.ActionActionService = ActionActionService;
+      Loyalty.ActionProfileService = ActionProfileService;
       Loyalty.BeaconService = BeaconService;
       Loyalty.CardGroupService = CardGroupService;
       Loyalty.CardService = CardService;
@@ -39,7 +47,8 @@ System.register(['./beacon-service', './card-group-service', './card-service', '
       Loyalty.ProgramService = ProgramService;
       Loyalty.ProgramSpecialService = ProgramSpecialService;
       Loyalty.SaleService = SaleService;
+      Loyalty.StoreGroupService = StoreGroupService;
     }
   };
 });
-//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbImRlLnNlY3VjYXJkLmNvbm5lY3QvcHJvZHVjdC9sb3lhbHR5L2xveWFsdHkuanMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7OzZLQXNCYSxPQUFPOzs7cUNBWFosYUFBYTs7MkNBQ2IsZ0JBQWdCOztpQ0FDaEIsV0FBVzs7cUNBQ1gsYUFBYTs7dUNBQ2IsY0FBYzs7eUNBQ2QsZUFBZTs7aURBQ2YsbUJBQW1COzt1Q0FDbkIsY0FBYzs7cURBQ2QscUJBQXFCOztpQ0FDckIsV0FBVzs7O0FBRU4sYUFBTyxHQUFHLEVBQUU7O3lCQUFaLE9BQU87O0FBQ3BCLGFBQU8sQ0FBQyxhQUFhLEdBQUcsYUFBYSxDQUFDO0FBQ3RDLGFBQU8sQ0FBQyxnQkFBZ0IsR0FBRyxnQkFBZ0IsQ0FBQztBQUM1QyxhQUFPLENBQUMsV0FBVyxHQUFHLFdBQVcsQ0FBQztBQUNsQyxhQUFPLENBQUMsYUFBYSxHQUFHLGFBQWEsQ0FBQztBQUN0QyxhQUFPLENBQUMsY0FBYyxHQUFHLGNBQWMsQ0FBQztBQUN4QyxhQUFPLENBQUMsZUFBZSxHQUFHLGVBQWUsQ0FBQztBQUMxQyxhQUFPLENBQUMsbUJBQW1CLEdBQUcsbUJBQW1CLENBQUM7QUFDbEQsYUFBTyxDQUFDLGNBQWMsR0FBRyxjQUFjLENBQUM7QUFDeEMsYUFBTyxDQUFDLHFCQUFxQixHQUFHLHFCQUFxQixDQUFDO0FBQ3RELGFBQU8sQ0FBQyxXQUFXLEdBQUcsV0FBVyxDQUFDIiwiZmlsZSI6ImRlLnNlY3VjYXJkLmNvbm5lY3QvcHJvZHVjdC9sb3lhbHR5L2xveWFsdHkuanMiLCJzb3VyY2VSb290IjoiLi4vc3JjLyJ9
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbImRlLnNlY3VjYXJkLmNvbm5lY3QvcHJvZHVjdC9sb3lhbHR5L2xveWFsdHkuanMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7OzJPQXlCYSxPQUFPOzs7bURBZFosbUJBQW1COzttREFDbkIsb0JBQW9COztxQ0FDcEIsYUFBYTs7MkNBQ2IsZ0JBQWdCOztpQ0FDaEIsV0FBVzs7cUNBQ1gsYUFBYTs7dUNBQ2IsY0FBYzs7eUNBQ2QsZUFBZTs7aURBQ2YsbUJBQW1COzt1Q0FDbkIsY0FBYzs7cURBQ2QscUJBQXFCOztpQ0FDckIsV0FBVzs7NkNBQ1gsaUJBQWlCOzs7QUFFWixhQUFPLEdBQUcsRUFBRTs7OztBQUN6QixhQUFPLENBQUMsbUJBQW1CLEdBQUcsbUJBQW1CLENBQUM7QUFDbEQsYUFBTyxDQUFDLG9CQUFvQixHQUFHLG9CQUFvQixDQUFDO0FBQ3BELGFBQU8sQ0FBQyxhQUFhLEdBQUcsYUFBYSxDQUFDO0FBQ3RDLGFBQU8sQ0FBQyxnQkFBZ0IsR0FBRyxnQkFBZ0IsQ0FBQztBQUM1QyxhQUFPLENBQUMsV0FBVyxHQUFHLFdBQVcsQ0FBQztBQUNsQyxhQUFPLENBQUMsYUFBYSxHQUFHLGFBQWEsQ0FBQztBQUN0QyxhQUFPLENBQUMsY0FBYyxHQUFHLGNBQWMsQ0FBQztBQUN4QyxhQUFPLENBQUMsZUFBZSxHQUFHLGVBQWUsQ0FBQztBQUMxQyxhQUFPLENBQUMsbUJBQW1CLEdBQUcsbUJBQW1CLENBQUM7QUFDbEQsYUFBTyxDQUFDLGNBQWMsR0FBRyxjQUFjLENBQUM7QUFDeEMsYUFBTyxDQUFDLHFCQUFxQixHQUFHLHFCQUFxQixDQUFDO0FBQ3RELGFBQU8sQ0FBQyxXQUFXLEdBQUcsV0FBVyxDQUFDO0FBQ2xDLGFBQU8sQ0FBQyxpQkFBaUIsR0FBRyxpQkFBaUIsQ0FBQyIsImZpbGUiOiJkZS5zZWN1Y2FyZC5jb25uZWN0L3Byb2R1Y3QvbG95YWx0eS9sb3lhbHR5LmpzIiwic291cmNlUm9vdCI6Ii4uL3NyYy8ifQ==

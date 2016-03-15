@@ -13,47 +13,47 @@ var _utilMixins = require('../util/mixins');
 var _utilMixins2 = _interopRequireDefault(_utilMixins);
 
 var TokenStorageInMem = (function () {
-	function TokenStorageInMem() {
-		_classCallCheck(this, TokenStorageInMem);
-	}
+    function TokenStorageInMem() {
+        _classCallCheck(this, TokenStorageInMem);
+    }
 
-	TokenStorageInMem.prototype.setCredentials = function setCredentials(credentials) {
-		this.credentials = credentials;
+    TokenStorageInMem.prototype.setCredentials = function setCredentials(credentials) {
+        this.credentials = credentials;
 
-		var token = null;
+        var token = null;
 
-		if (credentials.token) {
-			token = _token.Token.create(credentials.token);
-			token.setExpireTime();
-			delete credentials.token;
-		}
+        if (credentials.token) {
+            token = _token.Token.create(credentials.token);
+            token.setExpireTime();
+            delete credentials.token;
+        }
 
-		return this.storeToken(token).then();
-	};
+        return this.storeToken(token).then();
+    };
 
-	TokenStorageInMem.prototype.removeToken = function removeToken() {
-		this.token = null;
-		return Promise.resolve(this.token);
-	};
+    TokenStorageInMem.prototype.removeToken = function removeToken() {
+        this.token = null;
+        return Promise.resolve(this.token);
+    };
 
-	TokenStorageInMem.prototype.storeToken = function storeToken(token) {
+    TokenStorageInMem.prototype.storeToken = function storeToken(token) {
 
-		this.token = token ? token : null;
-		return Promise.resolve(this.token);
-	};
+        this.token = token ? token : null;
+        return Promise.resolve(this.token);
+    };
 
-	TokenStorageInMem.prototype.getStoredToken = function getStoredToken() {
+    TokenStorageInMem.prototype.getStoredToken = function getStoredToken() {
 
-		return Promise.resolve(this.token);
-	};
+        return Promise.resolve(this.token);
+    };
 
-	return TokenStorageInMem;
+    return TokenStorageInMem;
 })();
 
 exports.TokenStorageInMem = TokenStorageInMem;
 
 TokenStorageInMem.createWithMixin = function (TokenStorageMixin) {
 
-	var Mixed = _utilMixins2['default'](TokenStorageInMem, TokenStorageMixin);
-	return new Mixed();
+    var Mixed = _utilMixins2['default'](TokenStorageInMem, TokenStorageMixin);
+    return new Mixed();
 };

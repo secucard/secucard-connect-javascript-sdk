@@ -9,7 +9,6 @@
  See the License for the specific language governing permissions and
  limitations under the License.
  */
-import es6shim from 'es6-shim';
 import {ClientBrowserEnvironment} from './de.secucard.connect/client-browser-environment';
 import {Client} from './de.secucard.connect/client';
 export {ServiceMap as Services} from './de.secucard.connect/client-browser-environment';
@@ -20,11 +19,11 @@ export const MiniLog = minilog;
 minilog.suggest.deny(/secucard\..*/, 'warn');
 
 export const SecucardConnect = {
-	description: 'SecucardConnect for browser'
+    description: 'SecucardConnect for browser'
 };
 
 SecucardConnect.create = (config) => {
-	
-	return Client.create(ClientBrowserEnvironment, config);
-	
+
+    return Client.create(config, ClientBrowserEnvironment);
+
 };

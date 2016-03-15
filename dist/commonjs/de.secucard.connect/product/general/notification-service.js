@@ -4,28 +4,28 @@ exports.__esModule = true;
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 
-function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; }
+function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 var _productService = require('../product-service');
 
 var NotificationService = (function (_ProductService) {
-	function NotificationService() {
-		_classCallCheck(this, NotificationService);
+    _inherits(NotificationService, _ProductService);
 
-		_ProductService.call(this);
-	}
+    function NotificationService() {
+        _classCallCheck(this, NotificationService);
 
-	_inherits(NotificationService, _ProductService);
+        _ProductService.call(this);
+    }
 
-	NotificationService.prototype.getEndpoint = function getEndpoint() {
-		return ['general', 'notifications'];
-	};
+    NotificationService.prototype.getEndpoint = function getEndpoint() {
+        return ['general', 'notifications'];
+    };
 
-	NotificationService.prototype.getEventTargets = function getEventTargets() {
-		return [];
-	};
+    NotificationService.prototype.getEventTargets = function getEventTargets() {
+        return [];
+    };
 
-	return NotificationService;
+    return NotificationService;
 })(_productService.ProductService);
 
 exports.NotificationService = NotificationService;

@@ -26,6 +26,8 @@ var _storeService = require('./store-service');
 
 var _transactionService = require('./transaction-service');
 
+var _storeGroupService = require('./store-group-service');
+
 var General = {};
 
 exports.General = General;
@@ -39,5 +41,6 @@ General.MerchantService = _merchantService.MerchantService;
 General.NewsService = _newsService.NewsService;
 General.NotificationService = _notificationService.NotificationService;
 General.PublicMerchantService = _publicMerchantService.PublicMerchantService;
+General.StoreGroupService = _storeGroupService.StoreGroupService;
 General.StoreService = _storeService.StoreService;
 General.TransactionService = _transactionService.TransactionService;

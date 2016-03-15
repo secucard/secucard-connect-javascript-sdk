@@ -9,11 +9,13 @@
  See the License for the specific language governing permissions and
  limitations under the License.
  */
+import {IdentCaseService} from './ident-case-service';
 import {IdentContractService} from './ident-contract-service';
 import {IdentRequestService} from './ident-request-service';
 import {IdentResultService} from './ident-result-service';
 
 export const Services = {};
+Services.IdentCaseService = IdentCaseService;
 Services.IdentContractService = IdentContractService;
 Services.IdentRequestService = IdentRequestService;
 Services.IdentResultService = IdentResultService;

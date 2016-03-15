@@ -1,41 +1,41 @@
 System.register(['../product-service'], function (_export) {
-	'use strict';
+    'use strict';
 
-	var ProductService, AccountDeviceService;
+    var ProductService, AccountDeviceService;
 
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
+    function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 
-	function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; }
+    function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-	return {
-		setters: [function (_productService) {
-			ProductService = _productService.ProductService;
-		}],
-		execute: function () {
-			AccountDeviceService = (function (_ProductService) {
-				function AccountDeviceService() {
-					_classCallCheck(this, AccountDeviceService);
+    return {
+        setters: [function (_productService) {
+            ProductService = _productService.ProductService;
+        }],
+        execute: function () {
+            AccountDeviceService = (function (_ProductService) {
+                _inherits(AccountDeviceService, _ProductService);
 
-					_ProductService.call(this);
-				}
+                function AccountDeviceService() {
+                    _classCallCheck(this, AccountDeviceService);
 
-				_inherits(AccountDeviceService, _ProductService);
+                    _ProductService.call(this);
+                }
 
-				AccountDeviceService.prototype.getEndpoint = function getEndpoint() {
-					return ['general', 'accountdevices'];
-				};
+                AccountDeviceService.prototype.getEndpoint = function getEndpoint() {
+                    return ['general', 'accountdevices'];
+                };
 
-				AccountDeviceService.prototype.getEventTargets = function getEventTargets() {
-					return ['general.accountdevices'];
-				};
+                AccountDeviceService.prototype.getEventTargets = function getEventTargets() {
+                    return ['general.accountdevices'];
+                };
 
-				return AccountDeviceService;
-			})(ProductService);
+                return AccountDeviceService;
+            })(ProductService);
 
-			_export('AccountDeviceService', AccountDeviceService);
+            _export('AccountDeviceService', AccountDeviceService);
 
-			AccountDeviceService.Uid = ['general', 'accountdevices'].join('.');
-		}
-	};
+            AccountDeviceService.Uid = ['general', 'accountdevices'].join('.');
+        }
+    };
 });
-//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbImRlLnNlY3VjYXJkLmNvbm5lY3QvcHJvZHVjdC9nZW5lcmFsL2FjY291bnQtZGV2aWNlLXNlcnZpY2UuanMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7O3FCQWFhLG9CQUFvQjs7Ozs7Ozs7b0NBRnpCLGNBQWM7OztBQUVULHVCQUFvQjtBQUVyQixhQUZDLG9CQUFvQixHQUVsQjsyQkFGRixvQkFBb0I7O0FBRy9CLCtCQUFPLENBQUE7S0FDUDs7Y0FKVyxvQkFBb0I7O0FBQXBCLHdCQUFvQixXQU1oQyxXQUFXLEdBQUEsdUJBQUc7QUFDYixZQUFPLENBQUMsU0FBUyxFQUFDLGdCQUFnQixDQUFDLENBQUM7S0FDcEM7O0FBUlcsd0JBQW9CLFdBVWhDLGVBQWUsR0FBQSwyQkFBRztBQUNqQixZQUFPLENBQUMsd0JBQXdCLENBQUMsQ0FBQztLQUNsQzs7V0FaVyxvQkFBb0I7TUFBUyxjQUFjOzttQ0FBM0Msb0JBQW9COztBQWdCakMsdUJBQW9CLENBQUMsR0FBRyxHQUFHLEFBQUMsQ0FBQyxTQUFTLEVBQUMsZ0JBQWdCLENBQUMsQ0FBRSxJQUFJLENBQUMsR0FBRyxDQUFDLENBQUMiLCJmaWxlIjoiZGUuc2VjdWNhcmQuY29ubmVjdC9wcm9kdWN0L2dlbmVyYWwvYWNjb3VudC1kZXZpY2Utc2VydmljZS5qcyIsInNvdXJjZVJvb3QiOiIuLi9zcmMvIn0=
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbImRlLnNlY3VjYXJkLmNvbm5lY3QvcHJvZHVjdC9nZW5lcmFsL2FjY291bnQtZGV2aWNlLXNlcnZpY2UuanMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7O3dCQWFhLG9CQUFvQjs7Ozs7Ozs7NkNBRnpCLGNBQWM7OztBQUVULGdDQUFvQjswQkFBcEIsb0JBQW9COztBQUVsQix5QkFGRixvQkFBb0IsR0FFZjswQ0FGTCxvQkFBb0I7O0FBR3pCLDhDQUFPLENBQUE7aUJBQ1Y7O0FBSlEsb0NBQW9CLFdBTTdCLFdBQVcsR0FBQSx1QkFBRztBQUNWLDJCQUFPLENBQUMsU0FBUyxFQUFFLGdCQUFnQixDQUFDLENBQUM7aUJBQ3hDOztBQVJRLG9DQUFvQixXQVU3QixlQUFlLEdBQUEsMkJBQUc7QUFDZCwyQkFBTyxDQUFDLHdCQUF3QixDQUFDLENBQUM7aUJBQ3JDOzt1QkFaUSxvQkFBb0I7ZUFBUyxjQUFjOzs7O0FBZ0J4RCxnQ0FBb0IsQ0FBQyxHQUFHLEdBQUcsQUFBQyxDQUFDLFNBQVMsRUFBRSxnQkFBZ0IsQ0FBQyxDQUFFLElBQUksQ0FBQyxHQUFHLENBQUMsQ0FBQyIsImZpbGUiOiJkZS5zZWN1Y2FyZC5jb25uZWN0L3Byb2R1Y3QvZ2VuZXJhbC9hY2NvdW50LWRldmljZS1zZXJ2aWNlLmpzIiwic291cmNlUm9vdCI6Ii4uL3NyYy8ifQ==

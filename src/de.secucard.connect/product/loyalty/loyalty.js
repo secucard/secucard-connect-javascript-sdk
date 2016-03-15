@@ -9,6 +9,8 @@
  See the License for the specific language governing permissions and
  limitations under the License.
  */
+import {ActionActionService} from './action-action-service.js';
+import {ActionProfileService} from './action-profile-service';
 import {BeaconService} from './beacon-service';
 import {CardGroupService} from './card-group-service';
 import {CardService} from './card-service';
@@ -19,8 +21,11 @@ import {MerchantCardService} from './merchant-card-service';
 import {ProgramService} from './program-service';
 import {ProgramSpecialService} from './program-special-service';
 import {SaleService} from './sale-service';
+import {StoreGroupService} from './store-group-service';
 
 export const Loyalty = {};
+Loyalty.ActionActionService = ActionActionService;
+Loyalty.ActionProfileService = ActionProfileService;
 Loyalty.BeaconService = BeaconService;
 Loyalty.CardGroupService = CardGroupService;
 Loyalty.CardService = CardService;
@@ -31,3 +36,4 @@ Loyalty.MerchantCardService = MerchantCardService;
 Loyalty.ProgramService = ProgramService;
 Loyalty.ProgramSpecialService = ProgramSpecialService;
 Loyalty.SaleService = SaleService;
+Loyalty.StoreGroupService = StoreGroupService;

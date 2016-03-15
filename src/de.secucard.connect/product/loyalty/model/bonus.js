@@ -10,11 +10,11 @@
  limitations under the License.
  */
 export class Bonus {
-	
-	constructor(amount, currency, balance) {
-		this.amount = amount;
-		this.currency = currency;
-		this.balance = balance;
-	}
-	
+
+    constructor(amount, currency, balance) {
+        this.amount = amount;
+        this.currency = currency;
+        this.balance = balance;
+    }
+
 }

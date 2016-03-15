@@ -10,9 +10,9 @@
  limitations under the License.
  */
 export class Notification {
-	
-	constructor(text) {
-		this.text = text;
-	}
-	
+
+    constructor(text) {
+        this.text = text;
+    }
+
 }

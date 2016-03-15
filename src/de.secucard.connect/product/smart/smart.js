@@ -9,11 +9,17 @@
  See the License for the specific language governing permissions and
  limitations under the License.
  */
-import {TransactionService} from './transaction-service';
-import {IdentService} from './ident-service';
+
 import {CheckinService} from './checkin-service';
+import {DeviceService} from './device-service';
+import {IdentService} from './ident-service';
+import {RoutingService} from './routing-service';
+import {TransactionService} from './transaction-service';
+
 
 export const Smart = {};
-Smart.TransactionService = TransactionService;
-Smart.IdentService = IdentService;
 Smart.CheckinService = CheckinService;
+Smart.DeviceService = DeviceService;
+Smart.IdentService = IdentService;
+Smart.RoutingService = RoutingService;
+Smart.TransactionService = TransactionService;

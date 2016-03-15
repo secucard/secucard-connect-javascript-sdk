@@ -21,6 +21,7 @@ import {NotificationService} from './notification-service';
 import {PublicMerchantService} from './public-merchant-service';
 import {StoreService} from './store-service';
 import {TransactionService} from './transaction-service';
+import {StoreGroupService} from './store-group-service';
 
 export const General = {};
 
@@ -34,6 +35,7 @@ General.MerchantService = MerchantService;
 General.NewsService = NewsService;
 General.NotificationService = NotificationService;
 General.PublicMerchantService = PublicMerchantService;
+General.StoreGroupService = StoreGroupService;
 General.StoreService = StoreService;
 General.TransactionService = TransactionService;
 

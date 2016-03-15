@@ -20,42 +20,42 @@ install();
 
 describe('Device Authorization. Obtain code', function () {
 
-	beforeEach('', async function () {
-		
-		let client = Client.create(ClientNodeEnvironment, {
-			oAuthUrl: 'https://connect-dev10.secupay-ag.de/oauth/',
-			stompHost: 'connect-dev10.secupay-ag.de'
-		});
-		
-		this.client = client;
-		this.auth = client.context.getAuth();
-		this.ch = client.context.getRestChannel();
-		
-	});
-	
-	afterEach(function() {
-	  	
-	});
-	
-	
-	it('tries to get Code for the device and get Token for that code with success', async function () {
+    beforeEach('', async function () {
 
-		// we cannot test it to get 200 because there is an user_code verification step on device
-		let status = 'getToken never called';
+        let client = Client.create({
+            oAuthUrl: 'https://connect-dev10.secupay-ag.de/oauth/',
+            stompHost: 'connect-dev10.secupay-ag.de'
+        }, ClientNodeEnvironment);
 
-		let cr = _.assign({}, devCredentialsDevice, {code: 'ccf0fa16630be2052769817c9e71a2c8'});
-		let pr = this.auth._tokenDeviceRequest(cr, this.ch);
+        this.client = client;
+        this.auth = client.context.getAuth();
+        this.ch = client.context.getRestChannel();
 
-		await pr.then((res) => {
-			status = res.status;
-			console.log(res.body);
-		}).catch((err)=> {
-			status = err.status;
-			console.log(err.response.body);
-		});
+    });
 
-		expect(status).toBe(200);
+    afterEach(function () {
 
-	});
+    });
+
+
+    it('tries to get Code for the device and get Token for that code with success', async function () {
+
+        // we cannot test it to get 200 because there is an user_code verification step on device
+        let status = 'getToken never called';
+
+        let cr = _.assign({}, devCredentialsDevice, {code: 'ccf0fa16630be2052769817c9e71a2c8'});
+        let pr = this.auth._tokenDeviceRequest(cr, this.ch);
+
+        await pr.then((res) => {
+            status = res.status;
+            console.log(res.body);
+        }).catch((err)=> {
+            status = err.status;
+            console.log(err.response.body);
+        });
+
+        expect(status).toBe(200);
+
+    });
 
 });

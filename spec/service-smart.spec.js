@@ -22,129 +22,129 @@ minilog.enable();
 
 install();
 
-describe('Smart Services', function() {
-	
-	let originalTimeout;
-	
-	beforeEach('', async function () {
-		
-		originalTimeout = jasmine.DEFAULT_TIMEOUT_INTERVAL;
-		jasmine.DEFAULT_TIMEOUT_INTERVAL = 60000;
-		
-	});
-	
-	it('gets list, creates/updates smart transaction with REST' , async function() {
-		
-		let client = Client.create(ClientNodeEnvironment, {
-			oAuthUrl: 'https://connect-dev10.secupay-ag.de/oauth/',
-			stompHost: 'connect-dev10.secupay-ag.de'
-		});
-		
-		client.setCredentials(devCredentials);
-		
-		let transactions = new Smart.TransactionService();
-		transactions.configureWithContext(client.context);
-		
-		transactions.getChannel = client.context.getRestChannel.bind(client.context);
-		expect(Boolean(transactions)).toBe(true);
-		
-		await transactions.retrieveList().then((res) => {
-			
-		});
-		
-		let data;
-		await transactions.create(devTransaction)
-			.then((res) => {
-				data = res;
-				console.log(res);
-			});
-		
-		expect(data.object).toBe('smart.transactions');
-		
-		await transactions.update(data)
-			.then((res) => {
-				
-				console.log(res);
-				
-				expect(data.object).toBe('smart.transactions');
-				expect(res.id == data.id).toBe(true);
-				expect(res.created == data.created).toBe(true);
-				
-			})
-			.catch((err) => {
-				
-				console.log('Rest Api Error', err);
-				
-			});
-		
-	});
-	
-	
-	it('gets list, creates/updates smart transaction with STOMP' , async function(done) {
-		
-		let client = Client.create(ClientNodeEnvironment, {
-			oAuthUrl: 'https://connect-dev10.secupay-ag.de/oauth/',
-			stompHost: 'connect-dev10.secupay-ag.de'
-		});
-		
-		client.setCredentials(devCredentialRefreshToken);
-		
-		await client.open();
-		
-		let transactions = client.getService(Services.Smart.Transactions);
-		
-		expect(Boolean(transactions)).toBe(true);
-		
-		await transactions.retrieveList().then((res) => {
-			
-		});
-		
-		let data;
-		await transactions.create(devTransaction)
-			.then((res) => {
-				data = res;
-				console.log(res);
-			});
-		
-		
-		expect(data.object).toBe('smart.transactions');
-		
-		await transactions.update(data)
-			.then((res) => {
-				
-				console.log(res);
-				
-				expect(data.object).toBe(Services.Smart.Transactions);
-				expect(res.id == data.id).toBe(true);
-				expect(res.created == data.created).toBe(true);
-				
-			})
-			.catch((err) => {
-				
-				console.log('Stomp Api Error', err);
-				
-			});
-		
-		await Promise.all([
-			transactions.start(data.id, "demo").then((res) => {
-				
-			}),
-			new Promise((resolve, reject) => {
+describe('Smart Services', function () {
 
-				transactions.on('display', (data) => {
-					resolve(data);
-				});
-				
-			})
-		]);
-		
-		await transactions.cancel(data.id);
-		
-	});
-	
-	afterEach(function () {
-		jasmine.DEFAULT_TIMEOUT_INTERVAL = originalTimeout;
-	});
-	
-	
+    let originalTimeout;
+
+    beforeEach('', async function () {
+
+        originalTimeout = jasmine.DEFAULT_TIMEOUT_INTERVAL;
+        jasmine.DEFAULT_TIMEOUT_INTERVAL = 60000;
+
+    });
+
+    it('gets list, creates/updates smart transaction with REST', async function () {
+
+        let client = Client.create({
+            oAuthUrl: 'https://connect-dev10.secupay-ag.de/oauth/',
+            stompHost: 'connect-dev10.secupay-ag.de'
+        }, ClientNodeEnvironment);
+
+        client.setCredentials(devCredentials);
+
+        let transactions = new Smart.TransactionService();
+        transactions.configureWithContext(client.context);
+
+        transactions.getChannel = client.context.getRestChannel.bind(client.context);
+        expect(Boolean(transactions)).toBe(true);
+
+        await transactions.retrieveList().then((res) => {
+
+        });
+
+        let data;
+        await transactions.create(devTransaction)
+            .then((res) => {
+                data = res;
+                console.log(res);
+            });
+
+        expect(data.object).toBe('smart.transactions');
+
+        await transactions.update(data)
+            .then((res) => {
+
+                console.log(res);
+
+                expect(data.object).toBe('smart.transactions');
+                expect(res.id == data.id).toBe(true);
+                expect(res.created == data.created).toBe(true);
+
+            })
+            .catch((err) => {
+
+                console.log('Rest Api Error', err);
+
+            });
+
+    });
+
+
+    it('gets list, creates/updates smart transaction with STOMP', async function (done) {
+
+        let client = Client.create({
+            oAuthUrl: 'https://connect-dev10.secupay-ag.de/oauth/',
+            stompHost: 'connect-dev10.secupay-ag.de'
+        }, ClientNodeEnvironment);
+
+        client.setCredentials(devCredentialRefreshToken);
+
+        await client.open();
+
+        let transactions = client.getService(Services.Smart.Transactions);
+
+        expect(Boolean(transactions)).toBe(true);
+
+        await transactions.retrieveList().then((res) => {
+
+        });
+
+        let data;
+        await transactions.create(devTransaction)
+            .then((res) => {
+                data = res;
+                console.log(res);
+            });
+
+
+        expect(data.object).toBe('smart.transactions');
+
+        await transactions.update(data)
+            .then((res) => {
+
+                console.log(res);
+
+                expect(data.object).toBe(Services.Smart.Transactions);
+                expect(res.id == data.id).toBe(true);
+                expect(res.created == data.created).toBe(true);
+
+            })
+            .catch((err) => {
+
+                console.log('Stomp Api Error', err);
+
+            });
+
+        await Promise.all([
+            transactions.start(data.id, "demo").then((res) => {
+
+            }),
+            new Promise((resolve, reject) => {
+
+                transactions.on('display', (data) => {
+                    resolve(data);
+                });
+
+            })
+        ]);
+
+        await transactions.cancel(data.id);
+
+    });
+
+    afterEach(function () {
+        jasmine.DEFAULT_TIMEOUT_INTERVAL = originalTimeout;
+    });
+
+
 });

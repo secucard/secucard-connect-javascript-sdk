@@ -28,416 +28,416 @@ var _authException = require('../auth/exception');
 
 var utils = {};
 utils.really_defined = function (var_to_test) {
-	return !(var_to_test == null || var_to_test == undefined);
+    return !(var_to_test == null || var_to_test == undefined);
 };
 
 utils.sizeOfUTF8 = function (str) {
-	var size = 0;
-	if (str) {
-		size = encodeURI(str).match(/%..|./g).length;
-	}
-	return size;
+    var size = 0;
+    if (str) {
+        size = encodeURI(str).match(/%..|./g).length;
+    }
+    return size;
 };
 
 var Stomp = (function () {
-	function Stomp(SocketImpl) {
-		_classCallCheck(this, Stomp);
+    function Stomp(SocketImpl) {
+        _classCallCheck(this, Stomp);
 
-		Object.assign(this, _eventemitter32['default'].prototype);
+        Object.assign(this, _eventemitter32['default'].prototype);
 
-		this.connection = null;
-		this.messages = {};
+        this.connection = null;
+        this.messages = {};
 
-		this.skipSessionRefresh = false;
-		this.sessionTimer = null;
+        this.skipSessionRefresh = false;
+        this.sessionTimer = null;
 
-		this.connectAccessToken = null;
+        this.connectAccessToken = null;
 
-		this.stompCommands = {};
-		this.stompCommands[_channel.Channel.METHOD.GET] = 'get';
-		this.stompCommands[_channel.Channel.METHOD.CREATE] = 'add';
-		this.stompCommands[_channel.Channel.METHOD.EXECUTE] = 'exec';
-		this.stompCommands[_channel.Channel.METHOD.UPDATE] = 'update';
-		this.stompCommands[_channel.Channel.METHOD.DELETE] = 'delete';
+        this.stompCommands = {};
+        this.stompCommands[_channel.Channel.METHOD.GET] = 'get';
+        this.stompCommands[_channel.Channel.METHOD.CREATE] = 'add';
+        this.stompCommands[_channel.Channel.METHOD.EXECUTE] = 'exec';
+        this.stompCommands[_channel.Channel.METHOD.UPDATE] = 'update';
+        this.stompCommands[_channel.Channel.METHOD.DELETE] = 'delete';
 
-		this.connection = new _stompImplStomp.Stomp(SocketImpl);
-		this.connection.on('message', this._handleStompMessage.bind(this));
-	}
+        this.connection = new _stompImplStomp.Stomp(SocketImpl);
+        this.connection.on('message', this._handleStompMessage.bind(this));
+    }
 
-	Stomp.prototype.configureWithContext = function configureWithContext(context) {
+    Stomp.prototype.configureWithContext = function configureWithContext(context) {
 
-		this.emitServiceEvent = context.emitServiceEvent.bind(context);
+        this.emitServiceEvent = context.emitServiceEvent.bind(context);
 
-		this.getToken = function (extend) {
-			return context.getAuth().getToken(extend);
-		};
+        this.getToken = function (extend) {
+            return context.getAuth().getToken(extend);
+        };
 
-		this.getStompHost = function () {
-			return context.getConfig().getStompHost();
-		};
+        this.getStompHost = function () {
+            return context.getConfig().getStompHost();
+        };
 
-		this.getStompPort = function () {
-			return context.getConfig().getStompPort();
-		};
+        this.getStompPort = function () {
+            return context.getConfig().getStompPort();
+        };
 
-		this.getStompSslEnabled = function () {
-			return context.getConfig().getStompSslEnabled();
-		};
+        this.getStompSslEnabled = function () {
+            return context.getConfig().getStompSslEnabled();
+        };
 
-		this.getStompVHost = function () {
-			return context.getConfig().getStompVHost();
-		};
+        this.getStompVHost = function () {
+            return context.getConfig().getStompVHost();
+        };
 
-		this.getStompQueue = function () {
-			return context.getConfig().getStompQueue();
-		};
+        this.getStompQueue = function () {
+            return context.getConfig().getStompQueue();
+        };
 
-		this.getStompDestination = function () {
-			return context.getConfig().getStompDestination();
-		};
+        this.getStompDestination = function () {
+            return context.getConfig().getStompDestination();
+        };
 
-		this.getStompEndpoint = function () {
-			return context.getConfig().getStompEndpoint();
-		};
+        this.getStompEndpoint = function () {
+            return context.getConfig().getStompEndpoint();
+        };
 
-		this.getStompHeartbeatMs = function () {
-			return context.getConfig().getStompHeartbeatMs();
-		};
-	};
+        this.getStompHeartbeatMs = function () {
+            return context.getConfig().getStompHeartbeatMs();
+        };
+    };
 
-	Stomp.prototype.getStompConfig = function getStompConfig() {
+    Stomp.prototype.getStompConfig = function getStompConfig() {
 
-		return {
+        return {
 
-			host: this.getStompHost(),
-			port: this.getStompPort(),
-			ssl: this.getStompSslEnabled(),
-			vhost: this.getStompVHost(),
-			heartbeatMs: this.getStompHeartbeatMs(),
-			endpoint: this.getStompEndpoint(),
-			login: '',
-			passcode: ''
-		};
-	};
+            host: this.getStompHost(),
+            port: this.getStompPort(),
+            ssl: this.getStompSslEnabled(),
+            vhost: this.getStompVHost(),
+            heartbeatMs: this.getStompHeartbeatMs(),
+            endpoint: this.getStompEndpoint(),
+            login: '',
+            passcode: ''
+        };
+    };
 
-	Stomp.prototype.open = function open() {
+    Stomp.prototype.open = function open() {
 
-		return this._startSessionRefresh();
-	};
+        return this._startSessionRefresh();
+    };
 
-	Stomp.prototype.connect = function connect() {
-		var _this = this;
+    Stomp.prototype.connect = function connect() {
+        var _this = this;
 
-		_minilog2['default']('secucard.stomp').debug('stomp start connection');
+        _minilog2['default']('secucard.stomp').debug('stomp start connection');
 
-		return this.getToken().then(function (token) {
+        return this.getToken().then(function (token) {
 
-			_minilog2['default']('secucard.stomp').debug('Got token', token);
-			return _this._connect(token.access_token);
-		});
-	};
+            _minilog2['default']('secucard.stomp').debug('Got token', token);
+            return _this._connect(token.access_token);
+        });
+    };
 
-	Stomp.prototype.close = function close() {
+    Stomp.prototype.close = function close() {
 
-		if (this.sessionTimer) {
-			clearInterval(this.sessionTimer);
-		}
+        if (this.sessionTimer) {
+            clearInterval(this.sessionTimer);
+        }
 
-		return this._disconnect();
-	};
+        return this._disconnect();
+    };
 
-	Stomp.prototype._disconnect = function _disconnect() {
-		var _this2 = this;
+    Stomp.prototype._disconnect = function _disconnect() {
+        var _this2 = this;
 
-		return new Promise(function (resolve, reject) {
+        return new Promise(function (resolve, reject) {
 
-			var ignoreSession = true;
-			if (!_this2.connection.isConnected(ignoreSession)) {
-				resolve();
-				return;
-			}
+            var ignoreSession = true;
+            if (!_this2.connection.isConnected(ignoreSession)) {
+                resolve();
+                return;
+            }
 
-			if (_this2.connection && _this2.connection.disconnect) {
+            if (_this2.connection && _this2.connection.disconnect) {
 
-				_this2.connection.disconnect();
+                _this2.connection.disconnect();
 
-				_this2._stompOnDisconnected = function () {
-					_minilog2['default']('secucard.stomp').debug('stomp disconnected');
-					_this2.connection.removeListener('disconnected', _this2._stompOnDisconnected);
-					delete _this2._stompOnDisconnected;
-					resolve();
-				};
+                _this2._stompOnDisconnected = function () {
+                    _minilog2['default']('secucard.stomp').debug('stomp disconnected');
+                    _this2.connection.removeListener('disconnected', _this2._stompOnDisconnected);
+                    delete _this2._stompOnDisconnected;
+                    resolve();
+                };
 
-				_this2.connection.on('disconnected', _this2._stompOnDisconnected);
-			} else {
+                _this2.connection.on('disconnected', _this2._stompOnDisconnected);
+            } else {
 
-				resolve();
-			}
-		});
-	};
+                resolve();
+            }
+        });
+    };
 
-	Stomp.prototype.request = function request(method, params) {
+    Stomp.prototype.request = function request(method, params) {
 
-		var destination = this.buildDestination(method, params);
-		var message = this.createMessage(params);
-		return this._sendMessage(destination, message)['catch'](function (err) {
-			err.request = JSON.stringify({ method: method, params: params });
-			throw err;
-		});
-	};
+        var destination = this.buildDestination(method, params);
+        var message = this.createMessage(params);
+        return this._sendMessage(destination, message)['catch'](function (err) {
+            err.request = JSON.stringify({ method: method, params: params });
+            throw err;
+        });
+    };
 
-	Stomp.prototype.buildDestination = function buildDestination(method, params) {
+    Stomp.prototype.buildDestination = function buildDestination(method, params) {
 
-		var destination = {};
+        var destination = {};
 
-		if (params.endpoint != null) {
-			destination.endpoint = params.endpoint;
-		} else if (params.appId != null) {
-			destination.appId = params.appId;
-		} else {
-			throw new Error('Missing object spec or app id');
-		}
+        if (params.endpoint != null) {
+            destination.endpoint = params.endpoint;
+        } else if (params.appId != null) {
+            destination.appId = params.appId;
+        } else {
+            throw new Error('Missing object spec or app id');
+        }
 
-		destination.command = this.stompCommands[method];
+        destination.command = this.stompCommands[method];
 
-		if (!destination.command) {
-			throw new Error('Invalid method arg');
-		}
+        if (!destination.command) {
+            throw new Error('Invalid method arg');
+        }
 
-		destination.action = params.action;
+        destination.action = params.action;
 
-		return destination;
-	};
+        return destination;
+    };
 
-	Stomp.prototype.createMessage = function createMessage(params) {
+    Stomp.prototype.createMessage = function createMessage(params) {
 
-		var message = {};
+        var message = {};
 
-		if (utils.really_defined(params.objectId)) {
-			message.pid = params.objectId;
-		}
+        if (utils.really_defined(params.objectId)) {
+            message.pid = params.objectId;
+        }
 
-		if (utils.really_defined(params.actionArg)) {
-			message.sid = params.actionArg;
-		}
+        if (utils.really_defined(params.actionArg)) {
+            message.sid = params.actionArg;
+        }
 
-		if (utils.really_defined(params.queryParams)) {
-			message.query = params.queryParams;
-		}
+        if (utils.really_defined(params.queryParams)) {
+            message.query = params.queryParams;
+        }
 
-		if (utils.really_defined(params.data)) {
-			message.data = params.data;
-		}
+        if (utils.really_defined(params.data)) {
+            message.data = params.data;
+        }
 
-		return message;
-	};
+        return message;
+    };
 
-	Stomp.prototype._connect = function _connect(accessToken) {
-		var _this3 = this;
+    Stomp.prototype._connect = function _connect(accessToken) {
+        var _this3 = this;
 
-		if (!accessToken) {
+        if (!accessToken) {
 
-			return this.close().then(function () {
-				return Promise.reject(new _authException.AuthenticationFailedException('Access token is not valid'));
-			});
-		}
+            return this.close().then(function () {
+                return Promise.reject(new _authException.AuthenticationFailedException('Access token is not valid'));
+            });
+        }
 
-		this.connectAccessToken = accessToken;
+        this.connectAccessToken = accessToken;
 
-		var stompCredentials = {
-			login: accessToken,
-			passcode: accessToken
-		};
+        var stompCredentials = {
+            login: accessToken,
+            passcode: accessToken
+        };
 
-		this.connection.configure(this.getStompConfig());
-		this.connection.connect(stompCredentials);
+        this.connection.configure(this.getStompConfig());
+        this.connection.connect(stompCredentials);
 
-		return new Promise(function (resolve, reject) {
+        return new Promise(function (resolve, reject) {
 
-			_this3._stompOnConnected = function () {
-				_minilog2['default']('secucard.stomp').debug('stomp connected');
-				_this3._stompClearListeners ? _this3._stompClearListeners() : null;
-				resolve(true);
-			};
+            _this3._stompOnConnected = function () {
+                _minilog2['default']('secucard.stomp').debug('stomp connected');
+                _this3._stompClearListeners ? _this3._stompClearListeners() : null;
+                resolve(true);
+            };
 
-			_this3._stompOnError = function (message) {
-				_minilog2['default']('secucard.stomp').error('stomp error', message);
-				_this3._stompClearListeners ? _this3._stompClearListeners() : null;
-				_this3.close().then(function () {
-					if (message.headers && message.headers.message == 'Bad CONNECT') {
-						reject(new _authException.AuthenticationFailedException(message.body[0]));
-					} else {
-						reject(message);
-					}
-				});
-			};
+            _this3._stompOnError = function (message) {
+                _minilog2['default']('secucard.stomp').error('stomp error', message);
+                _this3._stompClearListeners ? _this3._stompClearListeners() : null;
+                _this3.close().then(function () {
+                    if (message.headers && message.headers.message == 'Bad CONNECT') {
+                        reject(new _authException.AuthenticationFailedException(message.body[0]));
+                    } else {
+                        reject(message);
+                    }
+                });
+            };
 
-			_this3._stompClearListeners = function () {
-				_this3.connection.removeListener('connected', _this3._stompOnConnected);
-				_this3.connection.removeListener('error', _this3._stompOnError);
-				delete _this3._stompOnConnected;
-				delete _this3._stompOnError;
-				delete _this3._stompClearListeners;
-			};
+            _this3._stompClearListeners = function () {
+                _this3.connection.removeListener('connected', _this3._stompOnConnected);
+                _this3.connection.removeListener('error', _this3._stompOnError);
+                delete _this3._stompOnConnected;
+                delete _this3._stompOnError;
+                delete _this3._stompClearListeners;
+            };
 
-			_this3.connection.on('connected', _this3._stompOnConnected);
-			_this3.connection.on('error', _this3._stompOnError);
-		});
-	};
+            _this3.connection.on('connected', _this3._stompOnConnected);
+            _this3.connection.on('error', _this3._stompOnError);
+        });
+    };
 
-	Stomp.prototype._sendMessage = function _sendMessage(destinationObj, message) {
-		var _this4 = this;
+    Stomp.prototype._sendMessage = function _sendMessage(destinationObj, message) {
+        var _this4 = this;
 
-		_minilog2['default']('secucard.stomp').debug('message', destinationObj, message);
+        _minilog2['default']('secucard.stomp').debug('message', destinationObj, message);
 
-		return this.getToken(true).then(function (token) {
+        return this.getToken(true).then(function (token) {
 
-			var accessToken = token.access_token;
-			var correlationId = _this4.createCorrelationId();
+            var accessToken = token.access_token;
+            var correlationId = _this4.createCorrelationId();
 
-			var headers = {};
-			headers['reply-to'] = _this4.getStompQueue();
-			headers['content-type'] = 'application/json';
-			headers['user-id'] = accessToken;
-			headers['correlation-id'] = correlationId;
+            var headers = {};
+            headers['reply-to'] = _this4.getStompQueue();
+            headers['content-type'] = 'application/json';
+            headers['user-id'] = accessToken;
+            headers['correlation-id'] = correlationId;
 
-			if (destinationObj.appId) {
-				headers['app-id'] = destinationObj.appId;
-			}
+            if (destinationObj.appId) {
+                headers['app-id'] = destinationObj.appId;
+            }
 
-			var body = JSON.stringify(message);
-			headers['content-length'] = utils.sizeOfUTF8(body);
+            var body = JSON.stringify(message);
+            headers['content-length'] = utils.sizeOfUTF8(body);
 
-			var destination = _this4.getStompDestination();
-			if (destinationObj.appId) {
+            var destination = _this4.getStompDestination();
+            if (destinationObj.appId) {
 
-				destination += 'app:' + destinationObj.action;
-			} else {
+                destination += 'app:' + destinationObj.action;
+            } else {
 
-				destination += 'api:' + destinationObj.command + ':';
+                destination += 'api:' + destinationObj.command + ':';
 
-				var endpoint = [];
-				if (destinationObj.endpoint) {
-					endpoint = endpoint.concat(destinationObj.endpoint);
-				}
-				if (destinationObj.action) {
-					endpoint.push(destinationObj.action);
-				}
+                var endpoint = [];
+                if (destinationObj.endpoint) {
+                    endpoint = endpoint.concat(destinationObj.endpoint);
+                }
+                if (destinationObj.action) {
+                    endpoint.push(destinationObj.action);
+                }
 
-				destination += endpoint.join('.');
-			}
+                destination += endpoint.join('.');
+            }
 
-			var sendWithStomp = function sendWithStomp() {
+            var sendWithStomp = function sendWithStomp() {
 
-				return new Promise(function (resolve, reject) {
+                return new Promise(function (resolve, reject) {
 
-					_this4.messages[correlationId] = { resolve: resolve, reject: reject };
-					_this4.connection.send(destination, headers, body);
-				});
-			};
+                    _this4.messages[correlationId] = { resolve: resolve, reject: reject };
+                    _this4.connection.send(destination, headers, body);
+                });
+            };
 
-			if (!_this4.connection.isConnected() || accessToken != _this4.connectAccessToken) {
+            if (!_this4.connection.isConnected() || accessToken != _this4.connectAccessToken) {
 
-				if (_this4.connection.isConnected()) {
-					_minilog2['default']('secucard.stomp').warn('Reconnect due token change.');
-				}
+                if (_this4.connection.isConnected()) {
+                    _minilog2['default']('secucard.stomp').warn('Reconnect due token change.');
+                }
 
-				return _this4._disconnect().then(function () {
-					return _this4._runSessionRefresh().then(sendWithStomp);
-				});
-			}
+                return _this4._disconnect().then(function () {
+                    return _this4._runSessionRefresh().then(sendWithStomp);
+                });
+            }
 
-			return sendWithStomp();
-		});
-	};
+            return sendWithStomp();
+        });
+    };
 
-	Stomp.prototype._startSessionRefresh = function _startSessionRefresh() {
-		var _this5 = this;
+    Stomp.prototype._startSessionRefresh = function _startSessionRefresh() {
+        var _this5 = this;
 
-		_minilog2['default']('secucard.stomp').debug('Stomp session refresh loop started');
+        _minilog2['default']('secucard.stomp').debug('Stomp session refresh loop started');
 
-		var initial = true;
+        var initial = true;
 
-		var sessionInterval = this.getStompHeartbeatMs() > 0 ? this.getStompHeartbeatMs() - 500 : 25 * 1000;
+        var sessionInterval = this.getStompHeartbeatMs() > 0 ? this.getStompHeartbeatMs() - 500 : 25 * 1000;
 
-		this.sessionTimer = setInterval(function () {
+        this.sessionTimer = setInterval(function () {
 
-			if (_this5.skipSessionRefresh) {
-				_this5.skipSessionRefresh = false;
-			} else {
-				_this5._runSessionRefresh(false);
-			}
-		}, sessionInterval);
+            if (_this5.skipSessionRefresh) {
+                _this5.skipSessionRefresh = false;
+            } else {
+                _this5._runSessionRefresh(false);
+            }
+        }, sessionInterval);
 
-		return this._runSessionRefresh(initial);
-	};
+        return this._runSessionRefresh(initial);
+    };
 
-	Stomp.prototype._runSessionRefresh = function _runSessionRefresh(initial) {
-		var _this6 = this;
+    Stomp.prototype._runSessionRefresh = function _runSessionRefresh(initial) {
+        var _this6 = this;
 
-		var createRefreshRequest = function createRefreshRequest() {
+        var createRefreshRequest = function createRefreshRequest() {
 
-			return _this6.request(_channel.Channel.METHOD.EXECUTE, {
-				endpoint: ['auth', 'sessions'],
-				objectId: 'me',
-				action: 'refresh'
-			}).then(function (res) {
+            return _this6.request(_channel.Channel.METHOD.EXECUTE, {
+                endpoint: ['auth', 'sessions'],
+                objectId: 'me',
+                action: 'refresh'
+            }).then(function (res) {
 
-				_this6.emit('sessionRefresh');
-				_minilog2['default']('secucard.stomp').debug('Session refresh sent');
-				_this6.skipSessionRefresh = false;
-				return res;
-			})['catch'](function (err) {
+                _this6.emit('sessionRefresh');
+                _minilog2['default']('secucard.stomp').debug('Session refresh sent');
+                _this6.skipSessionRefresh = false;
+                return res;
+            })['catch'](function (err) {
 
-				_this6.emit('sessionRefreshError');
-				_minilog2['default']('secucard.stomp').error('Session refresh failed');
-				if (initial) {
-					throw err;
-				}
-			});
-		};
+                _this6.emit('sessionRefreshError');
+                _minilog2['default']('secucard.stomp').error('Session refresh failed');
+                if (initial) {
+                    throw err;
+                }
+            });
+        };
 
-		if (!this.connection.isConnected()) {
+        if (!this.connection.isConnected()) {
 
-			return this.connect().then(createRefreshRequest);
-		} else {
+            return this.connect().then(createRefreshRequest);
+        } else {
 
-			return createRefreshRequest();
-		}
-	};
+            return createRefreshRequest();
+        }
+    };
 
-	Stomp.prototype._handleStompMessage = function _handleStompMessage(frame) {
-		this.skipSessionRefresh = true;
+    Stomp.prototype._handleStompMessage = function _handleStompMessage(frame) {
+        this.skipSessionRefresh = true;
 
-		_minilog2['default']('secucard.stomp').debug('_handleStompMessage', frame);
+        _minilog2['default']('secucard.stomp').debug('_handleStompMessage', frame);
 
-		var body = undefined;
+        var body = undefined;
 
-		if (frame && frame.headers && frame.headers['correlation-id']) {
+        if (frame && frame.headers && frame.headers['correlation-id']) {
 
-			var correlationId = frame.headers['correlation-id'];
-			body = JSON.parse(frame.body[0]);
+            var correlationId = frame.headers['correlation-id'];
+            body = JSON.parse(frame.body[0]);
 
-			if (body.status == 'ok') {
-				this.messages[correlationId].resolve(body.data);
-			} else {
-				var error = _exception.SecucardConnectException.create(body);
-				this.messages[correlationId].reject(error);
-			}
+            if (body.status == 'ok') {
+                this.messages[correlationId].resolve(body.data);
+            } else {
+                var error = _exception.SecucardConnectException.create(body);
+                this.messages[correlationId].reject(error);
+            }
 
-			delete this.messages[correlationId];
-		} else if (frame) {
+            delete this.messages[correlationId];
+        } else if (frame) {
 
-			body = JSON.parse(frame.body[0]);
-			this.emitServiceEvent(null, body.target, body.type, body.data);
-		}
-	};
+            body = JSON.parse(frame.body[0]);
+            this.emitServiceEvent(null, body.target, body.type, body.data);
+        }
+    };
 
-	Stomp.prototype.createCorrelationId = function createCorrelationId() {
-		return _uuid2['default'].v1();
-	};
+    Stomp.prototype.createCorrelationId = function createCorrelationId() {
+        return _uuid2['default'].v1();
+    };
 
-	return Stomp;
+    return Stomp;
 })();
 
 exports.Stomp = Stomp;

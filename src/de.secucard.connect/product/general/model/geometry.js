@@ -10,10 +10,10 @@
  limitations under the License.
  */
 export class Geometry {
-	
-	constructor(lat, lon) {
-		this.lat = lat;
-		this.lon = lon;
-	}
-	
+
+    constructor(lat, lon) {
+        this.lat = lat;
+        this.lon = lon;
+    }
+
 }

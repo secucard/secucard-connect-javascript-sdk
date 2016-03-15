@@ -13,163 +13,211 @@ var _eventemitter3 = require('eventemitter3');
 var _eventemitter32 = _interopRequireDefault(_eventemitter3);
 
 var ProductService = (function () {
-	function ProductService() {
-		_classCallCheck(this, ProductService);
+    function ProductService() {
+        _classCallCheck(this, ProductService);
 
-		Object.assign(this, _eventemitter32['default'].prototype);
-	}
+        Object.assign(this, _eventemitter32['default'].prototype);
+    }
 
-	ProductService.prototype.configureWithContext = function configureWithContext(context) {
+    ProductService.prototype.configureWithContext = function configureWithContext(context) {
 
-		this.getChannel = context.getChannel.bind(context);
-		this.getServiceDefaultOptions = context.getServiceDefaultOptions.bind(context);
-	};
+        this.getChannel = context.getChannel.bind(context);
+        this.getServiceDefaultOptions = context.getServiceDefaultOptions.bind(context);
+    };
 
-	ProductService.prototype.getEndpoint = function getEndpoint() {};
+    ProductService.prototype.getEndpoint = function getEndpoint() {};
 
-	ProductService.prototype.getEventTargets = function getEventTargets() {};
+    ProductService.prototype.getEventTargets = function getEventTargets() {};
 
-	ProductService.prototype.getUid = function getUid() {
+    ProductService.prototype.getUid = function getUid() {
 
-		return this.getEndpoint().join('.').toLowerCase();
-	};
+        return this.getEndpoint().join('.').toLowerCase();
+    };
 
-	ProductService.prototype.retrieve = function retrieve(id, options) {
+    ProductService.prototype._parseMeta = function _parseMeta(data) {
 
-		var params = {
-			endpoint: this.getEndpoint(),
-			objectId: id,
-			options: options
-		};
+        if (!data) {
+            return data;
+        }
 
-		return this._request(_netChannel.Channel.METHOD.GET, params, options);
-	};
+        data.describe = function (property) {
 
-	ProductService.prototype.retrieveWithAction = function retrieveWithAction(id, action, actionArg, options) {
+            var _this = this;
 
-		var params = {
-			endpoint: this.getEndpoint(),
-			objectId: id,
-			action: action,
-			actionArg: actionArg,
-			options: options
-		};
+            var res = property.split('.').reduce(function (collector, item) {
+                return collector.properties[item];
+            }, _this);
 
-		return this._request(_netChannel.Channel.METHOD.GET, params, options);
-	};
+            if (res.type == 'object') {
+                res.describe = this.describe;
+            }
 
-	ProductService.prototype.retrieveList = function retrieveList(queryParams, options) {
+            return res;
+        };
 
-		var params = {
-			endpoint: this.getEndpoint(),
-			queryParams: queryParams,
-			options: options
-		};
+        return data;
+    };
 
-		return this._request(_netChannel.Channel.METHOD.GET, params, options);
-	};
+    ProductService.prototype.getMeta = function getMeta(options) {
+        var _this2 = this;
 
-	ProductService.prototype.create = function create(data, options) {
+        return this._meta && !options ? Promise.resolve(this._meta) : this.retrieveMeta(options).then(function (res) {
+            _this2._meta = _this2._parseMeta(res.meta);
+            return _this2._meta;
+        });
+    };
 
-		var params = {
-			endpoint: this.getEndpoint(),
-			data: data,
-			options: options
-		};
+    ProductService.prototype.retrieveMeta = function retrieveMeta(options) {
 
-		return this._request(_netChannel.Channel.METHOD.CREATE, params, options);
-	};
+        var params = {
+            endpoint: this.getEndpoint(),
+            queryParams: { meta: 'only' },
+            options: options
+        };
 
-	ProductService.prototype.update = function update(data, options) {
+        return this._request(_netChannel.Channel.METHOD.GET, params, options);
+    };
 
-		var params = {
-			endpoint: this.getEndpoint(),
-			objectId: data.id,
-			data: data,
-			options: options
-		};
+    ProductService.prototype.retrieve = function retrieve(id, queryParams, options) {
 
-		return this._request(_netChannel.Channel.METHOD.UPDATE, params, options);
-	};
+        var params = {
+            endpoint: this.getEndpoint(),
+            objectId: id,
+            queryParams: queryParams,
+            options: options
+        };
 
-	ProductService.prototype.updateWithAction = function updateWithAction(id, action, actionArg, data, options) {
+        return this._request(_netChannel.Channel.METHOD.GET, params, options);
+    };
 
-		var params = {
-			endpoint: this.getEndpoint(),
-			objectId: id,
-			data: data,
-			action: action,
-			actionArg: actionArg,
-			options: options
-		};
+    ProductService.prototype.retrieveWithAction = function retrieveWithAction(id, action, actionArg, options) {
 
-		return this._request(_netChannel.Channel.METHOD.UPDATE, params, options);
-	};
+        var params = {
+            endpoint: this.getEndpoint(),
+            objectId: id,
+            action: action,
+            actionArg: actionArg,
+            options: options
+        };
 
-	ProductService.prototype.remove = function remove(id, options) {
+        return this._request(_netChannel.Channel.METHOD.GET, params, options);
+    };
 
-		var params = {
-			endpoint: this.getEndpoint(),
-			objectId: id,
-			options: options
-		};
+    ProductService.prototype.retrieveList = function retrieveList(queryParams, options) {
 
-		return this._request(_netChannel.Channel.METHOD.DELETE, params, options);
-	};
+        var params = {
+            endpoint: this.getEndpoint(),
+            queryParams: queryParams,
+            options: options
+        };
 
-	ProductService.prototype.removeWithAction = function removeWithAction(id, action, actionArg, options) {
+        return this._request(_netChannel.Channel.METHOD.GET, params, options);
+    };
 
-		var params = {
-			endpoint: this.getEndpoint(),
-			objectId: id,
-			action: action,
-			actionArg: actionArg,
-			options: options
-		};
+    ProductService.prototype.create = function create(data, options, multipart) {
 
-		return this._request(_netChannel.Channel.METHOD.DELETE, params, options);
-	};
+        var params = {
+            endpoint: this.getEndpoint(),
+            data: data,
+            options: options,
+            multipart: multipart
+        };
 
-	ProductService.prototype.execute = function execute(id, action, actionArg, data, options) {
+        return this._request(_netChannel.Channel.METHOD.CREATE, params, options);
+    };
 
-		var params = {
-			endpoint: this.getEndpoint(),
-			objectId: id,
-			action: action,
-			actionArg: actionArg,
-			data: data,
-			options: options
-		};
+    ProductService.prototype.update = function update(data, options, multipart) {
 
-		return this._request(_netChannel.Channel.METHOD.EXECUTE, params, options);
-	};
+        var params = {
+            endpoint: this.getEndpoint(),
+            objectId: data.id,
+            data: data,
+            options: options,
+            multipart: multipart
+        };
 
-	ProductService.prototype.executeAppAction = function executeAppAction(appId, action, data, options) {
+        return this._request(_netChannel.Channel.METHOD.UPDATE, params, options);
+    };
 
-		var params = {
-			appId: appId,
-			action: action,
-			data: data,
-			options: options
-		};
+    ProductService.prototype.updateWithAction = function updateWithAction(id, action, actionArg, data, options, multipart) {
 
-		return this._request(_netChannel.Channel.METHOD.EXECUTE, params, options);
-	};
+        var params = {
+            endpoint: this.getEndpoint(),
+            objectId: id,
+            data: data,
+            action: action,
+            actionArg: actionArg,
+            options: options,
+            multipart: multipart
+        };
 
-	ProductService.prototype._request = function _request(method, params, options) {
+        return this._request(_netChannel.Channel.METHOD.UPDATE, params, options);
+    };
 
-		if (options == null) {
-			options = this.getServiceDefaultOptions();
-		}
+    ProductService.prototype.remove = function remove(id, options) {
 
-		if (params.options == null) {
-			params.options = options;
-		}
+        var params = {
+            endpoint: this.getEndpoint(),
+            objectId: id,
+            options: options
+        };
 
-		return this.getChannel(options.channelConfig).request(method, params);
-	};
+        return this._request(_netChannel.Channel.METHOD.DELETE, params, options);
+    };
 
-	return ProductService;
+    ProductService.prototype.removeWithAction = function removeWithAction(id, action, actionArg, options) {
+
+        var params = {
+            endpoint: this.getEndpoint(),
+            objectId: id,
+            action: action,
+            actionArg: actionArg,
+            options: options
+        };
+
+        return this._request(_netChannel.Channel.METHOD.DELETE, params, options);
+    };
+
+    ProductService.prototype.execute = function execute(id, action, actionArg, data, options) {
+
+        var params = {
+            endpoint: this.getEndpoint(),
+            objectId: id,
+            action: action,
+            actionArg: actionArg,
+            data: data,
+            options: options
+        };
+
+        return this._request(_netChannel.Channel.METHOD.EXECUTE, params, options);
+    };
+
+    ProductService.prototype.executeAppAction = function executeAppAction(appId, action, data, options) {
+
+        var params = {
+            appId: appId,
+            action: action,
+            data: data,
+            options: options
+        };
+
+        return this._request(_netChannel.Channel.METHOD.EXECUTE, params, options);
+    };
+
+    ProductService.prototype._request = function _request(method, params, options) {
+
+        if (options == null) {
+            options = this.getServiceDefaultOptions();
+        }
+
+        if (params.options == null) {
+            params.options = options;
+        }
+
+        return this.getChannel(options.channelConfig).request(method, params);
+    };
+
+    return ProductService;
 })();
 
 exports.ProductService = ProductService;

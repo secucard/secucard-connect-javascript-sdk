@@ -21,107 +21,130 @@ import {Auth} from './product/auth/auth';
 import {TokenStorageInMem} from './auth/token-storage';
 
 export const ClientBrowserEnvironment = {
-	config: {
-		stompPort: 15671,
-		stompEndpoint: '/stomp/websocket'
-	},
-	services: [
-		Auth.SessionService,
-		
-		Document.UploadService,
-		
-		General.SkeletonService,
-		General.AccountService,
-		General.AccountDeviceService,
-		General.ContactService,
-		General.DeliveryAddressService,
-		General.FileAccessService,
-		General.MerchantService,
-		General.NewsService,
-		General.NotificationService,
-		General.PublicMerchantService,
-		General.StoreService,
-		General.TransactionService,
-		
-		Loyalty.BeaconService,
-		Loyalty.CardGroupService,
-		Loyalty.CardService,
-		Loyalty.ChargeService,
-		Loyalty.CheckinService,
-		Loyalty.CustomerService,
-		Loyalty.MerchantCardService,
-		Loyalty.ProgramService,
-		Loyalty.ProgramSpecialService,
-		Loyalty.SaleService,
-		
-		Payment.ContainerService,
-		Payment.ContractService,
-		Payment.CustomerService,
-		Payment.SecupayDebitService,
-		Payment.SecupayPrepayService,
-		
-		Services.IdentContractService,
-		Services.IdentRequestService,
-		Services.IdentResultService,
-		
-		Smart.TransactionService,
-		Smart.IdentService,
-		Smart.CheckinService
-	]
+    config: {
+        stompPort: 15671,
+        stompEndpoint: '/stomp/websocket'
+    },
+    services: [
+        Auth.SessionService,
+
+        Document.UploadService,
+
+        General.SkeletonService,
+        General.AccountService,
+        General.AccountDeviceService,
+        General.ContactService,
+        General.DeliveryAddressService,
+        General.FileAccessService,
+        General.MerchantService,
+        General.NewsService,
+        General.NotificationService,
+        General.PublicMerchantService,
+        General.StoreGroupService,
+        General.StoreService,
+        General.TransactionService,
+        
+        Loyalty.ActionActionService,
+        Loyalty.ActionProfileService,
+        Loyalty.BeaconService,
+        Loyalty.CardGroupService,
+        Loyalty.CardService,
+        Loyalty.ChargeService,
+        Loyalty.CheckinService,
+        Loyalty.CustomerService,
+        Loyalty.MerchantCardService,
+        Loyalty.ProgramService,
+        Loyalty.ProgramSpecialService,
+        Loyalty.SaleService,
+        Loyalty.StoreGroupService,
+
+        Payment.ContainerService,
+        Payment.ContractService,
+        Payment.CustomerService,
+        Payment.SecupayDebitService,
+        Payment.SecupayPrepayService,
+        Payment.TransactionService,
+
+        Services.IdentCaseService,
+        Services.IdentContractService,
+        Services.IdentRequestService,
+        Services.IdentResultService,
+        
+        Smart.CheckinService,
+        Smart.DeviceService,
+        Smart.IdentService,
+        Smart.RoutingService,
+        Smart.TransactionService
+    ]
 };
 ClientBrowserEnvironment.StompChannel = {
-	create: () => {
-		return new Stomp(SocketAtBrowser);
-	}
+    create: () => {
+        return new Stomp(SocketAtBrowser);
+    }
 };
 
 ClientBrowserEnvironment.TokenStorage = {
-	create: () => {
-		return new TokenStorageInMem();
-	}
+    create: () => {
+        return new TokenStorageInMem();
+    }
 };
 
 export const ServiceMap = {
-	Auth: {
-		Sessions: Auth.SessionService.Uid
-	},
-	Document: {
-		Uploads: Document.UploadService.Uid
-	},
-	General: {
-		Skeletons: General.SkeletonService.Uid,
-		Accounts: General.AccountService.Uid,
-		AccountDevices: General.AccountDeviceService.Uid,
-		Contacts: General.ContactService.Uid,
-		DeliveryAddresses: General.DeliveryAddressService.Uid,
-		FileAccesses: General.FileAccessService.Uid,
-		Merchants: General.MerchantService.Uid,
-		News: General.NewsService.Uid,
-		Notifications: General.NotificationService.Uid,
-		PublicMerchants: General.PublicMerchantService.Uid,
-		Stores: General.StoreService.Uid,
-		Transactions: General.TransactionService.Uid
-	},
-	Loyalty: {
-		Beacons: Loyalty.BeaconService.Uid,
-		CardGroups: Loyalty.CardGroupService.Uid,
-		Cards: Loyalty.CardService.Uid,
-		Charges: Loyalty.ChargeService.Uid,
-		Checkins: Loyalty.CheckinService.Uid,
-		Customers: Loyalty.CustomerService.Uid,
-		MerchantCards: Loyalty.MerchantCardService.Uid,
-		Programs: Loyalty.ProgramService.Uid,
-		ProrgamSpecials: Loyalty.ProgramSpecialService.Uid,
-		Sales: Loyalty.SaleService.Uid
-	},
-	Services: {
-		IdentContracts: Services.IdentContractService.Uid,
-		IdentRequests: Services.IdentRequestService.Uid,
-		IdentResults: Services.IdentResultService.Uid
-	},
-	Smart: {
-		Transactions: Smart.TransactionService.Uid,
-		Checkins: Smart.CheckinService.Uid,
-		Idents: Smart.IdentService.Uid
-	}
+    Auth: {
+        Sessions: Auth.SessionService.Uid
+    },
+    Document: {
+        Uploads: Document.UploadService.Uid
+    },
+    General: {
+        Skeletons: General.SkeletonService.Uid,
+        Accounts: General.AccountService.Uid,
+        AccountDevices: General.AccountDeviceService.Uid,
+        Contacts: General.ContactService.Uid,
+        DeliveryAddresses: General.DeliveryAddressService.Uid,
+        FileAccesses: General.FileAccessService.Uid,
+        Merchants: General.MerchantService.Uid,
+        News: General.NewsService.Uid,
+        Notifications: General.NotificationService.Uid,
+        PublicMerchants: General.PublicMerchantService.Uid,
+        StoreGroups: General.StoreGroupService.Uid,
+        Stores: General.StoreService.Uid,
+        Transactions: General.TransactionService.Uid
+    },
+    Loyalty: {
+        ActionActions: Loyalty.ActionActionService.Uid,
+        ActionProfiles: Loyalty.ActionProfileService.Uid,
+        Beacons: Loyalty.BeaconService.Uid,
+        CardGroups: Loyalty.CardGroupService.Uid,
+        Cards: Loyalty.CardService.Uid,
+        Charges: Loyalty.ChargeService.Uid,
+        Checkins: Loyalty.CheckinService.Uid,
+        Customers: Loyalty.CustomerService.Uid,
+        MerchantCards: Loyalty.MerchantCardService.Uid,
+        Programs: Loyalty.ProgramService.Uid,
+        ProrgamSpecials: Loyalty.ProgramSpecialService.Uid,
+        Sales: Loyalty.SaleService.Uid,
+        StoreGroups: Loyalty.StoreGroupService.Uid
+    },
+    Payment: {
+        Containers: Payment.ContainerService.Uid,
+        Contracts: Payment.ContractService.Uid,
+        Customers: Payment.CustomerService.Uid,
+        SecupayDebits: Payment.SecupayDebitService.Uid,
+        SecupayPrepays: Payment.SecupayPrepayService.Uid,
+        Transactions: Payment.TransactionService.Uid
+    },
+    Services: {
+        IdentCases: Services.IdentCaseService.Uid,
+        IdentContracts: Services.IdentContractService.Uid,
+        IdentRequests: Services.IdentRequestService.Uid,
+        IdentResults: Services.IdentResultService.Uid
+    },
+    Smart: {
+        Checkins: Smart.CheckinService.Uid,
+        Devices: Smart.DeviceService.Uid,
+        Idents: Smart.IdentService.Uid,
+        Routings: Smart.RoutingService.Uid,
+        Transactions: Smart.TransactionService.Uid
+    }
 };
