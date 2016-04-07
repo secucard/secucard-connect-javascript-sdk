@@ -1,3 +1,12 @@
+<a name="0.2.1"></a>
+## 0.2.1 (2016-04-07)
+
+
+### Doc
+
+* Doc: versioning and releasing
+ ([604ef21](https://github.com/secucard/secucard-connect-javascript-sdk/commit/604ef21) [6ebdd14](https://github.com/secucard/secucard-connect-javascript-sdk/commit/6ebdd14) [db05756](https://github.com/secucard/secucard-connect-javascript-sdk/commit/db05756) [9cdfc52](https://github.com/secucard/secucard-connect-javascript-sdk/commit/9cdfc52) [68011b8](https://github.com/secucard/secucard-connect-javascript-sdk/commit/68011b8) [49024ac](https://github.com/secucard/secucard-connect-javascript-sdk/commit/49024ac) [d1b5fd7](https://github.com/secucard/secucard-connect-javascript-sdk/commit/d1b5fd7) [6a62341](https://github.com/secucard/secucard-connect-javascript-sdk/commit/6a62341) [285390d](https://github.com/secucard/secucard-connect-javascript-sdk/commit/285390d))
+
 <a name="0.2.0"></a>
 # 0.2.0 (2016-03-15)
 
