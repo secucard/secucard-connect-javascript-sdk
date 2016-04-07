@@ -133,8 +133,3 @@ client.open().then(function(){
 });
 
 ```
-
-## Versioning and preparing release
-
-* prepare ``gulp prepare-release --sem patch``, possible values for --sem option: `major` (1.0.0), `minor` (0.1.0), `patch` (0.0.2), `prerelease` (0.0.1-pre.2)
-* bump version ``gulp pre-release --sem prerelease``, possible values for --sem option: `major` (1.0.0), `minor` (0.1.0), `patch` (0.0.2), `prerelease` (0.0.1-pre.2)
