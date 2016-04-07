@@ -2,7 +2,7 @@
 
 Contributions are **welcome** and will be fully **credited**.
 
-We accept contributions via Pull Requests on [Github](https://github.com/secucard/secucard-ios-cashier-app).
+We accept contributions via Pull Requests on [Github](https://github.com/secucard/secucard-connect-javascript-sdk).
 
 ## Versioning and preparing release
 
