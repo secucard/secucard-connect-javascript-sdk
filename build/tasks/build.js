@@ -42,6 +42,12 @@ gulp.task('build-commonjs', function () {
 		.pipe(gulp.dest(paths.output + 'commonjs'));
 });
 
+gulp.task('build-tokenizer-commonjs', function () {
+	return gulp.src(paths.sourceTokenizer)
+		.pipe(to5(assign({}, compilerOptions, {modules: 'common'})))
+		.pipe(gulp.dest(paths.tokenizerOutput + 'commonjs'));
+});
+
 gulp.task('build-browserify', function () {
 	return browserify(paths.output + '/commonjs/browser-shimed.js', {standalone: paths.browserFileName})
 		.bundle()
@@ -49,6 +55,15 @@ gulp.task('build-browserify', function () {
 		.pipe(buffer()) // <----- convert from streaming to buffered vinyl file object
 		//.pipe(uglify()) // now gulp-uglify works 
 		.pipe(gulp.dest(paths.output + 'browserify'));
+});
+
+gulp.task('build-tokenizer-browserify', function () {
+	return browserify(paths.tokenizerOutput + '/commonjs/tokenizer.js', {standalone: paths.tokenizerFileName})
+		.bundle()
+		.pipe(source(paths.tokenizerFileName + '.js')) // gives streaming vinyl file object
+		.pipe(buffer()) // <----- convert from streaming to buffered vinyl file object
+		//.pipe(uglify()) // now gulp-uglify works 
+		.pipe(gulp.dest(paths.tokenizerOutput + 'browserify'));
 });
 
 gulp.task('build-browserify-min', function () {
@@ -60,6 +75,15 @@ gulp.task('build-browserify-min', function () {
 		.pipe(gulp.dest(paths.output + 'browserify'));
 });
 
+gulp.task('build-tokenizer-browserify-min', function () {
+	return browserify(paths.tokenizerOutput + '/commonjs/tokenizer.js', {standalone: paths.tokenizerFileName})
+		.bundle()
+		.pipe(source(paths.tokenizerFileName + '.min.js')) // gives streaming vinyl file object
+		.pipe(buffer()) // <----- convert from streaming to buffered vinyl file object
+		.pipe(uglify()) // now gulp-uglify works 
+		.pipe(gulp.dest(paths.tokenizerOutput + 'browserify'));
+});
+
 // this task calls the clean task (located
 // in ./clean.js), then runs the build-system
 // and build-html tasks in parallel
@@ -69,6 +93,15 @@ gulp.task('build', function (callback) {
 		'clean',
 		['build-commonjs', 'build-system'],
 		['build-browserify', 'build-browserify-min'],
+		callback
+	);
+});
+
+gulp.task('build-tokenizer', function (callback) {
+	return runSequence(
+		'clean-tokenizer',
+		['build-tokenizer-commonjs'],
+		['build-tokenizer-browserify', 'build-tokenizer-browserify-min'],
 		callback
 	);
 });
