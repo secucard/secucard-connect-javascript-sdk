@@ -1,6 +1,6 @@
 {
   "name": "secucard-connect",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "main": "dist/commonjs/index.js",
   "license": "Apache-2.0",
   "homepage": "https://github.com/secucard/secucard-connect-javascript-sdk",
@@ -12,11 +12,12 @@
     "lib": "dist/commonjs"
   },
   "dependencies": {
-    "es6-shim": "^0.34.2",
+    "es6-shim": "^0.34.4",
     "eventemitter3": "^1.1.1",
     "lodash": "^3.9.3",
     "minilog": "^2.0.8",
     "qs": "^4.0.0",
+    "stream-browserify": "^2.0.1",
     "superagent": "^1.2.0",
     "uuid": "^2.0.1"
   },
