@@ -1,3 +1,23 @@
+<a name="0.2.2"></a>
+## 0.2.2 (2016-04-11)
+
+### Doc
+
+* Doc: LICENSE and CONTRIBUTING
+ ([67bb948](https://github.com/secucard/secucard-connect-javascript-sdk/commit/67bb948))
+
+### fix
+
+* fix:  es6-shim updated
+ ([80fc7a1](https://github.com/secucard/secucard-connect-javascript-sdk/commit/80fc7a1))
+
+### New
+
+* New: Add credit card tokenizer, basic request
+ ([33ae875](https://github.com/secucard/secucard-connect-javascript-sdk/commit/33ae875))
+
+
+
 <a name="0.2.1"></a>
 ## 0.2.1 (2016-04-07)
 
