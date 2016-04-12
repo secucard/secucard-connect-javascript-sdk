@@ -9,12 +9,16 @@
  See the License for the specific language governing permissions and
  limitations under the License.
  */
+import _ from 'lodash';
 import {Token} from './token';
 import mixins from '../util/mixins';
+import Request from 'superagent';
+import minilog from 'minilog';
+
 export class TokenStorageInMem {
-
+    
     constructor() {
-
+        
     }
 
     setCredentials(credentials) {
@@ -26,14 +30,13 @@ export class TokenStorageInMem {
 
         if (credentials.token) {
             token = Token.create(credentials.token);
-            token.setExpireTime();
             delete credentials.token;
         }
 
         return this.storeToken(token).then();
 
     }
-
+    
     removeToken() {
         this.token = null;
         return Promise.resolve(this.token);
@@ -50,6 +53,75 @@ export class TokenStorageInMem {
 
         return Promise.resolve(this.token);
 
+    }
+
+    /**
+     * called when token is not defined or expired
+     */
+    retrieveNewToken() {
+        
+        let retrieveToken = this.getRetrieveToken();
+        
+        if(_.isString(retrieveToken)) {
+            
+            if(this.retrievingToken) {
+                return this.retrievingToken;
+            }
+            
+            this.retrievingToken = (new Promise((resolve, reject) => {
+
+                let url = retrieveToken;
+                let request = Request.get(url);
+
+                request.end((err, res) => {
+                    if (err) {
+                        reject(err, res);
+                    } else {
+                        resolve(res);
+                    }
+                });
+
+            })).then((response) => {
+                
+                delete this.retrievingToken;
+                
+                minilog('secucard.TokenStorageInMem').debug(response.text);
+                
+                if(!Token.isValid(response.body)) {
+                    let err = `Retrieved token from ${retrieveToken} is not valid: ${response.text}`;
+                    minilog('secucard.TokenStorageInMem').error(`${err}. Please check if 'Content-type' header set to 'application/json'`);
+                    throw new Error(err);
+                }
+                
+                return response.body;
+            }).catch((err) => {
+                delete this.retrievingToken;
+                throw err;
+            });
+            
+            return this.retrievingToken;
+            
+        } else if(_.isFunction(retrieveToken)) {
+            
+            if(this.retrievingToken) {
+                return this.retrievingToken;
+            }
+            
+            this.retrievingToken = retrieveToken().then((token) => {
+                delete this.retrievingToken;
+                return token;
+            }).catch((err) => {
+                console.log(err);
+                delete this.retrievingToken;
+                throw err;
+            });
+            
+            return this.retrievingToken;
+            
+        } else {
+            return Promise.reject();
+        }
+        
     }
 
 }

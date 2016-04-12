@@ -65,11 +65,23 @@ export class Auth {
             if (!cr.isValid()) {
 
                 if (token != null && token.isExpired()) {
-                    minilog('secucard.auth').error('Token is expired');
-                    throw new AuthenticationFailedException('Token is expired');
+                    
+                    return this.retrieveNewToken().catch(() => {
+                       
+                        minilog('secucard.auth').error('Token is expired');
+                        throw new AuthenticationFailedException('Token is expired');
+                        
+                    });
+                    
                 } else {
-                    minilog('secucard.auth').error('Credentials error');
-                    throw new AuthenticationFailedException('Credentials error');
+                    
+                    return this.retrieveNewToken().catch(() => {
+                       
+                        minilog('secucard.auth').error('Credentials error');
+                        throw new AuthenticationFailedException('Credentials error');
+                        
+                    });
+                    
                 }
 
             }
@@ -212,6 +224,18 @@ export class Auth {
             return token;
 
         });
+    }
+    
+    retrieveNewToken() {
+        
+        let storage = this.getTokenStorage();
+        if (!storage) {
+            let err = new AuthenticationFailedException('Credentials error');
+            return Promise.reject(err);
+        }
+        
+        return storage.retrieveNewToken();
+        
     }
 
     _tokenRequest(credentials, channel) {

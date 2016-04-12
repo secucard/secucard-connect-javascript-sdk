@@ -14,7 +14,7 @@ export class Token {
     constructor() {
         this.access_token = null;
         this.refresh_token = null;
-        this.token_type = null;
+        this.token_type = 'bearer';
         this.expires_in = null;
         this.scope = null;
     }
@@ -61,4 +61,10 @@ Token.create = (data) => {
     token = Object.assign(token, data);
     return token;
 
+};
+
+Token.isValid = (data) => {
+    
+    return data && data.hasOwnProperty('access_token') && data.hasOwnProperty('expireTime');
+    
 };

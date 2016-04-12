@@ -163,42 +163,4 @@ describe('Authorization', function () {
 
     });
 
-    /*
-     it('tries to get Code for the device and get Token for that code with no success', async function () {
-
-     // we cannot test it to get 200 because there is an user_code verification step on device
-     let status = 'getToken never called';
-
-     // first send wrong data
-     let cr = _.assign({}, devCredentialsDevice, {uuid: "/vendor/secucard/parameter1/test1/parameter2/test2"});
-     let pr = this.auth._tokenDeviceCodeRequest(cr, this.ch);
-
-     let code = null;
-     await pr.then((res) => {
-     status = res.status;
-     console.log(res.body);
-     code = res.body.device_code;
-     }).catch((err)=> {
-     status = err.status;
-     console.log(err.response.body);
-     });
-
-     expect(status).toBe(200);
-
-     cr = _.assign({}, devCredentialsDevice, {code: code});
-     pr = this.auth._tokenDeviceRequest(cr, this.ch);
-
-     await pr.then((res) => {
-     status = res.status;
-     console.log(res.body);
-     }).catch((err)=> {
-     status = err.status;
-     console.log(err.response.body);
-     });
-
-     expect(status).toBe(401);
-
-     });
-     */
-
 });

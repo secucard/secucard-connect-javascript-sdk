@@ -127,7 +127,8 @@ export class ClientContext {
         } else {
             this.tokenStorage = this.tokenStorageCreate();
         }
-
+        this.tokenStorage.getRetrieveToken = this.config.getRetrieveToken.bind(this.config);
+        
         return this.tokenStorage.setCredentials(Object.assign({}, credentials));
 
     }
@@ -142,6 +143,12 @@ export class ClientContext {
 
     getStoredToken() {
         return this.tokenStorage ? this.tokenStorage.getStoredToken() : Promise.resolve(null);
+    }
+    
+    exportToken() {
+        return this.getStoredToken().then((token) => {
+           return token? _.pick(token, ['access_token', 'expireTime', 'scope']) : null; 
+        });
     }
 
     getConfig() {
