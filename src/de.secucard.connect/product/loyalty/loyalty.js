@@ -9,7 +9,7 @@
  See the License for the specific language governing permissions and
  limitations under the License.
  */
-import {ActionActionService} from './action-action-service.js';
+import {ActionActionService} from './action-action-service';
 import {ActionProfileService} from './action-profile-service';
 import {BeaconService} from './beacon-service';
 import {CardGroupService} from './card-group-service';
