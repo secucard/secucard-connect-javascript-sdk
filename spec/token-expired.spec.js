@@ -22,15 +22,12 @@ describe("Testing token creating. passing and expiration", async function () {
         let client = Client.create({
             oAuthUrl: 'https://connect-dev10.secupay-ag.de/oauth/',
             stompHost: 'connect-dev10.secupay-ag.de',
-            restUrl: 'https://connect-dev10.secupay-ag.de/api/v2/',
-            stompEnabled: false
+            restUrl: 'https://connect-dev10.secupay-ag.de/api/v2/'
         });
         
         // we set credentials (backend app does it usually) 
         client.setCredentials(devCredentialRefreshToken);
 
-        await client.open();
-        
         //we export token for client that doesn't use actual credentials like client_id and secret_key, like browser client 
         let token = await client.exportToken();
         console.log(token);
@@ -57,13 +54,11 @@ describe("Testing token creating. passing and expiration", async function () {
         let client = Client.create({
             oAuthUrl: 'https://connect-dev10.secupay-ag.de/oauth/',
             stompHost: 'connect-dev10.secupay-ag.de',
-            restUrl: 'https://connect-dev10.secupay-ag.de/api/v2/',
-            stompEnabled: false
+            restUrl: 'https://connect-dev10.secupay-ag.de/api/v2/'
         });
         
         client.setCredentials(devCredentialRefreshToken);
 
-        await client.open();
         let token = await client.exportToken();
         
         let serverCreated = await util.runHttpServer(null, {
@@ -108,11 +103,11 @@ describe("Testing token creating. passing and expiration", async function () {
 
             _client.setCredentials(devCredentialRefreshToken);
 
-            return _client.open().then(() => {
+            return _client.exportToken().then((token) => {
                 
                 console.log('getNewToken callback');
                 count += 1;
-                return _client.exportToken();
+                return token;
 
             });
             

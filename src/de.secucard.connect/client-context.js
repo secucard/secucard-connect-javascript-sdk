@@ -146,7 +146,7 @@ export class ClientContext {
     }
     
     exportToken() {
-        return this.getStoredToken().then((token) => {
+        return this.getAuth().getToken().then((token) => {
            return token? _.pick(token, ['access_token', 'expireTime', 'scope', 'expires_in']) : null;
         });
     }
