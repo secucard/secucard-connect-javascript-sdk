@@ -1,4 +1,4 @@
-function ajax(url, callback, data, x) {
+function _ajax(url, callback, data, x) {
     try {
         x = new(XMLHttpRequest || ActiveXObject)('MSXML2.XMLHTTP.3.0');
         x.open(data ? 'POST' : 'GET', url, 1);
@@ -15,18 +15,26 @@ function ajax(url, callback, data, x) {
     }
 }
 
-let host = 'https://tk.secupay.ag';
+function _defaults() {
+    return {
+        host: 'https://tk.secupay.ag'
+    };
+}
 
 class Tokenizer {
+    
+    constructor(config) {
+        this.config = config;
+    }
     
     createToken(payload, handler) {
         
         let _handler = (responseText, xhr) => {
-            //console.log(responseText, xhr);
+            console.log(responseText, xhr);
             responseText && handler && handler(JSON.parse(responseText), xhr);
         };
         
-        ajax(`${host}/create`, _handler, payload);
+        _ajax(`${this.config.host}/create`, _handler, payload);
         
     }
     
@@ -36,9 +44,9 @@ let SecucardTokenizer = {
     description: 'SecucardTokenizer for browser',
 };
 
-SecucardTokenizer.create = () => {
+SecucardTokenizer.create = (config) => {
     
-    return new Tokenizer();
+    return new Tokenizer(Object.assign(_defaults(), config));
     
 };
 
