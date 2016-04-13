@@ -128,6 +128,7 @@ var ClientContext = (function () {
         } else {
             this.tokenStorage = this.tokenStorageCreate();
         }
+        this.tokenStorage.getRetrieveToken = this.config.getRetrieveToken.bind(this.config);
 
         return this.tokenStorage.setCredentials(Object.assign({}, credentials));
     };
@@ -142,6 +143,12 @@ var ClientContext = (function () {
 
     ClientContext.prototype.getStoredToken = function getStoredToken() {
         return this.tokenStorage ? this.tokenStorage.getStoredToken() : Promise.resolve(null);
+    };
+
+    ClientContext.prototype.exportToken = function exportToken(isRaw) {
+        return this.getAuth().getToken().then(function (token) {
+            return token ? !isRaw ? _lodash2['default'].pick(token, ['access_token', 'expireTime', 'scope', 'expires_in']) : token : null;
+        });
     };
 
     ClientContext.prototype.getConfig = function getConfig() {

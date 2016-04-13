@@ -1,10 +1,10 @@
-System.register(['./action-action-service.js', './action-profile-service', './beacon-service', './card-group-service', './card-service', './charge-service', './checkin-service', './customer-service', './merchant-card-service', './program-service', './program-special-service', './sale-service', './store-group-service'], function (_export) {
+System.register(['./action-action-service', './action-profile-service', './beacon-service', './card-group-service', './card-service', './charge-service', './checkin-service', './customer-service', './merchant-card-service', './program-service', './program-special-service', './sale-service', './store-group-service'], function (_export) {
   'use strict';
 
   var ActionActionService, ActionProfileService, BeaconService, CardGroupService, CardService, ChargeService, CheckinService, CustomerService, MerchantCardService, ProgramService, ProgramSpecialService, SaleService, StoreGroupService, Loyalty;
   return {
-    setters: [function (_actionActionServiceJs) {
-      ActionActionService = _actionActionServiceJs.ActionActionService;
+    setters: [function (_actionActionService) {
+      ActionActionService = _actionActionService.ActionActionService;
     }, function (_actionProfileService) {
       ActionProfileService = _actionProfileService.ActionProfileService;
     }, function (_beaconService) {
@@ -51,4 +51,4 @@ System.register(['./action-action-service.js', './action-profile-service', './be
     }
   };
 });
-//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbImRlLnNlY3VjYXJkLmNvbm5lY3QvcHJvZHVjdC9sb3lhbHR5L2xveWFsdHkuanMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7OzJPQXlCYSxPQUFPOzs7bURBZFosbUJBQW1COzttREFDbkIsb0JBQW9COztxQ0FDcEIsYUFBYTs7MkNBQ2IsZ0JBQWdCOztpQ0FDaEIsV0FBVzs7cUNBQ1gsYUFBYTs7dUNBQ2IsY0FBYzs7eUNBQ2QsZUFBZTs7aURBQ2YsbUJBQW1COzt1Q0FDbkIsY0FBYzs7cURBQ2QscUJBQXFCOztpQ0FDckIsV0FBVzs7NkNBQ1gsaUJBQWlCOzs7QUFFWixhQUFPLEdBQUcsRUFBRTs7OztBQUN6QixhQUFPLENBQUMsbUJBQW1CLEdBQUcsbUJBQW1CLENBQUM7QUFDbEQsYUFBTyxDQUFDLG9CQUFvQixHQUFHLG9CQUFvQixDQUFDO0FBQ3BELGFBQU8sQ0FBQyxhQUFhLEdBQUcsYUFBYSxDQUFDO0FBQ3RDLGFBQU8sQ0FBQyxnQkFBZ0IsR0FBRyxnQkFBZ0IsQ0FBQztBQUM1QyxhQUFPLENBQUMsV0FBVyxHQUFHLFdBQVcsQ0FBQztBQUNsQyxhQUFPLENBQUMsYUFBYSxHQUFHLGFBQWEsQ0FBQztBQUN0QyxhQUFPLENBQUMsY0FBYyxHQUFHLGNBQWMsQ0FBQztBQUN4QyxhQUFPLENBQUMsZUFBZSxHQUFHLGVBQWUsQ0FBQztBQUMxQyxhQUFPLENBQUMsbUJBQW1CLEdBQUcsbUJBQW1CLENBQUM7QUFDbEQsYUFBTyxDQUFDLGNBQWMsR0FBRyxjQUFjLENBQUM7QUFDeEMsYUFBTyxDQUFDLHFCQUFxQixHQUFHLHFCQUFxQixDQUFDO0FBQ3RELGFBQU8sQ0FBQyxXQUFXLEdBQUcsV0FBVyxDQUFDO0FBQ2xDLGFBQU8sQ0FBQyxpQkFBaUIsR0FBRyxpQkFBaUIsQ0FBQyIsImZpbGUiOiJkZS5zZWN1Y2FyZC5jb25uZWN0L3Byb2R1Y3QvbG95YWx0eS9sb3lhbHR5LmpzIiwic291cmNlUm9vdCI6Ii4uL3NyYy8ifQ==
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbImRlLnNlY3VjYXJkLmNvbm5lY3QvcHJvZHVjdC9sb3lhbHR5L2xveWFsdHkuanMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7OzJPQXlCYSxPQUFPOzs7aURBZFosbUJBQW1COzttREFDbkIsb0JBQW9COztxQ0FDcEIsYUFBYTs7MkNBQ2IsZ0JBQWdCOztpQ0FDaEIsV0FBVzs7cUNBQ1gsYUFBYTs7dUNBQ2IsY0FBYzs7eUNBQ2QsZUFBZTs7aURBQ2YsbUJBQW1COzt1Q0FDbkIsY0FBYzs7cURBQ2QscUJBQXFCOztpQ0FDckIsV0FBVzs7NkNBQ1gsaUJBQWlCOzs7QUFFWixhQUFPLEdBQUcsRUFBRTs7OztBQUN6QixhQUFPLENBQUMsbUJBQW1CLEdBQUcsbUJBQW1CLENBQUM7QUFDbEQsYUFBTyxDQUFDLG9CQUFvQixHQUFHLG9CQUFvQixDQUFDO0FBQ3BELGFBQU8sQ0FBQyxhQUFhLEdBQUcsYUFBYSxDQUFDO0FBQ3RDLGFBQU8sQ0FBQyxnQkFBZ0IsR0FBRyxnQkFBZ0IsQ0FBQztBQUM1QyxhQUFPLENBQUMsV0FBVyxHQUFHLFdBQVcsQ0FBQztBQUNsQyxhQUFPLENBQUMsYUFBYSxHQUFHLGFBQWEsQ0FBQztBQUN0QyxhQUFPLENBQUMsY0FBYyxHQUFHLGNBQWMsQ0FBQztBQUN4QyxhQUFPLENBQUMsZUFBZSxHQUFHLGVBQWUsQ0FBQztBQUMxQyxhQUFPLENBQUMsbUJBQW1CLEdBQUcsbUJBQW1CLENBQUM7QUFDbEQsYUFBTyxDQUFDLGNBQWMsR0FBRyxjQUFjLENBQUM7QUFDeEMsYUFBTyxDQUFDLHFCQUFxQixHQUFHLHFCQUFxQixDQUFDO0FBQ3RELGFBQU8sQ0FBQyxXQUFXLEdBQUcsV0FBVyxDQUFDO0FBQ2xDLGFBQU8sQ0FBQyxpQkFBaUIsR0FBRyxpQkFBaUIsQ0FBQyIsImZpbGUiOiJkZS5zZWN1Y2FyZC5jb25uZWN0L3Byb2R1Y3QvbG95YWx0eS9sb3lhbHR5LmpzIiwic291cmNlUm9vdCI6Ii4uL3NyYy8ifQ==

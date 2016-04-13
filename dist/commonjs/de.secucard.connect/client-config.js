@@ -62,6 +62,10 @@ var ClientConfig = (function () {
         return this.deviceUUID;
     };
 
+    ClientConfig.prototype.getRetrieveToken = function getRetrieveToken() {
+        return this.retrieveToken;
+    };
+
     ClientConfig.prototype._getCompleteUrl = function _getCompleteUrl(value) {
 
         var url = value;
@@ -88,6 +92,7 @@ ClientConfig._defaults = {
 
     restTimeout: 0,
     stompEnabled: true,
+
     stompHeartbeatSec: 30,
 
     stompHost: 'connect.secucard.com',
@@ -102,7 +107,9 @@ ClientConfig._defaults = {
 
     stompConnectTimeoutSec: 0,
     stompMessageTimeoutSec: 0,
-    stompMessageAge: 0 };
+    stompMessageAge: 0,
+    retrieveToken: null
+};
 
 ClientConfig.defaults = function () {
 
