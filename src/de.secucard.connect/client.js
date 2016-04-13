@@ -28,6 +28,7 @@ export class Client {
         this.on = this.context.on.bind(this.context);
         this.setCredentials = this.context.setCredentials.bind(this.context);
         this.getStoredToken = this.context.getStoredToken.bind(this.context);
+        this.exportToken = this.context.exportToken.bind(this.context);
         this.connected = false;
 
         minilog('secucard.client').debug(config);

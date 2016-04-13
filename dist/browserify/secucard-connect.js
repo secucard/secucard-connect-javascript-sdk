@@ -104,11 +104,19 @@ var Auth = (function () {
             if (!cr.isValid()) {
 
                 if (token != null && token.isExpired()) {
-                    _minilog2['default']('secucard.auth').error('Token is expired');
-                    throw new _exception.AuthenticationFailedException('Token is expired');
+
+                    return _this.retrieveNewToken()['catch'](function () {
+
+                        _minilog2['default']('secucard.auth').error('Token is expired');
+                        throw new _exception.AuthenticationFailedException('Token is expired');
+                    });
                 } else {
-                    _minilog2['default']('secucard.auth').error('Credentials error');
-                    throw new _exception.AuthenticationFailedException('Credentials error');
+
+                    return _this.retrieveNewToken()['catch'](function () {
+
+                        _minilog2['default']('secucard.auth').error('Credentials error');
+                        throw new _exception.AuthenticationFailedException('Credentials error');
+                    });
                 }
             }
 
@@ -222,6 +230,17 @@ var Auth = (function () {
 
             return token;
         });
+    };
+
+    Auth.prototype.retrieveNewToken = function retrieveNewToken() {
+
+        var storage = this.getTokenStorage();
+        if (!storage) {
+            var err = new _exception.AuthenticationFailedException('Credentials error');
+            return Promise.reject(err);
+        }
+
+        return storage.retrieveNewToken();
     };
 
     Auth.prototype._tokenRequest = function _tokenRequest(credentials, channel) {
@@ -377,11 +396,23 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'd
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 
+var _lodash = require('lodash');
+
+var _lodash2 = _interopRequireDefault(_lodash);
+
 var _token = require('./token');
 
 var _utilMixins = require('../util/mixins');
 
 var _utilMixins2 = _interopRequireDefault(_utilMixins);
+
+var _superagent = require('superagent');
+
+var _superagent2 = _interopRequireDefault(_superagent);
+
+var _minilog = require('minilog');
+
+var _minilog2 = _interopRequireDefault(_minilog);
 
 var TokenStorageInMem = (function () {
     function TokenStorageInMem() {
@@ -395,7 +426,6 @@ var TokenStorageInMem = (function () {
 
         if (credentials.token) {
             token = _token.Token.create(credentials.token);
-            token.setExpireTime();
             delete credentials.token;
         }
 
@@ -418,6 +448,76 @@ var TokenStorageInMem = (function () {
         return Promise.resolve(this.token);
     };
 
+    TokenStorageInMem.prototype.retrieveNewToken = function retrieveNewToken() {
+        var _this = this;
+
+        var retrieveToken = this.getRetrieveToken();
+
+        if (_lodash2['default'].isString(retrieveToken)) {
+
+            if (this.retrievingToken) {
+                return this.retrievingToken;
+            }
+
+            this.retrievingToken = new Promise(function (resolve, reject) {
+
+                var url = retrieveToken;
+                var request = _superagent2['default'].get(url);
+
+                request.end(function (err, res) {
+                    if (err) {
+                        reject(err, res);
+                    } else {
+                        resolve(res);
+                    }
+                });
+            }).then(function (response) {
+
+                delete _this.retrievingToken;
+
+                _minilog2['default']('secucard.TokenStorageInMem').debug(response.text);
+
+                if (!_token.Token.isValid(response.body)) {
+                    var err = 'Retrieved token from ' + retrieveToken + ' is not valid: ' + response.text;
+                    _minilog2['default']('secucard.TokenStorageInMem').error(err + '. Please check if \'Content-type\' header set to \'application/json\'');
+                    throw new Error(err);
+                }
+
+                return _this.storeToken(response.body);
+            })['catch'](function (err) {
+                delete _this.retrievingToken;
+                throw err;
+            });
+
+            return this.retrievingToken;
+        } else if (_lodash2['default'].isFunction(retrieveToken)) {
+
+            if (this.retrievingToken) {
+                return this.retrievingToken;
+            }
+
+            this.retrievingToken = retrieveToken().then(function (token) {
+                delete _this.retrievingToken;
+
+                if (!_token.Token.isValid(token)) {
+                    var err = 'Retrieved token from ' + JSON.stringify(token) + ' is not valid';
+                    _minilog2['default']('secucard.TokenStorageInMem').error('' + err);
+                    throw new Error(err);
+                }
+
+                return _this.storeToken(token);
+            })['catch'](function (err) {
+                console.log(err);
+                delete _this.retrievingToken;
+                throw err;
+            });
+
+            return this.retrievingToken;
+        } else {
+            return Promise.reject();
+        }
+    };
+
     return TokenStorageInMem;
 })();
 
@@ -428,12 +528,12 @@ TokenStorageInMem.createWithMixin = function (TokenStorageMixin) {
     var Mixed = _utilMixins2['default'](TokenStorageInMem, TokenStorageMixin);
     return new Mixed();
 };
-},{"../util/mixins":72,"./token":6}],6:[function(require,module,exports){
-"use strict";
+},{"../util/mixins":72,"./token":6,"lodash":76,"minilog":85,"superagent":89}],6:[function(require,module,exports){
+'use strict';
 
 exports.__esModule = true;
 
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 
 var Token = (function () {
     function Token() {
@@ -441,8 +541,8 @@ var Token = (function () {
 
         this.access_token = null;
         this.refresh_token = null;
-        this.token_type = null;
-        this.expires_in = null;
+        this.token_type = 'bearer';
+        this.expires_in = 1200;
         this.scope = null;
     }
 
@@ -485,6 +585,11 @@ Token.create = function (data) {
     var token = new Token();
     token = Object.assign(token, data);
     return token;
+};
+
+Token.isValid = function (data) {
+
+    return data && data.hasOwnProperty('access_token') && data.hasOwnProperty('expireTime');
 };
 },{}],7:[function(require,module,exports){
 'use strict';
@@ -656,6 +761,10 @@ var ClientConfig = (function () {
         return this.deviceUUID;
     };
 
+    ClientConfig.prototype.getRetrieveToken = function getRetrieveToken() {
+        return this.retrieveToken;
+    };
+
     ClientConfig.prototype._getCompleteUrl = function _getCompleteUrl(value) {
 
         var url = value;
@@ -682,6 +791,7 @@ ClientConfig._defaults = {
 
     restTimeout: 0,
     stompEnabled: true,
+
     stompHeartbeatSec: 30,
 
     stompHost: 'connect.secucard.com',
@@ -696,7 +806,9 @@ ClientConfig._defaults = {
 
     stompConnectTimeoutSec: 0,
     stompMessageTimeoutSec: 0,
-    stompMessageAge: 0 };
+    stompMessageAge: 0,
+    retrieveToken: null
+};
 
 ClientConfig.defaults = function () {
 
@@ -835,6 +947,7 @@ var ClientContext = (function () {
         } else {
             this.tokenStorage = this.tokenStorageCreate();
         }
+        this.tokenStorage.getRetrieveToken = this.config.getRetrieveToken.bind(this.config);
 
         return this.tokenStorage.setCredentials(Object.assign({}, credentials));
     };
@@ -849,6 +962,12 @@ var ClientContext = (function () {
 
     ClientContext.prototype.getStoredToken = function getStoredToken() {
         return this.tokenStorage ? this.tokenStorage.getStoredToken() : Promise.resolve(null);
+    };
+
+    ClientContext.prototype.exportToken = function exportToken(isRaw) {
+        return this.getAuth().getToken().then(function (token) {
+            return token ? !isRaw ? _lodash2['default'].pick(token, ['access_token', 'expireTime', 'scope', 'expires_in']) : token : null;
+        });
     };
 
     ClientContext.prototype.getConfig = function getConfig() {
@@ -944,7 +1063,7 @@ exports.ClientContext = ClientContext;
 
 exports.__esModule = true;
 var Version = {
-  "name": "0.2.2"
+  "name": "0.2.3"
 };
 exports.Version = Version;
 },{}],11:[function(require,module,exports){
@@ -981,6 +1100,7 @@ var Client = (function () {
         this.on = this.context.on.bind(this.context);
         this.setCredentials = this.context.setCredentials.bind(this.context);
         this.getStoredToken = this.context.getStoredToken.bind(this.context);
+        this.exportToken = this.context.exportToken.bind(this.context);
         this.connected = false;
 
         _minilog2['default']('secucard.client').debug(config);
@@ -3341,7 +3461,7 @@ CustomerService.Uid = ['loyalty', 'customers'].join('.');
 
 exports.__esModule = true;
 
-var _actionActionServiceJs = require('./action-action-service.js');
+var _actionActionService = require('./action-action-service');
 
 var _actionProfileService = require('./action-profile-service');
 
@@ -3369,7 +3489,7 @@ var _storeGroupService = require('./store-group-service');
 
 var Loyalty = {};
 exports.Loyalty = Loyalty;
-Loyalty.ActionActionService = _actionActionServiceJs.ActionActionService;
+Loyalty.ActionActionService = _actionActionService.ActionActionService;
 Loyalty.ActionProfileService = _actionProfileService.ActionProfileService;
 Loyalty.BeaconService = _beaconService.BeaconService;
 Loyalty.CardGroupService = _cardGroupService.CardGroupService;
@@ -3382,7 +3502,7 @@ Loyalty.ProgramService = _programService.ProgramService;
 Loyalty.ProgramSpecialService = _programSpecialService.ProgramSpecialService;
 Loyalty.SaleService = _saleService.SaleService;
 Loyalty.StoreGroupService = _storeGroupService.StoreGroupService;
-},{"./action-action-service.js":39,"./action-profile-service":40,"./beacon-service":41,"./card-group-service":42,"./card-service":43,"./charge-service":44,"./checkin-service":45,"./customer-service":46,"./merchant-card-service":48,"./program-service":49,"./program-special-service":50,"./sale-service":51,"./store-group-service":52}],48:[function(require,module,exports){
+},{"./action-action-service":39,"./action-profile-service":40,"./beacon-service":41,"./card-group-service":42,"./card-service":43,"./charge-service":44,"./checkin-service":45,"./customer-service":46,"./merchant-card-service":48,"./program-service":49,"./program-special-service":50,"./sale-service":51,"./store-group-service":52}],48:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;

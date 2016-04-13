@@ -1,8 +1,8 @@
-"use strict";
+'use strict';
 
 exports.__esModule = true;
 
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 
 var Token = (function () {
     function Token() {
@@ -10,8 +10,8 @@ var Token = (function () {
 
         this.access_token = null;
         this.refresh_token = null;
-        this.token_type = null;
-        this.expires_in = null;
+        this.token_type = 'bearer';
+        this.expires_in = 1200;
         this.scope = null;
     }
 
@@ -54,4 +54,9 @@ Token.create = function (data) {
     var token = new Token();
     token = Object.assign(token, data);
     return token;
+};
+
+Token.isValid = function (data) {
+
+    return data && data.hasOwnProperty('access_token') && data.hasOwnProperty('expireTime');
 };

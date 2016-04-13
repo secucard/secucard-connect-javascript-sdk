@@ -1,3 +1,22 @@
+<a name="0.2.3"></a>
+## 0.2.3 (2016-04-13)
+
+
+### Dev
+
+* dev: add Hapi for unit testing
+ ([0d15a1f](https://github.com/secucard/secucard-connect-javascript-sdk/commit/0d15a1f))
+
+### Fix
+
+* Fix: import for ActionActionService
+ ([acfcf20](https://github.com/secucard/secucard-connect-javascript-sdk/commit/acfcf20))
+
+### New
+
+* New: add 'retrieveToken' param to client config, if credentials not set, client retrieves token itse ([502ba71](https://github.com/secucard/secucard-connect-javascript-sdk/commit/502ba71))
+
+
 <a name="0.2.2"></a>
 ## 0.2.2 (2016-04-11)
 
@@ -6,7 +25,7 @@
 * Doc: LICENSE and CONTRIBUTING
  ([67bb948](https://github.com/secucard/secucard-connect-javascript-sdk/commit/67bb948))
 
-### fix
+### Fix
 
 * fix:  es6-shim updated
  ([80fc7a1](https://github.com/secucard/secucard-connect-javascript-sdk/commit/80fc7a1))

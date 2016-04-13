@@ -66,11 +66,19 @@ var Auth = (function () {
             if (!cr.isValid()) {
 
                 if (token != null && token.isExpired()) {
-                    _minilog2['default']('secucard.auth').error('Token is expired');
-                    throw new _exception.AuthenticationFailedException('Token is expired');
+
+                    return _this.retrieveNewToken()['catch'](function () {
+
+                        _minilog2['default']('secucard.auth').error('Token is expired');
+                        throw new _exception.AuthenticationFailedException('Token is expired');
+                    });
                 } else {
-                    _minilog2['default']('secucard.auth').error('Credentials error');
-                    throw new _exception.AuthenticationFailedException('Credentials error');
+
+                    return _this.retrieveNewToken()['catch'](function () {
+
+                        _minilog2['default']('secucard.auth').error('Credentials error');
+                        throw new _exception.AuthenticationFailedException('Credentials error');
+                    });
                 }
             }
 
@@ -184,6 +192,17 @@ var Auth = (function () {
 
             return token;
         });
+    };
+
+    Auth.prototype.retrieveNewToken = function retrieveNewToken() {
+
+        var storage = this.getTokenStorage();
+        if (!storage) {
+            var err = new _exception.AuthenticationFailedException('Credentials error');
+            return Promise.reject(err);
+        }
+
+        return storage.retrieveNewToken();
     };
 
     Auth.prototype._tokenRequest = function _tokenRequest(credentials, channel) {

@@ -68,6 +68,10 @@ export class ClientConfig {
     getDeviceUUID() {
         return this.deviceUUID;
     }
+    
+    getRetrieveToken() {
+        return this.retrieveToken;
+    }
 
     _getCompleteUrl(value) {
 
@@ -103,13 +107,13 @@ ClientConfig._defaults = {
     restTimeout: 0, //TODO implement restTimeout
 
     // STOMP server communication is enabled: true | false/nothing
-    stompEnabled: true, //TODO implement stompEnabled
+    stompEnabled: true,
     // The interval the STOMP channel sends a "heartbeat".
     stompHeartbeatSec: 30,
     // stomp host, virtual host, stomp port
     stompHost: 'connect.secucard.com',
     stompPort: 61614, // or 15674 for browser
-    stompVHost: null, //TODO implement stompVHost
+    stompVHost: null, // value for 'host' header to send with STOMP connect request
     stompEndpoint: '', // endpoint for socket connection: '' (not used in node) or '/stomp/websocket'(browser)
     // Base path of the secucard STOMP API.
     stompDestination: '/exchange/connect.api',
@@ -128,8 +132,10 @@ ClientConfig._defaults = {
      Keeps the message queue clean, usually messages should not get very old in the box, if a message reaches this max age
      its very likely that nobody is interested or a problem exist and therefore we can remove.
      */
-    stompMessageAge: 0 //TODO implement stompMessageAge
-
+    stompMessageAge: 0, //TODO implement stompMessageAge,
+    
+    //if credentials not set, client retrieves token itself, can be string/URL or callback that returns Promise
+    retrieveToken: null
 };
 
 ClientConfig.defaults = () => {
