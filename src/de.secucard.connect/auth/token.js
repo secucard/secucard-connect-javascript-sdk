@@ -15,7 +15,7 @@ export class Token {
         this.access_token = null;
         this.refresh_token = null;
         this.token_type = 'bearer';
-        this.expires_in = null;
+        this.expires_in = 1200;
         this.scope = null;
     }
 

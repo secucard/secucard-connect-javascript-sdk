@@ -93,7 +93,8 @@ export class TokenStorageInMem {
                     throw new Error(err);
                 }
                 
-                return response.body;
+                return this.storeToken(response.body);
+                
             }).catch((err) => {
                 delete this.retrievingToken;
                 throw err;
@@ -109,7 +110,14 @@ export class TokenStorageInMem {
             
             this.retrievingToken = retrieveToken().then((token) => {
                 delete this.retrievingToken;
-                return token;
+                
+                if(!Token.isValid(token)) {
+                    let err = `Retrieved token from ${JSON.stringify(token)} is not valid`;
+                    minilog('secucard.TokenStorageInMem').error(`${err}`);
+                    throw new Error(err);
+                }
+                
+                return this.storeToken(token);
             }).catch((err) => {
                 console.log(err);
                 delete this.retrievingToken;
