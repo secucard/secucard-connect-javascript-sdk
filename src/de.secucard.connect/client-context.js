@@ -145,9 +145,9 @@ export class ClientContext {
         return this.tokenStorage ? this.tokenStorage.getStoredToken() : Promise.resolve(null);
     }
     
-    exportToken() {
+    exportToken(isRaw) {
         return this.getAuth().getToken().then((token) => {
-           return token? _.pick(token, ['access_token', 'expireTime', 'scope', 'expires_in']) : null;
+           return token? (!isRaw? _.pick(token, ['access_token', 'expireTime', 'scope', 'expires_in']) : token) : null;
         });
     }
 
