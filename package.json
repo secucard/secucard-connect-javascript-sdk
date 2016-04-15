@@ -1,6 +1,6 @@
 {
   "name": "secucard-connect",
-  "version": "0.2.3",
+  "version": "0.2.4",
   "main": "dist/commonjs/index.js",
   "license": "Apache-2.0",
   "homepage": "https://github.com/secucard/secucard-connect-javascript-sdk",
@@ -17,6 +17,7 @@
     "lodash": "^3.9.3",
     "minilog": "^2.0.8",
     "qs": "^4.0.0",
+    "sizzle": "^2.3.0",
     "stream-browserify": "^2.0.1",
     "superagent": "^1.2.0",
     "uuid": "^2.0.1"

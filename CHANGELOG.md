@@ -1,3 +1,12 @@
+<a name="0.2.4"></a>
+## 0.2.4 (2016-04-15)
+
+
+* validate form with tokenizer
+ ([bfde5f2](https://github.com/secucard/secucard-connect-javascript-sdk/commit/bfde5f2))
+
+
+
 <a name="0.2.3"></a>
 ## 0.2.3 (2016-04-13)
 
