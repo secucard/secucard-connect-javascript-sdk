@@ -17,7 +17,6 @@ function _ajax(url, callback, data, xClient, x) {
 
         x.setRequestHeader('Content-type', 'application/json');
         x.setRequestHeader('Accept', 'application/json');
-        x.setRequestHeader('Accept-Charset', 'utf-8');
 
         if (xClient) {
             x.setRequestHeader('X-Client', xClient);
