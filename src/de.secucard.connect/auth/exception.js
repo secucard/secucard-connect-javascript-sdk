@@ -9,16 +9,18 @@
  See the License for the specific language governing permissions and
  limitations under the License.
  */
-export class AuthenticationFailedException {
+export class AuthenticationFailedException extends Error {
 
     constructor(message = 'Authentication failed') {
-
+        super(message);
+        
         if (Error.captureStackTrace) {
             Error.captureStackTrace(this, this.constructor);
         } else {
             Object.defineProperty(this, 'stack', {
                 configurable: true,
                 enumerable: false,
+                writable: true,
                 value: Error(message).stack
             });
         }
@@ -26,28 +28,32 @@ export class AuthenticationFailedException {
         Object.defineProperty(this, 'message', {
             configurable: true,
             enumerable: false,
+            writable: true,
             value: message
         });
 
         Object.defineProperty(this, 'name', {
             configurable: true,
             enumerable: false,
-            value: this.constructor.name
+            writable: true,
+            value: 'AuthenticationFailedException'
         });
 
     }
 }
 
-export class AuthenticationTimeoutException {
+export class AuthenticationTimeoutException extends Error {
 
     constructor(message = 'Authentication timeout') {
-
+        super(message);
+        
         if (Error.captureStackTrace) {
             Error.captureStackTrace(this, this.constructor);
         } else {
             Object.defineProperty(this, 'stack', {
                 configurable: true,
                 enumerable: false,
+                writable: true,
                 value: Error(message).stack
             });
         }
@@ -55,13 +61,15 @@ export class AuthenticationTimeoutException {
         Object.defineProperty(this, 'message', {
             configurable: true,
             enumerable: false,
+            writable: true,
             value: message
         });
 
         Object.defineProperty(this, 'name', {
             configurable: true,
             enumerable: false,
-            value: this.constructor.name
+            writable: true,
+            value: 'AuthenticationTimeoutException'
         });
 
     }
