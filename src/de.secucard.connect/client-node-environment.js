@@ -15,6 +15,7 @@ import {General} from './product/general/general';
 import {Smart} from './product/smart/smart';
 import {Loyalty} from './product/loyalty/loyalty';
 import {Payment} from './product/payment/payment';
+import {Prepaid} from './product/prepaid/prepaid';
 import {Services} from './product/services/services';
 import {Document} from './product/document/document';
 import {Auth} from './product/auth/auth';
@@ -63,6 +64,12 @@ export const ClientNodeEnvironment = {
         Payment.SecupayDebitService,
         Payment.SecupayPrepayService,
         Payment.TransactionService,
+        
+        Prepaid.ContractService,
+        Prepaid.ItemGroupService,
+        Prepaid.ItemService,
+        Prepaid.SaleService,
+        Prepaid.StockService,
 
         Services.IdentCaseService,
         Services.IdentContractService,
@@ -132,6 +139,13 @@ export const ServiceMap = {
         SecupayDebits: Payment.SecupayDebitService.Uid,
         SecupayPrepays: Payment.SecupayPrepayService.Uid,
         Transactions: Payment.TransactionService.Uid
+    },
+    Prepaid:{
+        Contracts: Prepaid.ContractService.Uid,
+        ItemGroups: Prepaid.ItemGroupService.Uid,
+        Items: Prepaid.ItemService.Uid,
+        Sales: Prepaid.SaleService.Uid,
+        Stocks: Prepaid.StockService.Uid
     },
     Services: {
         IdentCases: Services.IdentCaseService.Uid,

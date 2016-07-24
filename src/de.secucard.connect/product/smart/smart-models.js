@@ -9,8 +9,17 @@
  See the License for the specific language governing permissions and
  limitations under the License.
  */
-export {BasketInfo} from 'model/basket-info';
-export {Basket} from 'model/basket';
-export {Ident} from 'model/ident';
-export {ProductGroup} from 'model/product-group';
-export {Transaction} from 'model/transaction';
+import {BasketInfo} from './model/basket-info';
+import {Basket} from './model/basket';
+import {Ident} from './model/ident';
+import {Product} from './model/product';
+import {ProductGroup} from './model/product-group';
+import {Transaction} from './model/transaction';
+
+export const SmartModel = {};
+SmartModel.BasketInfo = BasketInfo;
+SmartModel.Basket = Basket;
+SmartModel.Ident = Ident;
+SmartModel.Product = Product;
+SmartModel.ProductGroup = ProductGroup;
+SmartModel.Transaction = Transaction;
