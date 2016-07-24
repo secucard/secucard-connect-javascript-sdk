@@ -8,7 +8,7 @@ var Transaction = function Transaction(basket, basketInfo, idents, merchantRef, 
     _classCallCheck(this, Transaction);
 
     this.basket = basket;
-    this.basketInfo = basketInfo;
+    this.basket_info = basketInfo;
     this.idents = idents;
     this.merchantRef = merchantRef;
     this.transactionRef = transactionRef;
