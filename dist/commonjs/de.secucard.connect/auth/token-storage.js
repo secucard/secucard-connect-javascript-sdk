@@ -124,7 +124,7 @@ var TokenStorageInMem = (function () {
 
             return this.retrievingToken;
         } else {
-            return Promise.reject();
+            return Promise.reject(new Error('retrieveToken is not defined'));
         }
     };
 

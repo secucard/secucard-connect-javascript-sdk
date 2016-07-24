@@ -1,3 +1,22 @@
+<a name="0.2.5"></a>
+## 0.2.5 (2016-07-24)
+
+
+### Doc
+
+* Doc: including secucard-tokenizer
+ ([083dea6](https://github.com/secucard/secucard-connect-javascript-sdk/commit/083dea6))
+
+### Update
+
+* Update: loyalty endpoints
+ ([fbf8055](https://github.com/secucard/secucard-connect-javascript-sdk/commit/fbf8055))
+
+* enhance error handling
+ ([a28f131](https://github.com/secucard/secucard-connect-javascript-sdk/commit/a28f131))
+
+
+
 <a name="0.2.4"></a>
 ## 0.2.4 (2016-04-15)
 

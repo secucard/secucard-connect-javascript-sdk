@@ -5,69 +5,93 @@ System.register([], function (_export) {
 
     function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 
+    function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
     return {
         setters: [],
         execute: function () {
-            AuthenticationFailedException = function AuthenticationFailedException() {
-                var message = arguments.length <= 0 || arguments[0] === undefined ? 'Authentication failed' : arguments[0];
+            AuthenticationFailedException = (function (_Error) {
+                _inherits(AuthenticationFailedException, _Error);
 
-                _classCallCheck(this, AuthenticationFailedException);
+                function AuthenticationFailedException() {
+                    var message = arguments.length <= 0 || arguments[0] === undefined ? 'Authentication failed' : arguments[0];
 
-                if (Error.captureStackTrace) {
-                    Error.captureStackTrace(this, this.constructor);
-                } else {
-                    Object.defineProperty(this, 'stack', {
+                    _classCallCheck(this, AuthenticationFailedException);
+
+                    _Error.call(this, message);
+
+                    if (Error.captureStackTrace) {
+                        Error.captureStackTrace(this, this.constructor);
+                    } else {
+                        Object.defineProperty(this, 'stack', {
+                            configurable: true,
+                            enumerable: false,
+                            writable: true,
+                            value: Error(message).stack
+                        });
+                    }
+
+                    Object.defineProperty(this, 'message', {
                         configurable: true,
                         enumerable: false,
-                        value: Error(message).stack
+                        writable: true,
+                        value: message
+                    });
+
+                    Object.defineProperty(this, 'name', {
+                        configurable: true,
+                        enumerable: false,
+                        writable: true,
+                        value: 'AuthenticationFailedException'
                     });
                 }
 
-                Object.defineProperty(this, 'message', {
-                    configurable: true,
-                    enumerable: false,
-                    value: message
-                });
-
-                Object.defineProperty(this, 'name', {
-                    configurable: true,
-                    enumerable: false,
-                    value: this.constructor.name
-                });
-            };
+                return AuthenticationFailedException;
+            })(Error);
 
             _export('AuthenticationFailedException', AuthenticationFailedException);
 
-            AuthenticationTimeoutException = function AuthenticationTimeoutException() {
-                var message = arguments.length <= 0 || arguments[0] === undefined ? 'Authentication timeout' : arguments[0];
+            AuthenticationTimeoutException = (function (_Error2) {
+                _inherits(AuthenticationTimeoutException, _Error2);
 
-                _classCallCheck(this, AuthenticationTimeoutException);
+                function AuthenticationTimeoutException() {
+                    var message = arguments.length <= 0 || arguments[0] === undefined ? 'Authentication timeout' : arguments[0];
 
-                if (Error.captureStackTrace) {
-                    Error.captureStackTrace(this, this.constructor);
-                } else {
-                    Object.defineProperty(this, 'stack', {
+                    _classCallCheck(this, AuthenticationTimeoutException);
+
+                    _Error2.call(this, message);
+
+                    if (Error.captureStackTrace) {
+                        Error.captureStackTrace(this, this.constructor);
+                    } else {
+                        Object.defineProperty(this, 'stack', {
+                            configurable: true,
+                            enumerable: false,
+                            writable: true,
+                            value: Error(message).stack
+                        });
+                    }
+
+                    Object.defineProperty(this, 'message', {
                         configurable: true,
                         enumerable: false,
-                        value: Error(message).stack
+                        writable: true,
+                        value: message
+                    });
+
+                    Object.defineProperty(this, 'name', {
+                        configurable: true,
+                        enumerable: false,
+                        writable: true,
+                        value: 'AuthenticationTimeoutException'
                     });
                 }
 
-                Object.defineProperty(this, 'message', {
-                    configurable: true,
-                    enumerable: false,
-                    value: message
-                });
-
-                Object.defineProperty(this, 'name', {
-                    configurable: true,
-                    enumerable: false,
-                    value: this.constructor.name
-                });
-            };
+                return AuthenticationTimeoutException;
+            })(Error);
 
             _export('AuthenticationTimeoutException', AuthenticationTimeoutException);
         }
     };
 });
-//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbImRlLnNlY3VjYXJkLmNvbm5lY3QvYXV0aC9leGNlcHRpb24uanMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7O1FBV2EsNkJBQTZCLEVBNkI3Qiw4QkFBOEI7Ozs7Ozs7QUE3QjlCLHlDQUE2QixHQUUzQixTQUZGLDZCQUE2QixHQUVTO29CQUFuQyxPQUFPLHlEQUFHLHVCQUF1Qjs7c0NBRnBDLDZCQUE2Qjs7QUFJbEMsb0JBQUksS0FBSyxDQUFDLGlCQUFpQixFQUFFO0FBQ3pCLHlCQUFLLENBQUMsaUJBQWlCLENBQUMsSUFBSSxFQUFFLElBQUksQ0FBQyxXQUFXLENBQUMsQ0FBQztpQkFDbkQsTUFBTTtBQUNILDBCQUFNLENBQUMsY0FBYyxDQUFDLElBQUksRUFBRSxPQUFPLEVBQUU7QUFDakMsb0NBQVksRUFBRSxJQUFJO0FBQ2xCLGtDQUFVLEVBQUUsS0FBSztBQUNqQiw2QkFBSyxFQUFFLEtBQUssQ0FBQyxPQUFPLENBQUMsQ0FBQyxLQUFLO3FCQUM5QixDQUFDLENBQUM7aUJBQ047O0FBRUQsc0JBQU0sQ0FBQyxjQUFjLENBQUMsSUFBSSxFQUFFLFNBQVMsRUFBRTtBQUNuQyxnQ0FBWSxFQUFFLElBQUk7QUFDbEIsOEJBQVUsRUFBRSxLQUFLO0FBQ2pCLHlCQUFLLEVBQUUsT0FBTztpQkFDakIsQ0FBQyxDQUFDOztBQUVILHNCQUFNLENBQUMsY0FBYyxDQUFDLElBQUksRUFBRSxNQUFNLEVBQUU7QUFDaEMsZ0NBQVksRUFBRSxJQUFJO0FBQ2xCLDhCQUFVLEVBQUUsS0FBSztBQUNqQix5QkFBSyxFQUFFLElBQUksQ0FBQyxXQUFXLENBQUMsSUFBSTtpQkFDL0IsQ0FBQyxDQUFDO2FBRU47Ozs7QUFHUSwwQ0FBOEIsR0FFNUIsU0FGRiw4QkFBOEIsR0FFUztvQkFBcEMsT0FBTyx5REFBRyx3QkFBd0I7O3NDQUZyQyw4QkFBOEI7O0FBSW5DLG9CQUFJLEtBQUssQ0FBQyxpQkFBaUIsRUFBRTtBQUN6Qix5QkFBSyxDQUFDLGlCQUFpQixDQUFDLElBQUksRUFBRSxJQUFJLENBQUMsV0FBVyxDQUFDLENBQUM7aUJBQ25ELE1BQU07QUFDSCwwQkFBTSxDQUFDLGNBQWMsQ0FBQyxJQUFJLEVBQUUsT0FBTyxFQUFFO0FBQ2pDLG9DQUFZLEVBQUUsSUFBSTtBQUNsQixrQ0FBVSxFQUFFLEtBQUs7QUFDakIsNkJBQUssRUFBRSxLQUFLLENBQUMsT0FBTyxDQUFDLENBQUMsS0FBSztxQkFDOUIsQ0FBQyxDQUFDO2lCQUNOOztBQUVELHNCQUFNLENBQUMsY0FBYyxDQUFDLElBQUksRUFBRSxTQUFTLEVBQUU7QUFDbkMsZ0NBQVksRUFBRSxJQUFJO0FBQ2xCLDhCQUFVLEVBQUUsS0FBSztBQUNqQix5QkFBSyxFQUFFLE9BQU87aUJBQ2pCLENBQUMsQ0FBQzs7QUFFSCxzQkFBTSxDQUFDLGNBQWMsQ0FBQyxJQUFJLEVBQUUsTUFBTSxFQUFFO0FBQ2hDLGdDQUFZLEVBQUUsSUFBSTtBQUNsQiw4QkFBVSxFQUFFLEtBQUs7QUFDakIseUJBQUssRUFBRSxJQUFJLENBQUMsV0FBVyxDQUFDLElBQUk7aUJBQy9CLENBQUMsQ0FBQzthQUVOIiwiZmlsZSI6ImRlLnNlY3VjYXJkLmNvbm5lY3QvYXV0aC9leGNlcHRpb24uanMiLCJzb3VyY2VSb290IjoiLi4vc3JjLyJ9
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbImRlLnNlY3VjYXJkLmNvbm5lY3QvYXV0aC9leGNlcHRpb24uanMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7O1FBV2EsNkJBQTZCLEVBaUM3Qiw4QkFBOEI7Ozs7Ozs7OztBQWpDOUIseUNBQTZCOzBCQUE3Qiw2QkFBNkI7O0FBRTNCLHlCQUZGLDZCQUE2QixHQUVTO3dCQUFuQyxPQUFPLHlEQUFHLHVCQUF1Qjs7MENBRnBDLDZCQUE2Qjs7QUFHbEMsc0NBQU0sT0FBTyxDQUFDLENBQUM7O0FBRWYsd0JBQUksS0FBSyxDQUFDLGlCQUFpQixFQUFFO0FBQ3pCLDZCQUFLLENBQUMsaUJBQWlCLENBQUMsSUFBSSxFQUFFLElBQUksQ0FBQyxXQUFXLENBQUMsQ0FBQztxQkFDbkQsTUFBTTtBQUNILDhCQUFNLENBQUMsY0FBYyxDQUFDLElBQUksRUFBRSxPQUFPLEVBQUU7QUFDakMsd0NBQVksRUFBRSxJQUFJO0FBQ2xCLHNDQUFVLEVBQUUsS0FBSztBQUNqQixvQ0FBUSxFQUFFLElBQUk7QUFDZCxpQ0FBSyxFQUFFLEtBQUssQ0FBQyxPQUFPLENBQUMsQ0FBQyxLQUFLO3lCQUM5QixDQUFDLENBQUM7cUJBQ047O0FBRUQsMEJBQU0sQ0FBQyxjQUFjLENBQUMsSUFBSSxFQUFFLFNBQVMsRUFBRTtBQUNuQyxvQ0FBWSxFQUFFLElBQUk7QUFDbEIsa0NBQVUsRUFBRSxLQUFLO0FBQ2pCLGdDQUFRLEVBQUUsSUFBSTtBQUNkLDZCQUFLLEVBQUUsT0FBTztxQkFDakIsQ0FBQyxDQUFDOztBQUVILDBCQUFNLENBQUMsY0FBYyxDQUFDLElBQUksRUFBRSxNQUFNLEVBQUU7QUFDaEMsb0NBQVksRUFBRSxJQUFJO0FBQ2xCLGtDQUFVLEVBQUUsS0FBSztBQUNqQixnQ0FBUSxFQUFFLElBQUk7QUFDZCw2QkFBSyxFQUFFLCtCQUErQjtxQkFDekMsQ0FBQyxDQUFDO2lCQUVOOzt1QkE5QlEsNkJBQTZCO2VBQVMsS0FBSzs7OztBQWlDM0MsMENBQThCOzBCQUE5Qiw4QkFBOEI7O0FBRTVCLHlCQUZGLDhCQUE4QixHQUVTO3dCQUFwQyxPQUFPLHlEQUFHLHdCQUF3Qjs7MENBRnJDLDhCQUE4Qjs7QUFHbkMsdUNBQU0sT0FBTyxDQUFDLENBQUM7O0FBRWYsd0JBQUksS0FBSyxDQUFDLGlCQUFpQixFQUFFO0FBQ3pCLDZCQUFLLENBQUMsaUJBQWlCLENBQUMsSUFBSSxFQUFFLElBQUksQ0FBQyxXQUFXLENBQUMsQ0FBQztxQkFDbkQsTUFBTTtBQUNILDhCQUFNLENBQUMsY0FBYyxDQUFDLElBQUksRUFBRSxPQUFPLEVBQUU7QUFDakMsd0NBQVksRUFBRSxJQUFJO0FBQ2xCLHNDQUFVLEVBQUUsS0FBSztBQUNqQixvQ0FBUSxFQUFFLElBQUk7QUFDZCxpQ0FBSyxFQUFFLEtBQUssQ0FBQyxPQUFPLENBQUMsQ0FBQyxLQUFLO3lCQUM5QixDQUFDLENBQUM7cUJBQ047O0FBRUQsMEJBQU0sQ0FBQyxjQUFjLENBQUMsSUFBSSxFQUFFLFNBQVMsRUFBRTtBQUNuQyxvQ0FBWSxFQUFFLElBQUk7QUFDbEIsa0NBQVUsRUFBRSxLQUFLO0FBQ2pCLGdDQUFRLEVBQUUsSUFBSTtBQUNkLDZCQUFLLEVBQUUsT0FBTztxQkFDakIsQ0FBQyxDQUFDOztBQUVILDBCQUFNLENBQUMsY0FBYyxDQUFDLElBQUksRUFBRSxNQUFNLEVBQUU7QUFDaEMsb0NBQVksRUFBRSxJQUFJO0FBQ2xCLGtDQUFVLEVBQUUsS0FBSztBQUNqQixnQ0FBUSxFQUFFLElBQUk7QUFDZCw2QkFBSyxFQUFFLGdDQUFnQztxQkFDMUMsQ0FBQyxDQUFDO2lCQUVOOzt1QkE5QlEsOEJBQThCO2VBQVMsS0FBSyIsImZpbGUiOiJkZS5zZWN1Y2FyZC5jb25uZWN0L2F1dGgvZXhjZXB0aW9uLmpzIiwic291cmNlUm9vdCI6Ii4uL3NyYy8ifQ==

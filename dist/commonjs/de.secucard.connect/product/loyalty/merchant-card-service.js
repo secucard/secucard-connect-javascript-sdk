@@ -17,6 +17,30 @@ var MerchantCardService = (function (_ProductService) {
         _ProductService.call(this);
     }
 
+    MerchantCardService.prototype.charge = function charge(merchantCardId, amount, storeId) {
+        return this.execute(merchantCardId, 'charge', null, { amount: amount, store: storeId });
+    };
+
+    MerchantCardService.prototype.lock = function lock(merchantCardId, reasonId, note) {
+        return this.execute(merchantCardId, 'lock', null, { reasonId: reasonId, note: note });
+    };
+
+    MerchantCardService.prototype.registerCustomer = function registerCustomer(merchantCardId, data) {
+        return this.execute(merchantCardId, 'registerCustomer', null, data);
+    };
+
+    MerchantCardService.prototype.retrieveLock = function retrieveLock(merchantCardId) {
+        return this.retrieveWithAction(merchantCardId, 'lock', null);
+    };
+
+    MerchantCardService.prototype.retrieveLockReasons = function retrieveLockReasons(merchantCardId) {
+        return this.retrieveWithAction(merchantCardId, 'lockreasons', null);
+    };
+
+    MerchantCardService.prototype.updateGroup = function updateGroup(merchantCardId, groupId) {
+        return this.execute(merchantCardId, 'cardgroup', groupId);
+    };
+
     MerchantCardService.prototype.getEndpoint = function getEndpoint() {
         return ['loyalty', 'merchantcards'];
     };
