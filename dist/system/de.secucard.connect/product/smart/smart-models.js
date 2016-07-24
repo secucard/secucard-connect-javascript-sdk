@@ -1,19 +1,33 @@
-System.register(['model/basket-info', 'model/basket', 'model/ident', 'model/product-group', 'model/transaction'], function (_export) {
+System.register(['./model/basket-info', './model/basket', './model/ident', './model/product', './model/product-group', './model/transaction'], function (_export) {
   'use strict';
 
+  var BasketInfo, Basket, Ident, Product, ProductGroup, Transaction, SmartModel;
   return {
     setters: [function (_modelBasketInfo) {
-      _export('BasketInfo', _modelBasketInfo.BasketInfo);
+      BasketInfo = _modelBasketInfo.BasketInfo;
     }, function (_modelBasket) {
-      _export('Basket', _modelBasket.Basket);
+      Basket = _modelBasket.Basket;
     }, function (_modelIdent) {
-      _export('Ident', _modelIdent.Ident);
+      Ident = _modelIdent.Ident;
+    }, function (_modelProduct) {
+      Product = _modelProduct.Product;
     }, function (_modelProductGroup) {
-      _export('ProductGroup', _modelProductGroup.ProductGroup);
+      ProductGroup = _modelProductGroup.ProductGroup;
     }, function (_modelTransaction) {
-      _export('Transaction', _modelTransaction.Transaction);
+      Transaction = _modelTransaction.Transaction;
     }],
-    execute: function () {}
+    execute: function () {
+      SmartModel = {};
+
+      _export('SmartModel', SmartModel);
+
+      SmartModel.BasketInfo = BasketInfo;
+      SmartModel.Basket = Basket;
+      SmartModel.Ident = Ident;
+      SmartModel.Product = Product;
+      SmartModel.ProductGroup = ProductGroup;
+      SmartModel.Transaction = Transaction;
+    }
   };
 });
-//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbImRlLnNlY3VjYXJkLmNvbm5lY3QvcHJvZHVjdC9zbWFydC9zbWFydC1tb2RlbHMuanMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7Ozs7NkNBV1EsVUFBVTs7cUNBQ1YsTUFBTTs7bUNBQ04sS0FBSzs7aURBQ0wsWUFBWTs7K0NBQ1osV0FBVyIsImZpbGUiOiJkZS5zZWN1Y2FyZC5jb25uZWN0L3Byb2R1Y3Qvc21hcnQvc21hcnQtbW9kZWxzLmpzIiwic291cmNlUm9vdCI6Ii4uL3NyYy8ifQ==
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbImRlLnNlY3VjYXJkLmNvbm5lY3QvcHJvZHVjdC9zbWFydC9zbWFydC1tb2RlbHMuanMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7O3FFQWtCYSxVQUFVOzs7b0NBUGYsVUFBVTs7NEJBQ1YsTUFBTTs7MEJBQ04sS0FBSzs7OEJBQ0wsT0FBTzs7d0NBQ1AsWUFBWTs7c0NBQ1osV0FBVzs7O0FBRU4sZ0JBQVUsR0FBRyxFQUFFOzs7O0FBQzVCLGdCQUFVLENBQUMsVUFBVSxHQUFHLFVBQVUsQ0FBQztBQUNuQyxnQkFBVSxDQUFDLE1BQU0sR0FBRyxNQUFNLENBQUM7QUFDM0IsZ0JBQVUsQ0FBQyxLQUFLLEdBQUcsS0FBSyxDQUFDO0FBQ3pCLGdCQUFVLENBQUMsT0FBTyxHQUFHLE9BQU8sQ0FBQztBQUM3QixnQkFBVSxDQUFDLFlBQVksR0FBRyxZQUFZLENBQUM7QUFDdkMsZ0JBQVUsQ0FBQyxXQUFXLEdBQUcsV0FBVyxDQUFDIiwiZmlsZSI6ImRlLnNlY3VjYXJkLmNvbm5lY3QvcHJvZHVjdC9zbWFydC9zbWFydC1tb2RlbHMuanMiLCJzb3VyY2VSb290IjoiLi4vc3JjLyJ9

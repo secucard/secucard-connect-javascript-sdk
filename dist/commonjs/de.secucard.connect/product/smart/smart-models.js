@@ -2,22 +2,23 @@
 
 exports.__esModule = true;
 
-var _modelBasketInfo = require('model/basket-info');
+var _modelBasketInfo = require('./model/basket-info');
 
-exports.BasketInfo = _modelBasketInfo.BasketInfo;
+var _modelBasket = require('./model/basket');
 
-var _modelBasket = require('model/basket');
+var _modelIdent = require('./model/ident');
 
-exports.Basket = _modelBasket.Basket;
+var _modelProduct = require('./model/product');
 
-var _modelIdent = require('model/ident');
+var _modelProductGroup = require('./model/product-group');
 
-exports.Ident = _modelIdent.Ident;
+var _modelTransaction = require('./model/transaction');
 
-var _modelProductGroup = require('model/product-group');
-
-exports.ProductGroup = _modelProductGroup.ProductGroup;
-
-var _modelTransaction = require('model/transaction');
-
-exports.Transaction = _modelTransaction.Transaction;
+var SmartModel = {};
+exports.SmartModel = SmartModel;
+SmartModel.BasketInfo = _modelBasketInfo.BasketInfo;
+SmartModel.Basket = _modelBasket.Basket;
+SmartModel.Ident = _modelIdent.Ident;
+SmartModel.Product = _modelProduct.Product;
+SmartModel.ProductGroup = _modelProductGroup.ProductGroup;
+SmartModel.Transaction = _modelTransaction.Transaction;

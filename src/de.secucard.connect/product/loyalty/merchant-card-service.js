@@ -16,6 +16,30 @@ export class MerchantCardService extends ProductService {
     constructor() {
         super()
     }
+    
+    charge(merchantCardId, amount, storeId) {
+        return this.execute(merchantCardId, 'charge', null, {amount: amount, store: storeId});
+    }
+    
+    lock(merchantCardId, reasonId, note) {
+        return this.execute(merchantCardId, 'lock', null, {reasonId: reasonId, note: note});
+    }
+    
+    registerCustomer(merchantCardId, data) {
+        return this.execute(merchantCardId, 'registerCustomer', null, data);
+    }
+    
+    retrieveLock(merchantCardId) {
+        return this.retrieveWithAction(merchantCardId, 'lock', null);
+    }
+    
+    retrieveLockReasons(merchantCardId) {
+        return this.retrieveWithAction(merchantCardId, 'lockreasons', null);
+    }
+    
+    updateGroup(merchantCardId, groupId) {
+        return this.execute(merchantCardId, 'cardgroup', groupId);
+    }
 
     getEndpoint() {
         return ['loyalty', 'merchantcards'];

@@ -9,14 +9,21 @@
  See the License for the specific language governing permissions and
  limitations under the License.
  */
-export class Transaction {
+import {ProductService} from '../product-service'
 
-    constructor(basket, basketInfo, idents, merchantRef, transactionRef) {
-        this.basket = basket;
-        this.basket_info = basketInfo;
-        this.idents = idents;
-        this.merchantRef = merchantRef;
-        this.transactionRef = transactionRef;
+export class ItemService extends ProductService {
+
+    constructor() {
+        super()
     }
 
+    getEndpoint() {
+        return ['prepaid', 'items'];
+    }
+
+    getEventTargets() {
+        return [];
+    }
 }
+
+ItemService.Uid = (['prepaid', 'items']).join('.');

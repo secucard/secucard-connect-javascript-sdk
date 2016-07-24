@@ -9,14 +9,15 @@
  See the License for the specific language governing permissions and
  limitations under the License.
  */
-export class Transaction {
+import {ContractService} from './contract-service';
+import {ItemGroupService} from './item-group-service';
+import {ItemService} from './item-service';
+import {SaleService} from './sale-service';
+import {StockService} from './stock-service';
 
-    constructor(basket, basketInfo, idents, merchantRef, transactionRef) {
-        this.basket = basket;
-        this.basket_info = basketInfo;
-        this.idents = idents;
-        this.merchantRef = merchantRef;
-        this.transactionRef = transactionRef;
-    }
-
-}
+export const Prepaid = {};
+Prepaid.ContractService = ContractService;
+Prepaid.ItemGroupService = ItemGroupService;
+Prepaid.ItemService = ItemService;
+Prepaid.SaleService = SaleService;
+Prepaid.StockService = StockService;
