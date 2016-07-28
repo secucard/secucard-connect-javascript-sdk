@@ -22,7 +22,7 @@ var MerchantCardService = (function (_ProductService) {
     };
 
     MerchantCardService.prototype.lock = function lock(merchantCardId, reasonId, note) {
-        return this.execute(merchantCardId, 'lock', null, { reasonId: reasonId, note: note });
+        return this.execute(merchantCardId, 'lock', null, { reason: reasonId, note: note });
     };
 
     MerchantCardService.prototype.registerCustomer = function registerCustomer(merchantCardId, data) {

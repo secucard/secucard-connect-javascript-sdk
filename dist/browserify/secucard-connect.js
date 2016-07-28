@@ -1096,7 +1096,7 @@ exports.ClientContext = ClientContext;
 
 exports.__esModule = true;
 var Version = {
-  "name": "0.2.5"
+  "name": "0.2.6"
 };
 exports.Version = Version;
 },{}],11:[function(require,module,exports){
@@ -3560,7 +3560,7 @@ var MerchantCardService = (function (_ProductService) {
     };
 
     MerchantCardService.prototype.lock = function lock(merchantCardId, reasonId, note) {
-        return this.execute(merchantCardId, 'lock', null, { reasonId: reasonId, note: note });
+        return this.execute(merchantCardId, 'lock', null, { reason: reasonId, note: note });
     };
 
     MerchantCardService.prototype.registerCustomer = function registerCustomer(merchantCardId, data) {
