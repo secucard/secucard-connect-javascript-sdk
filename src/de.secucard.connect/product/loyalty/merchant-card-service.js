@@ -22,7 +22,7 @@ export class MerchantCardService extends ProductService {
     }
     
     lock(merchantCardId, reasonId, note) {
-        return this.execute(merchantCardId, 'lock', null, {reasonId: reasonId, note: note});
+        return this.execute(merchantCardId, 'lock', null, {reason: reasonId, note: note});
     }
     
     registerCustomer(merchantCardId, data) {
