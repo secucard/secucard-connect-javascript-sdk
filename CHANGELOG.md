@@ -1,3 +1,13 @@
+<a name="0.2.6"></a>
+## 0.2.6 (2016-07-28)
+
+### Fix
+
+* fix(loyalty.merchantcards): lock payload
+ ([986b12e](https://github.com/secucard/secucard-connect-javascript-sdk/commit/986b12e))
+
+
+
 <a name="0.2.5"></a>
 ## 0.2.5 (2016-07-24)
 
