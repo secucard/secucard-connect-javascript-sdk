@@ -42,7 +42,7 @@ export class MerchantCardService extends ProductService {
     }
     
     updateGroup(merchantCardId, groupId) {
-        return this.execute(merchantCardId, 'cardgroup', groupId);
+        return this.updateWithAction(merchantCardId, 'cardgroup', groupId);
     }
 
     getEndpoint() {
