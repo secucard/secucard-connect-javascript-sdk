@@ -1,3 +1,19 @@
+<a name="0.2.7"></a>
+## 0.2.7 (2016-09-21)
+
+
+### Fix
+
+* Fix(loyalty.merchantcards): change group action
+ ([3ad90ea](https://github.com/secucard/secucard-connect-javascript-sdk/commit/3ad90ea))
+
+### New
+
+* New(loyalty.merchantcards): unlock action
+ ([53fd943](https://github.com/secucard/secucard-connect-javascript-sdk/commit/53fd943))
+
+
+
 <a name="0.2.6"></a>
 ## 0.2.6 (2016-07-28)
 
