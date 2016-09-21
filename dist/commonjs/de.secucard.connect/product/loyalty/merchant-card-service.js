@@ -25,6 +25,10 @@ var MerchantCardService = (function (_ProductService) {
         return this.execute(merchantCardId, 'lock', null, { reason: reasonId, note: note });
     };
 
+    MerchantCardService.prototype.unlock = function unlock(merchantCardId, note) {
+        return this.execute(merchantCardId, 'unlock', null, { note: note });
+    };
+
     MerchantCardService.prototype.registerCustomer = function registerCustomer(merchantCardId, data) {
         return this.execute(merchantCardId, 'registerCustomer', null, data);
     };
@@ -38,7 +42,7 @@ var MerchantCardService = (function (_ProductService) {
     };
 
     MerchantCardService.prototype.updateGroup = function updateGroup(merchantCardId, groupId) {
-        return this.execute(merchantCardId, 'cardgroup', groupId);
+        return this.updateWithAction(merchantCardId, 'cardgroup', groupId);
     };
 
     MerchantCardService.prototype.getEndpoint = function getEndpoint() {

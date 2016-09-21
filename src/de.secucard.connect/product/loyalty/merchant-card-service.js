@@ -25,6 +25,10 @@ export class MerchantCardService extends ProductService {
         return this.execute(merchantCardId, 'lock', null, {reason: reasonId, note: note});
     }
     
+    unlock(merchantCardId, note) {
+        return this.execute(merchantCardId, 'unlock', null, {note: note});
+    }
+    
     registerCustomer(merchantCardId, data) {
         return this.execute(merchantCardId, 'registerCustomer', null, data);
     }
@@ -38,7 +42,7 @@ export class MerchantCardService extends ProductService {
     }
     
     updateGroup(merchantCardId, groupId) {
-        return this.execute(merchantCardId, 'cardgroup', groupId);
+        return this.updateWithAction(merchantCardId, 'cardgroup', groupId);
     }
 
     getEndpoint() {
