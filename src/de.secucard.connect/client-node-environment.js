@@ -57,6 +57,7 @@ export const ClientNodeEnvironment = {
         Loyalty.ProgramSpecialService,
         Loyalty.SaleService,
         Loyalty.StoreGroupService,
+        Loyalty.TransactionService,
 
         Payment.ContainerService,
         Payment.ContractService,
