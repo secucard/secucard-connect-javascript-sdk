@@ -130,7 +130,8 @@ export const ServiceMap = {
         Programs: Loyalty.ProgramService.Uid,
         ProrgamSpecials: Loyalty.ProgramSpecialService.Uid,
         Sales: Loyalty.SaleService.Uid,
-        StoreGroups: Loyalty.StoreGroupService.Uid
+        StoreGroups: Loyalty.StoreGroupService.Uid,
+        Transactions: Loyalty.TransactionService.Uid
     },
     Payment: {
         Containers: Payment.ContainerService.Uid,

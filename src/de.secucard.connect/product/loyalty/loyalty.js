@@ -22,6 +22,7 @@ import {ProgramService} from './program-service';
 import {ProgramSpecialService} from './program-special-service';
 import {SaleService} from './sale-service';
 import {StoreGroupService} from './store-group-service';
+import {TransactionService} from './transaction-service';
 
 export const Loyalty = {};
 Loyalty.ActionActionService = ActionActionService;
@@ -37,3 +38,4 @@ Loyalty.ProgramService = ProgramService;
 Loyalty.ProgramSpecialService = ProgramSpecialService;
 Loyalty.SaleService = SaleService;
 Loyalty.StoreGroupService = StoreGroupService;
+Loyalty.TransactionService = TransactionService;
