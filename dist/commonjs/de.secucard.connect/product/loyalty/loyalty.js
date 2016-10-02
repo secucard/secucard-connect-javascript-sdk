@@ -28,6 +28,8 @@ var _saleService = require('./sale-service');
 
 var _storeGroupService = require('./store-group-service');
 
+var _transactionService = require('./transaction-service');
+
 var Loyalty = {};
 exports.Loyalty = Loyalty;
 Loyalty.ActionActionService = _actionActionService.ActionActionService;
@@ -43,3 +45,4 @@ Loyalty.ProgramService = _programService.ProgramService;
 Loyalty.ProgramSpecialService = _programSpecialService.ProgramSpecialService;
 Loyalty.SaleService = _saleService.SaleService;
 Loyalty.StoreGroupService = _storeGroupService.StoreGroupService;
+Loyalty.TransactionService = _transactionService.TransactionService;
