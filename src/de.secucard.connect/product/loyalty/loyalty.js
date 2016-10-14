@@ -9,7 +9,7 @@
  See the License for the specific language governing permissions and
  limitations under the License.
  */
-import {ActionActionService} from './action-action-service';
+import {ActionService} from './action-service';
 import {ActionProfileService} from './action-profile-service';
 import {BeaconService} from './beacon-service';
 import {CardGroupService} from './card-group-service';
@@ -25,7 +25,7 @@ import {StoreGroupService} from './store-group-service';
 import {TransactionService} from './transaction-service';
 
 export const Loyalty = {};
-Loyalty.ActionActionService = ActionActionService;
+Loyalty.ActionService = ActionService;
 Loyalty.ActionProfileService = ActionProfileService;
 Loyalty.BeaconService = BeaconService;
 Loyalty.CardGroupService = CardGroupService;

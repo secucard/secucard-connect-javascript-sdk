@@ -11,14 +11,14 @@
  */
 import {ProductService} from '../product-service'
 
-export class ActionActionService extends ProductService {
+export class ActionService extends ProductService {
 
     constructor() {
         super()
     }
 
     getEndpoint() {
-        return ['loyalty', 'actionactions'];
+        return ['loyalty', 'actions'];
     }
 
     getEventTargets() {
@@ -27,4 +27,4 @@ export class ActionActionService extends ProductService {
 
 }
 
-ActionActionService.Uid = (['loyalty', 'actionactions']).join('.');
+ActionService.Uid = (['loyalty', 'actions']).join('.');
