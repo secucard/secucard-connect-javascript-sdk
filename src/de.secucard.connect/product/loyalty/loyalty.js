@@ -9,8 +9,11 @@
  See the License for the specific language governing permissions and
  limitations under the License.
  */
-import {ActionService} from './action-service';
+import {ActionCampaignService} from './action-campaign-service';
+import {ActionEmailConfigService} from './action-email-config-service';
 import {ActionProfileService} from './action-profile-service';
+import {ActionService} from './action-service';
+import {ActionSmsConfigService} from './action-sms-config-service';
 import {BeaconService} from './beacon-service';
 import {CardGroupService} from './card-group-service';
 import {CardService} from './card-service';
@@ -25,8 +28,11 @@ import {StoreGroupService} from './store-group-service';
 import {TransactionService} from './transaction-service';
 
 export const Loyalty = {};
-Loyalty.ActionService = ActionService;
+Loyalty.ActionCampaignService = ActionCampaignService;
+Loyalty.ActionEmailConfigService = ActionEmailConfigService;
 Loyalty.ActionProfileService = ActionProfileService;
+Loyalty.ActionService = ActionService;
+Loyalty.ActionSmsConfigService = ActionSmsConfigService;
 Loyalty.BeaconService = BeaconService;
 Loyalty.CardGroupService = CardGroupService;
 Loyalty.CardService = CardService;

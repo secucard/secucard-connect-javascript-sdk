@@ -47,6 +47,9 @@ export const ClientBrowserEnvironment = {
         
         Loyalty.ActionService,
         Loyalty.ActionProfileService,
+        Loyalty.ActionCampaignService,
+        Loyalty.ActionEmailConfigService,
+        Loyalty.ActionSmsConfigService,
         Loyalty.BeaconService,
         Loyalty.CardGroupService,
         Loyalty.CardService,
@@ -120,8 +123,11 @@ export const ServiceMap = {
         Transactions: General.TransactionService.Uid
     },
     Loyalty: {
-        Actions: Loyalty.ActionService.Uid,
+        ActionCampaigns: Loyalty.ActionCampaignService.Uid,
+        ActionEmailConfigs: Loyalty.ActionEmailConfigService.Uid,
         ActionProfiles: Loyalty.ActionProfileService.Uid,
+        Actions: Loyalty.ActionService.Uid,
+        ActionSmsConfigs: Loyalty.ActionSmsConfigService.Uid,
         Beacons: Loyalty.BeaconService.Uid,
         CardGroups: Loyalty.CardGroupService.Uid,
         Cards: Loyalty.CardService.Uid,
