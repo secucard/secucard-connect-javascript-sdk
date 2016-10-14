@@ -24,7 +24,7 @@ var Frame = (function () {
 
     Frame.prototype.as_string = function as_string() {
         var header_strs = [],
-            frame = "",
+            frame = '',
             command = this.command,
             headers = this.headers,
             body = this.body;
@@ -33,15 +33,15 @@ var Frame = (function () {
             header_strs.push(header + ':' + headers[header]);
         }
 
-        frame += command + "\n";
-        frame += header_strs.join("\n");
-        frame += "\n\n";
+        frame += command + '\n';
+        frame += header_strs.join('\n');
+        frame += '\n\n';
 
         if (body) {
             frame += body;
         }
 
-        frame += '\x00';
+        frame += '\u0000';
 
         return frame;
     };
