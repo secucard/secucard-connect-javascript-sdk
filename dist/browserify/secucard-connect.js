@@ -3275,6 +3275,10 @@ var ActionEmailConfigService = (function (_ProductService) {
         return [];
     };
 
+    ActionEmailConfigService.prototype.testConfiguration = function testConfiguration(config) {
+        return this.execute('me', 'testConfiguration ', null, config);
+    };
+
     return ActionEmailConfigService;
 })(_productService.ProductService);
 

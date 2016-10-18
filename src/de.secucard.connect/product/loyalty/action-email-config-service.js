@@ -24,6 +24,10 @@ export class ActionEmailConfigService extends ProductService {
     getEventTargets() {
         return [];
     }
+    
+    testConfiguration(config) {
+        return this.execute('me', 'testConfiguration ', null, config)
+    }
 
 }
 
