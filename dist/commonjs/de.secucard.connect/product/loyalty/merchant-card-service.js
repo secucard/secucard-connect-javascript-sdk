@@ -17,8 +17,8 @@ var MerchantCardService = (function (_ProductService) {
 
     _inherits(MerchantCardService, _ProductService);
 
-    MerchantCardService.prototype.charge = function charge(merchantCardId, tid, cardnumber, action, amount, bonusAmount) {
-        return this.execute(merchantCardId, 'charge', null, { tid: tid, cardnumber: cardnumber, action: action, amount: amount, bonus_amount: bonusAmount });
+    MerchantCardService.prototype.charge = function charge(merchantCardId, tid, cardnumber, action, amount, bonusAmount, amountSplitAllowed) {
+        return this.execute(merchantCardId, 'charge', null, { tid: tid, cardnumber: cardnumber, action: action, amount: amount, bonus_amount: bonusAmount, amount_split_allowed: amountSplitAllowed });
     };
 
     MerchantCardService.prototype.lock = function lock(merchantCardId, reasonId, note) {
