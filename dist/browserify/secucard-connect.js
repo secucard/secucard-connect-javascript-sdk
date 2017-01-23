@@ -802,6 +802,10 @@ var ClientConfig = (function () {
         return this.retrieveToken;
     };
 
+    ClientConfig.prototype.getWithCredentials = function getWithCredentials() {
+        return this.withCredentials;
+    };
+
     ClientConfig.prototype._getCompleteUrl = function _getCompleteUrl(value) {
 
         var url = value;
@@ -844,7 +848,9 @@ ClientConfig._defaults = {
     stompConnectTimeoutSec: 0,
     stompMessageTimeoutSec: 0,
     stompMessageAge: 0,
-    retrieveToken: null
+    retrieveToken: null,
+
+    withCredentials: false
 };
 
 ClientConfig.defaults = function () {
@@ -1417,6 +1423,11 @@ var Rest = (function () {
             return context.getAuth().getToken(extend);
         };
 
+        this.withCredentials = function () {
+
+            return context.getConfig().getWithCredentials();
+        };
+
         this.isRequestWithToken = context.isRequestWithToken.bind(context);
     };
 
@@ -1440,6 +1451,10 @@ var Rest = (function () {
 
             var url = message.baseUrl ? message.baseUrl + message.url : message.url;
             var request = _this.r(url, message.method);
+
+            if (_this.withCredentials()) {
+                request.withCredentials();
+            }
 
             if (message.headers) {
                 request.set(message.headers);

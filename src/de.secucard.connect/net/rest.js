@@ -54,6 +54,12 @@ export class Rest {
             return context.getAuth().getToken(extend);
 
         };
+        
+        this.withCredentials = () => {
+            
+            return context.getConfig().getWithCredentials();
+            
+        };
 
         this.isRequestWithToken = context.isRequestWithToken.bind(context);
 
@@ -93,11 +99,15 @@ export class Rest {
 
             let url = message.baseUrl ? message.baseUrl + message.url : message.url;
             let request = this.r(url, message.method);
-
+            
+            if(this.withCredentials()) {
+                request.withCredentials();
+            }
+            
             if (message.headers) {
                 request.set(message.headers);
             }
-
+            
             if (message.query) {
                 //console.log(QS.stringify(message.query), message.query);
                 //request.query(QS.stringify(message.query))

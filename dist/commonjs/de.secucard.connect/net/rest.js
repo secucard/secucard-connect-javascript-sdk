@@ -56,6 +56,11 @@ var Rest = (function () {
             return context.getAuth().getToken(extend);
         };
 
+        this.withCredentials = function () {
+
+            return context.getConfig().getWithCredentials();
+        };
+
         this.isRequestWithToken = context.isRequestWithToken.bind(context);
     };
 
@@ -79,6 +84,10 @@ var Rest = (function () {
 
             var url = message.baseUrl ? message.baseUrl + message.url : message.url;
             var request = _this.r(url, message.method);
+
+            if (_this.withCredentials()) {
+                request.withCredentials();
+            }
 
             if (message.headers) {
                 request.set(message.headers);
