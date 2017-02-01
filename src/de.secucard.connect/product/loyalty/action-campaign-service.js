@@ -16,7 +16,11 @@ export class ActionCampaignService extends ProductService {
     constructor() {
         super()
     }
-
+    
+    getCampaignRemoveAllowed(id) {
+        return this.retrieveWithAction(id, 'campaignRemoveAllowed');
+    }
+    
     getEndpoint() {
         return ['loyalty', 'actioncampaigns'];
     }

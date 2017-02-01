@@ -17,6 +17,10 @@ var ActionCampaignService = (function (_ProductService) {
 
     _inherits(ActionCampaignService, _ProductService);
 
+    ActionCampaignService.prototype.getCampaignRemoveAllowed = function getCampaignRemoveAllowed(id) {
+        return this.retrieveWithAction(id, 'campaignRemoveAllowed');
+    };
+
     ActionCampaignService.prototype.getEndpoint = function getEndpoint() {
         return ['loyalty', 'actioncampaigns'];
     };
