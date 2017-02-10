@@ -10,10 +10,9 @@
  limitations under the License.
  */
 import {ActionCampaignService} from './action-campaign-service';
-import {ActionEmailConfigService} from './action-email-config-service';
+import {ActionConfigService} from './action-config-service';
 import {ActionProfileService} from './action-profile-service';
 import {ActionService} from './action-service';
-import {ActionSmsConfigService} from './action-sms-config-service';
 import {BeaconService} from './beacon-service';
 import {CardGroupService} from './card-group-service';
 import {CardService} from './card-service';
@@ -29,10 +28,9 @@ import {TransactionService} from './transaction-service';
 
 export const Loyalty = {};
 Loyalty.ActionCampaignService = ActionCampaignService;
-Loyalty.ActionEmailConfigService = ActionEmailConfigService;
+Loyalty.ActionConfigService = ActionConfigService;
 Loyalty.ActionProfileService = ActionProfileService;
 Loyalty.ActionService = ActionService;
-Loyalty.ActionSmsConfigService = ActionSmsConfigService;
 Loyalty.BeaconService = BeaconService;
 Loyalty.CardGroupService = CardGroupService;
 Loyalty.CardService = CardService;

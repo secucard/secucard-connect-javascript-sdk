@@ -4,13 +4,11 @@ exports.__esModule = true;
 
 var _actionCampaignService = require('./action-campaign-service');
 
-var _actionEmailConfigService = require('./action-email-config-service');
+var _actionConfigService = require('./action-config-service');
 
 var _actionProfileService = require('./action-profile-service');
 
 var _actionService = require('./action-service');
-
-var _actionSmsConfigService = require('./action-sms-config-service');
 
 var _beaconService = require('./beacon-service');
 
@@ -39,10 +37,9 @@ var _transactionService = require('./transaction-service');
 var Loyalty = {};
 exports.Loyalty = Loyalty;
 Loyalty.ActionCampaignService = _actionCampaignService.ActionCampaignService;
-Loyalty.ActionEmailConfigService = _actionEmailConfigService.ActionEmailConfigService;
+Loyalty.ActionConfigService = _actionConfigService.ActionConfigService;
 Loyalty.ActionProfileService = _actionProfileService.ActionProfileService;
 Loyalty.ActionService = _actionService.ActionService;
-Loyalty.ActionSmsConfigService = _actionSmsConfigService.ActionSmsConfigService;
 Loyalty.BeaconService = _beaconService.BeaconService;
 Loyalty.CardGroupService = _cardGroupService.CardGroupService;
 Loyalty.CardService = _cardService.CardService;

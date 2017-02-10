@@ -8,26 +8,30 @@ function _inherits(subClass, superClass) { if (typeof superClass !== 'function' 
 
 var _productService = require('../product-service');
 
-var ActionSmsConfigService = (function (_ProductService) {
-    function ActionSmsConfigService() {
-        _classCallCheck(this, ActionSmsConfigService);
+var ActionConfigService = (function (_ProductService) {
+    function ActionConfigService() {
+        _classCallCheck(this, ActionConfigService);
 
         _ProductService.call(this);
     }
 
-    _inherits(ActionSmsConfigService, _ProductService);
+    _inherits(ActionConfigService, _ProductService);
 
-    ActionSmsConfigService.prototype.getEndpoint = function getEndpoint() {
-        return ['loyalty', 'actionsmsconfigs'];
+    ActionConfigService.prototype.getEndpoint = function getEndpoint() {
+        return ['loyalty', 'actionconfigs'];
     };
 
-    ActionSmsConfigService.prototype.getEventTargets = function getEventTargets() {
+    ActionConfigService.prototype.getEventTargets = function getEventTargets() {
         return [];
     };
 
-    return ActionSmsConfigService;
+    ActionConfigService.prototype.testConfiguration = function testConfiguration(config) {
+        return this.execute('me', 'testConfiguration ', null, config);
+    };
+
+    return ActionConfigService;
 })(_productService.ProductService);
 
-exports.ActionSmsConfigService = ActionSmsConfigService;
+exports.ActionConfigService = ActionConfigService;
 
-ActionSmsConfigService.Uid = ['loyalty', 'actionsmsconfigs'].join('.');
+ActionConfigService.Uid = ['loyalty', 'actionconfigs'].join('.');

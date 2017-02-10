@@ -11,20 +11,25 @@
  */
 import {ProductService} from '../product-service'
 
-export class ActionSmsConfigService extends ProductService {
+export class ActionConfigService extends ProductService {
 
     constructor() {
         super()
     }
 
     getEndpoint() {
-        return ['loyalty', 'actionsmsconfigs'];
+        return ['loyalty', 'actionconfigs'];
     }
 
     getEventTargets() {
         return [];
     }
 
+    testConfiguration(config) {
+        return this.execute('me', 'testConfiguration ', null, config)
+    }
+
+
 }
 
-ActionSmsConfigService.Uid = (['loyalty', 'actionsmsconfigs']).join('.');
+ActionConfigService.Uid = (['loyalty', 'actionconfigs']).join('.');

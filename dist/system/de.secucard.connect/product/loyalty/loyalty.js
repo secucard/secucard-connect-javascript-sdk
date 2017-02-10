@@ -1,18 +1,16 @@
-System.register(['./action-campaign-service', './action-email-config-service', './action-profile-service', './action-service', './action-sms-config-service', './beacon-service', './card-group-service', './card-service', './charge-service', './checkin-service', './customer-service', './merchant-card-service', './program-service', './program-special-service', './sale-service', './store-group-service', './transaction-service'], function (_export) {
+System.register(['./action-campaign-service', './action-config-service', './action-profile-service', './action-service', './beacon-service', './card-group-service', './card-service', './charge-service', './checkin-service', './customer-service', './merchant-card-service', './program-service', './program-special-service', './sale-service', './store-group-service', './transaction-service'], function (_export) {
   'use strict';
 
-  var ActionCampaignService, ActionEmailConfigService, ActionProfileService, ActionService, ActionSmsConfigService, BeaconService, CardGroupService, CardService, ChargeService, CheckinService, CustomerService, MerchantCardService, ProgramService, ProgramSpecialService, SaleService, StoreGroupService, TransactionService, Loyalty;
+  var ActionCampaignService, ActionConfigService, ActionProfileService, ActionService, BeaconService, CardGroupService, CardService, ChargeService, CheckinService, CustomerService, MerchantCardService, ProgramService, ProgramSpecialService, SaleService, StoreGroupService, TransactionService, Loyalty;
   return {
     setters: [function (_actionCampaignService) {
       ActionCampaignService = _actionCampaignService.ActionCampaignService;
-    }, function (_actionEmailConfigService) {
-      ActionEmailConfigService = _actionEmailConfigService.ActionEmailConfigService;
+    }, function (_actionConfigService) {
+      ActionConfigService = _actionConfigService.ActionConfigService;
     }, function (_actionProfileService) {
       ActionProfileService = _actionProfileService.ActionProfileService;
     }, function (_actionService) {
       ActionService = _actionService.ActionService;
-    }, function (_actionSmsConfigService) {
-      ActionSmsConfigService = _actionSmsConfigService.ActionSmsConfigService;
     }, function (_beaconService) {
       BeaconService = _beaconService.BeaconService;
     }, function (_cardGroupService) {
@@ -44,10 +42,9 @@ System.register(['./action-campaign-service', './action-email-config-service', '
       _export('Loyalty', Loyalty);
 
       Loyalty.ActionCampaignService = ActionCampaignService;
-      Loyalty.ActionEmailConfigService = ActionEmailConfigService;
+      Loyalty.ActionConfigService = ActionConfigService;
       Loyalty.ActionProfileService = ActionProfileService;
       Loyalty.ActionService = ActionService;
-      Loyalty.ActionSmsConfigService = ActionSmsConfigService;
       Loyalty.BeaconService = BeaconService;
       Loyalty.CardGroupService = CardGroupService;
       Loyalty.CardService = CardService;
@@ -63,4 +60,4 @@ System.register(['./action-campaign-service', './action-email-config-service', '
     }
   };
 });
-//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbImRlLnNlY3VjYXJkLmNvbm5lY3QvcHJvZHVjdC9sb3lhbHR5L2xveWFsdHkuanMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7O2tVQTZCYSxPQUFPOzs7cURBbEJaLHFCQUFxQjs7MkRBQ3JCLHdCQUF3Qjs7bURBQ3hCLG9CQUFvQjs7cUNBQ3BCLGFBQWE7O3VEQUNiLHNCQUFzQjs7cUNBQ3RCLGFBQWE7OzJDQUNiLGdCQUFnQjs7aUNBQ2hCLFdBQVc7O3FDQUNYLGFBQWE7O3VDQUNiLGNBQWM7O3lDQUNkLGVBQWU7O2lEQUNmLG1CQUFtQjs7dUNBQ25CLGNBQWM7O3FEQUNkLHFCQUFxQjs7aUNBQ3JCLFdBQVc7OzZDQUNYLGlCQUFpQjs7K0NBQ2pCLGtCQUFrQjs7O0FBRWIsYUFBTyxHQUFHLEVBQUU7O3lCQUFaLE9BQU87O0FBQ3BCLGFBQU8sQ0FBQyxxQkFBcUIsR0FBRyxxQkFBcUIsQ0FBQztBQUN0RCxhQUFPLENBQUMsd0JBQXdCLEdBQUcsd0JBQXdCLENBQUM7QUFDNUQsYUFBTyxDQUFDLG9CQUFvQixHQUFHLG9CQUFvQixDQUFDO0FBQ3BELGFBQU8sQ0FBQyxhQUFhLEdBQUcsYUFBYSxDQUFDO0FBQ3RDLGFBQU8sQ0FBQyxzQkFBc0IsR0FBRyxzQkFBc0IsQ0FBQztBQUN4RCxhQUFPLENBQUMsYUFBYSxHQUFHLGFBQWEsQ0FBQztBQUN0QyxhQUFPLENBQUMsZ0JBQWdCLEdBQUcsZ0JBQWdCLENBQUM7QUFDNUMsYUFBTyxDQUFDLFdBQVcsR0FBRyxXQUFXLENBQUM7QUFDbEMsYUFBTyxDQUFDLGFBQWEsR0FBRyxhQUFhLENBQUM7QUFDdEMsYUFBTyxDQUFDLGNBQWMsR0FBRyxjQUFjLENBQUM7QUFDeEMsYUFBTyxDQUFDLGVBQWUsR0FBRyxlQUFlLENBQUM7QUFDMUMsYUFBTyxDQUFDLG1CQUFtQixHQUFHLG1CQUFtQixDQUFDO0FBQ2xELGFBQU8sQ0FBQyxjQUFjLEdBQUcsY0FBYyxDQUFDO0FBQ3hDLGFBQU8sQ0FBQyxxQkFBcUIsR0FBRyxxQkFBcUIsQ0FBQztBQUN0RCxhQUFPLENBQUMsV0FBVyxHQUFHLFdBQVcsQ0FBQztBQUNsQyxhQUFPLENBQUMsaUJBQWlCLEdBQUcsaUJBQWlCLENBQUM7QUFDOUMsYUFBTyxDQUFDLGtCQUFrQixHQUFHLGtCQUFrQixDQUFDIiwiZmlsZSI6ImRlLnNlY3VjYXJkLmNvbm5lY3QvcHJvZHVjdC9sb3lhbHR5L2xveWFsdHkuanMiLCJzb3VyY2VSb290IjoiLi4vc3JjLyJ9
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbImRlLnNlY3VjYXJkLmNvbm5lY3QvcHJvZHVjdC9sb3lhbHR5L2xveWFsdHkuanMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7O3FTQTRCYSxPQUFPOzs7cURBakJaLHFCQUFxQjs7aURBQ3JCLG1CQUFtQjs7bURBQ25CLG9CQUFvQjs7cUNBQ3BCLGFBQWE7O3FDQUNiLGFBQWE7OzJDQUNiLGdCQUFnQjs7aUNBQ2hCLFdBQVc7O3FDQUNYLGFBQWE7O3VDQUNiLGNBQWM7O3lDQUNkLGVBQWU7O2lEQUNmLG1CQUFtQjs7dUNBQ25CLGNBQWM7O3FEQUNkLHFCQUFxQjs7aUNBQ3JCLFdBQVc7OzZDQUNYLGlCQUFpQjs7K0NBQ2pCLGtCQUFrQjs7O0FBRWIsYUFBTyxHQUFHLEVBQUU7O3lCQUFaLE9BQU87O0FBQ3BCLGFBQU8sQ0FBQyxxQkFBcUIsR0FBRyxxQkFBcUIsQ0FBQztBQUN0RCxhQUFPLENBQUMsbUJBQW1CLEdBQUcsbUJBQW1CLENBQUM7QUFDbEQsYUFBTyxDQUFDLG9CQUFvQixHQUFHLG9CQUFvQixDQUFDO0FBQ3BELGFBQU8sQ0FBQyxhQUFhLEdBQUcsYUFBYSxDQUFDO0FBQ3RDLGFBQU8sQ0FBQyxhQUFhLEdBQUcsYUFBYSxDQUFDO0FBQ3RDLGFBQU8sQ0FBQyxnQkFBZ0IsR0FBRyxnQkFBZ0IsQ0FBQztBQUM1QyxhQUFPLENBQUMsV0FBVyxHQUFHLFdBQVcsQ0FBQztBQUNsQyxhQUFPLENBQUMsYUFBYSxHQUFHLGFBQWEsQ0FBQztBQUN0QyxhQUFPLENBQUMsY0FBYyxHQUFHLGNBQWMsQ0FBQztBQUN4QyxhQUFPLENBQUMsZUFBZSxHQUFHLGVBQWUsQ0FBQztBQUMxQyxhQUFPLENBQUMsbUJBQW1CLEdBQUcsbUJBQW1CLENBQUM7QUFDbEQsYUFBTyxDQUFDLGNBQWMsR0FBRyxjQUFjLENBQUM7QUFDeEMsYUFBTyxDQUFDLHFCQUFxQixHQUFHLHFCQUFxQixDQUFDO0FBQ3RELGFBQU8sQ0FBQyxXQUFXLEdBQUcsV0FBVyxDQUFDO0FBQ2xDLGFBQU8sQ0FBQyxpQkFBaUIsR0FBRyxpQkFBaUIsQ0FBQztBQUM5QyxhQUFPLENBQUMsa0JBQWtCLEdBQUcsa0JBQWtCLENBQUMiLCJmaWxlIjoiZGUuc2VjdWNhcmQuY29ubmVjdC9wcm9kdWN0L2xveWFsdHkvbG95YWx0eS5qcyIsInNvdXJjZVJvb3QiOiIuLi9zcmMvIn0=
