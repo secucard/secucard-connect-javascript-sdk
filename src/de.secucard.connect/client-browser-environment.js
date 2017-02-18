@@ -58,6 +58,7 @@ export const ClientBrowserEnvironment = {
         Loyalty.MerchantCardService,
         Loyalty.ProgramService,
         Loyalty.ProgramSpecialService,
+        Loyalty.ReportService,
         Loyalty.SaleService,
         Loyalty.StoreGroupService,
         Loyalty.TransactionService,
@@ -135,6 +136,7 @@ export const ServiceMap = {
         MerchantCards: Loyalty.MerchantCardService.Uid,
         Programs: Loyalty.ProgramService.Uid,
         ProrgamSpecials: Loyalty.ProgramSpecialService.Uid,
+        Reports: Loyalty.ReportService.Uid,
         Sales: Loyalty.SaleService.Uid,
         StoreGroups: Loyalty.StoreGroupService.Uid,
         Transactions: Loyalty.TransactionService.Uid

@@ -28,6 +28,8 @@ var _programService = require('./program-service');
 
 var _programSpecialService = require('./program-special-service');
 
+var _reportService = require('./report-service');
+
 var _saleService = require('./sale-service');
 
 var _storeGroupService = require('./store-group-service');
@@ -49,6 +51,7 @@ Loyalty.CustomerService = _customerService.CustomerService;
 Loyalty.MerchantCardService = _merchantCardService.MerchantCardService;
 Loyalty.ProgramService = _programService.ProgramService;
 Loyalty.ProgramSpecialService = _programSpecialService.ProgramSpecialService;
+Loyalty.ReportService = _reportService.ReportService;
 Loyalty.SaleService = _saleService.SaleService;
 Loyalty.StoreGroupService = _storeGroupService.StoreGroupService;
 Loyalty.TransactionService = _transactionService.TransactionService;
