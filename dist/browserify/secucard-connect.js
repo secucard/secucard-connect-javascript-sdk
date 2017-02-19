@@ -1449,42 +1449,7 @@ var Rest = (function () {
 
         return new Promise(function (resolve, reject) {
 
-            var url = message.baseUrl ? message.baseUrl + message.url : message.url;
-            var request = _this.r(url, message.method);
-
-            if (_this.withCredentials()) {
-                request.withCredentials();
-            }
-
-            if (message.headers) {
-                request.set(message.headers);
-            }
-
-            if (message.query) {
-                request.query(message.query);
-            }
-
-            if (message.body) {
-                request.send(message.body);
-            }
-
-            if (message.accept) {
-                request.accept(message.accept);
-            }
-
-            if (message.multipart && message.multipart.files) {
-                message.multipart.files.forEach(function (item) {
-                    request.attach(item.field, item.path, item.filename);
-                });
-            }
-
-            if (message.multipart && message.multipart.fields) {
-                message.multipart.fields.forEach(function (item) {
-                    request.field(item.name, item.value);
-                });
-            }
-
-            request.end(function (err, res) {
+            _this.createRequestFromMessage(message).end(function (err, res) {
                 if (err) {
                     reject(err, res);
                 } else {
@@ -1492,6 +1457,46 @@ var Rest = (function () {
                 }
             });
         });
+    };
+
+    Rest.prototype.createRequestFromMessage = function createRequestFromMessage(message) {
+
+        var url = message.baseUrl ? message.baseUrl + message.url : message.url;
+        var request = this.r(url, message.method);
+
+        if (this.withCredentials()) {
+            request.withCredentials();
+        }
+
+        if (message.headers) {
+            request.set(message.headers);
+        }
+
+        if (message.query) {
+            request.query(message.query);
+        }
+
+        if (message.body) {
+            request.send(message.body);
+        }
+
+        if (message.accept) {
+            request.accept(message.accept);
+        }
+
+        if (message.multipart && message.multipart.files) {
+            message.multipart.files.forEach(function (item) {
+                request.attach(item.field, item.path, item.filename);
+            });
+        }
+
+        if (message.multipart && message.multipart.fields) {
+            message.multipart.fields.forEach(function (item) {
+                request.field(item.name, item.value);
+            });
+        }
+
+        return request;
     };
 
     Rest.prototype.getAuthHeader = function getAuthHeader(token) {
@@ -1535,6 +1540,22 @@ var Rest = (function () {
         var pr = !this.isRequestWithToken || this.isRequestWithToken(params.options) ? this.sendWithToken(message) : this.send(message);
 
         return pr.then(requestSuccess)['catch'](requestError);
+    };
+
+    Rest.prototype.generateUrl = function generateUrl(method, params) {
+
+        var message = this.createMessageForRequest(method, params);
+        var req = this.createRequestFromMessage(message);
+
+        var query = req._query ? req._query.join('&') : '';
+
+        var url = req.url;
+
+        if (query) {
+            url += (url.indexOf('?') >= 0 ? '&' : '?') + query;
+        }
+
+        return url;
     };
 
     Rest.prototype.createMessageForRequest = function createMessageForRequest(method, params) {
@@ -4466,6 +4487,17 @@ var ProductService = (function () {
         return this._request(_netChannel.Channel.METHOD.GET, params, options);
     };
 
+    ProductService.prototype.generateRetrieveUrl = function generateRetrieveUrl(id, queryParams, options) {
+        var params = {
+            endpoint: this.getEndpoint(),
+            objectId: id,
+            queryParams: queryParams,
+            options: options
+        };
+
+        return this._generateUrl(_netChannel.Channel.METHOD.GET, params, options);
+    };
+
     ProductService.prototype.retrieveWithAction = function retrieveWithAction(id, action, actionArg, options) {
 
         var params = {
@@ -4479,6 +4511,19 @@ var ProductService = (function () {
         return this._request(_netChannel.Channel.METHOD.GET, params, options);
     };
 
+    ProductService.prototype.generateRetrieveWithActionUrl = function generateRetrieveWithActionUrl(id, action, actionArg, options) {
+
+        var params = {
+            endpoint: this.getEndpoint(),
+            objectId: id,
+            action: action,
+            actionArg: actionArg,
+            options: options
+        };
+
+        return this._generateUrl(_netChannel.Channel.METHOD.GET, params, options);
+    };
+
     ProductService.prototype.retrieveList = function retrieveList(queryParams, options) {
 
         var params = {
@@ -4488,6 +4533,17 @@ var ProductService = (function () {
         };
 
         return this._request(_netChannel.Channel.METHOD.GET, params, options);
+    };
+
+    ProductService.prototype.generateRetrieveListUrl = function generateRetrieveListUrl(queryParams, options) {
+
+        var params = {
+            endpoint: this.getEndpoint(),
+            queryParams: queryParams,
+            options: options
+        };
+
+        return this._generateUrl(_netChannel.Channel.METHOD.GET, params, options);
     };
 
     ProductService.prototype.create = function create(data, options, multipart) {
@@ -4591,6 +4647,19 @@ var ProductService = (function () {
         }
 
         return this.getChannel(options.channelConfig).request(method, params);
+    };
+
+    ProductService.prototype._generateUrl = function _generateUrl(method, params, options) {
+
+        if (options == null) {
+            options = this.getServiceDefaultOptions();
+        }
+
+        if (params.options == null) {
+            params.options = options;
+        }
+
+        return this.getChannel([_netChannel.Channel.REST]).generateUrl(method, params);
     };
 
     return ProductService;

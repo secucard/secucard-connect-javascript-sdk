@@ -90,6 +90,17 @@ var ProductService = (function () {
         return this._request(_netChannel.Channel.METHOD.GET, params, options);
     };
 
+    ProductService.prototype.generateRetrieveUrl = function generateRetrieveUrl(id, queryParams, options) {
+        var params = {
+            endpoint: this.getEndpoint(),
+            objectId: id,
+            queryParams: queryParams,
+            options: options
+        };
+
+        return this._generateUrl(_netChannel.Channel.METHOD.GET, params, options);
+    };
+
     ProductService.prototype.retrieveWithAction = function retrieveWithAction(id, action, actionArg, options) {
 
         var params = {
@@ -103,6 +114,19 @@ var ProductService = (function () {
         return this._request(_netChannel.Channel.METHOD.GET, params, options);
     };
 
+    ProductService.prototype.generateRetrieveWithActionUrl = function generateRetrieveWithActionUrl(id, action, actionArg, options) {
+
+        var params = {
+            endpoint: this.getEndpoint(),
+            objectId: id,
+            action: action,
+            actionArg: actionArg,
+            options: options
+        };
+
+        return this._generateUrl(_netChannel.Channel.METHOD.GET, params, options);
+    };
+
     ProductService.prototype.retrieveList = function retrieveList(queryParams, options) {
 
         var params = {
@@ -112,6 +136,17 @@ var ProductService = (function () {
         };
 
         return this._request(_netChannel.Channel.METHOD.GET, params, options);
+    };
+
+    ProductService.prototype.generateRetrieveListUrl = function generateRetrieveListUrl(queryParams, options) {
+
+        var params = {
+            endpoint: this.getEndpoint(),
+            queryParams: queryParams,
+            options: options
+        };
+
+        return this._generateUrl(_netChannel.Channel.METHOD.GET, params, options);
     };
 
     ProductService.prototype.create = function create(data, options, multipart) {
@@ -215,6 +250,19 @@ var ProductService = (function () {
         }
 
         return this.getChannel(options.channelConfig).request(method, params);
+    };
+
+    ProductService.prototype._generateUrl = function _generateUrl(method, params, options) {
+
+        if (options == null) {
+            options = this.getServiceDefaultOptions();
+        }
+
+        if (params.options == null) {
+            params.options = options;
+        }
+
+        return this.getChannel([_netChannel.Channel.REST]).generateUrl(method, params);
     };
 
     return ProductService;
