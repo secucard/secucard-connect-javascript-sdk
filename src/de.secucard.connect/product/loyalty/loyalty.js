@@ -11,6 +11,7 @@
  */
 import {ActionCampaignService} from './action-campaign-service';
 import {ActionConfigService} from './action-config-service';
+import {ActionMessageService} from './action-message-service';
 import {ActionProfileService} from './action-profile-service';
 import {ActionService} from './action-service';
 import {BeaconService} from './beacon-service';
@@ -30,6 +31,7 @@ import {TransactionService} from './transaction-service';
 export const Loyalty = {};
 Loyalty.ActionCampaignService = ActionCampaignService;
 Loyalty.ActionConfigService = ActionConfigService;
+Loyalty.ActionMessageService = ActionMessageService;
 Loyalty.ActionProfileService = ActionProfileService;
 Loyalty.ActionService = ActionService;
 Loyalty.BeaconService = BeaconService;
