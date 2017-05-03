@@ -3725,13 +3725,13 @@ var MerchantCardService = (function (_ProductService) {
 
     _inherits(MerchantCardService, _ProductService);
 
-    MerchantCardService.prototype.charge = function charge(merchantCardId, tid, cardnumber, action, amount, bonusAmount, amountSplitAllowed) {
+    MerchantCardService.prototype.transact = function transact(merchantCardId, tid, cardnumber, action, amount, bonusAmount, amountSplitAllowed) {
 
         if (action == 'cashreport') {
-            return this.execute(merchantCardId, 'charge', null, { tid: tid, action: action });
+            return this.execute(merchantCardId, 'transaction', null, { tid: tid, action: action });
         }
 
-        return this.execute(merchantCardId, 'charge', null, { tid: tid, cardnumber: cardnumber, action: action, amount: amount, bonus_amount: bonusAmount, amount_split_allowed: amountSplitAllowed });
+        return this.execute(merchantCardId, 'transaction', null, { tid: tid, cardnumber: cardnumber, action: action, amount: amount, bonus_amount: bonusAmount, amount_split_allowed: amountSplitAllowed });
     };
 
     MerchantCardService.prototype.lock = function lock(merchantCardId, reasonId, note) {

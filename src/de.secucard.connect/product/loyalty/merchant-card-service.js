@@ -17,13 +17,13 @@ export class MerchantCardService extends ProductService {
         super()
     }
     
-    charge(merchantCardId, tid, cardnumber, action, amount, bonusAmount, amountSplitAllowed) {
+    transact(merchantCardId, tid, cardnumber, action, amount, bonusAmount, amountSplitAllowed) {
         
         if(action == 'cashreport') {
-            return this.execute(merchantCardId, 'charge', null, {tid: tid, action: action});
+            return this.execute(merchantCardId, 'transaction', null, {tid: tid, action: action});
         }
         
-        return this.execute(merchantCardId, 'charge', null, 
+        return this.execute(merchantCardId, 'transaction', null, 
             {tid: tid, cardnumber: cardnumber, action: action, amount: amount, bonus_amount: bonusAmount, amount_split_allowed: amountSplitAllowed});
     }
     
