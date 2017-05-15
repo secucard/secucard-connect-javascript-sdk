@@ -25,10 +25,17 @@ export class ActionConfigService extends ProductService {
         return [];
     }
 
-    testConfiguration(config) {
-        return this.execute('me', 'testConfiguration ', null, config)
+    checkConfirmationCode(id, code) {
+        return this.execute(id, 'checkConfirmationCode', code);
     }
-
+    
+    processConfirmationCode(id) {
+        return this.execute(id, 'processConfirmationCode');
+    }
+    
+    cancelConfirmationCode(id) {
+        return this.execute(id, 'cancelConfirmationCode');
+    }
 
 }
 

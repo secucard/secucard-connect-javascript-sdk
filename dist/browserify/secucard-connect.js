@@ -3316,8 +3316,16 @@ var ActionConfigService = (function (_ProductService) {
         return [];
     };
 
-    ActionConfigService.prototype.testConfiguration = function testConfiguration(config) {
-        return this.execute('me', 'testConfiguration ', null, config);
+    ActionConfigService.prototype.checkConfirmationCode = function checkConfirmationCode(id, code) {
+        return this.execute(id, 'checkConfirmationCode', code);
+    };
+
+    ActionConfigService.prototype.processConfirmationCode = function processConfirmationCode(id) {
+        return this.execute(id, 'processConfirmationCode');
+    };
+
+    ActionConfigService.prototype.cancelConfirmationCode = function cancelConfirmationCode(id) {
+        return this.execute(id, 'cancelConfirmationCode');
     };
 
     return ActionConfigService;
