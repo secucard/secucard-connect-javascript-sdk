@@ -17,8 +17,14 @@ export class MerchantCardService extends ProductService {
         super()
     }
     
-    charge(merchantCardId, amount, storeId) {
-        return this.execute(merchantCardId, 'charge', null, {amount: amount, store: storeId});
+    transact(merchantCardId, tid, cardnumber, action, amount, bonusAmount, amountSplitAllowed) {
+        
+        if(action == 'cashreport') {
+            return this.execute(merchantCardId, 'transaction', null, {tid: tid, action: action});
+        }
+        
+        return this.execute(merchantCardId, 'transaction', null, 
+            {tid: tid, cardnumber: cardnumber, action: action, amount: amount, bonus_amount: bonusAmount, amount_split_allowed: amountSplitAllowed});
     }
     
     lock(merchantCardId, reasonId, note) {
@@ -43,6 +49,10 @@ export class MerchantCardService extends ProductService {
     
     updateGroup(merchantCardId, groupId) {
         return this.updateWithAction(merchantCardId, 'cardgroup', groupId);
+    }
+    
+    retrieveVirtualTerminalData(merchantId) {
+        return this.retrieveWithAction('me', 'virtualTerminalData', merchantId);
     }
 
     getEndpoint() {

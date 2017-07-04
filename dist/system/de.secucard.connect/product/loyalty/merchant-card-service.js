@@ -5,7 +5,7 @@ System.register(['../product-service'], function (_export) {
 
     function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 
-    function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+    function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; }
 
     return {
         setters: [function (_productService) {
@@ -13,16 +13,21 @@ System.register(['../product-service'], function (_export) {
         }],
         execute: function () {
             MerchantCardService = (function (_ProductService) {
-                _inherits(MerchantCardService, _ProductService);
-
                 function MerchantCardService() {
                     _classCallCheck(this, MerchantCardService);
 
                     _ProductService.call(this);
                 }
 
-                MerchantCardService.prototype.charge = function charge(merchantCardId, amount, storeId) {
-                    return this.execute(merchantCardId, 'charge', null, { amount: amount, store: storeId });
+                _inherits(MerchantCardService, _ProductService);
+
+                MerchantCardService.prototype.transact = function transact(merchantCardId, tid, cardnumber, action, amount, bonusAmount, amountSplitAllowed) {
+
+                    if (action == 'cashreport') {
+                        return this.execute(merchantCardId, 'transaction', null, { tid: tid, action: action });
+                    }
+
+                    return this.execute(merchantCardId, 'transaction', null, { tid: tid, cardnumber: cardnumber, action: action, amount: amount, bonus_amount: bonusAmount, amount_split_allowed: amountSplitAllowed });
                 };
 
                 MerchantCardService.prototype.lock = function lock(merchantCardId, reasonId, note) {
@@ -49,6 +54,10 @@ System.register(['../product-service'], function (_export) {
                     return this.updateWithAction(merchantCardId, 'cardgroup', groupId);
                 };
 
+                MerchantCardService.prototype.retrieveVirtualTerminalData = function retrieveVirtualTerminalData(merchantId) {
+                    return this.retrieveWithAction('me', 'virtualTerminalData', merchantId);
+                };
+
                 MerchantCardService.prototype.getEndpoint = function getEndpoint() {
                     return ['loyalty', 'merchantcards'];
                 };
@@ -66,4 +75,4 @@ System.register(['../product-service'], function (_export) {
         }
     };
 });
-//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbImRlLnNlY3VjYXJkLmNvbm5lY3QvcHJvZHVjdC9sb3lhbHR5L21lcmNoYW50LWNhcmQtc2VydmljZS5qcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiOzs7d0JBYWEsbUJBQW1COzs7Ozs7Ozs2Q0FGeEIsY0FBYzs7O0FBRVQsK0JBQW1COzBCQUFuQixtQkFBbUI7O0FBRWpCLHlCQUZGLG1CQUFtQixHQUVkOzBDQUZMLG1CQUFtQjs7QUFHeEIsOENBQU8sQ0FBQTtpQkFDVjs7QUFKUSxtQ0FBbUIsV0FNNUIsTUFBTSxHQUFBLGdCQUFDLGNBQWMsRUFBRSxNQUFNLEVBQUUsT0FBTyxFQUFFO0FBQ3BDLDJCQUFPLElBQUksQ0FBQyxPQUFPLENBQUMsY0FBYyxFQUFFLFFBQVEsRUFBRSxJQUFJLEVBQUUsRUFBQyxNQUFNLEVBQUUsTUFBTSxFQUFFLEtBQUssRUFBRSxPQUFPLEVBQUMsQ0FBQyxDQUFDO2lCQUN6Rjs7QUFSUSxtQ0FBbUIsV0FVNUIsSUFBSSxHQUFBLGNBQUMsY0FBYyxFQUFFLFFBQVEsRUFBRSxJQUFJLEVBQUU7QUFDakMsMkJBQU8sSUFBSSxDQUFDLE9BQU8sQ0FBQyxjQUFjLEVBQUUsTUFBTSxFQUFFLElBQUksRUFBRSxFQUFDLE1BQU0sRUFBRSxRQUFRLEVBQUUsSUFBSSxFQUFFLElBQUksRUFBQyxDQUFDLENBQUM7aUJBQ3JGOztBQVpRLG1DQUFtQixXQWM1QixNQUFNLEdBQUEsZ0JBQUMsY0FBYyxFQUFFLElBQUksRUFBRTtBQUN6QiwyQkFBTyxJQUFJLENBQUMsT0FBTyxDQUFDLGNBQWMsRUFBRSxRQUFRLEVBQUUsSUFBSSxFQUFFLEVBQUMsSUFBSSxFQUFFLElBQUksRUFBQyxDQUFDLENBQUM7aUJBQ3JFOztBQWhCUSxtQ0FBbUIsV0FrQjVCLGdCQUFnQixHQUFBLDBCQUFDLGNBQWMsRUFBRSxJQUFJLEVBQUU7QUFDbkMsMkJBQU8sSUFBSSxDQUFDLE9BQU8sQ0FBQyxjQUFjLEVBQUUsa0JBQWtCLEVBQUUsSUFBSSxFQUFFLElBQUksQ0FBQyxDQUFDO2lCQUN2RTs7QUFwQlEsbUNBQW1CLFdBc0I1QixZQUFZLEdBQUEsc0JBQUMsY0FBYyxFQUFFO0FBQ3pCLDJCQUFPLElBQUksQ0FBQyxrQkFBa0IsQ0FBQyxjQUFjLEVBQUUsTUFBTSxFQUFFLElBQUksQ0FBQyxDQUFDO2lCQUNoRTs7QUF4QlEsbUNBQW1CLFdBMEI1QixtQkFBbUIsR0FBQSw2QkFBQyxjQUFjLEVBQUU7QUFDaEMsMkJBQU8sSUFBSSxDQUFDLGtCQUFrQixDQUFDLGNBQWMsRUFBRSxhQUFhLEVBQUUsSUFBSSxDQUFDLENBQUM7aUJBQ3ZFOztBQTVCUSxtQ0FBbUIsV0E4QjVCLFdBQVcsR0FBQSxxQkFBQyxjQUFjLEVBQUUsT0FBTyxFQUFFO0FBQ2pDLDJCQUFPLElBQUksQ0FBQyxnQkFBZ0IsQ0FBQyxjQUFjLEVBQUUsV0FBVyxFQUFFLE9BQU8sQ0FBQyxDQUFDO2lCQUN0RTs7QUFoQ1EsbUNBQW1CLFdBa0M1QixXQUFXLEdBQUEsdUJBQUc7QUFDViwyQkFBTyxDQUFDLFNBQVMsRUFBRSxlQUFlLENBQUMsQ0FBQztpQkFDdkM7O0FBcENRLG1DQUFtQixXQXNDNUIsZUFBZSxHQUFBLDJCQUFHO0FBQ2QsMkJBQU8sRUFBRSxDQUFDO2lCQUNiOzt1QkF4Q1EsbUJBQW1CO2VBQVMsY0FBYzs7OztBQTRDdkQsK0JBQW1CLENBQUMsR0FBRyxHQUFHLEFBQUMsQ0FBQyxTQUFTLEVBQUUsZUFBZSxDQUFDLENBQUUsSUFBSSxDQUFDLEdBQUcsQ0FBQyxDQUFDIiwiZmlsZSI6ImRlLnNlY3VjYXJkLmNvbm5lY3QvcHJvZHVjdC9sb3lhbHR5L21lcmNoYW50LWNhcmQtc2VydmljZS5qcyIsInNvdXJjZVJvb3QiOiIuLi9zcmMvIn0=
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbImRlLnNlY3VjYXJkLmNvbm5lY3QvcHJvZHVjdC9sb3lhbHR5L21lcmNoYW50LWNhcmQtc2VydmljZS5qcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiOzs7d0JBYWEsbUJBQW1COzs7Ozs7Ozs2Q0FGeEIsY0FBYzs7O0FBRVQsK0JBQW1CO0FBRWpCLHlCQUZGLG1CQUFtQixHQUVkOzBDQUZMLG1CQUFtQjs7QUFHeEIsOENBQU8sQ0FBQTtpQkFDVjs7MEJBSlEsbUJBQW1COztBQUFuQixtQ0FBbUIsV0FNNUIsUUFBUSxHQUFBLGtCQUFDLGNBQWMsRUFBRSxHQUFHLEVBQUUsVUFBVSxFQUFFLE1BQU0sRUFBRSxNQUFNLEVBQUUsV0FBVyxFQUFFLGtCQUFrQixFQUFFOztBQUV2Rix3QkFBRyxNQUFNLElBQUksWUFBWSxFQUFFO0FBQ3ZCLCtCQUFPLElBQUksQ0FBQyxPQUFPLENBQUMsY0FBYyxFQUFFLGFBQWEsRUFBRSxJQUFJLEVBQUUsRUFBQyxHQUFHLEVBQUUsR0FBRyxFQUFFLE1BQU0sRUFBRSxNQUFNLEVBQUMsQ0FBQyxDQUFDO3FCQUN4Rjs7QUFFRCwyQkFBTyxJQUFJLENBQUMsT0FBTyxDQUFDLGNBQWMsRUFBRSxhQUFhLEVBQUUsSUFBSSxFQUNuRCxFQUFDLEdBQUcsRUFBRSxHQUFHLEVBQUUsVUFBVSxFQUFFLFVBQVUsRUFBRSxNQUFNLEVBQUUsTUFBTSxFQUFFLE1BQU0sRUFBRSxNQUFNLEVBQUUsWUFBWSxFQUFFLFdBQVcsRUFBRSxvQkFBb0IsRUFBRSxrQkFBa0IsRUFBQyxDQUFDLENBQUM7aUJBQ2hKOztBQWRRLG1DQUFtQixXQWdCNUIsSUFBSSxHQUFBLGNBQUMsY0FBYyxFQUFFLFFBQVEsRUFBRSxJQUFJLEVBQUU7QUFDakMsMkJBQU8sSUFBSSxDQUFDLE9BQU8sQ0FBQyxjQUFjLEVBQUUsTUFBTSxFQUFFLElBQUksRUFBRSxFQUFDLE1BQU0sRUFBRSxRQUFRLEVBQUUsSUFBSSxFQUFFLElBQUksRUFBQyxDQUFDLENBQUM7aUJBQ3JGOztBQWxCUSxtQ0FBbUIsV0FvQjVCLE1BQU0sR0FBQSxnQkFBQyxjQUFjLEVBQUUsSUFBSSxFQUFFO0FBQ3pCLDJCQUFPLElBQUksQ0FBQyxPQUFPLENBQUMsY0FBYyxFQUFFLFFBQVEsRUFBRSxJQUFJLEVBQUUsRUFBQyxJQUFJLEVBQUUsSUFBSSxFQUFDLENBQUMsQ0FBQztpQkFDckU7O0FBdEJRLG1DQUFtQixXQXdCNUIsZ0JBQWdCLEdBQUEsMEJBQUMsY0FBYyxFQUFFLElBQUksRUFBRTtBQUNuQywyQkFBTyxJQUFJLENBQUMsT0FBTyxDQUFDLGNBQWMsRUFBRSxrQkFBa0IsRUFBRSxJQUFJLEVBQUUsSUFBSSxDQUFDLENBQUM7aUJBQ3ZFOztBQTFCUSxtQ0FBbUIsV0E0QjVCLFlBQVksR0FBQSxzQkFBQyxjQUFjLEVBQUU7QUFDekIsMkJBQU8sSUFBSSxDQUFDLGtCQUFrQixDQUFDLGNBQWMsRUFBRSxNQUFNLEVBQUUsSUFBSSxDQUFDLENBQUM7aUJBQ2hFOztBQTlCUSxtQ0FBbUIsV0FnQzVCLG1CQUFtQixHQUFBLDZCQUFDLGNBQWMsRUFBRTtBQUNoQywyQkFBTyxJQUFJLENBQUMsa0JBQWtCLENBQUMsY0FBYyxFQUFFLGFBQWEsRUFBRSxJQUFJLENBQUMsQ0FBQztpQkFDdkU7O0FBbENRLG1DQUFtQixXQW9DNUIsV0FBVyxHQUFBLHFCQUFDLGNBQWMsRUFBRSxPQUFPLEVBQUU7QUFDakMsMkJBQU8sSUFBSSxDQUFDLGdCQUFnQixDQUFDLGNBQWMsRUFBRSxXQUFXLEVBQUUsT0FBTyxDQUFDLENBQUM7aUJBQ3RFOztBQXRDUSxtQ0FBbUIsV0F3QzVCLDJCQUEyQixHQUFBLHFDQUFDLFVBQVUsRUFBRTtBQUNwQywyQkFBTyxJQUFJLENBQUMsa0JBQWtCLENBQUMsSUFBSSxFQUFFLHFCQUFxQixFQUFFLFVBQVUsQ0FBQyxDQUFDO2lCQUMzRTs7QUExQ1EsbUNBQW1CLFdBNEM1QixXQUFXLEdBQUEsdUJBQUc7QUFDViwyQkFBTyxDQUFDLFNBQVMsRUFBRSxlQUFlLENBQUMsQ0FBQztpQkFDdkM7O0FBOUNRLG1DQUFtQixXQWdENUIsZUFBZSxHQUFBLDJCQUFHO0FBQ2QsMkJBQU8sRUFBRSxDQUFDO2lCQUNiOzt1QkFsRFEsbUJBQW1CO2VBQVMsY0FBYzs7MkNBQTFDLG1CQUFtQjs7QUFzRGhDLCtCQUFtQixDQUFDLEdBQUcsR0FBRyxBQUFDLENBQUMsU0FBUyxFQUFFLGVBQWUsQ0FBQyxDQUFFLElBQUksQ0FBQyxHQUFHLENBQUMsQ0FBQyIsImZpbGUiOiJkZS5zZWN1Y2FyZC5jb25uZWN0L3Byb2R1Y3QvbG95YWx0eS9tZXJjaGFudC1jYXJkLXNlcnZpY2UuanMiLCJzb3VyY2VSb290IjoiLi4vc3JjLyJ9

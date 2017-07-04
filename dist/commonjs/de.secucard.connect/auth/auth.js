@@ -145,9 +145,9 @@ var Auth = (function () {
                         })['catch'](function (err) {
 
                             if (err.status == 401) {} else {
-                                    clearInterval(_this2.pollTimer);
-                                    reject(err);
-                                }
+                                clearInterval(_this2.pollTimer);
+                                reject(err);
+                            }
                         });
                     } else {
                         clearInterval(_this2.pollTimer);
