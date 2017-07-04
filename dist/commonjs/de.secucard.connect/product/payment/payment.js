@@ -8,7 +8,11 @@ var _contractService = require('./contract-service');
 
 var _customerService = require('./customer-service');
 
+var _secupayCreditcardService = require('./secupay-creditcard-service');
+
 var _secupayDebitService = require('./secupay-debit-service');
+
+var _secupayInvoiceService = require('./secupay-invoice-service');
 
 var _secupayPrepayService = require('./secupay-prepay-service');
 
@@ -19,6 +23,8 @@ exports.Payment = Payment;
 Payment.ContainerService = _containerService.ContainerService;
 Payment.ContractService = _contractService.ContractService;
 Payment.CustomerService = _customerService.CustomerService;
+Payment.SecupayCreditcardService = _secupayCreditcardService.SecupayCreditcardService;
 Payment.SecupayDebitService = _secupayDebitService.SecupayDebitService;
+Payment.SecupayInvoiceService = _secupayInvoiceService.SecupayInvoiceService;
 Payment.SecupayPrepayService = _secupayPrepayService.SecupayPrepayService;
 Payment.TransactionService = _transactionService.TransactionService;

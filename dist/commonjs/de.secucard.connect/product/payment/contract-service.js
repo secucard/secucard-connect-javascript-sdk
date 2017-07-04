@@ -4,36 +4,40 @@ exports.__esModule = true;
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 
-function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; }
+function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 var _productService = require('../product-service');
 
 var ContractService = (function (_ProductService) {
-    function ContractService() {
-        _classCallCheck(this, ContractService);
+  _inherits(ContractService, _ProductService);
 
-        _ProductService.call(this);
-    }
+  function ContractService() {
+    _classCallCheck(this, ContractService);
 
-    _inherits(ContractService, _ProductService);
+    _ProductService.call(this);
+  }
 
-    ContractService.prototype.getEndpoint = function getEndpoint() {
-        return ['payment', 'contracts'];
-    };
+  ContractService.prototype.getEndpoint = function getEndpoint() {
+    return ['payment', 'contracts'];
+  };
 
-    ContractService.prototype.getEventTargets = function getEventTargets() {
-        return [];
-    };
+  ContractService.prototype.getEventTargets = function getEventTargets() {
+    return [];
+  };
 
-    ContractService.prototype.clone = function clone(contractId, cloneParams) {
-        return this.execute(contractId, 'clone');
-    };
+  ContractService.prototype.clone = function clone(contractId, cloneParams) {
+    return this.execute(contractId, 'clone', null, cloneParams);
+  };
 
-    ContractService.prototype.cloneMine = function cloneMine(cloneParams) {
-        return this.clone('me', cloneParams);
-    };
+  ContractService.prototype.cloneMine = function cloneMine(cloneParams) {
+    return this.clone('me', cloneParams);
+  };
 
-    return ContractService;
+  ContractService.prototype.createSubContract = function createSubContract(createSubContractRequest) {
+    return this.execute('me', 'requestId', null, createSubContractRequest);
+  };
+
+  return ContractService;
 })(_productService.ProductService);
 
 exports.ContractService = ContractService;
