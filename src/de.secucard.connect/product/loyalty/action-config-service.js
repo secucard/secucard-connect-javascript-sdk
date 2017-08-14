@@ -11,20 +11,32 @@
  */
 import {ProductService} from '../product-service'
 
-export class ActionActionService extends ProductService {
+export class ActionConfigService extends ProductService {
 
     constructor() {
         super()
     }
 
     getEndpoint() {
-        return ['loyalty', 'actionactions'];
+        return ['loyalty', 'actionconfigs'];
     }
 
     getEventTargets() {
         return [];
     }
 
+    checkConfirmationCode(id, code) {
+        return this.execute(id, 'checkConfirmationCode', code);
+    }
+    
+    processConfirmationCode(id) {
+        return this.execute(id, 'processConfirmationCode');
+    }
+    
+    cancelConfirmationCode(id) {
+        return this.execute(id, 'cancelConfirmationCode');
+    }
+
 }
 
-ActionActionService.Uid = (['loyalty', 'actionactions']).join('.');
+ActionConfigService.Uid = (['loyalty', 'actionconfigs']).join('.');

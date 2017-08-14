@@ -17,6 +17,10 @@ var CustomerService = (function (_ProductService) {
         _ProductService.call(this);
     }
 
+    CustomerService.prototype.retrieveTemplates = function retrieveTemplates(merchantId) {
+        return this.retrieveWithAction('me', 'templateList', merchantId);
+    };
+
     CustomerService.prototype.getEndpoint = function getEndpoint() {
         return ['loyalty', 'customers'];
     };

@@ -17,8 +17,13 @@ var MerchantCardService = (function (_ProductService) {
         _ProductService.call(this);
     }
 
-    MerchantCardService.prototype.charge = function charge(merchantCardId, amount, storeId) {
-        return this.execute(merchantCardId, 'charge', null, { amount: amount, store: storeId });
+    MerchantCardService.prototype.transact = function transact(merchantCardId, tid, cardnumber, action, amount, bonusAmount, amountSplitAllowed) {
+
+        if (action == 'cashreport') {
+            return this.execute(merchantCardId, 'transaction', null, { tid: tid, action: action });
+        }
+
+        return this.execute(merchantCardId, 'transaction', null, { tid: tid, cardnumber: cardnumber, action: action, amount: amount, bonus_amount: bonusAmount, amount_split_allowed: amountSplitAllowed });
     };
 
     MerchantCardService.prototype.lock = function lock(merchantCardId, reasonId, note) {
@@ -43,6 +48,10 @@ var MerchantCardService = (function (_ProductService) {
 
     MerchantCardService.prototype.updateGroup = function updateGroup(merchantCardId, groupId) {
         return this.updateWithAction(merchantCardId, 'cardgroup', groupId);
+    };
+
+    MerchantCardService.prototype.retrieveVirtualTerminalData = function retrieveVirtualTerminalData(merchantId) {
+        return this.retrieveWithAction('me', 'virtualTerminalData', merchantId);
     };
 
     MerchantCardService.prototype.getEndpoint = function getEndpoint() {

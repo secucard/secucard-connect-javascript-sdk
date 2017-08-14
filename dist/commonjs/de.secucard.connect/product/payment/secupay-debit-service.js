@@ -9,27 +9,27 @@ function _inherits(subClass, superClass) { if (typeof superClass !== 'function' 
 var _productService = require('../product-service');
 
 var SecupayDebitService = (function (_ProductService) {
-    _inherits(SecupayDebitService, _ProductService);
+  _inherits(SecupayDebitService, _ProductService);
 
-    function SecupayDebitService() {
-        _classCallCheck(this, SecupayDebitService);
+  function SecupayDebitService() {
+    _classCallCheck(this, SecupayDebitService);
 
-        _ProductService.call(this);
-    }
+    _ProductService.call(this);
+  }
 
-    SecupayDebitService.prototype.getEndpoint = function getEndpoint() {
-        return ['payment', 'secupaydebits'];
-    };
+  SecupayDebitService.prototype.getEndpoint = function getEndpoint() {
+    return ['payment', 'secupaydebits'];
+  };
 
-    SecupayDebitService.prototype.getEventTargets = function getEventTargets() {
-        return ['payment.secupaydebits'];
-    };
+  SecupayDebitService.prototype.getEventTargets = function getEventTargets() {
+    return ['payment.secupaydebits'];
+  };
 
-    SecupayDebitService.prototype.cancel = function cancel(id) {
-        return this.execute(id, 'cancel');
-    };
+  SecupayDebitService.prototype.cancel = function cancel(id) {
+    return this.execute(id, 'cancel');
+  };
 
-    return SecupayDebitService;
+  return SecupayDebitService;
 })(_productService.ProductService);
 
 exports.SecupayDebitService = SecupayDebitService;

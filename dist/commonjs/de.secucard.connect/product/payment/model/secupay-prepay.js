@@ -9,17 +9,17 @@ function _inherits(subClass, superClass) { if (typeof superClass !== 'function' 
 var _transaction = require('./transaction');
 
 var SecupayPrepay = (function (_Transaction) {
-    _inherits(SecupayPrepay, _Transaction);
+  _inherits(SecupayPrepay, _Transaction);
 
-    function SecupayPrepay(transfer_purpose, transfer_account, customer, contract, amount, currency, purpose, order_id, trans_id, status, transaction_status) {
-        _classCallCheck(this, SecupayPrepay);
+  function SecupayPrepay(transferPurpose, transferAccount, purpose, customer, recipient, basket, experience, accrual, subscription, redirectUrl, optData, paymentAction, contract, amount, currency, orderId, transId, status, transactionStatus) {
+    _classCallCheck(this, SecupayPrepay);
 
-        _Transaction.call(this, customer, contract, amount, currency, purpose, order_id, trans_id, status, transaction_status);
-        this.transfer_purpose = transfer_purpose;
-        this.transfer_account = transfer_account;
-    }
+    _Transaction.call(this, purpose, customer, recipient, basket, experience, accrual, subscription, redirectUrl, optData, paymentAction, contract, amount, currency, orderId, transId, status, transactionStatus);
+    this['transfer_purpose'] = transferPurpose;
+    this['transfer_account'] = transferAccount;
+  }
 
-    return SecupayPrepay;
+  return SecupayPrepay;
 })(_transaction.Transaction);
 
 exports.SecupayPrepay = SecupayPrepay;

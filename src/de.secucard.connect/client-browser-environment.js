@@ -45,8 +45,11 @@ export const ClientBrowserEnvironment = {
         General.StoreService,
         General.TransactionService,
         
-        Loyalty.ActionActionService,
+        Loyalty.ActionService,
         Loyalty.ActionProfileService,
+        Loyalty.ActionMessageService,
+        Loyalty.ActionCampaignService,
+        Loyalty.ActionConfigService,
         Loyalty.BeaconService,
         Loyalty.CardGroupService,
         Loyalty.CardService,
@@ -56,13 +59,17 @@ export const ClientBrowserEnvironment = {
         Loyalty.MerchantCardService,
         Loyalty.ProgramService,
         Loyalty.ProgramSpecialService,
+        Loyalty.ReportService,
         Loyalty.SaleService,
         Loyalty.StoreGroupService,
+        Loyalty.TransactionService,
 
         Payment.ContainerService,
         Payment.ContractService,
         Payment.CustomerService,
+        Payment.SecupayCreditcardService,
         Payment.SecupayDebitService,
+        Payment.SecupayInvoiceService,
         Payment.SecupayPrepayService,
         Payment.TransactionService,
         
@@ -119,8 +126,11 @@ export const ServiceMap = {
         Transactions: General.TransactionService.Uid
     },
     Loyalty: {
-        ActionActions: Loyalty.ActionActionService.Uid,
+        ActionCampaigns: Loyalty.ActionCampaignService.Uid,
+        ActionConfigs: Loyalty.ActionConfigService.Uid,
+        ActionMessages: Loyalty.ActionMessageService.Uid,
         ActionProfiles: Loyalty.ActionProfileService.Uid,
+        Actions: Loyalty.ActionService.Uid,
         Beacons: Loyalty.BeaconService.Uid,
         CardGroups: Loyalty.CardGroupService.Uid,
         Cards: Loyalty.CardService.Uid,
@@ -130,14 +140,18 @@ export const ServiceMap = {
         MerchantCards: Loyalty.MerchantCardService.Uid,
         Programs: Loyalty.ProgramService.Uid,
         ProrgamSpecials: Loyalty.ProgramSpecialService.Uid,
+        Reports: Loyalty.ReportService.Uid,
         Sales: Loyalty.SaleService.Uid,
-        StoreGroups: Loyalty.StoreGroupService.Uid
+        StoreGroups: Loyalty.StoreGroupService.Uid,
+        Transactions: Loyalty.TransactionService.Uid
     },
     Payment: {
         Containers: Payment.ContainerService.Uid,
         Contracts: Payment.ContractService.Uid,
         Customers: Payment.CustomerService.Uid,
+        SecupayCreditcards: Payment.SecupayCreditcardService.Uid,
         SecupayDebits: Payment.SecupayDebitService.Uid,
+        SecupayInvoices: Payment.SecupayInvoiceService.Uid,
         SecupayPrepays: Payment.SecupayPrepayService.Uid,
         Transactions: Payment.TransactionService.Uid
     },

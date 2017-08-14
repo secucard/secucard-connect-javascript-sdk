@@ -1,29 +1,38 @@
 System.register([], function (_export) {
-    "use strict";
+  'use strict';
 
-    var Transaction;
+  var Transaction;
 
-    function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+  function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 
-    return {
-        setters: [],
-        execute: function () {
-            Transaction = function Transaction(customer, contract, amount, currency, purpose, order_id, trans_id, status, transaction_status) {
-                _classCallCheck(this, Transaction);
+  return {
+    setters: [],
+    execute: function () {
+      Transaction = function Transaction(purpose, customer, recipient, basket, experience, accrual, subscription, redirectUrl, optData, paymentAction, contract, amount, currency, orderId, transId, status, transactionStatus, usedPaymentInstrument) {
+        _classCallCheck(this, Transaction);
 
-                this.customer = customer;
-                this.contract = contract;
-                this.amount = amount;
-                this.currency = currency;
-                this.purpose = purpose;
-                this.order_id = order_id;
-                this.trans_id = trans_id;
-                this.status = status;
-                this.transaction_status = transaction_status;
-            };
+        this['purpose'] = purpose;
+        this['customer'] = customer;
+        this['recipient'] = recipient;
+        this['basket'] = basket;
+        this['experience'] = experience;
+        this['accrual'] = accrual;
+        this['subscription'] = subscription;
+        this['redirect_url'] = redirectUrl;
+        this['opt_data'] = optData;
+        this['payment_action'] = paymentAction;
+        this['contract'] = contract;
+        this['amount'] = amount;
+        this['currency'] = currency;
+        this['order_id'] = orderId;
+        this['trans_id'] = transId;
+        this['status'] = status;
+        this['transaction_status'] = transactionStatus;
+        this['used_payment_instrument'] = usedPaymentInstrument;
+      };
 
-            _export("Transaction", Transaction);
-        }
-    };
+      _export('Transaction', Transaction);
+    }
+  };
 });
-//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbImRlLnNlY3VjYXJkLmNvbm5lY3QvcHJvZHVjdC9wYXltZW50L21vZGVsL3RyYW5zYWN0aW9uLmpzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7OztRQVdhLFdBQVc7Ozs7Ozs7QUFBWCx1QkFBVyxHQUVULFNBRkYsV0FBVyxDQUVSLFFBQVEsRUFBRSxRQUFRLEVBQUUsTUFBTSxFQUFFLFFBQVEsRUFBRSxPQUFPLEVBQUUsUUFBUSxFQUFFLFFBQVEsRUFBRSxNQUFNLEVBQUUsa0JBQWtCLEVBQUU7c0NBRmxHLFdBQVc7O0FBR2hCLG9CQUFJLENBQUMsUUFBUSxHQUFHLFFBQVEsQ0FBQztBQUN6QixvQkFBSSxDQUFDLFFBQVEsR0FBRyxRQUFRLENBQUM7QUFDekIsb0JBQUksQ0FBQyxNQUFNLEdBQUcsTUFBTSxDQUFDO0FBQ3JCLG9CQUFJLENBQUMsUUFBUSxHQUFHLFFBQVEsQ0FBQztBQUN6QixvQkFBSSxDQUFDLE9BQU8sR0FBRyxPQUFPLENBQUM7QUFDdkIsb0JBQUksQ0FBQyxRQUFRLEdBQUcsUUFBUSxDQUFDO0FBQ3pCLG9CQUFJLENBQUMsUUFBUSxHQUFHLFFBQVEsQ0FBQztBQUN6QixvQkFBSSxDQUFDLE1BQU0sR0FBRyxNQUFNLENBQUM7QUFDckIsb0JBQUksQ0FBQyxrQkFBa0IsR0FBRyxrQkFBa0IsQ0FBQzthQUNoRCIsImZpbGUiOiJkZS5zZWN1Y2FyZC5jb25uZWN0L3Byb2R1Y3QvcGF5bWVudC9tb2RlbC90cmFuc2FjdGlvbi5qcyIsInNvdXJjZVJvb3QiOiIuLi9zcmMvIn0=
+//# sourceMappingURL=data:application/json;charset=utf8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbImRlLnNlY3VjYXJkLmNvbm5lY3QvcHJvZHVjdC9wYXltZW50L21vZGVsL3RyYW5zYWN0aW9uLmpzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7OztNQUdhLFdBQVc7Ozs7Ozs7QUFBWCxpQkFBVyxHQUNYLFNBREEsV0FBVyxDQUVwQixPQUFPLEVBQUUsUUFBUSxFQUFFLFNBQVMsRUFBRSxNQUFNLEVBQUUsVUFBVSxFQUFFLE9BQU8sRUFBRSxZQUFZLEVBQUUsV0FBVyxFQUFFLE9BQU8sRUFBRSxhQUFhLEVBQzVHLFFBQVEsRUFBRSxNQUFNLEVBQUUsUUFBUSxFQUFFLE9BQU8sRUFBRSxPQUFPLEVBQUUsTUFBTSxFQUFFLGlCQUFpQixFQUFFLHFCQUFxQixFQUFFOzhCQUh2RixXQUFXOztBQUlwQixZQUFJLENBQUMsU0FBUyxDQUFDLEdBQUcsT0FBTyxDQUFDO0FBQzFCLFlBQUksQ0FBQyxVQUFVLENBQUMsR0FBRyxRQUFRLENBQUM7QUFDNUIsWUFBSSxDQUFDLFdBQVcsQ0FBQyxHQUFHLFNBQVMsQ0FBQztBQUM5QixZQUFJLENBQUMsUUFBUSxDQUFDLEdBQUcsTUFBTSxDQUFDO0FBQ3hCLFlBQUksQ0FBQyxZQUFZLENBQUMsR0FBRyxVQUFVLENBQUM7QUFDaEMsWUFBSSxDQUFDLFNBQVMsQ0FBQyxHQUFHLE9BQU8sQ0FBQztBQUMxQixZQUFJLENBQUMsY0FBYyxDQUFDLEdBQUcsWUFBWSxDQUFDO0FBQ3BDLFlBQUksQ0FBQyxjQUFjLENBQUMsR0FBRyxXQUFXLENBQUM7QUFDbkMsWUFBSSxDQUFDLFVBQVUsQ0FBQyxHQUFHLE9BQU8sQ0FBQztBQUMzQixZQUFJLENBQUMsZ0JBQWdCLENBQUMsR0FBRyxhQUFhLENBQUM7QUFDdkMsWUFBSSxDQUFDLFVBQVUsQ0FBQyxHQUFHLFFBQVEsQ0FBQztBQUM1QixZQUFJLENBQUMsUUFBUSxDQUFDLEdBQUcsTUFBTSxDQUFDO0FBQ3hCLFlBQUksQ0FBQyxVQUFVLENBQUMsR0FBRyxRQUFRLENBQUM7QUFDNUIsWUFBSSxDQUFDLFVBQVUsQ0FBQyxHQUFHLE9BQU8sQ0FBQztBQUMzQixZQUFJLENBQUMsVUFBVSxDQUFDLEdBQUcsT0FBTyxDQUFDO0FBQzNCLFlBQUksQ0FBQyxRQUFRLENBQUMsR0FBRyxNQUFNLENBQUM7QUFDeEIsWUFBSSxDQUFDLG9CQUFvQixDQUFDLEdBQUcsaUJBQWlCLENBQUM7QUFDL0MsWUFBSSxDQUFDLHlCQUF5QixDQUFDLEdBQUcscUJBQXFCLENBQUM7T0FDekQiLCJmaWxlIjoiZGUuc2VjdWNhcmQuY29ubmVjdC9wcm9kdWN0L3BheW1lbnQvbW9kZWwvdHJhbnNhY3Rpb24uanMiLCJzb3VyY2VSb290IjoiLi4vc3JjLyJ9

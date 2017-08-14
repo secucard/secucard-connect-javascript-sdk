@@ -16,6 +16,10 @@ export class CustomerService extends ProductService {
     constructor() {
         super()
     }
+    
+    retrieveTemplates(merchantId) {
+        return this.retrieveWithAction('me', 'templateList', merchantId);
+    }
 
     getEndpoint() {
         return ['loyalty', 'customers'];

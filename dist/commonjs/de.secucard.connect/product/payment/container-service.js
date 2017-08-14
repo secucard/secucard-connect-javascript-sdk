@@ -9,31 +9,31 @@ function _inherits(subClass, superClass) { if (typeof superClass !== 'function' 
 var _productService = require('../product-service');
 
 var ContainerService = (function (_ProductService) {
-    _inherits(ContainerService, _ProductService);
+  _inherits(ContainerService, _ProductService);
 
-    function ContainerService() {
-        _classCallCheck(this, ContainerService);
+  function ContainerService() {
+    _classCallCheck(this, ContainerService);
 
-        _ProductService.call(this);
-    }
+    _ProductService.call(this);
+  }
 
-    ContainerService.prototype.getEndpoint = function getEndpoint() {
-        return ['payment', 'containers'];
-    };
+  ContainerService.prototype.getEndpoint = function getEndpoint() {
+    return ['payment', 'containers'];
+  };
 
-    ContainerService.prototype.getEventTargets = function getEventTargets() {
-        return [];
-    };
+  ContainerService.prototype.getEventTargets = function getEventTargets() {
+    return [];
+  };
 
-    ContainerService.prototype.assignCustomer = function assignCustomer(containerId, customerId) {
-        return this.execute(containerId, 'assign', customerId);
-    };
+  ContainerService.prototype.assignCustomer = function assignCustomer(containerId, customerId) {
+    return this.execute(containerId, 'assign', customerId);
+  };
 
-    ContainerService.prototype.removeCustomer = function removeCustomer(containerId) {
-        return this.removeWithAction(containerId, 'assign');
-    };
+  ContainerService.prototype.removeCustomer = function removeCustomer(containerId) {
+    return this.removeWithAction(containerId, 'assign');
+  };
 
-    return ContainerService;
+  return ContainerService;
 })(_productService.ProductService);
 
 exports.ContainerService = ContainerService;

@@ -9,13 +9,22 @@
  See the License for the specific language governing permissions and
  limitations under the License.
  */
-export class PaymentData {
+import {ProductService} from '../product-service'
 
-    constructor(owner, iban, bic, bankname) {
-        this.owner = owner;
-        this.iban = iban;
-        this.bic = bic;
-        this.bankname = bankname;
+export class ActionService extends ProductService {
+
+    constructor() {
+        super()
+    }
+
+    getEndpoint() {
+        return ['loyalty', 'actions'];
+    }
+
+    getEventTargets() {
+        return [];
     }
 
 }
+
+ActionService.Uid = (['loyalty', 'actions']).join('.');

@@ -1,28 +1,28 @@
 System.register([], function (_export) {
-    'use strict';
+  'use strict';
 
-    var Container;
+  var Container;
 
-    function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
+  function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 
-    return {
-        setters: [],
-        execute: function () {
-            Container = function Container(merchant, privateData, publicData, assign, type, created, updated, contract) {
-                _classCallCheck(this, Container);
+  return {
+    setters: [],
+    execute: function () {
+      Container = function Container(customer, privateData, publicData, assign, type, created, updated, contract) {
+        _classCallCheck(this, Container);
 
-                this.merchant = merchant;
-                this['private'] = privateData;
-                this['public'] = publicData;
-                this.assign = assign;
-                this.type = type;
-                this.created = created;
-                this.updated = updated;
-                this.contract = contract;
-            };
+        this['customer'] = customer;
+        this['private'] = privateData;
+        this['public'] = publicData;
+        this['assign'] = assign;
+        this['type'] = type;
+        this['created'] = created;
+        this['updated'] = updated;
+        this['contract'] = contract;
+      };
 
-            _export('Container', Container);
-        }
-    };
+      _export('Container', Container);
+    }
+  };
 });
-//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbImRlLnNlY3VjYXJkLmNvbm5lY3QvcHJvZHVjdC9wYXltZW50L21vZGVsL2NvbnRhaW5lci5qcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiOzs7UUFXYSxTQUFTOzs7Ozs7O0FBQVQscUJBQVMsR0FFUCxTQUZGLFNBQVMsQ0FFTixRQUFRLEVBQUUsV0FBVyxFQUFFLFVBQVUsRUFBRSxNQUFNLEVBQUUsSUFBSSxFQUFFLE9BQU8sRUFBRSxPQUFPLEVBQUUsUUFBUSxFQUFFO3NDQUZoRixTQUFTOztBQUdkLG9CQUFJLENBQUMsUUFBUSxHQUFHLFFBQVEsQ0FBQztBQUN6QixvQkFBSSxDQUFDLFNBQVMsQ0FBQyxHQUFHLFdBQVcsQ0FBQztBQUM5QixvQkFBSSxDQUFDLFFBQVEsQ0FBQyxHQUFHLFVBQVUsQ0FBQztBQUM1QixvQkFBSSxDQUFDLE1BQU0sR0FBRyxNQUFNLENBQUM7QUFDckIsb0JBQUksQ0FBQyxJQUFJLEdBQUcsSUFBSSxDQUFDO0FBQ2pCLG9CQUFJLENBQUMsT0FBTyxHQUFHLE9BQU8sQ0FBQztBQUN2QixvQkFBSSxDQUFDLE9BQU8sR0FBRyxPQUFPLENBQUM7QUFDdkIsb0JBQUksQ0FBQyxRQUFRLEdBQUcsUUFBUSxDQUFDO2FBQzVCIiwiZmlsZSI6ImRlLnNlY3VjYXJkLmNvbm5lY3QvcHJvZHVjdC9wYXltZW50L21vZGVsL2NvbnRhaW5lci5qcyIsInNvdXJjZVJvb3QiOiIuLi9zcmMvIn0=
+//# sourceMappingURL=data:application/json;charset=utf8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbImRlLnNlY3VjYXJkLmNvbm5lY3QvcHJvZHVjdC9wYXltZW50L21vZGVsL2NvbnRhaW5lci5qcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiOzs7TUFHYSxTQUFTOzs7Ozs7O0FBQVQsZUFBUyxHQUNULFNBREEsU0FBUyxDQUNSLFFBQVEsRUFBRSxXQUFXLEVBQUUsVUFBVSxFQUFFLE1BQU0sRUFBRSxJQUFJLEVBQUUsT0FBTyxFQUFFLE9BQU8sRUFBRSxRQUFRLEVBQUU7OEJBRDlFLFNBQVM7O0FBRWxCLFlBQUksQ0FBQyxVQUFVLENBQUMsR0FBRyxRQUFRLENBQUM7QUFDNUIsWUFBSSxDQUFDLFNBQVMsQ0FBQyxHQUFHLFdBQVcsQ0FBQztBQUM5QixZQUFJLENBQUMsUUFBUSxDQUFDLEdBQUcsVUFBVSxDQUFDO0FBQzVCLFlBQUksQ0FBQyxRQUFRLENBQUMsR0FBRyxNQUFNLENBQUM7QUFDeEIsWUFBSSxDQUFDLE1BQU0sQ0FBQyxHQUFHLElBQUksQ0FBQztBQUNwQixZQUFJLENBQUMsU0FBUyxDQUFDLEdBQUcsT0FBTyxDQUFDO0FBQzFCLFlBQUksQ0FBQyxTQUFTLENBQUMsR0FBRyxPQUFPLENBQUM7QUFDMUIsWUFBSSxDQUFDLFVBQVUsQ0FBQyxHQUFHLFFBQVEsQ0FBQztPQUM3QiIsImZpbGUiOiJkZS5zZWN1Y2FyZC5jb25uZWN0L3Byb2R1Y3QvcGF5bWVudC9tb2RlbC9jb250YWluZXIuanMiLCJzb3VyY2VSb290IjoiLi4vc3JjLyJ9

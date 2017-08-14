@@ -9,31 +9,35 @@ function _inherits(subClass, superClass) { if (typeof superClass !== 'function' 
 var _productService = require('../product-service');
 
 var ContractService = (function (_ProductService) {
-    _inherits(ContractService, _ProductService);
+  _inherits(ContractService, _ProductService);
 
-    function ContractService() {
-        _classCallCheck(this, ContractService);
+  function ContractService() {
+    _classCallCheck(this, ContractService);
 
-        _ProductService.call(this);
-    }
+    _ProductService.call(this);
+  }
 
-    ContractService.prototype.getEndpoint = function getEndpoint() {
-        return ['payment', 'contracts'];
-    };
+  ContractService.prototype.getEndpoint = function getEndpoint() {
+    return ['payment', 'contracts'];
+  };
 
-    ContractService.prototype.getEventTargets = function getEventTargets() {
-        return [];
-    };
+  ContractService.prototype.getEventTargets = function getEventTargets() {
+    return [];
+  };
 
-    ContractService.prototype.clone = function clone(contractId, cloneParams) {
-        return this.execute(contractId, 'clone');
-    };
+  ContractService.prototype.clone = function clone(contractId, cloneParams) {
+    return this.execute(contractId, 'clone', null, cloneParams);
+  };
 
-    ContractService.prototype.cloneMine = function cloneMine(cloneParams) {
-        return this.clone('me', cloneParams);
-    };
+  ContractService.prototype.cloneMine = function cloneMine(cloneParams) {
+    return this.clone('me', cloneParams);
+  };
 
-    return ContractService;
+  ContractService.prototype.createSubContract = function createSubContract(createSubContractRequest) {
+    return this.execute('me', 'requestId', null, createSubContractRequest);
+  };
+
+  return ContractService;
 })(_productService.ProductService);
 
 exports.ContractService = ContractService;
