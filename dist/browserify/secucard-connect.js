@@ -35,7 +35,7 @@ SecucardConnect.create = function (config) {
 
     return _deSecucardConnectClient.Client.create(config, _deSecucardConnectClientBrowserEnvironment.ClientBrowserEnvironment);
 };
-},{"./de.secucard.connect/client":11,"./de.secucard.connect/client-browser-environment":7,"./de.secucard.connect/net/channel":12,"es6-shim":87,"minilog":99}],2:[function(require,module,exports){
+},{"./de.secucard.connect/client":11,"./de.secucard.connect/client-browser-environment":7,"./de.secucard.connect/net/channel":12,"es6-shim":86,"minilog":98}],2:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -283,7 +283,7 @@ var Auth = (function () {
 })();
 
 exports.Auth = Auth;
-},{"../net/message":14,"./exception":4,"./token":6,"lodash":89,"minilog":99}],3:[function(require,module,exports){
+},{"../net/message":14,"./exception":4,"./token":6,"lodash":88,"minilog":98}],3:[function(require,module,exports){
 "use strict";
 
 exports.__esModule = true;
@@ -552,7 +552,7 @@ TokenStorageInMem.createWithMixin = function (TokenStorageMixin) {
     var Mixed = _utilMixins2['default'](TokenStorageInMem, TokenStorageMixin);
     return new Mixed();
 };
-},{"../util/mixins":85,"./token":6,"lodash":89,"minilog":99,"superagent":103}],6:[function(require,module,exports){
+},{"../util/mixins":85,"./token":6,"lodash":88,"minilog":98,"superagent":102}],6:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -1104,7 +1104,7 @@ var ClientContext = (function () {
 })();
 
 exports.ClientContext = ClientContext;
-},{"./auth/auth":2,"./auth/credentials":3,"./auth/token-storage":5,"./net/channel":12,"./net/rest":15,"./product/app/app-service":20,"eventemitter3":88,"lodash":89}],10:[function(require,module,exports){
+},{"./auth/auth":2,"./auth/credentials":3,"./auth/token-storage":5,"./net/channel":12,"./net/rest":15,"./product/app/app-service":20,"eventemitter3":87,"lodash":88}],10:[function(require,module,exports){
 "use strict";
 
 exports.__esModule = true;
@@ -1184,7 +1184,7 @@ Client.create = function (config, environment) {
 
     return new Client(config, environment);
 };
-},{"./client-config":8,"./client-context":9,"./client-version":10,"./net/message":14,"minilog":99}],12:[function(require,module,exports){
+},{"./client-config":8,"./client-context":9,"./client-version":10,"./net/message":14,"minilog":98}],12:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -1627,7 +1627,7 @@ var Rest = (function () {
 })();
 
 exports.Rest = Rest;
-},{"../auth/exception":4,"./channel":12,"./exception":13,"./message":14,"minilog":99,"superagent":103}],16:[function(require,module,exports){
+},{"../auth/exception":4,"./channel":12,"./exception":13,"./message":14,"minilog":98,"superagent":102}],16:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -1713,7 +1713,7 @@ SocketAtBrowser.disconnect = function (socket) {
     _minilog2['default']('secucard.socket.browser').debug('disconnect called');
     socket.close();
 };
-},{"eventemitter3":88,"minilog":99}],17:[function(require,module,exports){
+},{"eventemitter3":87,"minilog":98}],17:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -2125,7 +2125,7 @@ var Stomp = (function () {
 })();
 
 exports.Stomp = Stomp;
-},{"./frame":17,"eventemitter3":88,"minilog":99,"uuid":110}],19:[function(require,module,exports){
+},{"./frame":17,"eventemitter3":87,"minilog":98,"uuid":110}],19:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -2569,7 +2569,7 @@ var Stomp = (function () {
 })();
 
 exports.Stomp = Stomp;
-},{"../auth/exception":4,"./channel":12,"./exception":13,"./stomp-impl/stomp":18,"eventemitter3":88,"minilog":99,"uuid":110}],20:[function(require,module,exports){
+},{"../auth/exception":4,"./channel":12,"./exception":13,"./stomp-impl/stomp":18,"eventemitter3":87,"minilog":98,"uuid":110}],20:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -4805,7 +4805,7 @@ var ProductService = (function () {
 })();
 
 exports.ProductService = ProductService;
-},{"../net/channel":12,"eventemitter3":88}],74:[function(require,module,exports){
+},{"../net/channel":12,"eventemitter3":87}],74:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -5259,171 +5259,6 @@ var mixins = function mixins(Parent) {
 exports['default'] = mixins;
 module.exports = exports['default'];
 },{}],86:[function(require,module,exports){
-
-/**
- * Expose `Emitter`.
- */
-
-if (typeof module !== 'undefined') {
-  module.exports = Emitter;
-}
-
-/**
- * Initialize a new `Emitter`.
- *
- * @api public
- */
-
-function Emitter(obj) {
-  if (obj) return mixin(obj);
-};
-
-/**
- * Mixin the emitter properties.
- *
- * @param {Object} obj
- * @return {Object}
- * @api private
- */
-
-function mixin(obj) {
-  for (var key in Emitter.prototype) {
-    obj[key] = Emitter.prototype[key];
-  }
-  return obj;
-}
-
-/**
- * Listen on the given `event` with `fn`.
- *
- * @param {String} event
- * @param {Function} fn
- * @return {Emitter}
- * @api public
- */
-
-Emitter.prototype.on =
-Emitter.prototype.addEventListener = function(event, fn){
-  this._callbacks = this._callbacks || {};
-  (this._callbacks['$' + event] = this._callbacks['$' + event] || [])
-    .push(fn);
-  return this;
-};
-
-/**
- * Adds an `event` listener that will be invoked a single
- * time then automatically removed.
- *
- * @param {String} event
- * @param {Function} fn
- * @return {Emitter}
- * @api public
- */
-
-Emitter.prototype.once = function(event, fn){
-  function on() {
-    this.off(event, on);
-    fn.apply(this, arguments);
-  }
-
-  on.fn = fn;
-  this.on(event, on);
-  return this;
-};
-
-/**
- * Remove the given callback for `event` or all
- * registered callbacks.
- *
- * @param {String} event
- * @param {Function} fn
- * @return {Emitter}
- * @api public
- */
-
-Emitter.prototype.off =
-Emitter.prototype.removeListener =
-Emitter.prototype.removeAllListeners =
-Emitter.prototype.removeEventListener = function(event, fn){
-  this._callbacks = this._callbacks || {};
-
-  // all
-  if (0 == arguments.length) {
-    this._callbacks = {};
-    return this;
-  }
-
-  // specific event
-  var callbacks = this._callbacks['$' + event];
-  if (!callbacks) return this;
-
-  // remove all handlers
-  if (1 == arguments.length) {
-    delete this._callbacks['$' + event];
-    return this;
-  }
-
-  // remove specific handler
-  var cb;
-  for (var i = 0; i < callbacks.length; i++) {
-    cb = callbacks[i];
-    if (cb === fn || cb.fn === fn) {
-      callbacks.splice(i, 1);
-      break;
-    }
-  }
-  return this;
-};
-
-/**
- * Emit `event` with the given args.
- *
- * @param {String} event
- * @param {Mixed} ...
- * @return {Emitter}
- */
-
-Emitter.prototype.emit = function(event){
-  this._callbacks = this._callbacks || {};
-  var args = [].slice.call(arguments, 1)
-    , callbacks = this._callbacks['$' + event];
-
-  if (callbacks) {
-    callbacks = callbacks.slice(0);
-    for (var i = 0, len = callbacks.length; i < len; ++i) {
-      callbacks[i].apply(this, args);
-    }
-  }
-
-  return this;
-};
-
-/**
- * Return array of callbacks for `event`.
- *
- * @param {String} event
- * @return {Array}
- * @api public
- */
-
-Emitter.prototype.listeners = function(event){
-  this._callbacks = this._callbacks || {};
-  return this._callbacks['$' + event] || [];
-};
-
-/**
- * Check if this emitter has `event` handlers.
- *
- * @param {String} event
- * @return {Boolean}
- * @api public
- */
-
-Emitter.prototype.hasListeners = function(event){
-  return !! this.listeners(event).length;
-};
-
-},{}],87:[function(require,module,exports){
 (function (process,global){
  /*!
   * https://github.com/paulmillr/es6-shim
@@ -9269,7 +9104,7 @@ Emitter.prototype.hasListeners = function(event){
 }));
 
 }).call(this,require('_process'),typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"_process":102}],88:[function(require,module,exports){
+},{"_process":101}],87:[function(require,module,exports){
 'use strict';
 
 var has = Object.prototype.hasOwnProperty
@@ -9582,7 +9417,7 @@ if ('undefined' !== typeof module) {
   module.exports = EventEmitter;
 }
 
-},{}],89:[function(require,module,exports){
+},{}],88:[function(require,module,exports){
 (function (global){
 /**
  * @license
@@ -26670,7 +26505,7 @@ if ('undefined' !== typeof module) {
 }.call(this));
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],90:[function(require,module,exports){
+},{}],89:[function(require,module,exports){
 function M() { this._events = {}; }
 M.prototype = {
   on: function(ev, cb) {
@@ -26722,7 +26557,7 @@ M.mixin = function(dest) {
 };
 module.exports = M;
 
-},{}],91:[function(require,module,exports){
+},{}],90:[function(require,module,exports){
 // default filter
 var Transform = require('./transform.js');
 
@@ -26780,7 +26615,7 @@ Filter.prototype.write = function(name, level, args) {
 
 module.exports = Filter;
 
-},{"./transform.js":93}],92:[function(require,module,exports){
+},{"./transform.js":92}],91:[function(require,module,exports){
 var Transform = require('./transform.js'),
     Filter = require('./filter.js');
 
@@ -26827,7 +26662,7 @@ exports.enable = function() {
 };
 
 
-},{"./filter.js":91,"./transform.js":93}],93:[function(require,module,exports){
+},{"./filter.js":90,"./transform.js":92}],92:[function(require,module,exports){
 var microee = require('microee');
 
 // Implements a subset of Node's stream.Transform - in a cross-platform manner.
@@ -26901,7 +26736,7 @@ Transform.mixin = function(dest) {
 
 module.exports = Transform;
 
-},{"microee":90}],94:[function(require,module,exports){
+},{"microee":89}],93:[function(require,module,exports){
 var Transform = require('../common/transform.js'),
     cache = [ ];
 
@@ -26917,7 +26752,7 @@ logger.empty = function() { cache = []; };
 
 module.exports = logger;
 
-},{"../common/transform.js":93}],95:[function(require,module,exports){
+},{"../common/transform.js":92}],94:[function(require,module,exports){
 var Transform = require('../common/transform.js');
 
 var newlines = /\n+$/,
@@ -26951,7 +26786,7 @@ logger.minilog = require('./formatters/minilog.js');
 
 module.exports = logger;
 
-},{"../common/transform.js":93,"./formatters/color.js":96,"./formatters/minilog.js":97}],96:[function(require,module,exports){
+},{"../common/transform.js":92,"./formatters/color.js":95,"./formatters/minilog.js":96}],95:[function(require,module,exports){
 var Transform = require('../../common/transform.js'),
     color = require('./util.js');
 
@@ -26971,7 +26806,7 @@ logger.pipe = function() { };
 
 module.exports = logger;
 
-},{"../../common/transform.js":93,"./util.js":98}],97:[function(require,module,exports){
+},{"../../common/transform.js":92,"./util.js":97}],96:[function(require,module,exports){
 var Transform = require('../../common/transform.js'),
     color = require('./util.js'),
     colors = { debug: ['gray'], info: ['purple' ], warn: [ 'yellow', true ], error: [ 'red', true ] },
@@ -26999,7 +26834,7 @@ logger.pipe = function() { };
 
 module.exports = logger;
 
-},{"../../common/transform.js":93,"./util.js":98}],98:[function(require,module,exports){
+},{"../../common/transform.js":92,"./util.js":97}],97:[function(require,module,exports){
 var hex = {
   black: '#000',
   red: '#c23621',
@@ -27021,7 +26856,7 @@ function color(fg, isInverse) {
 
 module.exports = color;
 
-},{}],99:[function(require,module,exports){
+},{}],98:[function(require,module,exports){
 var Minilog = require('../common/minilog.js');
 
 var oldEnable = Minilog.enable,
@@ -27065,7 +26900,7 @@ exports.backends = {
   jQuery: require('./jquery_simple.js')
 };
 
-},{"../common/minilog.js":92,"./array.js":94,"./console.js":95,"./jquery_simple.js":100,"./localstorage.js":101}],100:[function(require,module,exports){
+},{"../common/minilog.js":91,"./array.js":93,"./console.js":94,"./jquery_simple.js":99,"./localstorage.js":100}],99:[function(require,module,exports){
 var Transform = require('../common/transform.js');
 
 var cid = new Date().valueOf().toString(36);
@@ -27141,7 +26976,7 @@ AjaxLogger.jQueryWait = function(onDone) {
 
 module.exports = AjaxLogger;
 
-},{"../common/transform.js":93}],101:[function(require,module,exports){
+},{"../common/transform.js":92}],100:[function(require,module,exports){
 var Transform = require('../common/transform.js'),
     cache = false;
 
@@ -27157,7 +26992,7 @@ logger.write = function(name, level, args) {
 };
 
 module.exports = logger;
-},{"../common/transform.js":93}],102:[function(require,module,exports){
+},{"../common/transform.js":92}],101:[function(require,module,exports){
 // shim for using process in browser
 var process = module.exports = {};
 
@@ -27343,7 +27178,7 @@ process.chdir = function (dir) {
 };
 process.umask = function() { return 0; };
 
-},{}],103:[function(require,module,exports){
+},{}],102:[function(require,module,exports){
 /**
  * Root reference for iframes.
  */
@@ -28278,7 +28113,7 @@ request.put = function(url, data, fn){
   return req;
 };
 
-},{"./is-function":104,"./is-object":105,"./request-base":106,"./response-base":107,"./should-retry":108,"component-emitter":86}],104:[function(require,module,exports){
+},{"./is-function":103,"./is-object":104,"./request-base":105,"./response-base":106,"./should-retry":107,"component-emitter":109}],103:[function(require,module,exports){
 /**
  * Check if `fn` is a function.
  *
@@ -28295,7 +28130,7 @@ function isFunction(fn) {
 
 module.exports = isFunction;
 
-},{"./is-object":105}],105:[function(require,module,exports){
+},{"./is-object":104}],104:[function(require,module,exports){
 /**
  * Check if `obj` is an object.
  *
@@ -28310,7 +28145,7 @@ function isObject(obj) {
 
 module.exports = isObject;
 
-},{}],106:[function(require,module,exports){
+},{}],105:[function(require,module,exports){
 /**
  * Module of mixed-in functions shared between node and client code
  */
@@ -28903,7 +28738,7 @@ RequestBase.prototype._setTimeouts = function() {
   }
 }
 
-},{"./is-object":105}],107:[function(require,module,exports){
+},{"./is-object":104}],106:[function(require,module,exports){
 
 /**
  * Module dependencies.
@@ -29038,7 +28873,7 @@ ResponseBase.prototype._setStatusProperties = function(status){
     this.notFound = 404 == status;
 };
 
-},{"./utils":109}],108:[function(require,module,exports){
+},{"./utils":108}],107:[function(require,module,exports){
 var ERROR_CODES = [
   'ECONNRESET',
   'ETIMEDOUT',
@@ -29063,7 +28898,7 @@ module.exports = function shouldRetry(err, res) {
   return false;
 };
 
-},{}],109:[function(require,module,exports){
+},{}],108:[function(require,module,exports){
 
 /**
  * Return the mime type for the given `str`.
@@ -29132,6 +28967,171 @@ exports.cleanHeader = function(header, shouldStripCookie){
   }
   return header;
 };
+},{}],109:[function(require,module,exports){
+
+/**
+ * Expose `Emitter`.
+ */
+
+if (typeof module !== 'undefined') {
+  module.exports = Emitter;
+}
+
+/**
+ * Initialize a new `Emitter`.
+ *
+ * @api public
+ */
+
+function Emitter(obj) {
+  if (obj) return mixin(obj);
+};
+
+/**
+ * Mixin the emitter properties.
+ *
+ * @param {Object} obj
+ * @return {Object}
+ * @api private
+ */
+
+function mixin(obj) {
+  for (var key in Emitter.prototype) {
+    obj[key] = Emitter.prototype[key];
+  }
+  return obj;
+}
+
+/**
+ * Listen on the given `event` with `fn`.
+ *
+ * @param {String} event
+ * @param {Function} fn
+ * @return {Emitter}
+ * @api public
+ */
+
+Emitter.prototype.on =
+Emitter.prototype.addEventListener = function(event, fn){
+  this._callbacks = this._callbacks || {};
+  (this._callbacks['$' + event] = this._callbacks['$' + event] || [])
+    .push(fn);
+  return this;
+};
+
+/**
+ * Adds an `event` listener that will be invoked a single
+ * time then automatically removed.
+ *
+ * @param {String} event
+ * @param {Function} fn
+ * @return {Emitter}
+ * @api public
+ */
+
+Emitter.prototype.once = function(event, fn){
+  function on() {
+    this.off(event, on);
+    fn.apply(this, arguments);
+  }
+
+  on.fn = fn;
+  this.on(event, on);
+  return this;
+};
+
+/**
+ * Remove the given callback for `event` or all
+ * registered callbacks.
+ *
+ * @param {String} event
+ * @param {Function} fn
+ * @return {Emitter}
+ * @api public
+ */
+
+Emitter.prototype.off =
+Emitter.prototype.removeListener =
+Emitter.prototype.removeAllListeners =
+Emitter.prototype.removeEventListener = function(event, fn){
+  this._callbacks = this._callbacks || {};
+
+  // all
+  if (0 == arguments.length) {
+    this._callbacks = {};
+    return this;
+  }
+
+  // specific event
+  var callbacks = this._callbacks['$' + event];
+  if (!callbacks) return this;
+
+  // remove all handlers
+  if (1 == arguments.length) {
+    delete this._callbacks['$' + event];
+    return this;
+  }
+
+  // remove specific handler
+  var cb;
+  for (var i = 0; i < callbacks.length; i++) {
+    cb = callbacks[i];
+    if (cb === fn || cb.fn === fn) {
+      callbacks.splice(i, 1);
+      break;
+    }
+  }
+  return this;
+};
+
+/**
+ * Emit `event` with the given args.
+ *
+ * @param {String} event
+ * @param {Mixed} ...
+ * @return {Emitter}
+ */
+
+Emitter.prototype.emit = function(event){
+  this._callbacks = this._callbacks || {};
+  var args = [].slice.call(arguments, 1)
+    , callbacks = this._callbacks['$' + event];
+
+  if (callbacks) {
+    callbacks = callbacks.slice(0);
+    for (var i = 0, len = callbacks.length; i < len; ++i) {
+      callbacks[i].apply(this, args);
+    }
+  }
+
+  return this;
+};
+
+/**
+ * Return array of callbacks for `event`.
+ *
+ * @param {String} event
+ * @return {Array}
+ * @api public
+ */
+
+Emitter.prototype.listeners = function(event){
+  this._callbacks = this._callbacks || {};
+  return this._callbacks['$' + event] || [];
+};
+
+/**
+ * Check if this emitter has `event` handlers.
+ *
+ * @param {String} event
+ * @return {Boolean}
+ * @api public
+ */
+
+Emitter.prototype.hasListeners = function(event){
+  return !! this.listeners(event).length;
+};
+
 },{}],110:[function(require,module,exports){
 var v1 = require('./v1');
 var v4 = require('./v4');
