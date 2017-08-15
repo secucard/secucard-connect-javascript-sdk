@@ -25,6 +25,9 @@ export class MerchantService extends ProductService {
         return [];
     }
 
+    retrieveShowSecucardInvoice(merchantId) {
+        return this.retrieveWithAction(merchantId, 'showSecucardInvoice');
+    }
 }
 
 MerchantService.Uid = (['general', 'merchants']).join('.');
