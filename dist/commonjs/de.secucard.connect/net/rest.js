@@ -56,6 +56,11 @@ var Rest = (function () {
             return context.getAuth().getToken(extend);
         };
 
+        this.withCredentials = function () {
+
+            return context.getConfig().getWithCredentials();
+        };
+
         this.isRequestWithToken = context.isRequestWithToken.bind(context);
     };
 
@@ -77,38 +82,7 @@ var Rest = (function () {
 
         return new Promise(function (resolve, reject) {
 
-            var url = message.baseUrl ? message.baseUrl + message.url : message.url;
-            var request = _this.r(url, message.method);
-
-            if (message.headers) {
-                request.set(message.headers);
-            }
-
-            if (message.query) {
-                request.query(message.query);
-            }
-
-            if (message.body) {
-                request.send(message.body);
-            }
-
-            if (message.accept) {
-                request.accept(message.accept);
-            }
-
-            if (message.multipart && message.multipart.files) {
-                message.multipart.files.forEach(function (item) {
-                    request.attach(item.field, item.path, item.filename);
-                });
-            }
-
-            if (message.multipart && message.multipart.fields) {
-                message.multipart.fields.forEach(function (item) {
-                    request.field(item.name, item.value);
-                });
-            }
-
-            request.end(function (err, res) {
+            _this.createRequestFromMessage(message).end(function (err, res) {
                 if (err) {
                     reject(err, res);
                 } else {
@@ -116,6 +90,46 @@ var Rest = (function () {
                 }
             });
         });
+    };
+
+    Rest.prototype.createRequestFromMessage = function createRequestFromMessage(message) {
+
+        var url = message.baseUrl ? message.baseUrl + message.url : message.url;
+        var request = this.r(url, message.method);
+
+        if (this.withCredentials()) {
+            request.withCredentials();
+        }
+
+        if (message.headers) {
+            request.set(message.headers);
+        }
+
+        if (message.query) {
+            request.query(message.query);
+        }
+
+        if (message.body) {
+            request.send(message.body);
+        }
+
+        if (message.accept) {
+            request.accept(message.accept);
+        }
+
+        if (message.multipart && message.multipart.files) {
+            message.multipart.files.forEach(function (item) {
+                request.attach(item.field, item.path, item.filename);
+            });
+        }
+
+        if (message.multipart && message.multipart.fields) {
+            message.multipart.fields.forEach(function (item) {
+                request.field(item.name, item.value);
+            });
+        }
+
+        return request;
     };
 
     Rest.prototype.getAuthHeader = function getAuthHeader(token) {
@@ -159,6 +173,22 @@ var Rest = (function () {
         var pr = !this.isRequestWithToken || this.isRequestWithToken(params.options) ? this.sendWithToken(message) : this.send(message);
 
         return pr.then(requestSuccess)['catch'](requestError);
+    };
+
+    Rest.prototype.generateUrl = function generateUrl(method, params) {
+
+        var message = this.createMessageForRequest(method, params);
+        var req = this.createRequestFromMessage(message);
+
+        var query = req._query ? req._query.join('&') : '';
+
+        var url = req.url;
+
+        if (query) {
+            url += (url.indexOf('?') >= 0 ? '&' : '?') + query;
+        }
+
+        return url;
     };
 
     Rest.prototype.createMessageForRequest = function createMessageForRequest(method, params) {

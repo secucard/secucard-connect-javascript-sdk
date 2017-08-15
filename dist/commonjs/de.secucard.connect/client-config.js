@@ -66,6 +66,10 @@ var ClientConfig = (function () {
         return this.retrieveToken;
     };
 
+    ClientConfig.prototype.getWithCredentials = function getWithCredentials() {
+        return this.withCredentials;
+    };
+
     ClientConfig.prototype._getCompleteUrl = function _getCompleteUrl(value) {
 
         var url = value;
@@ -108,7 +112,9 @@ ClientConfig._defaults = {
     stompConnectTimeoutSec: 0,
     stompMessageTimeoutSec: 0,
     stompMessageAge: 0,
-    retrieveToken: null
+    retrieveToken: null,
+
+    withCredentials: false
 };
 
 ClientConfig.defaults = function () {

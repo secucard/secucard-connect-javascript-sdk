@@ -25,6 +25,10 @@ var MerchantService = (function (_ProductService) {
         return [];
     };
 
+    MerchantService.prototype.retrieveShowSecucardInvoice = function retrieveShowSecucardInvoice(merchantId) {
+        return this.retrieveWithAction(merchantId, 'showSecucardInvoice');
+    };
+
     return MerchantService;
 })(_productService.ProductService);
 
