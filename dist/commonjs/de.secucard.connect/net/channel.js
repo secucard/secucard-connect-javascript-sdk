@@ -22,9 +22,9 @@ Channel.REST = 'rest';
 Channel.STOMP = 'stomp';
 
 Channel.METHOD = {
-    GET: 'GET',
-    CREATE: 'CREATE',
-    UPDATE: 'UPDATE',
-    DELETE: 'DELETE',
-    EXECUTE: 'EXECUTE'
+    GET: "GET",
+    CREATE: "CREATE",
+    UPDATE: "UPDATE",
+    DELETE: "DELETE",
+    EXECUTE: "EXECUTE"
 };

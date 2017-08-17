@@ -38,6 +38,8 @@ var _storeGroupService = require('./store-group-service');
 
 var _transactionService = require('./transaction-service');
 
+var _paymentContainerService = require('./payment-container-service');
+
 var Loyalty = {};
 exports.Loyalty = Loyalty;
 Loyalty.ActionCampaignService = _actionCampaignService.ActionCampaignService;
@@ -58,3 +60,4 @@ Loyalty.ReportService = _reportService.ReportService;
 Loyalty.SaleService = _saleService.SaleService;
 Loyalty.StoreGroupService = _storeGroupService.StoreGroupService;
 Loyalty.TransactionService = _transactionService.TransactionService;
+Loyalty.PaymentContainerService = _paymentContainerService.PaymentContainerService;

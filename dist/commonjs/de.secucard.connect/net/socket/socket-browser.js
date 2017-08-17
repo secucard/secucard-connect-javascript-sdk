@@ -23,7 +23,7 @@ var SocketAtBrowser = (function () {
         Object.assign(this, _eventemitter32['default'].prototype);
 
         var ws = new WebSocket(url);
-        ws.binaryType = 'arraybuffer';
+        ws.binaryType = "arraybuffer";
 
         ws.onopen = function () {
 

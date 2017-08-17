@@ -1,3 +1,49 @@
+<a name="0.3.0"></a>
+# 0.3.0 (2017-08-17)
+
+
+### New
+
+* New: add loyalty.actionmessages endpoint
+ ([b8ecf6b](https://github.com/secucard/secucard-connect-javascript-sdk/commit/b8ecf6b))
+* New: add REST url generators for ProductService
+ ([876ec4c](https://github.com/secucard/secucard-connect-javascript-sdk/commit/876ec4c))
+* New: loyalty.actioncampaigns, loyalty.actionemailconfigs, loyalty.actionsmsconfigs endpoints
+ ([0eb9afe](https://github.com/secucard/secucard-connect-javascript-sdk/commit/0eb9afe))
+* New: loyalty.reports endpoint
+ ([3c8006d](https://github.com/secucard/secucard-connect-javascript-sdk/commit/3c8006d))
+* New(loyalty.actioncampaigns): add action to check if able to delete
+ ([a89bca7](https://github.com/secucard/secucard-connect-javascript-sdk/commit/a89bca7))
+* New(loyalty.actionemailconfig): add testConfiguration action
+ ([0cb9952](https://github.com/secucard/secucard-connect-javascript-sdk/commit/0cb9952))
+* New(loyalty.customers): support additional data templates
+ ([700a834](https://github.com/secucard/secucard-connect-javascript-sdk/commit/700a834))
+* New(loyalty): transactions endpoint
+ ([3aa44fc](https://github.com/secucard/secucard-connect-javascript-sdk/commit/3aa44fc))
+ ([b4ae975](https://github.com/secucard/secucard-connect-javascript-sdk/commit/b4ae975))
+* New(rest): add option to send cookies with REST requests
+ ([c6a9858](https://github.com/secucard/secucard-connect-javascript-sdk/commit/c6a9858))
+* New Loyalty payment container
+ ([d8a628a](https://github.com/secucard/secucard-connect-javascript-sdk/commit/d8a628a))
+
+### Update
+
+* Update: add verification code feature to action-config
+ ([526a781](https://github.com/secucard/secucard-connect-javascript-sdk/commit/526a781))
+* Update: change args for merchant card charge action
+ ([3a9c000](https://github.com/secucard/secucard-connect-javascript-sdk/commit/3a9c000))
+* Update: rename charge method to transaction in loyalty.merchantcards
+ ([531342a](https://github.com/secucard/secucard-connect-javascript-sdk/commit/531342a))
+* Update(loyalty.merchantcards): add amount_split_allowed parameter
+ ([a3b7bad](https://github.com/secucard/secucard-connect-javascript-sdk/commit/a3b7bad))
+* Update(loyalty): replace actionsmsconfigs and actionemailconfigs with one actionconfigs
+ ([a8ba4c0](https://github.com/secucard/secucard-connect-javascript-sdk/commit/a8ba4c0))
+* Breaking change: rename "loyalty/actionactions" endpoint to "loyalty/actions"
+ ([b36f9fc](https://github.com/secucard/secucard-connect-javascript-sdk/commit/b36f9fc))
+ ([c178ee7](https://github.com/secucard/secucard-connect-javascript-sdk/commit/c178ee7))
+
+
+
 <a name="0.2.7"></a>
 ## 0.2.7 (2016-09-21)
 
