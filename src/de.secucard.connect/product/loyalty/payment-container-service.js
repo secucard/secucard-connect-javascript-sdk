@@ -11,19 +11,20 @@
  */
 import {ProductService} from '../product-service'
 
-export class MerchantService extends ProductService {
+export class PaymentContainerService extends ProductService {
 
     constructor() {
         super()
     }
 
     getEndpoint() {
-        return ['general', 'merchants'];
+        return ['loyalty', 'paymentcontainers'];
     }
 
     getEventTargets() {
         return [];
     }
+
 }
 
-MerchantService.Uid = (['general', 'merchants']).join('.');
+PaymentContainerService.Uid = (['loyalty', 'paymentcontainers']).join('.');
