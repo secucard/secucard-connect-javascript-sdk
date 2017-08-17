@@ -29,6 +29,25 @@ export class CustomerService extends ProductService {
         return [];
     }
 
+    /**
+     * Assign a payment container to a customer
+     * @param customerId string
+     * @param paymentContainerId string
+     * @returns {Promise}
+     */
+    assignPaymentContainer(customerId, paymentContainerId) {
+        return this.execute(customerId, 'assignPaymentcontainer', paymentContainerId);
+    }
+
+    /**
+     * Remove a payment container from a customer
+     * @param customerId string
+     * @param paymentContainerId string
+     * @returns {Promise}
+     */
+    removePaymentContainer(customerId, paymentContainerId) {
+        return this.removeWithAction(customerId, 'assignPaymentcontainer', paymentContainerId);
+    }
 }
 
 CustomerService.Uid = (['loyalty', 'customers']).join('.');
