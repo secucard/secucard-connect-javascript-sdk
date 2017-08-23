@@ -4,11 +4,13 @@ exports.__esModule = true;
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 
-function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; }
+function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 var AuthenticationFailedException = (function (_Error) {
+    _inherits(AuthenticationFailedException, _Error);
+
     function AuthenticationFailedException() {
-        var message = arguments[0] === undefined ? 'Authentication failed' : arguments[0];
+        var message = arguments.length <= 0 || arguments[0] === undefined ? 'Authentication failed' : arguments[0];
 
         _classCallCheck(this, AuthenticationFailedException);
 
@@ -40,16 +42,16 @@ var AuthenticationFailedException = (function (_Error) {
         });
     }
 
-    _inherits(AuthenticationFailedException, _Error);
-
     return AuthenticationFailedException;
 })(Error);
 
 exports.AuthenticationFailedException = AuthenticationFailedException;
 
 var AuthenticationTimeoutException = (function (_Error2) {
+    _inherits(AuthenticationTimeoutException, _Error2);
+
     function AuthenticationTimeoutException() {
-        var message = arguments[0] === undefined ? 'Authentication timeout' : arguments[0];
+        var message = arguments.length <= 0 || arguments[0] === undefined ? 'Authentication timeout' : arguments[0];
 
         _classCallCheck(this, AuthenticationTimeoutException);
 
@@ -80,8 +82,6 @@ var AuthenticationTimeoutException = (function (_Error2) {
             value: 'AuthenticationTimeoutException'
         });
     }
-
-    _inherits(AuthenticationTimeoutException, _Error2);
 
     return AuthenticationTimeoutException;
 })(Error);

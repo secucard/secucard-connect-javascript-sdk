@@ -5,7 +5,7 @@ System.register(['../product-service'], function (_export) {
 
     function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 
-    function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; }
+    function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
     return {
         setters: [function (_productService) {
@@ -13,13 +13,13 @@ System.register(['../product-service'], function (_export) {
         }],
         execute: function () {
             TransactionService = (function (_ProductService) {
+                _inherits(TransactionService, _ProductService);
+
                 function TransactionService() {
                     _classCallCheck(this, TransactionService);
 
                     _ProductService.call(this);
                 }
-
-                _inherits(TransactionService, _ProductService);
 
                 TransactionService.prototype.getEndpoint = function getEndpoint() {
                     return ['smart', 'transactions'];
@@ -30,11 +30,11 @@ System.register(['../product-service'], function (_export) {
                 };
 
                 TransactionService.prototype.start = function start(id, type) {
-                    return this.execute(id, 'start', type);
+                    return this.execute(id, "start", type);
                 };
 
                 TransactionService.prototype.cancel = function cancel(id) {
-                    return this.execute(id, 'cancel');
+                    return this.execute(id, "cancel");
                 };
 
                 return TransactionService;
@@ -46,4 +46,4 @@ System.register(['../product-service'], function (_export) {
         }
     };
 });
-//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbImRlLnNlY3VjYXJkLmNvbm5lY3QvcHJvZHVjdC9zbWFydC90cmFuc2FjdGlvbi1zZXJ2aWNlLmpzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7Ozt3QkFhYSxrQkFBa0I7Ozs7Ozs7OzZDQUZ2QixjQUFjOzs7QUFFVCw4QkFBa0I7QUFFaEIseUJBRkYsa0JBQWtCLEdBRWI7MENBRkwsa0JBQWtCOztBQUd2Qiw4Q0FBTyxDQUFBO2lCQUNWOzswQkFKUSxrQkFBa0I7O0FBQWxCLGtDQUFrQixXQU0zQixXQUFXLEdBQUEsdUJBQUc7QUFDViwyQkFBTyxDQUFDLE9BQU8sRUFBRSxjQUFjLENBQUMsQ0FBQztpQkFDcEM7O0FBUlEsa0NBQWtCLFdBVTNCLGVBQWUsR0FBQSwyQkFBRztBQUNkLDJCQUFPLENBQUMsdUJBQXVCLENBQUMsQ0FBQztpQkFDcEM7O0FBWlEsa0NBQWtCLFdBYzNCLEtBQUssR0FBQSxlQUFDLEVBQUUsRUFBRSxJQUFJLEVBQUU7QUFDWiwyQkFBTyxJQUFJLENBQUMsT0FBTyxDQUFDLEVBQUUsRUFBRSxPQUFPLEVBQUUsSUFBSSxDQUFDLENBQUM7aUJBQzFDOztBQWhCUSxrQ0FBa0IsV0FrQjNCLE1BQU0sR0FBQSxnQkFBQyxFQUFFLEVBQUU7QUFDUCwyQkFBTyxJQUFJLENBQUMsT0FBTyxDQUFDLEVBQUUsRUFBRSxRQUFRLENBQUMsQ0FBQztpQkFDckM7O3VCQXBCUSxrQkFBa0I7ZUFBUyxjQUFjOzswQ0FBekMsa0JBQWtCOztBQXdCL0IsOEJBQWtCLENBQUMsR0FBRyxHQUFHLEFBQUMsQ0FBQyxPQUFPLEVBQUUsY0FBYyxDQUFDLENBQUUsSUFBSSxDQUFDLEdBQUcsQ0FBQyxDQUFDIiwiZmlsZSI6ImRlLnNlY3VjYXJkLmNvbm5lY3QvcHJvZHVjdC9zbWFydC90cmFuc2FjdGlvbi1zZXJ2aWNlLmpzIiwic291cmNlUm9vdCI6Ii4uL3NyYy8ifQ==
+//# sourceMappingURL=data:application/json;charset=utf8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbImRlLnNlY3VjYXJkLmNvbm5lY3QvcHJvZHVjdC9zbWFydC90cmFuc2FjdGlvbi1zZXJ2aWNlLmpzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7Ozt3QkFhYSxrQkFBa0I7Ozs7Ozs7OzZDQUZ2QixjQUFjOzs7QUFFVCw4QkFBa0I7MEJBQWxCLGtCQUFrQjs7QUFFaEIseUJBRkYsa0JBQWtCLEdBRWI7MENBRkwsa0JBQWtCOztBQUd2Qiw4Q0FBTyxDQUFBO2lCQUNWOztBQUpRLGtDQUFrQixXQU0zQixXQUFXLEdBQUEsdUJBQUc7QUFDViwyQkFBTyxDQUFDLE9BQU8sRUFBRSxjQUFjLENBQUMsQ0FBQztpQkFDcEM7O0FBUlEsa0NBQWtCLFdBVTNCLGVBQWUsR0FBQSwyQkFBRztBQUNkLDJCQUFPLENBQUMsdUJBQXVCLENBQUMsQ0FBQztpQkFDcEM7O0FBWlEsa0NBQWtCLFdBYzNCLEtBQUssR0FBQSxlQUFDLEVBQUUsRUFBRSxJQUFJLEVBQUU7QUFDWiwyQkFBTyxJQUFJLENBQUMsT0FBTyxDQUFDLEVBQUUsRUFBRSxPQUFPLEVBQUUsSUFBSSxDQUFDLENBQUM7aUJBQzFDOztBQWhCUSxrQ0FBa0IsV0FrQjNCLE1BQU0sR0FBQSxnQkFBQyxFQUFFLEVBQUU7QUFDUCwyQkFBTyxJQUFJLENBQUMsT0FBTyxDQUFDLEVBQUUsRUFBRSxRQUFRLENBQUMsQ0FBQztpQkFDckM7O3VCQXBCUSxrQkFBa0I7ZUFBUyxjQUFjOzs7O0FBd0J0RCw4QkFBa0IsQ0FBQyxHQUFHLEdBQUcsQUFBQyxDQUFDLE9BQU8sRUFBRSxjQUFjLENBQUMsQ0FBRSxJQUFJLENBQUMsR0FBRyxDQUFDLENBQUMiLCJmaWxlIjoiZGUuc2VjdWNhcmQuY29ubmVjdC9wcm9kdWN0L3NtYXJ0L3RyYW5zYWN0aW9uLXNlcnZpY2UuanMiLCJzb3VyY2VSb290IjoiLi4vc3JjLyJ9

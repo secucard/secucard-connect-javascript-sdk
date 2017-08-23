@@ -1,6 +1,53 @@
+<a name="0.3.0"></a>
+# 0.3.0 (2017-08-23)
+
+### New
+
+* New: add loyalty.actionmessages endpoint
+ ([b8ecf6b](https://github.com/secucard/secucard-connect-javascript-sdk/commit/b8ecf6b))
+* New: add REST url generators for ProductService
+ ([876ec4c](https://github.com/secucard/secucard-connect-javascript-sdk/commit/876ec4c))
+* New: loyalty.actioncampaigns, loyalty.actionemailconfigs, loyalty.actionsmsconfigs endpoints
+ ([0eb9afe](https://github.com/secucard/secucard-connect-javascript-sdk/commit/0eb9afe))
+* New: loyalty.reports endpoint
+ ([3c8006d](https://github.com/secucard/secucard-connect-javascript-sdk/commit/3c8006d))
+* New(loyalty.actioncampaigns): add action to check if able to delete
+ ([a89bca7](https://github.com/secucard/secucard-connect-javascript-sdk/commit/a89bca7))
+* New(loyalty.actionemailconfig): add testConfiguration action
+ ([0cb9952](https://github.com/secucard/secucard-connect-javascript-sdk/commit/0cb9952))
+* New(loyalty.customers): support additional data templates
+ ([700a834](https://github.com/secucard/secucard-connect-javascript-sdk/commit/700a834))
+* New(loyalty): transactions endpoint
+ ([3aa44fc](https://github.com/secucard/secucard-connect-javascript-sdk/commit/3aa44fc))
+ ([b4ae975](https://github.com/secucard/secucard-connect-javascript-sdk/commit/b4ae975))
+* New(rest): add option to send cookies with REST requests
+ ([c6a9858](https://github.com/secucard/secucard-connect-javascript-sdk/commit/c6a9858))
+
+### Update
+
+* Update: add verification code feature to action-config
+ ([526a781](https://github.com/secucard/secucard-connect-javascript-sdk/commit/526a781))
+* Update: change args for merchant card charge action
+ ([3a9c000](https://github.com/secucard/secucard-connect-javascript-sdk/commit/3a9c000))
+* Update: rename charge method to transaction in loyalty.merchantcards
+ ([531342a](https://github.com/secucard/secucard-connect-javascript-sdk/commit/531342a))
+* Update(loyalty.merchantcards): add amount_split_allowed parameter
+ ([a3b7bad](https://github.com/secucard/secucard-connect-javascript-sdk/commit/a3b7bad))
+* Update(loyalty): replace actionsmsconfigs and actionemailconfigs with one actionconfigs
+ ([a8ba4c0](https://github.com/secucard/secucard-connect-javascript-sdk/commit/a8ba4c0))
+* Removed conduct & Added SOFFICE-510 functionality
+ ([19db2d3](https://github.com/secucard/secucard-connect-javascript-sdk/commit/19db2d3))
+* Added missing entries for the environments
+ ([a8b6aaa](https://github.com/secucard/secucard-connect-javascript-sdk/commit/a8b6aaa))
+* Breaking change: rename "loyalty/actionactions" endpoint to "loyalty/actions"
+ ([b36f9fc](https://github.com/secucard/secucard-connect-javascript-sdk/commit/b36f9fc))
+* Delete CONTRIBUTING.md
+ ([c4d654e](https://github.com/secucard/secucard-connect-javascript-sdk/commit/c4d654e))
+* Loyalty payment container
+ ([d8a628a](https://github.com/secucard/secucard-connect-javascript-sdk/commit/d8a628a))
+
 <a name="0.2.7"></a>
 ## 0.2.7 (2016-09-21)
-
 
 ### Fix
 
@@ -12,8 +59,6 @@
 * New(loyalty.merchantcards): unlock action
  ([53fd943](https://github.com/secucard/secucard-connect-javascript-sdk/commit/53fd943))
 
-
-
 <a name="0.2.6"></a>
 ## 0.2.6 (2016-07-28)
 
@@ -22,11 +67,8 @@
 * fix(loyalty.merchantcards): lock payload
  ([986b12e](https://github.com/secucard/secucard-connect-javascript-sdk/commit/986b12e))
 
-
-
 <a name="0.2.5"></a>
 ## 0.2.5 (2016-07-24)
-
 
 ### Doc
 
@@ -41,20 +83,14 @@
 * enhance error handling
  ([a28f131](https://github.com/secucard/secucard-connect-javascript-sdk/commit/a28f131))
 
-
-
 <a name="0.2.4"></a>
 ## 0.2.4 (2016-04-15)
-
 
 * validate form with tokenizer
  ([bfde5f2](https://github.com/secucard/secucard-connect-javascript-sdk/commit/bfde5f2))
 
-
-
 <a name="0.2.3"></a>
 ## 0.2.3 (2016-04-13)
-
 
 ### Dev
 
@@ -69,7 +105,6 @@
 ### New
 
 * New: add 'retrieveToken' param to client config, if credentials not set, client retrieves token itse ([502ba71](https://github.com/secucard/secucard-connect-javascript-sdk/commit/502ba71))
-
 
 <a name="0.2.2"></a>
 ## 0.2.2 (2016-04-11)
@@ -89,11 +124,8 @@
 * New: Add credit card tokenizer, basic request
  ([33ae875](https://github.com/secucard/secucard-connect-javascript-sdk/commit/33ae875))
 
-
-
 <a name="0.2.1"></a>
 ## 0.2.1 (2016-04-07)
-
 
 ### Doc
 
@@ -102,7 +134,6 @@
 
 <a name="0.2.0"></a>
 # 0.2.0 (2016-03-15)
-
 
 ### Fix
 
@@ -160,22 +191,16 @@
 * update es6-shim
  ([90b2556](https://github.com/secucard/secucard-connect-javascript-sdk/commit/90b2556))
 
-
-
 <a name="0.1.4"></a>
 ## 0.1.4 (2015-08-10)
-
 
 ### Fix
 
 * Fix: token expire time not udated on api request
  ([0662439](https://github.com/secucard/secucard-connect-javascript-sdk/commit/0662439))
 
-
-
 <a name="0.1.3"></a>
 ## 0.1.3 (2015-08-07)
-
 
 ### Fix
 
@@ -184,11 +209,8 @@
 * fix readme
  ([5715353](https://github.com/secucard/secucard-connect-javascript-sdk/commit/5715353))
 
-
-
 <a name="0.1.2"></a>
 ## 0.1.2 (2015-08-06)
-
 
 ### Docs
 
@@ -217,11 +239,7 @@
 <a name="0.1.1"></a>
 ## 0.1.1 (2015-08-03)
 
-
 * add license
  ([109748d](https://github.com/secucard/secucard-connect-javascript-client-lib/commit/109748d))
 * add gulp task to create change-log with gulp-conventional-changelog
  ([d069332](https://github.com/secucard/secucard-connect-javascript-client-lib/commit/d069332))
-
-
-
