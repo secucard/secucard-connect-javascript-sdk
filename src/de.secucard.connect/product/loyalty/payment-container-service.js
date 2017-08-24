@@ -25,6 +25,20 @@ export class PaymentContainerService extends ProductService {
         return [];
     }
 
+    /**
+     * Validate the IBAN informationen
+     * @param data Object with { "iban": "", "bic": "", "owner":"" }
+     * @returns {Promise}
+     */
+    validateIban(data) {
+
+        if (data.iban && data.owner) {
+            return this.execute('me', 'validateIban', null, data);
+        } else {
+            throw new Error("Iban and owner are required");
+        }
+    }
+
 }
 
 PaymentContainerService.Uid = (['loyalty', 'paymentcontainers']).join('.');
