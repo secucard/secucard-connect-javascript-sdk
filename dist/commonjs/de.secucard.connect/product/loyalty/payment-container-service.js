@@ -8,30 +8,35 @@ function _inherits(subClass, superClass) { if (typeof superClass !== 'function' 
 
 var _productService = require('../product-service');
 
-var SessionService = (function (_ProductService) {
-    _inherits(SessionService, _ProductService);
+var PaymentContainerService = (function (_ProductService) {
+    _inherits(PaymentContainerService, _ProductService);
 
-    function SessionService() {
-        _classCallCheck(this, SessionService);
+    function PaymentContainerService() {
+        _classCallCheck(this, PaymentContainerService);
 
         _ProductService.call(this);
     }
 
-    SessionService.prototype.getEndpoint = function getEndpoint() {
-        return ['auth', 'sessions'];
+    PaymentContainerService.prototype.getEndpoint = function getEndpoint() {
+        return ['loyalty', 'paymentcontainers'];
     };
 
-    SessionService.prototype.getEventTargets = function getEventTargets() {
+    PaymentContainerService.prototype.getEventTargets = function getEventTargets() {
         return [];
     };
 
-    SessionService.prototype.check = function check() {
-        return this.retrieveWithAction('me', 'debug');
+    PaymentContainerService.prototype.validateIban = function validateIban(data) {
+
+        if (data.iban && data.owner) {
+            return this.execute('me', 'validateIban', null, data);
+        } else {
+            throw new Error("Iban and owner are required");
+        }
     };
 
-    return SessionService;
+    return PaymentContainerService;
 })(_productService.ProductService);
 
-exports.SessionService = SessionService;
+exports.PaymentContainerService = PaymentContainerService;
 
-SessionService.Uid = ['auth', 'sessions'].join('.');
+PaymentContainerService.Uid = ['loyalty', 'paymentcontainers'].join('.');

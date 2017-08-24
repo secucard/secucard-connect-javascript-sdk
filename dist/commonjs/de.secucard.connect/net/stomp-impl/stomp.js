@@ -74,21 +74,21 @@ var Stomp = (function () {
     Stomp.prototype.handle_new_frame = function handle_new_frame(this_frame) {
 
         switch (this_frame.command) {
-            case 'MESSAGE':
+            case "MESSAGE":
                 if (this.is_a_message(this_frame)) {
                     this.should_run_message_callback(this_frame);
                     this.emit('message', this_frame);
                 }
                 break;
-            case 'CONNECTED':
+            case "CONNECTED":
                 _minilog2['default']('secucard.STOMP').debug('Connected');
                 this.session = this_frame.headers['session'];
                 this.emit('connected');
                 break;
-            case 'RECEIPT':
+            case "RECEIPT":
                 this.emit('receipt', this_frame.headers['receipt-id']);
                 break;
-            case 'ERROR':
+            case "ERROR":
                 this.emit('error', this_frame);
                 break;
             default:
@@ -233,11 +233,11 @@ var Stomp = (function () {
                 headers.passcode = stomp.passcode;
             }
 
-            if (utils.really_defined(stomp['client-id'])) {
-                headers['client-id'] = stomp['client-id'];
+            if (utils.really_defined(stomp["client-id"])) {
+                headers["client-id"] = stomp["client-id"];
             }
-            if (utils.really_defined(stomp['vhost'])) {
-                headers['host'] = stomp['vhost'];
+            if (utils.really_defined(stomp["vhost"])) {
+                headers["host"] = stomp["vhost"];
             }
 
             _this2.stomp_connect(stomp, headers);
@@ -254,10 +254,10 @@ var Stomp = (function () {
         socket.on('data', function (chunk) {
 
             buffer += chunk;
-            var frames = buffer.split('\u0000\n');
+            var frames = buffer.split('\0\n');
 
             if (frames.length == 1) {
-                frames = buffer.split('\u0000');
+                frames = buffer.split('\0');
             }
 
             if (frames.length == 1) return;
@@ -277,7 +277,7 @@ var Stomp = (function () {
             _minilog2['default']('secucard.STOMP').debug('Disconnected with error:', error);
             stomp.session = null;
             stomp.connected = false;
-            stomp.emit('disconnected', error);
+            stomp.emit("disconnected", error);
         });
 
         if (handleConnected) {
