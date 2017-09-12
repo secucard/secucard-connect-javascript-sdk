@@ -9,19 +9,22 @@
  See the License for the specific language governing permissions and
  limitations under the License.
  */
+import {ProductService} from '../product-service'
 
-import {CheckinService} from './checkin-service';
-import {ConfigurationService} from './configuration-service';
-import {DeviceService} from './device-service';
-import {IdentService} from './ident-service';
-import {RoutingService} from './routing-service';
-import {TransactionService} from './transaction-service';
+export class ConfigurationService extends ProductService {
 
+    constructor() {
+        super()
+    }
 
-export const Smart = {};
-Smart.CheckinService = CheckinService;
-Smart.ConfigurationService = ConfigurationService;
-Smart.DeviceService = DeviceService;
-Smart.IdentService = IdentService;
-Smart.RoutingService = RoutingService;
-Smart.TransactionService = TransactionService;
+    getEndpoint() {
+        return ['smart', 'configurations'];
+    }
+
+    getEventTargets() {
+        return [];
+    }
+
+}
+
+ConfigurationService.Uid = (['smart', 'configurations']).join('.');

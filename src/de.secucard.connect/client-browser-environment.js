@@ -84,6 +84,7 @@ export const ClientBrowserEnvironment = {
         Services.IdentResultService,
         
         Smart.CheckinService,
+        Smart.ConfigurationService,
         Smart.DeviceService,
         Smart.IdentService,
         Smart.RoutingService,
@@ -168,6 +169,7 @@ export const ServiceMap = {
     },
     Smart: {
         Checkins: Smart.CheckinService.Uid,
+        Configurations: Smart.ConfigurationService.Uid,
         Devices: Smart.DeviceService.Uid,
         Idents: Smart.IdentService.Uid,
         Routings: Smart.RoutingService.Uid,
