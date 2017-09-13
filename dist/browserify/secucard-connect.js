@@ -35,7 +35,7 @@ SecucardConnect.create = function (config) {
 
     return _deSecucardConnectClient.Client.create(config, _deSecucardConnectClientBrowserEnvironment.ClientBrowserEnvironment);
 };
-},{"./de.secucard.connect/client":11,"./de.secucard.connect/client-browser-environment":7,"./de.secucard.connect/net/channel":12,"es6-shim":80,"minilog":91}],2:[function(require,module,exports){
+},{"./de.secucard.connect/client":11,"./de.secucard.connect/client-browser-environment":7,"./de.secucard.connect/net/channel":12,"es6-shim":85,"minilog":96}],2:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -183,9 +183,9 @@ var Auth = (function () {
                         })['catch'](function (err) {
 
                             if (err.status == 401) {} else {
-                                    clearInterval(_this2.pollTimer);
-                                    reject(err);
-                                }
+                                clearInterval(_this2.pollTimer);
+                                reject(err);
+                            }
                         });
                     } else {
                         clearInterval(_this2.pollTimer);
@@ -283,7 +283,7 @@ var Auth = (function () {
 })();
 
 exports.Auth = Auth;
-},{"../net/message":14,"./exception":4,"./token":6,"lodash":82,"minilog":91}],3:[function(require,module,exports){
+},{"../net/message":14,"./exception":4,"./token":6,"lodash":87,"minilog":96}],3:[function(require,module,exports){
 "use strict";
 
 exports.__esModule = true;
@@ -328,13 +328,11 @@ exports.__esModule = true;
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 
-function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; }
 
 var AuthenticationFailedException = (function (_Error) {
-    _inherits(AuthenticationFailedException, _Error);
-
     function AuthenticationFailedException() {
-        var message = arguments.length <= 0 || arguments[0] === undefined ? 'Authentication failed' : arguments[0];
+        var message = arguments[0] === undefined ? 'Authentication failed' : arguments[0];
 
         _classCallCheck(this, AuthenticationFailedException);
 
@@ -366,16 +364,16 @@ var AuthenticationFailedException = (function (_Error) {
         });
     }
 
+    _inherits(AuthenticationFailedException, _Error);
+
     return AuthenticationFailedException;
 })(Error);
 
 exports.AuthenticationFailedException = AuthenticationFailedException;
 
 var AuthenticationTimeoutException = (function (_Error2) {
-    _inherits(AuthenticationTimeoutException, _Error2);
-
     function AuthenticationTimeoutException() {
-        var message = arguments.length <= 0 || arguments[0] === undefined ? 'Authentication timeout' : arguments[0];
+        var message = arguments[0] === undefined ? 'Authentication timeout' : arguments[0];
 
         _classCallCheck(this, AuthenticationTimeoutException);
 
@@ -406,6 +404,8 @@ var AuthenticationTimeoutException = (function (_Error2) {
             value: 'AuthenticationTimeoutException'
         });
     }
+
+    _inherits(AuthenticationTimeoutException, _Error2);
 
     return AuthenticationTimeoutException;
 })(Error);
@@ -552,7 +552,7 @@ TokenStorageInMem.createWithMixin = function (TokenStorageMixin) {
     var Mixed = _utilMixins2['default'](TokenStorageInMem, TokenStorageMixin);
     return new Mixed();
 };
-},{"../util/mixins":78,"./token":6,"lodash":82,"minilog":91,"superagent":95}],6:[function(require,module,exports){
+},{"../util/mixins":83,"./token":6,"lodash":87,"minilog":96,"superagent":100}],6:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -647,7 +647,7 @@ var ClientBrowserEnvironment = {
         stompPort: 15671,
         stompEndpoint: '/stomp/websocket'
     },
-    services: [_productAuthAuth.Auth.SessionService, _productDocumentDocument.Document.UploadService, _productGeneralGeneral.General.SkeletonService, _productGeneralGeneral.General.AccountService, _productGeneralGeneral.General.AccountDeviceService, _productGeneralGeneral.General.ContactService, _productGeneralGeneral.General.DeliveryAddressService, _productGeneralGeneral.General.FileAccessService, _productGeneralGeneral.General.MerchantService, _productGeneralGeneral.General.NewsService, _productGeneralGeneral.General.NotificationService, _productGeneralGeneral.General.PublicMerchantService, _productGeneralGeneral.General.StoreGroupService, _productGeneralGeneral.General.StoreService, _productGeneralGeneral.General.TransactionService, _productLoyaltyLoyalty.Loyalty.ActionActionService, _productLoyaltyLoyalty.Loyalty.ActionProfileService, _productLoyaltyLoyalty.Loyalty.BeaconService, _productLoyaltyLoyalty.Loyalty.CardGroupService, _productLoyaltyLoyalty.Loyalty.CardService, _productLoyaltyLoyalty.Loyalty.ChargeService, _productLoyaltyLoyalty.Loyalty.CheckinService, _productLoyaltyLoyalty.Loyalty.CustomerService, _productLoyaltyLoyalty.Loyalty.MerchantCardService, _productLoyaltyLoyalty.Loyalty.ProgramService, _productLoyaltyLoyalty.Loyalty.ProgramSpecialService, _productLoyaltyLoyalty.Loyalty.SaleService, _productLoyaltyLoyalty.Loyalty.StoreGroupService, _productPaymentPayment.Payment.ContainerService, _productPaymentPayment.Payment.ContractService, _productPaymentPayment.Payment.CustomerService, _productPaymentPayment.Payment.SecupayDebitService, _productPaymentPayment.Payment.SecupayPrepayService, _productPaymentPayment.Payment.TransactionService, _productPrepaidPrepaid.Prepaid.ContractService, _productPrepaidPrepaid.Prepaid.ItemGroupService, _productPrepaidPrepaid.Prepaid.ItemService, _productPrepaidPrepaid.Prepaid.SaleService, _productPrepaidPrepaid.Prepaid.StockService, _productServicesServices.Services.IdentCaseService, _productServicesServices.Services.IdentContractService, _productServicesServices.Services.IdentRequestService, _productServicesServices.Services.IdentResultService, _productSmartSmart.Smart.CheckinService, _productSmartSmart.Smart.DeviceService, _productSmartSmart.Smart.IdentService, _productSmartSmart.Smart.RoutingService, _productSmartSmart.Smart.TransactionService]
+    services: [_productAuthAuth.Auth.SessionService, _productDocumentDocument.Document.UploadService, _productGeneralGeneral.General.SkeletonService, _productGeneralGeneral.General.AccountService, _productGeneralGeneral.General.AccountDeviceService, _productGeneralGeneral.General.ContactService, _productGeneralGeneral.General.DeliveryAddressService, _productGeneralGeneral.General.FileAccessService, _productGeneralGeneral.General.MerchantService, _productGeneralGeneral.General.NewsService, _productGeneralGeneral.General.NotificationService, _productGeneralGeneral.General.PublicMerchantService, _productGeneralGeneral.General.StoreGroupService, _productGeneralGeneral.General.StoreService, _productGeneralGeneral.General.TransactionService, _productLoyaltyLoyalty.Loyalty.ActionService, _productLoyaltyLoyalty.Loyalty.ActionProfileService, _productLoyaltyLoyalty.Loyalty.ActionMessageService, _productLoyaltyLoyalty.Loyalty.ActionCampaignService, _productLoyaltyLoyalty.Loyalty.ActionConfigService, _productLoyaltyLoyalty.Loyalty.BeaconService, _productLoyaltyLoyalty.Loyalty.CardGroupService, _productLoyaltyLoyalty.Loyalty.CardService, _productLoyaltyLoyalty.Loyalty.ChargeService, _productLoyaltyLoyalty.Loyalty.CheckinService, _productLoyaltyLoyalty.Loyalty.CustomerService, _productLoyaltyLoyalty.Loyalty.MerchantCardService, _productLoyaltyLoyalty.Loyalty.ProgramService, _productLoyaltyLoyalty.Loyalty.ProgramSpecialService, _productLoyaltyLoyalty.Loyalty.ReportService, _productLoyaltyLoyalty.Loyalty.SaleService, _productLoyaltyLoyalty.Loyalty.StoreGroupService, _productLoyaltyLoyalty.Loyalty.TransactionService, _productPaymentPayment.Payment.ContainerService, _productPaymentPayment.Payment.ContractService, _productPaymentPayment.Payment.CustomerService, _productPaymentPayment.Payment.SecupayDebitService, _productPaymentPayment.Payment.SecupayPrepayService, _productPaymentPayment.Payment.TransactionService, _productPrepaidPrepaid.Prepaid.ContractService, _productPrepaidPrepaid.Prepaid.ItemGroupService, _productPrepaidPrepaid.Prepaid.ItemService, _productPrepaidPrepaid.Prepaid.SaleService, _productPrepaidPrepaid.Prepaid.StockService, _productServicesServices.Services.IdentCaseService, _productServicesServices.Services.IdentContractService, _productServicesServices.Services.IdentRequestService, _productServicesServices.Services.IdentResultService, _productSmartSmart.Smart.CheckinService, _productSmartSmart.Smart.DeviceService, _productSmartSmart.Smart.IdentService, _productSmartSmart.Smart.RoutingService, _productSmartSmart.Smart.TransactionService]
 };
 exports.ClientBrowserEnvironment = ClientBrowserEnvironment;
 ClientBrowserEnvironment.StompChannel = {
@@ -685,8 +685,11 @@ var ServiceMap = {
         Transactions: _productGeneralGeneral.General.TransactionService.Uid
     },
     Loyalty: {
-        ActionActions: _productLoyaltyLoyalty.Loyalty.ActionActionService.Uid,
+        ActionCampaigns: _productLoyaltyLoyalty.Loyalty.ActionCampaignService.Uid,
+        ActionConfigs: _productLoyaltyLoyalty.Loyalty.ActionConfigService.Uid,
+        ActionMessages: _productLoyaltyLoyalty.Loyalty.ActionMessageService.Uid,
         ActionProfiles: _productLoyaltyLoyalty.Loyalty.ActionProfileService.Uid,
+        Actions: _productLoyaltyLoyalty.Loyalty.ActionService.Uid,
         Beacons: _productLoyaltyLoyalty.Loyalty.BeaconService.Uid,
         CardGroups: _productLoyaltyLoyalty.Loyalty.CardGroupService.Uid,
         Cards: _productLoyaltyLoyalty.Loyalty.CardService.Uid,
@@ -696,8 +699,10 @@ var ServiceMap = {
         MerchantCards: _productLoyaltyLoyalty.Loyalty.MerchantCardService.Uid,
         Programs: _productLoyaltyLoyalty.Loyalty.ProgramService.Uid,
         ProrgamSpecials: _productLoyaltyLoyalty.Loyalty.ProgramSpecialService.Uid,
+        Reports: _productLoyaltyLoyalty.Loyalty.ReportService.Uid,
         Sales: _productLoyaltyLoyalty.Loyalty.SaleService.Uid,
-        StoreGroups: _productLoyaltyLoyalty.Loyalty.StoreGroupService.Uid
+        StoreGroups: _productLoyaltyLoyalty.Loyalty.StoreGroupService.Uid,
+        Transactions: _productLoyaltyLoyalty.Loyalty.TransactionService.Uid
     },
     Payment: {
         Containers: _productPaymentPayment.Payment.ContainerService.Uid,
@@ -729,7 +734,7 @@ var ServiceMap = {
     }
 };
 exports.ServiceMap = ServiceMap;
-},{"./auth/token-storage":5,"./net/socket/socket-browser":16,"./net/stomp":19,"./product/auth/auth":21,"./product/document/document":23,"./product/general/general":30,"./product/loyalty/loyalty":47,"./product/payment/payment":56,"./product/prepaid/prepaid":63,"./product/services/services":71,"./product/smart/smart":76}],8:[function(require,module,exports){
+},{"./auth/token-storage":5,"./net/socket/socket-browser":16,"./net/stomp":19,"./product/auth/auth":21,"./product/document/document":23,"./product/general/general":30,"./product/loyalty/loyalty":50,"./product/payment/payment":61,"./product/prepaid/prepaid":68,"./product/services/services":76,"./product/smart/smart":81}],8:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -798,6 +803,10 @@ var ClientConfig = (function () {
         return this.retrieveToken;
     };
 
+    ClientConfig.prototype.getWithCredentials = function getWithCredentials() {
+        return this.withCredentials;
+    };
+
     ClientConfig.prototype._getCompleteUrl = function _getCompleteUrl(value) {
 
         var url = value;
@@ -840,7 +849,9 @@ ClientConfig._defaults = {
     stompConnectTimeoutSec: 0,
     stompMessageTimeoutSec: 0,
     stompMessageAge: 0,
-    retrieveToken: null
+    retrieveToken: null,
+
+    withCredentials: false
 };
 
 ClientConfig.defaults = function () {
@@ -1091,7 +1102,7 @@ var ClientContext = (function () {
 })();
 
 exports.ClientContext = ClientContext;
-},{"./auth/auth":2,"./auth/credentials":3,"./auth/token-storage":5,"./net/channel":12,"./net/rest":15,"./product/app/app-service":20,"eventemitter3":81,"lodash":82}],10:[function(require,module,exports){
+},{"./auth/auth":2,"./auth/credentials":3,"./auth/token-storage":5,"./net/channel":12,"./net/rest":15,"./product/app/app-service":20,"eventemitter3":86,"lodash":87}],10:[function(require,module,exports){
 "use strict";
 
 exports.__esModule = true;
@@ -1171,7 +1182,7 @@ Client.create = function (config, environment) {
 
     return new Client(config, environment);
 };
-},{"./client-config":8,"./client-context":9,"./client-version":10,"./net/message":14,"minilog":91}],12:[function(require,module,exports){
+},{"./client-config":8,"./client-context":9,"./client-version":10,"./net/message":14,"minilog":96}],12:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -1196,11 +1207,11 @@ Channel.REST = 'rest';
 Channel.STOMP = 'stomp';
 
 Channel.METHOD = {
-    GET: "GET",
-    CREATE: "CREATE",
-    UPDATE: "UPDATE",
-    DELETE: "DELETE",
-    EXECUTE: "EXECUTE"
+    GET: 'GET',
+    CREATE: 'CREATE',
+    UPDATE: 'UPDATE',
+    DELETE: 'DELETE',
+    EXECUTE: 'EXECUTE'
 };
 },{}],13:[function(require,module,exports){
 'use strict';
@@ -1413,6 +1424,11 @@ var Rest = (function () {
             return context.getAuth().getToken(extend);
         };
 
+        this.withCredentials = function () {
+
+            return context.getConfig().getWithCredentials();
+        };
+
         this.isRequestWithToken = context.isRequestWithToken.bind(context);
     };
 
@@ -1434,38 +1450,7 @@ var Rest = (function () {
 
         return new Promise(function (resolve, reject) {
 
-            var url = message.baseUrl ? message.baseUrl + message.url : message.url;
-            var request = _this.r(url, message.method);
-
-            if (message.headers) {
-                request.set(message.headers);
-            }
-
-            if (message.query) {
-                request.query(message.query);
-            }
-
-            if (message.body) {
-                request.send(message.body);
-            }
-
-            if (message.accept) {
-                request.accept(message.accept);
-            }
-
-            if (message.multipart && message.multipart.files) {
-                message.multipart.files.forEach(function (item) {
-                    request.attach(item.field, item.path, item.filename);
-                });
-            }
-
-            if (message.multipart && message.multipart.fields) {
-                message.multipart.fields.forEach(function (item) {
-                    request.field(item.name, item.value);
-                });
-            }
-
-            request.end(function (err, res) {
+            _this.createRequestFromMessage(message).end(function (err, res) {
                 if (err) {
                     reject(err, res);
                 } else {
@@ -1473,6 +1458,46 @@ var Rest = (function () {
                 }
             });
         });
+    };
+
+    Rest.prototype.createRequestFromMessage = function createRequestFromMessage(message) {
+
+        var url = message.baseUrl ? message.baseUrl + message.url : message.url;
+        var request = this.r(url, message.method);
+
+        if (this.withCredentials()) {
+            request.withCredentials();
+        }
+
+        if (message.headers) {
+            request.set(message.headers);
+        }
+
+        if (message.query) {
+            request.query(message.query);
+        }
+
+        if (message.body) {
+            request.send(message.body);
+        }
+
+        if (message.accept) {
+            request.accept(message.accept);
+        }
+
+        if (message.multipart && message.multipart.files) {
+            message.multipart.files.forEach(function (item) {
+                request.attach(item.field, item.path, item.filename);
+            });
+        }
+
+        if (message.multipart && message.multipart.fields) {
+            message.multipart.fields.forEach(function (item) {
+                request.field(item.name, item.value);
+            });
+        }
+
+        return request;
     };
 
     Rest.prototype.getAuthHeader = function getAuthHeader(token) {
@@ -1516,6 +1541,22 @@ var Rest = (function () {
         var pr = !this.isRequestWithToken || this.isRequestWithToken(params.options) ? this.sendWithToken(message) : this.send(message);
 
         return pr.then(requestSuccess)['catch'](requestError);
+    };
+
+    Rest.prototype.generateUrl = function generateUrl(method, params) {
+
+        var message = this.createMessageForRequest(method, params);
+        var req = this.createRequestFromMessage(message);
+
+        var query = req._query ? req._query.join('&') : '';
+
+        var url = req.url;
+
+        if (query) {
+            url += (url.indexOf('?') >= 0 ? '&' : '?') + query;
+        }
+
+        return url;
     };
 
     Rest.prototype.createMessageForRequest = function createMessageForRequest(method, params) {
@@ -1584,7 +1625,7 @@ var Rest = (function () {
 })();
 
 exports.Rest = Rest;
-},{"../auth/exception":4,"./channel":12,"./exception":13,"./message":14,"minilog":91,"superagent":95}],16:[function(require,module,exports){
+},{"../auth/exception":4,"./channel":12,"./exception":13,"./message":14,"minilog":96,"superagent":100}],16:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -1610,7 +1651,7 @@ var SocketAtBrowser = (function () {
         Object.assign(this, _eventemitter32['default'].prototype);
 
         var ws = new WebSocket(url);
-        ws.binaryType = "arraybuffer";
+        ws.binaryType = 'arraybuffer';
 
         ws.onopen = function () {
 
@@ -1670,7 +1711,7 @@ SocketAtBrowser.disconnect = function (socket) {
     _minilog2['default']('secucard.socket.browser').debug('disconnect called');
     socket.close();
 };
-},{"eventemitter3":81,"minilog":91}],17:[function(require,module,exports){
+},{"eventemitter3":86,"minilog":96}],17:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -1697,7 +1738,7 @@ var Frame = (function () {
 
     Frame.prototype.as_string = function as_string() {
         var header_strs = [],
-            frame = "",
+            frame = '',
             command = this.command,
             headers = this.headers,
             body = this.body;
@@ -1706,15 +1747,15 @@ var Frame = (function () {
             header_strs.push(header + ':' + headers[header]);
         }
 
-        frame += command + "\n";
-        frame += header_strs.join("\n");
-        frame += "\n\n";
+        frame += command + '\n';
+        frame += header_strs.join('\n');
+        frame += '\n\n';
 
         if (body) {
             frame += body;
         }
 
-        frame += '\x00';
+        frame += '\u0000';
 
         return frame;
     };
@@ -1800,21 +1841,21 @@ var Stomp = (function () {
     Stomp.prototype.handle_new_frame = function handle_new_frame(this_frame) {
 
         switch (this_frame.command) {
-            case "MESSAGE":
+            case 'MESSAGE':
                 if (this.is_a_message(this_frame)) {
                     this.should_run_message_callback(this_frame);
                     this.emit('message', this_frame);
                 }
                 break;
-            case "CONNECTED":
+            case 'CONNECTED':
                 _minilog2['default']('secucard.STOMP').debug('Connected');
                 this.session = this_frame.headers['session'];
                 this.emit('connected');
                 break;
-            case "RECEIPT":
+            case 'RECEIPT':
                 this.emit('receipt', this_frame.headers['receipt-id']);
                 break;
-            case "ERROR":
+            case 'ERROR':
                 this.emit('error', this_frame);
                 break;
             default:
@@ -1959,11 +2000,11 @@ var Stomp = (function () {
                 headers.passcode = stomp.passcode;
             }
 
-            if (utils.really_defined(stomp["client-id"])) {
-                headers["client-id"] = stomp["client-id"];
+            if (utils.really_defined(stomp['client-id'])) {
+                headers['client-id'] = stomp['client-id'];
             }
-            if (utils.really_defined(stomp["vhost"])) {
-                headers["host"] = stomp["vhost"];
+            if (utils.really_defined(stomp['vhost'])) {
+                headers['host'] = stomp['vhost'];
             }
 
             _this2.stomp_connect(stomp, headers);
@@ -1980,10 +2021,10 @@ var Stomp = (function () {
         socket.on('data', function (chunk) {
 
             buffer += chunk;
-            var frames = buffer.split('\0\n');
+            var frames = buffer.split('\u0000\n');
 
             if (frames.length == 1) {
-                frames = buffer.split('\0');
+                frames = buffer.split('\u0000');
             }
 
             if (frames.length == 1) return;
@@ -2003,7 +2044,7 @@ var Stomp = (function () {
             _minilog2['default']('secucard.STOMP').debug('Disconnected with error:', error);
             stomp.session = null;
             stomp.connected = false;
-            stomp.emit("disconnected", error);
+            stomp.emit('disconnected', error);
         });
 
         if (handleConnected) {
@@ -2082,7 +2123,7 @@ var Stomp = (function () {
 })();
 
 exports.Stomp = Stomp;
-},{"./frame":17,"eventemitter3":81,"minilog":91,"uuid":99}],19:[function(require,module,exports){
+},{"./frame":17,"eventemitter3":86,"minilog":96,"uuid":104}],19:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -2526,7 +2567,7 @@ var Stomp = (function () {
 })();
 
 exports.Stomp = Stomp;
-},{"../auth/exception":4,"./channel":12,"./exception":13,"./stomp-impl/stomp":18,"eventemitter3":81,"minilog":91,"uuid":99}],20:[function(require,module,exports){
+},{"../auth/exception":4,"./channel":12,"./exception":13,"./stomp-impl/stomp":18,"eventemitter3":86,"minilog":96,"uuid":104}],20:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -2535,7 +2576,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'd
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 
-function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; }
 
 var _productService = require('../product-service');
 
@@ -2544,8 +2585,6 @@ var _utilMixins = require('../../util/mixins');
 var _utilMixins2 = _interopRequireDefault(_utilMixins);
 
 var AppService = (function (_ProductService) {
-    _inherits(AppService, _ProductService);
-
     function AppService() {
         _classCallCheck(this, AppService);
 
@@ -2553,6 +2592,8 @@ var AppService = (function (_ProductService) {
         this.isApp = true;
         this.init();
     }
+
+    _inherits(AppService, _ProductService);
 
     AppService.prototype.init = function init() {};
 
@@ -2578,7 +2619,7 @@ AppService.createWithMixin = function (ServiceMixin) {
     var Mixed = _utilMixins2['default'](AppService, ServiceMixin);
     return new Mixed();
 };
-},{"../../util/mixins":78,"../product-service":66}],21:[function(require,module,exports){
+},{"../../util/mixins":83,"../product-service":71}],21:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -2595,18 +2636,18 @@ exports.__esModule = true;
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 
-function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; }
 
 var _productService = require('../product-service');
 
 var SessionService = (function (_ProductService) {
-    _inherits(SessionService, _ProductService);
-
     function SessionService() {
         _classCallCheck(this, SessionService);
 
         _ProductService.call(this);
     }
+
+    _inherits(SessionService, _ProductService);
 
     SessionService.prototype.getEndpoint = function getEndpoint() {
         return ['auth', 'sessions'];
@@ -2626,7 +2667,7 @@ var SessionService = (function (_ProductService) {
 exports.SessionService = SessionService;
 
 SessionService.Uid = ['auth', 'sessions'].join('.');
-},{"../product-service":66}],23:[function(require,module,exports){
+},{"../product-service":71}],23:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -2644,18 +2685,18 @@ exports.__esModule = true;
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 
-function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; }
 
 var _productService = require('../product-service');
 
 var UploadService = (function (_ProductService) {
-    _inherits(UploadService, _ProductService);
-
     function UploadService() {
         _classCallCheck(this, UploadService);
 
         _ProductService.call(this);
     }
+
+    _inherits(UploadService, _ProductService);
 
     UploadService.prototype.getEndpoint = function getEndpoint() {
         return ['document', 'uploads'];
@@ -2683,25 +2724,25 @@ var UploadService = (function (_ProductService) {
 exports.UploadService = UploadService;
 
 UploadService.Uid = ['document', 'uploads'].join('.');
-},{"../product-service":66}],25:[function(require,module,exports){
+},{"../product-service":71}],25:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 
-function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; }
 
 var _productService = require('../product-service');
 
 var AccountDeviceService = (function (_ProductService) {
-    _inherits(AccountDeviceService, _ProductService);
-
     function AccountDeviceService() {
         _classCallCheck(this, AccountDeviceService);
 
         _ProductService.call(this);
     }
+
+    _inherits(AccountDeviceService, _ProductService);
 
     AccountDeviceService.prototype.getEndpoint = function getEndpoint() {
         return ['general', 'accountdevices'];
@@ -2717,25 +2758,25 @@ var AccountDeviceService = (function (_ProductService) {
 exports.AccountDeviceService = AccountDeviceService;
 
 AccountDeviceService.Uid = ['general', 'accountdevices'].join('.');
-},{"../product-service":66}],26:[function(require,module,exports){
+},{"../product-service":71}],26:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 
-function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; }
 
 var _productService = require('../product-service');
 
 var AccountService = (function (_ProductService) {
-    _inherits(AccountService, _ProductService);
-
     function AccountService() {
         _classCallCheck(this, AccountService);
 
         _ProductService.call(this);
     }
+
+    _inherits(AccountService, _ProductService);
 
     AccountService.prototype.getEndpoint = function getEndpoint() {
         return ['general', 'accounts'];
@@ -2759,7 +2800,7 @@ var AccountService = (function (_ProductService) {
     };
 
     AccountService.prototype.updateBeacons = function updateBeacons(beaconList) {
-        return this.updateWithAction("me", 'beaconEnvironment', null, beaconList);
+        return this.updateWithAction('me', 'beaconEnvironment', null, beaconList);
     };
 
     AccountService.prototype.updateGCM = function updateGCM(accountId, gcm) {
@@ -2772,25 +2813,25 @@ var AccountService = (function (_ProductService) {
 exports.AccountService = AccountService;
 
 AccountService.Uid = ['general', 'accounts'].join('.');
-},{"../product-service":66}],27:[function(require,module,exports){
+},{"../product-service":71}],27:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 
-function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; }
 
 var _productService = require('../product-service');
 
 var ContactService = (function (_ProductService) {
-    _inherits(ContactService, _ProductService);
-
     function ContactService() {
         _classCallCheck(this, ContactService);
 
         _ProductService.call(this);
     }
+
+    _inherits(ContactService, _ProductService);
 
     ContactService.prototype.getEndpoint = function getEndpoint() {
         return ['general', 'contacts'];
@@ -2806,25 +2847,25 @@ var ContactService = (function (_ProductService) {
 exports.ContactService = ContactService;
 
 ContactService.Uid = ['general', 'contacts'].join('.');
-},{"../product-service":66}],28:[function(require,module,exports){
+},{"../product-service":71}],28:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 
-function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; }
 
 var _productService = require('../product-service');
 
 var DeliveryAddressService = (function (_ProductService) {
-    _inherits(DeliveryAddressService, _ProductService);
-
     function DeliveryAddressService() {
         _classCallCheck(this, DeliveryAddressService);
 
         _ProductService.call(this);
     }
+
+    _inherits(DeliveryAddressService, _ProductService);
 
     DeliveryAddressService.prototype.getEndpoint = function getEndpoint() {
         return ['general', 'deliveryaddresses'];
@@ -2840,25 +2881,25 @@ var DeliveryAddressService = (function (_ProductService) {
 exports.DeliveryAddressService = DeliveryAddressService;
 
 DeliveryAddressService.Uid = ['general', 'deliveryaddresses'].join('.');
-},{"../product-service":66}],29:[function(require,module,exports){
+},{"../product-service":71}],29:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 
-function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; }
 
 var _productService = require('../product-service');
 
 var FileAccessService = (function (_ProductService) {
-    _inherits(FileAccessService, _ProductService);
-
     function FileAccessService() {
         _classCallCheck(this, FileAccessService);
 
         _ProductService.call(this);
     }
+
+    _inherits(FileAccessService, _ProductService);
 
     FileAccessService.prototype.getEndpoint = function getEndpoint() {
         return ['general', 'fileaccesses'];
@@ -2874,7 +2915,7 @@ var FileAccessService = (function (_ProductService) {
 exports.FileAccessService = FileAccessService;
 
 FileAccessService.Uid = ['general', 'fileaccesses'].join('.');
-},{"../product-service":66}],30:[function(require,module,exports){
+},{"../product-service":71}],30:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -2928,18 +2969,18 @@ exports.__esModule = true;
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 
-function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; }
 
 var _productService = require('../product-service');
 
 var MerchantService = (function (_ProductService) {
-    _inherits(MerchantService, _ProductService);
-
     function MerchantService() {
         _classCallCheck(this, MerchantService);
 
         _ProductService.call(this);
     }
+
+    _inherits(MerchantService, _ProductService);
 
     MerchantService.prototype.getEndpoint = function getEndpoint() {
         return ['general', 'merchants'];
@@ -2955,25 +2996,25 @@ var MerchantService = (function (_ProductService) {
 exports.MerchantService = MerchantService;
 
 MerchantService.Uid = ['general', 'merchants'].join('.');
-},{"../product-service":66}],32:[function(require,module,exports){
+},{"../product-service":71}],32:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 
-function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; }
 
 var _productService = require('../product-service');
 
 var NewsService = (function (_ProductService) {
-    _inherits(NewsService, _ProductService);
-
     function NewsService() {
         _classCallCheck(this, NewsService);
 
         _ProductService.call(this);
     }
+
+    _inherits(NewsService, _ProductService);
 
     NewsService.prototype.getEndpoint = function getEndpoint() {
         return ['general', 'news'];
@@ -2993,25 +3034,25 @@ var NewsService = (function (_ProductService) {
 exports.NewsService = NewsService;
 
 NewsService.Uid = ['general', 'news'].join('.');
-},{"../product-service":66}],33:[function(require,module,exports){
+},{"../product-service":71}],33:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 
-function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; }
 
 var _productService = require('../product-service');
 
 var NotificationService = (function (_ProductService) {
-    _inherits(NotificationService, _ProductService);
-
     function NotificationService() {
         _classCallCheck(this, NotificationService);
 
         _ProductService.call(this);
     }
+
+    _inherits(NotificationService, _ProductService);
 
     NotificationService.prototype.getEndpoint = function getEndpoint() {
         return ['general', 'notifications'];
@@ -3027,25 +3068,25 @@ var NotificationService = (function (_ProductService) {
 exports.NotificationService = NotificationService;
 
 NotificationService.Uid = ['general', 'notifications'].join('.');
-},{"../product-service":66}],34:[function(require,module,exports){
+},{"../product-service":71}],34:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 
-function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; }
 
 var _productService = require('../product-service');
 
 var PublicMerchantService = (function (_ProductService) {
-    _inherits(PublicMerchantService, _ProductService);
-
     function PublicMerchantService() {
         _classCallCheck(this, PublicMerchantService);
 
         _ProductService.call(this);
     }
+
+    _inherits(PublicMerchantService, _ProductService);
 
     PublicMerchantService.prototype.getEndpoint = function getEndpoint() {
         return ['general', 'publicmerchants'];
@@ -3061,25 +3102,25 @@ var PublicMerchantService = (function (_ProductService) {
 exports.PublicMerchantService = PublicMerchantService;
 
 PublicMerchantService.Uid = ['general', 'publicmerchants'].join('.');
-},{"../product-service":66}],35:[function(require,module,exports){
+},{"../product-service":71}],35:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 
-function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; }
 
 var _productService = require('../product-service');
 
 var SkeletonService = (function (_ProductService) {
-    _inherits(SkeletonService, _ProductService);
-
     function SkeletonService() {
         _classCallCheck(this, SkeletonService);
 
         _ProductService.call(this);
     }
+
+    _inherits(SkeletonService, _ProductService);
 
     SkeletonService.prototype.getEndpoint = function getEndpoint() {
         return ['general', 'skeletons'];
@@ -3099,25 +3140,25 @@ var SkeletonService = (function (_ProductService) {
 exports.SkeletonService = SkeletonService;
 
 SkeletonService.Uid = ['general', 'skeletons'].join('.');
-},{"../product-service":66}],36:[function(require,module,exports){
+},{"../product-service":71}],36:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 
-function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; }
 
 var _productService = require('../product-service');
 
 var StoreGroupService = (function (_ProductService) {
-    _inherits(StoreGroupService, _ProductService);
-
     function StoreGroupService() {
         _classCallCheck(this, StoreGroupService);
 
         _ProductService.call(this);
     }
+
+    _inherits(StoreGroupService, _ProductService);
 
     StoreGroupService.prototype.getEndpoint = function getEndpoint() {
         return ['general', 'storegroups'];
@@ -3133,25 +3174,25 @@ var StoreGroupService = (function (_ProductService) {
 exports.StoreGroupService = StoreGroupService;
 
 StoreGroupService.Uid = ['general', 'storegroups'].join('.');
-},{"../product-service":66}],37:[function(require,module,exports){
+},{"../product-service":71}],37:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 
-function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; }
 
 var _productService = require('../product-service');
 
 var StoreService = (function (_ProductService) {
-    _inherits(StoreService, _ProductService);
-
     function StoreService() {
         _classCallCheck(this, StoreService);
 
         _ProductService.call(this);
     }
+
+    _inherits(StoreService, _ProductService);
 
     StoreService.prototype.getEndpoint = function getEndpoint() {
         return ['general', 'stores'];
@@ -3175,25 +3216,25 @@ var StoreService = (function (_ProductService) {
 exports.StoreService = StoreService;
 
 StoreService.Uid = ['general', 'stores'].join('.');
-},{"../product-service":66}],38:[function(require,module,exports){
+},{"../product-service":71}],38:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 
-function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; }
 
 var _productService = require('../product-service');
 
 var TransactionService = (function (_ProductService) {
-    _inherits(TransactionService, _ProductService);
-
     function TransactionService() {
         _classCallCheck(this, TransactionService);
 
         _ProductService.call(this);
     }
+
+    _inherits(TransactionService, _ProductService);
 
     TransactionService.prototype.getEndpoint = function getEndpoint() {
         return ['general', 'transactions'];
@@ -3209,59 +3250,143 @@ var TransactionService = (function (_ProductService) {
 exports.TransactionService = TransactionService;
 
 TransactionService.Uid = ['general', 'transactions'].join('.');
-},{"../product-service":66}],39:[function(require,module,exports){
+},{"../product-service":71}],39:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 
-function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; }
 
 var _productService = require('../product-service');
 
-var ActionActionService = (function (_ProductService) {
-    _inherits(ActionActionService, _ProductService);
-
-    function ActionActionService() {
-        _classCallCheck(this, ActionActionService);
+var ActionCampaignService = (function (_ProductService) {
+    function ActionCampaignService() {
+        _classCallCheck(this, ActionCampaignService);
 
         _ProductService.call(this);
     }
 
-    ActionActionService.prototype.getEndpoint = function getEndpoint() {
-        return ['loyalty', 'actionactions'];
+    _inherits(ActionCampaignService, _ProductService);
+
+    ActionCampaignService.prototype.getCampaignRemoveAllowed = function getCampaignRemoveAllowed(id) {
+        return this.retrieveWithAction(id, 'campaignRemoveAllowed');
     };
 
-    ActionActionService.prototype.getEventTargets = function getEventTargets() {
+    ActionCampaignService.prototype.getEndpoint = function getEndpoint() {
+        return ['loyalty', 'actioncampaigns'];
+    };
+
+    ActionCampaignService.prototype.getEventTargets = function getEventTargets() {
         return [];
     };
 
-    return ActionActionService;
+    return ActionCampaignService;
 })(_productService.ProductService);
 
-exports.ActionActionService = ActionActionService;
+exports.ActionCampaignService = ActionCampaignService;
 
-ActionActionService.Uid = ['loyalty', 'actionactions'].join('.');
-},{"../product-service":66}],40:[function(require,module,exports){
+ActionCampaignService.Uid = ['loyalty', 'actioncampaigns'].join('.');
+},{"../product-service":71}],40:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 
-function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; }
+
+var _productService = require('../product-service');
+
+var ActionConfigService = (function (_ProductService) {
+    function ActionConfigService() {
+        _classCallCheck(this, ActionConfigService);
+
+        _ProductService.call(this);
+    }
+
+    _inherits(ActionConfigService, _ProductService);
+
+    ActionConfigService.prototype.getEndpoint = function getEndpoint() {
+        return ['loyalty', 'actionconfigs'];
+    };
+
+    ActionConfigService.prototype.getEventTargets = function getEventTargets() {
+        return [];
+    };
+
+    ActionConfigService.prototype.checkConfirmationCode = function checkConfirmationCode(id, code) {
+        return this.execute(id, 'checkConfirmationCode', code);
+    };
+
+    ActionConfigService.prototype.processConfirmationCode = function processConfirmationCode(id) {
+        return this.execute(id, 'processConfirmationCode');
+    };
+
+    ActionConfigService.prototype.cancelConfirmationCode = function cancelConfirmationCode(id) {
+        return this.execute(id, 'cancelConfirmationCode');
+    };
+
+    return ActionConfigService;
+})(_productService.ProductService);
+
+exports.ActionConfigService = ActionConfigService;
+
+ActionConfigService.Uid = ['loyalty', 'actionconfigs'].join('.');
+},{"../product-service":71}],41:[function(require,module,exports){
+'use strict';
+
+exports.__esModule = true;
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; }
+
+var _productService = require('../product-service');
+
+var ActionMessageService = (function (_ProductService) {
+    function ActionMessageService() {
+        _classCallCheck(this, ActionMessageService);
+
+        _ProductService.call(this);
+    }
+
+    _inherits(ActionMessageService, _ProductService);
+
+    ActionMessageService.prototype.getEndpoint = function getEndpoint() {
+        return ['loyalty', 'actionmessages'];
+    };
+
+    ActionMessageService.prototype.getEventTargets = function getEventTargets() {
+        return [];
+    };
+
+    return ActionMessageService;
+})(_productService.ProductService);
+
+exports.ActionMessageService = ActionMessageService;
+
+ActionMessageService.Uid = ['loyalty', 'actionmessages'].join('.');
+},{"../product-service":71}],42:[function(require,module,exports){
+'use strict';
+
+exports.__esModule = true;
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; }
 
 var _productService = require('../product-service');
 
 var ActionProfileService = (function (_ProductService) {
-    _inherits(ActionProfileService, _ProductService);
-
     function ActionProfileService() {
         _classCallCheck(this, ActionProfileService);
 
         _ProductService.call(this);
     }
+
+    _inherits(ActionProfileService, _ProductService);
 
     ActionProfileService.prototype.getEndpoint = function getEndpoint() {
         return ['loyalty', 'actionprofiles'];
@@ -3277,25 +3402,59 @@ var ActionProfileService = (function (_ProductService) {
 exports.ActionProfileService = ActionProfileService;
 
 ActionProfileService.Uid = ['loyalty', 'actionprofiles'].join('.');
-},{"../product-service":66}],41:[function(require,module,exports){
+},{"../product-service":71}],43:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 
-function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; }
+
+var _productService = require('../product-service');
+
+var ActionService = (function (_ProductService) {
+    function ActionService() {
+        _classCallCheck(this, ActionService);
+
+        _ProductService.call(this);
+    }
+
+    _inherits(ActionService, _ProductService);
+
+    ActionService.prototype.getEndpoint = function getEndpoint() {
+        return ['loyalty', 'actions'];
+    };
+
+    ActionService.prototype.getEventTargets = function getEventTargets() {
+        return [];
+    };
+
+    return ActionService;
+})(_productService.ProductService);
+
+exports.ActionService = ActionService;
+
+ActionService.Uid = ['loyalty', 'actions'].join('.');
+},{"../product-service":71}],44:[function(require,module,exports){
+'use strict';
+
+exports.__esModule = true;
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; }
 
 var _productService = require('../product-service');
 
 var BeaconService = (function (_ProductService) {
-    _inherits(BeaconService, _ProductService);
-
     function BeaconService() {
         _classCallCheck(this, BeaconService);
 
         _ProductService.call(this);
     }
+
+    _inherits(BeaconService, _ProductService);
 
     BeaconService.prototype.getEndpoint = function getEndpoint() {
         return ['loyalty', 'beacons'];
@@ -3311,25 +3470,25 @@ var BeaconService = (function (_ProductService) {
 exports.BeaconService = BeaconService;
 
 BeaconService.Uid = ['loyalty', 'beacons'].join('.');
-},{"../product-service":66}],42:[function(require,module,exports){
+},{"../product-service":71}],45:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 
-function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; }
 
 var _productService = require('../product-service');
 
 var CardGroupService = (function (_ProductService) {
-    _inherits(CardGroupService, _ProductService);
-
     function CardGroupService() {
         _classCallCheck(this, CardGroupService);
 
         _ProductService.call(this);
     }
+
+    _inherits(CardGroupService, _ProductService);
 
     CardGroupService.prototype.getEndpoint = function getEndpoint() {
         return ['loyalty', 'cardgroups'];
@@ -3345,25 +3504,25 @@ var CardGroupService = (function (_ProductService) {
 exports.CardGroupService = CardGroupService;
 
 CardGroupService.Uid = ['loyalty', 'cardgroups'].join('.');
-},{"../product-service":66}],43:[function(require,module,exports){
+},{"../product-service":71}],46:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 
-function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; }
 
 var _productService = require('../product-service');
 
 var CardService = (function (_ProductService) {
-    _inherits(CardService, _ProductService);
-
     function CardService() {
         _classCallCheck(this, CardService);
 
         _ProductService.call(this);
     }
+
+    _inherits(CardService, _ProductService);
 
     CardService.prototype.getEndpoint = function getEndpoint() {
         return ['loyalty', 'cards'];
@@ -3387,25 +3546,25 @@ var CardService = (function (_ProductService) {
 exports.CardService = CardService;
 
 CardService.Uid = ['loyalty', 'cards'].join('.');
-},{"../product-service":66}],44:[function(require,module,exports){
+},{"../product-service":71}],47:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 
-function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; }
 
 var _productService = require('../product-service');
 
 var ChargeService = (function (_ProductService) {
-    _inherits(ChargeService, _ProductService);
-
     function ChargeService() {
         _classCallCheck(this, ChargeService);
 
         _ProductService.call(this);
     }
+
+    _inherits(ChargeService, _ProductService);
 
     ChargeService.prototype.getEndpoint = function getEndpoint() {
         return ['loyalty', 'charges'];
@@ -3421,25 +3580,25 @@ var ChargeService = (function (_ProductService) {
 exports.ChargeService = ChargeService;
 
 ChargeService.Uid = ['loyalty', 'charges'].join('.');
-},{"../product-service":66}],45:[function(require,module,exports){
+},{"../product-service":71}],48:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 
-function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; }
 
 var _productService = require('../product-service');
 
 var CheckinService = (function (_ProductService) {
-    _inherits(CheckinService, _ProductService);
-
     function CheckinService() {
         _classCallCheck(this, CheckinService);
 
         _ProductService.call(this);
     }
+
+    _inherits(CheckinService, _ProductService);
 
     CheckinService.prototype.getEndpoint = function getEndpoint() {
         return ['loyalty', 'checkins'];
@@ -3455,25 +3614,29 @@ var CheckinService = (function (_ProductService) {
 exports.CheckinService = CheckinService;
 
 CheckinService.Uid = ['loyalty', 'checkins'].join('.');
-},{"../product-service":66}],46:[function(require,module,exports){
+},{"../product-service":71}],49:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 
-function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; }
 
 var _productService = require('../product-service');
 
 var CustomerService = (function (_ProductService) {
-    _inherits(CustomerService, _ProductService);
-
     function CustomerService() {
         _classCallCheck(this, CustomerService);
 
         _ProductService.call(this);
     }
+
+    _inherits(CustomerService, _ProductService);
+
+    CustomerService.prototype.retrieveTemplates = function retrieveTemplates(merchantId) {
+        return this.retrieveWithAction('me', 'templateList', merchantId);
+    };
 
     CustomerService.prototype.getEndpoint = function getEndpoint() {
         return ['loyalty', 'customers'];
@@ -3489,14 +3652,20 @@ var CustomerService = (function (_ProductService) {
 exports.CustomerService = CustomerService;
 
 CustomerService.Uid = ['loyalty', 'customers'].join('.');
-},{"../product-service":66}],47:[function(require,module,exports){
+},{"../product-service":71}],50:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
 
-var _actionActionService = require('./action-action-service');
+var _actionCampaignService = require('./action-campaign-service');
+
+var _actionConfigService = require('./action-config-service');
+
+var _actionMessageService = require('./action-message-service');
 
 var _actionProfileService = require('./action-profile-service');
+
+var _actionService = require('./action-service');
 
 var _beaconService = require('./beacon-service');
 
@@ -3516,14 +3685,21 @@ var _programService = require('./program-service');
 
 var _programSpecialService = require('./program-special-service');
 
+var _reportService = require('./report-service');
+
 var _saleService = require('./sale-service');
 
 var _storeGroupService = require('./store-group-service');
 
+var _transactionService = require('./transaction-service');
+
 var Loyalty = {};
 exports.Loyalty = Loyalty;
-Loyalty.ActionActionService = _actionActionService.ActionActionService;
+Loyalty.ActionCampaignService = _actionCampaignService.ActionCampaignService;
+Loyalty.ActionConfigService = _actionConfigService.ActionConfigService;
+Loyalty.ActionMessageService = _actionMessageService.ActionMessageService;
 Loyalty.ActionProfileService = _actionProfileService.ActionProfileService;
+Loyalty.ActionService = _actionService.ActionService;
 Loyalty.BeaconService = _beaconService.BeaconService;
 Loyalty.CardGroupService = _cardGroupService.CardGroupService;
 Loyalty.CardService = _cardService.CardService;
@@ -3533,30 +3709,37 @@ Loyalty.CustomerService = _customerService.CustomerService;
 Loyalty.MerchantCardService = _merchantCardService.MerchantCardService;
 Loyalty.ProgramService = _programService.ProgramService;
 Loyalty.ProgramSpecialService = _programSpecialService.ProgramSpecialService;
+Loyalty.ReportService = _reportService.ReportService;
 Loyalty.SaleService = _saleService.SaleService;
 Loyalty.StoreGroupService = _storeGroupService.StoreGroupService;
-},{"./action-action-service":39,"./action-profile-service":40,"./beacon-service":41,"./card-group-service":42,"./card-service":43,"./charge-service":44,"./checkin-service":45,"./customer-service":46,"./merchant-card-service":48,"./program-service":49,"./program-special-service":50,"./sale-service":51,"./store-group-service":52}],48:[function(require,module,exports){
+Loyalty.TransactionService = _transactionService.TransactionService;
+},{"./action-campaign-service":39,"./action-config-service":40,"./action-message-service":41,"./action-profile-service":42,"./action-service":43,"./beacon-service":44,"./card-group-service":45,"./card-service":46,"./charge-service":47,"./checkin-service":48,"./customer-service":49,"./merchant-card-service":51,"./program-service":52,"./program-special-service":53,"./report-service":54,"./sale-service":55,"./store-group-service":56,"./transaction-service":57}],51:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 
-function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; }
 
 var _productService = require('../product-service');
 
 var MerchantCardService = (function (_ProductService) {
-    _inherits(MerchantCardService, _ProductService);
-
     function MerchantCardService() {
         _classCallCheck(this, MerchantCardService);
 
         _ProductService.call(this);
     }
 
-    MerchantCardService.prototype.charge = function charge(merchantCardId, amount, storeId) {
-        return this.execute(merchantCardId, 'charge', null, { amount: amount, store: storeId });
+    _inherits(MerchantCardService, _ProductService);
+
+    MerchantCardService.prototype.transact = function transact(merchantCardId, tid, cardnumber, action, amount, bonusAmount, amountSplitAllowed) {
+
+        if (action == 'cashreport') {
+            return this.execute(merchantCardId, 'transaction', null, { tid: tid, action: action });
+        }
+
+        return this.execute(merchantCardId, 'transaction', null, { tid: tid, cardnumber: cardnumber, action: action, amount: amount, bonus_amount: bonusAmount, amount_split_allowed: amountSplitAllowed });
     };
 
     MerchantCardService.prototype.lock = function lock(merchantCardId, reasonId, note) {
@@ -3583,6 +3766,10 @@ var MerchantCardService = (function (_ProductService) {
         return this.updateWithAction(merchantCardId, 'cardgroup', groupId);
     };
 
+    MerchantCardService.prototype.retrieveVirtualTerminalData = function retrieveVirtualTerminalData(merchantId) {
+        return this.retrieveWithAction('me', 'virtualTerminalData', merchantId);
+    };
+
     MerchantCardService.prototype.getEndpoint = function getEndpoint() {
         return ['loyalty', 'merchantcards'];
     };
@@ -3597,25 +3784,25 @@ var MerchantCardService = (function (_ProductService) {
 exports.MerchantCardService = MerchantCardService;
 
 MerchantCardService.Uid = ['loyalty', 'merchantcards'].join('.');
-},{"../product-service":66}],49:[function(require,module,exports){
+},{"../product-service":71}],52:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 
-function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; }
 
 var _productService = require('../product-service');
 
 var ProgramService = (function (_ProductService) {
-    _inherits(ProgramService, _ProductService);
-
     function ProgramService() {
         _classCallCheck(this, ProgramService);
 
         _ProductService.call(this);
     }
+
+    _inherits(ProgramService, _ProductService);
 
     ProgramService.prototype.getEndpoint = function getEndpoint() {
         return ['loyalty', 'programs'];
@@ -3631,25 +3818,25 @@ var ProgramService = (function (_ProductService) {
 exports.ProgramService = ProgramService;
 
 ProgramService.Uid = ['loyalty', 'programs'].join('.');
-},{"../product-service":66}],50:[function(require,module,exports){
+},{"../product-service":71}],53:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 
-function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; }
 
 var _productService = require('../product-service');
 
 var ProgramSpecialService = (function (_ProductService) {
-    _inherits(ProgramSpecialService, _ProductService);
-
     function ProgramSpecialService() {
         _classCallCheck(this, ProgramSpecialService);
 
         _ProductService.call(this);
     }
+
+    _inherits(ProgramSpecialService, _ProductService);
 
     ProgramSpecialService.prototype.getEndpoint = function getEndpoint() {
         return ['loyalty', 'programspecials'];
@@ -3665,25 +3852,59 @@ var ProgramSpecialService = (function (_ProductService) {
 exports.ProgramSpecialService = ProgramSpecialService;
 
 ProgramSpecialService.Uid = ['loyalty', 'programspecials'].join('.');
-},{"../product-service":66}],51:[function(require,module,exports){
+},{"../product-service":71}],54:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 
-function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; }
+
+var _productService = require('../product-service');
+
+var ReportService = (function (_ProductService) {
+    function ReportService() {
+        _classCallCheck(this, ReportService);
+
+        _ProductService.call(this);
+    }
+
+    _inherits(ReportService, _ProductService);
+
+    ReportService.prototype.getEndpoint = function getEndpoint() {
+        return ['loyalty', 'reports'];
+    };
+
+    ReportService.prototype.getEventTargets = function getEventTargets() {
+        return [];
+    };
+
+    return ReportService;
+})(_productService.ProductService);
+
+exports.ReportService = ReportService;
+
+ReportService.Uid = ['loyalty', 'reports'].join('.');
+},{"../product-service":71}],55:[function(require,module,exports){
+'use strict';
+
+exports.__esModule = true;
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; }
 
 var _productService = require('../product-service');
 
 var SaleService = (function (_ProductService) {
-    _inherits(SaleService, _ProductService);
-
     function SaleService() {
         _classCallCheck(this, SaleService);
 
         _ProductService.call(this);
     }
+
+    _inherits(SaleService, _ProductService);
 
     SaleService.prototype.getEndpoint = function getEndpoint() {
         return ['loyalty', 'sales'];
@@ -3699,25 +3920,25 @@ var SaleService = (function (_ProductService) {
 exports.SaleService = SaleService;
 
 SaleService.Uid = ['loyalty', 'sales'].join('.');
-},{"../product-service":66}],52:[function(require,module,exports){
+},{"../product-service":71}],56:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 
-function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; }
 
 var _productService = require('../product-service');
 
 var StoreGroupService = (function (_ProductService) {
-    _inherits(StoreGroupService, _ProductService);
-
     function StoreGroupService() {
         _classCallCheck(this, StoreGroupService);
 
         _ProductService.call(this);
     }
+
+    _inherits(StoreGroupService, _ProductService);
 
     StoreGroupService.prototype.getEndpoint = function getEndpoint() {
         return ['loyalty', 'storegroups'];
@@ -3733,25 +3954,59 @@ var StoreGroupService = (function (_ProductService) {
 exports.StoreGroupService = StoreGroupService;
 
 StoreGroupService.Uid = ['loyalty', 'storegroups'].join('.');
-},{"../product-service":66}],53:[function(require,module,exports){
+},{"../product-service":71}],57:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 
-function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; }
+
+var _productService = require('../product-service');
+
+var TransactionService = (function (_ProductService) {
+    function TransactionService() {
+        _classCallCheck(this, TransactionService);
+
+        _ProductService.call(this);
+    }
+
+    _inherits(TransactionService, _ProductService);
+
+    TransactionService.prototype.getEndpoint = function getEndpoint() {
+        return ['loyalty', 'transactions'];
+    };
+
+    TransactionService.prototype.getEventTargets = function getEventTargets() {
+        return ['loyalty.transactions'];
+    };
+
+    return TransactionService;
+})(_productService.ProductService);
+
+exports.TransactionService = TransactionService;
+
+TransactionService.Uid = ['loyalty', 'transactions'].join('.');
+},{"../product-service":71}],58:[function(require,module,exports){
+'use strict';
+
+exports.__esModule = true;
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; }
 
 var _productService = require('../product-service');
 
 var ContainerService = (function (_ProductService) {
-    _inherits(ContainerService, _ProductService);
-
     function ContainerService() {
         _classCallCheck(this, ContainerService);
 
         _ProductService.call(this);
     }
+
+    _inherits(ContainerService, _ProductService);
 
     ContainerService.prototype.getEndpoint = function getEndpoint() {
         return ['payment', 'containers'];
@@ -3775,25 +4030,25 @@ var ContainerService = (function (_ProductService) {
 exports.ContainerService = ContainerService;
 
 ContainerService.Uid = ['payment', 'containers'].join('.');
-},{"../product-service":66}],54:[function(require,module,exports){
+},{"../product-service":71}],59:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 
-function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; }
 
 var _productService = require('../product-service');
 
 var ContractService = (function (_ProductService) {
-    _inherits(ContractService, _ProductService);
-
     function ContractService() {
         _classCallCheck(this, ContractService);
 
         _ProductService.call(this);
     }
+
+    _inherits(ContractService, _ProductService);
 
     ContractService.prototype.getEndpoint = function getEndpoint() {
         return ['payment', 'contracts'];
@@ -3817,25 +4072,25 @@ var ContractService = (function (_ProductService) {
 exports.ContractService = ContractService;
 
 ContractService.Uid = ['payment', 'contracts'].join('.');
-},{"../product-service":66}],55:[function(require,module,exports){
+},{"../product-service":71}],60:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 
-function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; }
 
 var _productService = require('../product-service');
 
 var CustomerService = (function (_ProductService) {
-    _inherits(CustomerService, _ProductService);
-
     function CustomerService() {
         _classCallCheck(this, CustomerService);
 
         _ProductService.call(this);
     }
+
+    _inherits(CustomerService, _ProductService);
 
     CustomerService.prototype.getEndpoint = function getEndpoint() {
         return ['payment', 'customers'];
@@ -3851,7 +4106,7 @@ var CustomerService = (function (_ProductService) {
 exports.CustomerService = CustomerService;
 
 CustomerService.Uid = ['payment', 'customers'].join('.');
-},{"../product-service":66}],56:[function(require,module,exports){
+},{"../product-service":71}],61:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -3876,25 +4131,25 @@ Payment.CustomerService = _customerService.CustomerService;
 Payment.SecupayDebitService = _secupayDebitService.SecupayDebitService;
 Payment.SecupayPrepayService = _secupayPrepayService.SecupayPrepayService;
 Payment.TransactionService = _transactionService.TransactionService;
-},{"./container-service":53,"./contract-service":54,"./customer-service":55,"./secupay-debit-service":57,"./secupay-prepay-service":58,"./transaction-service":59}],57:[function(require,module,exports){
+},{"./container-service":58,"./contract-service":59,"./customer-service":60,"./secupay-debit-service":62,"./secupay-prepay-service":63,"./transaction-service":64}],62:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 
-function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; }
 
 var _productService = require('../product-service');
 
 var SecupayDebitService = (function (_ProductService) {
-    _inherits(SecupayDebitService, _ProductService);
-
     function SecupayDebitService() {
         _classCallCheck(this, SecupayDebitService);
 
         _ProductService.call(this);
     }
+
+    _inherits(SecupayDebitService, _ProductService);
 
     SecupayDebitService.prototype.getEndpoint = function getEndpoint() {
         return ['payment', 'secupaydebits'];
@@ -3914,25 +4169,25 @@ var SecupayDebitService = (function (_ProductService) {
 exports.SecupayDebitService = SecupayDebitService;
 
 SecupayDebitService.Uid = ['payment', 'secupaydebits'].join('.');
-},{"../product-service":66}],58:[function(require,module,exports){
+},{"../product-service":71}],63:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 
-function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; }
 
 var _productService = require('../product-service');
 
 var SecupayPrepayService = (function (_ProductService) {
-    _inherits(SecupayPrepayService, _ProductService);
-
     function SecupayPrepayService() {
         _classCallCheck(this, SecupayPrepayService);
 
         _ProductService.call(this);
     }
+
+    _inherits(SecupayPrepayService, _ProductService);
 
     SecupayPrepayService.prototype.getEndpoint = function getEndpoint() {
         return ['payment', 'secupayprepays'];
@@ -3952,25 +4207,25 @@ var SecupayPrepayService = (function (_ProductService) {
 exports.SecupayPrepayService = SecupayPrepayService;
 
 SecupayPrepayService.Uid = ['payment', 'secupayprepays'].join('.');
-},{"../product-service":66}],59:[function(require,module,exports){
+},{"../product-service":71}],64:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 
-function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; }
 
 var _productService = require('../product-service');
 
 var TransactionService = (function (_ProductService) {
-    _inherits(TransactionService, _ProductService);
-
     function TransactionService() {
         _classCallCheck(this, TransactionService);
 
         _ProductService.call(this);
     }
+
+    _inherits(TransactionService, _ProductService);
 
     TransactionService.prototype.getShippingUrl = function getShippingUrl(id) {
         return this.retrieveWithAction(id, 'shippingUrl');
@@ -3994,25 +4249,25 @@ var TransactionService = (function (_ProductService) {
 exports.TransactionService = TransactionService;
 
 TransactionService.Uid = ['payment', 'transactions'].join('.');
-},{"../product-service":66}],60:[function(require,module,exports){
+},{"../product-service":71}],65:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 
-function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; }
 
 var _productService = require('../product-service');
 
 var ContractService = (function (_ProductService) {
-    _inherits(ContractService, _ProductService);
-
     function ContractService() {
         _classCallCheck(this, ContractService);
 
         _ProductService.call(this);
     }
+
+    _inherits(ContractService, _ProductService);
 
     ContractService.prototype.getEndpoint = function getEndpoint() {
         return ['prepaid', 'contracts'];
@@ -4028,25 +4283,25 @@ var ContractService = (function (_ProductService) {
 exports.ContractService = ContractService;
 
 ContractService.Uid = ['prepaid', 'contracts'].join('.');
-},{"../product-service":66}],61:[function(require,module,exports){
+},{"../product-service":71}],66:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 
-function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; }
 
 var _productService = require('../product-service');
 
 var ItemGroupService = (function (_ProductService) {
-    _inherits(ItemGroupService, _ProductService);
-
     function ItemGroupService() {
         _classCallCheck(this, ItemGroupService);
 
         _ProductService.call(this);
     }
+
+    _inherits(ItemGroupService, _ProductService);
 
     ItemGroupService.prototype.getEndpoint = function getEndpoint() {
         return ['prepaid', 'itemgroups'];
@@ -4062,25 +4317,25 @@ var ItemGroupService = (function (_ProductService) {
 exports.ItemGroupService = ItemGroupService;
 
 ItemGroupService.Uid = ['prepaid', 'itemgroups'].join('.');
-},{"../product-service":66}],62:[function(require,module,exports){
+},{"../product-service":71}],67:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 
-function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; }
 
 var _productService = require('../product-service');
 
 var ItemService = (function (_ProductService) {
-    _inherits(ItemService, _ProductService);
-
     function ItemService() {
         _classCallCheck(this, ItemService);
 
         _ProductService.call(this);
     }
+
+    _inherits(ItemService, _ProductService);
 
     ItemService.prototype.getEndpoint = function getEndpoint() {
         return ['prepaid', 'items'];
@@ -4096,7 +4351,7 @@ var ItemService = (function (_ProductService) {
 exports.ItemService = ItemService;
 
 ItemService.Uid = ['prepaid', 'items'].join('.');
-},{"../product-service":66}],63:[function(require,module,exports){
+},{"../product-service":71}],68:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -4118,25 +4373,25 @@ Prepaid.ItemGroupService = _itemGroupService.ItemGroupService;
 Prepaid.ItemService = _itemService.ItemService;
 Prepaid.SaleService = _saleService.SaleService;
 Prepaid.StockService = _stockService.StockService;
-},{"./contract-service":60,"./item-group-service":61,"./item-service":62,"./sale-service":64,"./stock-service":65}],64:[function(require,module,exports){
+},{"./contract-service":65,"./item-group-service":66,"./item-service":67,"./sale-service":69,"./stock-service":70}],69:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 
-function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; }
 
 var _productService = require('../product-service');
 
 var SaleService = (function (_ProductService) {
-    _inherits(SaleService, _ProductService);
-
     function SaleService() {
         _classCallCheck(this, SaleService);
 
         _ProductService.call(this);
     }
+
+    _inherits(SaleService, _ProductService);
 
     SaleService.prototype.getEndpoint = function getEndpoint() {
         return ['prepaid', 'sales'];
@@ -4156,25 +4411,25 @@ var SaleService = (function (_ProductService) {
 exports.SaleService = SaleService;
 
 SaleService.Uid = ['prepaid', 'sales'].join('.');
-},{"../product-service":66}],65:[function(require,module,exports){
+},{"../product-service":71}],70:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 
-function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; }
 
 var _productService = require('../product-service');
 
 var StockService = (function (_ProductService) {
-    _inherits(StockService, _ProductService);
-
     function StockService() {
         _classCallCheck(this, StockService);
 
         _ProductService.call(this);
     }
+
+    _inherits(StockService, _ProductService);
 
     StockService.prototype.getEndpoint = function getEndpoint() {
         return ['prepaid', 'stocks'];
@@ -4190,7 +4445,7 @@ var StockService = (function (_ProductService) {
 exports.StockService = StockService;
 
 StockService.Uid = ['prepaid', 'stocks'].join('.');
-},{"../product-service":66}],66:[function(require,module,exports){
+},{"../product-service":71}],71:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -4283,6 +4538,17 @@ var ProductService = (function () {
         return this._request(_netChannel.Channel.METHOD.GET, params, options);
     };
 
+    ProductService.prototype.generateRetrieveUrl = function generateRetrieveUrl(id, queryParams, options) {
+        var params = {
+            endpoint: this.getEndpoint(),
+            objectId: id,
+            queryParams: queryParams,
+            options: options
+        };
+
+        return this._generateUrl(_netChannel.Channel.METHOD.GET, params, options);
+    };
+
     ProductService.prototype.retrieveWithAction = function retrieveWithAction(id, action, actionArg, options) {
 
         var params = {
@@ -4296,6 +4562,19 @@ var ProductService = (function () {
         return this._request(_netChannel.Channel.METHOD.GET, params, options);
     };
 
+    ProductService.prototype.generateRetrieveWithActionUrl = function generateRetrieveWithActionUrl(id, action, actionArg, options) {
+
+        var params = {
+            endpoint: this.getEndpoint(),
+            objectId: id,
+            action: action,
+            actionArg: actionArg,
+            options: options
+        };
+
+        return this._generateUrl(_netChannel.Channel.METHOD.GET, params, options);
+    };
+
     ProductService.prototype.retrieveList = function retrieveList(queryParams, options) {
 
         var params = {
@@ -4305,6 +4584,17 @@ var ProductService = (function () {
         };
 
         return this._request(_netChannel.Channel.METHOD.GET, params, options);
+    };
+
+    ProductService.prototype.generateRetrieveListUrl = function generateRetrieveListUrl(queryParams, options) {
+
+        var params = {
+            endpoint: this.getEndpoint(),
+            queryParams: queryParams,
+            options: options
+        };
+
+        return this._generateUrl(_netChannel.Channel.METHOD.GET, params, options);
     };
 
     ProductService.prototype.create = function create(data, options, multipart) {
@@ -4410,29 +4700,42 @@ var ProductService = (function () {
         return this.getChannel(options.channelConfig).request(method, params);
     };
 
+    ProductService.prototype._generateUrl = function _generateUrl(method, params, options) {
+
+        if (options == null) {
+            options = this.getServiceDefaultOptions();
+        }
+
+        if (params.options == null) {
+            params.options = options;
+        }
+
+        return this.getChannel([_netChannel.Channel.REST]).generateUrl(method, params);
+    };
+
     return ProductService;
 })();
 
 exports.ProductService = ProductService;
-},{"../net/channel":12,"eventemitter3":81}],67:[function(require,module,exports){
+},{"../net/channel":12,"eventemitter3":86}],72:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 
-function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; }
 
 var _productService = require('../product-service');
 
 var IdentCaseService = (function (_ProductService) {
-    _inherits(IdentCaseService, _ProductService);
-
     function IdentCaseService() {
         _classCallCheck(this, IdentCaseService);
 
         _ProductService.call(this);
     }
+
+    _inherits(IdentCaseService, _ProductService);
 
     IdentCaseService.prototype.getEndpoint = function getEndpoint() {
         return ['services', 'identcases'];
@@ -4443,15 +4746,15 @@ var IdentCaseService = (function (_ProductService) {
     };
 
     IdentCaseService.prototype.start = function start(id) {
-        return this.execute(id, "start");
+        return this.execute(id, 'start');
     };
 
     IdentCaseService.prototype.task = function task(id, taskId, data) {
-        return this.updateWithAction(id, "task", taskId, data);
+        return this.updateWithAction(id, 'task', taskId, data);
     };
 
     IdentCaseService.prototype.close = function close(id) {
-        return this.execute(id, "close");
+        return this.execute(id, 'close');
     };
 
     return IdentCaseService;
@@ -4460,25 +4763,25 @@ var IdentCaseService = (function (_ProductService) {
 exports.IdentCaseService = IdentCaseService;
 
 IdentCaseService.Uid = ['services', 'identcases'].join('.');
-},{"../product-service":66}],68:[function(require,module,exports){
+},{"../product-service":71}],73:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 
-function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; }
 
 var _productService = require('../product-service');
 
 var IdentContractService = (function (_ProductService) {
-    _inherits(IdentContractService, _ProductService);
-
     function IdentContractService() {
         _classCallCheck(this, IdentContractService);
 
         _ProductService.call(this);
     }
+
+    _inherits(IdentContractService, _ProductService);
 
     IdentContractService.prototype.getEndpoint = function getEndpoint() {
         return ['services', 'identcontracts'];
@@ -4494,25 +4797,25 @@ var IdentContractService = (function (_ProductService) {
 exports.IdentContractService = IdentContractService;
 
 IdentContractService.Uid = ['services', 'identcontracts'].join('.');
-},{"../product-service":66}],69:[function(require,module,exports){
+},{"../product-service":71}],74:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 
-function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; }
 
 var _productService = require('../product-service');
 
 var IdentRequestService = (function (_ProductService) {
-    _inherits(IdentRequestService, _ProductService);
-
     function IdentRequestService() {
         _classCallCheck(this, IdentRequestService);
 
         _ProductService.call(this);
     }
+
+    _inherits(IdentRequestService, _ProductService);
 
     IdentRequestService.prototype.getEndpoint = function getEndpoint() {
         return ['services', 'identrequests'];
@@ -4528,25 +4831,25 @@ var IdentRequestService = (function (_ProductService) {
 exports.IdentRequestService = IdentRequestService;
 
 IdentRequestService.Uid = ['services', 'identrequests'].join('.');
-},{"../product-service":66}],70:[function(require,module,exports){
+},{"../product-service":71}],75:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 
-function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; }
 
 var _productService = require('../product-service');
 
 var IdentResultService = (function (_ProductService) {
-    _inherits(IdentResultService, _ProductService);
-
     function IdentResultService() {
         _classCallCheck(this, IdentResultService);
 
         _ProductService.call(this);
     }
+
+    _inherits(IdentResultService, _ProductService);
 
     IdentResultService.prototype.getEndpoint = function getEndpoint() {
         return ['services', 'identresults'];
@@ -4562,7 +4865,7 @@ var IdentResultService = (function (_ProductService) {
 exports.IdentResultService = IdentResultService;
 
 IdentResultService.Uid = ['services', 'identresults'].join('.');
-},{"../product-service":66}],71:[function(require,module,exports){
+},{"../product-service":71}],76:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -4581,25 +4884,25 @@ Services.IdentCaseService = _identCaseService.IdentCaseService;
 Services.IdentContractService = _identContractService.IdentContractService;
 Services.IdentRequestService = _identRequestService.IdentRequestService;
 Services.IdentResultService = _identResultService.IdentResultService;
-},{"./ident-case-service":67,"./ident-contract-service":68,"./ident-request-service":69,"./ident-result-service":70}],72:[function(require,module,exports){
+},{"./ident-case-service":72,"./ident-contract-service":73,"./ident-request-service":74,"./ident-result-service":75}],77:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 
-function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; }
 
 var _productService = require('../product-service');
 
 var CheckinService = (function (_ProductService) {
-    _inherits(CheckinService, _ProductService);
-
     function CheckinService() {
         _classCallCheck(this, CheckinService);
 
         _ProductService.call(this);
     }
+
+    _inherits(CheckinService, _ProductService);
 
     CheckinService.prototype.getEndpoint = function getEndpoint() {
         return ['smart', 'checkins'];
@@ -4615,25 +4918,25 @@ var CheckinService = (function (_ProductService) {
 exports.CheckinService = CheckinService;
 
 CheckinService.Uid = ['smart', 'checkins'].join('.');
-},{"../product-service":66}],73:[function(require,module,exports){
+},{"../product-service":71}],78:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 
-function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; }
 
 var _productService = require('../product-service');
 
 var DeviceService = (function (_ProductService) {
-    _inherits(DeviceService, _ProductService);
-
     function DeviceService() {
         _classCallCheck(this, DeviceService);
 
         _ProductService.call(this);
     }
+
+    _inherits(DeviceService, _ProductService);
 
     DeviceService.prototype.getEndpoint = function getEndpoint() {
         return ['smart', 'devices'];
@@ -4649,25 +4952,25 @@ var DeviceService = (function (_ProductService) {
 exports.DeviceService = DeviceService;
 
 DeviceService.Uid = ['smart', 'devices'].join('.');
-},{"../product-service":66}],74:[function(require,module,exports){
+},{"../product-service":71}],79:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 
-function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; }
 
 var _productService = require('../product-service');
 
 var IdentService = (function (_ProductService) {
-    _inherits(IdentService, _ProductService);
-
     function IdentService() {
         _classCallCheck(this, IdentService);
 
         _ProductService.call(this);
     }
+
+    _inherits(IdentService, _ProductService);
 
     IdentService.prototype.getEndpoint = function getEndpoint() {
         return ['smart', 'idents'];
@@ -4678,11 +4981,11 @@ var IdentService = (function (_ProductService) {
     };
 
     IdentService.prototype.validate = function validate(id) {
-        return this.execute(id, "validate");
+        return this.execute(id, 'validate');
     };
 
     IdentService.prototype.read = function read(id) {
-        return this.execute(id, "read");
+        return this.execute(id, 'read');
     };
 
     return IdentService;
@@ -4691,25 +4994,25 @@ var IdentService = (function (_ProductService) {
 exports.IdentService = IdentService;
 
 IdentService.Uid = ['smart', 'idents'].join('.');
-},{"../product-service":66}],75:[function(require,module,exports){
+},{"../product-service":71}],80:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 
-function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; }
 
 var _productService = require('../product-service');
 
 var RoutingService = (function (_ProductService) {
-    _inherits(RoutingService, _ProductService);
-
     function RoutingService() {
         _classCallCheck(this, RoutingService);
 
         _ProductService.call(this);
     }
+
+    _inherits(RoutingService, _ProductService);
 
     RoutingService.prototype.getEndpoint = function getEndpoint() {
         return ['smart', 'routings'];
@@ -4733,7 +5036,7 @@ var RoutingService = (function (_ProductService) {
 exports.RoutingService = RoutingService;
 
 RoutingService.Uid = ['smart', 'routings'].join('.');
-},{"../product-service":66}],76:[function(require,module,exports){
+},{"../product-service":71}],81:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -4755,25 +5058,25 @@ Smart.DeviceService = _deviceService.DeviceService;
 Smart.IdentService = _identService.IdentService;
 Smart.RoutingService = _routingService.RoutingService;
 Smart.TransactionService = _transactionService.TransactionService;
-},{"./checkin-service":72,"./device-service":73,"./ident-service":74,"./routing-service":75,"./transaction-service":77}],77:[function(require,module,exports){
+},{"./checkin-service":77,"./device-service":78,"./ident-service":79,"./routing-service":80,"./transaction-service":82}],82:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 
-function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; }
 
 var _productService = require('../product-service');
 
 var TransactionService = (function (_ProductService) {
-    _inherits(TransactionService, _ProductService);
-
     function TransactionService() {
         _classCallCheck(this, TransactionService);
 
         _ProductService.call(this);
     }
+
+    _inherits(TransactionService, _ProductService);
 
     TransactionService.prototype.getEndpoint = function getEndpoint() {
         return ['smart', 'transactions'];
@@ -4784,11 +5087,11 @@ var TransactionService = (function (_ProductService) {
     };
 
     TransactionService.prototype.start = function start(id, type) {
-        return this.execute(id, "start", type);
+        return this.execute(id, 'start', type);
     };
 
     TransactionService.prototype.cancel = function cancel(id) {
-        return this.execute(id, "cancel");
+        return this.execute(id, 'cancel');
     };
 
     return TransactionService;
@@ -4797,33 +5100,34 @@ var TransactionService = (function (_ProductService) {
 exports.TransactionService = TransactionService;
 
 TransactionService.Uid = ['smart', 'transactions'].join('.');
-},{"../product-service":66}],78:[function(require,module,exports){
+},{"../product-service":71}],83:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 
-function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; }
 
 var mixins = function mixins(Parent) {
-    for (var _len = arguments.length, _mixins = Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
-        _mixins[_key - 1] = arguments[_key];
-    }
-
     var Mixed = (function (_Parent) {
-        _inherits(Mixed, _Parent);
-
         function Mixed() {
             _classCallCheck(this, Mixed);
 
             _Parent.apply(this, arguments);
         }
 
+        _inherits(Mixed, _Parent);
+
         return Mixed;
     })(Parent);
 
     var merged = Object.create(null);
+
+    for (var _len = arguments.length, _mixins = Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
+        _mixins[_key - 1] = arguments[_key];
+    }
+
     for (var _iterator = _mixins, _isArray = Array.isArray(_iterator), _i = 0, _iterator = _isArray ? _iterator : _iterator[Symbol.iterator]();;) {
         var _ref;
 
@@ -4867,7 +5171,7 @@ var mixins = function mixins(Parent) {
 
 exports['default'] = mixins;
 module.exports = exports['default'];
-},{}],79:[function(require,module,exports){
+},{}],84:[function(require,module,exports){
 // shim for using process in browser
 
 var process = module.exports = {};
@@ -4959,7 +5263,7 @@ process.chdir = function (dir) {
 };
 process.umask = function() { return 0; };
 
-},{}],80:[function(require,module,exports){
+},{}],85:[function(require,module,exports){
 (function (process,global){
  /*!
   * https://github.com/paulmillr/es6-shim
@@ -8697,7 +9001,7 @@ process.umask = function() { return 0; };
 }));
 
 }).call(this,require('_process'),typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"_process":79}],81:[function(require,module,exports){
+},{"_process":84}],86:[function(require,module,exports){
 'use strict';
 
 //
@@ -8961,11 +9265,11 @@ if ('undefined' !== typeof module) {
   module.exports = EventEmitter;
 }
 
-},{}],82:[function(require,module,exports){
+},{}],87:[function(require,module,exports){
 (function (global){
 /**
  * @license
- * lodash 3.10.1 (Custom Build) <https://lodash.com/>
+ * lodash 3.9.3 (Custom Build) <https://lodash.com/>
  * Build: `lodash modern -d -o ./index.js`
  * Copyright 2012-2015 The Dojo Foundation <http://dojofoundation.org/>
  * Based on Underscore.js 1.8.3 <http://underscorejs.org/LICENSE>
@@ -8978,7 +9282,7 @@ if ('undefined' !== typeof module) {
   var undefined;
 
   /** Used as the semantic version number. */
-  var VERSION = '3.10.1';
+  var VERSION = '3.9.3';
 
   /** Used to compose bitmasks for wrapper metadata. */
   var BIND_FLAG = 1,
@@ -8999,11 +9303,9 @@ if ('undefined' !== typeof module) {
   var HOT_COUNT = 150,
       HOT_SPAN = 16;
 
-  /** Used as the size to enable large array optimizations. */
-  var LARGE_ARRAY_SIZE = 200;
-
   /** Used to indicate the type of lazy iteratees. */
-  var LAZY_FILTER_FLAG = 1,
+  var LAZY_DROP_WHILE_FLAG = 0,
+      LAZY_FILTER_FLAG = 1,
       LAZY_MAP_FLAG = 2;
 
   /** Used as the `TypeError` message for "Functions" methods. */
@@ -9060,10 +9362,11 @@ if ('undefined' !== typeof module) {
       rePropName = /[^.[\]]+|\[(?:(-?\d+(?:\.\d+)?)|(["'])((?:(?!\2)[^\n\\]|\\.)*?)\2)\]/g;
 
   /**
-   * Used to match `RegExp` [syntax characters](http://ecma-international.org/ecma-262/6.0/#sec-patterns)
-   * and those outlined by [`EscapeRegExpPattern`](http://ecma-international.org/ecma-262/6.0/#sec-escaperegexppattern).
+   * Used to match `RegExp` [special characters](http://www.regular-expressions.info/characters.html#special).
+   * In addition to special characters the forward slash is escaped to allow for
+   * easier `eval` use and `Function` compilation.
    */
-  var reRegExpChars = /^[:!,]|[\\^$.*+?()[\]{}|\/]|(^[0-9a-fA-Fnrtuvx])|([\n\r\u2028\u2029])/g,
+  var reRegExpChars = /[.*+?^${}()|[\]\/\\]/g,
       reHasRegExpChars = RegExp(reRegExpChars.source);
 
   /** Used to match [combining diacritical marks](https://en.wikipedia.org/wiki/Combining_Diacritical_Marks). */
@@ -9072,7 +9375,7 @@ if ('undefined' !== typeof module) {
   /** Used to match backslashes in property paths. */
   var reEscapeChar = /\\(\\)?/g;
 
-  /** Used to match [ES template delimiters](http://ecma-international.org/ecma-262/6.0/#sec-template-literal-lexical-components). */
+  /** Used to match [ES template delimiters](https://people.mozilla.org/~jorendorff/es6-draft.html#sec-template-literal-lexical-components). */
   var reEsTemplate = /\$\{([^\\}]*(?:\\.[^\\}]*)*)\}/g;
 
   /** Used to match `RegExp` flags from their coerced string values. */
@@ -9104,13 +9407,25 @@ if ('undefined' !== typeof module) {
     return RegExp(upper + '+(?=' + upper + lower + ')|' + upper + '?' + lower + '|' + upper + '+|[0-9]+', 'g');
   }());
 
+  /** Used to detect and test for whitespace. */
+  var whitespace = (
+    // Basic whitespace characters.
+    ' \t\x0b\f\xa0\ufeff' +
+
+    // Line terminators.
+    '\n\r\u2028\u2029' +
+
+    // Unicode category "Zs" space separators.
+    '\u1680\u180e\u2000\u2001\u2002\u2003\u2004\u2005\u2006\u2007\u2008\u2009\u200a\u202f\u205f\u3000'
+  );
+
   /** Used to assign default `context` object properties. */
   var contextProps = [
     'Array', 'ArrayBuffer', 'Date', 'Error', 'Float32Array', 'Float64Array',
     'Function', 'Int8Array', 'Int16Array', 'Int32Array', 'Math', 'Number',
-    'Object', 'RegExp', 'Set', 'String', '_', 'clearTimeout', 'isFinite',
-    'parseFloat', 'parseInt', 'setTimeout', 'TypeError', 'Uint8Array',
-    'Uint8ClampedArray', 'Uint16Array', 'Uint32Array', 'WeakMap'
+    'Object', 'RegExp', 'Set', 'String', '_', 'clearTimeout', 'document',
+    'isFinite', 'parseFloat', 'parseInt', 'setTimeout', 'TypeError', 'Uint8Array',
+    'Uint8ClampedArray', 'Uint16Array', 'Uint32Array', 'WeakMap', 'window'
   ];
 
   /** Used to make template sourceURLs easier to identify. */
@@ -9145,6 +9460,13 @@ if ('undefined' !== typeof module) {
   cloneableTags[errorTag] = cloneableTags[funcTag] =
   cloneableTags[mapTag] = cloneableTags[setTag] =
   cloneableTags[weakMapTag] = false;
+
+  /** Used as an internal `_.debounce` options object by `_.throttle`. */
+  var debounceOptions = {
+    'leading': false,
+    'maxWait': 0,
+    'trailing': false
+  };
 
   /** Used to map latin-1 supplementary letters to basic latin letters. */
   var deburredLetters = {
@@ -9191,15 +9513,6 @@ if ('undefined' !== typeof module) {
   var objectTypes = {
     'function': true,
     'object': true
-  };
-
-  /** Used to escape characters for inclusion in compiled regexes. */
-  var regexpEscapes = {
-    '0': 'x30', '1': 'x31', '2': 'x32', '3': 'x33', '4': 'x34',
-    '5': 'x35', '6': 'x36', '7': 'x37', '8': 'x38', '9': 'x39',
-    'A': 'x41', 'B': 'x42', 'C': 'x43', 'D': 'x44', 'E': 'x45', 'F': 'x46',
-    'a': 'x61', 'b': 'x62', 'c': 'x63', 'd': 'x64', 'e': 'x65', 'f': 'x66',
-    'n': 'x6e', 'r': 'x72', 't': 'x74', 'u': 'x75', 'v': 'x76', 'x': 'x78'
   };
 
   /** Used to escape characters for inclusion in compiled string literals. */
@@ -9342,6 +9655,9 @@ if ('undefined' !== typeof module) {
    * @returns {string} Returns the string.
    */
   function baseToString(value) {
+    if (typeof value == 'string') {
+      return value;
+    }
     return value == null ? '' : (value + '');
   }
 
@@ -9383,8 +9699,8 @@ if ('undefined' !== typeof module) {
    * sort them in ascending order.
    *
    * @private
-   * @param {Object} object The object to compare.
-   * @param {Object} other The other object to compare.
+   * @param {Object} object The object to compare to `other`.
+   * @param {Object} other The object to compare to `object`.
    * @returns {number} Returns the sort order indicator for `object`.
    */
   function compareAscending(object, other) {
@@ -9392,16 +9708,16 @@ if ('undefined' !== typeof module) {
   }
 
   /**
-   * Used by `_.sortByOrder` to compare multiple properties of a value to another
-   * and stable sort them.
+   * Used by `_.sortByOrder` to compare multiple properties of each element
+   * in a collection and stable sort them in the following order:
    *
-   * If `orders` is unspecified, all valuess are sorted in ascending order. Otherwise,
-   * a value is sorted in ascending order if its corresponding order is "asc", and
-   * descending if "desc".
+   * If `orders` is unspecified, sort in ascending order for all properties.
+   * Otherwise, for each property, sort in ascending order if its corresponding value in
+   * orders is true, and descending order if false.
    *
    * @private
-   * @param {Object} object The object to compare.
-   * @param {Object} other The other object to compare.
+   * @param {Object} object The object to compare to `other`.
+   * @param {Object} other The object to compare to `object`.
    * @param {boolean[]} orders The order to sort by for each property.
    * @returns {number} Returns the sort order indicator for `object`.
    */
@@ -9418,8 +9734,7 @@ if ('undefined' !== typeof module) {
         if (index >= ordersLength) {
           return result;
         }
-        var order = orders[index];
-        return result * ((order === 'asc' || order === true) ? 1 : -1);
+        return result * (orders[index] ? 1 : -1);
       }
     }
     // Fixes an `Array#sort` bug in the JS engine embedded in Adobe applications
@@ -9455,25 +9770,8 @@ if ('undefined' !== typeof module) {
   }
 
   /**
-   * Used by `_.escapeRegExp` to escape characters for inclusion in compiled regexes.
-   *
-   * @private
-   * @param {string} chr The matched character to escape.
-   * @param {string} leadingChar The capture group for a leading character.
-   * @param {string} whitespaceChar The capture group for a whitespace character.
-   * @returns {string} Returns the escaped character.
-   */
-  function escapeRegExpChar(chr, leadingChar, whitespaceChar) {
-    if (leadingChar) {
-      chr = regexpEscapes[chr];
-    } else if (whitespaceChar) {
-      chr = stringEscapes[chr];
-    }
-    return '\\' + chr;
-  }
-
-  /**
-   * Used by `_.template` to escape characters for inclusion in compiled string literals.
+   * Used by `_.template` to escape characters for inclusion in compiled
+   * string literals.
    *
    * @private
    * @param {string} chr The matched character to escape.
@@ -9684,6 +9982,9 @@ if ('undefined' !== typeof module) {
         objectProto = Object.prototype,
         stringProto = String.prototype;
 
+    /** Used to detect DOM support. */
+    var document = (document = context.window) ? document.document : null;
+
     /** Used to resolve the decompiled source of functions. */
     var fnToString = Function.prototype.toString;
 
@@ -9694,42 +9995,56 @@ if ('undefined' !== typeof module) {
     var idCounter = 0;
 
     /**
-     * Used to resolve the [`toStringTag`](http://ecma-international.org/ecma-262/6.0/#sec-object.prototype.tostring)
+     * Used to resolve the [`toStringTag`](https://people.mozilla.org/~jorendorff/es6-draft.html#sec-object.prototype.tostring)
      * of values.
      */
     var objToString = objectProto.toString;
 
     /** Used to restore the original `_` reference in `_.noConflict`. */
-    var oldDash = root._;
+    var oldDash = context._;
 
     /** Used to detect if a method is native. */
     var reIsNative = RegExp('^' +
-      fnToString.call(hasOwnProperty).replace(/[\\^$.*+?()[\]{}|]/g, '\\$&')
+      escapeRegExp(fnToString.call(hasOwnProperty))
       .replace(/hasOwnProperty|(function).*?(?=\\\()| for .+?(?=\\\])/g, '$1.*?') + '$'
     );
 
     /** Native method references. */
-    var ArrayBuffer = context.ArrayBuffer,
+    var ArrayBuffer = getNative(context, 'ArrayBuffer'),
+        bufferSlice = getNative(ArrayBuffer && new ArrayBuffer(0), 'slice'),
+        ceil = Math.ceil,
         clearTimeout = context.clearTimeout,
+        floor = Math.floor,
+        getPrototypeOf = getNative(Object, 'getPrototypeOf'),
         parseFloat = context.parseFloat,
-        pow = Math.pow,
-        propertyIsEnumerable = objectProto.propertyIsEnumerable,
+        push = arrayProto.push,
         Set = getNative(context, 'Set'),
         setTimeout = context.setTimeout,
         splice = arrayProto.splice,
-        Uint8Array = context.Uint8Array,
+        Uint8Array = getNative(context, 'Uint8Array'),
         WeakMap = getNative(context, 'WeakMap');
 
+    /** Used to clone array buffers. */
+    var Float64Array = (function() {
+      // Safari 5 errors when using an array buffer to initialize a typed array
+      // where the array buffer's `byteLength` is not a multiple of the typed
+      // array's `BYTES_PER_ELEMENT`.
+      try {
+        var func = getNative(context, 'Float64Array'),
+            result = new func(new ArrayBuffer(10), 0, 1) && func;
+      } catch(e) {}
+      return result || null;
+    }());
+
     /* Native method references for those with the same name as other `lodash` methods. */
-    var nativeCeil = Math.ceil,
-        nativeCreate = getNative(Object, 'create'),
-        nativeFloor = Math.floor,
+    var nativeCreate = getNative(Object, 'create'),
         nativeIsArray = getNative(Array, 'isArray'),
         nativeIsFinite = context.isFinite,
         nativeKeys = getNative(Object, 'keys'),
         nativeMax = Math.max,
         nativeMin = Math.min,
         nativeNow = getNative(Date, 'now'),
+        nativeNumIsFinite = getNative(Number, 'isFinite'),
         nativeParseInt = context.parseInt,
         nativeRandom = Math.random;
 
@@ -9742,8 +10057,11 @@ if ('undefined' !== typeof module) {
         MAX_ARRAY_INDEX = MAX_ARRAY_LENGTH - 1,
         HALF_MAX_ARRAY_LENGTH = MAX_ARRAY_LENGTH >>> 1;
 
+    /** Used as the size, in bytes, of each `Float64Array` element. */
+    var FLOAT64_BYTES_PER_ELEMENT = Float64Array ? Float64Array.BYTES_PER_ELEMENT : 0;
+
     /**
-     * Used as the [maximum length](http://ecma-international.org/ecma-262/6.0/#sec-number.max_safe_integer)
+     * Used as the [maximum length](https://people.mozilla.org/~jorendorff/es6-draft.html#sec-number.max_safe_integer)
      * of an array-like value.
      */
     var MAX_SAFE_INTEGER = 9007199254740991;
@@ -9759,16 +10077,15 @@ if ('undefined' !== typeof module) {
     /**
      * Creates a `lodash` object which wraps `value` to enable implicit chaining.
      * Methods that operate on and return arrays, collections, and functions can
-     * be chained together. Methods that retrieve a single value or may return a
-     * primitive value will automatically end the chain returning the unwrapped
-     * value. Explicit chaining may be enabled using `_.chain`. The execution of
-     * chained methods is lazy, that is, execution is deferred until `_#value`
-     * is implicitly or explicitly called.
+     * be chained together. Methods that return a boolean or single value will
+     * automatically end the chain returning the unwrapped value. Explicit chaining
+     * may be enabled using `_.chain`. The execution of chained methods is lazy,
+     * that is, execution is deferred until `_#value` is implicitly or explicitly
+     * called.
      *
      * Lazy evaluation allows several methods to support shortcut fusion. Shortcut
-     * fusion is an optimization strategy which merge iteratee calls; this can help
-     * to avoid the creation of intermediate data structures and greatly reduce the
-     * number of iteratee executions.
+     * fusion is an optimization that merges iteratees to avoid creating intermediate
+     * arrays and reduce the number of iteratee executions.
      *
      * Chaining is supported in custom builds as long as the `_#value` method is
      * directly or indirectly included in the build.
@@ -9791,37 +10108,36 @@ if ('undefined' !== typeof module) {
      * The chainable wrapper methods are:
      * `after`, `ary`, `assign`, `at`, `before`, `bind`, `bindAll`, `bindKey`,
      * `callback`, `chain`, `chunk`, `commit`, `compact`, `concat`, `constant`,
-     * `countBy`, `create`, `curry`, `debounce`, `defaults`, `defaultsDeep`,
-     * `defer`, `delay`, `difference`, `drop`, `dropRight`, `dropRightWhile`,
-     * `dropWhile`, `fill`, `filter`, `flatten`, `flattenDeep`, `flow`, `flowRight`,
-     * `forEach`, `forEachRight`, `forIn`, `forInRight`, `forOwn`, `forOwnRight`,
-     * `functions`, `groupBy`, `indexBy`, `initial`, `intersection`, `invert`,
-     * `invoke`, `keys`, `keysIn`, `map`, `mapKeys`, `mapValues`, `matches`,
-     * `matchesProperty`, `memoize`, `merge`, `method`, `methodOf`, `mixin`,
-     * `modArgs`, `negate`, `omit`, `once`, `pairs`, `partial`, `partialRight`,
-     * `partition`, `pick`, `plant`, `pluck`, `property`, `propertyOf`, `pull`,
-     * `pullAt`, `push`, `range`, `rearg`, `reject`, `remove`, `rest`, `restParam`,
-     * `reverse`, `set`, `shuffle`, `slice`, `sort`, `sortBy`, `sortByAll`,
-     * `sortByOrder`, `splice`, `spread`, `take`, `takeRight`, `takeRightWhile`,
-     * `takeWhile`, `tap`, `throttle`, `thru`, `times`, `toArray`, `toPlainObject`,
-     * `transform`, `union`, `uniq`, `unshift`, `unzip`, `unzipWith`, `values`,
-     * `valuesIn`, `where`, `without`, `wrap`, `xor`, `zip`, `zipObject`, `zipWith`
+     * `countBy`, `create`, `curry`, `debounce`, `defaults`, `defer`, `delay`,
+     * `difference`, `drop`, `dropRight`, `dropRightWhile`, `dropWhile`, `fill`,
+     * `filter`, `flatten`, `flattenDeep`, `flow`, `flowRight`, `forEach`,
+     * `forEachRight`, `forIn`, `forInRight`, `forOwn`, `forOwnRight`, `functions`,
+     * `groupBy`, `indexBy`, `initial`, `intersection`, `invert`, `invoke`, `keys`,
+     * `keysIn`, `map`, `mapKeys`, `mapValues`, `matches`, `matchesProperty`,
+     * `memoize`, `merge`, `method`, `methodOf`, `mixin`, `negate`, `omit`, `once`,
+     * `pairs`, `partial`, `partialRight`, `partition`, `pick`, `plant`, `pluck`,
+     * `property`, `propertyOf`, `pull`, `pullAt`, `push`, `range`, `rearg`,
+     * `reject`, `remove`, `rest`, `restParam`, `reverse`, `set`, `shuffle`,
+     * `slice`, `sort`, `sortBy`, `sortByAll`, `sortByOrder`, `splice`, `spread`,
+     * `take`, `takeRight`, `takeRightWhile`, `takeWhile`, `tap`, `throttle`,
+     * `thru`, `times`, `toArray`, `toPlainObject`, `transform`, `union`, `uniq`,
+     * `unshift`, `unzip`, `unzipWith`, `values`, `valuesIn`, `where`, `without`,
+     * `wrap`, `xor`, `zip`, `zipObject`, `zipWith`
      *
      * The wrapper methods that are **not** chainable by default are:
-     * `add`, `attempt`, `camelCase`, `capitalize`, `ceil`, `clone`, `cloneDeep`,
-     * `deburr`, `endsWith`, `escape`, `escapeRegExp`, `every`, `find`, `findIndex`,
-     * `findKey`, `findLast`, `findLastIndex`, `findLastKey`, `findWhere`, `first`,
-     * `floor`, `get`, `gt`, `gte`, `has`, `identity`, `includes`, `indexOf`,
-     * `inRange`, `isArguments`, `isArray`, `isBoolean`, `isDate`, `isElement`,
-     * `isEmpty`, `isEqual`, `isError`, `isFinite` `isFunction`, `isMatch`,
-     * `isNative`, `isNaN`, `isNull`, `isNumber`, `isObject`, `isPlainObject`,
-     * `isRegExp`, `isString`, `isUndefined`, `isTypedArray`, `join`, `kebabCase`,
-     * `last`, `lastIndexOf`, `lt`, `lte`, `max`, `min`, `noConflict`, `noop`,
-     * `now`, `pad`, `padLeft`, `padRight`, `parseInt`, `pop`, `random`, `reduce`,
-     * `reduceRight`, `repeat`, `result`, `round`, `runInContext`, `shift`, `size`,
-     * `snakeCase`, `some`, `sortedIndex`, `sortedLastIndex`, `startCase`,
-     * `startsWith`, `sum`, `template`, `trim`, `trimLeft`, `trimRight`, `trunc`,
-     * `unescape`, `uniqueId`, `value`, and `words`
+     * `add`, `attempt`, `camelCase`, `capitalize`, `clone`, `cloneDeep`, `deburr`,
+     * `endsWith`, `escape`, `escapeRegExp`, `every`, `find`, `findIndex`, `findKey`,
+     * `findLast`, `findLastIndex`, `findLastKey`, `findWhere`, `first`, `get`,
+     * `gt`, `gte`, `has`, `identity`, `includes`, `indexOf`, `inRange`, `isArguments`,
+     * `isArray`, `isBoolean`, `isDate`, `isElement`, `isEmpty`, `isEqual`, `isError`,
+     * `isFinite` `isFunction`, `isMatch`, `isNative`, `isNaN`, `isNull`, `isNumber`,
+     * `isObject`, `isPlainObject`, `isRegExp`, `isString`, `isUndefined`,
+     * `isTypedArray`, `join`, `kebabCase`, `last`, `lastIndexOf`, `lt`, `lte`,
+     * `max`, `min`, `noConflict`, `noop`, `now`, `pad`, `padLeft`, `padRight`,
+     * `parseInt`, `pop`, `random`, `reduce`, `reduceRight`, `repeat`, `result`,
+     * `runInContext`, `shift`, `size`, `snakeCase`, `some`, `sortedIndex`,
+     * `sortedLastIndex`, `startCase`, `startsWith`, `sum`, `template`, `trim`,
+     * `trimLeft`, `trimRight`, `trunc`, `unescape`, `uniqueId`, `value`, and `words`
      *
      * The wrapper method `sample` will return a wrapped value when `n` is provided,
      * otherwise an unwrapped value is returned.
@@ -9896,6 +10212,27 @@ if ('undefined' !== typeof module) {
      */
     var support = lodash.support = {};
 
+    (function(x) {
+      var Ctor = function() { this.x = x; },
+          object = { '0': x, 'length': x },
+          props = [];
+
+      Ctor.prototype = { 'valueOf': x, 'y': x };
+      for (var key in new Ctor) { props.push(key); }
+
+      /**
+       * Detect if the DOM is supported.
+       *
+       * @memberOf _.support
+       * @type boolean
+       */
+      try {
+        support.dom = document.createDocumentFragment().nodeType === 11;
+      } catch(e) {
+        support.dom = false;
+      }
+    }(1, 0));
+
     /**
      * By default, the template delimiters used by lodash are like those in
      * embedded Ruby (ERB). Change the following template settings to use
@@ -9967,12 +10304,13 @@ if ('undefined' !== typeof module) {
      */
     function LazyWrapper(value) {
       this.__wrapped__ = value;
-      this.__actions__ = [];
+      this.__actions__ = null;
       this.__dir__ = 1;
+      this.__dropCount__ = 0;
       this.__filtered__ = false;
-      this.__iteratees__ = [];
+      this.__iteratees__ = null;
       this.__takeCount__ = POSITIVE_INFINITY;
-      this.__views__ = [];
+      this.__views__ = null;
     }
 
     /**
@@ -9984,13 +10322,17 @@ if ('undefined' !== typeof module) {
      * @returns {Object} Returns the cloned `LazyWrapper` object.
      */
     function lazyClone() {
-      var result = new LazyWrapper(this.__wrapped__);
-      result.__actions__ = arrayCopy(this.__actions__);
+      var actions = this.__actions__,
+          iteratees = this.__iteratees__,
+          views = this.__views__,
+          result = new LazyWrapper(this.__wrapped__);
+
+      result.__actions__ = actions ? arrayCopy(actions) : null;
       result.__dir__ = this.__dir__;
       result.__filtered__ = this.__filtered__;
-      result.__iteratees__ = arrayCopy(this.__iteratees__);
+      result.__iteratees__ = iteratees ? arrayCopy(iteratees) : null;
       result.__takeCount__ = this.__takeCount__;
-      result.__views__ = arrayCopy(this.__views__);
+      result.__views__ = views ? arrayCopy(views) : null;
       return result;
     }
 
@@ -10023,25 +10365,22 @@ if ('undefined' !== typeof module) {
      * @returns {*} Returns the unwrapped value.
      */
     function lazyValue() {
-      var array = this.__wrapped__.value(),
-          dir = this.__dir__,
-          isArr = isArray(array),
+      var array = this.__wrapped__.value();
+      if (!isArray(array)) {
+        return baseWrapperValue(array, this.__actions__);
+      }
+      var dir = this.__dir__,
           isRight = dir < 0,
-          arrLength = isArr ? array.length : 0,
-          view = getView(0, arrLength, this.__views__),
+          view = getView(0, array.length, this.__views__),
           start = view.start,
           end = view.end,
           length = end - start,
           index = isRight ? end : (start - 1),
+          takeCount = nativeMin(length, this.__takeCount__),
           iteratees = this.__iteratees__,
-          iterLength = iteratees.length,
+          iterLength = iteratees ? iteratees.length : 0,
           resIndex = 0,
-          takeCount = nativeMin(length, this.__takeCount__);
-
-      if (!isArr || arrLength < LARGE_ARRAY_SIZE || (arrLength == length && takeCount == length)) {
-        return baseWrapperValue((isRight && isArr) ? array.reverse() : array, this.__actions__);
-      }
-      var result = [];
+          result = [];
 
       outer:
       while (length-- && resIndex < takeCount) {
@@ -10053,16 +10392,30 @@ if ('undefined' !== typeof module) {
         while (++iterIndex < iterLength) {
           var data = iteratees[iterIndex],
               iteratee = data.iteratee,
-              type = data.type,
-              computed = iteratee(value);
+              type = data.type;
 
-          if (type == LAZY_MAP_FLAG) {
-            value = computed;
-          } else if (!computed) {
-            if (type == LAZY_FILTER_FLAG) {
-              continue outer;
-            } else {
-              break outer;
+          if (type == LAZY_DROP_WHILE_FLAG) {
+            if (data.done && (isRight ? (index > data.index) : (index < data.index))) {
+              data.count = 0;
+              data.done = false;
+            }
+            data.index = index;
+            if (!data.done) {
+              var limit = data.limit;
+              if (!(data.done = limit > -1 ? (data.count++ >= limit) : !iteratee(value))) {
+                continue outer;
+              }
+            }
+          } else {
+            var computed = iteratee(value);
+            if (type == LAZY_MAP_FLAG) {
+              value = computed;
+            } else if (!computed) {
+              if (type == LAZY_FILTER_FLAG) {
+                continue outer;
+              } else {
+                break outer;
+              }
             }
           }
         }
@@ -10193,30 +10546,6 @@ if ('undefined' !== typeof module) {
     }
 
     /*------------------------------------------------------------------------*/
-
-    /**
-     * Creates a new array joining `array` with `other`.
-     *
-     * @private
-     * @param {Array} array The array to join.
-     * @param {Array} other The other array to join.
-     * @returns {Array} Returns the new concatenated array.
-     */
-    function arrayConcat(array, other) {
-      var index = -1,
-          length = array.length,
-          othIndex = -1,
-          othLength = other.length,
-          result = Array(length + othLength);
-
-      while (++index < length) {
-        result[index] = array[index];
-      }
-      while (++othIndex < othLength) {
-        result[index++] = other[othIndex];
-      }
-      return result;
-    }
 
     /**
      * Copies the values of `source` to `array`.
@@ -10374,25 +10703,6 @@ if ('undefined' !== typeof module) {
     }
 
     /**
-     * Appends the elements of `values` to `array`.
-     *
-     * @private
-     * @param {Array} array The array to modify.
-     * @param {Array} values The values to append.
-     * @returns {Array} Returns `array`.
-     */
-    function arrayPush(array, values) {
-      var index = -1,
-          length = values.length,
-          offset = array.length;
-
-      while (++index < length) {
-        array[offset + index] = values[index];
-      }
-      return array;
-    }
-
-    /**
      * A specialized version of `_.reduce` for arrays without support for callback
      * shorthands and `this` binding.
      *
@@ -10463,20 +10773,18 @@ if ('undefined' !== typeof module) {
     }
 
     /**
-     * A specialized version of `_.sum` for arrays without support for callback
-     * shorthands and `this` binding..
+     * A specialized version of `_.sum` for arrays without support for iteratees.
      *
      * @private
      * @param {Array} array The array to iterate over.
-     * @param {Function} iteratee The function invoked per iteration.
      * @returns {number} Returns the sum.
      */
-    function arraySum(array, iteratee) {
+    function arraySum(array) {
       var length = array.length,
           result = 0;
 
       while (length--) {
-        result += +iteratee(array[length]) || 0;
+        result += +array[length] || 0;
       }
       return result;
     }
@@ -10680,7 +10988,7 @@ if ('undefined' !== typeof module) {
             : (object ? value : {});
         }
       }
-      // Check for circular references and return its corresponding clone.
+      // Check for circular references and return corresponding clone.
       stackA || (stackA = []);
       stackB || (stackB = []);
 
@@ -10715,7 +11023,7 @@ if ('undefined' !== typeof module) {
         if (isObject(prototype)) {
           object.prototype = prototype;
           var result = new object;
-          object.prototype = undefined;
+          object.prototype = null;
         }
         return result || {};
       };
@@ -10757,7 +11065,7 @@ if ('undefined' !== typeof module) {
       var index = -1,
           indexOf = getIndexOf(),
           isCommon = indexOf == baseIndexOf,
-          cache = (isCommon && values.length >= LARGE_ARRAY_SIZE) ? createCache(values) : null,
+          cache = (isCommon && values.length >= 200) ? createCache(values) : null,
           valuesLength = values.length;
 
       if (cache) {
@@ -10933,14 +11241,13 @@ if ('undefined' !== typeof module) {
      * @param {Array} array The array to flatten.
      * @param {boolean} [isDeep] Specify a deep flatten.
      * @param {boolean} [isStrict] Restrict flattening to arrays-like objects.
-     * @param {Array} [result=[]] The initial result value.
      * @returns {Array} Returns the new flattened array.
      */
-    function baseFlatten(array, isDeep, isStrict, result) {
-      result || (result = []);
-
+    function baseFlatten(array, isDeep, isStrict) {
       var index = -1,
-          length = array.length;
+          length = array.length,
+          resIndex = -1,
+          result = [];
 
       while (++index < length) {
         var value = array[index];
@@ -10948,12 +11255,16 @@ if ('undefined' !== typeof module) {
             (isStrict || isArray(value) || isArguments(value))) {
           if (isDeep) {
             // Recursively flatten arrays (susceptible to call stack limits).
-            baseFlatten(value, isDeep, isStrict, result);
-          } else {
-            arrayPush(result, value);
+            value = baseFlatten(value, isDeep, isStrict);
+          }
+          var valIndex = -1,
+              valLength = value.length;
+
+          while (++valIndex < valLength) {
+            result[++resIndex] = value[valIndex];
           }
         } else if (!isStrict) {
-          result[result.length] = value;
+          result[++resIndex] = value;
         }
       }
       return result;
@@ -11308,7 +11619,7 @@ if ('undefined' !== typeof module) {
      * @private
      * @param {Object} object The destination object.
      * @param {Object} source The source object.
-     * @param {Function} [customizer] The function to customize merged values.
+     * @param {Function} [customizer] The function to customize merging properties.
      * @param {Array} [stackA=[]] Tracks traversed source objects.
      * @param {Array} [stackB=[]] Associates values with source counterparts.
      * @returns {Object} Returns `object`.
@@ -11318,7 +11629,7 @@ if ('undefined' !== typeof module) {
         return object;
       }
       var isSrcArr = isArrayLike(source) && (isArray(source) || isTypedArray(source)),
-          props = isSrcArr ? undefined : keys(source);
+          props = isSrcArr ? null : keys(source);
 
       arrayEach(props || source, function(srcValue, key) {
         if (props) {
@@ -11357,7 +11668,7 @@ if ('undefined' !== typeof module) {
      * @param {Object} source The source object.
      * @param {string} key The key of the value to merge.
      * @param {Function} mergeFunc The function to merge values.
-     * @param {Function} [customizer] The function to customize merged values.
+     * @param {Function} [customizer] The function to customize merging properties.
      * @param {Array} [stackA=[]] Tracks traversed source objects.
      * @param {Array} [stackB=[]] Associates values with source counterparts.
      * @returns {boolean} Returns `true` if the objects are equivalent, else `false`.
@@ -11464,7 +11775,7 @@ if ('undefined' !== typeof module) {
      * @returns {number} Returns the random number.
      */
     function baseRandom(min, max) {
-      return min + nativeFloor(nativeRandom() * (max - min + 1));
+      return min + floor(nativeRandom() * (max - min + 1));
     }
 
     /**
@@ -11630,7 +11941,7 @@ if ('undefined' !== typeof module) {
           indexOf = getIndexOf(),
           length = array.length,
           isCommon = indexOf == baseIndexOf,
-          isLarge = isCommon && length >= LARGE_ARRAY_SIZE,
+          isLarge = isCommon && length >= 200,
           seen = isLarge ? createCache() : null,
           result = [];
 
@@ -11729,8 +12040,11 @@ if ('undefined' !== typeof module) {
           length = actions.length;
 
       while (++index < length) {
-        var action = actions[index];
-        result = action.func.apply(action.thisArg, arrayPush([result], action.args));
+        var args = [result],
+            action = actions[index];
+
+        push.apply(args, action.args);
+        result = action.func.apply(action.thisArg, args);
       }
       return result;
     }
@@ -11789,7 +12103,7 @@ if ('undefined' !== typeof module) {
           valIsUndef = value === undefined;
 
       while (low < high) {
-        var mid = nativeFloor((low + high) / 2),
+        var mid = floor((low + high) / 2),
             computed = iteratee(array[mid]),
             isDef = computed !== undefined,
             isReflexive = computed === computed;
@@ -11858,11 +12172,26 @@ if ('undefined' !== typeof module) {
      * @returns {ArrayBuffer} Returns the cloned array buffer.
      */
     function bufferClone(buffer) {
-      var result = new ArrayBuffer(buffer.byteLength),
-          view = new Uint8Array(result);
+      return bufferSlice.call(buffer, 0);
+    }
+    if (!bufferSlice) {
+      // PhantomJS has `ArrayBuffer` and `Uint8Array` but not `Float64Array`.
+      bufferClone = !(ArrayBuffer && Uint8Array) ? constant(null) : function(buffer) {
+        var byteLength = buffer.byteLength,
+            floatLength = Float64Array ? floor(byteLength / FLOAT64_BYTES_PER_ELEMENT) : 0,
+            offset = floatLength * FLOAT64_BYTES_PER_ELEMENT,
+            result = new ArrayBuffer(byteLength);
 
-      view.set(new Uint8Array(buffer));
-      return result;
+        if (floatLength) {
+          var view = new Float64Array(result, 0, floatLength);
+          view.set(new Float64Array(buffer, 0, floatLength));
+        }
+        if (byteLength != offset) {
+          view = new Uint8Array(result, offset);
+          view.set(new Uint8Array(buffer, offset));
+        }
+        return result;
+      };
     }
 
     /**
@@ -11881,7 +12210,7 @@ if ('undefined' !== typeof module) {
           argsLength = nativeMax(args.length - holdersLength, 0),
           leftIndex = -1,
           leftLength = partials.length,
-          result = Array(leftLength + argsLength);
+          result = Array(argsLength + leftLength);
 
       while (++leftIndex < leftLength) {
         result[leftIndex] = partials[leftIndex];
@@ -11928,7 +12257,12 @@ if ('undefined' !== typeof module) {
     }
 
     /**
-     * Creates a `_.countBy`, `_.groupBy`, `_.indexBy`, or `_.partition` function.
+     * Creates a function that aggregates a collection, creating an accumulator
+     * object composed from the results of running each element in the collection
+     * through an iteratee.
+     *
+     * **Note:** This function is used to create `_.countBy`, `_.groupBy`, `_.indexBy`,
+     * and `_.partition`.
      *
      * @private
      * @param {Function} setter The function to set keys and values of the accumulator object.
@@ -11958,7 +12292,10 @@ if ('undefined' !== typeof module) {
     }
 
     /**
-     * Creates a `_.assign`, `_.defaults`, or `_.merge` function.
+     * Creates a function that assigns properties of source object(s) to a given
+     * destination object.
+     *
+     * **Note:** This function is used to create `_.assign`, `_.defaults`, and `_.merge`.
      *
      * @private
      * @param {Function} assigner The function to assign values.
@@ -12069,9 +12406,9 @@ if ('undefined' !== typeof module) {
      * @param {Array} [values] The values to cache.
      * @returns {null|Object} Returns the new cache object if `Set` is supported, else `null`.
      */
-    function createCache(values) {
-      return (nativeCreate && Set) ? new SetCache(values) : null;
-    }
+    var createCache = !(nativeCreate && Set) ? constant(null) : function(values) {
+      return new SetCache(values);
+    };
 
     /**
      * Creates a function that produces compound words out of the words in a
@@ -12106,7 +12443,7 @@ if ('undefined' !== typeof module) {
     function createCtorWrapper(Ctor) {
       return function() {
         // Use a `switch` statement to work with class constructors.
-        // See http://ecma-international.org/ecma-262/6.0/#sec-ecmascript-function-objects-call-thisargument-argumentslist
+        // See https://people.mozilla.org/~jorendorff/es6-draft.html#sec-ecmascript-function-objects-call-thisargument-argumentslist
         // for more details.
         var args = arguments;
         switch (args.length) {
@@ -12116,8 +12453,6 @@ if ('undefined' !== typeof module) {
           case 3: return new Ctor(args[0], args[1], args[2]);
           case 4: return new Ctor(args[0], args[1], args[2], args[3]);
           case 5: return new Ctor(args[0], args[1], args[2], args[3], args[4]);
-          case 6: return new Ctor(args[0], args[1], args[2], args[3], args[4], args[5]);
-          case 7: return new Ctor(args[0], args[1], args[2], args[3], args[4], args[5], args[6]);
         }
         var thisBinding = baseCreate(Ctor.prototype),
             result = Ctor.apply(thisBinding, args);
@@ -12138,32 +12473,13 @@ if ('undefined' !== typeof module) {
     function createCurry(flag) {
       function curryFunc(func, arity, guard) {
         if (guard && isIterateeCall(func, arity, guard)) {
-          arity = undefined;
+          arity = null;
         }
-        var result = createWrapper(func, flag, undefined, undefined, undefined, undefined, undefined, arity);
+        var result = createWrapper(func, flag, null, null, null, null, null, arity);
         result.placeholder = curryFunc.placeholder;
         return result;
       }
       return curryFunc;
-    }
-
-    /**
-     * Creates a `_.defaults` or `_.defaultsDeep` function.
-     *
-     * @private
-     * @param {Function} assigner The function to assign values.
-     * @param {Function} customizer The function to customize assigned values.
-     * @returns {Function} Returns the new defaults function.
-     */
-    function createDefaults(assigner, customizer) {
-      return restParam(function(args) {
-        var object = args[0];
-        if (object == null) {
-          return object;
-        }
-        args.push(customizer);
-        return assigner.apply(undefined, args);
-      });
     }
 
     /**
@@ -12177,11 +12493,11 @@ if ('undefined' !== typeof module) {
     function createExtremum(comparator, exValue) {
       return function(collection, iteratee, thisArg) {
         if (thisArg && isIterateeCall(collection, iteratee, thisArg)) {
-          iteratee = undefined;
+          iteratee = null;
         }
         iteratee = getCallback(iteratee, thisArg, 3);
         if (iteratee.length == 1) {
-          collection = isArray(collection) ? collection : toIterable(collection);
+          collection = toIterable(collection);
           var result = arrayExtremum(collection, iteratee, comparator, exValue);
           if (!(collection.length && result === exValue)) {
             return result;
@@ -12262,7 +12578,7 @@ if ('undefined' !== typeof module) {
             throw new TypeError(FUNC_ERROR_TEXT);
           }
           if (!wrapper && LodashWrapper.prototype.thru && getFuncName(func) == 'wrapper') {
-            wrapper = new LodashWrapper([], true);
+            wrapper = new LodashWrapper([]);
           }
         }
         index = wrapper ? -1 : length;
@@ -12270,7 +12586,7 @@ if ('undefined' !== typeof module) {
           func = funcs[index];
 
           var funcName = getFuncName(func),
-              data = funcName == 'wrapper' ? getData(func) : undefined;
+              data = funcName == 'wrapper' ? getData(func) : null;
 
           if (data && isLaziable(data[0]) && data[1] == (ARY_FLAG | CURRY_FLAG | PARTIAL_FLAG | REARG_FLAG) && !data[4].length && data[9] == 1) {
             wrapper = wrapper[getFuncName(data[0])].apply(wrapper, data[3]);
@@ -12279,14 +12595,12 @@ if ('undefined' !== typeof module) {
           }
         }
         return function() {
-          var args = arguments,
-              value = args[0];
-
-          if (wrapper && args.length == 1 && isArray(value) && value.length >= LARGE_ARRAY_SIZE) {
-            return wrapper.plant(value).value();
+          var args = arguments;
+          if (wrapper && args.length == 1 && isArray(args[0])) {
+            return wrapper.plant(args[0]).value();
           }
           var index = 0,
-              result = length ? funcs[index].apply(this, args) : value;
+              result = length ? funcs[index].apply(this, args) : args[0];
 
           while (++index < length) {
             result = funcs[index].call(this, result);
@@ -12390,7 +12704,7 @@ if ('undefined' !== typeof module) {
     function createPartial(flag) {
       var partialFunc = restParam(function(func, partials) {
         var holders = replaceHolders(partials, partialFunc.placeholder);
-        return createWrapper(func, flag, undefined, partials, holders);
+        return createWrapper(func, flag, null, partials, holders);
       });
       return partialFunc;
     }
@@ -12436,7 +12750,7 @@ if ('undefined' !== typeof module) {
           isCurry = bitmask & CURRY_FLAG,
           isCurryBound = bitmask & CURRY_BOUND_FLAG,
           isCurryRight = bitmask & CURRY_RIGHT_FLAG,
-          Ctor = isBindKey ? undefined : createCtorWrapper(func);
+          Ctor = isBindKey ? null : createCtorWrapper(func);
 
       function wrapper() {
         // Avoid `arguments` object use disqualifying optimizations by
@@ -12460,12 +12774,12 @@ if ('undefined' !== typeof module) {
 
           length -= argsHolders.length;
           if (length < arity) {
-            var newArgPos = argPos ? arrayCopy(argPos) : undefined,
+            var newArgPos = argPos ? arrayCopy(argPos) : null,
                 newArity = nativeMax(arity - length, 0),
-                newsHolders = isCurry ? argsHolders : undefined,
-                newHoldersRight = isCurry ? undefined : argsHolders,
-                newPartials = isCurry ? args : undefined,
-                newPartialsRight = isCurry ? undefined : args;
+                newsHolders = isCurry ? argsHolders : null,
+                newHoldersRight = isCurry ? null : argsHolders,
+                newPartials = isCurry ? args : null,
+                newPartialsRight = isCurry ? null : args;
 
             bitmask |= (isCurry ? PARTIAL_FLAG : PARTIAL_RIGHT_FLAG);
             bitmask &= ~(isCurry ? PARTIAL_RIGHT_FLAG : PARTIAL_FLAG);
@@ -12519,7 +12833,7 @@ if ('undefined' !== typeof module) {
       }
       var padLength = length - strLength;
       chars = chars == null ? ' ' : (chars + '');
-      return repeat(chars, nativeCeil(padLength / chars.length)).slice(0, padLength);
+      return repeat(chars, ceil(padLength / chars.length)).slice(0, padLength);
     }
 
     /**
@@ -12545,7 +12859,7 @@ if ('undefined' !== typeof module) {
             argsLength = arguments.length,
             leftIndex = -1,
             leftLength = partials.length,
-            args = Array(leftLength + argsLength);
+            args = Array(argsLength + leftLength);
 
         while (++leftIndex < leftLength) {
           args[leftIndex] = partials[leftIndex];
@@ -12557,25 +12871,6 @@ if ('undefined' !== typeof module) {
         return fn.apply(isBind ? thisArg : this, args);
       }
       return wrapper;
-    }
-
-    /**
-     * Creates a `_.ceil`, `_.floor`, or `_.round` function.
-     *
-     * @private
-     * @param {string} methodName The name of the `Math` method to use when rounding.
-     * @returns {Function} Returns the new round function.
-     */
-    function createRound(methodName) {
-      var func = Math[methodName];
-      return function(number, precision) {
-        precision = precision === undefined ? 0 : (+precision || 0);
-        if (precision) {
-          precision = pow(10, precision);
-          return func(number * precision) / precision;
-        }
-        return func(number);
-      };
     }
 
     /**
@@ -12627,16 +12922,16 @@ if ('undefined' !== typeof module) {
       var length = partials ? partials.length : 0;
       if (!length) {
         bitmask &= ~(PARTIAL_FLAG | PARTIAL_RIGHT_FLAG);
-        partials = holders = undefined;
+        partials = holders = null;
       }
       length -= (holders ? holders.length : 0);
       if (bitmask & PARTIAL_RIGHT_FLAG) {
         var partialsRight = partials,
             holdersRight = holders;
 
-        partials = holders = undefined;
+        partials = holders = null;
       }
-      var data = isBindKey ? undefined : getData(func),
+      var data = isBindKey ? null : getData(func),
           newData = [func, bitmask, thisArg, partials, holders, partialsRight, holdersRight, argPos, ary, arity];
 
       if (data) {
@@ -12715,7 +13010,7 @@ if ('undefined' !== typeof module) {
      * `Boolean`, `Date`, `Error`, `Number`, `RegExp`, or `String`.
      *
      * @private
-     * @param {Object} object The object to compare.
+     * @param {Object} value The object to compare.
      * @param {Object} other The other object to compare.
      * @param {string} tag The `toStringTag` of the objects to compare.
      * @returns {boolean} Returns `true` if the objects are equivalent, else `false`.
@@ -12915,13 +13210,13 @@ if ('undefined' !== typeof module) {
      * @private
      * @param {number} start The start of the view.
      * @param {number} end The end of the view.
-     * @param {Array} transforms The transformations to apply to the view.
+     * @param {Array} [transforms] The transformations to apply to the view.
      * @returns {Object} Returns an object containing the `start` and `end`
      *  positions of the view.
      */
     function getView(start, end, transforms) {
       var index = -1,
-          length = transforms.length;
+          length = transforms ? transforms.length : 0;
 
       while (++index < length) {
         var data = transforms[index],
@@ -13120,7 +13415,7 @@ if ('undefined' !== typeof module) {
     /**
      * Checks if `value` is a valid array-like length.
      *
-     * **Note:** This function is based on [`ToLength`](http://ecma-international.org/ecma-262/6.0/#sec-tolength).
+     * **Note:** This function is based on [`ToLength`](https://people.mozilla.org/~jorendorff/es6-draft.html#sec-tolength).
      *
      * @private
      * @param {*} value The value to check.
@@ -13210,18 +13505,6 @@ if ('undefined' !== typeof module) {
       data[1] = newBitmask;
 
       return data;
-    }
-
-    /**
-     * Used by `_.defaultsDeep` to customize its `_.merge` use.
-     *
-     * @private
-     * @param {*} objectValue The destination object property value.
-     * @param {*} sourceValue The source object property value.
-     * @returns {*} Returns the value to assign to the destination object.
-     */
-    function mergeDefaults(objectValue, sourceValue) {
-      return objectValue === undefined ? sourceValue : merge(objectValue, sourceValue, mergeDefaults);
     }
 
     /**
@@ -13322,6 +13605,38 @@ if ('undefined' !== typeof module) {
         return baseSetData(key, value);
       };
     }());
+
+    /**
+     * A fallback implementation of `_.isPlainObject` which checks if `value`
+     * is an object created by the `Object` constructor or has a `[[Prototype]]`
+     * of `null`.
+     *
+     * @private
+     * @param {*} value The value to check.
+     * @returns {boolean} Returns `true` if `value` is a plain object, else `false`.
+     */
+    function shimIsPlainObject(value) {
+      var Ctor,
+          support = lodash.support;
+
+      // Exit early for non `Object` objects.
+      if (!(isObjectLike(value) && objToString.call(value) == objectTag) ||
+          (!hasOwnProperty.call(value, 'constructor') &&
+            (Ctor = value.constructor, typeof Ctor == 'function' && !(Ctor instanceof Ctor)))) {
+        return false;
+      }
+      // IE < 9 iterates inherited properties before own properties. If the first
+      // iterated property is an object's own property then there are no inherited
+      // enumerable properties.
+      var result;
+      // In most environments an object's own properties are iterated before
+      // its inherited properties. If the last iterated property is an object's
+      // own property then there are no inherited enumerable properties.
+      baseForIn(value, function(subValue, key) {
+        result = key;
+      });
+      return result === undefined || hasOwnProperty.call(value, result);
+    }
 
     /**
      * A fallback implementation of `Object.keys` which creates an array of the
@@ -13436,12 +13751,12 @@ if ('undefined' !== typeof module) {
       if (guard ? isIterateeCall(array, size, guard) : size == null) {
         size = 1;
       } else {
-        size = nativeMax(nativeFloor(size) || 1, 1);
+        size = nativeMax(+size || 1, 1);
       }
       var index = 0,
           length = array ? array.length : 0,
           resIndex = -1,
-          result = Array(nativeCeil(length / size));
+          result = Array(ceil(length / size));
 
       while (index < length) {
         result[++resIndex] = baseSlice(array, index, (index += size));
@@ -13480,7 +13795,7 @@ if ('undefined' !== typeof module) {
 
     /**
      * Creates an array of unique `array` values not included in the other
-     * provided arrays using [`SameValueZero`](http://ecma-international.org/ecma-262/6.0/#sec-samevaluezero)
+     * provided arrays using [`SameValueZero`](https://people.mozilla.org/~jorendorff/es6-draft.html#sec-samevaluezero)
      * for equality comparisons.
      *
      * @static
@@ -13495,7 +13810,7 @@ if ('undefined' !== typeof module) {
      * // => [1, 3]
      */
     var difference = restParam(function(array, values) {
-      return (isObjectLike(array) && isArrayLike(array))
+      return isArrayLike(array)
         ? baseDifference(array, baseFlatten(values, false, true))
         : [];
     });
@@ -13890,7 +14205,7 @@ if ('undefined' !== typeof module) {
 
     /**
      * Gets the index at which the first occurrence of `value` is found in `array`
-     * using [`SameValueZero`](http://ecma-international.org/ecma-262/6.0/#sec-samevaluezero)
+     * using [`SameValueZero`](https://people.mozilla.org/~jorendorff/es6-draft.html#sec-samevaluezero)
      * for equality comparisons. If `fromIndex` is negative, it is used as the offset
      * from the end of `array`. If `array` is sorted providing `true` for `fromIndex`
      * performs a faster binary search.
@@ -13924,9 +14239,10 @@ if ('undefined' !== typeof module) {
       if (typeof fromIndex == 'number') {
         fromIndex = fromIndex < 0 ? nativeMax(length + fromIndex, 0) : fromIndex;
       } else if (fromIndex) {
-        var index = binaryIndex(array, value);
-        if (index < length &&
-            (value === value ? (value === array[index]) : (array[index] !== array[index]))) {
+        var index = binaryIndex(array, value),
+            other = array[index];
+
+        if (value === value ? (value === other) : (other !== other)) {
           return index;
         }
         return -1;
@@ -13953,7 +14269,7 @@ if ('undefined' !== typeof module) {
 
     /**
      * Creates an array of unique values that are included in all of the provided
-     * arrays using [`SameValueZero`](http://ecma-international.org/ecma-262/6.0/#sec-samevaluezero)
+     * arrays using [`SameValueZero`](https://people.mozilla.org/~jorendorff/es6-draft.html#sec-samevaluezero)
      * for equality comparisons.
      *
      * @static
@@ -14074,7 +14390,7 @@ if ('undefined' !== typeof module) {
 
     /**
      * Removes all provided values from `array` using
-     * [`SameValueZero`](http://ecma-international.org/ecma-262/6.0/#sec-samevaluezero)
+     * [`SameValueZero`](https://people.mozilla.org/~jorendorff/es6-draft.html#sec-samevaluezero)
      * for equality comparisons.
      *
      * **Note:** Unlike `_.without`, this method mutates `array`.
@@ -14507,7 +14823,7 @@ if ('undefined' !== typeof module) {
 
     /**
      * Creates an array of unique values, in order, from all of the provided arrays
-     * using [`SameValueZero`](http://ecma-international.org/ecma-262/6.0/#sec-samevaluezero)
+     * using [`SameValueZero`](https://people.mozilla.org/~jorendorff/es6-draft.html#sec-samevaluezero)
      * for equality comparisons.
      *
      * @static
@@ -14526,7 +14842,7 @@ if ('undefined' !== typeof module) {
 
     /**
      * Creates a duplicate-free version of an array, using
-     * [`SameValueZero`](http://ecma-international.org/ecma-262/6.0/#sec-samevaluezero)
+     * [`SameValueZero`](https://people.mozilla.org/~jorendorff/es6-draft.html#sec-samevaluezero)
      * for equality comparisons, in which only the first occurence of each element
      * is kept. Providing `true` for `isSorted` performs a faster search algorithm
      * for sorted arrays. If an iteratee function is provided it is invoked for
@@ -14580,7 +14896,7 @@ if ('undefined' !== typeof module) {
       }
       if (isSorted != null && typeof isSorted != 'boolean') {
         thisArg = iteratee;
-        iteratee = isIterateeCall(array, isSorted, thisArg) ? undefined : isSorted;
+        iteratee = isIterateeCall(array, isSorted, thisArg) ? null : isSorted;
         isSorted = false;
       }
       var callback = getCallback();
@@ -14667,7 +14983,7 @@ if ('undefined' !== typeof module) {
 
     /**
      * Creates an array excluding all provided values using
-     * [`SameValueZero`](http://ecma-international.org/ecma-262/6.0/#sec-samevaluezero)
+     * [`SameValueZero`](https://people.mozilla.org/~jorendorff/es6-draft.html#sec-samevaluezero)
      * for equality comparisons.
      *
      * @static
@@ -14709,7 +15025,7 @@ if ('undefined' !== typeof module) {
         var array = arguments[index];
         if (isArrayLike(array)) {
           var result = result
-            ? arrayPush(baseDifference(result, array), baseDifference(array, result))
+            ? baseDifference(result, array).concat(baseDifference(array, result))
             : array;
         }
       }
@@ -14931,16 +15247,16 @@ if ('undefined' !== typeof module) {
      * @example
      *
      * var array = [1, 2];
-     * var wrapped = _(array).push(3);
+     * var wrapper = _(array).push(3);
      *
      * console.log(array);
      * // => [1, 2]
      *
-     * wrapped = wrapped.commit();
+     * wrapper = wrapper.commit();
      * console.log(array);
      * // => [1, 2, 3]
      *
-     * wrapped.last();
+     * wrapper.last();
      * // => 3
      *
      * console.log(array);
@@ -14949,33 +15265,6 @@ if ('undefined' !== typeof module) {
     function wrapperCommit() {
       return new LodashWrapper(this.value(), this.__chain__);
     }
-
-    /**
-     * Creates a new array joining a wrapped array with any additional arrays
-     * and/or values.
-     *
-     * @name concat
-     * @memberOf _
-     * @category Chain
-     * @param {...*} [values] The values to concatenate.
-     * @returns {Array} Returns the new concatenated array.
-     * @example
-     *
-     * var array = [1];
-     * var wrapped = _(array).concat(2, [3], [[4]]);
-     *
-     * console.log(wrapped.value());
-     * // => [1, 2, 3, [4]]
-     *
-     * console.log(array);
-     * // => [1]
-     */
-    var wrapperConcat = restParam(function(values) {
-      values = baseFlatten(values);
-      return this.thru(function(array) {
-        return arrayConcat(isArray(array) ? array : [toObject(array)], values);
-      });
-    });
 
     /**
      * Creates a clone of the chained sequence planting `value` as the wrapped value.
@@ -14987,17 +15276,17 @@ if ('undefined' !== typeof module) {
      * @example
      *
      * var array = [1, 2];
-     * var wrapped = _(array).map(function(value) {
+     * var wrapper = _(array).map(function(value) {
      *   return Math.pow(value, 2);
      * });
      *
      * var other = [3, 4];
-     * var otherWrapped = wrapped.plant(other);
+     * var otherWrapper = wrapper.plant(other);
      *
-     * otherWrapped.value();
+     * otherWrapper.value();
      * // => [9, 16]
      *
-     * wrapped.value();
+     * wrapper.value();
      * // => [1, 4]
      */
     function wrapperPlant(value) {
@@ -15040,20 +15329,15 @@ if ('undefined' !== typeof module) {
      */
     function wrapperReverse() {
       var value = this.__wrapped__;
-
-      var interceptor = function(value) {
-        return (wrapped && wrapped.__dir__ < 0) ? value : value.reverse();
-      };
       if (value instanceof LazyWrapper) {
-        var wrapped = value;
         if (this.__actions__.length) {
-          wrapped = new LazyWrapper(this);
+          value = new LazyWrapper(this);
         }
-        wrapped = wrapped.reverse();
-        wrapped.__actions__.push({ 'func': thru, 'args': [interceptor], 'thisArg': undefined });
-        return new LodashWrapper(wrapped, this.__chain__);
+        return new LodashWrapper(value.reverse(), this.__chain__);
       }
-      return this.thru(interceptor);
+      return this.thru(function(value) {
+        return value.reverse();
+      });
     }
 
     /**
@@ -15211,7 +15495,7 @@ if ('undefined' !== typeof module) {
     function every(collection, predicate, thisArg) {
       var func = isArray(collection) ? arrayEvery : baseEvery;
       if (thisArg && isIterateeCall(collection, predicate, thisArg)) {
-        predicate = undefined;
+        predicate = null;
       }
       if (typeof predicate != 'function' || thisArg !== undefined) {
         predicate = getCallback(predicate, thisArg, 3);
@@ -15485,7 +15769,7 @@ if ('undefined' !== typeof module) {
 
     /**
      * Checks if `value` is in `collection` using
-     * [`SameValueZero`](http://ecma-international.org/ecma-262/6.0/#sec-samevaluezero)
+     * [`SameValueZero`](https://people.mozilla.org/~jorendorff/es6-draft.html#sec-samevaluezero)
      * for equality comparisons. If `fromIndex` is negative, it is used as the offset
      * from the end of `collection`.
      *
@@ -15518,14 +15802,17 @@ if ('undefined' !== typeof module) {
         collection = values(collection);
         length = collection.length;
       }
+      if (!length) {
+        return false;
+      }
       if (typeof fromIndex != 'number' || (guard && isIterateeCall(target, fromIndex, guard))) {
         fromIndex = 0;
       } else {
         fromIndex = fromIndex < 0 ? nativeMax(length + fromIndex, 0) : (fromIndex || 0);
       }
       return (typeof collection == 'string' || !isArray(collection) && isString(collection))
-        ? (fromIndex <= length && collection.indexOf(target, fromIndex) > -1)
-        : (!!length && getIndexOf(collection, target, fromIndex) > -1);
+        ? (fromIndex < length && collection.indexOf(target, fromIndex) > -1)
+        : (getIndexOf(collection, target, fromIndex) > -1);
     }
 
     /**
@@ -15607,7 +15894,7 @@ if ('undefined' !== typeof module) {
           result = isArrayLike(collection) ? Array(collection.length) : [];
 
       baseEach(collection, function(value) {
-        var func = isFunc ? path : ((isProp && value != null) ? value[path] : undefined);
+        var func = isFunc ? path : ((isProp && value != null) ? value[path] : null);
         result[++index] = func ? func.apply(value, args) : invokePath(value, path, args);
       });
       return result;
@@ -15777,8 +16064,7 @@ if ('undefined' !== typeof module) {
      * `_.reduce`, `_.reduceRight`, and `_.transform`.
      *
      * The guarded methods are:
-     * `assign`, `defaults`, `defaultsDeep`, `includes`, `merge`, `sortByAll`,
-     * and `sortByOrder`
+     * `assign`, `defaults`, `includes`, `merge`, `sortByAll`, and `sortByOrder`
      *
      * @static
      * @memberOf _
@@ -16008,7 +16294,7 @@ if ('undefined' !== typeof module) {
     function some(collection, predicate, thisArg) {
       var func = isArray(collection) ? arraySome : baseSome;
       if (thisArg && isIterateeCall(collection, predicate, thisArg)) {
-        predicate = undefined;
+        predicate = null;
       }
       if (typeof predicate != 'function' || thisArg !== undefined) {
         predicate = getCallback(predicate, thisArg, 3);
@@ -16069,7 +16355,7 @@ if ('undefined' !== typeof module) {
         return [];
       }
       if (thisArg && isIterateeCall(collection, iteratee, thisArg)) {
-        iteratee = undefined;
+        iteratee = null;
       }
       var index = -1;
       iteratee = getCallback(iteratee, thisArg, 3);
@@ -16128,9 +16414,9 @@ if ('undefined' !== typeof module) {
 
     /**
      * This method is like `_.sortByAll` except that it allows specifying the
-     * sort orders of the iteratees to sort by. If `orders` is unspecified, all
-     * values are sorted in ascending order. Otherwise, a value is sorted in
-     * ascending order if its corresponding order is "asc", and descending if "desc".
+     * sort orders of the iteratees to sort by. A truthy value in `orders` will
+     * sort the corresponding property name in ascending order while a falsey
+     * value will sort it in descending order.
      *
      * If a property name is provided for an iteratee the created `_.property`
      * style callback returns the property value of the given element.
@@ -16144,7 +16430,7 @@ if ('undefined' !== typeof module) {
      * @category Collection
      * @param {Array|Object|string} collection The collection to iterate over.
      * @param {Function[]|Object[]|string[]} iteratees The iteratees to sort by.
-     * @param {boolean[]} [orders] The sort orders of `iteratees`.
+     * @param {boolean[]} orders The sort orders of `iteratees`.
      * @param- {Object} [guard] Enables use as a callback for functions like `_.reduce`.
      * @returns {Array} Returns the new sorted array.
      * @example
@@ -16157,7 +16443,7 @@ if ('undefined' !== typeof module) {
      * ];
      *
      * // sort by `user` in ascending order and by `age` in descending order
-     * _.map(_.sortByOrder(users, ['user', 'age'], ['asc', 'desc']), _.values);
+     * _.map(_.sortByOrder(users, ['user', 'age'], [true, false]), _.values);
      * // => [['barney', 36], ['barney', 34], ['fred', 48], ['fred', 42]]
      */
     function sortByOrder(collection, iteratees, orders, guard) {
@@ -16165,7 +16451,7 @@ if ('undefined' !== typeof module) {
         return [];
       }
       if (guard && isIterateeCall(iteratees, orders, guard)) {
-        orders = undefined;
+        orders = null;
       }
       if (!isArray(iteratees)) {
         iteratees = iteratees == null ? [] : [iteratees];
@@ -16290,10 +16576,10 @@ if ('undefined' !== typeof module) {
      */
     function ary(func, n, guard) {
       if (guard && isIterateeCall(func, n, guard)) {
-        n = undefined;
+        n = null;
       }
       n = (func && n == null) ? func.length : nativeMax(+n || 0, 0);
-      return createWrapper(func, ARY_FLAG, undefined, undefined, undefined, undefined, n);
+      return createWrapper(func, ARY_FLAG, null, null, null, null, n);
     }
 
     /**
@@ -16328,7 +16614,7 @@ if ('undefined' !== typeof module) {
           result = func.apply(this, arguments);
         }
         if (n <= 1) {
-          func = undefined;
+          func = null;
         }
         return result;
       };
@@ -16636,9 +16922,9 @@ if ('undefined' !== typeof module) {
         var leading = true;
         trailing = false;
       } else if (isObject(options)) {
-        leading = !!options.leading;
+        leading = options.leading;
         maxWait = 'maxWait' in options && nativeMax(+options.maxWait || 0, wait);
-        trailing = 'trailing' in options ? !!options.trailing : trailing;
+        trailing = 'trailing' in options ? options.trailing : trailing;
       }
 
       function cancel() {
@@ -16648,35 +16934,41 @@ if ('undefined' !== typeof module) {
         if (maxTimeoutId) {
           clearTimeout(maxTimeoutId);
         }
-        lastCalled = 0;
         maxTimeoutId = timeoutId = trailingCall = undefined;
-      }
-
-      function complete(isCalled, id) {
-        if (id) {
-          clearTimeout(id);
-        }
-        maxTimeoutId = timeoutId = trailingCall = undefined;
-        if (isCalled) {
-          lastCalled = now();
-          result = func.apply(thisArg, args);
-          if (!timeoutId && !maxTimeoutId) {
-            args = thisArg = undefined;
-          }
-        }
       }
 
       function delayed() {
         var remaining = wait - (now() - stamp);
         if (remaining <= 0 || remaining > wait) {
-          complete(trailingCall, maxTimeoutId);
+          if (maxTimeoutId) {
+            clearTimeout(maxTimeoutId);
+          }
+          var isCalled = trailingCall;
+          maxTimeoutId = timeoutId = trailingCall = undefined;
+          if (isCalled) {
+            lastCalled = now();
+            result = func.apply(thisArg, args);
+            if (!timeoutId && !maxTimeoutId) {
+              args = thisArg = null;
+            }
+          }
         } else {
           timeoutId = setTimeout(delayed, remaining);
         }
       }
 
       function maxDelayed() {
-        complete(trailing, timeoutId);
+        if (timeoutId) {
+          clearTimeout(timeoutId);
+        }
+        maxTimeoutId = timeoutId = trailingCall = undefined;
+        if (trailing || (maxWait !== wait)) {
+          lastCalled = now();
+          result = func.apply(thisArg, args);
+          if (!timeoutId && !maxTimeoutId) {
+            args = thisArg = null;
+          }
+        }
       }
 
       function debounced() {
@@ -16716,7 +17008,7 @@ if ('undefined' !== typeof module) {
           result = func.apply(thisArg, args);
         }
         if (isCalled && !timeoutId && !maxTimeoutId) {
-          args = thisArg = undefined;
+          args = thisArg = null;
         }
         return result;
       }
@@ -16821,7 +17113,7 @@ if ('undefined' !== typeof module) {
      *
      * **Note:** The cache is exposed as the `cache` property on the memoized
      * function. Its creation may be customized by replacing the `_.memoize.Cache`
-     * constructor with one whose instances implement the [`Map`](http://ecma-international.org/ecma-262/6.0/#sec-properties-of-the-map-prototype-object)
+     * constructor with one whose instances implement the [`Map`](https://people.mozilla.org/~jorendorff/es6-draft.html#sec-properties-of-the-map-prototype-object)
      * method interface of `get`, `has`, and `set`.
      *
      * @static
@@ -16881,52 +17173,6 @@ if ('undefined' !== typeof module) {
       memoized.cache = new memoize.Cache;
       return memoized;
     }
-
-    /**
-     * Creates a function that runs each argument through a corresponding
-     * transform function.
-     *
-     * @static
-     * @memberOf _
-     * @category Function
-     * @param {Function} func The function to wrap.
-     * @param {...(Function|Function[])} [transforms] The functions to transform
-     * arguments, specified as individual functions or arrays of functions.
-     * @returns {Function} Returns the new function.
-     * @example
-     *
-     * function doubled(n) {
-     *   return n * 2;
-     * }
-     *
-     * function square(n) {
-     *   return n * n;
-     * }
-     *
-     * var modded = _.modArgs(function(x, y) {
-     *   return [x, y];
-     * }, square, doubled);
-     *
-     * modded(1, 2);
-     * // => [1, 4]
-     *
-     * modded(5, 10);
-     * // => [25, 20]
-     */
-    var modArgs = restParam(function(func, transforms) {
-      transforms = baseFlatten(transforms);
-      if (typeof func != 'function' || !arrayEvery(transforms, baseIsFunction)) {
-        throw new TypeError(FUNC_ERROR_TEXT);
-      }
-      var length = transforms.length;
-      return restParam(function(args) {
-        var index = nativeMin(args.length, length);
-        while (index--) {
-          args[index] = transforms[index](args[index]);
-        }
-        return func.apply(this, args);
-      });
-    });
 
     /**
      * Creates a function that negates the result of the predicate `func`. The
@@ -17073,7 +17319,7 @@ if ('undefined' !== typeof module) {
      * // => [3, 6, 9]
      */
     var rearg = restParam(function(func, indexes) {
-      return createWrapper(func, REARG_FLAG, undefined, undefined, undefined, baseFlatten(indexes));
+      return createWrapper(func, REARG_FLAG, null, null, null, baseFlatten(indexes));
     });
 
     /**
@@ -17219,7 +17465,10 @@ if ('undefined' !== typeof module) {
         leading = 'leading' in options ? !!options.leading : leading;
         trailing = 'trailing' in options ? !!options.trailing : trailing;
       }
-      return debounce(func, wait, { 'leading': leading, 'maxWait': +wait, 'trailing': trailing });
+      debounceOptions.leading = leading;
+      debounceOptions.maxWait = +wait;
+      debounceOptions.trailing = trailing;
+      return debounce(func, wait, debounceOptions);
     }
 
     /**
@@ -17245,7 +17494,7 @@ if ('undefined' !== typeof module) {
      */
     function wrap(value, wrapper) {
       wrapper = wrapper == null ? identity : wrapper;
-      return createWrapper(wrapper, PARTIAL_FLAG, undefined, [value], []);
+      return createWrapper(wrapper, PARTIAL_FLAG, null, [value], []);
     }
 
     /*------------------------------------------------------------------------*/
@@ -17431,8 +17680,7 @@ if ('undefined' !== typeof module) {
      * // => false
      */
     function isArguments(value) {
-      return isObjectLike(value) && isArrayLike(value) &&
-        hasOwnProperty.call(value, 'callee') && !propertyIsEnumerable.call(value, 'callee');
+      return isObjectLike(value) && isArrayLike(value) && objToString.call(value) == argsTag;
     }
 
     /**
@@ -17512,7 +17760,14 @@ if ('undefined' !== typeof module) {
      * // => false
      */
     function isElement(value) {
-      return !!value && value.nodeType === 1 && isObjectLike(value) && !isPlainObject(value);
+      return !!value && value.nodeType === 1 && isObjectLike(value) &&
+        (objToString.call(value).indexOf('Element') > -1);
+    }
+    // Fallback for environments without DOM support.
+    if (!support.dom) {
+      isElement = function(value) {
+        return !!value && value.nodeType === 1 && isObjectLike(value) && !isPlainObject(value);
+      };
     }
 
     /**
@@ -17627,7 +17882,7 @@ if ('undefined' !== typeof module) {
     /**
      * Checks if `value` is a finite primitive number.
      *
-     * **Note:** This method is based on [`Number.isFinite`](http://ecma-international.org/ecma-262/6.0/#sec-number.isfinite).
+     * **Note:** This method is based on [`Number.isFinite`](https://people.mozilla.org/~jorendorff/es6-draft.html#sec-number.isfinite).
      *
      * @static
      * @memberOf _
@@ -17651,9 +17906,9 @@ if ('undefined' !== typeof module) {
      * _.isFinite(Infinity);
      * // => false
      */
-    function isFinite(value) {
+    var isFinite = nativeNumIsFinite || function(value) {
       return typeof value == 'number' && nativeIsFinite(value);
-    }
+    };
 
     /**
      * Checks if `value` is classified as a `Function` object.
@@ -17671,12 +17926,12 @@ if ('undefined' !== typeof module) {
      * _.isFunction(/abc/);
      * // => false
      */
-    function isFunction(value) {
+    var isFunction = !(baseIsFunction(/x/) || (Uint8Array && !baseIsFunction(Uint8Array))) ? baseIsFunction : function(value) {
       // The use of `Object#toString` avoids issues with the `typeof` operator
       // in older versions of Chrome and Safari which return 'function' for regexes
       // and Safari 8 equivalents which return 'object' for typed array constructors.
-      return isObject(value) && objToString.call(value) == funcTag;
-    }
+      return objToString.call(value) == funcTag;
+    };
 
     /**
      * Checks if `value` is the [language type](https://es5.github.io/#x8) of `Object`.
@@ -17800,7 +18055,7 @@ if ('undefined' !== typeof module) {
       if (value == null) {
         return false;
       }
-      if (isFunction(value)) {
+      if (objToString.call(value) == funcTag) {
         return reIsNative.test(fnToString.call(value));
       }
       return isObjectLike(value) && reIsHostCtor.test(value);
@@ -17882,26 +18137,17 @@ if ('undefined' !== typeof module) {
      * _.isPlainObject(Object.create(null));
      * // => true
      */
-    function isPlainObject(value) {
-      var Ctor;
-
-      // Exit early for non `Object` objects.
-      if (!(isObjectLike(value) && objToString.call(value) == objectTag && !isArguments(value)) ||
-          (!hasOwnProperty.call(value, 'constructor') && (Ctor = value.constructor, typeof Ctor == 'function' && !(Ctor instanceof Ctor)))) {
+    var isPlainObject = !getPrototypeOf ? shimIsPlainObject : function(value) {
+      if (!(value && objToString.call(value) == objectTag)) {
         return false;
       }
-      // IE < 9 iterates inherited properties before own properties. If the first
-      // iterated property is an object's own property then there are no inherited
-      // enumerable properties.
-      var result;
-      // In most environments an object's own properties are iterated before
-      // its inherited properties. If the last iterated property is an object's
-      // own property then there are no inherited enumerable properties.
-      baseForIn(value, function(subValue, key) {
-        result = key;
-      });
-      return result === undefined || hasOwnProperty.call(value, result);
-    }
+      var valueOf = getNative(value, 'valueOf'),
+          objProto = valueOf && (objProto = getPrototypeOf(valueOf)) && getPrototypeOf(objProto);
+
+      return objProto
+        ? (value == objProto || getPrototypeOf(value) == objProto)
+        : shimIsPlainObject(value);
+    };
 
     /**
      * Checks if `value` is classified as a `RegExp` object.
@@ -17920,7 +18166,7 @@ if ('undefined' !== typeof module) {
      * // => false
      */
     function isRegExp(value) {
-      return isObject(value) && objToString.call(value) == regexpTag;
+      return isObjectLike(value) && objToString.call(value) == regexpTag;
     }
 
     /**
@@ -18087,56 +18333,6 @@ if ('undefined' !== typeof module) {
     /*------------------------------------------------------------------------*/
 
     /**
-     * Recursively merges own enumerable properties of the source object(s), that
-     * don't resolve to `undefined` into the destination object. Subsequent sources
-     * overwrite property assignments of previous sources. If `customizer` is
-     * provided it is invoked to produce the merged values of the destination and
-     * source properties. If `customizer` returns `undefined` merging is handled
-     * by the method instead. The `customizer` is bound to `thisArg` and invoked
-     * with five arguments: (objectValue, sourceValue, key, object, source).
-     *
-     * @static
-     * @memberOf _
-     * @category Object
-     * @param {Object} object The destination object.
-     * @param {...Object} [sources] The source objects.
-     * @param {Function} [customizer] The function to customize assigned values.
-     * @param {*} [thisArg] The `this` binding of `customizer`.
-     * @returns {Object} Returns `object`.
-     * @example
-     *
-     * var users = {
-     *   'data': [{ 'user': 'barney' }, { 'user': 'fred' }]
-     * };
-     *
-     * var ages = {
-     *   'data': [{ 'age': 36 }, { 'age': 40 }]
-     * };
-     *
-     * _.merge(users, ages);
-     * // => { 'data': [{ 'user': 'barney', 'age': 36 }, { 'user': 'fred', 'age': 40 }] }
-     *
-     * // using a customizer callback
-     * var object = {
-     *   'fruits': ['apple'],
-     *   'vegetables': ['beet']
-     * };
-     *
-     * var other = {
-     *   'fruits': ['banana'],
-     *   'vegetables': ['carrot']
-     * };
-     *
-     * _.merge(object, other, function(a, b) {
-     *   if (_.isArray(a)) {
-     *     return a.concat(b);
-     *   }
-     * });
-     * // => { 'fruits': ['apple', 'banana'], 'vegetables': ['beet', 'carrot'] }
-     */
-    var merge = createAssigner(baseMerge);
-
-    /**
      * Assigns own enumerable properties of source object(s) to the destination
      * object. Subsequent sources overwrite property assignments of previous sources.
      * If `customizer` is provided it is invoked to produce the assigned values.
@@ -18144,7 +18340,7 @@ if ('undefined' !== typeof module) {
      * (objectValue, sourceValue, key, object, source).
      *
      * **Note:** This method mutates `object` and is based on
-     * [`Object.assign`](http://ecma-international.org/ecma-262/6.0/#sec-object.assign).
+     * [`Object.assign`](https://people.mozilla.org/~jorendorff/es6-draft.html#sec-object.assign).
      *
      * @static
      * @memberOf _
@@ -18211,7 +18407,7 @@ if ('undefined' !== typeof module) {
     function create(prototype, properties, guard) {
       var result = baseCreate(prototype);
       if (guard && isIterateeCall(prototype, properties, guard)) {
-        properties = undefined;
+        properties = null;
       }
       return properties ? baseAssign(result, properties) : result;
     }
@@ -18234,27 +18430,14 @@ if ('undefined' !== typeof module) {
      * _.defaults({ 'user': 'barney' }, { 'age': 36 }, { 'user': 'fred' });
      * // => { 'user': 'barney', 'age': 36 }
      */
-    var defaults = createDefaults(assign, assignDefaults);
-
-    /**
-     * This method is like `_.defaults` except that it recursively assigns
-     * default properties.
-     *
-     * **Note:** This method mutates `object`.
-     *
-     * @static
-     * @memberOf _
-     * @category Object
-     * @param {Object} object The destination object.
-     * @param {...Object} [sources] The source objects.
-     * @returns {Object} Returns `object`.
-     * @example
-     *
-     * _.defaultsDeep({ 'user': { 'name': 'barney' } }, { 'user': { 'name': 'fred', 'age': 36 } });
-     * // => { 'user': { 'name': 'barney', 'age': 36 } }
-     *
-     */
-    var defaultsDeep = createDefaults(merge, mergeDefaults);
+    var defaults = restParam(function(args) {
+      var object = args[0];
+      if (object == null) {
+        return object;
+      }
+      args.push(assignDefaults);
+      return assign.apply(undefined, args);
+    });
 
     /**
      * This method is like `_.find` except that it returns the key of the first
@@ -18581,7 +18764,7 @@ if ('undefined' !== typeof module) {
      */
     function invert(object, multiValue, guard) {
       if (guard && isIterateeCall(object, multiValue, guard)) {
-        multiValue = undefined;
+        multiValue = null;
       }
       var index = -1,
           props = keys(object),
@@ -18610,7 +18793,7 @@ if ('undefined' !== typeof module) {
      * Creates an array of the own enumerable property names of `object`.
      *
      * **Note:** Non-object values are coerced to objects. See the
-     * [ES spec](http://ecma-international.org/ecma-262/6.0/#sec-object.keys)
+     * [ES spec](https://people.mozilla.org/~jorendorff/es6-draft.html#sec-object.keys)
      * for more details.
      *
      * @static
@@ -18634,7 +18817,7 @@ if ('undefined' !== typeof module) {
      * // => ['0', '1']
      */
     var keys = !nativeKeys ? shimKeys : function(object) {
-      var Ctor = object == null ? undefined : object.constructor;
+      var Ctor = object == null ? null : object.constructor;
       if ((typeof Ctor == 'function' && Ctor.prototype === object) ||
           (typeof object != 'function' && isArrayLike(object))) {
         return shimKeys(object);
@@ -18757,6 +18940,56 @@ if ('undefined' !== typeof module) {
      * // => { 'fred': 40, 'pebbles': 1 } (iteration order is not guaranteed)
      */
     var mapValues = createObjectMapper();
+
+    /**
+     * Recursively merges own enumerable properties of the source object(s), that
+     * don't resolve to `undefined` into the destination object. Subsequent sources
+     * overwrite property assignments of previous sources. If `customizer` is
+     * provided it is invoked to produce the merged values of the destination and
+     * source properties. If `customizer` returns `undefined` merging is handled
+     * by the method instead. The `customizer` is bound to `thisArg` and invoked
+     * with five arguments: (objectValue, sourceValue, key, object, source).
+     *
+     * @static
+     * @memberOf _
+     * @category Object
+     * @param {Object} object The destination object.
+     * @param {...Object} [sources] The source objects.
+     * @param {Function} [customizer] The function to customize assigned values.
+     * @param {*} [thisArg] The `this` binding of `customizer`.
+     * @returns {Object} Returns `object`.
+     * @example
+     *
+     * var users = {
+     *   'data': [{ 'user': 'barney' }, { 'user': 'fred' }]
+     * };
+     *
+     * var ages = {
+     *   'data': [{ 'age': 36 }, { 'age': 40 }]
+     * };
+     *
+     * _.merge(users, ages);
+     * // => { 'data': [{ 'user': 'barney', 'age': 36 }, { 'user': 'fred', 'age': 40 }] }
+     *
+     * // using a customizer callback
+     * var object = {
+     *   'fruits': ['apple'],
+     *   'vegetables': ['beet']
+     * };
+     *
+     * var other = {
+     *   'fruits': ['banana'],
+     *   'vegetables': ['carrot']
+     * };
+     *
+     * _.merge(object, other, function(a, b) {
+     *   if (_.isArray(a)) {
+     *     return a.concat(b);
+     *   }
+     * });
+     * // => { 'fruits': ['apple', 'banana'], 'vegetables': ['beet', 'carrot'] }
+     */
+    var merge = createAssigner(baseMerge);
 
     /**
      * The opposite of `_.pick`; this method creates an object composed of the
@@ -18988,7 +19221,7 @@ if ('undefined' !== typeof module) {
           if (isArr) {
             accumulator = isArray(object) ? new Ctor : [];
           } else {
-            accumulator = baseCreate(isFunction(Ctor) ? Ctor.prototype : undefined);
+            accumulator = baseCreate(isFunction(Ctor) ? Ctor.prototype : null);
           }
         } else {
           accumulator = {};
@@ -19091,7 +19324,7 @@ if ('undefined' !== typeof module) {
      */
     function inRange(value, start, end) {
       start = +start || 0;
-      if (end === undefined) {
+      if (typeof end === 'undefined') {
         end = start;
         start = 0;
       } else {
@@ -19129,7 +19362,7 @@ if ('undefined' !== typeof module) {
      */
     function random(min, max, floating) {
       if (floating && isIterateeCall(min, max, floating)) {
-        max = floating = undefined;
+        max = floating = null;
       }
       var noMin = min == null,
           noMax = max == null;
@@ -19316,8 +19549,8 @@ if ('undefined' !== typeof module) {
     function escapeRegExp(string) {
       string = baseToString(string);
       return (string && reHasRegExpChars.test(string))
-        ? string.replace(reRegExpChars, escapeRegExpChar)
-        : (string || '(?:)');
+        ? string.replace(reRegExpChars, '\\$&')
+        : string;
     }
 
     /**
@@ -19374,8 +19607,8 @@ if ('undefined' !== typeof module) {
         return string;
       }
       var mid = (length - strLength) / 2,
-          leftLength = nativeFloor(mid),
-          rightLength = nativeCeil(mid);
+          leftLength = floor(mid),
+          rightLength = ceil(mid);
 
       chars = createPadding('', rightLength, chars);
       return chars.slice(0, leftLength) + string + chars;
@@ -19453,16 +19686,25 @@ if ('undefined' !== typeof module) {
      * // => [6, 8, 10]
      */
     function parseInt(string, radix, guard) {
-      // Firefox < 21 and Opera < 15 follow ES3 for `parseInt`.
-      // Chrome fails to trim leading <BOM> whitespace characters.
-      // See https://code.google.com/p/v8/issues/detail?id=3109 for more details.
-      if (guard ? isIterateeCall(string, radix, guard) : radix == null) {
+      if (guard && isIterateeCall(string, radix, guard)) {
         radix = 0;
-      } else if (radix) {
-        radix = +radix;
       }
-      string = trim(string);
-      return nativeParseInt(string, radix || (reHasHexPrefix.test(string) ? 16 : 10));
+      return nativeParseInt(string, radix);
+    }
+    // Fallback for environments with pre-ES5 implementations.
+    if (nativeParseInt(whitespace + '08') != 8) {
+      parseInt = function(string, radix, guard) {
+        // Firefox < 21 and Opera < 15 follow ES3 for `parseInt`.
+        // Chrome fails to trim leading <BOM> whitespace characters.
+        // See https://code.google.com/p/v8/issues/detail?id=3109 for more details.
+        if (guard ? isIterateeCall(string, radix, guard) : radix == null) {
+          radix = 0;
+        } else if (radix) {
+          radix = +radix;
+        }
+        string = trim(string);
+        return nativeParseInt(string, radix || (reHasHexPrefix.test(string) ? 16 : 10));
+      };
     }
 
     /**
@@ -19498,7 +19740,7 @@ if ('undefined' !== typeof module) {
         if (n % 2) {
           result += string;
         }
-        n = nativeFloor(n / 2);
+        n = floor(n / 2);
         string += string;
       } while (n);
 
@@ -19683,7 +19925,7 @@ if ('undefined' !== typeof module) {
       var settings = lodash.templateSettings;
 
       if (otherOptions && isIterateeCall(string, options, otherOptions)) {
-        options = otherOptions = undefined;
+        options = otherOptions = null;
       }
       string = baseToString(string);
       options = assignWith(baseAssign({}, otherOptions || options), settings, assignOwnDefaults);
@@ -19919,7 +20161,7 @@ if ('undefined' !== typeof module) {
      */
     function trunc(string, options, guard) {
       if (guard && isIterateeCall(string, options, guard)) {
-        options = undefined;
+        options = null;
       }
       var length = DEFAULT_TRUNC_LENGTH,
           omission = DEFAULT_TRUNC_OMISSION;
@@ -20014,7 +20256,7 @@ if ('undefined' !== typeof module) {
      */
     function words(string, pattern, guard) {
       if (guard && isIterateeCall(string, pattern, guard)) {
-        pattern = undefined;
+        pattern = null;
       }
       string = baseToString(string);
       return string.match(pattern || reWords) || [];
@@ -20090,7 +20332,7 @@ if ('undefined' !== typeof module) {
      */
     function callback(func, thisArg, guard) {
       if (guard && isIterateeCall(func, thisArg, guard)) {
-        thisArg = undefined;
+        thisArg = null;
       }
       return isObjectLike(func)
         ? matches(func)
@@ -20291,8 +20533,8 @@ if ('undefined' !== typeof module) {
     function mixin(object, source, options) {
       if (options == null) {
         var isObj = isObject(source),
-            props = isObj ? keys(source) : undefined,
-            methodNames = (props && props.length) ? baseFunctions(source, props) : undefined;
+            props = isObj ? keys(source) : null,
+            methodNames = (props && props.length) ? baseFunctions(source, props) : null;
 
         if (!(methodNames ? methodNames.length : isObj)) {
           methodNames = false;
@@ -20331,7 +20573,9 @@ if ('undefined' !== typeof module) {
                 result.__chain__ = chainAll;
                 return result;
               }
-              return func.apply(object, arrayPush([this.value()], arguments));
+              var args = [this.value()];
+              push.apply(args, arguments);
+              return func.apply(object, args);
             };
           }(func));
         }
@@ -20352,7 +20596,7 @@ if ('undefined' !== typeof module) {
      * var lodash = _.noConflict();
      */
     function noConflict() {
-      root._ = oldDash;
+      context._ = oldDash;
       return this;
     }
 
@@ -20461,7 +20705,7 @@ if ('undefined' !== typeof module) {
      */
     function range(start, end, step) {
       if (step && isIterateeCall(start, end, step)) {
-        end = step = undefined;
+        end = step = null;
       }
       start = +start || 0;
       step = step == null ? 1 : (+step || 0);
@@ -20475,7 +20719,7 @@ if ('undefined' !== typeof module) {
       // Use `Array(length)` so engines like Chakra and V8 avoid slower modes.
       // See https://youtu.be/XAqIpGU8ZZk#t=17m25s for more details.
       var index = -1,
-          length = nativeMax(nativeCeil((end - start) / (step || 1)), 0),
+          length = nativeMax(ceil((end - start) / (step || 1)), 0),
           result = Array(length);
 
       while (++index < length) {
@@ -20513,7 +20757,7 @@ if ('undefined' !== typeof module) {
      * // => also invokes `mage.castSpell(n)` three times
      */
     function times(n, iteratee, thisArg) {
-      n = nativeFloor(n);
+      n = floor(n);
 
       // Exit early to avoid a JSC JIT bug in Safari 8
       // where `Array(0)` is treated as `Array(1)`.
@@ -20574,50 +20818,6 @@ if ('undefined' !== typeof module) {
     function add(augend, addend) {
       return (+augend || 0) + (+addend || 0);
     }
-
-    /**
-     * Calculates `n` rounded up to `precision`.
-     *
-     * @static
-     * @memberOf _
-     * @category Math
-     * @param {number} n The number to round up.
-     * @param {number} [precision=0] The precision to round up to.
-     * @returns {number} Returns the rounded up number.
-     * @example
-     *
-     * _.ceil(4.006);
-     * // => 5
-     *
-     * _.ceil(6.004, 2);
-     * // => 6.01
-     *
-     * _.ceil(6040, -2);
-     * // => 6100
-     */
-    var ceil = createRound('ceil');
-
-    /**
-     * Calculates `n` rounded down to `precision`.
-     *
-     * @static
-     * @memberOf _
-     * @category Math
-     * @param {number} n The number to round down.
-     * @param {number} [precision=0] The precision to round down to.
-     * @returns {number} Returns the rounded down number.
-     * @example
-     *
-     * _.floor(4.006);
-     * // => 4
-     *
-     * _.floor(0.046, 2);
-     * // => 0.04
-     *
-     * _.floor(4060, -2);
-     * // => 4000
-     */
-    var floor = createRound('floor');
 
     /**
      * Gets the maximum value of `collection`. If `collection` is empty or falsey
@@ -20718,28 +20918,6 @@ if ('undefined' !== typeof module) {
     var min = createExtremum(lt, POSITIVE_INFINITY);
 
     /**
-     * Calculates `n` rounded to `precision`.
-     *
-     * @static
-     * @memberOf _
-     * @category Math
-     * @param {number} n The number to round.
-     * @param {number} [precision=0] The precision to round to.
-     * @returns {number} Returns the rounded number.
-     * @example
-     *
-     * _.round(4.006);
-     * // => 4
-     *
-     * _.round(4.006, 2);
-     * // => 4.01
-     *
-     * _.round(4060, -2);
-     * // => 4100
-     */
-    var round = createRound('round');
-
-    /**
      * Gets the sum of the values in `collection`.
      *
      * @static
@@ -20773,11 +20951,17 @@ if ('undefined' !== typeof module) {
      */
     function sum(collection, iteratee, thisArg) {
       if (thisArg && isIterateeCall(collection, iteratee, thisArg)) {
-        iteratee = undefined;
+        iteratee = null;
       }
-      iteratee = getCallback(iteratee, thisArg, 3);
-      return iteratee.length == 1
-        ? arraySum(isArray(collection) ? collection : toIterable(collection), iteratee)
+      var callback = getCallback(),
+          noIteratee = iteratee == null;
+
+      if (!(noIteratee && callback === baseCallback)) {
+        noIteratee = false;
+        iteratee = callback(iteratee, thisArg, 3);
+      }
+      return noIteratee
+        ? arraySum(isArray(collection) ? collection : toIterable(collection))
         : baseSum(collection, iteratee);
     }
 
@@ -20824,7 +21008,6 @@ if ('undefined' !== typeof module) {
     lodash.curryRight = curryRight;
     lodash.debounce = debounce;
     lodash.defaults = defaults;
-    lodash.defaultsDeep = defaultsDeep;
     lodash.defer = defer;
     lodash.delay = delay;
     lodash.difference = difference;
@@ -20863,7 +21046,6 @@ if ('undefined' !== typeof module) {
     lodash.method = method;
     lodash.methodOf = methodOf;
     lodash.mixin = mixin;
-    lodash.modArgs = modArgs;
     lodash.negate = negate;
     lodash.omit = omit;
     lodash.once = once;
@@ -20939,7 +21121,6 @@ if ('undefined' !== typeof module) {
     lodash.attempt = attempt;
     lodash.camelCase = camelCase;
     lodash.capitalize = capitalize;
-    lodash.ceil = ceil;
     lodash.clone = clone;
     lodash.cloneDeep = cloneDeep;
     lodash.deburr = deburr;
@@ -20955,7 +21136,6 @@ if ('undefined' !== typeof module) {
     lodash.findLastKey = findLastKey;
     lodash.findWhere = findWhere;
     lodash.first = first;
-    lodash.floor = floor;
     lodash.get = get;
     lodash.gt = gt;
     lodash.gte = gte;
@@ -21004,7 +21184,6 @@ if ('undefined' !== typeof module) {
     lodash.reduceRight = reduceRight;
     lodash.repeat = repeat;
     lodash.result = result;
-    lodash.round = round;
     lodash.runInContext = runInContext;
     lodash.size = size;
     lodash.snakeCase = snakeCase;
@@ -21075,20 +21254,48 @@ if ('undefined' !== typeof module) {
       lodash[methodName].placeholder = lodash;
     });
 
+    // Add `LazyWrapper` methods that accept an `iteratee` value.
+    arrayEach(['dropWhile', 'filter', 'map', 'takeWhile'], function(methodName, type) {
+      var isFilter = type != LAZY_MAP_FLAG,
+          isDropWhile = type == LAZY_DROP_WHILE_FLAG;
+
+      LazyWrapper.prototype[methodName] = function(iteratee, thisArg) {
+        var filtered = this.__filtered__,
+            result = (filtered && isDropWhile) ? new LazyWrapper(this) : this.clone(),
+            iteratees = result.__iteratees__ || (result.__iteratees__ = []);
+
+        iteratees.push({
+          'done': false,
+          'count': 0,
+          'index': 0,
+          'iteratee': getCallback(iteratee, thisArg, 1),
+          'limit': -1,
+          'type': type
+        });
+
+        result.__filtered__ = filtered || isFilter;
+        return result;
+      };
+    });
+
     // Add `LazyWrapper` methods for `_.drop` and `_.take` variants.
     arrayEach(['drop', 'take'], function(methodName, index) {
-      LazyWrapper.prototype[methodName] = function(n) {
-        var filtered = this.__filtered__;
-        if (filtered && !index) {
-          return new LazyWrapper(this);
-        }
-        n = n == null ? 1 : nativeMax(nativeFloor(n) || 0, 0);
+      var whileName = methodName + 'While';
 
-        var result = this.clone();
+      LazyWrapper.prototype[methodName] = function(n) {
+        var filtered = this.__filtered__,
+            result = (filtered && !index) ? this.dropWhile() : this.clone();
+
+        n = n == null ? 1 : nativeMax(floor(n) || 0, 0);
         if (filtered) {
-          result.__takeCount__ = nativeMin(result.__takeCount__, n);
+          if (index) {
+            result.__takeCount__ = nativeMin(result.__takeCount__, n);
+          } else {
+            last(result.__iteratees__).limit = n;
+          }
         } else {
-          result.__views__.push({ 'size': n, 'type': methodName + (result.__dir__ < 0 ? 'Right' : '') });
+          var views = result.__views__ || (result.__views__ = []);
+          views.push({ 'size': n, 'type': methodName + (result.__dir__ < 0 ? 'Right' : '') });
         }
         return result;
       };
@@ -21096,18 +21303,9 @@ if ('undefined' !== typeof module) {
       LazyWrapper.prototype[methodName + 'Right'] = function(n) {
         return this.reverse()[methodName](n).reverse();
       };
-    });
 
-    // Add `LazyWrapper` methods that accept an `iteratee` value.
-    arrayEach(['filter', 'map', 'takeWhile'], function(methodName, index) {
-      var type = index + 1,
-          isFilter = type != LAZY_MAP_FLAG;
-
-      LazyWrapper.prototype[methodName] = function(iteratee, thisArg) {
-        var result = this.clone();
-        result.__iteratees__.push({ 'iteratee': getCallback(iteratee, thisArg, 1), 'type': type });
-        result.__filtered__ = result.__filtered__ || isFilter;
-        return result;
+      LazyWrapper.prototype[methodName + 'RightWhile'] = function(predicate, thisArg) {
+        return this.reverse()[whileName](predicate, thisArg).reverse();
       };
     });
 
@@ -21125,7 +21323,7 @@ if ('undefined' !== typeof module) {
       var dropName = 'drop' + (index ? '' : 'Right');
 
       LazyWrapper.prototype[methodName] = function() {
-        return this.__filtered__ ? new LazyWrapper(this) : this[dropName](1);
+        return this[dropName](1);
       };
     });
 
@@ -21154,13 +21352,10 @@ if ('undefined' !== typeof module) {
       start = start == null ? 0 : (+start || 0);
 
       var result = this;
-      if (result.__filtered__ && (start > 0 || end < 0)) {
-        return new LazyWrapper(result);
-      }
       if (start < 0) {
-        result = result.takeRight(-start);
+        result = this.takeRight(-start);
       } else if (start) {
-        result = result.drop(start);
+        result = this.drop(start);
       }
       if (end !== undefined) {
         end = (+end || 0);
@@ -21169,25 +21364,21 @@ if ('undefined' !== typeof module) {
       return result;
     };
 
-    LazyWrapper.prototype.takeRightWhile = function(predicate, thisArg) {
-      return this.reverse().takeWhile(predicate, thisArg).reverse();
-    };
-
     LazyWrapper.prototype.toArray = function() {
-      return this.take(POSITIVE_INFINITY);
+      return this.drop(0);
     };
 
     // Add `LazyWrapper` methods to `lodash.prototype`.
     baseForOwn(LazyWrapper.prototype, function(func, methodName) {
-      var checkIteratee = /^(?:filter|map|reject)|While$/.test(methodName),
-          retUnwrapped = /^(?:first|last)$/.test(methodName),
-          lodashFunc = lodash[retUnwrapped ? ('take' + (methodName == 'last' ? 'Right' : '')) : methodName];
-
+      var lodashFunc = lodash[methodName];
       if (!lodashFunc) {
         return;
       }
+      var checkIteratee = /^(?:filter|map|reject)|While$/.test(methodName),
+          retUnwrapped = /^(?:first|last)$/.test(methodName);
+
       lodash.prototype[methodName] = function() {
-        var args = retUnwrapped ? [1] : arguments,
+        var args = arguments,
             chainAll = this.__chain__,
             value = this.__wrapped__,
             isHybrid = !!this.__actions__.length,
@@ -21196,30 +21387,28 @@ if ('undefined' !== typeof module) {
             useLazy = isLazy || isArray(value);
 
         if (useLazy && checkIteratee && typeof iteratee == 'function' && iteratee.length != 1) {
-          // Avoid lazy use if the iteratee has a "length" value other than `1`.
+          // avoid lazy use if the iteratee has a "length" value other than `1`
           isLazy = useLazy = false;
         }
-        var interceptor = function(value) {
-          return (retUnwrapped && chainAll)
-            ? lodashFunc(value, 1)[0]
-            : lodashFunc.apply(undefined, arrayPush([value], args));
-        };
-
-        var action = { 'func': thru, 'args': [interceptor], 'thisArg': undefined },
-            onlyLazy = isLazy && !isHybrid;
-
+        var onlyLazy = isLazy && !isHybrid;
         if (retUnwrapped && !chainAll) {
-          if (onlyLazy) {
-            value = value.clone();
-            value.__actions__.push(action);
-            return func.call(value);
-          }
-          return lodashFunc.call(undefined, this.value())[0];
+          return onlyLazy
+            ? func.call(value)
+            : lodashFunc.call(lodash, this.value());
         }
-        if (!retUnwrapped && useLazy) {
-          value = onlyLazy ? value : new LazyWrapper(this);
-          var result = func.apply(value, args);
-          result.__actions__.push(action);
+        var interceptor = function(value) {
+          var otherArgs = [value];
+          push.apply(otherArgs, args);
+          return lodashFunc.apply(lodash, otherArgs);
+        };
+        if (useLazy) {
+          var wrapper = onlyLazy ? value : new LazyWrapper(this),
+              result = func.apply(wrapper, args);
+
+          if (!retUnwrapped && (isHybrid || result.__actions__)) {
+            var actions = result.__actions__ || (result.__actions__ = []);
+            actions.push({ 'func': thru, 'args': [interceptor], 'thisArg': lodash });
+          }
           return new LodashWrapper(result, chainAll);
         }
         return this.thru(interceptor);
@@ -21227,7 +21416,7 @@ if ('undefined' !== typeof module) {
     });
 
     // Add `Array` and `String` methods to `lodash.prototype`.
-    arrayEach(['join', 'pop', 'push', 'replace', 'shift', 'sort', 'splice', 'split', 'unshift'], function(methodName) {
+    arrayEach(['concat', 'join', 'pop', 'push', 'replace', 'shift', 'sort', 'splice', 'split', 'unshift'], function(methodName) {
       var func = (/^(?:replace|split)$/.test(methodName) ? stringProto : arrayProto)[methodName],
           chainName = /^(?:push|sort|unshift)$/.test(methodName) ? 'tap' : 'thru',
           retUnwrapped = /^(?:join|pop|replace|shift)$/.test(methodName);
@@ -21254,7 +21443,7 @@ if ('undefined' !== typeof module) {
       }
     });
 
-    realNames[createHybridWrapper(undefined, BIND_KEY_FLAG).name] = [{ 'name': 'wrapper', 'func': undefined }];
+    realNames[createHybridWrapper(null, BIND_KEY_FLAG).name] = [{ 'name': 'wrapper', 'func': null }];
 
     // Add functions to the lazy wrapper.
     LazyWrapper.prototype.clone = lazyClone;
@@ -21264,7 +21453,6 @@ if ('undefined' !== typeof module) {
     // Add chaining functions to the `lodash` wrapper.
     lodash.prototype.chain = wrapperChain;
     lodash.prototype.commit = wrapperCommit;
-    lodash.prototype.concat = wrapperConcat;
     lodash.prototype.plant = wrapperPlant;
     lodash.prototype.reverse = wrapperReverse;
     lodash.prototype.toString = wrapperToString;
@@ -21316,7 +21504,7 @@ if ('undefined' !== typeof module) {
 }.call(this));
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],83:[function(require,module,exports){
+},{}],88:[function(require,module,exports){
 // default filter
 var Transform = require('./transform.js');
 
@@ -21374,7 +21562,7 @@ Filter.prototype.write = function(name, level, args) {
 
 module.exports = Filter;
 
-},{"./transform.js":85}],84:[function(require,module,exports){
+},{"./transform.js":90}],89:[function(require,module,exports){
 var Transform = require('./transform.js'),
     Filter = require('./filter.js');
 
@@ -21421,7 +21609,7 @@ exports.enable = function() {
 };
 
 
-},{"./filter.js":83,"./transform.js":85}],85:[function(require,module,exports){
+},{"./filter.js":88,"./transform.js":90}],90:[function(require,module,exports){
 var microee = require('microee');
 
 // Implements a subset of Node's stream.Transform - in a cross-platform manner.
@@ -21495,7 +21683,7 @@ Transform.mixin = function(dest) {
 
 module.exports = Transform;
 
-},{"microee":94}],86:[function(require,module,exports){
+},{"microee":99}],91:[function(require,module,exports){
 var Transform = require('../common/transform.js'),
     cache = [ ];
 
@@ -21511,7 +21699,7 @@ logger.empty = function() { cache = []; };
 
 module.exports = logger;
 
-},{"../common/transform.js":85}],87:[function(require,module,exports){
+},{"../common/transform.js":90}],92:[function(require,module,exports){
 var Transform = require('../common/transform.js');
 
 var newlines = /\n+$/,
@@ -21545,7 +21733,7 @@ logger.minilog = require('./formatters/minilog.js');
 
 module.exports = logger;
 
-},{"../common/transform.js":85,"./formatters/color.js":88,"./formatters/minilog.js":89}],88:[function(require,module,exports){
+},{"../common/transform.js":90,"./formatters/color.js":93,"./formatters/minilog.js":94}],93:[function(require,module,exports){
 var Transform = require('../../common/transform.js'),
     color = require('./util.js');
 
@@ -21565,7 +21753,7 @@ logger.pipe = function() { };
 
 module.exports = logger;
 
-},{"../../common/transform.js":85,"./util.js":90}],89:[function(require,module,exports){
+},{"../../common/transform.js":90,"./util.js":95}],94:[function(require,module,exports){
 var Transform = require('../../common/transform.js'),
     color = require('./util.js'),
     colors = { debug: ['gray'], info: ['purple' ], warn: [ 'yellow', true ], error: [ 'red', true ] },
@@ -21593,7 +21781,7 @@ logger.pipe = function() { };
 
 module.exports = logger;
 
-},{"../../common/transform.js":85,"./util.js":90}],90:[function(require,module,exports){
+},{"../../common/transform.js":90,"./util.js":95}],95:[function(require,module,exports){
 var hex = {
   black: '#000',
   red: '#c23621',
@@ -21615,7 +21803,7 @@ function color(fg, isInverse) {
 
 module.exports = color;
 
-},{}],91:[function(require,module,exports){
+},{}],96:[function(require,module,exports){
 var Minilog = require('../common/minilog.js');
 
 var oldEnable = Minilog.enable,
@@ -21659,7 +21847,7 @@ exports.backends = {
   jQuery: require('./jquery_simple.js')
 };
 
-},{"../common/minilog.js":84,"./array.js":86,"./console.js":87,"./jquery_simple.js":92,"./localstorage.js":93}],92:[function(require,module,exports){
+},{"../common/minilog.js":89,"./array.js":91,"./console.js":92,"./jquery_simple.js":97,"./localstorage.js":98}],97:[function(require,module,exports){
 var Transform = require('../common/transform.js');
 
 var cid = new Date().valueOf().toString(36);
@@ -21735,7 +21923,7 @@ AjaxLogger.jQueryWait = function(onDone) {
 
 module.exports = AjaxLogger;
 
-},{"../common/transform.js":85}],93:[function(require,module,exports){
+},{"../common/transform.js":90}],98:[function(require,module,exports){
 var Transform = require('../common/transform.js'),
     cache = false;
 
@@ -21751,7 +21939,7 @@ logger.write = function(name, level, args) {
 };
 
 module.exports = logger;
-},{"../common/transform.js":85}],94:[function(require,module,exports){
+},{"../common/transform.js":90}],99:[function(require,module,exports){
 function M() { this._events = {}; }
 M.prototype = {
   on: function(ev, cb) {
@@ -21800,7 +21988,7 @@ M.mixin = function(dest) {
 };
 module.exports = M;
 
-},{}],95:[function(require,module,exports){
+},{}],100:[function(require,module,exports){
 /**
  * Module dependencies.
  */
@@ -22290,7 +22478,7 @@ function Request(method, url) {
     new_err.response = res;
     new_err.status = res.status;
 
-    self.callback(new_err, res);
+    self.callback(err || new_err, res);
   });
 }
 
@@ -22763,8 +22951,7 @@ Request.prototype.end = function(fn){
   // body
   if ('GET' != this.method && 'HEAD' != this.method && 'string' != typeof data && !isHost(data)) {
     // serialize stuff
-    var contentType = this.getHeader('Content-Type');
-    var serialize = request.serialize[contentType ? contentType.split(';')[0] : ''];
+    var serialize = request.serialize[this.getHeader('Content-Type')];
     if (serialize) data = serialize(data);
   }
 
@@ -22779,20 +22966,6 @@ Request.prototype.end = function(fn){
   xhr.send(data);
   return this;
 };
-
-/**
- * Faux promise support
- *
- * @param {Function} fulfill
- * @param {Function} reject
- * @return {Request}
- */
-
-Request.prototype.then = function (fulfill, reject) {
-  return this.end(function(err, res) {
-    err ? reject(err) : fulfill(res);
-  });
-}
 
 /**
  * Expose `Request`.
@@ -22940,7 +23113,7 @@ request.put = function(url, data, fn){
 
 module.exports = request;
 
-},{"emitter":96,"reduce":97}],96:[function(require,module,exports){
+},{"emitter":101,"reduce":102}],101:[function(require,module,exports){
 
 /**
  * Expose `Emitter`.
@@ -23106,7 +23279,7 @@ Emitter.prototype.hasListeners = function(event){
   return !! this.listeners(event).length;
 };
 
-},{}],97:[function(require,module,exports){
+},{}],102:[function(require,module,exports){
 
 /**
  * Reduce `arr` with `fn`.
@@ -23131,7 +23304,7 @@ module.exports = function(arr, fn, initial){
   
   return curr;
 };
-},{}],98:[function(require,module,exports){
+},{}],103:[function(require,module,exports){
 (function (global){
 
 var rng;
@@ -23166,7 +23339,7 @@ module.exports = rng;
 
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],99:[function(require,module,exports){
+},{}],104:[function(require,module,exports){
 //     uuid.js
 //
 //     Copyright (c) 2010-2012 Robert Kieffer
@@ -23351,5 +23524,5 @@ uuid.unparse = unparse;
 
 module.exports = uuid;
 
-},{"./rng":98}]},{},[1])(1)
+},{"./rng":103}]},{},[1])(1)
 });

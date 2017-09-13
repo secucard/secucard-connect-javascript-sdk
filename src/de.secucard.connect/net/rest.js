@@ -54,6 +54,12 @@ export class Rest {
             return context.getAuth().getToken(extend);
 
         };
+        
+        this.withCredentials = () => {
+            
+            return context.getConfig().getWithCredentials();
+            
+        };
 
         this.isRequestWithToken = context.isRequestWithToken.bind(context);
 
@@ -91,40 +97,7 @@ export class Rest {
 
         return new Promise((resolve, reject) => {
 
-            let url = message.baseUrl ? message.baseUrl + message.url : message.url;
-            let request = this.r(url, message.method);
-
-            if (message.headers) {
-                request.set(message.headers);
-            }
-
-            if (message.query) {
-                //console.log(QS.stringify(message.query), message.query);
-                //request.query(QS.stringify(message.query))
-                request.query(message.query);
-            }
-
-            if (message.body) {
-                request.send(message.body);
-            }
-
-            if (message.accept) {
-                request.accept(message.accept);
-            }
-            
-            if (message.multipart && message.multipart.files) {
-                message.multipart.files.forEach((item) => {
-                    request.attach(item.field, item.path, item.filename);
-                });
-            }
-            
-            if (message.multipart && message.multipart.fields) {
-                message.multipart.fields.forEach((item) => {
-                    request.field(item.name, item.value);
-                });
-            }
-
-            request.end((err, res) => {
+            this.createRequestFromMessage(message).end((err, res) => {
                 if (err) {
                     //minilog('secucard.rest').debug(err);
                     reject(err, res);
@@ -135,6 +108,49 @@ export class Rest {
 
         });
 
+    }
+    
+    createRequestFromMessage(message) {
+
+        let url = message.baseUrl ? message.baseUrl + message.url : message.url;
+        let request = this.r(url, message.method);
+
+        if (this.withCredentials()) {
+            request.withCredentials();
+        }
+
+        if (message.headers) {
+            request.set(message.headers);
+        }
+
+        if (message.query) {
+            //console.log(QS.stringify(message.query), message.query);
+            //request.query(QS.stringify(message.query))
+            request.query(message.query);
+        }
+
+        if (message.body) {
+            request.send(message.body);
+        }
+
+        if (message.accept) {
+            request.accept(message.accept);
+        }
+
+        if (message.multipart && message.multipart.files) {
+            message.multipart.files.forEach((item) => {
+                request.attach(item.field, item.path, item.filename);
+            });
+        }
+
+        if (message.multipart && message.multipart.fields) {
+            message.multipart.fields.forEach((item) => {
+                request.field(item.name, item.value);
+            });
+        }
+        
+        return request;
+        
     }
 
     getAuthHeader(token) {
@@ -170,9 +186,7 @@ export class Rest {
             let error = err;
             let request = JSON.stringify({method: method, params: params});
 
-            if (error instanceof AuthenticationFailedException) {
-
-            } else if(err.response){
+            if (err.response){
                 error = SecucardConnectException.create(err.response.body);
             }
 
@@ -188,6 +202,23 @@ export class Rest {
 
         return pr.then(requestSuccess).catch(requestError);
 
+    }
+    
+    generateUrl(method, params) {
+        
+        let message = this.createMessageForRequest(method, params);
+        let req = this.createRequestFromMessage(message);
+        
+        var query = req._query? req._query.join('&') : '';
+        
+        let url = req.url;
+        
+        if (query) {
+            url += (url.indexOf('?') >= 0 ? '&' : '?') + query;
+        }
+        
+        return url;
+        
     }
 
     createMessageForRequest(method, params) {

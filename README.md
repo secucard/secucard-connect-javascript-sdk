@@ -41,11 +41,6 @@ SDKs for other language can be found here: [http://developer.secuconnect.com/doc
 Please see [CHANGELOG](CHANGELOG.md) for more information what has changed recently.
 
 
-## Contributing
-
-Please see [CONTRIBUTING](CONTRIBUTING.md) and [CONDUCT](CONDUCT.md) for details.
-
-
 ## License
 
 Licensed under the Apache License, Version 2.0 (the "License");

@@ -24,7 +24,6 @@ export class MerchantService extends ProductService {
     getEventTargets() {
         return [];
     }
-
 }
 
 MerchantService.Uid = (['general', 'merchants']).join('.');

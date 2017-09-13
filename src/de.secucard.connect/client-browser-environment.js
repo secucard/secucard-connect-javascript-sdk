@@ -45,8 +45,11 @@ export const ClientBrowserEnvironment = {
         General.StoreService,
         General.TransactionService,
         
-        Loyalty.ActionActionService,
+        Loyalty.ActionService,
         Loyalty.ActionProfileService,
+        Loyalty.ActionMessageService,
+        Loyalty.ActionCampaignService,
+        Loyalty.ActionConfigService,
         Loyalty.BeaconService,
         Loyalty.CardGroupService,
         Loyalty.CardService,
@@ -54,10 +57,13 @@ export const ClientBrowserEnvironment = {
         Loyalty.CheckinService,
         Loyalty.CustomerService,
         Loyalty.MerchantCardService,
+        Loyalty.PaymentContainerService,
         Loyalty.ProgramService,
         Loyalty.ProgramSpecialService,
+        Loyalty.ReportService,
         Loyalty.SaleService,
         Loyalty.StoreGroupService,
+        Loyalty.TransactionService,
 
         Payment.ContainerService,
         Payment.ContractService,
@@ -78,6 +84,7 @@ export const ClientBrowserEnvironment = {
         Services.IdentResultService,
         
         Smart.CheckinService,
+        Smart.ConfigurationService,
         Smart.DeviceService,
         Smart.IdentService,
         Smart.RoutingService,
@@ -119,8 +126,11 @@ export const ServiceMap = {
         Transactions: General.TransactionService.Uid
     },
     Loyalty: {
-        ActionActions: Loyalty.ActionActionService.Uid,
+        ActionCampaigns: Loyalty.ActionCampaignService.Uid,
+        ActionConfigs: Loyalty.ActionConfigService.Uid,
+        ActionMessages: Loyalty.ActionMessageService.Uid,
         ActionProfiles: Loyalty.ActionProfileService.Uid,
+        Actions: Loyalty.ActionService.Uid,
         Beacons: Loyalty.BeaconService.Uid,
         CardGroups: Loyalty.CardGroupService.Uid,
         Cards: Loyalty.CardService.Uid,
@@ -128,10 +138,13 @@ export const ServiceMap = {
         Checkins: Loyalty.CheckinService.Uid,
         Customers: Loyalty.CustomerService.Uid,
         MerchantCards: Loyalty.MerchantCardService.Uid,
+        PaymentContainers: Loyalty.PaymentContainerService.Uid,
         Programs: Loyalty.ProgramService.Uid,
         ProrgamSpecials: Loyalty.ProgramSpecialService.Uid,
+        Reports: Loyalty.ReportService.Uid,
         Sales: Loyalty.SaleService.Uid,
-        StoreGroups: Loyalty.StoreGroupService.Uid
+        StoreGroups: Loyalty.StoreGroupService.Uid,
+        Transactions: Loyalty.TransactionService.Uid
     },
     Payment: {
         Containers: Payment.ContainerService.Uid,
@@ -156,6 +169,7 @@ export const ServiceMap = {
     },
     Smart: {
         Checkins: Smart.CheckinService.Uid,
+        Configurations: Smart.ConfigurationService.Uid,
         Devices: Smart.DeviceService.Uid,
         Idents: Smart.IdentService.Uid,
         Routings: Smart.RoutingService.Uid,

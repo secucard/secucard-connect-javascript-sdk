@@ -72,6 +72,10 @@ export class ClientConfig {
     getRetrieveToken() {
         return this.retrieveToken;
     }
+    
+    getWithCredentials() {
+        return this.withCredentials;
+    }
 
     _getCompleteUrl(value) {
 
@@ -135,7 +139,10 @@ ClientConfig._defaults = {
     stompMessageAge: 0, //TODO implement stompMessageAge,
     
     //if credentials not set, client retrieves token itself, can be string/URL or callback that returns Promise
-    retrieveToken: null
+    retrieveToken: null,
+    
+    // enable to send cookies set on backend (browser client setting)
+    withCredentials: false
 };
 
 ClientConfig.defaults = () => {
