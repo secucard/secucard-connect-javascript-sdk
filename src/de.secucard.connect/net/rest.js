@@ -186,9 +186,7 @@ export class Rest {
             let error = err;
             let request = JSON.stringify({method: method, params: params});
 
-            if (error instanceof AuthenticationFailedException) {
-
-            } else if(err.response){
+            if (err.response){
                 error = SecucardConnectException.create(err.response.body);
             }
 
