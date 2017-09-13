@@ -171,8 +171,7 @@ var Stomp = (function () {
             data = null,
             command = null,
             headers = null,
-            body = null,
-            headers_str = null;
+            body = null;
 
         if (!utils.really_defined(chunk)) {
             return null;

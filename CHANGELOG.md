@@ -1,5 +1,5 @@
 <a name="0.3.0"></a>
-# 0.3.0 (2017-08-24)
+# 0.3.0 (2017-09-13)
 
 ### New
 
@@ -39,6 +39,8 @@
  ([19db2d3](https://github.com/secucard/secucard-connect-javascript-sdk/commit/19db2d3))
 * Add functionality to validate the IBAN
  ([f9cf4f6](https://github.com/secucard/secucard-connect-javascript-sdk/commit/f9cf4f6))
+* Added ConfigurationSerivce in smart
+ ([f4645d7](https://github.com/secucard/secucard-connect-javascript-sdk/commit/f4645d7))
 * Added missing entries for the environments
  ([a8b6aaa](https://github.com/secucard/secucard-connect-javascript-sdk/commit/a8b6aaa))
 * Backport changes (CONTRIBUTING.md)
