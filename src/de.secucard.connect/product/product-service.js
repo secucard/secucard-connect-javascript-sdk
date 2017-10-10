@@ -133,6 +133,17 @@ export class ProductService {
         return this._request(Channel.METHOD.GET, params, options);
 
     }
+    
+    generateRetrieveUrl(id, queryParams, options) {
+        let params = {
+            endpoint: this.getEndpoint(),
+            objectId: id,
+            queryParams: queryParams,
+            options: options
+        };
+        
+        return this._generateUrl(Channel.METHOD.GET, params, options);
+    }
 
     /**
      * Retrieves a promise for a single object (resource) of a given type, never null<br/>
@@ -156,6 +167,19 @@ export class ProductService {
         return this._request(Channel.METHOD.GET, params, options);
 
     }
+    
+    generateRetrieveWithActionUrl(id, action, actionArg, options) {
+        
+        let params = {
+            endpoint: this.getEndpoint(),
+            objectId: id,
+            action: action,
+            actionArg: actionArg,
+            options: options
+        };
+        
+        return this._generateUrl(Channel.METHOD.GET, params, options);
+    }
 
     /**
      * Retrieves a promise for a collection of objects (resources) of a given type according to a given query.<br/>
@@ -177,6 +201,17 @@ export class ProductService {
 
         return this._request(Channel.METHOD.GET, params, options);
 
+    }
+    
+    generateRetrieveListUrl(queryParams, options) {
+        
+        let params = {
+            endpoint: this.getEndpoint(),
+            queryParams: queryParams,
+            options: options
+        };
+        
+        return this._generateUrl(Channel.METHOD.GET, params, options);
     }
 
     /**
@@ -385,6 +420,20 @@ export class ProductService {
 
         return this.getChannel(options.channelConfig).request(method, params);
 
+    }
+    
+    _generateUrl(method, params, options) {
+        
+        if (options == null) {
+            options = this.getServiceDefaultOptions();
+        }
+
+        if (params.options == null) {
+            params.options = options;
+        }
+        
+        return this.getChannel([Channel.REST]).generateUrl(method, params);
+        
     }
 
 }

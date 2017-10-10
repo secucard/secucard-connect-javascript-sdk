@@ -8,26 +8,26 @@ function _inherits(subClass, superClass) { if (typeof superClass !== 'function' 
 
 var _productService = require('../product-service');
 
-var ActionActionService = (function (_ProductService) {
-    _inherits(ActionActionService, _ProductService);
+var ActionService = (function (_ProductService) {
+    _inherits(ActionService, _ProductService);
 
-    function ActionActionService() {
-        _classCallCheck(this, ActionActionService);
+    function ActionService() {
+        _classCallCheck(this, ActionService);
 
         _ProductService.call(this);
     }
 
-    ActionActionService.prototype.getEndpoint = function getEndpoint() {
-        return ['loyalty', 'actionactions'];
+    ActionService.prototype.getEndpoint = function getEndpoint() {
+        return ['loyalty', 'actions'];
     };
 
-    ActionActionService.prototype.getEventTargets = function getEventTargets() {
+    ActionService.prototype.getEventTargets = function getEventTargets() {
         return [];
     };
 
-    return ActionActionService;
+    return ActionService;
 })(_productService.ProductService);
 
-exports.ActionActionService = ActionActionService;
+exports.ActionService = ActionService;
 
-ActionActionService.Uid = ['loyalty', 'actionactions'].join('.');
+ActionService.Uid = ['loyalty', 'actions'].join('.');

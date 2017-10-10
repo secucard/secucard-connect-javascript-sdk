@@ -17,12 +17,24 @@ var CustomerService = (function (_ProductService) {
         _ProductService.call(this);
     }
 
+    CustomerService.prototype.retrieveTemplates = function retrieveTemplates(merchantId) {
+        return this.retrieveWithAction('me', 'templateList', merchantId);
+    };
+
     CustomerService.prototype.getEndpoint = function getEndpoint() {
         return ['loyalty', 'customers'];
     };
 
     CustomerService.prototype.getEventTargets = function getEventTargets() {
         return [];
+    };
+
+    CustomerService.prototype.assignPaymentContainer = function assignPaymentContainer(customerId, paymentContainerId) {
+        return this.execute(customerId, 'assignPaymentcontainer', paymentContainerId);
+    };
+
+    CustomerService.prototype.removePaymentContainer = function removePaymentContainer(customerId, paymentContainerId) {
+        return this.removeWithAction(customerId, 'assignPaymentcontainer', paymentContainerId);
     };
 
     return CustomerService;
