@@ -39,7 +39,7 @@ export class TransactionService extends ProductService {
      * @returns {Promise}
      */
     getCrowdfundingData(id) {
-        return this.retrieveWithAction(id, 'crowdFundingData');
+        return this.retrieveWithAction('me', 'CrowdFundingData', id);
     }
 
 }
