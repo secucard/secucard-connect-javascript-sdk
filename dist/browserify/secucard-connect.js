@@ -1109,7 +1109,7 @@ exports.ClientContext = ClientContext;
 
 exports.__esModule = true;
 var Version = {
-  "name": "0.3.0"
+  "name": "0.3.1"
 };
 exports.Version = Version;
 },{}],11:[function(require,module,exports){
@@ -4296,6 +4296,10 @@ var TransactionService = (function (_ProductService) {
 
     TransactionService.prototype.getEventTargets = function getEventTargets() {
         return [];
+    };
+
+    TransactionService.prototype.getCrowdfundingData = function getCrowdfundingData(id) {
+        return this.retrieveWithAction('me', 'CrowdFundingData', id);
     };
 
     return TransactionService;

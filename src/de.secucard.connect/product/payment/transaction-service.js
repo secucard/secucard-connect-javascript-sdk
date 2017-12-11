@@ -33,6 +33,15 @@ export class TransactionService extends ProductService {
         return [];
     }
 
+    /**
+     * Get the crowdfunding data for the specific merchant
+     * @param id string MRC_ID
+     * @returns {Promise}
+     */
+    getCrowdfundingData(id) {
+        return this.retrieveWithAction('me', 'CrowdFundingData', id);
+    }
+
 }
 
 TransactionService.Uid = (['payment', 'transactions']).join('.');

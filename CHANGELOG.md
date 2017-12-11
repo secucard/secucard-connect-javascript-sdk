@@ -1,3 +1,10 @@
+<a name="0.3.1"></a>
+## 0.3.1 (2017-12-11)
+
+* New: add crowdfounding data
+ ([4ee47bc](https://github.com/secucard/secucard-connect-javascript-sdk/commit/4ee47bc))
+ ([999ac1c](https://github.com/secucard/secucard-connect-javascript-sdk/commit/999ac1c))
+
 <a name="0.3.0"></a>
 # 0.3.0 (2017-09-13)
 
