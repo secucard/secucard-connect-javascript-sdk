@@ -33,6 +33,10 @@ var TransactionService = (function (_ProductService) {
         return [];
     };
 
+    TransactionService.prototype.getCrowdfundingData = function getCrowdfundingData(id) {
+        return this.retrieveWithAction('me', 'CrowdFundingData', id);
+    };
+
     return TransactionService;
 })(_productService.ProductService);
 
