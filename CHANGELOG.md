@@ -1,3 +1,11 @@
+<a name="0.3.2"></a>
+## 0.3.2 (2018-01-09)
+
+### Removed
+
+* Dependency of 'qs' because it is not in use but insecure
+
+
 <a name="0.3.1"></a>
 ## 0.3.1 (2017-12-11)
 
