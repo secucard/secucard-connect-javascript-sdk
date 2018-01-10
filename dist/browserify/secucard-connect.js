@@ -1109,7 +1109,7 @@ exports.ClientContext = ClientContext;
 
 exports.__esModule = true;
 var Version = {
-  "name": "0.3.2"
+  "name": "0.4.0"
 };
 exports.Version = Version;
 },{}],11:[function(require,module,exports){

@@ -1,10 +1,13 @@
-<a name="0.3.2"></a>
-## 0.3.2 (2018-01-09)
+<a name="0.4.0"></a>
+# 0.4.0 (2018-01-10)
 
-### Removed
 
-* Dependency of 'qs' because it is not in use but insecure
+### fix
 
+* Updated dependency and removed comment code
+ ([85d90b5](https://github.com/secucard/secucard-connect-javascript-sdk/commit/85d90b5))
+ ([9dd4369](https://github.com/secucard/secucard-connect-javascript-sdk/commit/9dd4369))
+ ([e63d024](https://github.com/secucard/secucard-connect-javascript-sdk/commit/e63d024))
 
 <a name="0.3.1"></a>
 ## 0.3.1 (2017-12-11)
