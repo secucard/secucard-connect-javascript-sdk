@@ -1,6 +1,6 @@
 {
   "name": "secucard-connect",
-  "version": "0.3.1",
+  "version": "0.4.0",
   "main": "dist/commonjs/index.js",
   "license": "Apache-2.0",
   "homepage": "https://github.com/secucard/secucard-connect-javascript-sdk",
@@ -16,10 +16,9 @@
     "eventemitter3": "^1.1.1",
     "lodash": "^3.9.3",
     "minilog": "^2.0.8",
-    "qs": "^4.0.0",
     "sizzle": "^2.3.0",
     "stream-browserify": "^2.0.1",
-    "superagent": "^1.2.0",
+    "superagent": "^3.8.2",
     "uuid": "^2.0.1"
   },
   "devDependencies": {
@@ -65,8 +64,7 @@
       "eventemitter3": "npm:eventemitter3@^1.1.1",
       "lodash": "npm:lodash@^3.9.3",
       "minilog": "npm:minilog@^2.0.8",
-      "qs": "npm:qs@^4.0.0",
-      "superagent": "npm:superagent@^1.2.0",
+      "superagent": "npm:superagent@^3.8.2",
       "uuid": "npm:uuid@^2.0.1"
     }
   }

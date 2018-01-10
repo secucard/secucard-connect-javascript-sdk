@@ -16,7 +16,6 @@ import {Channel} from './channel';
 import {AuthenticationFailedException} from '../auth/exception';
 import {SecucardConnectException} from './exception';
 import minilog from 'minilog';
-//import QS from 'qs';
 
 export class Rest {
 
