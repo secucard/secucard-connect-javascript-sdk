@@ -9,6 +9,7 @@ function _ajax(url, callback, data, xClient, x) {
         //x.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
         x.setRequestHeader('Content-type', 'application/json');
         x.setRequestHeader('Accept', 'application/json');
+        x.setRequestHeader('X-Frame-Options', 'deny');
         
         if(xClient) {
             x.setRequestHeader('X-Client', xClient);
