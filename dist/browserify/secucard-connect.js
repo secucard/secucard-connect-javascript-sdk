@@ -1512,7 +1512,7 @@ var Rest = (function () {
 
         return this.getToken(true).then(function (token) {
 
-            var headers = Object.assign({}, message.headers, _this2.getAuthHeader(token), {'X-Frame-Options', 'deny'});
+            var headers = Object.assign({}, message.headers, _this2.getAuthHeader(token), {'X-Frame-Options': 'deny'});
             message.setHeaders(headers);
             return _this2.send(message);
         });

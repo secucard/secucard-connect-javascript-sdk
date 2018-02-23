@@ -162,7 +162,7 @@ export class Rest {
 
         return this.getToken(true).then((token => {
 
-            let headers = Object.assign({}, message.headers, this.getAuthHeader(token), {'X-Frame-Options', 'deny'});
+            let headers = Object.assign({}, message.headers, this.getAuthHeader(token), {'X-Frame-Options': 'deny'});
             message.setHeaders(headers);
             return this.send(message);
 
