@@ -158,11 +158,21 @@ export class Rest {
 
     }
 
+    getSecurityHeader() {
+
+        return {
+            'X-Frame-Options': 'deny',
+            'X-Xss-Protection': '1; mode=block',
+            'X-Content-Type-Options': 'nosniff',
+            'Content-Security-Policy': 'script-src "self"'
+        }
+    }
+
     sendWithToken(message) {
 
         return this.getToken(true).then((token => {
 
-            let headers = Object.assign({}, message.headers, this.getAuthHeader(token), {'X-Frame-Options': 'deny'});
+            let headers = Object.assign({}, message.headers, this.getAuthHeader(token), this.getSecurityHeader());
             message.setHeaders(headers);
             return this.send(message);
 

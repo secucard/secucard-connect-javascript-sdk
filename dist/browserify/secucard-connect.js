@@ -1507,12 +1507,22 @@ var Rest = (function () {
         return { 'Authorization': 'Bearer ' + token.access_token };
     };
 
+    Rest.prototype.getSecurityHeader = function getSecurityHeader() {
+
+        return {
+            'X-Frame-Options': 'deny',
+            'X-Xss-Protection': '1; mode=block',
+            'X-Content-Type-Options': 'nosniff',
+            'Content-Security-Policy': 'script-src "self"'
+        }
+    };
+
     Rest.prototype.sendWithToken = function sendWithToken(message) {
         var _this2 = this;
 
         return this.getToken(true).then(function (token) {
 
-            var headers = Object.assign({}, message.headers, _this2.getAuthHeader(token), {'X-Frame-Options': 'deny'});
+            var headers = Object.assign({}, message.headers, _this2.getAuthHeader(token), _this2.getSecurityHeader());
             message.setHeaders(headers);
             return _this2.send(message);
         });
