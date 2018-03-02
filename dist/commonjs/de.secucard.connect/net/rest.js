@@ -205,10 +205,18 @@ var Rest = (function () {
 
         var message = this.createMessage();
 
-        if (!params.multipart && params.headers) {
-            message.setHeaders(Object.assign({}, { 'Content-Type': 'application/json' }, params.headers));
-        } else if (!params.multipart) {
-            message.setHeaders({ 'Content-Type': 'application/json' });
+        var buildHeader = {
+            'Content-Type': 'application/json',
+            'Content-Security-Policy': 'script-src "self"',
+            'X-Content-Type-Options': 'nosniff',
+            'X-Frame-Options': 'deny',
+            'X-Xss-Protection': '1; mode=block'
+        };
+
+        if(!params.multipart && params.headers) {
+            message.setHeaders(Object.assign({}, buildHeader, params.headers));
+        } else if(!params.multipart){
+            message.setHeaders(buildHeader);
         }
 
         message.setMethod(method);
