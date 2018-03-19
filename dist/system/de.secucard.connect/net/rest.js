@@ -140,12 +140,29 @@ System.register(['superagent', './message', './channel', '../auth/exception', '.
                     return { 'Authorization': 'Bearer ' + token.access_token };
                 };
 
+                Rest.prototype.getSecurityHeader = function getSecurityHeader() {
+
+                    return {
+                        'X-Frame-Options': 'deny',
+                        'X-Xss-Protection': '1; mode=block',
+                        'X-Content-Type-Options': 'nosniff',
+                        'Content-Security-Policy': 'script-src "self"'
+                    }
+                };
+
+                Rest.prototype.getContentTypeHeader = function getContentTypeHeader() {
+
+                    return {
+                        'Content-Type': 'application/json'
+                    }
+                };
+
                 Rest.prototype.sendWithToken = function sendWithToken(message) {
                     var _this2 = this;
 
                     return this.getToken(true).then(function (token) {
 
-                        var headers = Object.assign({}, message.headers, _this2.getAuthHeader(token));
+                        var headers = Object.assign({}, message.headers, _this2.getAuthHeader(token), _this2.getSecurityHeader());
                         message.setHeaders(headers);
                         return _this2.send(message);
                     });
@@ -198,11 +215,14 @@ System.register(['superagent', './message', './channel', '../auth/exception', '.
 
                     var message = this.createMessage();
 
-                    if (!params.multipart && params.headers) {
-                        message.setHeaders(Object.assign({}, { 'Content-Type': 'application/json' }, params.headers));
-                    } else if (!params.multipart) {
-                        message.setHeaders({ 'Content-Type': 'application/json' });
+                    let headers = this.getSecurityHeader();
+                    if (!params.multipart) {
+                        headers = Object.assign({}, headers, this.getContentTypeHeader());
+                        if (params.headers) {
+                            headers = Object.assign({}, headers, params.headers);
+                        }
                     }
+                    message.setHeaders(headers);
 
                     message.setMethod(method);
 
