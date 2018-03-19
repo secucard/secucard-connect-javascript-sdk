@@ -216,14 +216,13 @@ System.register(['superagent', './message', './channel', '../auth/exception', '.
                     var message = this.createMessage();
 
                     let headers = this.getSecurityHeader();
-                    if (params.multipart) {
-                        message.setHeaders(headers);
-                    } else {
-                        headers = Object.assign({}, this.getContentTypeHeader(), this.getSecurityHeader());
+                    if (!params.multipart) {
+                        headers = Object.assign({}, headers, this.getContentTypeHeader());
                         if (params.headers) {
                             headers = Object.assign({}, headers, params.headers);
                         }
                     }
+                    message.setHeaders(headers);
 
                     message.setMethod(method);
 
