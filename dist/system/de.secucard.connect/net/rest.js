@@ -150,6 +150,13 @@ System.register(['superagent', './message', './channel', '../auth/exception', '.
                     }
                 };
 
+                Rest.prototype.getContentTypeHeader = function getContentTypeHeader() {
+
+                    return {
+                        'Content-Type': 'application/json'
+                    }
+                };
+
                 Rest.prototype.sendWithToken = function sendWithToken(message) {
                     var _this2 = this;
 
@@ -208,18 +215,10 @@ System.register(['superagent', './message', './channel', '../auth/exception', '.
 
                     var message = this.createMessage();
 
-                    var buildHeader = {
-                        'Content-Type': 'application/json',
-                        'Content-Security-Policy': 'script-src "self"',
-                        'X-Content-Type-Options': 'nosniff',
-                        'X-Frame-Options': 'deny',
-                        'X-Xss-Protection': '1; mode=block'
-                    };
-
                     if(!params.multipart && params.headers) {
-                        message.setHeaders(Object.assign({}, buildHeader, params.headers));
+                        message.setHeaders(Object.assign({}, this.getContentTypeHeader(), this.getSecurityHeader(), params.headers));
                     } else if(!params.multipart){
-                        message.setHeaders(buildHeader);
+                        message.setHeaders(Object.assign({}, this.getContentTypeHeader(), this.getSecurityHeader()));
                     }
 
                     message.setMethod(method);

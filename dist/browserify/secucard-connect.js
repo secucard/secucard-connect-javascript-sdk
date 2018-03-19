@@ -1517,6 +1517,13 @@ var Rest = (function () {
         }
     };
 
+    Rest.prototype.getContentTypeHeader = function getContentTypeHeader() {
+
+        return {
+            'Content-Type': 'application/json'
+        }
+    }
+
     Rest.prototype.sendWithToken = function sendWithToken(message) {
         var _this2 = this;
 
@@ -1576,9 +1583,9 @@ var Rest = (function () {
         var message = this.createMessage();
 
         if (!params.multipart && params.headers) {
-            message.setHeaders(Object.assign({}, { 'Content-Type': 'application/json' }, params.headers));
+            message.setHeaders(Object.assign({}, this.getContentTypeHeader(), this.getSecurityHeader(), params.headers));
         } else if (!params.multipart) {
-            message.setHeaders({ 'Content-Type': 'application/json' });
+            message.setHeaders(Object.assign({}, this.getContentTypeHeader(), this.getSecurityHeader()));
         }
 
         message.setMethod(method);
