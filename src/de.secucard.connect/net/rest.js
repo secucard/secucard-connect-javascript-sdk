@@ -241,10 +241,14 @@ export class Rest {
 
         let message = this.createMessage();
 
-        if(!params.multipart && params.headers) {
-            message.setHeaders(Object.assign({}, this.getContentTypeHeader(), this.getSecurityHeader(), params.headers));
-        } else if(!params.multipart){
-            message.setHeaders(Object.assign({}, this.getContentTypeHeader(), this.getSecurityHeader()));
+        let headers = this.getSecurityHeader();
+        if (params.multipart) {
+            message.setHeaders(headers);
+        } else {
+            headers = Object.assign({}, this.getContentTypeHeader(), this.getSecurityHeader());
+            if (params.headers) {
+                headers = Object.assign({}, headers, params.headers);
+            }
         }
         
         message.setMethod(method);
