@@ -25,6 +25,10 @@ var ConfigurationService = (function (_ProductService) {
         return [];
     };
 
+    ConfigurationService.prototype.importConfiguration = function importConfiguration(id, data) {
+        return this.execute(id, "importConfiguration", null, data, null);
+    };
+
     return ConfigurationService;
 })(_productService.ProductService);
 

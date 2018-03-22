@@ -25,6 +25,19 @@ export class ConfigurationService extends ProductService {
         return [];
     }
 
+    /**
+     *
+     * @param {string} id - SCO_ID
+     * @param {array} data {
+     *      "file": "DUP_",
+     *      "item_list_type": "black" or "white"
+     * }
+     * @returns {Promise}
+     */
+    importConfiguration(id, data) {
+        return this.execute(id, "importConfiguration", null, data, null);
+    }
+
 }
 
 ConfigurationService.Uid = (['smart', 'configurations']).join('.');
