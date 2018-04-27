@@ -36,6 +36,7 @@ export const ClientBrowserEnvironment = {
         General.AccountDeviceService,
         General.ContactService,
         General.DeliveryAddressService,
+        General.DeviceService,
         General.FileAccessService,
         General.MerchantService,
         General.NewsService,
