@@ -117,6 +117,7 @@ export const ServiceMap = {
         AccountDevices: General.AccountDeviceService.Uid,
         Contacts: General.ContactService.Uid,
         DeliveryAddresses: General.DeliveryAddressService.Uid,
+        Devices: General.DeviceService.Uid,
         FileAccesses: General.FileAccessService.Uid,
         Merchants: General.MerchantService.Uid,
         News: General.NewsService.Uid,
