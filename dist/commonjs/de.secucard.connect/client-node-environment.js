@@ -56,6 +56,7 @@ var ServiceMap = {
         AccountDevices: _productGeneralGeneral.General.AccountDeviceService.Uid,
         Contacts: _productGeneralGeneral.General.ContactService.Uid,
         DeliveryAddresses: _productGeneralGeneral.General.DeliveryAddressService.Uid,
+        Devices: _productGeneralGeneral.General.DeviceService.Uid,
         FileAccesses: _productGeneralGeneral.General.FileAccessService.Uid,
         Merchants: _productGeneralGeneral.General.MerchantService.Uid,
         News: _productGeneralGeneral.General.NewsService.Uid,
