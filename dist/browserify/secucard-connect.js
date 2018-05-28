@@ -35,7 +35,7 @@ SecucardConnect.create = function (config) {
 
     return _deSecucardConnectClient.Client.create(config, _deSecucardConnectClientBrowserEnvironment.ClientBrowserEnvironment);
 };
-},{"./de.secucard.connect/client":11,"./de.secucard.connect/client-browser-environment":7,"./de.secucard.connect/net/channel":12,"es6-shim":88,"minilog":100}],2:[function(require,module,exports){
+},{"./de.secucard.connect/client":11,"./de.secucard.connect/client-browser-environment":7,"./de.secucard.connect/net/channel":12,"es6-shim":89,"minilog":101}],2:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -283,7 +283,7 @@ var Auth = (function () {
 })();
 
 exports.Auth = Auth;
-},{"../net/message":14,"./exception":4,"./token":6,"lodash":90,"minilog":100}],3:[function(require,module,exports){
+},{"../net/message":14,"./exception":4,"./token":6,"lodash":91,"minilog":101}],3:[function(require,module,exports){
 "use strict";
 
 exports.__esModule = true;
@@ -552,7 +552,7 @@ TokenStorageInMem.createWithMixin = function (TokenStorageMixin) {
     var Mixed = _utilMixins2['default'](TokenStorageInMem, TokenStorageMixin);
     return new Mixed();
 };
-},{"../util/mixins":86,"./token":6,"lodash":90,"minilog":100,"superagent":105}],6:[function(require,module,exports){
+},{"../util/mixins":87,"./token":6,"lodash":91,"minilog":101,"superagent":106}],6:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -647,7 +647,7 @@ var ClientBrowserEnvironment = {
         stompPort: 15671,
         stompEndpoint: '/stomp/websocket'
     },
-    services: [_productAuthAuth.Auth.SessionService, _productDocumentDocument.Document.UploadService, _productGeneralGeneral.General.SkeletonService, _productGeneralGeneral.General.AccountService, _productGeneralGeneral.General.AccountDeviceService, _productGeneralGeneral.General.ContactService, _productGeneralGeneral.General.DeliveryAddressService, _productGeneralGeneral.General.FileAccessService, _productGeneralGeneral.General.MerchantService, _productGeneralGeneral.General.NewsService, _productGeneralGeneral.General.NotificationService, _productGeneralGeneral.General.PublicMerchantService, _productGeneralGeneral.General.StoreGroupService, _productGeneralGeneral.General.StoreService, _productGeneralGeneral.General.TransactionService, _productLoyaltyLoyalty.Loyalty.ActionService, _productLoyaltyLoyalty.Loyalty.ActionProfileService, _productLoyaltyLoyalty.Loyalty.ActionMessageService, _productLoyaltyLoyalty.Loyalty.ActionCampaignService, _productLoyaltyLoyalty.Loyalty.ActionConfigService, _productLoyaltyLoyalty.Loyalty.BeaconService, _productLoyaltyLoyalty.Loyalty.CardGroupService, _productLoyaltyLoyalty.Loyalty.CardService, _productLoyaltyLoyalty.Loyalty.ChargeService, _productLoyaltyLoyalty.Loyalty.CheckinService, _productLoyaltyLoyalty.Loyalty.CustomerService, _productLoyaltyLoyalty.Loyalty.MerchantCardService, _productLoyaltyLoyalty.Loyalty.PaymentContainerService, _productLoyaltyLoyalty.Loyalty.ProgramService, _productLoyaltyLoyalty.Loyalty.ProgramSpecialService, _productLoyaltyLoyalty.Loyalty.ReportService, _productLoyaltyLoyalty.Loyalty.SaleService, _productLoyaltyLoyalty.Loyalty.StoreGroupService, _productLoyaltyLoyalty.Loyalty.TransactionService, _productPaymentPayment.Payment.ContainerService, _productPaymentPayment.Payment.ContractService, _productPaymentPayment.Payment.CustomerService, _productPaymentPayment.Payment.SecupayDebitService, _productPaymentPayment.Payment.SecupayPrepayService, _productPaymentPayment.Payment.TransactionService, _productPrepaidPrepaid.Prepaid.ContractService, _productPrepaidPrepaid.Prepaid.ItemGroupService, _productPrepaidPrepaid.Prepaid.ItemService, _productPrepaidPrepaid.Prepaid.SaleService, _productPrepaidPrepaid.Prepaid.StockService, _productServicesServices.Services.IdentCaseService, _productServicesServices.Services.IdentContractService, _productServicesServices.Services.IdentRequestService, _productServicesServices.Services.IdentResultService, _productSmartSmart.Smart.CheckinService, _productSmartSmart.Smart.ConfigurationService, _productSmartSmart.Smart.DeviceService, _productSmartSmart.Smart.DeviceHistoriesService, _productSmartSmart.Smart.IdentService, _productSmartSmart.Smart.RoutingService, _productSmartSmart.Smart.TransactionService]
+    services: [_productAuthAuth.Auth.SessionService, _productDocumentDocument.Document.UploadService, _productGeneralGeneral.General.SkeletonService, _productGeneralGeneral.General.AccountService, _productGeneralGeneral.General.AccountDeviceService, _productGeneralGeneral.General.ContactService, _productGeneralGeneral.General.DeliveryAddressService, _productGeneralGeneral.General.DeviceService, _productGeneralGeneral.General.FileAccessService, _productGeneralGeneral.General.MerchantService, _productGeneralGeneral.General.NewsService, _productGeneralGeneral.General.NotificationService, _productGeneralGeneral.General.PublicMerchantService, _productGeneralGeneral.General.StoreGroupService, _productGeneralGeneral.General.StoreService, _productGeneralGeneral.General.TransactionService, _productLoyaltyLoyalty.Loyalty.ActionService, _productLoyaltyLoyalty.Loyalty.ActionProfileService, _productLoyaltyLoyalty.Loyalty.ActionMessageService, _productLoyaltyLoyalty.Loyalty.ActionCampaignService, _productLoyaltyLoyalty.Loyalty.ActionConfigService, _productLoyaltyLoyalty.Loyalty.BeaconService, _productLoyaltyLoyalty.Loyalty.CardGroupService, _productLoyaltyLoyalty.Loyalty.CardService, _productLoyaltyLoyalty.Loyalty.ChargeService, _productLoyaltyLoyalty.Loyalty.CheckinService, _productLoyaltyLoyalty.Loyalty.CustomerService, _productLoyaltyLoyalty.Loyalty.MerchantCardService, _productLoyaltyLoyalty.Loyalty.PaymentContainerService, _productLoyaltyLoyalty.Loyalty.ProgramService, _productLoyaltyLoyalty.Loyalty.ProgramSpecialService, _productLoyaltyLoyalty.Loyalty.ReportService, _productLoyaltyLoyalty.Loyalty.SaleService, _productLoyaltyLoyalty.Loyalty.StoreGroupService, _productLoyaltyLoyalty.Loyalty.TransactionService, _productPaymentPayment.Payment.ContainerService, _productPaymentPayment.Payment.ContractService, _productPaymentPayment.Payment.CustomerService, _productPaymentPayment.Payment.SecupayDebitService, _productPaymentPayment.Payment.SecupayPrepayService, _productPaymentPayment.Payment.TransactionService, _productPrepaidPrepaid.Prepaid.ContractService, _productPrepaidPrepaid.Prepaid.ItemGroupService, _productPrepaidPrepaid.Prepaid.ItemService, _productPrepaidPrepaid.Prepaid.SaleService, _productPrepaidPrepaid.Prepaid.StockService, _productServicesServices.Services.IdentCaseService, _productServicesServices.Services.IdentContractService, _productServicesServices.Services.IdentRequestService, _productServicesServices.Services.IdentResultService, _productSmartSmart.Smart.CheckinService, _productSmartSmart.Smart.ConfigurationService, _productSmartSmart.Smart.DeviceService, _productSmartSmart.Smart.DeviceHistoriesService, _productSmartSmart.Smart.IdentService, _productSmartSmart.Smart.RoutingService, _productSmartSmart.Smart.TransactionService]
 };
 exports.ClientBrowserEnvironment = ClientBrowserEnvironment;
 ClientBrowserEnvironment.StompChannel = {
@@ -675,6 +675,7 @@ var ServiceMap = {
         AccountDevices: _productGeneralGeneral.General.AccountDeviceService.Uid,
         Contacts: _productGeneralGeneral.General.ContactService.Uid,
         DeliveryAddresses: _productGeneralGeneral.General.DeliveryAddressService.Uid,
+        Devices: _productGeneralGeneral.General.DeviceService.Uid,
         FileAccesses: _productGeneralGeneral.General.FileAccessService.Uid,
         Merchants: _productGeneralGeneral.General.MerchantService.Uid,
         News: _productGeneralGeneral.General.NewsService.Uid,
@@ -737,7 +738,7 @@ var ServiceMap = {
     }
 };
 exports.ServiceMap = ServiceMap;
-},{"./auth/token-storage":5,"./net/socket/socket-browser":16,"./net/stomp":19,"./product/auth/auth":21,"./product/document/document":23,"./product/general/general":30,"./product/loyalty/loyalty":50,"./product/payment/payment":62,"./product/prepaid/prepaid":69,"./product/services/services":77,"./product/smart/smart":84}],8:[function(require,module,exports){
+},{"./auth/token-storage":5,"./net/socket/socket-browser":16,"./net/stomp":19,"./product/auth/auth":21,"./product/document/document":23,"./product/general/general":31,"./product/loyalty/loyalty":51,"./product/payment/payment":63,"./product/prepaid/prepaid":70,"./product/services/services":78,"./product/smart/smart":85}],8:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -1105,12 +1106,12 @@ var ClientContext = (function () {
 })();
 
 exports.ClientContext = ClientContext;
-},{"./auth/auth":2,"./auth/credentials":3,"./auth/token-storage":5,"./net/channel":12,"./net/rest":15,"./product/app/app-service":20,"eventemitter3":89,"lodash":90}],10:[function(require,module,exports){
+},{"./auth/auth":2,"./auth/credentials":3,"./auth/token-storage":5,"./net/channel":12,"./net/rest":15,"./product/app/app-service":20,"eventemitter3":90,"lodash":91}],10:[function(require,module,exports){
 "use strict";
 
 exports.__esModule = true;
 var Version = {
-  "name": "0.4.0"
+  "name": "0.4.1"
 };
 exports.Version = Version;
 },{}],11:[function(require,module,exports){
@@ -1185,7 +1186,7 @@ Client.create = function (config, environment) {
 
     return new Client(config, environment);
 };
-},{"./client-config":8,"./client-context":9,"./client-version":10,"./net/message":14,"minilog":100}],12:[function(require,module,exports){
+},{"./client-config":8,"./client-context":9,"./client-version":10,"./net/message":14,"minilog":101}],12:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -1628,7 +1629,7 @@ var Rest = (function () {
 })();
 
 exports.Rest = Rest;
-},{"../auth/exception":4,"./channel":12,"./exception":13,"./message":14,"minilog":100,"superagent":105}],16:[function(require,module,exports){
+},{"../auth/exception":4,"./channel":12,"./exception":13,"./message":14,"minilog":101,"superagent":106}],16:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -1714,7 +1715,7 @@ SocketAtBrowser.disconnect = function (socket) {
     _minilog2['default']('secucard.socket.browser').debug('disconnect called');
     socket.close();
 };
-},{"eventemitter3":89,"minilog":100}],17:[function(require,module,exports){
+},{"eventemitter3":90,"minilog":101}],17:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -2125,7 +2126,7 @@ var Stomp = (function () {
 })();
 
 exports.Stomp = Stomp;
-},{"./frame":17,"eventemitter3":89,"minilog":100,"uuid":111}],19:[function(require,module,exports){
+},{"./frame":17,"eventemitter3":90,"minilog":101,"uuid":112}],19:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -2569,7 +2570,7 @@ var Stomp = (function () {
 })();
 
 exports.Stomp = Stomp;
-},{"../auth/exception":4,"./channel":12,"./exception":13,"./stomp-impl/stomp":18,"eventemitter3":89,"minilog":100,"uuid":111}],20:[function(require,module,exports){
+},{"../auth/exception":4,"./channel":12,"./exception":13,"./stomp-impl/stomp":18,"eventemitter3":90,"minilog":101,"uuid":112}],20:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -2621,7 +2622,7 @@ AppService.createWithMixin = function (ServiceMixin) {
     var Mixed = _utilMixins2['default'](AppService, ServiceMixin);
     return new Mixed();
 };
-},{"../../util/mixins":86,"../product-service":72}],21:[function(require,module,exports){
+},{"../../util/mixins":87,"../product-service":73}],21:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -2669,7 +2670,7 @@ var SessionService = (function (_ProductService) {
 exports.SessionService = SessionService;
 
 SessionService.Uid = ['auth', 'sessions'].join('.');
-},{"../product-service":72}],23:[function(require,module,exports){
+},{"../product-service":73}],23:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -2726,7 +2727,7 @@ var UploadService = (function (_ProductService) {
 exports.UploadService = UploadService;
 
 UploadService.Uid = ['document', 'uploads'].join('.');
-},{"../product-service":72}],25:[function(require,module,exports){
+},{"../product-service":73}],25:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -2760,7 +2761,7 @@ var AccountDeviceService = (function (_ProductService) {
 exports.AccountDeviceService = AccountDeviceService;
 
 AccountDeviceService.Uid = ['general', 'accountdevices'].join('.');
-},{"../product-service":72}],26:[function(require,module,exports){
+},{"../product-service":73}],26:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -2815,7 +2816,7 @@ var AccountService = (function (_ProductService) {
 exports.AccountService = AccountService;
 
 AccountService.Uid = ['general', 'accounts'].join('.');
-},{"../product-service":72}],27:[function(require,module,exports){
+},{"../product-service":73}],27:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -2849,7 +2850,7 @@ var ContactService = (function (_ProductService) {
 exports.ContactService = ContactService;
 
 ContactService.Uid = ['general', 'contacts'].join('.');
-},{"../product-service":72}],28:[function(require,module,exports){
+},{"../product-service":73}],28:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -2883,7 +2884,41 @@ var DeliveryAddressService = (function (_ProductService) {
 exports.DeliveryAddressService = DeliveryAddressService;
 
 DeliveryAddressService.Uid = ['general', 'deliveryaddresses'].join('.');
-},{"../product-service":72}],29:[function(require,module,exports){
+},{"../product-service":73}],29:[function(require,module,exports){
+'use strict';
+
+exports.__esModule = true;
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var _productService = require('../product-service');
+
+var DeviceService = (function (_ProductService) {
+    _inherits(DeviceService, _ProductService);
+
+    function DeviceService() {
+        _classCallCheck(this, DeviceService);
+
+        _ProductService.call(this);
+    }
+
+    DeviceService.prototype.getEndpoint = function getEndpoint() {
+        return ['general', 'devices'];
+    };
+
+    DeviceService.prototype.getEventTargets = function getEventTargets() {
+        return [];
+    };
+
+    return DeviceService;
+})(_productService.ProductService);
+
+exports.DeviceService = DeviceService;
+
+DeviceService.Uid = ['general', 'devices'].join('.');
+},{"../product-service":73}],30:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -2917,7 +2952,7 @@ var FileAccessService = (function (_ProductService) {
 exports.FileAccessService = FileAccessService;
 
 FileAccessService.Uid = ['general', 'fileaccesses'].join('.');
-},{"../product-service":72}],30:[function(require,module,exports){
+},{"../product-service":73}],31:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -2931,6 +2966,8 @@ var _accountDeviceService = require('./account-device-service');
 var _contactService = require('./contact-service');
 
 var _deliveryAddressService = require('./delivery-address-service');
+
+var _deviceService = require('./device-service');
 
 var _fileAccessService = require('./file-access-service');
 
@@ -2956,6 +2993,7 @@ General.AccountService = _accountService.AccountService;
 General.AccountDeviceService = _accountDeviceService.AccountDeviceService;
 General.ContactService = _contactService.ContactService;
 General.DeliveryAddressService = _deliveryAddressService.DeliveryAddressService;
+General.DeviceService = _deviceService.DeviceService;
 General.FileAccessService = _fileAccessService.FileAccessService;
 General.MerchantService = _merchantService.MerchantService;
 General.NewsService = _newsService.NewsService;
@@ -2964,7 +3002,7 @@ General.PublicMerchantService = _publicMerchantService.PublicMerchantService;
 General.StoreGroupService = _storeGroupService.StoreGroupService;
 General.StoreService = _storeService.StoreService;
 General.TransactionService = _transactionService.TransactionService;
-},{"./account-device-service":25,"./account-service":26,"./contact-service":27,"./delivery-address-service":28,"./file-access-service":29,"./merchant-service":31,"./news-service":32,"./notification-service":33,"./public-merchant-service":34,"./skeleton-service":35,"./store-group-service":36,"./store-service":37,"./transaction-service":38}],31:[function(require,module,exports){
+},{"./account-device-service":25,"./account-service":26,"./contact-service":27,"./delivery-address-service":28,"./device-service":29,"./file-access-service":30,"./merchant-service":32,"./news-service":33,"./notification-service":34,"./public-merchant-service":35,"./skeleton-service":36,"./store-group-service":37,"./store-service":38,"./transaction-service":39}],32:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -2998,7 +3036,7 @@ var MerchantService = (function (_ProductService) {
 exports.MerchantService = MerchantService;
 
 MerchantService.Uid = ['general', 'merchants'].join('.');
-},{"../product-service":72}],32:[function(require,module,exports){
+},{"../product-service":73}],33:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -3036,7 +3074,7 @@ var NewsService = (function (_ProductService) {
 exports.NewsService = NewsService;
 
 NewsService.Uid = ['general', 'news'].join('.');
-},{"../product-service":72}],33:[function(require,module,exports){
+},{"../product-service":73}],34:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -3070,7 +3108,7 @@ var NotificationService = (function (_ProductService) {
 exports.NotificationService = NotificationService;
 
 NotificationService.Uid = ['general', 'notifications'].join('.');
-},{"../product-service":72}],34:[function(require,module,exports){
+},{"../product-service":73}],35:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -3104,7 +3142,7 @@ var PublicMerchantService = (function (_ProductService) {
 exports.PublicMerchantService = PublicMerchantService;
 
 PublicMerchantService.Uid = ['general', 'publicmerchants'].join('.');
-},{"../product-service":72}],35:[function(require,module,exports){
+},{"../product-service":73}],36:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -3142,7 +3180,7 @@ var SkeletonService = (function (_ProductService) {
 exports.SkeletonService = SkeletonService;
 
 SkeletonService.Uid = ['general', 'skeletons'].join('.');
-},{"../product-service":72}],36:[function(require,module,exports){
+},{"../product-service":73}],37:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -3176,7 +3214,7 @@ var StoreGroupService = (function (_ProductService) {
 exports.StoreGroupService = StoreGroupService;
 
 StoreGroupService.Uid = ['general', 'storegroups'].join('.');
-},{"../product-service":72}],37:[function(require,module,exports){
+},{"../product-service":73}],38:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -3218,7 +3256,7 @@ var StoreService = (function (_ProductService) {
 exports.StoreService = StoreService;
 
 StoreService.Uid = ['general', 'stores'].join('.');
-},{"../product-service":72}],38:[function(require,module,exports){
+},{"../product-service":73}],39:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -3252,7 +3290,7 @@ var TransactionService = (function (_ProductService) {
 exports.TransactionService = TransactionService;
 
 TransactionService.Uid = ['general', 'transactions'].join('.');
-},{"../product-service":72}],39:[function(require,module,exports){
+},{"../product-service":73}],40:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -3290,7 +3328,7 @@ var ActionCampaignService = (function (_ProductService) {
 exports.ActionCampaignService = ActionCampaignService;
 
 ActionCampaignService.Uid = ['loyalty', 'actioncampaigns'].join('.');
-},{"../product-service":72}],40:[function(require,module,exports){
+},{"../product-service":73}],41:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -3336,7 +3374,7 @@ var ActionConfigService = (function (_ProductService) {
 exports.ActionConfigService = ActionConfigService;
 
 ActionConfigService.Uid = ['loyalty', 'actionconfigs'].join('.');
-},{"../product-service":72}],41:[function(require,module,exports){
+},{"../product-service":73}],42:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -3370,7 +3408,7 @@ var ActionMessageService = (function (_ProductService) {
 exports.ActionMessageService = ActionMessageService;
 
 ActionMessageService.Uid = ['loyalty', 'actionmessages'].join('.');
-},{"../product-service":72}],42:[function(require,module,exports){
+},{"../product-service":73}],43:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -3404,7 +3442,7 @@ var ActionProfileService = (function (_ProductService) {
 exports.ActionProfileService = ActionProfileService;
 
 ActionProfileService.Uid = ['loyalty', 'actionprofiles'].join('.');
-},{"../product-service":72}],43:[function(require,module,exports){
+},{"../product-service":73}],44:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -3438,7 +3476,7 @@ var ActionService = (function (_ProductService) {
 exports.ActionService = ActionService;
 
 ActionService.Uid = ['loyalty', 'actions'].join('.');
-},{"../product-service":72}],44:[function(require,module,exports){
+},{"../product-service":73}],45:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -3472,7 +3510,7 @@ var BeaconService = (function (_ProductService) {
 exports.BeaconService = BeaconService;
 
 BeaconService.Uid = ['loyalty', 'beacons'].join('.');
-},{"../product-service":72}],45:[function(require,module,exports){
+},{"../product-service":73}],46:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -3506,7 +3544,7 @@ var CardGroupService = (function (_ProductService) {
 exports.CardGroupService = CardGroupService;
 
 CardGroupService.Uid = ['loyalty', 'cardgroups'].join('.');
-},{"../product-service":72}],46:[function(require,module,exports){
+},{"../product-service":73}],47:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -3548,7 +3586,7 @@ var CardService = (function (_ProductService) {
 exports.CardService = CardService;
 
 CardService.Uid = ['loyalty', 'cards'].join('.');
-},{"../product-service":72}],47:[function(require,module,exports){
+},{"../product-service":73}],48:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -3582,7 +3620,7 @@ var ChargeService = (function (_ProductService) {
 exports.ChargeService = ChargeService;
 
 ChargeService.Uid = ['loyalty', 'charges'].join('.');
-},{"../product-service":72}],48:[function(require,module,exports){
+},{"../product-service":73}],49:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -3616,7 +3654,7 @@ var CheckinService = (function (_ProductService) {
 exports.CheckinService = CheckinService;
 
 CheckinService.Uid = ['loyalty', 'checkins'].join('.');
-},{"../product-service":72}],49:[function(require,module,exports){
+},{"../product-service":73}],50:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -3662,7 +3700,7 @@ var CustomerService = (function (_ProductService) {
 exports.CustomerService = CustomerService;
 
 CustomerService.Uid = ['loyalty', 'customers'].join('.');
-},{"../product-service":72}],50:[function(require,module,exports){
+},{"../product-service":73}],51:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -3726,7 +3764,7 @@ Loyalty.SaleService = _saleService.SaleService;
 Loyalty.StoreGroupService = _storeGroupService.StoreGroupService;
 Loyalty.TransactionService = _transactionService.TransactionService;
 Loyalty.PaymentContainerService = _paymentContainerService.PaymentContainerService;
-},{"./action-campaign-service":39,"./action-config-service":40,"./action-message-service":41,"./action-profile-service":42,"./action-service":43,"./beacon-service":44,"./card-group-service":45,"./card-service":46,"./charge-service":47,"./checkin-service":48,"./customer-service":49,"./merchant-card-service":51,"./payment-container-service":52,"./program-service":53,"./program-special-service":54,"./report-service":55,"./sale-service":56,"./store-group-service":57,"./transaction-service":58}],51:[function(require,module,exports){
+},{"./action-campaign-service":40,"./action-config-service":41,"./action-message-service":42,"./action-profile-service":43,"./action-service":44,"./beacon-service":45,"./card-group-service":46,"./card-service":47,"./charge-service":48,"./checkin-service":49,"./customer-service":50,"./merchant-card-service":52,"./payment-container-service":53,"./program-service":54,"./program-special-service":55,"./report-service":56,"./sale-service":57,"./store-group-service":58,"./transaction-service":59}],52:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -3797,7 +3835,7 @@ var MerchantCardService = (function (_ProductService) {
 exports.MerchantCardService = MerchantCardService;
 
 MerchantCardService.Uid = ['loyalty', 'merchantcards'].join('.');
-},{"../product-service":72}],52:[function(require,module,exports){
+},{"../product-service":73}],53:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -3840,7 +3878,7 @@ var PaymentContainerService = (function (_ProductService) {
 exports.PaymentContainerService = PaymentContainerService;
 
 PaymentContainerService.Uid = ['loyalty', 'paymentcontainers'].join('.');
-},{"../product-service":72}],53:[function(require,module,exports){
+},{"../product-service":73}],54:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -3874,7 +3912,7 @@ var ProgramService = (function (_ProductService) {
 exports.ProgramService = ProgramService;
 
 ProgramService.Uid = ['loyalty', 'programs'].join('.');
-},{"../product-service":72}],54:[function(require,module,exports){
+},{"../product-service":73}],55:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -3908,7 +3946,7 @@ var ProgramSpecialService = (function (_ProductService) {
 exports.ProgramSpecialService = ProgramSpecialService;
 
 ProgramSpecialService.Uid = ['loyalty', 'programspecials'].join('.');
-},{"../product-service":72}],55:[function(require,module,exports){
+},{"../product-service":73}],56:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -3942,7 +3980,7 @@ var ReportService = (function (_ProductService) {
 exports.ReportService = ReportService;
 
 ReportService.Uid = ['loyalty', 'reports'].join('.');
-},{"../product-service":72}],56:[function(require,module,exports){
+},{"../product-service":73}],57:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -3976,7 +4014,7 @@ var SaleService = (function (_ProductService) {
 exports.SaleService = SaleService;
 
 SaleService.Uid = ['loyalty', 'sales'].join('.');
-},{"../product-service":72}],57:[function(require,module,exports){
+},{"../product-service":73}],58:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -4010,7 +4048,7 @@ var StoreGroupService = (function (_ProductService) {
 exports.StoreGroupService = StoreGroupService;
 
 StoreGroupService.Uid = ['loyalty', 'storegroups'].join('.');
-},{"../product-service":72}],58:[function(require,module,exports){
+},{"../product-service":73}],59:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -4044,7 +4082,7 @@ var TransactionService = (function (_ProductService) {
 exports.TransactionService = TransactionService;
 
 TransactionService.Uid = ['loyalty', 'transactions'].join('.');
-},{"../product-service":72}],59:[function(require,module,exports){
+},{"../product-service":73}],60:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -4086,7 +4124,7 @@ var ContainerService = (function (_ProductService) {
 exports.ContainerService = ContainerService;
 
 ContainerService.Uid = ['payment', 'containers'].join('.');
-},{"../product-service":72}],60:[function(require,module,exports){
+},{"../product-service":73}],61:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -4128,7 +4166,7 @@ var ContractService = (function (_ProductService) {
 exports.ContractService = ContractService;
 
 ContractService.Uid = ['payment', 'contracts'].join('.');
-},{"../product-service":72}],61:[function(require,module,exports){
+},{"../product-service":73}],62:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -4162,7 +4200,7 @@ var CustomerService = (function (_ProductService) {
 exports.CustomerService = CustomerService;
 
 CustomerService.Uid = ['payment', 'customers'].join('.');
-},{"../product-service":72}],62:[function(require,module,exports){
+},{"../product-service":73}],63:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -4187,7 +4225,7 @@ Payment.CustomerService = _customerService.CustomerService;
 Payment.SecupayDebitService = _secupayDebitService.SecupayDebitService;
 Payment.SecupayPrepayService = _secupayPrepayService.SecupayPrepayService;
 Payment.TransactionService = _transactionService.TransactionService;
-},{"./container-service":59,"./contract-service":60,"./customer-service":61,"./secupay-debit-service":63,"./secupay-prepay-service":64,"./transaction-service":65}],63:[function(require,module,exports){
+},{"./container-service":60,"./contract-service":61,"./customer-service":62,"./secupay-debit-service":64,"./secupay-prepay-service":65,"./transaction-service":66}],64:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -4225,7 +4263,7 @@ var SecupayDebitService = (function (_ProductService) {
 exports.SecupayDebitService = SecupayDebitService;
 
 SecupayDebitService.Uid = ['payment', 'secupaydebits'].join('.');
-},{"../product-service":72}],64:[function(require,module,exports){
+},{"../product-service":73}],65:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -4263,7 +4301,7 @@ var SecupayPrepayService = (function (_ProductService) {
 exports.SecupayPrepayService = SecupayPrepayService;
 
 SecupayPrepayService.Uid = ['payment', 'secupayprepays'].join('.');
-},{"../product-service":72}],65:[function(require,module,exports){
+},{"../product-service":73}],66:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -4309,7 +4347,7 @@ var TransactionService = (function (_ProductService) {
 exports.TransactionService = TransactionService;
 
 TransactionService.Uid = ['payment', 'transactions'].join('.');
-},{"../product-service":72}],66:[function(require,module,exports){
+},{"../product-service":73}],67:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -4343,7 +4381,7 @@ var ContractService = (function (_ProductService) {
 exports.ContractService = ContractService;
 
 ContractService.Uid = ['prepaid', 'contracts'].join('.');
-},{"../product-service":72}],67:[function(require,module,exports){
+},{"../product-service":73}],68:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -4377,7 +4415,7 @@ var ItemGroupService = (function (_ProductService) {
 exports.ItemGroupService = ItemGroupService;
 
 ItemGroupService.Uid = ['prepaid', 'itemgroups'].join('.');
-},{"../product-service":72}],68:[function(require,module,exports){
+},{"../product-service":73}],69:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -4411,7 +4449,7 @@ var ItemService = (function (_ProductService) {
 exports.ItemService = ItemService;
 
 ItemService.Uid = ['prepaid', 'items'].join('.');
-},{"../product-service":72}],69:[function(require,module,exports){
+},{"../product-service":73}],70:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -4433,7 +4471,7 @@ Prepaid.ItemGroupService = _itemGroupService.ItemGroupService;
 Prepaid.ItemService = _itemService.ItemService;
 Prepaid.SaleService = _saleService.SaleService;
 Prepaid.StockService = _stockService.StockService;
-},{"./contract-service":66,"./item-group-service":67,"./item-service":68,"./sale-service":70,"./stock-service":71}],70:[function(require,module,exports){
+},{"./contract-service":67,"./item-group-service":68,"./item-service":69,"./sale-service":71,"./stock-service":72}],71:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -4471,7 +4509,7 @@ var SaleService = (function (_ProductService) {
 exports.SaleService = SaleService;
 
 SaleService.Uid = ['prepaid', 'sales'].join('.');
-},{"../product-service":72}],71:[function(require,module,exports){
+},{"../product-service":73}],72:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -4505,7 +4543,7 @@ var StockService = (function (_ProductService) {
 exports.StockService = StockService;
 
 StockService.Uid = ['prepaid', 'stocks'].join('.');
-},{"../product-service":72}],72:[function(require,module,exports){
+},{"../product-service":73}],73:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -4777,7 +4815,7 @@ var ProductService = (function () {
 })();
 
 exports.ProductService = ProductService;
-},{"../net/channel":12,"eventemitter3":89}],73:[function(require,module,exports){
+},{"../net/channel":12,"eventemitter3":90}],74:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -4823,7 +4861,7 @@ var IdentCaseService = (function (_ProductService) {
 exports.IdentCaseService = IdentCaseService;
 
 IdentCaseService.Uid = ['services', 'identcases'].join('.');
-},{"../product-service":72}],74:[function(require,module,exports){
+},{"../product-service":73}],75:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -4857,7 +4895,7 @@ var IdentContractService = (function (_ProductService) {
 exports.IdentContractService = IdentContractService;
 
 IdentContractService.Uid = ['services', 'identcontracts'].join('.');
-},{"../product-service":72}],75:[function(require,module,exports){
+},{"../product-service":73}],76:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -4891,7 +4929,7 @@ var IdentRequestService = (function (_ProductService) {
 exports.IdentRequestService = IdentRequestService;
 
 IdentRequestService.Uid = ['services', 'identrequests'].join('.');
-},{"../product-service":72}],76:[function(require,module,exports){
+},{"../product-service":73}],77:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -4925,7 +4963,7 @@ var IdentResultService = (function (_ProductService) {
 exports.IdentResultService = IdentResultService;
 
 IdentResultService.Uid = ['services', 'identresults'].join('.');
-},{"../product-service":72}],77:[function(require,module,exports){
+},{"../product-service":73}],78:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -4944,7 +4982,7 @@ Services.IdentCaseService = _identCaseService.IdentCaseService;
 Services.IdentContractService = _identContractService.IdentContractService;
 Services.IdentRequestService = _identRequestService.IdentRequestService;
 Services.IdentResultService = _identResultService.IdentResultService;
-},{"./ident-case-service":73,"./ident-contract-service":74,"./ident-request-service":75,"./ident-result-service":76}],78:[function(require,module,exports){
+},{"./ident-case-service":74,"./ident-contract-service":75,"./ident-request-service":76,"./ident-result-service":77}],79:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -4978,7 +5016,7 @@ var CheckinService = (function (_ProductService) {
 exports.CheckinService = CheckinService;
 
 CheckinService.Uid = ['smart', 'checkins'].join('.');
-},{"../product-service":72}],79:[function(require,module,exports){
+},{"../product-service":73}],80:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -5016,7 +5054,7 @@ var ConfigurationService = (function (_ProductService) {
 exports.ConfigurationService = ConfigurationService;
 
 ConfigurationService.Uid = ['smart', 'configurations'].join('.');
-},{"../product-service":72}],80:[function(require,module,exports){
+},{"../product-service":73}],81:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -5050,7 +5088,7 @@ var DeviceHistoriesService = (function (_ProductService) {
 exports.DeviceHistoriesService = DeviceHistoriesService;
 
 DeviceHistoriesService.Uid = ['smart', 'devicehistories'].join('.');
-},{"../product-service":72}],81:[function(require,module,exports){
+},{"../product-service":73}],82:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -5084,7 +5122,7 @@ var DeviceService = (function (_ProductService) {
 exports.DeviceService = DeviceService;
 
 DeviceService.Uid = ['smart', 'devices'].join('.');
-},{"../product-service":72}],82:[function(require,module,exports){
+},{"../product-service":73}],83:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -5126,7 +5164,7 @@ var IdentService = (function (_ProductService) {
 exports.IdentService = IdentService;
 
 IdentService.Uid = ['smart', 'idents'].join('.');
-},{"../product-service":72}],83:[function(require,module,exports){
+},{"../product-service":73}],84:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -5168,7 +5206,7 @@ var RoutingService = (function (_ProductService) {
 exports.RoutingService = RoutingService;
 
 RoutingService.Uid = ['smart', 'routings'].join('.');
-},{"../product-service":72}],84:[function(require,module,exports){
+},{"../product-service":73}],85:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -5196,7 +5234,7 @@ Smart.DeviceHistoriesService = _deviceHistories.DeviceHistoriesService;
 Smart.IdentService = _identService.IdentService;
 Smart.RoutingService = _routingService.RoutingService;
 Smart.TransactionService = _transactionService.TransactionService;
-},{"./checkin-service":78,"./configuration-service":79,"./device-histories":80,"./device-service":81,"./ident-service":82,"./routing-service":83,"./transaction-service":85}],85:[function(require,module,exports){
+},{"./checkin-service":79,"./configuration-service":80,"./device-histories":81,"./device-service":82,"./ident-service":83,"./routing-service":84,"./transaction-service":86}],86:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -5238,7 +5276,7 @@ var TransactionService = (function (_ProductService) {
 exports.TransactionService = TransactionService;
 
 TransactionService.Uid = ['smart', 'transactions'].join('.');
-},{"../product-service":72}],86:[function(require,module,exports){
+},{"../product-service":73}],87:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -5308,7 +5346,7 @@ var mixins = function mixins(Parent) {
 
 exports['default'] = mixins;
 module.exports = exports['default'];
-},{}],87:[function(require,module,exports){
+},{}],88:[function(require,module,exports){
 
 /**
  * Expose `Emitter`.
@@ -5473,7 +5511,7 @@ Emitter.prototype.hasListeners = function(event){
   return !! this.listeners(event).length;
 };
 
-},{}],88:[function(require,module,exports){
+},{}],89:[function(require,module,exports){
 (function (process,global){
  /*!
   * https://github.com/paulmillr/es6-shim
@@ -9211,7 +9249,7 @@ Emitter.prototype.hasListeners = function(event){
 }));
 
 }).call(this,require('_process'),typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"_process":103}],89:[function(require,module,exports){
+},{"_process":104}],90:[function(require,module,exports){
 'use strict';
 
 var has = Object.prototype.hasOwnProperty;
@@ -9502,7 +9540,7 @@ if ('undefined' !== typeof module) {
   module.exports = EventEmitter;
 }
 
-},{}],90:[function(require,module,exports){
+},{}],91:[function(require,module,exports){
 (function (global){
 /**
  * @license
@@ -21857,7 +21895,7 @@ if ('undefined' !== typeof module) {
 }.call(this));
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],91:[function(require,module,exports){
+},{}],92:[function(require,module,exports){
 function M() { this._events = {}; }
 M.prototype = {
   on: function(ev, cb) {
@@ -21906,7 +21944,7 @@ M.mixin = function(dest) {
 };
 module.exports = M;
 
-},{}],92:[function(require,module,exports){
+},{}],93:[function(require,module,exports){
 // default filter
 var Transform = require('./transform.js');
 
@@ -21964,7 +22002,7 @@ Filter.prototype.write = function(name, level, args) {
 
 module.exports = Filter;
 
-},{"./transform.js":94}],93:[function(require,module,exports){
+},{"./transform.js":95}],94:[function(require,module,exports){
 var Transform = require('./transform.js'),
     Filter = require('./filter.js');
 
@@ -22011,7 +22049,7 @@ exports.enable = function() {
 };
 
 
-},{"./filter.js":92,"./transform.js":94}],94:[function(require,module,exports){
+},{"./filter.js":93,"./transform.js":95}],95:[function(require,module,exports){
 var microee = require('microee');
 
 // Implements a subset of Node's stream.Transform - in a cross-platform manner.
@@ -22085,7 +22123,7 @@ Transform.mixin = function(dest) {
 
 module.exports = Transform;
 
-},{"microee":91}],95:[function(require,module,exports){
+},{"microee":92}],96:[function(require,module,exports){
 var Transform = require('../common/transform.js'),
     cache = [ ];
 
@@ -22101,7 +22139,7 @@ logger.empty = function() { cache = []; };
 
 module.exports = logger;
 
-},{"../common/transform.js":94}],96:[function(require,module,exports){
+},{"../common/transform.js":95}],97:[function(require,module,exports){
 var Transform = require('../common/transform.js');
 
 var newlines = /\n+$/,
@@ -22135,7 +22173,7 @@ logger.minilog = require('./formatters/minilog.js');
 
 module.exports = logger;
 
-},{"../common/transform.js":94,"./formatters/color.js":97,"./formatters/minilog.js":98}],97:[function(require,module,exports){
+},{"../common/transform.js":95,"./formatters/color.js":98,"./formatters/minilog.js":99}],98:[function(require,module,exports){
 var Transform = require('../../common/transform.js'),
     color = require('./util.js');
 
@@ -22155,7 +22193,7 @@ logger.pipe = function() { };
 
 module.exports = logger;
 
-},{"../../common/transform.js":94,"./util.js":99}],98:[function(require,module,exports){
+},{"../../common/transform.js":95,"./util.js":100}],99:[function(require,module,exports){
 var Transform = require('../../common/transform.js'),
     color = require('./util.js'),
     colors = { debug: ['gray'], info: ['purple' ], warn: [ 'yellow', true ], error: [ 'red', true ] },
@@ -22183,7 +22221,7 @@ logger.pipe = function() { };
 
 module.exports = logger;
 
-},{"../../common/transform.js":94,"./util.js":99}],99:[function(require,module,exports){
+},{"../../common/transform.js":95,"./util.js":100}],100:[function(require,module,exports){
 var hex = {
   black: '#000',
   red: '#c23621',
@@ -22205,7 +22243,7 @@ function color(fg, isInverse) {
 
 module.exports = color;
 
-},{}],100:[function(require,module,exports){
+},{}],101:[function(require,module,exports){
 var Minilog = require('../common/minilog.js');
 
 var oldEnable = Minilog.enable,
@@ -22249,7 +22287,7 @@ exports.backends = {
   jQuery: require('./jquery_simple.js')
 };
 
-},{"../common/minilog.js":93,"./array.js":95,"./console.js":96,"./jquery_simple.js":101,"./localstorage.js":102}],101:[function(require,module,exports){
+},{"../common/minilog.js":94,"./array.js":96,"./console.js":97,"./jquery_simple.js":102,"./localstorage.js":103}],102:[function(require,module,exports){
 var Transform = require('../common/transform.js');
 
 var cid = new Date().valueOf().toString(36);
@@ -22325,7 +22363,7 @@ AjaxLogger.jQueryWait = function(onDone) {
 
 module.exports = AjaxLogger;
 
-},{"../common/transform.js":94}],102:[function(require,module,exports){
+},{"../common/transform.js":95}],103:[function(require,module,exports){
 var Transform = require('../common/transform.js'),
     cache = false;
 
@@ -22341,7 +22379,7 @@ logger.write = function(name, level, args) {
 };
 
 module.exports = logger;
-},{"../common/transform.js":94}],103:[function(require,module,exports){
+},{"../common/transform.js":95}],104:[function(require,module,exports){
 // shim for using process in browser
 var process = module.exports = {};
 
@@ -22527,7 +22565,7 @@ process.chdir = function (dir) {
 };
 process.umask = function() { return 0; };
 
-},{}],104:[function(require,module,exports){
+},{}],105:[function(require,module,exports){
 function Agent() {
   this._defaults = [];
 }
@@ -22549,7 +22587,7 @@ Agent.prototype._setDefaults = function(req) {
 
 module.exports = Agent;
 
-},{}],105:[function(require,module,exports){
+},{}],106:[function(require,module,exports){
 /**
  * Root reference for iframes.
  */
@@ -23471,7 +23509,7 @@ request.put = function(url, data, fn) {
   return req;
 };
 
-},{"./agent-base":104,"./is-object":106,"./request-base":107,"./response-base":108,"component-emitter":87}],106:[function(require,module,exports){
+},{"./agent-base":105,"./is-object":107,"./request-base":108,"./response-base":109,"component-emitter":88}],107:[function(require,module,exports){
 'use strict';
 
 /**
@@ -23488,7 +23526,7 @@ function isObject(obj) {
 
 module.exports = isObject;
 
-},{}],107:[function(require,module,exports){
+},{}],108:[function(require,module,exports){
 'use strict';
 
 /**
@@ -24184,7 +24222,7 @@ RequestBase.prototype._setTimeouts = function() {
   }
 };
 
-},{"./is-object":106}],108:[function(require,module,exports){
+},{"./is-object":107}],109:[function(require,module,exports){
 'use strict';
 
 /**
@@ -24320,7 +24358,7 @@ ResponseBase.prototype._setStatusProperties = function(status){
     this.notFound = 404 == status;
 };
 
-},{"./utils":109}],109:[function(require,module,exports){
+},{"./utils":110}],110:[function(require,module,exports){
 'use strict';
 
 /**
@@ -24393,7 +24431,7 @@ exports.cleanHeader = function(header, changesOrigin){
   return header;
 };
 
-},{}],110:[function(require,module,exports){
+},{}],111:[function(require,module,exports){
 (function (global){
 
 var rng;
@@ -24429,7 +24467,7 @@ module.exports = rng;
 
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],111:[function(require,module,exports){
+},{}],112:[function(require,module,exports){
 //     uuid.js
 //
 //     Copyright (c) 2010-2012 Robert Kieffer
@@ -24614,5 +24652,5 @@ uuid.unparse = unparse;
 
 module.exports = uuid;
 
-},{"./rng":110}]},{},[1])(1)
+},{"./rng":111}]},{},[1])(1)
 });
