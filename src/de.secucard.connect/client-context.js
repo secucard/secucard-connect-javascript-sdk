@@ -21,7 +21,6 @@ import {TokenStorageInMem} from './auth/token-storage';
 export class ClientContext {
 
     constructor(config, environment) {
-
         Object.assign(this, EE.prototype);
 
         this.tokenStorageCreate = environment.TokenStorage.create;
@@ -50,15 +49,10 @@ export class ClientContext {
         this.createServices(environment.services);
 
         this.config = config;
-
-
     }
 
     open() {
-
-
         return this.getAuth().getToken().then(()=> {
-
             if (!this.config.stompEnabled) {
                 return true;
             }
@@ -66,19 +60,15 @@ export class ClientContext {
             return Promise.all(_.map(_.values(this.channels), (channel) => {
                 return channel.open();
             }));
-
         });
-
     }
 
     createServices(classList) {
-
         let services = Object.create(null);
         let ServiceClass;
         let service;
         let uid;
         for (let i = 0; i < classList.length; i++) {
-
             ServiceClass = classList[i];
             service = new ServiceClass();
             service.configureWithContext(this);
@@ -88,7 +78,6 @@ export class ClientContext {
         }
 
         this.services = services;
-
     }
 
     getService(uid) {
@@ -96,7 +85,6 @@ export class ClientContext {
     }
 
     addAppService(AppMixin) {
-
         let appService = AppService.createWithMixin(AppMixin);
         appService.configureWithContext(this);
         this.services[appService.getUid()] = appService;
@@ -105,22 +93,17 @@ export class ClientContext {
     }
 
     removeAppService(uid) {
-
         let appService = this.services[uid];
 
         if (appService && appService.isApp) {
-
             this.unregisterServiceEventTargets(appService.getEventTargets());
             delete this.services[uid];
-
         } else {
             throw new Error('Service not found: ' + uid); // TODO custom errors
         }
-
     }
 
     setCredentials(credentials, TokenStorageMixin) {
-
         this.credentials = Credentials.create(credentials);
         if (TokenStorageMixin) {
             this.tokenStorage = TokenStorageInMem.createWithMixin(TokenStorageMixin);
@@ -128,9 +111,8 @@ export class ClientContext {
             this.tokenStorage = this.tokenStorageCreate();
         }
         this.tokenStorage.getRetrieveToken = this.config.getRetrieveToken.bind(this.config);
-        
-        return this.tokenStorage.setCredentials(Object.assign({}, credentials));
 
+        return this.tokenStorage.setCredentials(Object.assign({}, credentials));
     }
 
     getCredentials() {
@@ -160,7 +142,6 @@ export class ClientContext {
     }
 
     getChannel(channelConfig) {
-
         let ch = null;
         _.each(_(channelConfig).reverse().value(), (type)=> {
             if (this.getChannelByType(type)) {
@@ -175,9 +156,7 @@ export class ClientContext {
     }
 
     getChannelByType(type) {
-
         return this.channels[type];
-
     }
 
     getRestChannel() {
@@ -189,47 +168,34 @@ export class ClientContext {
     }
 
     getServiceDefaultOptions() {
-
         return {
             // stomp is preferred
             channelConfig: [Channel.STOMP, Channel.REST],
             useAuth: true
         }
-
     }
 
     isRequestWithToken(options) {
-
         return !options || (options && (!options.hasOwnProperty('useAuth') || options.useAuth));
-
     }
 
     registerServiceEventTargets(service, targets) {
-
         _.each(targets, (target) => {
-
             if (this.serviceEventTargets[target.toLowerCase()]) {
                 throw new Error('Provided event target is registered already: ' + target.toLowerCase()); //TODO custom errors
             }
 
             this.serviceEventTargets[target.toLowerCase()] = service;
-
         });
-
     }
 
     unregisterServiceEventTargets(targets) {
-
         _.each(targets, (target) => {
-
             delete this.serviceEventTargets[target.toLowerCase()];
-
         });
-
     }
 
     emitServiceEvent(event, target, type, data) {
-
         if (event) {
             target = event.target || target;
             type = event.type || type;
@@ -239,7 +205,5 @@ export class ClientContext {
         target = target.toLowerCase();
         let service = this.serviceEventTargets[target];
         service.emit(type, data);
-
     }
-
 }

@@ -60,37 +60,35 @@ export class ClientConfig {
     }
 
     isDevice() {
-
         return Boolean(this.deviceUUID);
-
     }
 
     getDeviceUUID() {
         return this.deviceUUID;
     }
-    
+
     getRetrieveToken() {
         return this.retrieveToken;
     }
-    
+
     getWithCredentials() {
         return this.withCredentials;
     }
 
     _getCompleteUrl(value) {
-
         let url = value;
         if (!url.endsWith('/')) {
             url += '/';
         }
         return url;
-
     }
 
+    getLanguage() {
+        return this.language;
+    }
 }
 
 ClientConfig._defaults = {
-
     // The default server communication channel: REST | STOMP.
     channelDefault: '', // TODO implement channelDefault
 
@@ -137,18 +135,19 @@ ClientConfig._defaults = {
      its very likely that nobody is interested or a problem exist and therefore we can remove.
      */
     stompMessageAge: 0, //TODO implement stompMessageAge,
-    
+
     //if credentials not set, client retrieves token itself, can be string/URL or callback that returns Promise
     retrieveToken: null,
-    
+
     // enable to send cookies set on backend (browser client setting)
-    withCredentials: false
+    withCredentials: false,
+
+    // Header for 'Accept-Language' e.g. [de, en;q=0.8]
+    language: 'de'
 };
 
 ClientConfig.defaults = () => {
-
     let config = new ClientConfig();
     Object.assign(config, ClientConfig._defaults);
     return config;
-
 };
