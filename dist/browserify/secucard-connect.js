@@ -795,7 +795,6 @@ var ClientConfig = (function () {
     };
 
     ClientConfig.prototype.isDevice = function isDevice() {
-
         return Boolean(this.deviceUUID);
     };
 
@@ -812,12 +811,15 @@ var ClientConfig = (function () {
     };
 
     ClientConfig.prototype._getCompleteUrl = function _getCompleteUrl(value) {
-
         var url = value;
         if (!url.endsWith('/')) {
             url += '/';
         }
         return url;
+    };
+
+    ClientConfig.prototype.getLanguage = function getLanguage() {
+        return this.language;
     };
 
     return ClientConfig;
@@ -855,11 +857,12 @@ ClientConfig._defaults = {
     stompMessageAge: 0,
     retrieveToken: null,
 
-    withCredentials: false
+    withCredentials: false,
+
+    language: 'de'
 };
 
 ClientConfig.defaults = function () {
-
     var config = new ClientConfig();
     Object.assign(config, ClientConfig._defaults);
     return config;
@@ -931,7 +934,6 @@ var ClientContext = (function () {
         var _this = this;
 
         return this.getAuth().getToken().then(function () {
-
             if (!_this.config.stompEnabled) {
                 return true;
             }
@@ -943,13 +945,11 @@ var ClientContext = (function () {
     };
 
     ClientContext.prototype.createServices = function createServices(classList) {
-
         var services = Object.create(null);
         var ServiceClass = undefined;
         var service = undefined;
         var uid = undefined;
         for (var i = 0; i < classList.length; i++) {
-
             ServiceClass = classList[i];
             service = new ServiceClass();
             service.configureWithContext(this);
@@ -966,7 +966,6 @@ var ClientContext = (function () {
     };
 
     ClientContext.prototype.addAppService = function addAppService(AppMixin) {
-
         var appService = _productAppAppService.AppService.createWithMixin(AppMixin);
         appService.configureWithContext(this);
         this.services[appService.getUid()] = appService;
@@ -975,11 +974,9 @@ var ClientContext = (function () {
     };
 
     ClientContext.prototype.removeAppService = function removeAppService(uid) {
-
         var appService = this.services[uid];
 
         if (appService && appService.isApp) {
-
             this.unregisterServiceEventTargets(appService.getEventTargets());
             delete this.services[uid];
         } else {
@@ -988,7 +985,6 @@ var ClientContext = (function () {
     };
 
     ClientContext.prototype.setCredentials = function setCredentials(credentials, TokenStorageMixin) {
-
         this.credentials = _authCredentials.Credentials.create(credentials);
         if (TokenStorageMixin) {
             this.tokenStorage = _authTokenStorage.TokenStorageInMem.createWithMixin(TokenStorageMixin);
@@ -1042,7 +1038,6 @@ var ClientContext = (function () {
     };
 
     ClientContext.prototype.getChannelByType = function getChannelByType(type) {
-
         return this.channels[type];
     };
 
@@ -1055,7 +1050,6 @@ var ClientContext = (function () {
     };
 
     ClientContext.prototype.getServiceDefaultOptions = function getServiceDefaultOptions() {
-
         return {
             channelConfig: [_netChannel.Channel.STOMP, _netChannel.Channel.REST],
             useAuth: true
@@ -1063,7 +1057,6 @@ var ClientContext = (function () {
     };
 
     ClientContext.prototype.isRequestWithToken = function isRequestWithToken(options) {
-
         return !options || options && (!options.hasOwnProperty('useAuth') || options.useAuth);
     };
 
@@ -1071,7 +1064,6 @@ var ClientContext = (function () {
         var _this3 = this;
 
         _lodash2['default'].each(targets, function (target) {
-
             if (_this3.serviceEventTargets[target.toLowerCase()]) {
                 throw new Error('Provided event target is registered already: ' + target.toLowerCase());
             }
@@ -1084,13 +1076,11 @@ var ClientContext = (function () {
         var _this4 = this;
 
         _lodash2['default'].each(targets, function (target) {
-
             delete _this4.serviceEventTargets[target.toLowerCase()];
         });
     };
 
     ClientContext.prototype.emitServiceEvent = function emitServiceEvent(event, target, type, data) {
-
         if (event) {
             target = event.target || target;
             type = event.type || type;
@@ -1417,23 +1407,23 @@ var Rest = (function () {
     }
 
     Rest.prototype.configureWithContext = function configureWithContext(context) {
-
         this.restUrl = function () {
-
             return context.getConfig().getRestUrl();
         };
 
         this.getToken = function (extend) {
-
             return context.getAuth().getToken(extend);
         };
 
         this.withCredentials = function () {
-
             return context.getConfig().getWithCredentials();
         };
 
         this.isRequestWithToken = context.isRequestWithToken.bind(context);
+
+        this.getLanguage = function () {
+            return context.getConfig().getLanguage();
+        };
     };
 
     Rest.prototype.open = function open() {
@@ -1453,7 +1443,6 @@ var Rest = (function () {
         var _this = this;
 
         return new Promise(function (resolve, reject) {
-
             _this.createRequestFromMessage(message).end(function (err, res) {
                 if (err) {
                     reject(err, res);
@@ -1465,7 +1454,6 @@ var Rest = (function () {
     };
 
     Rest.prototype.createRequestFromMessage = function createRequestFromMessage(message) {
-
         var url = message.baseUrl ? message.baseUrl + message.url : message.url;
         var request = this.r(url, message.method);
 
@@ -1505,23 +1493,24 @@ var Rest = (function () {
     };
 
     Rest.prototype.getAuthHeader = function getAuthHeader(token) {
-
         return { 'Authorization': 'Bearer ' + token.access_token };
+    };
+
+    Rest.prototype.getLanguageHeader = function getLanguageHeader() {
+        return { 'Accept-Language': this.getLanguage() };
     };
 
     Rest.prototype.sendWithToken = function sendWithToken(message) {
         var _this2 = this;
 
         return this.getToken(true).then(function (token) {
-
-            var headers = Object.assign({}, message.headers, _this2.getAuthHeader(token));
+            var headers = Object.assign({}, message.headers, _this2.getAuthHeader(token), _this2.getLanguageHeader());
             message.setHeaders(headers);
             return _this2.send(message);
         });
     };
 
     Rest.prototype.request = function request(method, params) {
-
         var requestSuccess = function requestSuccess(res) {
             _minilog2['default']('secucard.rest').debug('requestSuccess', res.req.path);
             return res.body;
@@ -1564,13 +1553,15 @@ var Rest = (function () {
     };
 
     Rest.prototype.createMessageForRequest = function createMessageForRequest(method, params) {
-
         var message = this.createMessage();
+        var headers = Object.assign({}, { 'Content-Type': 'application/json' }, this.getLanguageHeader());
 
-        if (!params.multipart && params.headers) {
-            message.setHeaders(Object.assign({}, { 'Content-Type': 'application/json' }, params.headers));
-        } else if (!params.multipart) {
-            message.setHeaders({ 'Content-Type': 'application/json' });
+        if (params.headers) {
+            Object.assign(headers, params.headers);
+        }
+
+        if (!params.multipart) {
+            message.setHeaders(headers);
         }
 
         message.setMethod(method);
@@ -1617,7 +1608,6 @@ var Rest = (function () {
     };
 
     Rest.prototype.buildEndpoint = function buildEndpoint(endpoint) {
-
         if (!endpoint || endpoint.length < 2) {
             throw new Error('Invalid endpoint specification.');
         }

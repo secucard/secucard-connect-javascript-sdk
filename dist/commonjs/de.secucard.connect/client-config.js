@@ -54,7 +54,6 @@ var ClientConfig = (function () {
     };
 
     ClientConfig.prototype.isDevice = function isDevice() {
-
         return Boolean(this.deviceUUID);
     };
 
@@ -71,12 +70,15 @@ var ClientConfig = (function () {
     };
 
     ClientConfig.prototype._getCompleteUrl = function _getCompleteUrl(value) {
-
         var url = value;
         if (!url.endsWith('/')) {
             url += '/';
         }
         return url;
+    };
+
+    ClientConfig.prototype.getLanguage = function getLanguage() {
+        return this.language;
     };
 
     return ClientConfig;
@@ -114,11 +116,12 @@ ClientConfig._defaults = {
     stompMessageAge: 0,
     retrieveToken: null,
 
-    withCredentials: false
+    withCredentials: false,
+
+    language: 'de'
 };
 
 ClientConfig.defaults = function () {
-
     var config = new ClientConfig();
     Object.assign(config, ClientConfig._defaults);
     return config;

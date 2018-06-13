@@ -45,23 +45,23 @@ var Rest = (function () {
     }
 
     Rest.prototype.configureWithContext = function configureWithContext(context) {
-
         this.restUrl = function () {
-
             return context.getConfig().getRestUrl();
         };
 
         this.getToken = function (extend) {
-
             return context.getAuth().getToken(extend);
         };
 
         this.withCredentials = function () {
-
             return context.getConfig().getWithCredentials();
         };
 
         this.isRequestWithToken = context.isRequestWithToken.bind(context);
+
+        this.getLanguage = function () {
+            return context.getConfig().getLanguage();
+        };
     };
 
     Rest.prototype.open = function open() {
@@ -81,7 +81,6 @@ var Rest = (function () {
         var _this = this;
 
         return new Promise(function (resolve, reject) {
-
             _this.createRequestFromMessage(message).end(function (err, res) {
                 if (err) {
                     reject(err, res);
@@ -93,7 +92,6 @@ var Rest = (function () {
     };
 
     Rest.prototype.createRequestFromMessage = function createRequestFromMessage(message) {
-
         var url = message.baseUrl ? message.baseUrl + message.url : message.url;
         var request = this.r(url, message.method);
 
@@ -133,23 +131,24 @@ var Rest = (function () {
     };
 
     Rest.prototype.getAuthHeader = function getAuthHeader(token) {
-
         return { 'Authorization': 'Bearer ' + token.access_token };
+    };
+
+    Rest.prototype.getLanguageHeader = function getLanguageHeader() {
+        return { 'Accept-Language': this.getLanguage() };
     };
 
     Rest.prototype.sendWithToken = function sendWithToken(message) {
         var _this2 = this;
 
         return this.getToken(true).then(function (token) {
-
-            var headers = Object.assign({}, message.headers, _this2.getAuthHeader(token));
+            var headers = Object.assign({}, message.headers, _this2.getAuthHeader(token), _this2.getLanguageHeader());
             message.setHeaders(headers);
             return _this2.send(message);
         });
     };
 
     Rest.prototype.request = function request(method, params) {
-
         var requestSuccess = function requestSuccess(res) {
             _minilog2['default']('secucard.rest').debug('requestSuccess', res.req.path);
             return res.body;
@@ -192,13 +191,15 @@ var Rest = (function () {
     };
 
     Rest.prototype.createMessageForRequest = function createMessageForRequest(method, params) {
-
         var message = this.createMessage();
+        var headers = Object.assign({}, { 'Content-Type': 'application/json' }, this.getLanguageHeader());
 
-        if (!params.multipart && params.headers) {
-            message.setHeaders(Object.assign({}, { 'Content-Type': 'application/json' }, params.headers));
-        } else if (!params.multipart) {
-            message.setHeaders({ 'Content-Type': 'application/json' });
+        if (params.headers) {
+            Object.assign(headers, params.headers);
+        }
+
+        if (!params.multipart) {
+            message.setHeaders(headers);
         }
 
         message.setMethod(method);
@@ -245,7 +246,6 @@ var Rest = (function () {
     };
 
     Rest.prototype.buildEndpoint = function buildEndpoint(endpoint) {
-
         if (!endpoint || endpoint.length < 2) {
             throw new Error('Invalid endpoint specification.');
         }
