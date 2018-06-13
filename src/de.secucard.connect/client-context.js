@@ -115,6 +115,10 @@ export class ClientContext {
         return this.tokenStorage.setCredentials(Object.assign({}, credentials));
     }
 
+    setLanguage(lang) {
+        this.config.setLanguage(lang);
+    }
+
     getCredentials() {
         return this.credentials;
     }

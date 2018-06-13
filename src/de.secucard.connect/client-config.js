@@ -86,6 +86,10 @@ export class ClientConfig {
     getLanguage() {
         return this.language;
     }
+
+    setLanguage(lang) {
+        this.language = lang;
+    }
 }
 
 ClientConfig._defaults = {

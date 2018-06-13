@@ -81,6 +81,10 @@ var ClientConfig = (function () {
         return this.language;
     };
 
+    ClientConfig.prototype.setLanguage = function setLanguage(lang) {
+        this.language = lang;
+    };
+
     return ClientConfig;
 })();
 

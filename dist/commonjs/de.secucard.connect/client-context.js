@@ -126,6 +126,10 @@ var ClientContext = (function () {
         return this.tokenStorage.setCredentials(Object.assign({}, credentials));
     };
 
+    ClientContext.prototype.setLanguage = function setLanguage(lang) {
+        this.config.setLanguage(lang);
+    };
+
     ClientContext.prototype.getCredentials = function getCredentials() {
         return this.credentials;
     };

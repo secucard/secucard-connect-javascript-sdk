@@ -822,6 +822,10 @@ var ClientConfig = (function () {
         return this.language;
     };
 
+    ClientConfig.prototype.setLanguage = function setLanguage(lang) {
+        this.language = lang;
+    };
+
     return ClientConfig;
 })();
 
@@ -994,6 +998,10 @@ var ClientContext = (function () {
         this.tokenStorage.getRetrieveToken = this.config.getRetrieveToken.bind(this.config);
 
         return this.tokenStorage.setCredentials(Object.assign({}, credentials));
+    };
+
+    ClientContext.prototype.setLanguage = function setLanguage(lang) {
+        this.config.setLanguage(lang);
     };
 
     ClientContext.prototype.getCredentials = function getCredentials() {
