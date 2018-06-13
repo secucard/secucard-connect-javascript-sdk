@@ -1148,6 +1148,7 @@ var Client = (function () {
         this.getStoredToken = this.context.getStoredToken.bind(this.context);
         this.exportToken = this.context.exportToken.bind(this.context);
         this.connected = false;
+        this.setLanguage = this.context.setLanguage.bind(this.context);
 
         _minilog2['default']('secucard.client').debug(config);
     }
@@ -1175,7 +1176,6 @@ var Client = (function () {
 exports.Client = Client;
 
 Client.create = function (config, environment) {
-
     if (!config) {
         config = Object.create(null);
     }

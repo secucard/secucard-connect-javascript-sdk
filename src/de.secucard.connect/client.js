@@ -18,7 +18,6 @@ import minilog from 'minilog';
 export class Client {
 
     constructor(config, environment) {
-
         this.config = config;
         this.context = new ClientContext(config, environment);
         this.getService = this.context.getService.bind(this.context);
@@ -30,13 +29,12 @@ export class Client {
         this.getStoredToken = this.context.getStoredToken.bind(this.context);
         this.exportToken = this.context.exportToken.bind(this.context);
         this.connected = false;
+        this.setLanguage = this.context.setLanguage.bind(this.context);
 
         minilog('secucard.client').debug(config);
-
     }
 
     open() {
-
         if (this.connected) {
             return Promise.resolve(this.connected);
         }
@@ -51,11 +49,9 @@ export class Client {
     getVersion() {
         return Version.name;
     }
-
 }
 
 Client.create = (config, environment) => {
-
     if (!config) {
         config = Object.create(null);
     }
@@ -63,5 +59,4 @@ Client.create = (config, environment) => {
     config = Object.assign(ClientConfig.defaults(), environment.config, config);
 
     return new Client(config, environment);
-
 };
