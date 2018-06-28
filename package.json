@@ -1,6 +1,6 @@
 {
   "name": "secucard-connect",
-  "version": "0.4.1",
+  "version": "0.5.0",
   "main": "dist/commonjs/index.js",
   "license": "Apache-2.0",
   "homepage": "https://github.com/secucard/secucard-connect-javascript-sdk",
@@ -26,7 +26,7 @@
     "browser-sync": "^2.7.12",
     "browserify": "^11.0.0",
     "del": "^1.2.0",
-    "gulp": "^3.9.0",
+    "gulp": "^3.9.1",
     "gulp-babel": "^5.1.0",
     "gulp-bump": "^0.3.1",
     "gulp-changed": "^1.2.1",

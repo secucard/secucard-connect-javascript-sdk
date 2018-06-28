@@ -1,3 +1,23 @@
+<a name="0.5.0"></a>
+# 0.5.0 (2018-06-28)
+
+
+* add new product deviceHistories
+ ([99168fd](https://github.com/secucard/secucard-connect-javascript-sdk/commit/99168fd))
+* Added field for error_user
+ ([7fb2d63](https://github.com/secucard/secucard-connect-javascript-sdk/commit/7fb2d63))
+* added new endpoint - general devices
+ ([21bd564](https://github.com/secucard/secucard-connect-javascript-sdk/commit/21bd564))
+* Added possibility to define the 'Accept-Language' header
+ ([c58c91c](https://github.com/secucard/secucard-connect-javascript-sdk/commit/c58c91c))
+* Added setLanguage function
+ ([c4ebd8e](https://github.com/secucard/secucard-connect-javascript-sdk/commit/c4ebd8e))
+* Fixed missing bind setLanguage
+ ([ca8008e](https://github.com/secucard/secucard-connect-javascript-sdk/commit/ca8008e))
+* import configuration changes
+ ([41972b5](https://github.com/secucard/secucard-connect-javascript-sdk/commit/41972b5))
+
+
 <a name="0.4.0"></a>
 # 0.4.0 (2017-12-18)
 
