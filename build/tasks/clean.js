@@ -1,10 +1,9 @@
-var gulp = require('gulp');
-var paths = require('../paths');
-var del = require('del');
-var vinylPaths = require('vinyl-paths');
+let gulp = require('gulp');
+let paths = require('../paths');
+let del = require('del');
+let vinylPaths = require('vinyl-paths');
 
 // deletes all files in the output path
 gulp.task('clean', function() {
-  return gulp.src([paths.output])
-    .pipe(vinylPaths(del));
+  return gulp.src([paths.output]).pipe(vinylPaths(del));
 });
