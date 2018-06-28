@@ -8,8 +8,3 @@ gulp.task('clean', function() {
   return gulp.src([paths.output])
     .pipe(vinylPaths(del));
 });
-
-gulp.task('clean-tokenizer', function() {
-  return gulp.src([paths.tokenizerOutput])
-    .pipe(vinylPaths(del));
-});
