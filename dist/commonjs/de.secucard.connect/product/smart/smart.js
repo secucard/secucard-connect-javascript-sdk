@@ -8,6 +8,8 @@ var _configurationService = require('./configuration-service');
 
 var _deviceService = require('./device-service');
 
+var _deviceHistories = require('./device-histories');
+
 var _identService = require('./ident-service');
 
 var _routingService = require('./routing-service');
@@ -19,6 +21,7 @@ exports.Smart = Smart;
 Smart.CheckinService = _checkinService.CheckinService;
 Smart.ConfigurationService = _configurationService.ConfigurationService;
 Smart.DeviceService = _deviceService.DeviceService;
+Smart.DeviceHistoriesService = _deviceHistories.DeviceHistoriesService;
 Smart.IdentService = _identService.IdentService;
 Smart.RoutingService = _routingService.RoutingService;
 Smart.TransactionService = _transactionService.TransactionService;

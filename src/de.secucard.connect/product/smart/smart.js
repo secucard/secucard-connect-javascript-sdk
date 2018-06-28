@@ -13,6 +13,7 @@
 import {CheckinService} from './checkin-service';
 import {ConfigurationService} from './configuration-service';
 import {DeviceService} from './device-service';
+import {DeviceHistoriesService} from './device-histories';
 import {IdentService} from './ident-service';
 import {RoutingService} from './routing-service';
 import {TransactionService} from './transaction-service';
@@ -22,6 +23,7 @@ export const Smart = {};
 Smart.CheckinService = CheckinService;
 Smart.ConfigurationService = ConfigurationService;
 Smart.DeviceService = DeviceService;
+Smart.DeviceHistoriesService = DeviceHistoriesService;
 Smart.IdentService = IdentService;
 Smart.RoutingService = RoutingService;
 Smart.TransactionService = TransactionService;

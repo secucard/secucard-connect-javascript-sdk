@@ -64,7 +64,6 @@ var ClientContext = (function () {
         var _this = this;
 
         return this.getAuth().getToken().then(function () {
-
             if (!_this.config.stompEnabled) {
                 return true;
             }
@@ -76,13 +75,11 @@ var ClientContext = (function () {
     };
 
     ClientContext.prototype.createServices = function createServices(classList) {
-
         var services = Object.create(null);
         var ServiceClass = undefined;
         var service = undefined;
         var uid = undefined;
         for (var i = 0; i < classList.length; i++) {
-
             ServiceClass = classList[i];
             service = new ServiceClass();
             service.configureWithContext(this);
@@ -99,7 +96,6 @@ var ClientContext = (function () {
     };
 
     ClientContext.prototype.addAppService = function addAppService(AppMixin) {
-
         var appService = _productAppAppService.AppService.createWithMixin(AppMixin);
         appService.configureWithContext(this);
         this.services[appService.getUid()] = appService;
@@ -108,11 +104,9 @@ var ClientContext = (function () {
     };
 
     ClientContext.prototype.removeAppService = function removeAppService(uid) {
-
         var appService = this.services[uid];
 
         if (appService && appService.isApp) {
-
             this.unregisterServiceEventTargets(appService.getEventTargets());
             delete this.services[uid];
         } else {
@@ -121,7 +115,6 @@ var ClientContext = (function () {
     };
 
     ClientContext.prototype.setCredentials = function setCredentials(credentials, TokenStorageMixin) {
-
         this.credentials = _authCredentials.Credentials.create(credentials);
         if (TokenStorageMixin) {
             this.tokenStorage = _authTokenStorage.TokenStorageInMem.createWithMixin(TokenStorageMixin);
@@ -131,6 +124,10 @@ var ClientContext = (function () {
         this.tokenStorage.getRetrieveToken = this.config.getRetrieveToken.bind(this.config);
 
         return this.tokenStorage.setCredentials(Object.assign({}, credentials));
+    };
+
+    ClientContext.prototype.setLanguage = function setLanguage(lang) {
+        this.config.setLanguage(lang);
     };
 
     ClientContext.prototype.getCredentials = function getCredentials() {
@@ -175,7 +172,6 @@ var ClientContext = (function () {
     };
 
     ClientContext.prototype.getChannelByType = function getChannelByType(type) {
-
         return this.channels[type];
     };
 
@@ -188,7 +184,6 @@ var ClientContext = (function () {
     };
 
     ClientContext.prototype.getServiceDefaultOptions = function getServiceDefaultOptions() {
-
         return {
             channelConfig: [_netChannel.Channel.STOMP, _netChannel.Channel.REST],
             useAuth: true
@@ -196,7 +191,6 @@ var ClientContext = (function () {
     };
 
     ClientContext.prototype.isRequestWithToken = function isRequestWithToken(options) {
-
         return !options || options && (!options.hasOwnProperty('useAuth') || options.useAuth);
     };
 
@@ -204,7 +198,6 @@ var ClientContext = (function () {
         var _this3 = this;
 
         _lodash2['default'].each(targets, function (target) {
-
             if (_this3.serviceEventTargets[target.toLowerCase()]) {
                 throw new Error('Provided event target is registered already: ' + target.toLowerCase());
             }
@@ -217,13 +210,11 @@ var ClientContext = (function () {
         var _this4 = this;
 
         _lodash2['default'].each(targets, function (target) {
-
             delete _this4.serviceEventTargets[target.toLowerCase()];
         });
     };
 
     ClientContext.prototype.emitServiceEvent = function emitServiceEvent(event, target, type, data) {
-
         if (event) {
             target = event.target || target;
             type = event.type || type;
