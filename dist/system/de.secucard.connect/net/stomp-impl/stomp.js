@@ -1,358 +1,388 @@
-System.register(['./frame', 'eventemitter3', 'uuid', 'minilog'], function (_export) {
-    'use strict';
+'use strict';
 
-    var Frame, EE, UUID, minilog, utils, Stomp;
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.Stomp = undefined;
 
-    function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-    return {
-        setters: [function (_frame2) {
-            Frame = _frame2.Frame;
-        }, function (_eventemitter3) {
-            EE = _eventemitter3['default'];
-        }, function (_uuid) {
-            UUID = _uuid['default'];
-        }, function (_minilog) {
-            minilog = _minilog['default'];
-        }],
-        execute: function () {
-            utils = {};
+var _frame2 = require('./frame');
 
-            utils.really_defined = function (var_to_test) {
-                return !(var_to_test == null || var_to_test == undefined);
+var _eventemitter = require('eventemitter3');
+
+var _eventemitter2 = _interopRequireDefault(_eventemitter);
+
+var _uuid = require('uuid');
+
+var _uuid2 = _interopRequireDefault(_uuid);
+
+var _minilog = require('minilog');
+
+var _minilog2 = _interopRequireDefault(_minilog);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var utils = {};
+utils.really_defined = function (var_to_test) {
+    return !(var_to_test == null || var_to_test == undefined);
+};
+
+var Stomp = exports.Stomp = function () {
+    function Stomp(SocketImpl) {
+        _classCallCheck(this, Stomp);
+
+        Object.assign(this, _eventemitter2.default.prototype);
+
+        this._subscribed_to = {};
+        this.session = null;
+        this.connected = false;
+        this.SocketImpl = SocketImpl;
+    }
+
+    _createClass(Stomp, [{
+        key: 'isConnected',
+        value: function isConnected(ignoreSession) {
+            return this.connected && (ignoreSession || this.session);
+        }
+    }, {
+        key: 'configure',
+        value: function configure(config) {
+
+            this.port = config['port'] || 61613;
+            this.host = config['host'] || '127.0.0.1';
+            this.debug = config['debug'];
+            this.login = config['login'] || null;
+            this.passcode = config['passcode'] || null;
+
+            this.ssl = config['ssl'] ? true : false;
+            this.ssl_validate = config['ssl_validate'] ? true : false;
+            this.ssl_options = config['ssl_options'] || {};
+            this.vhost = config['vhost'];
+            this.heartbeatMs = config['heartbeatMs'];
+            this.endpoint = config['endpoint'] || '';
+
+            this['client-id'] = config['client-id'] || null;
+        }
+    }, {
+        key: 'connect',
+        value: function connect(credentials) {
+            this.login = credentials.login;
+            this.passcode = credentials.passcode;
+            this._connect(this);
+        }
+    }, {
+        key: 'is_a_message',
+        value: function is_a_message(this_frame) {
+            return this_frame.headers !== null && utils.really_defined(this_frame.headers['message-id']);
+        }
+    }, {
+        key: 'should_run_message_callback',
+        value: function should_run_message_callback(this_frame) {}
+    }, {
+        key: 'handle_new_frame',
+        value: function handle_new_frame(this_frame) {
+
+            switch (this_frame.command) {
+                case "MESSAGE":
+                    if (this.is_a_message(this_frame)) {
+                        this.should_run_message_callback(this_frame);
+                        this.emit('message', this_frame);
+                    }
+                    break;
+                case "CONNECTED":
+                    (0, _minilog2.default)('secucard.STOMP').debug('Connected');
+                    this.session = this_frame.headers['session'];
+                    this.emit('connected');
+                    break;
+                case "RECEIPT":
+                    this.emit('receipt', this_frame.headers['receipt-id']);
+                    break;
+                case "ERROR":
+                    this.emit('error', this_frame);
+                    break;
+                default:
+                    (0, _minilog2.default)('secucard.STOMP').error('Could not parse command', this_frame.command);
+            }
+        }
+    }, {
+        key: 'disconnect',
+        value: function disconnect() {
+            this._disconnect(this);
+        }
+    }, {
+        key: 'subscribe',
+        value: function subscribe(headers, callback) {
+
+            var destination = headers['destination'];
+            headers['session'] = this.session;
+            this.send_command(this, 'SUBSCRIBE', headers);
+
+            this._subscribed_to[destination] = { enabled: true, callback: callback };
+        }
+    }, {
+        key: 'unsubscribe',
+        value: function unsubscribe(headers) {
+            var destination = headers['destination'];
+            headers['session'] = this.session;
+            this.send_command(this, 'UNSUBSCRIBE', headers);
+            this._subscribed_to[destination].enabled = false;
+        }
+    }, {
+        key: 'ack',
+        value: function ack(message_id) {
+            this.send_command(this, 'ACK', { 'message-id': message_id });
+        }
+    }, {
+        key: 'begin',
+        value: function begin() {
+            var transaction_id = Math.floor(Math.random() * 99999999999).toString();
+            this.send_command(this, 'BEGIN', { 'transaction': transaction_id });
+
+            return transaction_id;
+        }
+    }, {
+        key: 'commit',
+        value: function commit(transaction_id) {
+            this.send_command(this, 'COMMIT', { 'transaction': transaction_id });
+        }
+    }, {
+        key: 'abort',
+        value: function abort(transaction_id) {
+            this.send_command(this, 'ABORT', { 'transaction': transaction_id });
+        }
+    }, {
+        key: 'send',
+        value: function send(destination, headers, body, withReceipt) {
+            headers['session'] = this.session;
+            headers['destination'] = destination;
+            (0, _minilog2.default)('secucard.STOMP').debug(headers, body);
+            return this.send_command(this, 'SEND', headers, body, withReceipt);
+        }
+    }, {
+        key: 'parse_command',
+        value: function parse_command(data) {
+            var command,
+                this_string = data.toString('utf8', 0, data.length);
+            command = this_string.split('\n');
+            return command[0];
+        }
+    }, {
+        key: 'parse_headers',
+        value: function parse_headers(raw_headers) {
+            var headers = {},
+                headers_split = raw_headers.split('\n');
+
+            for (var i = 0; i < headers_split.length; i++) {
+                var header = headers_split[i].split(':');
+                if (header.length > 1) {
+                    var header_key = header.shift().trim();
+                    var header_val = header.join(':').trim();
+                    headers[header_key] = header_val;
+                    continue;
+                }
+                headers[header[0].trim()] = header[1].trim();
+            }
+            return headers;
+        }
+    }, {
+        key: 'parse_frame',
+        value: function parse_frame(chunk) {
+            var args = {},
+                data = null,
+                command = null,
+                headers = null,
+                body = null;
+
+
+            if (!utils.really_defined(chunk)) {
+                return null;
+            }
+
+            command = this.parse_command(chunk);
+            data = chunk.slice(command.length + 1, chunk.length);
+            data = data.toString('utf8', 0, data.length);
+
+            var the_rest = data.split('\n\n');
+            headers = this.parse_headers(the_rest[0]);
+            body = the_rest.slice(1, the_rest.length);
+
+            if ('content-length' in headers) {
+                headers['bytes_message'] = true;
+            }
+
+            args = {
+                command: command,
+                headers: headers,
+                body: body
             };
 
-            Stomp = (function () {
-                function Stomp(SocketImpl) {
-                    _classCallCheck(this, Stomp);
+            var this_frame = new _frame2.Frame();
+            var return_frame = this_frame.build_frame(args);
 
-                    Object.assign(this, EE.prototype);
+            return return_frame;
+        }
+    }, {
+        key: '_connect',
+        value: function _connect(stomp) {
+            var _this = this;
 
-                    this._subscribed_to = {};
-                    this.session = null;
-                    this.connected = false;
-                    this.SocketImpl = SocketImpl;
+            var onInit = function onInit(socket, handleConnected) {
+
+                stomp.socket = socket;
+                _this._setupListeners(stomp, handleConnected);
+            };
+
+            var onError = function onError(err) {
+                stomp.emit('connectionError', err);
+            };
+
+            stomp.SocketImpl.connect(stomp.host, stomp.port, stomp.endpoint, stomp.ssl, stomp.ssl_options, stomp.ssl_validate, onInit, onError);
+        }
+    }, {
+        key: '_setupListeners',
+        value: function _setupListeners(stomp, handleConnected) {
+            var _this2 = this;
+
+            var _connected = function _connected() {
+
+                (0, _minilog2.default)('secucard.STOMP').debug('Connected to socket');
+                _this2.connected = true;
+
+                var headers = {};
+
+                if (utils.really_defined(stomp.login) && utils.really_defined(stomp.passcode)) {
+                    headers.login = stomp.login;
+                    headers.passcode = stomp.passcode;
                 }
 
-                Stomp.prototype.isConnected = function isConnected(ignoreSession) {
-                    return this.connected && (ignoreSession || this.session);
-                };
-
-                Stomp.prototype.configure = function configure(config) {
-
-                    this.port = config['port'] || 61613;
-                    this.host = config['host'] || '127.0.0.1';
-                    this.debug = config['debug'];
-                    this.login = config['login'] || null;
-                    this.passcode = config['passcode'] || null;
-
-                    this.ssl = config['ssl'] ? true : false;
-                    this.ssl_validate = config['ssl_validate'] ? true : false;
-                    this.ssl_options = config['ssl_options'] || {};
-                    this.vhost = config['vhost'];
-                    this.heartbeatMs = config['heartbeatMs'];
-                    this.endpoint = config['endpoint'] || '';
-
-                    this['client-id'] = config['client-id'] || null;
-                };
-
-                Stomp.prototype.connect = function connect(credentials) {
-                    this.login = credentials.login;
-                    this.passcode = credentials.passcode;
-                    this._connect(this);
-                };
-
-                Stomp.prototype.is_a_message = function is_a_message(this_frame) {
-                    return this_frame.headers !== null && utils.really_defined(this_frame.headers['message-id']);
-                };
-
-                Stomp.prototype.should_run_message_callback = function should_run_message_callback(this_frame) {};
-
-                Stomp.prototype.handle_new_frame = function handle_new_frame(this_frame) {
-
-                    switch (this_frame.command) {
-                        case "MESSAGE":
-                            if (this.is_a_message(this_frame)) {
-                                this.should_run_message_callback(this_frame);
-                                this.emit('message', this_frame);
-                            }
-                            break;
-                        case "CONNECTED":
-                            minilog('secucard.STOMP').debug('Connected');
-                            this.session = this_frame.headers['session'];
-                            this.emit('connected');
-                            break;
-                        case "RECEIPT":
-                            this.emit('receipt', this_frame.headers['receipt-id']);
-                            break;
-                        case "ERROR":
-                            this.emit('error', this_frame);
-                            break;
-                        default:
-                            minilog('secucard.STOMP').error('Could not parse command', this_frame.command);
-                    }
-                };
-
-                Stomp.prototype.disconnect = function disconnect() {
-                    this._disconnect(this);
-                };
-
-                Stomp.prototype.subscribe = function subscribe(headers, callback) {
-
-                    var destination = headers['destination'];
-                    headers['session'] = this.session;
-                    this.send_command(this, 'SUBSCRIBE', headers);
-
-                    this._subscribed_to[destination] = { enabled: true, callback: callback };
-                };
-
-                Stomp.prototype.unsubscribe = function unsubscribe(headers) {
-                    var destination = headers['destination'];
-                    headers['session'] = this.session;
-                    this.send_command(this, 'UNSUBSCRIBE', headers);
-                    this._subscribed_to[destination].enabled = false;
-                };
-
-                Stomp.prototype.ack = function ack(message_id) {
-                    this.send_command(this, 'ACK', { 'message-id': message_id });
-                };
-
-                Stomp.prototype.begin = function begin() {
-                    var transaction_id = Math.floor(Math.random() * 99999999999).toString();
-                    this.send_command(this, 'BEGIN', { 'transaction': transaction_id });
-
-                    return transaction_id;
-                };
-
-                Stomp.prototype.commit = function commit(transaction_id) {
-                    this.send_command(this, 'COMMIT', { 'transaction': transaction_id });
-                };
-
-                Stomp.prototype.abort = function abort(transaction_id) {
-                    this.send_command(this, 'ABORT', { 'transaction': transaction_id });
-                };
-
-                Stomp.prototype.send = function send(destination, headers, body, withReceipt) {
-                    headers['session'] = this.session;
-                    headers['destination'] = destination;
-                    minilog('secucard.STOMP').debug(headers, body);
-                    return this.send_command(this, 'SEND', headers, body, withReceipt);
-                };
-
-                Stomp.prototype.parse_command = function parse_command(data) {
-                    var command,
-                        this_string = data.toString('utf8', 0, data.length);
-                    command = this_string.split('\n');
-                    return command[0];
-                };
-
-                Stomp.prototype.parse_headers = function parse_headers(raw_headers) {
-                    var headers = {},
-                        headers_split = raw_headers.split('\n');
-
-                    for (var i = 0; i < headers_split.length; i++) {
-                        var header = headers_split[i].split(':');
-                        if (header.length > 1) {
-                            var header_key = header.shift().trim();
-                            var header_val = header.join(':').trim();
-                            headers[header_key] = header_val;
-                            continue;
-                        }
-                        headers[header[0].trim()] = header[1].trim();
-                    }
-                    return headers;
-                };
-
-                Stomp.prototype.parse_frame = function parse_frame(chunk) {
-                    var args = {},
-                        data = null,
-                        command = null,
-                        headers = null,
-                        body = null;
-
-                    if (!utils.really_defined(chunk)) {
-                        return null;
-                    }
-
-                    command = this.parse_command(chunk);
-                    data = chunk.slice(command.length + 1, chunk.length);
-                    data = data.toString('utf8', 0, data.length);
-
-                    var the_rest = data.split('\n\n');
-                    headers = this.parse_headers(the_rest[0]);
-                    body = the_rest.slice(1, the_rest.length);
-
-                    if ('content-length' in headers) {
-                        headers['bytes_message'] = true;
-                    }
-
-                    args = {
-                        command: command,
-                        headers: headers,
-                        body: body
-                    };
-
-                    var this_frame = new Frame();
-                    var return_frame = this_frame.build_frame(args);
-
-                    return return_frame;
-                };
-
-                Stomp.prototype._connect = function _connect(stomp) {
-                    var _this = this;
-
-                    var onInit = function onInit(socket, handleConnected) {
-
-                        stomp.socket = socket;
-                        _this._setupListeners(stomp, handleConnected);
-                    };
-
-                    var onError = function onError(err) {
-                        stomp.emit('connectionError', err);
-                    };
-
-                    stomp.SocketImpl.connect(stomp.host, stomp.port, stomp.endpoint, stomp.ssl, stomp.ssl_options, stomp.ssl_validate, onInit, onError);
-                };
-
-                Stomp.prototype._setupListeners = function _setupListeners(stomp, handleConnected) {
-                    var _this2 = this;
-
-                    var _connected = function _connected() {
-
-                        minilog('secucard.STOMP').debug('Connected to socket');
-                        _this2.connected = true;
-
-                        var headers = {};
-
-                        if (utils.really_defined(stomp.login) && utils.really_defined(stomp.passcode)) {
-                            headers.login = stomp.login;
-                            headers.passcode = stomp.passcode;
-                        }
-
-                        if (utils.really_defined(stomp["client-id"])) {
-                            headers["client-id"] = stomp["client-id"];
-                        }
-                        if (utils.really_defined(stomp["vhost"])) {
-                            headers["host"] = stomp["vhost"];
-                        }
-
-                        _this2.stomp_connect(stomp, headers);
-                    };
-
-                    var socket = stomp.socket;
-
-                    socket.on('drain', function (data) {
-                        minilog('secucard.STOMP').debug('draining');
-                    });
-
-                    var buffer = '';
-
-                    socket.on('data', function (chunk) {
-
-                        buffer += chunk;
-                        var frames = buffer.split('\0\n');
-
-                        if (frames.length == 1) {
-                            frames = buffer.split('\0');
-                        }
-
-                        if (frames.length == 1) return;
-                        buffer = frames.pop();
-
-                        var parsed_frame = null;
-                        var _frame = null;
-                        while (_frame = frames.shift()) {
-                            parsed_frame = _this2.parse_frame(_frame);
-                            stomp.handle_new_frame(parsed_frame);
-                        }
-                    });
-
-                    socket.on('end', function () {});
-
-                    socket.on('close', function (error) {
-                        minilog('secucard.STOMP').debug('Disconnected with error:', error);
-                        stomp.session = null;
-                        stomp.connected = false;
-                        stomp.emit("disconnected", error);
-                    });
-
-                    if (handleConnected) {
-                        _connected();
-                    } else {
-                        socket.on('connect', _connected);
-                    }
-                };
-
-                Stomp.prototype.stomp_connect = function stomp_connect(stomp, headers) {
-
-                    var _frame = new Frame(),
-                        args = {},
-                        headers = headers || {};
-
-                    if (this.heartbeatMs > 0) {
-                        headers['heart-beat'] = this.heartbeatMs + ',0';
-                    }
-
-                    args['command'] = 'CONNECT';
-                    args['headers'] = headers;
-
-                    var frame_to_send = _frame.build_frame(args);
-                    this.send_frame(stomp, frame_to_send);
-                };
-
-                Stomp.prototype._disconnect = function _disconnect(stomp) {
-
-                    stomp.SocketImpl.disconnect(stomp.socket);
-                };
-
-                Stomp.prototype.send_command = function send_command(stomp, command, headers, body, withReceipt) {
-
-                    var withReceipt = withReceipt || false;
-
-                    if (!utils.really_defined(headers)) {
-                        headers = {};
-                    }
-
-                    if (withReceipt) {
-                        headers['receipt'] = this.createReceiptId();
-                    }
-
-                    var args = {
-                        'command': command,
-                        'headers': headers,
-                        'body': body
-                    };
-
-                    var _frame = new Frame();
-                    var this_frame = _frame.build_frame(args);
-                    this.send_frame(stomp, this_frame);
-                    return this_frame;
-                };
-
-                Stomp.prototype.send_frame = function send_frame(stomp, _frame) {
-
-                    var socket = stomp.socket;
-                    var frame_str = _frame.as_string();
-
-                    minilog('secucard.STOMP').debug('socket write:', frame_str);
-
-                    if (socket.write(frame_str) === false) {
-                        minilog('secucard.STOMP').debug('Write buffered');
-                    }
-
-                    return true;
-                };
-
-                Stomp.prototype.createReceiptId = function createReceiptId() {
-
-                    return 'rcpt-' + UUID.v1();
-                };
-
-                return Stomp;
-            })();
-
-            _export('Stomp', Stomp);
+                if (utils.really_defined(stomp["client-id"])) {
+                    headers["client-id"] = stomp["client-id"];
+                }
+                if (utils.really_defined(stomp["vhost"])) {
+                    headers["host"] = stomp["vhost"];
+                }
+
+                _this2.stomp_connect(stomp, headers);
+            };
+
+            var socket = stomp.socket;
+
+            socket.on('drain', function (data) {
+                (0, _minilog2.default)('secucard.STOMP').debug('draining');
+            });
+
+            var buffer = '';
+
+            socket.on('data', function (chunk) {
+
+                buffer += chunk;
+                var frames = buffer.split('\0\n');
+
+                if (frames.length == 1) {
+                    frames = buffer.split('\0');
+                }
+
+                if (frames.length == 1) return;
+                buffer = frames.pop();
+
+                var parsed_frame = null;
+                var _frame = null;
+                while (_frame = frames.shift()) {
+                    parsed_frame = _this2.parse_frame(_frame);
+                    stomp.handle_new_frame(parsed_frame);
+                }
+            });
+
+            socket.on('end', function () {});
+
+            socket.on('close', function (error) {
+                (0, _minilog2.default)('secucard.STOMP').debug('Disconnected with error:', error);
+                stomp.session = null;
+                stomp.connected = false;
+                stomp.emit("disconnected", error);
+            });
+
+            if (handleConnected) {
+                _connected();
+            } else {
+                socket.on('connect', _connected);
+            }
         }
-    };
-});
-//# sourceMappingURL=data:application/json;charset=utf8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbImRlLnNlY3VjYXJkLmNvbm5lY3QvbmV0L3N0b21wLWltcGwvc3RvbXAuanMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7O2tDQWdCSSxLQUFLLEVBS0ksS0FBSzs7Ozs7OzRCQVZWLEtBQUs7Ozs7Ozs7OztBQUtULGlCQUFLLEdBQUcsRUFBRTs7QUFDZCxpQkFBSyxDQUFDLGNBQWMsR0FBRyxVQUFDLFdBQVcsRUFBSztBQUNwQyx1QkFBTyxFQUFFLFdBQVcsSUFBSSxJQUFJLElBQUksV0FBVyxJQUFJLFNBQVMsQ0FBQSxBQUFDLENBQUM7YUFDN0QsQ0FBQzs7QUFFVyxpQkFBSztBQUVILHlCQUZGLEtBQUssQ0FFRixVQUFVLEVBQUU7MENBRmYsS0FBSzs7QUFJViwwQkFBTSxDQUFDLE1BQU0sQ0FBQyxJQUFJLEVBQUUsRUFBRSxDQUFDLFNBQVMsQ0FBQyxDQUFDOztBQUVsQyx3QkFBSSxDQUFDLGNBQWMsR0FBRyxFQUFFLENBQUM7QUFDekIsd0JBQUksQ0FBQyxPQUFPLEdBQUcsSUFBSSxDQUFDO0FBQ3BCLHdCQUFJLENBQUMsU0FBUyxHQUFHLEtBQUssQ0FBQztBQUN2Qix3QkFBSSxDQUFDLFVBQVUsR0FBRyxVQUFVLENBQUM7aUJBRWhDOztBQVhRLHFCQUFLLFdBYWQsV0FBVyxHQUFBLHFCQUFDLGFBQWEsRUFBRTtBQUN2QiwyQkFBTyxJQUFJLENBQUMsU0FBUyxLQUFLLGFBQWEsSUFBSSxJQUFJLENBQUMsT0FBTyxDQUFBLEFBQUMsQ0FBQztpQkFDNUQ7O0FBZlEscUJBQUssV0FpQmQsU0FBUyxHQUFBLG1CQUFDLE1BQU0sRUFBRTs7QUFFZCx3QkFBSSxDQUFDLElBQUksR0FBRyxNQUFNLENBQUMsTUFBTSxDQUFDLElBQUksS0FBSyxDQUFDO0FBQ3BDLHdCQUFJLENBQUMsSUFBSSxHQUFHLE1BQU0sQ0FBQyxNQUFNLENBQUMsSUFBSSxXQUFXLENBQUM7QUFDMUMsd0JBQUksQ0FBQyxLQUFLLEdBQUcsTUFBTSxDQUFDLE9BQU8sQ0FBQyxDQUFDO0FB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RSxhQUFhLENBQUMsQ0FBQztpQkFDekM7O0FBL1RRLHFCQUFLLFdBaVVkLFdBQVcsR0FBQSxxQkFBQyxLQUFLLEVBQUU7O0FBRWYseUJBQUssQ0FBQyxVQUFVLENBQUMsVUFBVSxDQUFDLEtBQUssQ0FBQyxNQUFNLENBQUMsQ0FBQztpQkFFN0M7O0FBclVRLHFCQUFLLFdBdVVkLFlBQVksR0FBQSxzQkFBQyxLQUFLLEVBQUUsT0FBTyxFQUFFLE9BQU8sRUFBRSxJQUFJLEVBQUUsV0FBVyxFQUFFOztBQUVyRCx3QkFBSSxXQUFXLEdBQUcsV0FBVyxJQUFJLEtBQUssQ0FBQzs7QUFFdkMsd0JBQUksQ0FBQyxLQUFLLENBQUMsY0FBYyxDQUFDLE9BQU8sQ0FBQyxFQUFFO0FBQ2hDLCtCQUFPLEdBQUcsRUFBRSxDQUFDO3FCQUNoQjs7QUFFRCx3QkFBSSxXQUFXLEVBQUU7QUFDYiwrQkFBTyxDQUFDLFNBQVMsQ0FBQyxHQUFHLElBQUksQ0FBQyxlQUFlLEVBQUUsQ0FBQztxQkFDL0M7O0FBRUQsd0JBQUksSUFBSSxHQUFHO0FBQ1AsaUNBQVMsRUFBRSxPQUFPO0FBQ2xCLGlDQUFTLEVBQUUsT0FBTztBQUNsQiw4QkFBTSxFQUFFLElBQUk7cUJBQ2YsQ0FBQzs7QUFFRix3QkFBSSxNQUFNLEdBQUcsSUFBSSxLQUFLLEVBQUUsQ0FBQztBQUN6Qix3QkFBSSxVQUFVLEdBQUcsTUFBTSxDQUFDLFdBQVcsQ0FBQyxJQUFJLENBQUMsQ0FBQztBQUMxQyx3QkFBSSxDQUFDLFVBQVUsQ0FBQyxLQUFLLEVBQUUsVUFBVSxDQUFDLENBQUM7QUFDbkMsMkJBQU8sVUFBVSxDQUFDO2lCQUVyQjs7QUE5VlEscUJBQUssV0FnV2QsVUFBVSxHQUFBLG9CQUFDLEtBQUssRUFBRSxNQUFNLEVBQUU7O0FBRXRCLHdCQUFJLE1BQU0sR0FBRyxLQUFLLENBQUMsTUFBTSxDQUFDO0FBQzFCLHdCQUFJLFNBQVMsR0FBRyxNQUFNLENBQUMsU0FBUyxFQUFFLENBQUM7O0FBRW5DLDJCQUFPLENBQUMsZ0JBQWdCLENBQUMsQ0FBQyxLQUFLLENBQUMsZUFBZSxFQUFFLFNBQVMsQ0FBQyxDQUFDOztBQUU1RCx3QkFBSSxNQUFNLENBQUMsS0FBSyxDQUFDLFNBQVMsQ0FBQyxLQUFLLEtBQUssRUFBRTtBQUNuQywrQkFBTyxDQUFDLGdCQUFnQixDQUFDLENBQUMsS0FBSyxDQUFDLGdCQUFnQixDQUFDLENBQUM7cUJBQ3JEOztBQUVELDJCQUFPLElBQUksQ0FBQztpQkFDZjs7QUE1V1EscUJBQUssV0E4V2QsZUFBZSxHQUFBLDJCQUFHOztBQUVkLDJCQUFPLE9BQU8sR0FBRyxJQUFJLENBQUMsRUFBRSxFQUFFLENBQUM7aUJBRTlCOzt1QkFsWFEsS0FBSyIsImZpbGUiOiJkZS5zZWN1Y2FyZC5jb25uZWN0L25ldC9zdG9tcC1pbXBsL3N0b21wLmpzIiwic291cmNlUm9vdCI6Ii4uL3NyYy8ifQ==
+    }, {
+        key: 'stomp_connect',
+        value: function stomp_connect(stomp, headers) {
+
+            var _frame = new _frame2.Frame(),
+                args = {},
+                headers = headers || {};
+
+            if (this.heartbeatMs > 0) {
+                headers['heart-beat'] = this.heartbeatMs + ',0';
+            }
+
+            args['command'] = 'CONNECT';
+            args['headers'] = headers;
+
+            var frame_to_send = _frame.build_frame(args);
+            this.send_frame(stomp, frame_to_send);
+        }
+    }, {
+        key: '_disconnect',
+        value: function _disconnect(stomp) {
+
+            stomp.SocketImpl.disconnect(stomp.socket);
+        }
+    }, {
+        key: 'send_command',
+        value: function send_command(stomp, command, headers, body, withReceipt) {
+
+            var withReceipt = withReceipt || false;
+
+            if (!utils.really_defined(headers)) {
+                headers = {};
+            }
+
+            if (withReceipt) {
+                headers['receipt'] = this.createReceiptId();
+            }
+
+            var args = {
+                'command': command,
+                'headers': headers,
+                'body': body
+            };
+
+            var _frame = new _frame2.Frame();
+            var this_frame = _frame.build_frame(args);
+            this.send_frame(stomp, this_frame);
+            return this_frame;
+        }
+    }, {
+        key: 'send_frame',
+        value: function send_frame(stomp, _frame) {
+
+            var socket = stomp.socket;
+            var frame_str = _frame.as_string();
+
+            (0, _minilog2.default)('secucard.STOMP').debug('socket write:', frame_str);
+
+            if (socket.write(frame_str) === false) {
+                (0, _minilog2.default)('secucard.STOMP').debug('Write buffered');
+            }
+
+            return true;
+        }
+    }, {
+        key: 'createReceiptId',
+        value: function createReceiptId() {
+
+            return 'rcpt-' + _uuid2.default.v1();
+        }
+    }]);
+
+    return Stomp;
+}();
+//# sourceMappingURL=data:application/json;charset=utf8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbImRlLnNlY3VjYXJkLmNvbm5lY3QvbmV0L3N0b21wLWltcGwvc3RvbXAuanMiXSwibmFtZXMiOlsidXRpbHMiLCJyZWFsbHlfZGVmaW5lZCIsInZhcl90b190ZXN0IiwidW5kZWZpbmVkIiwiU3RvbXAiLCJTb2NrZXRJbXBsIiwiT2JqZWN0IiwiYXNzaWduIiwiRUUiLCJwcm90b3R5cGUiLCJfc3Vic2NyaWJlZF90byIsInNlc3Npb24iLCJjb25uZWN0ZWQiLCJpZ25vcmVTZXNzaW9uIiwiY29uZmlnIiwicG9ydCIsImhvc3QiLCJkZWJ1ZyIsImxvZ2luIiwicGFzc2NvZGUiLCJzc2wiLCJzc2xfdmFsaWRhdGUiLCJzc2xfb3B0aW9ucyIsInZob3N0IiwiaGVhcnRiZWF0TXMiLCJlbmRwb2ludCIsImNyZWRlbnRpYWxzIiwiX2Nvbm5lY3QiLCJ0aGlzX2ZyYW1lIiwiaGVhZGVycyIsImNvbW1hbmQiLCJpc19hX21lc3NhZ2UiLCJzaG91bGRfcnVuX21lc3NhZ2VfY2FsbGJhY2siLCJlbWl0IiwiZXJyb3IiLCJfZGlzY29ubmVjdCIsImNhbGxiYWNrIiwiZGVzdGluYXRpb24iLCJzZW5kX2NvbW1hbmQiLCJlbmFibGVkIiwibWVzc2FnZV9pZCIsInRyYW5zYWN0aW9uX2lkIiwiTWF0aCIsImZsb29yIiwicmFuZG9tIiwidG9TdHJpbmciLCJib2R5Iiwid2l0aFJlY2VpcHQiLCJkYXRhIiwidGhpc19zdHJpbmciLCJsZW5ndGgiLCJzcGxpdCIsInJhd19oZWFkZXJzIiwiaGVhZGVyc19zcGxpdCIsImkiLCJoZWFkZXIiLCJoZWFkZXJfa2V5Iiwic2hpZnQiLCJ0cmltIiwiaGVhZGVyX3ZhbCIsImpvaW4iLCJjaHVuayIsImFyZ3MiLCJwYXJzZV9jb21tYW5kIiwic2xpY2UiLCJ0aGVfcmVzdCIsInBhcnNlX2hlYWRlcnMiLCJGcmFtZSIsInJldHVybl9mcmFtZSIsImJ1aWxkX2ZyYW1lIiwic3RvbXAiLCJvbkluaXQiLCJzb2NrZXQiLCJoYW5kbGVDb25uZWN0ZWQiLCJfc2V0dXBMaXN0ZW5lcnMiLCJvbkVycm9yIiwiZXJyIiwiY29ubmVjdCIsIl9jb25uZWN0ZWQiLCJzdG9tcF9jb25uZWN0Iiwib24iLCJidWZmZXIiLCJmcmFtZXMiLCJwb3AiLCJwYXJzZWRfZnJhbWUiLCJfZnJhbWUiLCJwYXJzZV9mcmFtZSIsImhhbmRsZV9uZXdfZnJhbWUiLCJmcmFtZV90b19zZW5kIiwic2VuZF9mcmFtZSIsImRpc2Nvbm5lY3QiLCJjcmVhdGVSZWNlaXB0SWQiLCJmcmFtZV9zdHIiLCJhc19zdHJpbmciLCJ3cml0ZSIsIlVVSUQiLCJ2MSJdLCJtYXBwaW5ncyI6Ijs7Ozs7Ozs7O0FBV0E7O0FBQ0E7Ozs7QUFDQTs7OztBQUNBOzs7Ozs7OztBQUVBLElBQUlBLFFBQVEsRUFBWjtBQUNBQSxNQUFNQyxjQUFOLEdBQXVCLFVBQUNDLFdBQUQsRUFBaUI7QUFDcEMsV0FBTyxFQUFFQSxlQUFlLElBQWYsSUFBdUJBLGVBQWVDLFNBQXhDLENBQVA7QUFDSCxDQUZEOztJQUlhQyxLLFdBQUFBLEs7QUFFVCxtQkFBWUMsVUFBWixFQUF3QjtBQUFBOztBQUVwQkMsZUFBT0MsTUFBUCxDQUFjLElBQWQsRUFBb0JDLHVCQUFHQyxTQUF2Qjs7QUFFQSxhQUFLQyxjQUFMLEdBQXNCLEVBQXRCO0FBQ0EsYUFBS0MsT0FBTCxHQUFlLElBQWY7QUFDQSxhQUFLQyxTQUFMLEdBQWlCLEtBQWpCO0FBQ0EsYUFBS1AsVUFBTCxHQUFrQkEsVUFBbEI7QUFFSDs7OztvQ0FFV1EsYSxFQUFlO0FBQ3ZCLG1CQUFPLEtBQUtELFNBQUwsS0FBbUJDLGlCQUFpQixLQUFLRixPQUF6QyxDQUFQO0FBQ0g7OztrQ0FFU0csTSxFQUFROztBQUVkLGlCQUFLQyxJQUFMLEdBQVlELE9BQU8sTUFBUCxLQUFrQixLQUE5QjtBQUNBLGlCQUFLRSxJQUFMLEdBQVlGLE9BQU8sTUFBUCxLQUFrQixXQUE5QjtBQUNBLGlCQUFLRyxLQUFMLEdBQWFILE9BQU8sT0FBUCxDQUFiO0FBQ0EsaUJBQUtJLEtBQUwsR0FBYUosT0FBTyxPQUFQLEtBQW1CLElBQWhDO0FBQ0EsaUJBQUtLLFFBQUwsR0FBZ0JMLE9BQU8sVUFBUCxLQUFzQixJQUF0Qzs7QUFFQSxpQkFBS00sR0FBTCxHQUFXTixPQUFPLEtBQVAsSUFBZ0IsSUFBaEIsR0FBdUIsS0FBbEM7QUFDQSxpQkFBS08sWUFBTCxHQUFvQlAsT0FBTyxjQUFQLElBQXlCLElBQXpCLEdBQWdDLEtBQXBEO0FBQ0EsaUJBQUtRLFdBQUwsR0FBbUJSLE9BQU8sYUFBUCxLQUF5QixFQUE1QztBQUNBLGlCQUFLUyxLQUFMLEdBQWFULE9BQU8sT0FBUCxDQUFiO0FBQ0EsaUJBQUtVLFdBQUwsR0FBbUJWLE9BQU8sYUFBUCxDQUFuQjtBQUNBLGlCQUFLVyxRQUFMLEdBQWdCWCxPQUFPLFVBQVAsS0FBc0IsRUFBdEM7O0FBRUEsaUJBQUssV0FBTCxJQUFvQkEsT0FBTyxXQUFQLEtBQXVCLElBQTNDO0FBRUg7OztnQ0FFT1ksVyxFQUFhO0FBQ2pCLGlCQUFLUixLQUFMLEdBQWFRLFlBQVlSLEtBQXpCO0FBQ0EsaUJBQUtDLFFBQUwsR0FBZ0JPLFlBQVlQLFFBQTVCO0FBQ0EsaUJBQUtRLFFBQUwsQ0FBYyxJQUFkO0FBQ0g7OztxQ0FFWUMsVSxFQUFZO0FBQ3JCLG1CQUFRQSxXQUFXQyxPQUFYLEtBQXVCLElBQXZCLElBQStCN0IsTUFBTUMsY0FBTixDQUFxQjJCLFdBQVdDLE9BQVgsQ0FBbUIsWUFBbkIsQ0FBckIsQ0FBdkM7QUFDSDs7O29EQUUyQkQsVSxFQUFZLENBV3ZDOzs7eUNBRWdCQSxVLEVBQVk7O0FBRXpCLG9CQUFRQSxXQUFXRSxPQUFuQjtBQUNJLHFCQUFLLFNBQUw7QUFDSSx3QkFBSSxLQUFLQyxZQUFMLENBQWtCSCxVQUFsQixDQUFKLEVBQW1DO0FBQy9CLDZCQUFLSSwyQkFBTCxDQUFpQ0osVUFBakM7QUFDQSw2QkFBS0ssSUFBTCxDQUFVLFNBQVYsRUFBcUJMLFVBQXJCO0FBQ0g7QUFDRDtBQUNKLHFCQUFLLFdBQUw7QUFDSSwyQ0FBUSxnQkFBUixFQUEwQlgsS0FBMUIsQ0FBZ0MsV0FBaEM7QUFDQSx5QkFBS04sT0FBTCxHQUFlaUIsV0FBV0MsT0FBWCxDQUFtQixTQUFuQixDQUFmO0FBQ0EseUJBQUtJLElBQUwsQ0FBVSxXQUFWO0FBQ0E7QUFDSixxQkFBSyxTQUFMO0FBQ0kseUJBQUtBLElBQUwsQ0FBVSxTQUFWLEVBQXFCTCxXQUFXQyxPQUFYLENBQW1CLFlBQW5CLENBQXJCO0FBQ0E7QUFDSixxQkFBSyxPQUFMO0FBQ0kseUJBQUtJLElBQUwsQ0FBVSxPQUFWLEVBQW1CTCxVQUFuQjtBQUNBO0FBQ0o7QUFDSSwyQ0FBUSxnQkFBUixFQUEwQk0sS0FBMUIsQ0FBZ0MseUJBQWhDLEVBQTJETixXQUFXRSxPQUF0RTtBQW5CUjtBQXFCSDs7O3FDQUVZO0FBQ1QsaUJBQUtLLFdBQUwsQ0FBaUIsSUFBakI7QUFDSDs7O2tDQUVTTixPLEVBQVNPLFEsRUFBVTs7QUFFekIsZ0JBQUlDLGNBQWNSLFFBQVEsYUFBUixDQUFsQjtBQUNBQSxvQkFBUSxTQUFSLElBQXFCLEtBQUtsQixPQUExQjtBQUNBLGlCQUFLMkIsWUFBTCxDQUFrQixJQUFsQixFQUF3QixXQUF4QixFQUFxQ1QsT0FBckM7O0FBZUEsaUJBQUtuQixjQUFMLENBQW9CMkIsV0FBcEIsSUFBbUMsRUFBQ0UsU0FBUyxJQUFWLEVBQWdCSCxVQUFVQSxRQUExQixFQUFuQztBQUVIOzs7b0NBRVdQLE8sRUFBUztBQUNqQixnQkFBSVEsY0FBY1IsUUFBUSxhQUFSLENBQWxCO0FBQ0FBLG9CQUFRLFNBQVIsSUFBcUIsS0FBS2xCLE9BQTFCO0FBQ0EsaUJBQUsyQixZQUFMLENBQWtCLElBQWxCLEVBQXdCLGFBQXhCLEVBQXVDVCxPQUF2QztBQUNBLGlCQUFLbkIsY0FBTCxDQUFvQjJCLFdBQXBCLEVBQWlDRSxPQUFqQyxHQUEyQyxLQUEzQztBQUVIOzs7NEJBRUdDLFUsRUFBWTtBQUNaLGlCQUFLRixZQUFMLENBQWtCLElBQWxCLEVBQXdCLEtBQXhCLEVBQStCLEVBQUMsY0FBY0UsVUFBZixFQUEvQjtBQUVIOzs7Z0NBRU87QUFDSixnQkFBSUMsaUJBQWlCQyxLQUFLQyxLQUFMLENBQVdELEtBQUtFLE1BQUwsS0FBZ0IsV0FBM0IsRUFBd0NDLFFBQXhDLEVBQXJCO0FBQ0EsaUJBQUtQLFlBQUwsQ0FBa0IsSUFBbEIsRUFBd0IsT0FBeEIsRUFBaUMsRUFBQyxlQUFlRyxjQUFoQixFQUFqQzs7QUFFQSxtQkFBT0EsY0FBUDtBQUNIOzs7K0JBRU1BLGMsRUFBZ0I7QUFDbkIsaUJBQUtILFlBQUwsQ0FBa0IsSUFBbEIsRUFBd0IsUUFBeEIsRUFBa0MsRUFBQyxlQUFlRyxjQUFoQixFQUFsQztBQUVIOzs7OEJBRUtBLGMsRUFBZ0I7QUFDbEIsaUJBQUtILFlBQUwsQ0FBa0IsSUFBbEIsRUFBd0IsT0FBeEIsRUFBaUMsRUFBQyxlQUFlRyxjQUFoQixFQUFqQztBQUVIOzs7NkJBRUlKLFcsRUFBYVIsTyxFQUFTaUIsSSxFQUFNQyxXLEVBQWE7QUFDMUNsQixvQkFBUSxTQUFSLElBQXFCLEtBQUtsQixPQUExQjtBQUNBa0Isb0JBQVEsYUFBUixJQUF5QlEsV0FBekI7QUFDQSxtQ0FBUSxnQkFBUixFQUEwQnBCLEtBQTFCLENBQWdDWSxPQUFoQyxFQUF5Q2lCLElBQXpDO0FBQ0EsbUJBQU8sS0FBS1IsWUFBTCxDQUFrQixJQUFsQixFQUF3QixNQUF4QixFQUFnQ1QsT0FBaEMsRUFBeUNpQixJQUF6QyxFQUErQ0MsV0FBL0MsQ0FBUDtBQUNIOzs7c0NBS2FDLEksRUFBTTtBQUNoQixnQkFBSWxCLE9BQUo7QUFBQSxnQkFDSW1CLGNBQWNELEtBQUtILFFBQUwsQ0FBYyxNQUFkLEVBQXNCLENBQXRCLEVBQXlCRyxLQUFLRSxNQUE5QixDQURsQjtBQUVBcEIsc0JBQVVtQixZQUFZRSxLQUFaLENBQWtCLElBQWxCLENBQVY7QUFDQSxtQkFBT3JCLFFBQVEsQ0FBUixDQUFQO0FBQ0g7OztzQ0FFYXNCLFcsRUFBYTtBQUN2QixnQkFBSXZCLFVBQVUsRUFBZDtBQUFBLGdCQUNJd0IsZ0JBQWdCRCxZQUFZRCxLQUFaLENBQWtCLElBQWxCLENBRHBCOztBQUdBLGlCQUFLLElBQUlHLElBQUksQ0FBYixFQUFnQkEsSUFBSUQsY0FBY0gsTUFBbEMsRUFBMENJLEdBQTFDLEVBQStDO0FBQzNDLG9CQUFJQyxTQUFTRixjQUFjQyxDQUFkLEVBQWlCSCxLQUFqQixDQUF1QixHQUF2QixDQUFiO0FBQ0Esb0JBQUlJLE9BQU9MLE1BQVAsR0FBZ0IsQ0FBcEIsRUFBdUI7QUFDbkIsd0JBQUlNLGFBQWFELE9BQU9FLEtBQVAsR0FBZUMsSUFBZixFQUFqQjtBQUNBLHdCQUFJQyxhQUFhSixPQUFPSyxJQUFQLENBQVksR0FBWixFQUFpQkYsSUFBakIsRUFBakI7QUFDQTdCLDRCQUFRMkIsVUFBUixJQUFzQkcsVUFBdEI7QUFDQTtBQUNIO0FBQ0Q5Qix3QkFBUTBCLE9BQU8sQ0FBUCxFQUFVRyxJQUFWLEVBQVIsSUFBNEJILE9BQU8sQ0FBUCxFQUFVRyxJQUFWLEVBQTVCO0FBQ0g7QUFDRCxtQkFBTzdCLE9BQVA7QUFDSDs7O29DQUVXZ0MsSyxFQUFPO0FBQ2YsZ0JBQUlDLE9BQU8sRUFBWDtBQUFBLGdCQUNJZCxPQUFPLElBRFg7QUFBQSxnQkFFSWxCLFVBQVUsSUFGZDtBQUFBLGdCQUdJRCxVQUFVLElBSGQ7QUFBQSxnQkFJSWlCLE9BQU8sSUFKWDs7O0FBT0EsZ0JBQUksQ0FBQzlDLE1BQU1DLGNBQU4sQ0FBcUI0RCxLQUFyQixDQUFMLEVBQWtDO0FBQzlCLHVCQUFPLElBQVA7QUFDSDs7QUFFRC9CLHNCQUFVLEtBQUtpQyxhQUFMLENBQW1CRixLQUFuQixDQUFWO0FBQ0FiLG1CQUFPYSxNQUFNRyxLQUFOLENBQVlsQyxRQUFRb0IsTUFBUixHQUFpQixDQUE3QixFQUFnQ1csTUFBTVgsTUFBdEMsQ0FBUDtBQUNBRixtQkFBT0EsS0FBS0gsUUFBTCxDQUFjLE1BQWQsRUFBc0IsQ0FBdEIsRUFBeUJHLEtBQUtFLE1BQTlCLENBQVA7O0FBRUEsZ0JBQUllLFdBQVdqQixLQUFLRyxLQUFMLENBQVcsTUFBWCxDQUFmO0FBQ0F0QixzQkFBVSxLQUFLcUMsYUFBTCxDQUFtQkQsU0FBUyxDQUFULENBQW5CLENBQVY7QUFDQW5CLG1CQUFPbUIsU0FBU0QsS0FBVCxDQUFlLENBQWYsRUFBa0JDLFNBQVNmLE1BQTNCLENBQVA7O0FBRUEsZ0JBQUksb0JBQW9CckIsT0FBeEIsRUFBaUM7QUFDN0JBLHdCQUFRLGVBQVIsSUFBMkIsSUFBM0I7QUFDSDs7QUFFRGlDLG1CQUFPO0FBQ0hoQyx5QkFBU0EsT0FETjtBQUVIRCx5QkFBU0EsT0FGTjtBQUdIaUIsc0JBQU1BO0FBSEgsYUFBUDs7QUFNQSxnQkFBSWxCLGFBQWEsSUFBSXVDLGFBQUosRUFBakI7QUFDQSxnQkFBSUMsZUFBZXhDLFdBQVd5QyxXQUFYLENBQXVCUCxJQUF2QixDQUFuQjs7QUFFQSxtQkFBT00sWUFBUDtBQUNIOzs7aUNBRVFFLEssRUFBTztBQUFBOztBQUVaLGdCQUFJQyxTQUFTLFNBQVRBLE1BQVMsQ0FBQ0MsTUFBRCxFQUFTQyxlQUFULEVBQTZCOztBQUV0Q0gsc0JBQU1FLE1BQU4sR0FBZUEsTUFBZjtBQUNBLHNCQUFLRSxlQUFMLENBQXFCSixLQUFyQixFQUE0QkcsZUFBNUI7QUFFSCxhQUxEOztBQU9BLGdCQUFJRSxVQUFVLFNBQVZBLE9BQVUsQ0FBQ0MsR0FBRCxFQUFTO0FBQ25CTixzQkFBTXJDLElBQU4sQ0FBVyxpQkFBWCxFQUE4QjJDLEdBQTlCO0FBQ0gsYUFGRDs7QUFJQU4sa0JBQU1qRSxVQUFOLENBQWlCd0UsT0FBakIsQ0FBeUJQLE1BQU10RCxJQUEvQixFQUFxQ3NELE1BQU12RCxJQUEzQyxFQUFpRHVELE1BQU03QyxRQUF2RCxFQUFpRTZDLE1BQU1sRCxHQUF2RSxFQUE0RWtELE1BQU1oRCxXQUFsRixFQUErRmdELE1BQU1qRCxZQUFyRyxFQUFtSGtELE1BQW5ILEVBQTJISSxPQUEzSDtBQUVIOzs7d0NBRWVMLEssRUFBT0csZSxFQUFpQjtBQUFBOztBQUVwQyxnQkFBSUssYUFBYSxTQUFiQSxVQUFhLEdBQU07O0FBRW5CLHVDQUFRLGdCQUFSLEVBQTBCN0QsS0FBMUIsQ0FBZ0MscUJBQWhDO0FBQ0EsdUJBQUtMLFNBQUwsR0FBaUIsSUFBakI7O0FBRUEsb0JBQUlpQixVQUFVLEVBQWQ7O0FBRUEsb0JBQUk3QixNQUFNQyxjQUFOLENBQXFCcUUsTUFBTXBELEtBQTNCLEtBQ0FsQixNQUFNQyxjQUFOLENBQXFCcUUsTUFBTW5ELFFBQTNCLENBREosRUFDMEM7QUFDdENVLDRCQUFRWCxLQUFSLEdBQWdCb0QsTUFBTXBELEtBQXRCO0FBQ0FXLDRCQUFRVixRQUFSLEdBQW1CbUQsTUFBTW5ELFFBQXpCO0FBQ0g7O0FBRUQsb0JBQUluQixNQUFNQyxjQUFOLENBQXFCcUUsTUFBTSxXQUFOLENBQXJCLENBQUosRUFBOEM7QUFDMUN6Qyw0QkFBUSxXQUFSLElBQXVCeUMsTUFBTSxXQUFOLENBQXZCO0FBQ0g7QUFDRCxvQkFBSXRFLE1BQU1DLGNBQU4sQ0FBcUJxRSxNQUFNLE9BQU4sQ0FBckIsQ0FBSixFQUEwQztBQUN0Q3pDLDRCQUFRLE1BQVIsSUFBa0J5QyxNQUFNLE9BQU4sQ0FBbEI7QUFDSDs7QUFFRCx1QkFBS1MsYUFBTCxDQUFtQlQsS0FBbkIsRUFBMEJ6QyxPQUExQjtBQUNILGFBckJEOztBQXVCQSxnQkFBSTJDLFNBQVNGLE1BQU1FLE1BQW5COztBQUVBQSxtQkFBT1EsRUFBUCxDQUFVLE9BQVYsRUFBbUIsVUFBQ2hDLElBQUQsRUFBVTtBQUN6Qix1Q0FBUSxnQkFBUixFQUEwQi9CLEtBQTFCLENBQWdDLFVBQWhDO0FBQ0gsYUFGRDs7QUFJQSxnQkFBSWdFLFNBQVMsRUFBYjs7QUFFQVQsbUJBQU9RLEVBQVAsQ0FBVSxNQUFWLEVBQWtCLFVBQUNuQixLQUFELEVBQVc7O0FBSXpCb0IsMEJBQVVwQixLQUFWO0FBQ0Esb0JBQUlxQixTQUFTRCxPQUFPOUIsS0FBUCxDQUFhLE1BQWIsQ0FBYjs7QUFHQSxvQkFBSStCLE9BQU9oQyxNQUFQLElBQWlCLENBQXJCLEVBQXdCO0FBQ3BCZ0MsNkJBQVNELE9BQU85QixLQUFQLENBQWEsSUFBYixDQUFUO0FBQ0g7O0FBRUQsb0JBQUkrQixPQUFPaEMsTUFBUCxJQUFpQixDQUFyQixFQUF3QjtBQUN4QitCLHlCQUFTQyxPQUFPQyxHQUFQLEVBQVQ7O0FBRUEsb0JBQUlDLGVBQWUsSUFBbkI7QUFDQSxvQkFBSUMsU0FBUyxJQUFiO0FBQ0EsdUJBQU9BLFNBQVNILE9BQU96QixLQUFQLEVBQWhCLEVBQWdDO0FBQzVCMkIsbUNBQWUsT0FBS0UsV0FBTCxDQUFpQkQsTUFBakIsQ0FBZjtBQUNBZiwwQkFBTWlCLGdCQUFOLENBQXVCSCxZQUF2QjtBQUNIO0FBQ0osYUFyQkQ7O0FBdUJBWixtQkFBT1EsRUFBUCxDQUFVLEtBQVYsRUFBaUIsWUFBWSxDQUU1QixDQUZEOztBQUlBUixtQkFBT1EsRUFBUCxDQUFVLE9BQVYsRUFBbUIsVUFBVTlDLEtBQVYsRUFBaUI7QUFDaEMsdUNBQVEsZ0JBQVIsRUFBMEJqQixLQUExQixDQUFnQywwQkFBaEMsRUFBNERpQixLQUE1RDtBQUNBb0Msc0JBQU0zRCxPQUFOLEdBQWdCLElBQWhCO0FBQ0EyRCxzQkFBTTFELFNBQU4sR0FBa0IsS0FBbEI7QUFDQTBELHNCQUFNckMsSUFBTixDQUFXLGNBQVgsRUFBMkJDLEtBQTNCO0FBQ0gsYUFMRDs7QUFPQSxnQkFBSXVDLGVBQUosRUFBcUI7QUFDakJLO0FBQ0gsYUFGRCxNQUVPO0FBQ0hOLHVCQUFPUSxFQUFQLENBQVUsU0FBVixFQUFxQkYsVUFBckI7QUFDSDtBQUVKOzs7c0NBRWFSLEssRUFBT3pDLE8sRUFBUzs7QUFFMUIsZ0JBQUl3RCxTQUFTLElBQUlsQixhQUFKLEVBQWI7QUFBQSxnQkFDSUwsT0FBTyxFQURYO0FBQUEsZ0JBRUlqQyxVQUFVQSxXQUFXLEVBRnpCOztBQUtBLGdCQUFJLEtBQUtMLFdBQUwsR0FBbUIsQ0FBdkIsRUFBMEI7QUFDdEJLLHdCQUFRLFlBQVIsSUFBd0IsS0FBS0wsV0FBTCxHQUFtQixJQUEzQztBQUNIOztBQUVEc0MsaUJBQUssU0FBTCxJQUFrQixTQUFsQjtBQUNBQSxpQkFBSyxTQUFMLElBQWtCakMsT0FBbEI7O0FBRUEsZ0JBQUkyRCxnQkFBZ0JILE9BQU9oQixXQUFQLENBQW1CUCxJQUFuQixDQUFwQjtBQUNBLGlCQUFLMkIsVUFBTCxDQUFnQm5CLEtBQWhCLEVBQXVCa0IsYUFBdkI7QUFDSDs7O29DQUVXbEIsSyxFQUFPOztBQUVmQSxrQkFBTWpFLFVBQU4sQ0FBaUJxRixVQUFqQixDQUE0QnBCLE1BQU1FLE1BQWxDO0FBRUg7OztxQ0FFWUYsSyxFQUFPeEMsTyxFQUFTRCxPLEVBQVNpQixJLEVBQU1DLFcsRUFBYTs7QUFFckQsZ0JBQUlBLGNBQWNBLGVBQWUsS0FBakM7O0FBRUEsZ0JBQUksQ0FBQy9DLE1BQU1DLGNBQU4sQ0FBcUI0QixPQUFyQixDQUFMLEVBQW9DO0FBQ2hDQSwwQkFBVSxFQUFWO0FBQ0g7O0FBRUQsZ0JBQUlrQixXQUFKLEVBQWlCO0FBQ2JsQix3QkFBUSxTQUFSLElBQXFCLEtBQUs4RCxlQUFMLEVBQXJCO0FBQ0g7O0FBRUQsZ0JBQUk3QixPQUFPO0FBQ1AsMkJBQVdoQyxPQURKO0FBRVAsMkJBQVdELE9BRko7QUFHUCx3QkFBUWlCO0FBSEQsYUFBWDs7QUFNQSxnQkFBSXVDLFNBQVMsSUFBSWxCLGFBQUosRUFBYjtBQUNBLGdCQUFJdkMsYUFBYXlELE9BQU9oQixXQUFQLENBQW1CUCxJQUFuQixDQUFqQjtBQUNBLGlCQUFLMkIsVUFBTCxDQUFnQm5CLEtBQWhCLEVBQXVCMUMsVUFBdkI7QUFDQSxtQkFBT0EsVUFBUDtBQUVIOzs7bUNBRVUwQyxLLEVBQU9lLE0sRUFBUTs7QUFFdEIsZ0JBQUliLFNBQVNGLE1BQU1FLE1BQW5CO0FBQ0EsZ0JBQUlvQixZQUFZUCxPQUFPUSxTQUFQLEVBQWhCOztBQUVBLG1DQUFRLGdCQUFSLEVBQTBCNUUsS0FBMUIsQ0FBZ0MsZUFBaEMsRUFBaUQyRSxTQUFqRDs7QUFFQSxnQkFBSXBCLE9BQU9zQixLQUFQLENBQWFGLFNBQWIsTUFBNEIsS0FBaEMsRUFBdUM7QUFDbkMsdUNBQVEsZ0JBQVIsRUFBMEIzRSxLQUExQixDQUFnQyxnQkFBaEM7QUFDSDs7QUFFRCxtQkFBTyxJQUFQO0FBQ0g7OzswQ0FFaUI7O0FBRWQsbUJBQU8sVUFBVThFLGVBQUtDLEVBQUwsRUFBakI7QUFFSCIsImZpbGUiOiJkZS5zZWN1Y2FyZC5jb25uZWN0L25ldC9zdG9tcC1pbXBsL3N0b21wLmpzIiwic291cmNlUm9vdCI6Ii4uL3NyYy8ifQ==

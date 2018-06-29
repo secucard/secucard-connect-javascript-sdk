@@ -1,72 +1,66 @@
-System.register(['./action-campaign-service', './action-config-service', './action-message-service', './action-profile-service', './action-service', './beacon-service', './card-group-service', './card-service', './charge-service', './checkin-service', './customer-service', './merchant-card-service', './program-service', './program-special-service', './report-service', './sale-service', './store-group-service', './transaction-service', './payment-container-service'], function (_export) {
-  'use strict';
+'use strict';
 
-  var ActionCampaignService, ActionConfigService, ActionMessageService, ActionProfileService, ActionService, BeaconService, CardGroupService, CardService, ChargeService, CheckinService, CustomerService, MerchantCardService, ProgramService, ProgramSpecialService, ReportService, SaleService, StoreGroupService, TransactionService, PaymentContainerService, Loyalty;
-  return {
-    setters: [function (_actionCampaignService) {
-      ActionCampaignService = _actionCampaignService.ActionCampaignService;
-    }, function (_actionConfigService) {
-      ActionConfigService = _actionConfigService.ActionConfigService;
-    }, function (_actionMessageService) {
-      ActionMessageService = _actionMessageService.ActionMessageService;
-    }, function (_actionProfileService) {
-      ActionProfileService = _actionProfileService.ActionProfileService;
-    }, function (_actionService) {
-      ActionService = _actionService.ActionService;
-    }, function (_beaconService) {
-      BeaconService = _beaconService.BeaconService;
-    }, function (_cardGroupService) {
-      CardGroupService = _cardGroupService.CardGroupService;
-    }, function (_cardService) {
-      CardService = _cardService.CardService;
-    }, function (_chargeService) {
-      ChargeService = _chargeService.ChargeService;
-    }, function (_checkinService) {
-      CheckinService = _checkinService.CheckinService;
-    }, function (_customerService) {
-      CustomerService = _customerService.CustomerService;
-    }, function (_merchantCardService) {
-      MerchantCardService = _merchantCardService.MerchantCardService;
-    }, function (_programService) {
-      ProgramService = _programService.ProgramService;
-    }, function (_programSpecialService) {
-      ProgramSpecialService = _programSpecialService.ProgramSpecialService;
-    }, function (_reportService) {
-      ReportService = _reportService.ReportService;
-    }, function (_saleService) {
-      SaleService = _saleService.SaleService;
-    }, function (_storeGroupService) {
-      StoreGroupService = _storeGroupService.StoreGroupService;
-    }, function (_transactionService) {
-      TransactionService = _transactionService.TransactionService;
-    }, function (_paymentContainerService) {
-      PaymentContainerService = _paymentContainerService.PaymentContainerService;
-    }],
-    execute: function () {
-      Loyalty = {};
-
-      _export('Loyalty', Loyalty);
-
-      Loyalty.ActionCampaignService = ActionCampaignService;
-      Loyalty.ActionConfigService = ActionConfigService;
-      Loyalty.ActionMessageService = ActionMessageService;
-      Loyalty.ActionProfileService = ActionProfileService;
-      Loyalty.ActionService = ActionService;
-      Loyalty.BeaconService = BeaconService;
-      Loyalty.CardGroupService = CardGroupService;
-      Loyalty.CardService = CardService;
-      Loyalty.ChargeService = ChargeService;
-      Loyalty.CheckinService = CheckinService;
-      Loyalty.CustomerService = CustomerService;
-      Loyalty.MerchantCardService = MerchantCardService;
-      Loyalty.ProgramService = ProgramService;
-      Loyalty.ProgramSpecialService = ProgramSpecialService;
-      Loyalty.ReportService = ReportService;
-      Loyalty.SaleService = SaleService;
-      Loyalty.StoreGroupService = StoreGroupService;
-      Loyalty.TransactionService = TransactionService;
-      Loyalty.PaymentContainerService = PaymentContainerService;
-    }
-  };
+Object.defineProperty(exports, "__esModule", {
+  value: true
 });
-//# sourceMappingURL=data:application/json;charset=utf8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbImRlLnNlY3VjYXJkLmNvbm5lY3QvcHJvZHVjdC9sb3lhbHR5L2xveWFsdHkuanMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7O21XQStCYSxPQUFPOzs7cURBcEJaLHFCQUFxQjs7aURBQ3JCLG1CQUFtQjs7bURBQ25CLG9CQUFvQjs7bURBQ3BCLG9CQUFvQjs7cUNBQ3BCLGFBQWE7O3FDQUNiLGFBQWE7OzJDQUNiLGdCQUFnQjs7aUNBQ2hCLFdBQVc7O3FDQUNYLGFBQWE7O3VDQUNiLGNBQWM7O3lDQUNkLGVBQWU7O2lEQUNmLG1CQUFtQjs7dUNBQ25CLGNBQWM7O3FEQUNkLHFCQUFxQjs7cUNBQ3JCLGFBQWE7O2lDQUNiLFdBQVc7OzZDQUNYLGlCQUFpQjs7K0NBQ2pCLGtCQUFrQjs7eURBQ2xCLHVCQUF1Qjs7O0FBRWxCLGFBQU8sR0FBRyxFQUFFOzs7O0FBQ3pCLGFBQU8sQ0FBQyxxQkFBcUIsR0FBRyxxQkFBcUIsQ0FBQztBQUN0RCxhQUFPLENBQUMsbUJBQW1CLEdBQUcsbUJBQW1CLENBQUM7QUFDbEQsYUFBTyxDQUFDLG9CQUFvQixHQUFHLG9CQUFvQixDQUFDO0FBQ3BELGFBQU8sQ0FBQyxvQkFBb0IsR0FBRyxvQkFBb0IsQ0FBQztBQUNwRCxhQUFPLENBQUMsYUFBYSxHQUFHLGFBQWEsQ0FBQztBQUN0QyxhQUFPLENBQUMsYUFBYSxHQUFHLGFBQWEsQ0FBQztBQUN0QyxhQUFPLENBQUMsZ0JBQWdCLEdBQUcsZ0JBQWdCLENBQUM7QUFDNUMsYUFBTyxDQUFDLFdBQVcsR0FBRyxXQUFXLENBQUM7QUFDbEMsYUFBTyxDQUFDLGFBQWEsR0FBRyxhQUFhLENBQUM7QUFDdEMsYUFBTyxDQUFDLGNBQWMsR0FBRyxjQUFjLENBQUM7QUFDeEMsYUFBTyxDQUFDLGVBQWUsR0FBRyxlQUFlLENBQUM7QUFDMUMsYUFBTyxDQUFDLG1CQUFtQixHQUFHLG1CQUFtQixDQUFDO0FBQ2xELGFBQU8sQ0FBQyxjQUFjLEdBQUcsY0FBYyxDQUFDO0FBQ3hDLGFBQU8sQ0FBQyxxQkFBcUIsR0FBRyxxQkFBcUIsQ0FBQztBQUN0RCxhQUFPLENBQUMsYUFBYSxHQUFHLGFBQWEsQ0FBQztBQUN0QyxhQUFPLENBQUMsV0FBVyxHQUFHLFdBQVcsQ0FBQztBQUNsQyxhQUFPLENBQUMsaUJBQWlCLEdBQUcsaUJBQWlCLENBQUM7QUFDOUMsYUFBTyxDQUFDLGtCQUFrQixHQUFHLGtCQUFrQixDQUFDO0FBQ2hELGFBQU8sQ0FBQyx1QkFBdUIsR0FBRyx1QkFBdUIsQ0FBQyIsImZpbGUiOiJkZS5zZWN1Y2FyZC5jb25uZWN0L3Byb2R1Y3QvbG95YWx0eS9sb3lhbHR5LmpzIiwic291cmNlUm9vdCI6Ii4uL3NyYy8ifQ==
+exports.Loyalty = undefined;
+
+var _actionCampaignService = require('./action-campaign-service');
+
+var _actionConfigService = require('./action-config-service');
+
+var _actionMessageService = require('./action-message-service');
+
+var _actionProfileService = require('./action-profile-service');
+
+var _actionService = require('./action-service');
+
+var _beaconService = require('./beacon-service');
+
+var _cardGroupService = require('./card-group-service');
+
+var _cardService = require('./card-service');
+
+var _chargeService = require('./charge-service');
+
+var _checkinService = require('./checkin-service');
+
+var _customerService = require('./customer-service');
+
+var _merchantCardService = require('./merchant-card-service');
+
+var _programService = require('./program-service');
+
+var _programSpecialService = require('./program-special-service');
+
+var _reportService = require('./report-service');
+
+var _saleService = require('./sale-service');
+
+var _storeGroupService = require('./store-group-service');
+
+var _transactionService = require('./transaction-service');
+
+var _paymentContainerService = require('./payment-container-service');
+
+var Loyalty = exports.Loyalty = {};
+Loyalty.ActionCampaignService = _actionCampaignService.ActionCampaignService;
+Loyalty.ActionConfigService = _actionConfigService.ActionConfigService;
+Loyalty.ActionMessageService = _actionMessageService.ActionMessageService;
+Loyalty.ActionProfileService = _actionProfileService.ActionProfileService;
+Loyalty.ActionService = _actionService.ActionService;
+Loyalty.BeaconService = _beaconService.BeaconService;
+Loyalty.CardGroupService = _cardGroupService.CardGroupService;
+Loyalty.CardService = _cardService.CardService;
+Loyalty.ChargeService = _chargeService.ChargeService;
+Loyalty.CheckinService = _checkinService.CheckinService;
+Loyalty.CustomerService = _customerService.CustomerService;
+Loyalty.MerchantCardService = _merchantCardService.MerchantCardService;
+Loyalty.ProgramService = _programService.ProgramService;
+Loyalty.ProgramSpecialService = _programSpecialService.ProgramSpecialService;
+Loyalty.ReportService = _reportService.ReportService;
+Loyalty.SaleService = _saleService.SaleService;
+Loyalty.StoreGroupService = _storeGroupService.StoreGroupService;
+Loyalty.TransactionService = _transactionService.TransactionService;
+Loyalty.PaymentContainerService = _paymentContainerService.PaymentContainerService;
+//# sourceMappingURL=data:application/json;charset=utf8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbImRlLnNlY3VjYXJkLmNvbm5lY3QvcHJvZHVjdC9sb3lhbHR5L2xveWFsdHkuanMiXSwibmFtZXMiOlsiTG95YWx0eSIsIkFjdGlvbkNhbXBhaWduU2VydmljZSIsIkFjdGlvbkNvbmZpZ1NlcnZpY2UiLCJBY3Rpb25NZXNzYWdlU2VydmljZSIsIkFjdGlvblByb2ZpbGVTZXJ2aWNlIiwiQWN0aW9uU2VydmljZSIsIkJlYWNvblNlcnZpY2UiLCJDYXJkR3JvdXBTZXJ2aWNlIiwiQ2FyZFNlcnZpY2UiLCJDaGFyZ2VTZXJ2aWNlIiwiQ2hlY2tpblNlcnZpY2UiLCJDdXN0b21lclNlcnZpY2UiLCJNZXJjaGFudENhcmRTZXJ2aWNlIiwiUHJvZ3JhbVNlcnZpY2UiLCJQcm9ncmFtU3BlY2lhbFNlcnZpY2UiLCJSZXBvcnRTZXJ2aWNlIiwiU2FsZVNlcnZpY2UiLCJTdG9yZUdyb3VwU2VydmljZSIsIlRyYW5zYWN0aW9uU2VydmljZSIsIlBheW1lbnRDb250YWluZXJTZXJ2aWNlIl0sIm1hcHBpbmdzIjoiOzs7Ozs7O0FBV0E7O0FBQ0E7O0FBQ0E7O0FBQ0E7O0FBQ0E7O0FBQ0E7O0FBQ0E7O0FBQ0E7O0FBQ0E7O0FBQ0E7O0FBQ0E7O0FBQ0E7O0FBQ0E7O0FBQ0E7O0FBQ0E7O0FBQ0E7O0FBQ0E7O0FBQ0E7O0FBQ0E7O0FBRU8sSUFBTUEsNEJBQVUsRUFBaEI7QUFDUEEsUUFBUUMscUJBQVIsR0FBZ0NBLDRDQUFoQztBQUNBRCxRQUFRRSxtQkFBUixHQUE4QkEsd0NBQTlCO0FBQ0FGLFFBQVFHLG9CQUFSLEdBQStCQSwwQ0FBL0I7QUFDQUgsUUFBUUksb0JBQVIsR0FBK0JBLDBDQUEvQjtBQUNBSixRQUFRSyxhQUFSLEdBQXdCQSw0QkFBeEI7QUFDQUwsUUFBUU0sYUFBUixHQUF3QkEsNEJBQXhCO0FBQ0FOLFFBQVFPLGdCQUFSLEdBQTJCQSxrQ0FBM0I7QUFDQVAsUUFBUVEsV0FBUixHQUFzQkEsd0JBQXRCO0FBQ0FSLFFBQVFTLGFBQVIsR0FBd0JBLDRCQUF4QjtBQUNBVCxRQUFRVSxjQUFSLEdBQXlCQSw4QkFBekI7QUFDQVYsUUFBUVcsZUFBUixHQUEwQkEsZ0NBQTFCO0FBQ0FYLFFBQVFZLG1CQUFSLEdBQThCQSx3Q0FBOUI7QUFDQVosUUFBUWEsY0FBUixHQUF5QkEsOEJBQXpCO0FBQ0FiLFFBQVFjLHFCQUFSLEdBQWdDQSw0Q0FBaEM7QUFDQWQsUUFBUWUsYUFBUixHQUF3QkEsNEJBQXhCO0FBQ0FmLFFBQVFnQixXQUFSLEdBQXNCQSx3QkFBdEI7QUFDQWhCLFFBQVFpQixpQkFBUixHQUE0QkEsb0NBQTVCO0FBQ0FqQixRQUFRa0Isa0JBQVIsR0FBNkJBLHNDQUE3QjtBQUNBbEIsUUFBUW1CLHVCQUFSLEdBQWtDQSxnREFBbEMiLCJmaWxlIjoiZGUuc2VjdWNhcmQuY29ubmVjdC9wcm9kdWN0L2xveWFsdHkvbG95YWx0eS5qcyIsInNvdXJjZVJvb3QiOiIuLi9zcmMvIn0=

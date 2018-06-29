@@ -1,38 +1,37 @@
-System.register([], function (_export) {
-    'use strict';
+'use strict';
 
-    var Channel;
-
-    function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
-
-    return {
-        setters: [],
-        execute: function () {
-            Channel = (function () {
-                function Channel() {
-                    _classCallCheck(this, Channel);
-                }
-
-                Channel.prototype.send = function send() {};
-
-                Channel.prototype.request = function request(method, params) {};
-
-                return Channel;
-            })();
-
-            _export('Channel', Channel);
-
-            Channel.REST = 'rest';
-            Channel.STOMP = 'stomp';
-
-            Channel.METHOD = {
-                GET: "GET",
-                CREATE: "CREATE",
-                UPDATE: "UPDATE",
-                DELETE: "DELETE",
-                EXECUTE: "EXECUTE"
-            };
-        }
-    };
+Object.defineProperty(exports, "__esModule", {
+    value: true
 });
-//# sourceMappingURL=data:application/json;charset=utf8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbImRlLnNlY3VjYXJkLmNvbm5lY3QvbmV0L2NoYW5uZWwuanMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7O1FBV2EsT0FBTzs7Ozs7OztBQUFQLG1CQUFPO0FBRUwseUJBRkYsT0FBTyxHQUVGOzBDQUZMLE9BQU87aUJBSWY7O0FBSlEsdUJBQU8sV0FNaEIsSUFBSSxHQUFBLGdCQUFHLEVBRU47O0FBUlEsdUJBQU8sV0FVaEIsT0FBTyxHQUFBLGlCQUFDLE1BQU0sRUFBRSxNQUFNLEVBQUUsRUFHdkI7O3VCQWJRLE9BQU87Ozs7O0FBaUJwQixtQkFBTyxDQUFDLElBQUksR0FBRyxNQUFNLENBQUM7QUFDdEIsbUJBQU8sQ0FBQyxLQUFLLEdBQUcsT0FBTyxDQUFDOztBQUV4QixtQkFBTyxDQUFDLE1BQU0sR0FBRztBQUNiLG1CQUFHLEVBQUUsS0FBSztBQUNWLHNCQUFNLEVBQUUsUUFBUTtBQUNoQixzQkFBTSxFQUFFLFFBQVE7QUFDaEIsc0JBQU0sRUFBRSxRQUFRO0FBQ2hCLHVCQUFPLEVBQUUsU0FBUzthQUNyQixDQUFDIiwiZmlsZSI6ImRlLnNlY3VjYXJkLmNvbm5lY3QvbmV0L2NoYW5uZWwuanMiLCJzb3VyY2VSb290IjoiLi4vc3JjLyJ9
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var Channel = exports.Channel = function () {
+    function Channel() {
+        _classCallCheck(this, Channel);
+    }
+
+    _createClass(Channel, [{
+        key: 'send',
+        value: function send() {}
+    }, {
+        key: 'request',
+        value: function request(method, params) {}
+    }]);
+
+    return Channel;
+}();
+
+Channel.REST = 'rest';
+Channel.STOMP = 'stomp';
+
+Channel.METHOD = {
+    GET: "GET",
+    CREATE: "CREATE",
+    UPDATE: "UPDATE",
+    DELETE: "DELETE",
+    EXECUTE: "EXECUTE"
+};
+//# sourceMappingURL=data:application/json;charset=utf8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbImRlLnNlY3VjYXJkLmNvbm5lY3QvbmV0L2NoYW5uZWwuanMiXSwibmFtZXMiOlsiQ2hhbm5lbCIsIm1ldGhvZCIsInBhcmFtcyIsIlJFU1QiLCJTVE9NUCIsIk1FVEhPRCIsIkdFVCIsIkNSRUFURSIsIlVQREFURSIsIkRFTEVURSIsIkVYRUNVVEUiXSwibWFwcGluZ3MiOiI7Ozs7Ozs7Ozs7SUFXYUEsTyxXQUFBQSxPO0FBRVQsdUJBQWM7QUFBQTtBQUViOzs7OytCQUVNLENBRU47OztnQ0FFT0MsTSxFQUFRQyxNLEVBQVEsQ0FHdkI7Ozs7OztBQUlMRixRQUFRRyxJQUFSLEdBQWUsTUFBZjtBQUNBSCxRQUFRSSxLQUFSLEdBQWdCLE9BQWhCOztBQUVBSixRQUFRSyxNQUFSLEdBQWlCO0FBQ2JDLFNBQUssS0FEUTtBQUViQyxZQUFRLFFBRks7QUFHYkMsWUFBUSxRQUhLO0FBSWJDLFlBQVEsUUFKSztBQUtiQyxhQUFTO0FBTEksQ0FBakIiLCJmaWxlIjoiZGUuc2VjdWNhcmQuY29ubmVjdC9uZXQvY2hhbm5lbC5qcyIsInNvdXJjZVJvb3QiOiIuLi9zcmMvIn0=

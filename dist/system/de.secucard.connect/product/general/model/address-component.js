@@ -1,23 +1,16 @@
-System.register([], function (_export) {
-    "use strict";
+"use strict";
 
-    var AddressComponent;
-
-    function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-    return {
-        setters: [],
-        execute: function () {
-            AddressComponent = function AddressComponent(short_name, long_name, types) {
-                _classCallCheck(this, AddressComponent);
-
-                this.short_name = short_name;
-                this.long_name = long_name;
-                this.types = types;
-            };
-
-            _export("AddressComponent", AddressComponent);
-        }
-    };
+Object.defineProperty(exports, "__esModule", {
+    value: true
 });
-//# sourceMappingURL=data:application/json;charset=utf8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbImRlLnNlY3VjYXJkLmNvbm5lY3QvcHJvZHVjdC9nZW5lcmFsL21vZGVsL2FkZHJlc3MtY29tcG9uZW50LmpzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7OztRQVdhLGdCQUFnQjs7Ozs7OztBQUFoQiw0QkFBZ0IsR0FFZCxTQUZGLGdCQUFnQixDQUViLFVBQVUsRUFBRSxTQUFTLEVBQUUsS0FBSyxFQUFFO3NDQUZqQyxnQkFBZ0I7O0FBR3JCLG9CQUFJLENBQUMsVUFBVSxHQUFHLFVBQVUsQ0FBQztBQUM3QixvQkFBSSxDQUFDLFNBQVMsR0FBRyxTQUFTLENBQUM7QUFDM0Isb0JBQUksQ0FBQyxLQUFLLEdBQUcsS0FBSyxDQUFDO2FBQ3RCIiwiZmlsZSI6ImRlLnNlY3VjYXJkLmNvbm5lY3QvcHJvZHVjdC9nZW5lcmFsL21vZGVsL2FkZHJlc3MtY29tcG9uZW50LmpzIiwic291cmNlUm9vdCI6Ii4uL3NyYy8ifQ==
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var AddressComponent = exports.AddressComponent = function AddressComponent(short_name, long_name, types) {
+    _classCallCheck(this, AddressComponent);
+
+    this.short_name = short_name;
+    this.long_name = long_name;
+    this.types = types;
+};
+//# sourceMappingURL=data:application/json;charset=utf8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbImRlLnNlY3VjYXJkLmNvbm5lY3QvcHJvZHVjdC9nZW5lcmFsL21vZGVsL2FkZHJlc3MtY29tcG9uZW50LmpzIl0sIm5hbWVzIjpbIkFkZHJlc3NDb21wb25lbnQiLCJzaG9ydF9uYW1lIiwibG9uZ19uYW1lIiwidHlwZXMiXSwibWFwcGluZ3MiOiI7Ozs7Ozs7O0lBV2FBLGdCLFdBQUFBLGdCLEdBRVQsMEJBQVlDLFVBQVosRUFBd0JDLFNBQXhCLEVBQW1DQyxLQUFuQyxFQUEwQztBQUFBOztBQUN0QyxTQUFLRixVQUFMLEdBQWtCQSxVQUFsQjtBQUNBLFNBQUtDLFNBQUwsR0FBaUJBLFNBQWpCO0FBQ0EsU0FBS0MsS0FBTCxHQUFhQSxLQUFiO0FBQ0gsQyIsImZpbGUiOiJkZS5zZWN1Y2FyZC5jb25uZWN0L3Byb2R1Y3QvZ2VuZXJhbC9tb2RlbC9hZGRyZXNzLWNvbXBvbmVudC5qcyIsInNvdXJjZVJvb3QiOiIuLi9zcmMvIn0=

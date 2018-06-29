@@ -1,6 +1,7 @@
 'use strict';
 
 exports.__esModule = true;
+exports.Smart = undefined;
 
 var _checkinService = require('./checkin-service');
 
@@ -16,8 +17,7 @@ var _routingService = require('./routing-service');
 
 var _transactionService = require('./transaction-service');
 
-var Smart = {};
-exports.Smart = Smart;
+var Smart = exports.Smart = {};
 Smart.CheckinService = _checkinService.CheckinService;
 Smart.ConfigurationService = _configurationService.ConfigurationService;
 Smart.DeviceService = _deviceService.DeviceService;

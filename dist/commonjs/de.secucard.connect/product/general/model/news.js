@@ -4,7 +4,7 @@ exports.__esModule = true;
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-var News = function News(headline, text_teaser, text_full, author, document_id, created, picture, _account_read, related) {
+var News = exports.News = function News(headline, text_teaser, text_full, author, document_id, created, picture, _account_read, related) {
     _classCallCheck(this, News);
 
     this.headline = headline;
@@ -17,5 +17,3 @@ var News = function News(headline, text_teaser, text_full, author, document_id, 
     this._account_read = _account_read;
     this.related = related;
 };
-
-exports.News = News;

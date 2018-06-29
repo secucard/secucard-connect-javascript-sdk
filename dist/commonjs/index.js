@@ -1,36 +1,41 @@
 'use strict';
 
 exports.__esModule = true;
+exports.MiniLog = exports.SecucardConnect = exports.Channel = exports.Services = undefined;
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+var _clientNodeEnvironment = require('./de.secucard.connect/client-node-environment');
 
-var _es6Shim = require('es6-shim');
+Object.defineProperty(exports, 'Services', {
+  enumerable: true,
+  get: function get() {
+    return _clientNodeEnvironment.ServiceMap;
+  }
+});
 
-var _es6Shim2 = _interopRequireDefault(_es6Shim);
+var _channel = require('./de.secucard.connect/net/channel');
 
-var _deSecucardConnectClientNodeEnvironment = require('./de.secucard.connect/client-node-environment');
+Object.defineProperty(exports, 'Channel', {
+  enumerable: true,
+  get: function get() {
+    return _channel.Channel;
+  }
+});
 
-var _deSecucardConnectClient = require('./de.secucard.connect/client');
+var _client = require('./de.secucard.connect/client');
 
 var _minilog = require('minilog');
 
 var _minilog2 = _interopRequireDefault(_minilog);
 
-exports.Services = _deSecucardConnectClientNodeEnvironment.ServiceMap;
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var _deSecucardConnectNetChannel = require('./de.secucard.connect/net/channel');
-
-exports.Channel = _deSecucardConnectNetChannel.Channel;
-var SecucardConnect = {
-    description: 'SecucardConnect for nodejs'
+var SecucardConnect = exports.SecucardConnect = {
+  description: 'SecucardConnect for nodejs'
 };
 
-exports.SecucardConnect = SecucardConnect;
-var MiniLog = _minilog2['default'];
-exports.MiniLog = MiniLog;
-_minilog2['default'].suggest.deny(/secucard\..*/, 'warn');
+var MiniLog = exports.MiniLog = _minilog2.default;
+_minilog2.default.suggest.deny(/secucard\..*/, 'warn');
 
 SecucardConnect.create = function (config) {
-
-    return _deSecucardConnectClient.Client.create(config, _deSecucardConnectClientNodeEnvironment.ClientNodeEnvironment);
+  return _client.Client.create(config, _clientNodeEnvironment.ClientNodeEnvironment);
 };

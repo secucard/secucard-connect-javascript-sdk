@@ -1,33 +1,27 @@
-System.register(['./model/basket-info', './model/basket', './model/ident', './model/product', './model/product-group', './model/transaction'], function (_export) {
-  'use strict';
+'use strict';
 
-  var BasketInfo, Basket, Ident, Product, ProductGroup, Transaction, SmartModel;
-  return {
-    setters: [function (_modelBasketInfo) {
-      BasketInfo = _modelBasketInfo.BasketInfo;
-    }, function (_modelBasket) {
-      Basket = _modelBasket.Basket;
-    }, function (_modelIdent) {
-      Ident = _modelIdent.Ident;
-    }, function (_modelProduct) {
-      Product = _modelProduct.Product;
-    }, function (_modelProductGroup) {
-      ProductGroup = _modelProductGroup.ProductGroup;
-    }, function (_modelTransaction) {
-      Transaction = _modelTransaction.Transaction;
-    }],
-    execute: function () {
-      SmartModel = {};
-
-      _export('SmartModel', SmartModel);
-
-      SmartModel.BasketInfo = BasketInfo;
-      SmartModel.Basket = Basket;
-      SmartModel.Ident = Ident;
-      SmartModel.Product = Product;
-      SmartModel.ProductGroup = ProductGroup;
-      SmartModel.Transaction = Transaction;
-    }
-  };
+Object.defineProperty(exports, "__esModule", {
+  value: true
 });
-//# sourceMappingURL=data:application/json;charset=utf8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbImRlLnNlY3VjYXJkLmNvbm5lY3QvcHJvZHVjdC9zbWFydC9zbWFydC1tb2RlbHMuanMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7O3FFQWtCYSxVQUFVOzs7b0NBUGYsVUFBVTs7NEJBQ1YsTUFBTTs7MEJBQ04sS0FBSzs7OEJBQ0wsT0FBTzs7d0NBQ1AsWUFBWTs7c0NBQ1osV0FBVzs7O0FBRU4sZ0JBQVUsR0FBRyxFQUFFOzs7O0FBQzVCLGdCQUFVLENBQUMsVUFBVSxHQUFHLFVBQVUsQ0FBQztBQUNuQyxnQkFBVSxDQUFDLE1BQU0sR0FBRyxNQUFNLENBQUM7QUFDM0IsZ0JBQVUsQ0FBQyxLQUFLLEdBQUcsS0FBSyxDQUFDO0FBQ3pCLGdCQUFVLENBQUMsT0FBTyxHQUFHLE9BQU8sQ0FBQztBQUM3QixnQkFBVSxDQUFDLFlBQVksR0FBRyxZQUFZLENBQUM7QUFDdkMsZ0JBQVUsQ0FBQyxXQUFXLEdBQUcsV0FBVyxDQUFDIiwiZmlsZSI6ImRlLnNlY3VjYXJkLmNvbm5lY3QvcHJvZHVjdC9zbWFydC9zbWFydC1tb2RlbHMuanMiLCJzb3VyY2VSb290IjoiLi4vc3JjLyJ9
+exports.SmartModel = undefined;
+
+var _basketInfo = require('./model/basket-info');
+
+var _basket = require('./model/basket');
+
+var _ident = require('./model/ident');
+
+var _product = require('./model/product');
+
+var _productGroup = require('./model/product-group');
+
+var _transaction = require('./model/transaction');
+
+var SmartModel = exports.SmartModel = {};
+SmartModel.BasketInfo = _basketInfo.BasketInfo;
+SmartModel.Basket = _basket.Basket;
+SmartModel.Ident = _ident.Ident;
+SmartModel.Product = _product.Product;
+SmartModel.ProductGroup = _productGroup.ProductGroup;
+SmartModel.Transaction = _transaction.Transaction;
+//# sourceMappingURL=data:application/json;charset=utf8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbImRlLnNlY3VjYXJkLmNvbm5lY3QvcHJvZHVjdC9zbWFydC9zbWFydC1tb2RlbHMuanMiXSwibmFtZXMiOlsiU21hcnRNb2RlbCIsIkJhc2tldEluZm8iLCJCYXNrZXQiLCJJZGVudCIsIlByb2R1Y3QiLCJQcm9kdWN0R3JvdXAiLCJUcmFuc2FjdGlvbiJdLCJtYXBwaW5ncyI6Ijs7Ozs7OztBQVdBOztBQUNBOztBQUNBOztBQUNBOztBQUNBOztBQUNBOztBQUVPLElBQU1BLGtDQUFhLEVBQW5CO0FBQ1BBLFdBQVdDLFVBQVgsR0FBd0JBLHNCQUF4QjtBQUNBRCxXQUFXRSxNQUFYLEdBQW9CQSxjQUFwQjtBQUNBRixXQUFXRyxLQUFYLEdBQW1CQSxZQUFuQjtBQUNBSCxXQUFXSSxPQUFYLEdBQXFCQSxnQkFBckI7QUFDQUosV0FBV0ssWUFBWCxHQUEwQkEsMEJBQTFCO0FBQ0FMLFdBQVdNLFdBQVgsR0FBeUJBLHdCQUF6QiIsImZpbGUiOiJkZS5zZWN1Y2FyZC5jb25uZWN0L3Byb2R1Y3Qvc21hcnQvc21hcnQtbW9kZWxzLmpzIiwic291cmNlUm9vdCI6Ii4uL3NyYy8ifQ==

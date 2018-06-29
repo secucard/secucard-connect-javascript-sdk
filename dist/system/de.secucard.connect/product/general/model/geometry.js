@@ -1,22 +1,15 @@
-System.register([], function (_export) {
-    "use strict";
+"use strict";
 
-    var Geometry;
-
-    function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-    return {
-        setters: [],
-        execute: function () {
-            Geometry = function Geometry(lat, lon) {
-                _classCallCheck(this, Geometry);
-
-                this.lat = lat;
-                this.lon = lon;
-            };
-
-            _export("Geometry", Geometry);
-        }
-    };
+Object.defineProperty(exports, "__esModule", {
+    value: true
 });
-//# sourceMappingURL=data:application/json;charset=utf8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbImRlLnNlY3VjYXJkLmNvbm5lY3QvcHJvZHVjdC9nZW5lcmFsL21vZGVsL2dlb21ldHJ5LmpzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7OztRQVdhLFFBQVE7Ozs7Ozs7QUFBUixvQkFBUSxHQUVOLFNBRkYsUUFBUSxDQUVMLEdBQUcsRUFBRSxHQUFHLEVBQUU7c0NBRmIsUUFBUTs7QUFHYixvQkFBSSxDQUFDLEdBQUcsR0FBRyxHQUFHLENBQUM7QUFDZixvQkFBSSxDQUFDLEdBQUcsR0FBRyxHQUFHLENBQUM7YUFDbEIiLCJmaWxlIjoiZGUuc2VjdWNhcmQuY29ubmVjdC9wcm9kdWN0L2dlbmVyYWwvbW9kZWwvZ2VvbWV0cnkuanMiLCJzb3VyY2VSb290IjoiLi4vc3JjLyJ9
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var Geometry = exports.Geometry = function Geometry(lat, lon) {
+    _classCallCheck(this, Geometry);
+
+    this.lat = lat;
+    this.lon = lon;
+};
+//# sourceMappingURL=data:application/json;charset=utf8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbImRlLnNlY3VjYXJkLmNvbm5lY3QvcHJvZHVjdC9nZW5lcmFsL21vZGVsL2dlb21ldHJ5LmpzIl0sIm5hbWVzIjpbIkdlb21ldHJ5IiwibGF0IiwibG9uIl0sIm1hcHBpbmdzIjoiOzs7Ozs7OztJQVdhQSxRLFdBQUFBLFEsR0FFVCxrQkFBWUMsR0FBWixFQUFpQkMsR0FBakIsRUFBc0I7QUFBQTs7QUFDbEIsU0FBS0QsR0FBTCxHQUFXQSxHQUFYO0FBQ0EsU0FBS0MsR0FBTCxHQUFXQSxHQUFYO0FBQ0gsQyIsImZpbGUiOiJkZS5zZWN1Y2FyZC5jb25uZWN0L3Byb2R1Y3QvZ2VuZXJhbC9tb2RlbC9nZW9tZXRyeS5qcyIsInNvdXJjZVJvb3QiOiIuLi9zcmMvIn0=

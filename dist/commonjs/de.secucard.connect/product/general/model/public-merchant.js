@@ -4,7 +4,7 @@ exports.__esModule = true;
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-var PublicMerchant = function PublicMerchant(source, key, hash, address_components, address_formatted, phone_number_formatted, geometry, name, photo, photo_main, category, category_main, url_googleplus, url_website, utc_offset, open_now, open_time, open_hours, _geometry, checkedIn) {
+var PublicMerchant = exports.PublicMerchant = function PublicMerchant(source, key, hash, address_components, address_formatted, phone_number_formatted, geometry, name, photo, photo_main, category, category_main, url_googleplus, url_website, utc_offset, open_now, open_time, open_hours, _geometry, checkedIn) {
     _classCallCheck(this, PublicMerchant);
 
     this.source = source;
@@ -28,5 +28,3 @@ var PublicMerchant = function PublicMerchant(source, key, hash, address_componen
     this._geometry = _geometry;
     this.checkedIn = checkedIn;
 };
-
-exports.PublicMerchant = PublicMerchant;

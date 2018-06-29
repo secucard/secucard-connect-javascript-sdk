@@ -1,82 +1,73 @@
-System.register([], function (_export) {
-    'use strict';
+'use strict';
 
-    var HEAD, GET, POST, PUT, DELETE, Message;
-
-    function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
-
-    return {
-        setters: [],
-        execute: function () {
-            HEAD = 'HEAD';
-
-            _export('HEAD', HEAD);
-
-            GET = 'GET';
-
-            _export('GET', GET);
-
-            POST = 'POST';
-
-            _export('POST', POST);
-
-            PUT = 'PUT';
-
-            _export('PUT', PUT);
-
-            DELETE = 'DELETE';
-
-            _export('DELETE', DELETE);
-
-            Message = (function () {
-                function Message() {
-                    _classCallCheck(this, Message);
-                }
-
-                Message.prototype.setBaseUrl = function setBaseUrl(value) {
-                    this.baseUrl = value;
-                    return this;
-                };
-
-                Message.prototype.setUrl = function setUrl(value) {
-                    this.url = value;
-                    return this;
-                };
-
-                Message.prototype.setMethod = function setMethod(value) {
-                    this.method = value;
-                    return this;
-                };
-
-                Message.prototype.setHeaders = function setHeaders(value) {
-                    this.headers = value;
-                    return this;
-                };
-
-                Message.prototype.setQuery = function setQuery(value) {
-                    this.query = value;
-                    return this;
-                };
-
-                Message.prototype.setBody = function setBody(value) {
-                    this.body = value;
-                    return this;
-                };
-
-                Message.prototype.setAccept = function setAccept(value) {
-                    this.accept = value;
-                    return this;
-                };
-
-                Message.prototype.setMultipart = function setMultipart(value) {
-                    this.multipart = value;
-                };
-
-                return Message;
-            })();
-
-            _export('Message', Message);
-        }
-    };
+Object.defineProperty(exports, "__esModule", {
+    value: true
 });
-//# sourceMappingURL=data:application/json;charset=utf8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbImRlLnNlY3VjYXJkLmNvbm5lY3QvbmV0L21lc3NhZ2UuanMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7O1FBV2EsSUFBSSxFQUNKLEdBQUcsRUFDSCxJQUFJLEVBQ0osR0FBRyxFQUNILE1BQU0sRUFFTixPQUFPOzs7Ozs7O0FBTlAsZ0JBQUksR0FBRyxNQUFNOzs7O0FBQ2IsZUFBRyxHQUFHLEtBQUs7Ozs7QUFDWCxnQkFBSSxHQUFHLE1BQU07Ozs7QUFDYixlQUFHLEdBQUcsS0FBSzs7OztBQUNYLGtCQUFNLEdBQUcsUUFBUTs7OztBQUVqQixtQkFBTztBQUVMLHlCQUZGLE9BQU8sR0FFRjswQ0FGTCxPQUFPO2lCQUlmOztBQUpRLHVCQUFPLFdBV2hCLFVBQVUsR0FBQSxvQkFBQyxLQUFLLEVBQUU7QUFDZCx3QkFBSSxDQUFDLE9BQU8sR0FBRyxLQUFLLENBQUM7QUFDckIsMkJBQU8sSUFBSSxDQUFDO2lCQUNmOztBQWRRLHVCQUFPLFdBcUJoQixNQUFNLEdBQUEsZ0JBQUMsS0FBSyxFQUFFO0FBQ1Ysd0JBQUksQ0FBQyxHQUFHLEdBQUcsS0FBSyxDQUFDO0FBQ2pCLDJCQUFPLElBQUksQ0FBQztpQkFDZjs7QUF4QlEsdUJBQU8sV0ErQmhCLFNBQVMsR0FBQSxtQkFBQyxLQUFLLEVBQUU7QUFDYix3QkFBSSxDQUFDLE1BQU0sR0FBRyxLQUFLLENBQUM7QUFDcEIsMkJBQU8sSUFBSSxDQUFDO2lCQUNmOztBQWxDUSx1QkFBTyxXQXlDaEIsVUFBVSxHQUFBLG9CQUFDLEtBQUssRUFBRTtBQUNkLHdCQUFJLENBQUMsT0FBTyxHQUFHLEtBQUssQ0FBQztBQUNyQiwyQkFBTyxJQUFJLENBQUM7aUJBQ2Y7O0FBNUNRLHVCQUFPLFdBbURoQixRQUFRLEdBQUEsa0JBQUMsS0FBSyxFQUFFO0FBQ1osd0JBQUksQ0FBQyxLQUFLLEdBQUcsS0FBSyxDQUFDO0FBQ25CLDJCQUFPLElBQUksQ0FBQztpQkFDZjs7QUF0RFEsdUJBQU8sV0E2RGhCLE9BQU8sR0FBQSxpQkFBQyxLQUFLLEVBQUU7QUFDWCx3QkFBSSxDQUFDLElBQUksR0FBRyxLQUFLLENBQUM7QUFDbEIsMkJBQU8sSUFBSSxDQUFDO2lCQUNmOztBQWhFUSx1QkFBTyxXQXVFaEIsU0FBUyxHQUFBLG1CQUFDLEtBQUssRUFBRTtBQUNiLHdCQUFJLENBQUMsTUFBTSxHQUFHLEtBQUssQ0FBQztBQUNwQiwyQkFBTyxJQUFJLENBQUM7aUJBQ2Y7O0FBMUVRLHVCQUFPLFdBa0ZoQixZQUFZLEdBQUEsc0JBQUMsS0FBSyxFQUFFO0FBQ2hCLHdCQUFJLENBQUMsU0FBUyxHQUFHLEtBQUssQ0FBQztpQkFDMUI7O3VCQXBGUSxPQUFPIiwiZmlsZSI6ImRlLnNlY3VjYXJkLmNvbm5lY3QvbmV0L21lc3NhZ2UuanMiLCJzb3VyY2VSb290IjoiLi4vc3JjLyJ9
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var HEAD = exports.HEAD = 'HEAD';
+var GET = exports.GET = 'GET';
+var POST = exports.POST = 'POST';
+var PUT = exports.PUT = 'PUT';
+var DELETE = exports.DELETE = 'DELETE';
+
+var Message = exports.Message = function () {
+    function Message() {
+        _classCallCheck(this, Message);
+    }
+
+    _createClass(Message, [{
+        key: 'setBaseUrl',
+        value: function setBaseUrl(value) {
+            this.baseUrl = value;
+            return this;
+        }
+    }, {
+        key: 'setUrl',
+        value: function setUrl(value) {
+            this.url = value;
+            return this;
+        }
+    }, {
+        key: 'setMethod',
+        value: function setMethod(value) {
+            this.method = value;
+            return this;
+        }
+    }, {
+        key: 'setHeaders',
+        value: function setHeaders(value) {
+            this.headers = value;
+            return this;
+        }
+    }, {
+        key: 'setQuery',
+        value: function setQuery(value) {
+            this.query = value;
+            return this;
+        }
+    }, {
+        key: 'setBody',
+        value: function setBody(value) {
+            this.body = value;
+            return this;
+        }
+    }, {
+        key: 'setAccept',
+        value: function setAccept(value) {
+            this.accept = value;
+            return this;
+        }
+    }, {
+        key: 'setMultipart',
+        value: function setMultipart(value) {
+            this.multipart = value;
+        }
+    }]);
+
+    return Message;
+}();
+//# sourceMappingURL=data:application/json;charset=utf8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbImRlLnNlY3VjYXJkLmNvbm5lY3QvbmV0L21lc3NhZ2UuanMiXSwibmFtZXMiOlsiSEVBRCIsIkdFVCIsIlBPU1QiLCJQVVQiLCJERUxFVEUiLCJNZXNzYWdlIiwidmFsdWUiLCJiYXNlVXJsIiwidXJsIiwibWV0aG9kIiwiaGVhZGVycyIsInF1ZXJ5IiwiYm9keSIsImFjY2VwdCIsIm11bHRpcGFydCJdLCJtYXBwaW5ncyI6Ijs7Ozs7Ozs7OztBQVdPLElBQU1BLHNCQUFPLE1BQWI7QUFDQSxJQUFNQyxvQkFBTSxLQUFaO0FBQ0EsSUFBTUMsc0JBQU8sTUFBYjtBQUNBLElBQU1DLG9CQUFNLEtBQVo7QUFDQSxJQUFNQywwQkFBUyxRQUFmOztJQUVNQyxPLFdBQUFBLE87QUFFVCx1QkFBYztBQUFBO0FBRWI7Ozs7bUNBT1VDLEssRUFBTztBQUNkLGlCQUFLQyxPQUFMLEdBQWVELEtBQWY7QUFDQSxtQkFBTyxJQUFQO0FBQ0g7OzsrQkFPTUEsSyxFQUFPO0FBQ1YsaUJBQUtFLEdBQUwsR0FBV0YsS0FBWDtBQUNBLG1CQUFPLElBQVA7QUFDSDs7O2tDQU9TQSxLLEVBQU87QUFDYixpQkFBS0csTUFBTCxHQUFjSCxLQUFkO0FBQ0EsbUJBQU8sSUFBUDtBQUNIOzs7bUNBT1VBLEssRUFBTztBQUNkLGlCQUFLSSxPQUFMLEdBQWVKLEtBQWY7QUFDQSxtQkFBTyxJQUFQO0FBQ0g7OztpQ0FPUUEsSyxFQUFPO0FBQ1osaUJBQUtLLEtBQUwsR0FBYUwsS0FBYjtBQUNBLG1CQUFPLElBQVA7QUFDSDs7O2dDQU9PQSxLLEVBQU87QUFDWCxpQkFBS00sSUFBTCxHQUFZTixLQUFaO0FBQ0EsbUJBQU8sSUFBUDtBQUNIOzs7a0NBT1NBLEssRUFBTztBQUNiLGlCQUFLTyxNQUFMLEdBQWNQLEtBQWQ7QUFDQSxtQkFBTyxJQUFQO0FBQ0g7OztxQ0FRWUEsSyxFQUFPO0FBQ2hCLGlCQUFLUSxTQUFMLEdBQWlCUixLQUFqQjtBQUNIIiwiZmlsZSI6ImRlLnNlY3VjYXJkLmNvbm5lY3QvbmV0L21lc3NhZ2UuanMiLCJzb3VyY2VSb290IjoiLi4vc3JjLyJ9

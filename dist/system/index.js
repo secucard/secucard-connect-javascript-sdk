@@ -1,39 +1,44 @@
-System.register(['es6-shim', './de.secucard.connect/client-node-environment', './de.secucard.connect/client', 'minilog', './de.secucard.connect/net/channel'], function (_export) {
-    'use strict';
+'use strict';
 
-    var es6shim, ClientNodeEnvironment, Client, minilog, SecucardConnect, MiniLog;
-    return {
-        setters: [function (_es6Shim) {
-            es6shim = _es6Shim['default'];
-        }, function (_deSecucardConnectClientNodeEnvironment) {
-            ClientNodeEnvironment = _deSecucardConnectClientNodeEnvironment.ClientNodeEnvironment;
-
-            _export('Services', _deSecucardConnectClientNodeEnvironment.ServiceMap);
-        }, function (_deSecucardConnectClient) {
-            Client = _deSecucardConnectClient.Client;
-        }, function (_minilog) {
-            minilog = _minilog['default'];
-        }, function (_deSecucardConnectNetChannel) {
-            _export('Channel', _deSecucardConnectNetChannel.Channel);
-        }],
-        execute: function () {
-            SecucardConnect = {
-                description: 'SecucardConnect for nodejs'
-            };
-
-            _export('SecucardConnect', SecucardConnect);
-
-            MiniLog = minilog;
-
-            _export('MiniLog', MiniLog);
-
-            minilog.suggest.deny(/secucard\..*/, 'warn');
-
-            SecucardConnect.create = function (config) {
-
-                return Client.create(config, ClientNodeEnvironment);
-            };
-        }
-    };
+Object.defineProperty(exports, "__esModule", {
+  value: true
 });
-//# sourceMappingURL=data:application/json;charset=utf8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbImluZGV4LmpzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7Ozt5REFpQmEsZUFBZSxFQUtmLE9BQU87Ozs7OzRFQVZaLHFCQUFxQjs7d0VBRXJCLFVBQVU7OzhDQURWLE1BQU07Ozs7NERBRU4sT0FBTzs7O0FBRUYsMkJBQWUsR0FBRztBQUMzQiwyQkFBVyxFQUFFLDRCQUE0QjthQUM1Qzs7OztBQUdZLG1CQUFPLEdBQUcsT0FBTzs7OztBQUM5QixtQkFBTyxDQUFDLE9BQU8sQ0FBQyxJQUFJLENBQUMsY0FBYyxFQUFFLE1BQU0sQ0FBQyxDQUFDOztBQUU3QywyQkFBZSxDQUFDLE1BQU0sR0FBRyxVQUFDLE1BQU0sRUFBSzs7QUFFakMsdUJBQU8sTUFBTSxDQUFDLE1BQU0sQ0FBQyxNQUFNLEVBQUUscUJBQXFCLENBQUMsQ0FBQzthQUV2RCxDQUFDIiwiZmlsZSI6ImluZGV4LmpzIiwic291cmNlUm9vdCI6Ii4uL3NyYy8ifQ==
+exports.MiniLog = exports.SecucardConnect = exports.Channel = exports.Services = undefined;
+
+var _clientNodeEnvironment = require('./de.secucard.connect/client-node-environment');
+
+Object.defineProperty(exports, 'Services', {
+  enumerable: true,
+  get: function get() {
+    return _clientNodeEnvironment.ServiceMap;
+  }
+});
+
+var _channel = require('./de.secucard.connect/net/channel');
+
+Object.defineProperty(exports, 'Channel', {
+  enumerable: true,
+  get: function get() {
+    return _channel.Channel;
+  }
+});
+
+var _client = require('./de.secucard.connect/client');
+
+var _minilog = require('minilog');
+
+var _minilog2 = _interopRequireDefault(_minilog);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var SecucardConnect = exports.SecucardConnect = {
+  description: 'SecucardConnect for nodejs'
+};
+
+var MiniLog = exports.MiniLog = _minilog2.default;
+_minilog2.default.suggest.deny(/secucard\..*/, 'warn');
+
+SecucardConnect.create = function (config) {
+  return _client.Client.create(config, _clientNodeEnvironment.ClientNodeEnvironment);
+};
+//# sourceMappingURL=data:application/json;charset=utf8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbImluZGV4LmpzIl0sIm5hbWVzIjpbIlNlcnZpY2VNYXAiLCJDaGFubmVsIiwiU2VjdWNhcmRDb25uZWN0IiwiZGVzY3JpcHRpb24iLCJNaW5pTG9nIiwibWluaWxvZyIsInN1Z2dlc3QiLCJkZW55IiwiY3JlYXRlIiwiY29uZmlnIiwiQ2xpZW50IiwiQ2xpZW50Tm9kZUVudmlyb25tZW50Il0sIm1hcHBpbmdzIjoiOzs7Ozs7O0FBQUE7Ozs7O2tDQUlRQSxVOzs7Ozs7Ozs7b0JBQ0FDLE87Ozs7QUFKUjs7QUFDQTs7Ozs7O0FBS08sSUFBTUMsNENBQWtCO0FBQzdCQyxlQUFhO0FBRGdCLENBQXhCOztBQUlBLElBQU1DLDRCQUFVQyxpQkFBaEI7QUFDUEEsa0JBQVFDLE9BQVIsQ0FBZ0JDLElBQWhCLENBQXFCLGNBQXJCLEVBQXFDLE1BQXJDOztBQUVBTCxnQkFBZ0JNLE1BQWhCLEdBQXlCLFVBQUNDLE1BQUQsRUFBWTtBQUNuQyxTQUFPQyxlQUFPRixNQUFQLENBQWNDLE1BQWQsRUFBc0JFLDRDQUF0QixDQUFQO0FBQ0QsQ0FGRCIsImZpbGUiOiJpbmRleC5qcyIsInNvdXJjZVJvb3QiOiIuLi9zcmMvIn0=

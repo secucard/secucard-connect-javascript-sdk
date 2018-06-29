@@ -1,24 +1,28 @@
 'use strict';
 
 exports.__esModule = true;
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+exports.SecupayDebit = undefined;
 
 var _transaction = require('./transaction');
 
-var SecupayDebit = (function (_Transaction) {
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var SecupayDebit = exports.SecupayDebit = function (_Transaction) {
     _inherits(SecupayDebit, _Transaction);
 
     function SecupayDebit(container, customer, contract, amount, currency, purpose, order_id, trans_id, status, transaction_status) {
         _classCallCheck(this, SecupayDebit);
 
-        _Transaction.call(this, customer, contract, amount, currency, purpose, order_id, trans_id, status, transaction_status);
-        this.container = container;
+        var _this = _possibleConstructorReturn(this, _Transaction.call(this, customer, contract, amount, currency, purpose, order_id, trans_id, status, transaction_status));
+
+        _this.container = container;
+
+        return _this;
     }
 
     return SecupayDebit;
-})(_transaction.Transaction);
-
-exports.SecupayDebit = SecupayDebit;
+}(_transaction.Transaction);

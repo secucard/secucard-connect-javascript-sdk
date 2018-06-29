@@ -1,22 +1,23 @@
 'use strict';
 
 exports.__esModule = true;
+exports.ProductService = undefined;
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+var _channel = require('../net/channel');
 
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
+var _eventemitter = require('eventemitter3');
 
-var _netChannel = require('../net/channel');
+var _eventemitter2 = _interopRequireDefault(_eventemitter);
 
-var _eventemitter3 = require('eventemitter3');
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var _eventemitter32 = _interopRequireDefault(_eventemitter3);
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-var ProductService = (function () {
+var ProductService = exports.ProductService = function () {
     function ProductService() {
         _classCallCheck(this, ProductService);
 
-        Object.assign(this, _eventemitter32['default'].prototype);
+        Object.assign(this, _eventemitter2.default.prototype);
     }
 
     ProductService.prototype.configureWithContext = function configureWithContext(context) {
@@ -75,7 +76,7 @@ var ProductService = (function () {
             options: options
         };
 
-        return this._request(_netChannel.Channel.METHOD.GET, params, options);
+        return this._request(_channel.Channel.METHOD.GET, params, options);
     };
 
     ProductService.prototype.retrieve = function retrieve(id, queryParams, options) {
@@ -87,7 +88,7 @@ var ProductService = (function () {
             options: options
         };
 
-        return this._request(_netChannel.Channel.METHOD.GET, params, options);
+        return this._request(_channel.Channel.METHOD.GET, params, options);
     };
 
     ProductService.prototype.generateRetrieveUrl = function generateRetrieveUrl(id, queryParams, options) {
@@ -98,7 +99,7 @@ var ProductService = (function () {
             options: options
         };
 
-        return this._generateUrl(_netChannel.Channel.METHOD.GET, params, options);
+        return this._generateUrl(_channel.Channel.METHOD.GET, params, options);
     };
 
     ProductService.prototype.retrieveWithAction = function retrieveWithAction(id, action, actionArg, options) {
@@ -111,7 +112,7 @@ var ProductService = (function () {
             options: options
         };
 
-        return this._request(_netChannel.Channel.METHOD.GET, params, options);
+        return this._request(_channel.Channel.METHOD.GET, params, options);
     };
 
     ProductService.prototype.generateRetrieveWithActionUrl = function generateRetrieveWithActionUrl(id, action, actionArg, options) {
@@ -124,7 +125,7 @@ var ProductService = (function () {
             options: options
         };
 
-        return this._generateUrl(_netChannel.Channel.METHOD.GET, params, options);
+        return this._generateUrl(_channel.Channel.METHOD.GET, params, options);
     };
 
     ProductService.prototype.retrieveList = function retrieveList(queryParams, options) {
@@ -135,7 +136,7 @@ var ProductService = (function () {
             options: options
         };
 
-        return this._request(_netChannel.Channel.METHOD.GET, params, options);
+        return this._request(_channel.Channel.METHOD.GET, params, options);
     };
 
     ProductService.prototype.generateRetrieveListUrl = function generateRetrieveListUrl(queryParams, options) {
@@ -146,7 +147,7 @@ var ProductService = (function () {
             options: options
         };
 
-        return this._generateUrl(_netChannel.Channel.METHOD.GET, params, options);
+        return this._generateUrl(_channel.Channel.METHOD.GET, params, options);
     };
 
     ProductService.prototype.create = function create(data, options, multipart) {
@@ -158,7 +159,7 @@ var ProductService = (function () {
             multipart: multipart
         };
 
-        return this._request(_netChannel.Channel.METHOD.CREATE, params, options);
+        return this._request(_channel.Channel.METHOD.CREATE, params, options);
     };
 
     ProductService.prototype.update = function update(data, options, multipart) {
@@ -171,7 +172,7 @@ var ProductService = (function () {
             multipart: multipart
         };
 
-        return this._request(_netChannel.Channel.METHOD.UPDATE, params, options);
+        return this._request(_channel.Channel.METHOD.UPDATE, params, options);
     };
 
     ProductService.prototype.updateWithAction = function updateWithAction(id, action, actionArg, data, options, multipart) {
@@ -186,7 +187,7 @@ var ProductService = (function () {
             multipart: multipart
         };
 
-        return this._request(_netChannel.Channel.METHOD.UPDATE, params, options);
+        return this._request(_channel.Channel.METHOD.UPDATE, params, options);
     };
 
     ProductService.prototype.remove = function remove(id, options) {
@@ -197,7 +198,7 @@ var ProductService = (function () {
             options: options
         };
 
-        return this._request(_netChannel.Channel.METHOD.DELETE, params, options);
+        return this._request(_channel.Channel.METHOD.DELETE, params, options);
     };
 
     ProductService.prototype.removeWithAction = function removeWithAction(id, action, actionArg, options) {
@@ -210,7 +211,7 @@ var ProductService = (function () {
             options: options
         };
 
-        return this._request(_netChannel.Channel.METHOD.DELETE, params, options);
+        return this._request(_channel.Channel.METHOD.DELETE, params, options);
     };
 
     ProductService.prototype.execute = function execute(id, action, actionArg, data, options) {
@@ -224,7 +225,7 @@ var ProductService = (function () {
             options: options
         };
 
-        return this._request(_netChannel.Channel.METHOD.EXECUTE, params, options);
+        return this._request(_channel.Channel.METHOD.EXECUTE, params, options);
     };
 
     ProductService.prototype.executeAppAction = function executeAppAction(appId, action, data, options) {
@@ -236,7 +237,7 @@ var ProductService = (function () {
             options: options
         };
 
-        return this._request(_netChannel.Channel.METHOD.EXECUTE, params, options);
+        return this._request(_channel.Channel.METHOD.EXECUTE, params, options);
     };
 
     ProductService.prototype._request = function _request(method, params, options) {
@@ -262,10 +263,8 @@ var ProductService = (function () {
             params.options = options;
         }
 
-        return this.getChannel([_netChannel.Channel.REST]).generateUrl(method, params);
+        return this.getChannel([_channel.Channel.REST]).generateUrl(method, params);
     };
 
     return ProductService;
-})();
-
-exports.ProductService = ProductService;
+}();

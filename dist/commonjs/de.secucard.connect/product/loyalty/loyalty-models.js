@@ -2,34 +2,74 @@
 
 exports.__esModule = true;
 
-var _modelBonus = require('model/bonus');
+var _bonus = require('model/bonus');
 
-exports.Bonus = _modelBonus.Bonus;
+Object.defineProperty(exports, 'Bonus', {
+  enumerable: true,
+  get: function get() {
+    return _bonus.Bonus;
+  }
+});
 
-var _modelCardGroup = require('model/card-group');
+var _cardGroup = require('model/card-group');
 
-exports.CardGroup = _modelCardGroup.CardGroup;
+Object.defineProperty(exports, 'CardGroup', {
+  enumerable: true,
+  get: function get() {
+    return _cardGroup.CardGroup;
+  }
+});
 
-var _modelCard = require('model/card');
+var _card = require('model/card');
 
-exports.Card = _modelCard.Card;
+Object.defineProperty(exports, 'Card', {
+  enumerable: true,
+  get: function get() {
+    return _card.Card;
+  }
+});
 
-var _modelCondition = require('model/condition');
+var _condition = require('model/condition');
 
-exports.Condition = _modelCondition.Condition;
+Object.defineProperty(exports, 'Condition', {
+  enumerable: true,
+  get: function get() {
+    return _condition.Condition;
+  }
+});
 
-var _modelCustomer = require('model/customer');
+var _customer = require('model/customer');
 
-exports.Customer = _modelCustomer.Customer;
+Object.defineProperty(exports, 'Customer', {
+  enumerable: true,
+  get: function get() {
+    return _customer.Customer;
+  }
+});
 
-var _modelMerchantCard = require('model/merchant-card');
+var _merchantCard = require('model/merchant-card');
 
-exports.MerchantCard = _modelMerchantCard.MerchantCard;
+Object.defineProperty(exports, 'MerchantCard', {
+  enumerable: true,
+  get: function get() {
+    return _merchantCard.MerchantCard;
+  }
+});
 
-var _modelProgram = require('model/program');
+var _program = require('model/program');
 
-exports.Program = _modelProgram.Program;
+Object.defineProperty(exports, 'Program', {
+  enumerable: true,
+  get: function get() {
+    return _program.Program;
+  }
+});
 
-var _modelSale = require('model/sale');
+var _sale = require('model/sale');
 
-exports.Sale = _modelSale.Sale;
+Object.defineProperty(exports, 'Sale', {
+  enumerable: true,
+  get: function get() {
+    return _sale.Sale;
+  }
+});

@@ -1,23 +1,16 @@
-System.register([], function (_export) {
-    "use strict";
+"use strict";
 
-    var Program;
-
-    function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-    return {
-        setters: [],
-        execute: function () {
-            Program = function Program(description, cardgroup, conditions) {
-                _classCallCheck(this, Program);
-
-                this.description = description;
-                this.cardgroup = cardgroup;
-                this.conditions = conditions;
-            };
-
-            _export("Program", Program);
-        }
-    };
+Object.defineProperty(exports, "__esModule", {
+    value: true
 });
-//# sourceMappingURL=data:application/json;charset=utf8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbImRlLnNlY3VjYXJkLmNvbm5lY3QvcHJvZHVjdC9sb3lhbHR5L21vZGVsL3Byb2dyYW0uanMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7O1FBV2EsT0FBTzs7Ozs7OztBQUFQLG1CQUFPLEdBRUwsU0FGRixPQUFPLENBRUosV0FBVyxFQUFFLFNBQVMsRUFBRSxVQUFVLEVBQUU7c0NBRnZDLE9BQU87O0FBR1osb0JBQUksQ0FBQyxXQUFXLEdBQUcsV0FBVyxDQUFDO0FBQy9CLG9CQUFJLENBQUMsU0FBUyxHQUFHLFNBQVMsQ0FBQztBQUMzQixvQkFBSSxDQUFDLFVBQVUsR0FBRyxVQUFVLENBQUM7YUFDaEMiLCJmaWxlIjoiZGUuc2VjdWNhcmQuY29ubmVjdC9wcm9kdWN0L2xveWFsdHkvbW9kZWwvcHJvZ3JhbS5qcyIsInNvdXJjZVJvb3QiOiIuLi9zcmMvIn0=
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var Program = exports.Program = function Program(description, cardgroup, conditions) {
+    _classCallCheck(this, Program);
+
+    this.description = description;
+    this.cardgroup = cardgroup;
+    this.conditions = conditions;
+};
+//# sourceMappingURL=data:application/json;charset=utf8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbImRlLnNlY3VjYXJkLmNvbm5lY3QvcHJvZHVjdC9sb3lhbHR5L21vZGVsL3Byb2dyYW0uanMiXSwibmFtZXMiOlsiUHJvZ3JhbSIsImRlc2NyaXB0aW9uIiwiY2FyZGdyb3VwIiwiY29uZGl0aW9ucyJdLCJtYXBwaW5ncyI6Ijs7Ozs7Ozs7SUFXYUEsTyxXQUFBQSxPLEdBRVQsaUJBQVlDLFdBQVosRUFBeUJDLFNBQXpCLEVBQW9DQyxVQUFwQyxFQUFnRDtBQUFBOztBQUM1QyxTQUFLRixXQUFMLEdBQW1CQSxXQUFuQjtBQUNBLFNBQUtDLFNBQUwsR0FBaUJBLFNBQWpCO0FBQ0EsU0FBS0MsVUFBTCxHQUFrQkEsVUFBbEI7QUFDSCxDIiwiZmlsZSI6ImRlLnNlY3VjYXJkLmNvbm5lY3QvcHJvZHVjdC9sb3lhbHR5L21vZGVsL3Byb2dyYW0uanMiLCJzb3VyY2VSb290IjoiLi4vc3JjLyJ9

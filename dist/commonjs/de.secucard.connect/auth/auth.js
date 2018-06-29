@@ -1,16 +1,13 @@
 'use strict';
 
 exports.__esModule = true;
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
+exports.Auth = undefined;
 
 var _lodash = require('lodash');
 
 var _lodash2 = _interopRequireDefault(_lodash);
 
-var _netMessage = require('../net/message');
+var _message = require('../net/message');
 
 var _token2 = require('./token');
 
@@ -20,7 +17,11 @@ var _minilog = require('minilog');
 
 var _minilog2 = _interopRequireDefault(_minilog);
 
-var Auth = (function () {
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var Auth = exports.Auth = function () {
     function Auth() {
         _classCallCheck(this, Auth);
 
@@ -67,16 +68,16 @@ var Auth = (function () {
 
                 if (token != null && token.isExpired()) {
 
-                    return _this.retrieveNewToken()['catch'](function () {
+                    return _this.retrieveNewToken().catch(function () {
 
-                        _minilog2['default']('secucard.auth').error('Token is expired');
+                        (0, _minilog2.default)('secucard.auth').error('Token is expired');
                         throw new _exception.AuthenticationFailedException('Token is expired');
                     });
                 } else {
 
-                    return _this.retrieveNewToken()['catch'](function () {
+                    return _this.retrieveNewToken().catch(function () {
 
-                        _minilog2['default']('secucard.auth').error('Credentials error');
+                        (0, _minilog2.default)('secucard.auth').error('Credentials error');
                         throw new _exception.AuthenticationFailedException('Credentials error');
                     });
                 }
@@ -93,7 +94,7 @@ var Auth = (function () {
             var tokenError = function tokenError(err) {
                 _this.removeToken();
 
-                var error = undefined;
+                var error = void 0;
                 if (err instanceof _exception.AuthenticationTimeoutException) {
                     error = err;
                 } else {
@@ -103,7 +104,7 @@ var Auth = (function () {
                 throw error;
             };
 
-            var req = undefined;
+            var req = void 0;
 
             if (token != null && token.getRefreshToken() != null) {
 
@@ -113,7 +114,7 @@ var Auth = (function () {
                 req = _this.isDeviceAuth() ? _this.getDeviceToken(Object.assign({}, cr, { uuid: _this.getDeviceUUID() }), ch) : _this._tokenClientCredentialsRequest(cr, ch);
             }
 
-            return req.then(tokenSuccess)['catch'](tokenError);
+            return req.then(tokenSuccess).catch(tokenError);
         });
     };
 
@@ -142,12 +143,12 @@ var Auth = (function () {
                         _this2._tokenDeviceRequest(codeCredentials, channel).then(function (res) {
                             clearInterval(_this2.pollTimer);
                             resolve(res);
-                        })['catch'](function (err) {
+                        }).catch(function (err) {
 
                             if (err.status == 401) {} else {
-                                    clearInterval(_this2.pollTimer);
-                                    reject(err);
-                                }
+                                clearInterval(_this2.pollTimer);
+                                reject(err);
+                            }
                         });
                     } else {
                         clearInterval(_this2.pollTimer);
@@ -206,42 +207,40 @@ var Auth = (function () {
     };
 
     Auth.prototype._tokenRequest = function _tokenRequest(credentials, channel) {
-        var m = channel.createMessage().setBaseUrl(this.oAuthUrl()).setUrl('token').setHeaders(this.baseHeaders).setMethod(_netMessage.POST).setBody(credentials);
-        _minilog2['default']('secucard.auth').debug('token request', m);
+        var m = channel.createMessage().setBaseUrl(this.oAuthUrl()).setUrl('token').setHeaders(this.baseHeaders).setMethod(_message.POST).setBody(credentials);
+        (0, _minilog2.default)('secucard.auth').debug('token request', m);
         return channel.send(m);
     };
 
     Auth.prototype._tokenClientCredentialsRequest = function _tokenClientCredentialsRequest(credentials, channel) {
-        var cr = _lodash2['default'].pick(credentials, this.baseCredentialNames);
-        cr = _lodash2['default'].assign({}, cr, { grant_type: 'client_credentials' });
+        var cr = _lodash2.default.pick(credentials, this.baseCredentialNames);
+        cr = _lodash2.default.assign({}, cr, { grant_type: 'client_credentials' });
         return this._tokenRequest(cr, channel);
     };
 
     Auth.prototype._tokenRefreshRequest = function _tokenRefreshRequest(credentials, refresh_token, channel) {
-        var cr = _lodash2['default'].pick(credentials, this.baseCredentialNames);
-        cr = _lodash2['default'].assign({}, cr, { grant_type: 'refresh_token', refresh_token: refresh_token });
+        var cr = _lodash2.default.pick(credentials, this.baseCredentialNames);
+        cr = _lodash2.default.assign({}, cr, { grant_type: 'refresh_token', refresh_token: refresh_token });
         return this._tokenRequest(cr, channel);
     };
 
     Auth.prototype._tokenDeviceCodeRequest = function _tokenDeviceCodeRequest(credentials, channel) {
-        var cr = _lodash2['default'].pick(credentials, this.baseCredentialNames.concat(['uuid']));
-        cr = _lodash2['default'].assign({}, cr, { grant_type: 'device' });
+        var cr = _lodash2.default.pick(credentials, this.baseCredentialNames.concat(['uuid']));
+        cr = _lodash2.default.assign({}, cr, { grant_type: 'device' });
         return this._tokenRequest(cr, channel);
     };
 
     Auth.prototype._tokenDeviceRequest = function _tokenDeviceRequest(credentials, channel) {
-        var cr = _lodash2['default'].pick(credentials, this.baseCredentialNames.concat(['code']));
-        cr = _lodash2['default'].assign({}, cr, { grant_type: 'device' });
+        var cr = _lodash2.default.pick(credentials, this.baseCredentialNames.concat(['code']));
+        cr = _lodash2.default.assign({}, cr, { grant_type: 'device' });
         return this._tokenRequest(cr, channel);
     };
 
     Auth.prototype._tokenAppUserRequest = function _tokenAppUserRequest(credentials, channel) {
-        var cr = _lodash2['default'].pick(credentials, this.baseCredentialNames.concat(['username', 'password', 'device', 'deviceinfo']));
-        cr = _lodash2['default'].assign({}, cr, { grant_type: 'appuser' });
+        var cr = _lodash2.default.pick(credentials, this.baseCredentialNames.concat(['username', 'password', 'device', 'deviceinfo']));
+        cr = _lodash2.default.assign({}, cr, { grant_type: 'appuser' });
         return this._tokenRequest(cr, channel);
     };
 
     return Auth;
-})();
-
-exports.Auth = Auth;
+}();

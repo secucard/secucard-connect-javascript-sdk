@@ -2,9 +2,9 @@
 
 exports.__esModule = true;
 
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-var Token = (function () {
+var Token = exports.Token = function () {
     function Token() {
         _classCallCheck(this, Token);
 
@@ -45,9 +45,7 @@ var Token = (function () {
     };
 
     return Token;
-})();
-
-exports.Token = Token;
+}();
 
 Token.create = function (data) {
 

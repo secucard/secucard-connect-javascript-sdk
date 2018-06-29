@@ -2,21 +2,15 @@
 
 exports.__esModule = true;
 
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-var HEAD = 'HEAD';
-exports.HEAD = HEAD;
-var GET = 'GET';
-exports.GET = GET;
-var POST = 'POST';
-exports.POST = POST;
-var PUT = 'PUT';
-exports.PUT = PUT;
-var DELETE = 'DELETE';
+var HEAD = exports.HEAD = 'HEAD';
+var GET = exports.GET = 'GET';
+var POST = exports.POST = 'POST';
+var PUT = exports.PUT = 'PUT';
+var DELETE = exports.DELETE = 'DELETE';
 
-exports.DELETE = DELETE;
-
-var Message = (function () {
+var Message = exports.Message = function () {
     function Message() {
         _classCallCheck(this, Message);
     }
@@ -61,6 +55,4 @@ var Message = (function () {
     };
 
     return Message;
-})();
-
-exports.Message = Message;
+}();

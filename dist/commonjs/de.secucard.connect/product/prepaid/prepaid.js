@@ -1,6 +1,7 @@
 'use strict';
 
 exports.__esModule = true;
+exports.Prepaid = undefined;
 
 var _contractService = require('./contract-service');
 
@@ -12,8 +13,7 @@ var _saleService = require('./sale-service');
 
 var _stockService = require('./stock-service');
 
-var Prepaid = {};
-exports.Prepaid = Prepaid;
+var Prepaid = exports.Prepaid = {};
 Prepaid.ContractService = _contractService.ContractService;
 Prepaid.ItemGroupService = _itemGroupService.ItemGroupService;
 Prepaid.ItemService = _itemService.ItemService;

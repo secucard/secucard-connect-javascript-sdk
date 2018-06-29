@@ -4,7 +4,7 @@ exports.__esModule = true;
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-var Transaction = function Transaction(customer, contract, amount, currency, purpose, order_id, trans_id, status, transaction_status) {
+var Transaction = exports.Transaction = function Transaction(customer, contract, amount, currency, purpose, order_id, trans_id, status, transaction_status) {
     _classCallCheck(this, Transaction);
 
     this.customer = customer;
@@ -17,5 +17,3 @@ var Transaction = function Transaction(customer, contract, amount, currency, pur
     this.status = status;
     this.transaction_status = transaction_status;
 };
-
-exports.Transaction = Transaction;

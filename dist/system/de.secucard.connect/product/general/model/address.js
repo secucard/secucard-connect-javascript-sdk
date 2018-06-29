@@ -1,25 +1,18 @@
-System.register([], function (_export) {
-    "use strict";
+"use strict";
 
-    var Address;
-
-    function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-    return {
-        setters: [],
-        execute: function () {
-            Address = function Address(street, street_number, postal_code, city, country) {
-                _classCallCheck(this, Address);
-
-                this.street = street;
-                this.street_number = street_number;
-                this.postal_code = postal_code;
-                this.city = city;
-                this.country = country;
-            };
-
-            _export("Address", Address);
-        }
-    };
+Object.defineProperty(exports, "__esModule", {
+    value: true
 });
-//# sourceMappingURL=data:application/json;charset=utf8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbImRlLnNlY3VjYXJkLmNvbm5lY3QvcHJvZHVjdC9nZW5lcmFsL21vZGVsL2FkZHJlc3MuanMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7O1FBV2EsT0FBTzs7Ozs7OztBQUFQLG1CQUFPLEdBRUwsU0FGRixPQUFPLENBRUosTUFBTSxFQUFFLGFBQWEsRUFBRSxXQUFXLEVBQUUsSUFBSSxFQUFFLE9BQU8sRUFBRTtzQ0FGdEQsT0FBTzs7QUFHWixvQkFBSSxDQUFDLE1BQU0sR0FBRyxNQUFNLENBQUM7QUFDckIsb0JBQUksQ0FBQyxhQUFhLEdBQUcsYUFBYSxDQUFDO0FBQ25DLG9CQUFJLENBQUMsV0FBVyxHQUFHLFdBQVcsQ0FBQztBQUMvQixvQkFBSSxDQUFDLElBQUksR0FBRyxJQUFJLENBQUM7QUFDakIsb0JBQUksQ0FBQyxPQUFPLEdBQUcsT0FBTyxDQUFDO2FBQzFCIiwiZmlsZSI6ImRlLnNlY3VjYXJkLmNvbm5lY3QvcHJvZHVjdC9nZW5lcmFsL21vZGVsL2FkZHJlc3MuanMiLCJzb3VyY2VSb290IjoiLi4vc3JjLyJ9
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var Address = exports.Address = function Address(street, street_number, postal_code, city, country) {
+    _classCallCheck(this, Address);
+
+    this.street = street;
+    this.street_number = street_number;
+    this.postal_code = postal_code;
+    this.city = city;
+    this.country = country;
+};
+//# sourceMappingURL=data:application/json;charset=utf8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbImRlLnNlY3VjYXJkLmNvbm5lY3QvcHJvZHVjdC9nZW5lcmFsL21vZGVsL2FkZHJlc3MuanMiXSwibmFtZXMiOlsiQWRkcmVzcyIsInN0cmVldCIsInN0cmVldF9udW1iZXIiLCJwb3N0YWxfY29kZSIsImNpdHkiLCJjb3VudHJ5Il0sIm1hcHBpbmdzIjoiOzs7Ozs7OztJQVdhQSxPLFdBQUFBLE8sR0FFVCxpQkFBWUMsTUFBWixFQUFvQkMsYUFBcEIsRUFBbUNDLFdBQW5DLEVBQWdEQyxJQUFoRCxFQUFzREMsT0FBdEQsRUFBK0Q7QUFBQTs7QUFDM0QsU0FBS0osTUFBTCxHQUFjQSxNQUFkO0FBQ0EsU0FBS0MsYUFBTCxHQUFxQkEsYUFBckI7QUFDQSxTQUFLQyxXQUFMLEdBQW1CQSxXQUFuQjtBQUNBLFNBQUtDLElBQUwsR0FBWUEsSUFBWjtBQUNBLFNBQUtDLE9BQUwsR0FBZUEsT0FBZjtBQUNILEMiLCJmaWxlIjoiZGUuc2VjdWNhcmQuY29ubmVjdC9wcm9kdWN0L2dlbmVyYWwvbW9kZWwvYWRkcmVzcy5qcyIsInNvdXJjZVJvb3QiOiIuLi9zcmMvIn0=

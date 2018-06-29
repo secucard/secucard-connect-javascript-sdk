@@ -2,9 +2,9 @@
 
 exports.__esModule = true;
 
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-var Container = function Container(merchant, privateData, publicData, assign, type, created, updated, contract) {
+var Container = exports.Container = function Container(merchant, privateData, publicData, assign, type, created, updated, contract) {
     _classCallCheck(this, Container);
 
     this.merchant = merchant;
@@ -16,5 +16,3 @@ var Container = function Container(merchant, privateData, publicData, assign, ty
     this.updated = updated;
     this.contract = contract;
 };
-
-exports.Container = Container;

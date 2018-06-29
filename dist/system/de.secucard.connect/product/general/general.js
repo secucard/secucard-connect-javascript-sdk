@@ -1,57 +1,52 @@
-System.register(['./skeleton-service', './account-service', './account-device-service', './contact-service', './delivery-address-service', './device-service', './file-access-service', './merchant-service', './news-service', './notification-service', './public-merchant-service', './store-service', './transaction-service', './store-group-service'], function (_export) {
-  'use strict';
+'use strict';
 
-  var SkeletonService, AccountService, AccountDeviceService, ContactService, DeliveryAddressService, DeviceService, FileAccessService, MerchantService, NewsService, NotificationService, PublicMerchantService, StoreService, TransactionService, StoreGroupService, General;
-  return {
-    setters: [function (_skeletonService) {
-      SkeletonService = _skeletonService.SkeletonService;
-    }, function (_accountService) {
-      AccountService = _accountService.AccountService;
-    }, function (_accountDeviceService) {
-      AccountDeviceService = _accountDeviceService.AccountDeviceService;
-    }, function (_contactService) {
-      ContactService = _contactService.ContactService;
-    }, function (_deliveryAddressService) {
-      DeliveryAddressService = _deliveryAddressService.DeliveryAddressService;
-    }, function (_deviceService) {
-      DeviceService = _deviceService.DeviceService;
-    }, function (_fileAccessService) {
-      FileAccessService = _fileAccessService.FileAccessService;
-    }, function (_merchantService) {
-      MerchantService = _merchantService.MerchantService;
-    }, function (_newsService) {
-      NewsService = _newsService.NewsService;
-    }, function (_notificationService) {
-      NotificationService = _notificationService.NotificationService;
-    }, function (_publicMerchantService) {
-      PublicMerchantService = _publicMerchantService.PublicMerchantService;
-    }, function (_storeService) {
-      StoreService = _storeService.StoreService;
-    }, function (_transactionService) {
-      TransactionService = _transactionService.TransactionService;
-    }, function (_storeGroupService) {
-      StoreGroupService = _storeGroupService.StoreGroupService;
-    }],
-    execute: function () {
-      General = {};
-
-      _export('General', General);
-
-      General.SkeletonService = SkeletonService;
-      General.AccountService = AccountService;
-      General.AccountDeviceService = AccountDeviceService;
-      General.ContactService = ContactService;
-      General.DeliveryAddressService = DeliveryAddressService;
-      General.DeviceService = DeviceService;
-      General.FileAccessService = FileAccessService;
-      General.MerchantService = MerchantService;
-      General.NewsService = NewsService;
-      General.NotificationService = NotificationService;
-      General.PublicMerchantService = PublicMerchantService;
-      General.StoreGroupService = StoreGroupService;
-      General.StoreService = StoreService;
-      General.TransactionService = TransactionService;
-    }
-  };
+Object.defineProperty(exports, "__esModule", {
+  value: true
 });
-//# sourceMappingURL=data:application/json;charset=utf8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbImRlLnNlY3VjYXJkLmNvbm5lY3QvcHJvZHVjdC9nZW5lcmFsL2dlbmVyYWwuanMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7O3NRQTBCYSxPQUFPOzs7eUNBZlosZUFBZTs7dUNBQ2YsY0FBYzs7bURBQ2Qsb0JBQW9COzt1Q0FDcEIsY0FBYzs7dURBQ2Qsc0JBQXNCOztxQ0FDdEIsYUFBYTs7NkNBQ2IsaUJBQWlCOzt5Q0FDakIsZUFBZTs7aUNBQ2YsV0FBVzs7aURBQ1gsbUJBQW1COztxREFDbkIscUJBQXFCOzttQ0FDckIsWUFBWTs7K0NBQ1osa0JBQWtCOzs2Q0FDbEIsaUJBQWlCOzs7QUFFWixhQUFPLEdBQUcsRUFBRTs7OztBQUV6QixhQUFPLENBQUMsZUFBZSxHQUFHLGVBQWUsQ0FBQztBQUMxQyxhQUFPLENBQUMsY0FBYyxHQUFHLGNBQWMsQ0FBQztBQUN4QyxhQUFPLENBQUMsb0JBQW9CLEdBQUcsb0JBQW9CLENBQUM7QUFDcEQsYUFBTyxDQUFDLGNBQWMsR0FBRyxjQUFjLENBQUM7QUFDeEMsYUFBTyxDQUFDLHNCQUFzQixHQUFHLHNCQUFzQixDQUFDO0FBQ3hELGFBQU8sQ0FBQyxhQUFhLEdBQUcsYUFBYSxDQUFDO0FBQ3RDLGFBQU8sQ0FBQyxpQkFBaUIsR0FBRyxpQkFBaUIsQ0FBQztBQUM5QyxhQUFPLENBQUMsZUFBZSxHQUFHLGVBQWUsQ0FBQztBQUMxQyxhQUFPLENBQUMsV0FBVyxHQUFHLFdBQVcsQ0FBQztBQUNsQyxhQUFPLENBQUMsbUJBQW1CLEdBQUcsbUJBQW1CLENBQUM7QUFDbEQsYUFBTyxDQUFDLHFCQUFxQixHQUFHLHFCQUFxQixDQUFDO0FBQ3RELGFBQU8sQ0FBQyxpQkFBaUIsR0FBRyxpQkFBaUIsQ0FBQztBQUM5QyxhQUFPLENBQUMsWUFBWSxHQUFHLFlBQVksQ0FBQztBQUNwQyxhQUFPLENBQUMsa0JBQWtCLEdBQUcsa0JBQWtCLENBQUMiLCJmaWxlIjoiZGUuc2VjdWNhcmQuY29ubmVjdC9wcm9kdWN0L2dlbmVyYWwvZ2VuZXJhbC5qcyIsInNvdXJjZVJvb3QiOiIuLi9zcmMvIn0=
+exports.General = undefined;
+
+var _skeletonService = require('./skeleton-service');
+
+var _accountService = require('./account-service');
+
+var _accountDeviceService = require('./account-device-service');
+
+var _contactService = require('./contact-service');
+
+var _deliveryAddressService = require('./delivery-address-service');
+
+var _deviceService = require('./device-service');
+
+var _fileAccessService = require('./file-access-service');
+
+var _merchantService = require('./merchant-service');
+
+var _newsService = require('./news-service');
+
+var _notificationService = require('./notification-service');
+
+var _publicMerchantService = require('./public-merchant-service');
+
+var _storeService = require('./store-service');
+
+var _transactionService = require('./transaction-service');
+
+var _storeGroupService = require('./store-group-service');
+
+var General = exports.General = {};
+
+General.SkeletonService = _skeletonService.SkeletonService;
+General.AccountService = _accountService.AccountService;
+General.AccountDeviceService = _accountDeviceService.AccountDeviceService;
+General.ContactService = _contactService.ContactService;
+General.DeliveryAddressService = _deliveryAddressService.DeliveryAddressService;
+General.DeviceService = _deviceService.DeviceService;
+General.FileAccessService = _fileAccessService.FileAccessService;
+General.MerchantService = _merchantService.MerchantService;
+General.NewsService = _newsService.NewsService;
+General.NotificationService = _notificationService.NotificationService;
+General.PublicMerchantService = _publicMerchantService.PublicMerchantService;
+General.StoreGroupService = _storeGroupService.StoreGroupService;
+General.StoreService = _storeService.StoreService;
+General.TransactionService = _transactionService.TransactionService;
+//# sourceMappingURL=data:application/json;charset=utf8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbImRlLnNlY3VjYXJkLmNvbm5lY3QvcHJvZHVjdC9nZW5lcmFsL2dlbmVyYWwuanMiXSwibmFtZXMiOlsiR2VuZXJhbCIsIlNrZWxldG9uU2VydmljZSIsIkFjY291bnRTZXJ2aWNlIiwiQWNjb3VudERldmljZVNlcnZpY2UiLCJDb250YWN0U2VydmljZSIsIkRlbGl2ZXJ5QWRkcmVzc1NlcnZpY2UiLCJEZXZpY2VTZXJ2aWNlIiwiRmlsZUFjY2Vzc1NlcnZpY2UiLCJNZXJjaGFudFNlcnZpY2UiLCJOZXdzU2VydmljZSIsIk5vdGlmaWNhdGlvblNlcnZpY2UiLCJQdWJsaWNNZXJjaGFudFNlcnZpY2UiLCJTdG9yZUdyb3VwU2VydmljZSIsIlN0b3JlU2VydmljZSIsIlRyYW5zYWN0aW9uU2VydmljZSJdLCJtYXBwaW5ncyI6Ijs7Ozs7OztBQVdBOztBQUNBOztBQUNBOztBQUNBOztBQUNBOztBQUNBOztBQUNBOztBQUNBOztBQUNBOztBQUNBOztBQUNBOztBQUNBOztBQUNBOztBQUNBOztBQUVPLElBQU1BLDRCQUFVLEVBQWhCOztBQUVQQSxRQUFRQyxlQUFSLEdBQTBCQSxnQ0FBMUI7QUFDQUQsUUFBUUUsY0FBUixHQUF5QkEsOEJBQXpCO0FBQ0FGLFFBQVFHLG9CQUFSLEdBQStCQSwwQ0FBL0I7QUFDQUgsUUFBUUksY0FBUixHQUF5QkEsOEJBQXpCO0FBQ0FKLFFBQVFLLHNCQUFSLEdBQWlDQSw4Q0FBakM7QUFDQUwsUUFBUU0sYUFBUixHQUF3QkEsNEJBQXhCO0FBQ0FOLFFBQVFPLGlCQUFSLEdBQTRCQSxvQ0FBNUI7QUFDQVAsUUFBUVEsZUFBUixHQUEwQkEsZ0NBQTFCO0FBQ0FSLFFBQVFTLFdBQVIsR0FBc0JBLHdCQUF0QjtBQUNBVCxRQUFRVSxtQkFBUixHQUE4QkEsd0NBQTlCO0FBQ0FWLFFBQVFXLHFCQUFSLEdBQWdDQSw0Q0FBaEM7QUFDQVgsUUFBUVksaUJBQVIsR0FBNEJBLG9DQUE1QjtBQUNBWixRQUFRYSxZQUFSLEdBQXVCQSwwQkFBdkI7QUFDQWIsUUFBUWMsa0JBQVIsR0FBNkJBLHNDQUE3QiIsImZpbGUiOiJkZS5zZWN1Y2FyZC5jb25uZWN0L3Byb2R1Y3QvZ2VuZXJhbC9nZW5lcmFsLmpzIiwic291cmNlUm9vdCI6Ii4uL3NyYy8ifQ==

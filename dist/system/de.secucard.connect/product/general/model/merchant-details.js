@@ -1,25 +1,18 @@
-System.register([], function (_export) {
-    "use strict";
+"use strict";
 
-    var MerchantDetails;
-
-    function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-    return {
-        setters: [],
-        execute: function () {
-            MerchantDetails = function MerchantDetails(store, merchant, _news, _balance, _points) {
-                _classCallCheck(this, MerchantDetails);
-
-                this.store = store;
-                this.merchant = merchant;
-                this._news = _news;
-                this._balance = _balance;
-                this._points = _points;
-            };
-
-            _export("MerchantDetails", MerchantDetails);
-        }
-    };
+Object.defineProperty(exports, "__esModule", {
+    value: true
 });
-//# sourceMappingURL=data:application/json;charset=utf8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbImRlLnNlY3VjYXJkLmNvbm5lY3QvcHJvZHVjdC9nZW5lcmFsL21vZGVsL21lcmNoYW50LWRldGFpbHMuanMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7O1FBV2EsZUFBZTs7Ozs7OztBQUFmLDJCQUFlLEdBRWIsU0FGRixlQUFlLENBRVosS0FBSyxFQUFFLFFBQVEsRUFBRSxLQUFLLEVBQUUsUUFBUSxFQUFFLE9BQU8sRUFBRTtzQ0FGOUMsZUFBZTs7QUFHcEIsb0JBQUksQ0FBQyxLQUFLLEdBQUcsS0FBSyxDQUFDO0FBQ25CLG9CQUFJLENBQUMsUUFBUSxHQUFHLFFBQVEsQ0FBQztBQUN6QixvQkFBSSxDQUFDLEtBQUssR0FBRyxLQUFLLENBQUM7QUFDbkIsb0JBQUksQ0FBQyxRQUFRLEdBQUcsUUFBUSxDQUFDO0FBQ3pCLG9CQUFJLENBQUMsT0FBTyxHQUFHLE9BQU8sQ0FBQzthQUMxQiIsImZpbGUiOiJkZS5zZWN1Y2FyZC5jb25uZWN0L3Byb2R1Y3QvZ2VuZXJhbC9tb2RlbC9tZXJjaGFudC1kZXRhaWxzLmpzIiwic291cmNlUm9vdCI6Ii4uL3NyYy8ifQ==
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var MerchantDetails = exports.MerchantDetails = function MerchantDetails(store, merchant, _news, _balance, _points) {
+    _classCallCheck(this, MerchantDetails);
+
+    this.store = store;
+    this.merchant = merchant;
+    this._news = _news;
+    this._balance = _balance;
+    this._points = _points;
+};
+//# sourceMappingURL=data:application/json;charset=utf8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbImRlLnNlY3VjYXJkLmNvbm5lY3QvcHJvZHVjdC9nZW5lcmFsL21vZGVsL21lcmNoYW50LWRldGFpbHMuanMiXSwibmFtZXMiOlsiTWVyY2hhbnREZXRhaWxzIiwic3RvcmUiLCJtZXJjaGFudCIsIl9uZXdzIiwiX2JhbGFuY2UiLCJfcG9pbnRzIl0sIm1hcHBpbmdzIjoiOzs7Ozs7OztJQVdhQSxlLFdBQUFBLGUsR0FFVCx5QkFBWUMsS0FBWixFQUFtQkMsUUFBbkIsRUFBNkJDLEtBQTdCLEVBQW9DQyxRQUFwQyxFQUE4Q0MsT0FBOUMsRUFBdUQ7QUFBQTs7QUFDbkQsU0FBS0osS0FBTCxHQUFhQSxLQUFiO0FBQ0EsU0FBS0MsUUFBTCxHQUFnQkEsUUFBaEI7QUFDQSxTQUFLQyxLQUFMLEdBQWFBLEtBQWI7QUFDQSxTQUFLQyxRQUFMLEdBQWdCQSxRQUFoQjtBQUNBLFNBQUtDLE9BQUwsR0FBZUEsT0FBZjtBQUNILEMiLCJmaWxlIjoiZGUuc2VjdWNhcmQuY29ubmVjdC9wcm9kdWN0L2dlbmVyYWwvbW9kZWwvbWVyY2hhbnQtZGV0YWlscy5qcyIsInNvdXJjZVJvb3QiOiIuLi9zcmMvIn0=
