@@ -1,23 +1,16 @@
-System.register([], function (_export) {
-    "use strict";
+"use strict";
 
-    var Assignment;
-
-    function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-    return {
-        setters: [],
-        execute: function () {
-            Assignment = function Assignment(type, owner, created) {
-                _classCallCheck(this, Assignment);
-
-                this.type = type;
-                this.owner = owner;
-                this.created = created;
-            };
-
-            _export("Assignment", Assignment);
-        }
-    };
+Object.defineProperty(exports, "__esModule", {
+    value: true
 });
-//# sourceMappingURL=data:application/json;charset=utf8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbImRlLnNlY3VjYXJkLmNvbm5lY3QvcHJvZHVjdC9nZW5lcmFsL21vZGVsL2Fzc2lnbm1lbnQuanMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7O1FBV2EsVUFBVTs7Ozs7OztBQUFWLHNCQUFVLEdBRVIsU0FGRixVQUFVLENBRVAsSUFBSSxFQUFFLEtBQUssRUFBRSxPQUFPLEVBQUU7c0NBRnpCLFVBQVU7O0FBR2Ysb0JBQUksQ0FBQyxJQUFJLEdBQUcsSUFBSSxDQUFDO0FBQ2pCLG9CQUFJLENBQUMsS0FBSyxHQUFHLEtBQUssQ0FBQztBQUNuQixvQkFBSSxDQUFDLE9BQU8sR0FBRyxPQUFPLENBQUM7YUFDMUIiLCJmaWxlIjoiZGUuc2VjdWNhcmQuY29ubmVjdC9wcm9kdWN0L2dlbmVyYWwvbW9kZWwvYXNzaWdubWVudC5qcyIsInNvdXJjZVJvb3QiOiIuLi9zcmMvIn0=
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var Assignment = exports.Assignment = function Assignment(type, owner, created) {
+    _classCallCheck(this, Assignment);
+
+    this.type = type;
+    this.owner = owner;
+    this.created = created;
+};
+//# sourceMappingURL=data:application/json;charset=utf8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbImRlLnNlY3VjYXJkLmNvbm5lY3QvcHJvZHVjdC9nZW5lcmFsL21vZGVsL2Fzc2lnbm1lbnQuanMiXSwibmFtZXMiOlsiQXNzaWdubWVudCIsInR5cGUiLCJvd25lciIsImNyZWF0ZWQiXSwibWFwcGluZ3MiOiI7Ozs7Ozs7O0lBV2FBLFUsV0FBQUEsVSxHQUVULG9CQUFZQyxJQUFaLEVBQWtCQyxLQUFsQixFQUF5QkMsT0FBekIsRUFBa0M7QUFBQTs7QUFDOUIsU0FBS0YsSUFBTCxHQUFZQSxJQUFaO0FBQ0EsU0FBS0MsS0FBTCxHQUFhQSxLQUFiO0FBQ0EsU0FBS0MsT0FBTCxHQUFlQSxPQUFmO0FBQ0gsQyIsImZpbGUiOiJkZS5zZWN1Y2FyZC5jb25uZWN0L3Byb2R1Y3QvZ2VuZXJhbC9tb2RlbC9hc3NpZ25tZW50LmpzIiwic291cmNlUm9vdCI6Ii4uL3NyYy8ifQ==

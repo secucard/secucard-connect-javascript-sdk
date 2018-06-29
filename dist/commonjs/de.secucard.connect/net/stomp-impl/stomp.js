@@ -1,16 +1,13 @@
 'use strict';
 
 exports.__esModule = true;
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
+exports.Stomp = undefined;
 
 var _frame2 = require('./frame');
 
-var _eventemitter3 = require('eventemitter3');
+var _eventemitter = require('eventemitter3');
 
-var _eventemitter32 = _interopRequireDefault(_eventemitter3);
+var _eventemitter2 = _interopRequireDefault(_eventemitter);
 
 var _uuid = require('uuid');
 
@@ -20,16 +17,20 @@ var _minilog = require('minilog');
 
 var _minilog2 = _interopRequireDefault(_minilog);
 
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
 var utils = {};
 utils.really_defined = function (var_to_test) {
     return !(var_to_test == null || var_to_test == undefined);
 };
 
-var Stomp = (function () {
+var Stomp = exports.Stomp = function () {
     function Stomp(SocketImpl) {
         _classCallCheck(this, Stomp);
 
-        Object.assign(this, _eventemitter32['default'].prototype);
+        Object.assign(this, _eventemitter2.default.prototype);
 
         this._subscribed_to = {};
         this.session = null;
@@ -81,7 +82,7 @@ var Stomp = (function () {
                 }
                 break;
             case "CONNECTED":
-                _minilog2['default']('secucard.STOMP').debug('Connected');
+                (0, _minilog2.default)('secucard.STOMP').debug('Connected');
                 this.session = this_frame.headers['session'];
                 this.emit('connected');
                 break;
@@ -92,7 +93,7 @@ var Stomp = (function () {
                 this.emit('error', this_frame);
                 break;
             default:
-                _minilog2['default']('secucard.STOMP').error('Could not parse command', this_frame.command);
+                (0, _minilog2.default)('secucard.STOMP').error('Could not parse command', this_frame.command);
         }
     };
 
@@ -138,7 +139,7 @@ var Stomp = (function () {
     Stomp.prototype.send = function send(destination, headers, body, withReceipt) {
         headers['session'] = this.session;
         headers['destination'] = destination;
-        _minilog2['default']('secucard.STOMP').debug(headers, body);
+        (0, _minilog2.default)('secucard.STOMP').debug(headers, body);
         return this.send_command(this, 'SEND', headers, body, withReceipt);
     };
 
@@ -172,6 +173,7 @@ var Stomp = (function () {
             command = null,
             headers = null,
             body = null;
+
 
         if (!utils.really_defined(chunk)) {
             return null;
@@ -222,7 +224,7 @@ var Stomp = (function () {
 
         var _connected = function _connected() {
 
-            _minilog2['default']('secucard.STOMP').debug('Connected to socket');
+            (0, _minilog2.default)('secucard.STOMP').debug('Connected to socket');
             _this2.connected = true;
 
             var headers = {};
@@ -245,7 +247,7 @@ var Stomp = (function () {
         var socket = stomp.socket;
 
         socket.on('drain', function (data) {
-            _minilog2['default']('secucard.STOMP').debug('draining');
+            (0, _minilog2.default)('secucard.STOMP').debug('draining');
         });
 
         var buffer = '';
@@ -273,7 +275,7 @@ var Stomp = (function () {
         socket.on('end', function () {});
 
         socket.on('close', function (error) {
-            _minilog2['default']('secucard.STOMP').debug('Disconnected with error:', error);
+            (0, _minilog2.default)('secucard.STOMP').debug('Disconnected with error:', error);
             stomp.session = null;
             stomp.connected = false;
             stomp.emit("disconnected", error);
@@ -337,10 +339,10 @@ var Stomp = (function () {
         var socket = stomp.socket;
         var frame_str = _frame.as_string();
 
-        _minilog2['default']('secucard.STOMP').debug('socket write:', frame_str);
+        (0, _minilog2.default)('secucard.STOMP').debug('socket write:', frame_str);
 
         if (socket.write(frame_str) === false) {
-            _minilog2['default']('secucard.STOMP').debug('Write buffered');
+            (0, _minilog2.default)('secucard.STOMP').debug('Write buffered');
         }
 
         return true;
@@ -348,10 +350,8 @@ var Stomp = (function () {
 
     Stomp.prototype.createReceiptId = function createReceiptId() {
 
-        return 'rcpt-' + _uuid2['default'].v1();
+        return 'rcpt-' + _uuid2.default.v1();
     };
 
     return Stomp;
-})();
-
-exports.Stomp = Stomp;
+}();

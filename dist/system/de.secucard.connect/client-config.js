@@ -1,140 +1,154 @@
-System.register([], function (_export) {
-    'use strict';
+'use strict';
 
-    var ClientConfig;
-
-    function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
-
-    return {
-        setters: [],
-        execute: function () {
-            ClientConfig = (function () {
-                function ClientConfig() {
-                    _classCallCheck(this, ClientConfig);
-                }
-
-                ClientConfig.prototype.getOAuthUrl = function getOAuthUrl() {
-                    return this._getCompleteUrl(this.oAuthUrl);
-                };
-
-                ClientConfig.prototype.getRestUrl = function getRestUrl() {
-                    return this._getCompleteUrl(this.restUrl);
-                };
-
-                ClientConfig.prototype.getStompHost = function getStompHost() {
-                    var value = this.stompHost;
-                    if (value.endsWith('/')) {
-                        value = value.slice(0, value.length - 1);
-                    }
-                    return value;
-                };
-
-                ClientConfig.prototype.getStompPort = function getStompPort() {
-                    return this.stompPort;
-                };
-
-                ClientConfig.prototype.getStompSslEnabled = function getStompSslEnabled() {
-                    return this.stompSslEnabled;
-                };
-
-                ClientConfig.prototype.getStompVHost = function getStompVHost() {
-                    return this.stompVHost;
-                };
-
-                ClientConfig.prototype.getStompQueue = function getStompQueue() {
-                    return this.stompQueue;
-                };
-
-                ClientConfig.prototype.getStompDestination = function getStompDestination() {
-                    return this._getCompleteUrl(this.stompDestination);
-                };
-
-                ClientConfig.prototype.getStompEndpoint = function getStompEndpoint() {
-                    return this.stompEndpoint;
-                };
-
-                ClientConfig.prototype.getStompHeartbeatMs = function getStompHeartbeatMs() {
-                    return this.stompHeartbeatSec * 1000;
-                };
-
-                ClientConfig.prototype.isDevice = function isDevice() {
-                    return Boolean(this.deviceUUID);
-                };
-
-                ClientConfig.prototype.getDeviceUUID = function getDeviceUUID() {
-                    return this.deviceUUID;
-                };
-
-                ClientConfig.prototype.getRetrieveToken = function getRetrieveToken() {
-                    return this.retrieveToken;
-                };
-
-                ClientConfig.prototype.getWithCredentials = function getWithCredentials() {
-                    return this.withCredentials;
-                };
-
-                ClientConfig.prototype._getCompleteUrl = function _getCompleteUrl(value) {
-                    var url = value;
-                    if (!url.endsWith('/')) {
-                        url += '/';
-                    }
-                    return url;
-                };
-
-                ClientConfig.prototype.getLanguage = function getLanguage() {
-                    return this.language;
-                };
-
-                ClientConfig.prototype.setLanguage = function setLanguage(lang) {
-                    this.language = lang;
-                };
-
-                return ClientConfig;
-            })();
-
-            _export('ClientConfig', ClientConfig);
-
-            ClientConfig._defaults = {
-                channelDefault: '',
-                cacheDir: '',
-                deviceUUID: null,
-
-                oAuthUrl: 'https://connect.secucard.com/oauth/',
-
-                authDeviceTimeout: 0,
-                restUrl: 'https://connect.secucard.com/api/v2/',
-
-                restTimeout: 0,
-                stompEnabled: true,
-
-                stompHeartbeatSec: 30,
-
-                stompHost: 'connect.secucard.com',
-                stompPort: 61614,
-                stompVHost: null,
-                stompEndpoint: '',
-                stompDestination: '/exchange/connect.api',
-
-                stompSslEnabled: true,
-
-                stompQueue: '/temp-queue/main',
-
-                stompConnectTimeoutSec: 0,
-                stompMessageTimeoutSec: 0,
-                stompMessageAge: 0,
-                retrieveToken: null,
-
-                withCredentials: false,
-
-                language: 'de'
-            };
-
-            ClientConfig.defaults = function () {
-                var config = new ClientConfig();
-                Object.assign(config, ClientConfig._defaults);
-                return config;
-            };
-        }
-    };
+Object.defineProperty(exports, "__esModule", {
+    value: true
 });
-//# sourceMappingURL=data:application/json;charset=utf8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbImRlLnNlY3VjYXJkLmNvbm5lY3QvY2xpZW50LWNvbmZpZy5qcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiOzs7UUFXYSxZQUFZOzs7Ozs7O0FBQVosd0JBQVk7QUFFVix5QkFGRixZQUFZLEdBRVA7MENBRkwsWUFBWTtpQkFJcEI7O0FBSlEsNEJBQVksV0FNckIsV0FBVyxHQUFBLHVCQUFHO0FBQ1YsMkJBQU8sSUFBSSxDQUFDLGVBQWUsQ0FBQyxJQUFJLENBQUMsUUFBUSxDQUFDLENBQUM7aUJBQzlDOztBQVJRLDRCQUFZLFdBVXJCLFVBQVUsR0FBQSxzQkFBRztBQUNULDJCQUFPLElBQUksQ0FBQyxlQUFlLENBQUMsSUFBSSxDQUFDLE9BQU8sQ0FBQyxDQUFDO2lCQUM3Qzs7QUFaUSw0QkFBWSxXQWNyQixZQUFZLEdBQUEsd0JBQUc7QUFDWCx3QkFBSSxLQUFLLEdBQUcsSUFBSSxDQUFDLFNBQVMsQ0FBQztBQUMzQix3QkFBSSxLQUFLLENBQUMsUUFBUSxDQUFDLEdBQUcsQ0FBQyxFQUFFO0FBQ3JCLDZCQUFLLEdBQUcsS0FBSyxDQUFDLEtBQUssQ0FBQyxDQUFDLEVBQUUsS0FBSyxDQUFDLE1BQU0sR0FBRyxDQUFDLENBQUMsQ0FBQztxQkFDNUM7QUFDRCwyQkFBTyxLQUFLLENBQUM7aUJBQ2hCOztBQXBCUSw0QkFBWSxXQXNCckIsWUFBWSxHQUFBLHdCQUFHO0FBQ1gsMkJBQU8sSUFBSSxDQUFDLFNBQVMsQ0FBQztpQkFDekI7O0FBeEJRLDRCQUFZLFdBMEJyQixrQkFBa0IsR0FBQSw4QkFBRztBQUNqQiwyQkFBTyxJQUFJLENBQUMsZUFBZSxDQUFDO2lCQUMvQjs7QUE1QlEsNEJBQVksV0E4QnJCLGFBQWEsR0FBQSx5QkFBRztBQUNaLDJCQUFPLElBQUksQ0FBQyxVQUFVLENBQUM7aUJBQzFCOztBQWhDUSw0QkFBWSxXQWtDckIsYUFBYSxHQUFBLHlCQUFHO0FBQ1osMkJBQU8sSUFBSSxDQUFDLFVBQVUsQ0FBQztpQkFDMUI7O0FBcENRLDRCQUFZLFdBc0NyQixtQkFBbUIsR0FBQSwrQkFBRztBQUNsQiwyQkFBTyxJQUFJLENBQUMsZUFBZSxDQUFDLElBQUksQ0FBQyxnQkFBZ0IsQ0FBQyxDQUFDO2lCQUN0RDs7QUF4Q1EsNEJBQVksV0EwQ3JCLGdCQUFnQixHQUFBLDRCQUFHO0FBQ2YsMkJBQU8sSUFBSSxDQUFDLGFBQWEsQ0FBQztpQkFDN0I7O0FBNUNRLDRCQUFZLFdBOENyQixtQkFBbUIsR0FBQSwrQkFBRztBQUNsQiwyQkFBTyxJQUFJLENBQUMsaUJBQWlCLEdBQUcsSUFBSSxDQUFDO2lCQUN4Qzs7QUFoRFEsNEJBQVksV0FrRHJCLFFBQVEsR0FBQSxvQkFBRztBQUNQLDJCQUFPLE9BQU8sQ0FBQyxJQUFJLENBQUMsVUFBVSxDQUFDLENBQUM7aUJBQ25DOztBQXBEUSw0QkFBWSxXQXNEckIsYUFBYSxHQUFBLHlCQUFHO0FBQ1osMkJBQU8sSUFBSSxDQUFDLFVBQVUsQ0FBQztpQkFDMUI7O0FBeERRLDRCQUFZLFdBMERyQixnQkFBZ0IsR0FBQSw0QkFBRztBQUNmLDJCQUFPLElBQUksQ0FBQyxhQUFhLENBQUM7aUJBQzdCOztBQTVEUSw0QkFBWSxXQThEckIsa0JBQWtCLEdBQUEsOEJBQUc7QUFDakIsMkJBQU8sSUFBSSxDQUFDLGVBQWUsQ0FBQztpQkFDL0I7O0FBaEVRLDRCQUFZLFdBa0VyQixlQUFlLEdBQUEseUJBQUMsS0FBSyxFQUFFO0FBQ25CLHdCQUFJLEdBQUcsR0FBRyxLQUFLLENBQUM7QUFDaEIsd0JBQUksQ0FBQyxHQUFHLENBQUMsUUFBUSxDQUFDLEdBQUcsQ0FBQyxFQUFFO0FBQ3BCLDJCQUFHLElBQUksR0FBRyxDQUFDO3FCQUNkO0FBQ0QsMkJBQU8sR0FBRyxDQUFDO2lCQUNkOztBQXhFUSw0QkFBWSxXQTBFckIsV0FBVyxHQUFBLHVCQUFHO0FBQ1YsMkJBQU8sSUFBSSxDQUFDLFFBQVEsQ0FBQztpQkFDeEI7O0FBNUVRLDRCQUFZLFdBOEVyQixXQUFXLEdBQUEscUJBQUMsSUFBSSxFQUFFO0FBQ2Qsd0JBQUksQ0FBQyxRQUFRLEdBQUcsSUFBSSxDQUFDO2lCQUN4Qjs7dUJBaEZRLFlBQVk7Ozs7O0FBbUZ6Qix3QkFBWSxDQUFDLFNBQVMsR0FBRztBQUVyQiw4QkFBYyxFQUFFLEVBQUU7QUFHbEIsd0JBQVEsRUFBRSxFQUFFO0FBR1osMEJBQVUsRUFBRSxJQUFJOztBQUdoQix3QkFBUSxFQUFFLHFDQUFxQzs7QUFFL0MsaUNBQWlCLEVBQUUsQ0FBQztBQUdwQix1QkFBTyxFQUFFLHNDQUFzQzs7QUFFL0MsMkJBQVcsRUFBRSxDQUFDO0FBR2QsNEJBQVksRUFBRSxJQUFJOztBQUVsQixpQ0FBaUIsRUFBRSxFQUFFOztBQUVyQix5QkFBUyxFQUFFLHNCQUFzQjtBQUNqQyx5QkFBUyxFQUFFLEtBQUs7QUFDaEIsMEJBQVUsRUFBRSxJQUFJO0FBQ2hCLDZCQUFhLEVBQUUsRUFBRTtBQUVqQixnQ0FBZ0IsRUFBRSx1QkFBdUI7O0FBRXpDLCtCQUFlLEVBQUUsSUFBSTs7QUFHckIsMEJBQVUsRUFBRSxrQkFBa0I7O0FBRzlCLHNDQUFzQixFQUFFLENBQUM7QUFFekIsc0NBQXNCLEVBQUUsQ0FBQztBQU16QiwrQkFBZSxFQUFFLENBQUM7QUFHbEIsNkJBQWEsRUFBRSxJQUFJOztBQUduQiwrQkFBZSxFQUFFLEtBQUs7O0FBR3RCLHdCQUFRLEVBQUUsSUFBSTthQUNqQixDQUFDOztBQUVGLHdCQUFZLENBQUMsUUFBUSxHQUFHLFlBQU07QUFDMUIsb0JBQUksTUFBTSxHQUFHLElBQUksWUFBWSxFQUFFLENBQUM7QUFDaEMsc0JBQU0sQ0FBQyxNQUFNLENBQUMsTUFBTSxFQUFFLFlBQVksQ0FBQyxTQUFTLENBQUMsQ0FBQztBQUM5Qyx1QkFBTyxNQUFNLENBQUM7YUFDakIsQ0FBQyIsImZpbGUiOiJkZS5zZWN1Y2FyZC5jb25uZWN0L2NsaWVudC1jb25maWcuanMiLCJzb3VyY2VSb290IjoiLi4vc3JjLyJ9
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var ClientConfig = exports.ClientConfig = function () {
+    function ClientConfig() {
+        _classCallCheck(this, ClientConfig);
+    }
+
+    _createClass(ClientConfig, [{
+        key: 'getOAuthUrl',
+        value: function getOAuthUrl() {
+            return this._getCompleteUrl(this.oAuthUrl);
+        }
+    }, {
+        key: 'getRestUrl',
+        value: function getRestUrl() {
+            return this._getCompleteUrl(this.restUrl);
+        }
+    }, {
+        key: 'getStompHost',
+        value: function getStompHost() {
+            var value = this.stompHost;
+            if (value.endsWith('/')) {
+                value = value.slice(0, value.length - 1);
+            }
+            return value;
+        }
+    }, {
+        key: 'getStompPort',
+        value: function getStompPort() {
+            return this.stompPort;
+        }
+    }, {
+        key: 'getStompSslEnabled',
+        value: function getStompSslEnabled() {
+            return this.stompSslEnabled;
+        }
+    }, {
+        key: 'getStompVHost',
+        value: function getStompVHost() {
+            return this.stompVHost;
+        }
+    }, {
+        key: 'getStompQueue',
+        value: function getStompQueue() {
+            return this.stompQueue;
+        }
+    }, {
+        key: 'getStompDestination',
+        value: function getStompDestination() {
+            return this._getCompleteUrl(this.stompDestination);
+        }
+    }, {
+        key: 'getStompEndpoint',
+        value: function getStompEndpoint() {
+            return this.stompEndpoint;
+        }
+    }, {
+        key: 'getStompHeartbeatMs',
+        value: function getStompHeartbeatMs() {
+            return this.stompHeartbeatSec * 1000;
+        }
+    }, {
+        key: 'isDevice',
+        value: function isDevice() {
+            return Boolean(this.deviceUUID);
+        }
+    }, {
+        key: 'getDeviceUUID',
+        value: function getDeviceUUID() {
+            return this.deviceUUID;
+        }
+    }, {
+        key: 'getRetrieveToken',
+        value: function getRetrieveToken() {
+            return this.retrieveToken;
+        }
+    }, {
+        key: 'getWithCredentials',
+        value: function getWithCredentials() {
+            return this.withCredentials;
+        }
+    }, {
+        key: '_getCompleteUrl',
+        value: function _getCompleteUrl(value) {
+            var url = value;
+            if (!url.endsWith('/')) {
+                url += '/';
+            }
+            return url;
+        }
+    }, {
+        key: 'getLanguage',
+        value: function getLanguage() {
+            return this.language;
+        }
+    }, {
+        key: 'setLanguage',
+        value: function setLanguage(lang) {
+            this.language = lang;
+        }
+    }]);
+
+    return ClientConfig;
+}();
+
+ClientConfig._defaults = {
+    channelDefault: '',
+    cacheDir: '',
+    deviceUUID: null,
+
+    oAuthUrl: 'https://connect.secucard.com/oauth/',
+
+    authDeviceTimeout: 0,
+    restUrl: 'https://connect.secucard.com/api/v2/',
+
+    restTimeout: 0,
+    stompEnabled: true,
+
+    stompHeartbeatSec: 30,
+
+    stompHost: 'connect.secucard.com',
+    stompPort: 61614,
+    stompVHost: null,
+    stompEndpoint: '',
+    stompDestination: '/exchange/connect.api',
+
+    stompSslEnabled: true,
+
+    stompQueue: '/temp-queue/main',
+
+    stompConnectTimeoutSec: 0,
+    stompMessageTimeoutSec: 0,
+    stompMessageAge: 0,
+    retrieveToken: null,
+
+    withCredentials: false,
+
+    language: 'de'
+};
+
+ClientConfig.defaults = function () {
+    var config = new ClientConfig();
+    Object.assign(config, ClientConfig._defaults);
+    return config;
+};
+//# sourceMappingURL=data:application/json;charset=utf8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbImRlLnNlY3VjYXJkLmNvbm5lY3QvY2xpZW50LWNvbmZpZy5qcyJdLCJuYW1lcyI6WyJDbGllbnRDb25maWciLCJfZ2V0Q29tcGxldGVVcmwiLCJvQXV0aFVybCIsInJlc3RVcmwiLCJ2YWx1ZSIsInN0b21wSG9zdCIsImVuZHNXaXRoIiwic2xpY2UiLCJsZW5ndGgiLCJzdG9tcFBvcnQiLCJzdG9tcFNzbEVuYWJsZWQiLCJzdG9tcFZIb3N0Iiwic3RvbXBRdWV1ZSIsInN0b21wRGVzdGluYXRpb24iLCJzdG9tcEVuZHBvaW50Iiwic3RvbXBIZWFydGJlYXRTZWMiLCJCb29sZWFuIiwiZGV2aWNlVVVJRCIsInJldHJpZXZlVG9rZW4iLCJ3aXRoQ3JlZGVudGlhbHMiLCJ1cmwiLCJsYW5ndWFnZSIsImxhbmciLCJfZGVmYXVsdHMiLCJjaGFubmVsRGVmYXVsdCIsImNhY2hlRGlyIiwiYXV0aERldmljZVRpbWVvdXQiLCJyZXN0VGltZW91dCIsInN0b21wRW5hYmxlZCIsInN0b21wQ29ubmVjdFRpbWVvdXRTZWMiLCJzdG9tcE1lc3NhZ2VUaW1lb3V0U2VjIiwic3RvbXBNZXNzYWdlQWdlIiwiZGVmYXVsdHMiLCJjb25maWciLCJPYmplY3QiLCJhc3NpZ24iXSwibWFwcGluZ3MiOiI7Ozs7Ozs7Ozs7SUFXYUEsWSxXQUFBQSxZO0FBRVQsNEJBQWM7QUFBQTtBQUViOzs7O3NDQUVhO0FBQ1YsbUJBQU8sS0FBS0MsZUFBTCxDQUFxQixLQUFLQyxRQUExQixDQUFQO0FBQ0g7OztxQ0FFWTtBQUNULG1CQUFPLEtBQUtELGVBQUwsQ0FBcUIsS0FBS0UsT0FBMUIsQ0FBUDtBQUNIOzs7dUNBRWM7QUFDWCxnQkFBSUMsUUFBUSxLQUFLQyxTQUFqQjtBQUNBLGdCQUFJRCxNQUFNRSxRQUFOLENBQWUsR0FBZixDQUFKLEVBQXlCO0FBQ3JCRix3QkFBUUEsTUFBTUcsS0FBTixDQUFZLENBQVosRUFBZUgsTUFBTUksTUFBTixHQUFlLENBQTlCLENBQVI7QUFDSDtBQUNELG1CQUFPSixLQUFQO0FBQ0g7Ozt1Q0FFYztBQUNYLG1CQUFPLEtBQUtLLFNBQVo7QUFDSDs7OzZDQUVvQjtBQUNqQixtQkFBTyxLQUFLQyxlQUFaO0FBQ0g7Ozt3Q0FFZTtBQUNaLG1CQUFPLEtBQUtDLFVBQVo7QUFDSDs7O3dDQUVlO0FBQ1osbUJBQU8sS0FBS0MsVUFBWjtBQUNIOzs7OENBRXFCO0FBQ2xCLG1CQUFPLEtBQUtYLGVBQUwsQ0FBcUIsS0FBS1ksZ0JBQTFCLENBQVA7QUFDSDs7OzJDQUVrQjtBQUNmLG1CQUFPLEtBQUtDLGFBQVo7QUFDSDs7OzhDQUVxQjtBQUNsQixtQkFBTyxLQUFLQyxpQkFBTCxHQUF5QixJQUFoQztBQUNIOzs7bUNBRVU7QUFDUCxtQkFBT0MsUUFBUSxLQUFLQyxVQUFiLENBQVA7QUFDSDs7O3dDQUVlO0FBQ1osbUJBQU8sS0FBS0EsVUFBWjtBQUNIOzs7MkNBRWtCO0FBQ2YsbUJBQU8sS0FBS0MsYUFBWjtBQUNIOzs7NkNBRW9CO0FBQ2pCLG1CQUFPLEtBQUtDLGVBQVo7QUFDSDs7O3dDQUVlZixLLEVBQU87QUFDbkIsZ0JBQUlnQixNQUFNaEIsS0FBVjtBQUNBLGdCQUFJLENBQUNnQixJQUFJZCxRQUFKLENBQWEsR0FBYixDQUFMLEVBQXdCO0FBQ3BCYyx1QkFBTyxHQUFQO0FBQ0g7QUFDRCxtQkFBT0EsR0FBUDtBQUNIOzs7c0NBRWE7QUFDVixtQkFBTyxLQUFLQyxRQUFaO0FBQ0g7OztvQ0FFV0MsSSxFQUFNO0FBQ2QsaUJBQUtELFFBQUwsR0FBZ0JDLElBQWhCO0FBQ0g7Ozs7OztBQUdMdEIsYUFBYXVCLFNBQWIsR0FBeUI7QUFFckJDLG9CQUFnQixFQUZLO0FBS3JCQyxjQUFVLEVBTFc7QUFRckJSLGdCQUFZLElBUlM7O0FBV3JCZixjQUFVLHFDQVhXOztBQWFyQndCLHVCQUFtQixDQWJFO0FBZ0JyQnZCLGFBQVMsc0NBaEJZOztBQWtCckJ3QixpQkFBYSxDQWxCUTtBQXFCckJDLGtCQUFjLElBckJPOztBQXVCckJiLHVCQUFtQixFQXZCRTs7QUF5QnJCVixlQUFXLHNCQXpCVTtBQTBCckJJLGVBQVcsS0ExQlU7QUEyQnJCRSxnQkFBWSxJQTNCUztBQTRCckJHLG1CQUFlLEVBNUJNO0FBOEJyQkQsc0JBQWtCLHVCQTlCRzs7QUFnQ3JCSCxxQkFBaUIsSUFoQ0k7O0FBbUNyQkUsZ0JBQVksa0JBbkNTOztBQXNDckJpQiw0QkFBd0IsQ0F0Q0g7QUF3Q3JCQyw0QkFBd0IsQ0F4Q0g7QUE4Q3JCQyxxQkFBaUIsQ0E5Q0k7QUFpRHJCYixtQkFBZSxJQWpETTs7QUFvRHJCQyxxQkFBaUIsS0FwREk7O0FBdURyQkUsY0FBVTtBQXZEVyxDQUF6Qjs7QUEwREFyQixhQUFhZ0MsUUFBYixHQUF3QixZQUFNO0FBQzFCLFFBQUlDLFNBQVMsSUFBSWpDLFlBQUosRUFBYjtBQUNBa0MsV0FBT0MsTUFBUCxDQUFjRixNQUFkLEVBQXNCakMsYUFBYXVCLFNBQW5DO0FBQ0EsV0FBT1UsTUFBUDtBQUNILENBSkQiLCJmaWxlIjoiZGUuc2VjdWNhcmQuY29ubmVjdC9jbGllbnQtY29uZmlnLmpzIiwic291cmNlUm9vdCI6Ii4uL3NyYy8ifQ==

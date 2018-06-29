@@ -1,33 +1,26 @@
-System.register([], function (_export) {
-    "use strict";
+"use strict";
 
-    var Sale;
-
-    function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-    return {
-        setters: [],
-        execute: function () {
-            Sale = function Sale(amount, last_change, status, description, description_raw, store, card, cardgroup, merchantcard, balance_amount, balance_points, currency, bonus) {
-                _classCallCheck(this, Sale);
-
-                this.amount = amount;
-                this.last_change = last_change;
-                this.status = status;
-                this.description = description;
-                this.description_raw = description_raw;
-                this.store = store;
-                this.card = card;
-                this.cardgroup = cardgroup;
-                this.merchantcard = merchantcard;
-                this.balance_amount = balance_amount;
-                this.balance_points = balance_points;
-                this.currency = currency;
-                this.bonus = bonus;
-            };
-
-            _export("Sale", Sale);
-        }
-    };
+Object.defineProperty(exports, "__esModule", {
+    value: true
 });
-//# sourceMappingURL=data:application/json;charset=utf8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbImRlLnNlY3VjYXJkLmNvbm5lY3QvcHJvZHVjdC9sb3lhbHR5L21vZGVsL3NhbGUuanMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7O1FBV2EsSUFBSTs7Ozs7OztBQUFKLGdCQUFJLEdBRUYsU0FGRixJQUFJLENBRUQsTUFBTSxFQUFFLFdBQVcsRUFBRSxNQUFNLEVBQUUsV0FBVyxFQUN4QyxlQUFlLEVBQUUsS0FBSyxFQUFFLElBQUksRUFBRSxTQUFTLEVBQUUsWUFBWSxFQUNyRCxjQUFjLEVBQUUsY0FBYyxFQUFFLFFBQVEsRUFBRSxLQUFLLEVBQUU7c0NBSnBELElBQUk7O0FBS1Qsb0JBQUksQ0FBQyxNQUFNLEdBQUcsTUFBTSxDQUFDO0FBQ3JCLG9CQUFJLENBQUMsV0FBVyxHQUFHLFdBQVcsQ0FBQztBQUMvQixvQkFBSSxDQUFDLE1BQU0sR0FBRyxNQUFNLENBQUM7QUFDckIsb0JBQUksQ0FBQyxXQUFXLEdBQUcsV0FBVyxDQUFDO0FBQy9CLG9CQUFJLENBQUMsZUFBZSxHQUFHLGVBQWUsQ0FBQztBQUN2QyxvQkFBSSxDQUFDLEtBQUssR0FBRyxLQUFLLENBQUM7QUFDbkIsb0JBQUksQ0FBQyxJQUFJLEdBQUcsSUFBSSxDQUFDO0FBQ2pCLG9CQUFJLENBQUMsU0FBUyxHQUFHLFNBQVMsQ0FBQztBQUMzQixvQkFBSSxDQUFDLFlBQVksR0FBRyxZQUFZLENBQUM7QUFDakMsb0JBQUksQ0FBQyxjQUFjLEdBQUcsY0FBYyxDQUFDO0FBQ3JDLG9CQUFJLENBQUMsY0FBYyxHQUFHLGNBQWMsQ0FBQztBQUNyQyxvQkFBSSxDQUFDLFFBQVEsR0FBRyxRQUFRLENBQUM7QUFDekIsb0JBQUksQ0FBQyxLQUFLLEdBQUcsS0FBSyxDQUFDO2FBQ3RCIiwiZmlsZSI6ImRlLnNlY3VjYXJkLmNvbm5lY3QvcHJvZHVjdC9sb3lhbHR5L21vZGVsL3NhbGUuanMiLCJzb3VyY2VSb290IjoiLi4vc3JjLyJ9
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var Sale = exports.Sale = function Sale(amount, last_change, status, description, description_raw, store, card, cardgroup, merchantcard, balance_amount, balance_points, currency, bonus) {
+    _classCallCheck(this, Sale);
+
+    this.amount = amount;
+    this.last_change = last_change;
+    this.status = status;
+    this.description = description;
+    this.description_raw = description_raw;
+    this.store = store;
+    this.card = card;
+    this.cardgroup = cardgroup;
+    this.merchantcard = merchantcard;
+    this.balance_amount = balance_amount;
+    this.balance_points = balance_points;
+    this.currency = currency;
+    this.bonus = bonus;
+};
+//# sourceMappingURL=data:application/json;charset=utf8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbImRlLnNlY3VjYXJkLmNvbm5lY3QvcHJvZHVjdC9sb3lhbHR5L21vZGVsL3NhbGUuanMiXSwibmFtZXMiOlsiU2FsZSIsImFtb3VudCIsImxhc3RfY2hhbmdlIiwic3RhdHVzIiwiZGVzY3JpcHRpb24iLCJkZXNjcmlwdGlvbl9yYXciLCJzdG9yZSIsImNhcmQiLCJjYXJkZ3JvdXAiLCJtZXJjaGFudGNhcmQiLCJiYWxhbmNlX2Ftb3VudCIsImJhbGFuY2VfcG9pbnRzIiwiY3VycmVuY3kiLCJib251cyJdLCJtYXBwaW5ncyI6Ijs7Ozs7Ozs7SUFXYUEsSSxXQUFBQSxJLEdBRVQsY0FBWUMsTUFBWixFQUFvQkMsV0FBcEIsRUFBaUNDLE1BQWpDLEVBQXlDQyxXQUF6QyxFQUNZQyxlQURaLEVBQzZCQyxLQUQ3QixFQUNvQ0MsSUFEcEMsRUFDMENDLFNBRDFDLEVBQ3FEQyxZQURyRCxFQUVZQyxjQUZaLEVBRTRCQyxjQUY1QixFQUU0Q0MsUUFGNUMsRUFFc0RDLEtBRnRELEVBRTZEO0FBQUE7O0FBQ3pELFNBQUtaLE1BQUwsR0FBY0EsTUFBZDtBQUNBLFNBQUtDLFdBQUwsR0FBbUJBLFdBQW5CO0FBQ0EsU0FBS0MsTUFBTCxHQUFjQSxNQUFkO0FBQ0EsU0FBS0MsV0FBTCxHQUFtQkEsV0FBbkI7QUFDQSxTQUFLQyxlQUFMLEdBQXVCQSxlQUF2QjtBQUNBLFNBQUtDLEtBQUwsR0FBYUEsS0FBYjtBQUNBLFNBQUtDLElBQUwsR0FBWUEsSUFBWjtBQUNBLFNBQUtDLFNBQUwsR0FBaUJBLFNBQWpCO0FBQ0EsU0FBS0MsWUFBTCxHQUFvQkEsWUFBcEI7QUFDQSxTQUFLQyxjQUFMLEdBQXNCQSxjQUF0QjtBQUNBLFNBQUtDLGNBQUwsR0FBc0JBLGNBQXRCO0FBQ0EsU0FBS0MsUUFBTCxHQUFnQkEsUUFBaEI7QUFDQSxTQUFLQyxLQUFMLEdBQWFBLEtBQWI7QUFDSCxDIiwiZmlsZSI6ImRlLnNlY3VjYXJkLmNvbm5lY3QvcHJvZHVjdC9sb3lhbHR5L21vZGVsL3NhbGUuanMiLCJzb3VyY2VSb290IjoiLi4vc3JjLyJ9

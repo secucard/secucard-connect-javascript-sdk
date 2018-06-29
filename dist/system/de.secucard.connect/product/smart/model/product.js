@@ -1,27 +1,20 @@
-System.register([], function (_export) {
-    "use strict";
+"use strict";
 
-    var Product;
-
-    function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-    return {
-        setters: [],
-        execute: function () {
-            Product = function Product(articleNumber, ean, desc, quantity, priceOne, tax, group) {
-                _classCallCheck(this, Product);
-
-                this.articleNumber = articleNumber;
-                this.ean = ean;
-                this.desc = desc;
-                this.quantity = quantity;
-                this.priceOne = priceOne;
-                this.tax = tax;
-                this.group = group;
-            };
-
-            _export("Product", Product);
-        }
-    };
+Object.defineProperty(exports, "__esModule", {
+    value: true
 });
-//# sourceMappingURL=data:application/json;charset=utf8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbImRlLnNlY3VjYXJkLmNvbm5lY3QvcHJvZHVjdC9zbWFydC9tb2RlbC9wcm9kdWN0LmpzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7OztRQVdhLE9BQU87Ozs7Ozs7QUFBUCxtQkFBTyxHQUVMLFNBRkYsT0FBTyxDQUVKLGFBQWEsRUFBRSxHQUFHLEVBQUUsSUFBSSxFQUFFLFFBQVEsRUFBRSxRQUFRLEVBQUUsR0FBRyxFQUFFLEtBQUssRUFBRTtzQ0FGN0QsT0FBTzs7QUFHWixvQkFBSSxDQUFDLGFBQWEsR0FBRyxhQUFhLENBQUM7QUFDbkMsb0JBQUksQ0FBQyxHQUFHLEdBQUcsR0FBRyxDQUFDO0FBQ2Ysb0JBQUksQ0FBQyxJQUFJLEdBQUcsSUFBSSxDQUFDO0FBQ2pCLG9CQUFJLENBQUMsUUFBUSxHQUFHLFFBQVEsQ0FBQztBQUN6QixvQkFBSSxDQUFDLFFBQVEsR0FBRyxRQUFRLENBQUM7QUFDekIsb0JBQUksQ0FBQyxHQUFHLEdBQUcsR0FBRyxDQUFDO0FBQ2Ysb0JBQUksQ0FBQyxLQUFLLEdBQUcsS0FBSyxDQUFDO2FBQ3RCIiwiZmlsZSI6ImRlLnNlY3VjYXJkLmNvbm5lY3QvcHJvZHVjdC9zbWFydC9tb2RlbC9wcm9kdWN0LmpzIiwic291cmNlUm9vdCI6Ii4uL3NyYy8ifQ==
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var Product = exports.Product = function Product(articleNumber, ean, desc, quantity, priceOne, tax, group) {
+    _classCallCheck(this, Product);
+
+    this.articleNumber = articleNumber;
+    this.ean = ean;
+    this.desc = desc;
+    this.quantity = quantity;
+    this.priceOne = priceOne;
+    this.tax = tax;
+    this.group = group;
+};
+//# sourceMappingURL=data:application/json;charset=utf8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbImRlLnNlY3VjYXJkLmNvbm5lY3QvcHJvZHVjdC9zbWFydC9tb2RlbC9wcm9kdWN0LmpzIl0sIm5hbWVzIjpbIlByb2R1Y3QiLCJhcnRpY2xlTnVtYmVyIiwiZWFuIiwiZGVzYyIsInF1YW50aXR5IiwicHJpY2VPbmUiLCJ0YXgiLCJncm91cCJdLCJtYXBwaW5ncyI6Ijs7Ozs7Ozs7SUFXYUEsTyxXQUFBQSxPLEdBRVQsaUJBQVlDLGFBQVosRUFBMkJDLEdBQTNCLEVBQWdDQyxJQUFoQyxFQUFzQ0MsUUFBdEMsRUFBZ0RDLFFBQWhELEVBQTBEQyxHQUExRCxFQUErREMsS0FBL0QsRUFBc0U7QUFBQTs7QUFDbEUsU0FBS04sYUFBTCxHQUFxQkEsYUFBckI7QUFDQSxTQUFLQyxHQUFMLEdBQVdBLEdBQVg7QUFDQSxTQUFLQyxJQUFMLEdBQVlBLElBQVo7QUFDQSxTQUFLQyxRQUFMLEdBQWdCQSxRQUFoQjtBQUNBLFNBQUtDLFFBQUwsR0FBZ0JBLFFBQWhCO0FBQ0EsU0FBS0MsR0FBTCxHQUFXQSxHQUFYO0FBQ0EsU0FBS0MsS0FBTCxHQUFhQSxLQUFiO0FBQ0gsQyIsImZpbGUiOiJkZS5zZWN1Y2FyZC5jb25uZWN0L3Byb2R1Y3Qvc21hcnQvbW9kZWwvcHJvZHVjdC5qcyIsInNvdXJjZVJvb3QiOiIuLi9zcmMvIn0=

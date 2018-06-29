@@ -1,25 +1,18 @@
-System.register([], function (_export) {
-    "use strict";
+"use strict";
 
-    var Transaction;
-
-    function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-    return {
-        setters: [],
-        execute: function () {
-            Transaction = function Transaction(basket, basketInfo, idents, merchantRef, transactionRef) {
-                _classCallCheck(this, Transaction);
-
-                this.basket = basket;
-                this.basket_info = basketInfo;
-                this.idents = idents;
-                this.merchantRef = merchantRef;
-                this.transactionRef = transactionRef;
-            };
-
-            _export("Transaction", Transaction);
-        }
-    };
+Object.defineProperty(exports, "__esModule", {
+    value: true
 });
-//# sourceMappingURL=data:application/json;charset=utf8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbImRlLnNlY3VjYXJkLmNvbm5lY3QvcHJvZHVjdC9zbWFydC9tb2RlbC90cmFuc2FjdGlvbi5qcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiOzs7UUFXYSxXQUFXOzs7Ozs7O0FBQVgsdUJBQVcsR0FFVCxTQUZGLFdBQVcsQ0FFUixNQUFNLEVBQUUsVUFBVSxFQUFFLE1BQU0sRUFBRSxXQUFXLEVBQUUsY0FBYyxFQUFFO3NDQUY1RCxXQUFXOztBQUdoQixvQkFBSSxDQUFDLE1BQU0sR0FBRyxNQUFNLENBQUM7QUFDckIsb0JBQUksQ0FBQyxXQUFXLEdBQUcsVUFBVSxDQUFDO0FBQzlCLG9CQUFJLENBQUMsTUFBTSxHQUFHLE1BQU0sQ0FBQztBQUNyQixvQkFBSSxDQUFDLFdBQVcsR0FBRyxXQUFXLENBQUM7QUFDL0Isb0JBQUksQ0FBQyxjQUFjLEdBQUcsY0FBYyxDQUFDO2FBQ3hDIiwiZmlsZSI6ImRlLnNlY3VjYXJkLmNvbm5lY3QvcHJvZHVjdC9zbWFydC9tb2RlbC90cmFuc2FjdGlvbi5qcyIsInNvdXJjZVJvb3QiOiIuLi9zcmMvIn0=
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var Transaction = exports.Transaction = function Transaction(basket, basketInfo, idents, merchantRef, transactionRef) {
+    _classCallCheck(this, Transaction);
+
+    this.basket = basket;
+    this.basket_info = basketInfo;
+    this.idents = idents;
+    this.merchantRef = merchantRef;
+    this.transactionRef = transactionRef;
+};
+//# sourceMappingURL=data:application/json;charset=utf8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbImRlLnNlY3VjYXJkLmNvbm5lY3QvcHJvZHVjdC9zbWFydC9tb2RlbC90cmFuc2FjdGlvbi5qcyJdLCJuYW1lcyI6WyJUcmFuc2FjdGlvbiIsImJhc2tldCIsImJhc2tldEluZm8iLCJpZGVudHMiLCJtZXJjaGFudFJlZiIsInRyYW5zYWN0aW9uUmVmIiwiYmFza2V0X2luZm8iXSwibWFwcGluZ3MiOiI7Ozs7Ozs7O0lBV2FBLFcsV0FBQUEsVyxHQUVULHFCQUFZQyxNQUFaLEVBQW9CQyxVQUFwQixFQUFnQ0MsTUFBaEMsRUFBd0NDLFdBQXhDLEVBQXFEQyxjQUFyRCxFQUFxRTtBQUFBOztBQUNqRSxTQUFLSixNQUFMLEdBQWNBLE1BQWQ7QUFDQSxTQUFLSyxXQUFMLEdBQW1CSixVQUFuQjtBQUNBLFNBQUtDLE1BQUwsR0FBY0EsTUFBZDtBQUNBLFNBQUtDLFdBQUwsR0FBbUJBLFdBQW5CO0FBQ0EsU0FBS0MsY0FBTCxHQUFzQkEsY0FBdEI7QUFDSCxDIiwiZmlsZSI6ImRlLnNlY3VjYXJkLmNvbm5lY3QvcHJvZHVjdC9zbWFydC9tb2RlbC90cmFuc2FjdGlvbi5qcyIsInNvdXJjZVJvb3QiOiIuLi9zcmMvIn0=

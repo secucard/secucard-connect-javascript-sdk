@@ -1,16 +1,9 @@
-System.register([], function (_export) {
-  "use strict";
+"use strict";
 
-  var Version;
-  return {
-    setters: [],
-    execute: function () {
-      Version = {
-        "name": "0.5.0"
-      };
-
-      _export("Version", Version);
-    }
-  };
+Object.defineProperty(exports, "__esModule", {
+  value: true
 });
-//# sourceMappingURL=data:application/json;charset=utf8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbImRlLnNlY3VjYXJkLmNvbm5lY3QvY2xpZW50LXZlcnNpb24uanMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7O01BV2EsT0FBTzs7OztBQUFQLGFBQU8sR0FBRztBQUNuQixjQUFNLEVBQUUsT0FBTztPQUNsQiIsImZpbGUiOiJkZS5zZWN1Y2FyZC5jb25uZWN0L2NsaWVudC12ZXJzaW9uLmpzIiwic291cmNlUm9vdCI6Ii4uL3NyYy8ifQ==
+var Version = exports.Version = {
+  "name": "0.6.0"
+};
+//# sourceMappingURL=data:application/json;charset=utf8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbImRlLnNlY3VjYXJkLmNvbm5lY3QvY2xpZW50LXZlcnNpb24uanMiXSwibmFtZXMiOlsiVmVyc2lvbiJdLCJtYXBwaW5ncyI6Ijs7Ozs7QUFXTyxJQUFNQSw0QkFBVTtBQUNuQixVQUFRO0FBRFcsQ0FBaEIiLCJmaWxlIjoiZGUuc2VjdWNhcmQuY29ubmVjdC9jbGllbnQtdmVyc2lvbi5qcyIsInNvdXJjZVJvb3QiOiIuLi9zcmMvIn0=

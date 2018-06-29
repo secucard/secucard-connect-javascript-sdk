@@ -4,7 +4,7 @@ exports.__esModule = true;
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-var Ident = function Ident(type, prefix, name, length, value, valid) {
+var Ident = exports.Ident = function Ident(type, prefix, name, length, value, valid) {
     _classCallCheck(this, Ident);
 
     this.type = type;
@@ -14,5 +14,3 @@ var Ident = function Ident(type, prefix, name, length, value, valid) {
     this.value = value;
     this.valid = valid;
 };
-
-exports.Ident = Ident;

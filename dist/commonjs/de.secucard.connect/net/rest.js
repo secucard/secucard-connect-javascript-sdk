@@ -1,10 +1,7 @@
 'use strict';
 
 exports.__esModule = true;
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
+exports.Rest = undefined;
 
 var _superagent = require('superagent');
 
@@ -14,34 +11,38 @@ var _message = require('./message');
 
 var _channel = require('./channel');
 
-var _authException = require('../auth/exception');
+var _exception = require('../auth/exception');
 
-var _exception = require('./exception');
+var _exception2 = require('./exception');
 
 var _minilog = require('minilog');
 
 var _minilog2 = _interopRequireDefault(_minilog);
 
-var Rest = (function () {
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var Rest = exports.Rest = function () {
     function Rest() {
         _classCallCheck(this, Rest);
 
         this.methodFuns = {};
 
-        this.methodFuns[_message.GET] = _superagent2['default'].get;
-        this.methodFuns[_message.POST] = _superagent2['default'].post;
+        this.methodFuns[_message.GET] = _superagent2.default.get;
+        this.methodFuns[_message.POST] = _superagent2.default.post;
 
-        this.methodFuns[_message.PUT] = _superagent2['default'].put;
-        this.methodFuns[_message.HEAD] = _superagent2['default'].head;
-        this.methodFuns[_message.DELETE] = _superagent2['default'].del;
+        this.methodFuns[_message.PUT] = _superagent2.default.put;
+        this.methodFuns[_message.HEAD] = _superagent2.default.head;
+        this.methodFuns[_message.DELETE] = _superagent2.default.del;
 
-        this.methodFuns[_channel.Channel.METHOD.GET] = _superagent2['default'].get;
+        this.methodFuns[_channel.Channel.METHOD.GET] = _superagent2.default.get;
 
-        this.methodFuns[_channel.Channel.METHOD.CREATE] = _superagent2['default'].post;
-        this.methodFuns[_channel.Channel.METHOD.EXECUTE] = _superagent2['default'].post;
+        this.methodFuns[_channel.Channel.METHOD.CREATE] = _superagent2.default.post;
+        this.methodFuns[_channel.Channel.METHOD.EXECUTE] = _superagent2.default.post;
 
-        this.methodFuns[_channel.Channel.METHOD.UPDATE] = _superagent2['default'].put;
-        this.methodFuns[_channel.Channel.METHOD.DELETE] = _superagent2['default'].del;
+        this.methodFuns[_channel.Channel.METHOD.UPDATE] = _superagent2.default.put;
+        this.methodFuns[_channel.Channel.METHOD.DELETE] = _superagent2.default.del;
     }
 
     Rest.prototype.configureWithContext = function configureWithContext(context) {
@@ -150,7 +151,7 @@ var Rest = (function () {
 
     Rest.prototype.request = function request(method, params) {
         var requestSuccess = function requestSuccess(res) {
-            _minilog2['default']('secucard.rest').debug('requestSuccess', res.req.path);
+            (0, _minilog2.default)('secucard.rest').debug('requestSuccess', res.req.path);
             return res.body;
         };
 
@@ -159,7 +160,7 @@ var Rest = (function () {
             var request = JSON.stringify({ method: method, params: params });
 
             if (err.response) {
-                error = _exception.SecucardConnectException.create(err.response.body);
+                error = _exception2.SecucardConnectException.create(err.response.body);
             }
 
             error.request = request;
@@ -171,7 +172,7 @@ var Rest = (function () {
 
         var pr = !this.isRequestWithToken || this.isRequestWithToken(params.options) ? this.sendWithToken(message) : this.send(message);
 
-        return pr.then(requestSuccess)['catch'](requestError);
+        return pr.then(requestSuccess).catch(requestError);
     };
 
     Rest.prototype.generateUrl = function generateUrl(method, params) {
@@ -240,7 +241,7 @@ var Rest = (function () {
             message.setMultipart(params.multipart);
         }
 
-        _minilog2['default']('secucard.rest').debug('message', message);
+        (0, _minilog2.default)('secucard.rest').debug('message', message);
 
         return message;
     };
@@ -254,6 +255,4 @@ var Rest = (function () {
     };
 
     return Rest;
-})();
-
-exports.Rest = Rest;
+}();

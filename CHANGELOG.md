@@ -26,13 +26,6 @@
  ([cde03d3](https://github.com/secucard/secucard-connect-javascript-sdk/commit/cde03d3))
 * new method in sdk (import configuration)
  ([15c3f86](https://github.com/secucard/secucard-connect-javascript-sdk/commit/15c3f86))
-
-
-
-<a name="0.4.0"></a>
-# 0.4.0 (2017-12-18)
-
-
 * new method in sdk (import configuration)
  ([15c3f86](https://github.com/secucard/secucard-connect-javascript-sdk/commit/15c3f86))
 

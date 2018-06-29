@@ -1,6 +1,7 @@
 'use strict';
 
 exports.__esModule = true;
+exports.Services = undefined;
 
 var _identCaseService = require('./ident-case-service');
 
@@ -10,8 +11,7 @@ var _identRequestService = require('./ident-request-service');
 
 var _identResultService = require('./ident-result-service');
 
-var Services = {};
-exports.Services = Services;
+var Services = exports.Services = {};
 Services.IdentCaseService = _identCaseService.IdentCaseService;
 Services.IdentContractService = _identContractService.IdentContractService;
 Services.IdentRequestService = _identRequestService.IdentRequestService;

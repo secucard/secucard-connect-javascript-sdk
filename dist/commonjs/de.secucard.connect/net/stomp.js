@@ -1,18 +1,15 @@
 'use strict';
 
 exports.__esModule = true;
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
+exports.Stomp = undefined;
 
 var _uuid = require('uuid');
 
 var _uuid2 = _interopRequireDefault(_uuid);
 
-var _eventemitter3 = require('eventemitter3');
+var _eventemitter = require('eventemitter3');
 
-var _eventemitter32 = _interopRequireDefault(_eventemitter3);
+var _eventemitter2 = _interopRequireDefault(_eventemitter);
 
 var _minilog = require('minilog');
 
@@ -20,11 +17,15 @@ var _minilog2 = _interopRequireDefault(_minilog);
 
 var _channel = require('./channel');
 
-var _stompImplStomp = require('./stomp-impl/stomp');
+var _stomp = require('./stomp-impl/stomp');
 
 var _exception = require('./exception');
 
-var _authException = require('../auth/exception');
+var _exception2 = require('../auth/exception');
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 var utils = {};
 utils.really_defined = function (var_to_test) {
@@ -39,11 +40,11 @@ utils.sizeOfUTF8 = function (str) {
     return size;
 };
 
-var Stomp = (function () {
+var Stomp = exports.Stomp = function () {
     function Stomp(SocketImpl) {
         _classCallCheck(this, Stomp);
 
-        Object.assign(this, _eventemitter32['default'].prototype);
+        Object.assign(this, _eventemitter2.default.prototype);
 
         this.connection = null;
         this.messages = {};
@@ -60,7 +61,7 @@ var Stomp = (function () {
         this.stompCommands[_channel.Channel.METHOD.UPDATE] = 'update';
         this.stompCommands[_channel.Channel.METHOD.DELETE] = 'delete';
 
-        this.connection = new _stompImplStomp.Stomp(SocketImpl);
+        this.connection = new _stomp.Stomp(SocketImpl);
         this.connection.on('message', this._handleStompMessage.bind(this));
     }
 
@@ -128,11 +129,11 @@ var Stomp = (function () {
     Stomp.prototype.connect = function connect() {
         var _this = this;
 
-        _minilog2['default']('secucard.stomp').debug('stomp start connection');
+        (0, _minilog2.default)('secucard.stomp').debug('stomp start connection');
 
         return this.getToken().then(function (token) {
 
-            _minilog2['default']('secucard.stomp').debug('Got token', token);
+            (0, _minilog2.default)('secucard.stomp').debug('Got token', token);
             return _this._connect(token.access_token);
         });
     };
@@ -162,7 +163,7 @@ var Stomp = (function () {
                 _this2.connection.disconnect();
 
                 _this2._stompOnDisconnected = function () {
-                    _minilog2['default']('secucard.stomp').debug('stomp disconnected');
+                    (0, _minilog2.default)('secucard.stomp').debug('stomp disconnected');
                     _this2.connection.removeListener('disconnected', _this2._stompOnDisconnected);
                     delete _this2._stompOnDisconnected;
                     resolve();
@@ -180,7 +181,7 @@ var Stomp = (function () {
 
         var destination = this.buildDestination(method, params);
         var message = this.createMessage(params);
-        return this._sendMessage(destination, message)['catch'](function (err) {
+        return this._sendMessage(destination, message).catch(function (err) {
             err.request = JSON.stringify({ method: method, params: params });
             throw err;
         });
@@ -238,7 +239,7 @@ var Stomp = (function () {
         if (!accessToken) {
 
             return this.close().then(function () {
-                return Promise.reject(new _authException.AuthenticationFailedException('Access token is not valid'));
+                return Promise.reject(new _exception2.AuthenticationFailedException('Access token is not valid'));
             });
         }
 
@@ -255,17 +256,17 @@ var Stomp = (function () {
         return new Promise(function (resolve, reject) {
 
             _this3._stompOnConnected = function () {
-                _minilog2['default']('secucard.stomp').debug('stomp connected');
+                (0, _minilog2.default)('secucard.stomp').debug('stomp connected');
                 _this3._stompClearListeners ? _this3._stompClearListeners() : null;
                 resolve(true);
             };
 
             _this3._stompOnError = function (message) {
-                _minilog2['default']('secucard.stomp').error('stomp error', message);
+                (0, _minilog2.default)('secucard.stomp').error('stomp error', message);
                 _this3._stompClearListeners ? _this3._stompClearListeners() : null;
                 _this3.close().then(function () {
                     if (message.headers && message.headers.message == 'Bad CONNECT') {
-                        reject(new _authException.AuthenticationFailedException(message.body[0]));
+                        reject(new _exception2.AuthenticationFailedException(message.body[0]));
                     } else {
                         reject(message);
                     }
@@ -288,7 +289,7 @@ var Stomp = (function () {
     Stomp.prototype._sendMessage = function _sendMessage(destinationObj, message) {
         var _this4 = this;
 
-        _minilog2['default']('secucard.stomp').debug('message', destinationObj, message);
+        (0, _minilog2.default)('secucard.stomp').debug('message', destinationObj, message);
 
         return this.getToken(true).then(function (token) {
 
@@ -339,7 +340,7 @@ var Stomp = (function () {
             if (!_this4.connection.isConnected() || accessToken != _this4.connectAccessToken) {
 
                 if (_this4.connection.isConnected()) {
-                    _minilog2['default']('secucard.stomp').warn('Reconnect due token change.');
+                    (0, _minilog2.default)('secucard.stomp').warn('Reconnect due token change.');
                 }
 
                 return _this4._disconnect().then(function () {
@@ -354,7 +355,7 @@ var Stomp = (function () {
     Stomp.prototype._startSessionRefresh = function _startSessionRefresh() {
         var _this5 = this;
 
-        _minilog2['default']('secucard.stomp').debug('Stomp session refresh loop started');
+        (0, _minilog2.default)('secucard.stomp').debug('Stomp session refresh loop started');
 
         var initial = true;
 
@@ -384,13 +385,13 @@ var Stomp = (function () {
             }).then(function (res) {
 
                 _this6.emit('sessionRefresh');
-                _minilog2['default']('secucard.stomp').debug('Session refresh sent');
+                (0, _minilog2.default)('secucard.stomp').debug('Session refresh sent');
                 _this6.skipSessionRefresh = false;
                 return res;
-            })['catch'](function (err) {
+            }).catch(function (err) {
 
                 _this6.emit('sessionRefreshError');
-                _minilog2['default']('secucard.stomp').error('Session refresh failed');
+                (0, _minilog2.default)('secucard.stomp').error('Session refresh failed');
                 if (initial) {
                     throw err;
                 }
@@ -409,9 +410,9 @@ var Stomp = (function () {
     Stomp.prototype._handleStompMessage = function _handleStompMessage(frame) {
         this.skipSessionRefresh = true;
 
-        _minilog2['default']('secucard.stomp').debug('_handleStompMessage', frame);
+        (0, _minilog2.default)('secucard.stomp').debug('_handleStompMessage', frame);
 
-        var body = undefined;
+        var body = void 0;
 
         if (frame && frame.headers && frame.headers['correlation-id']) {
 
@@ -434,10 +435,8 @@ var Stomp = (function () {
     };
 
     Stomp.prototype.createCorrelationId = function createCorrelationId() {
-        return _uuid2['default'].v1();
+        return _uuid2.default.v1();
     };
 
     return Stomp;
-})();
-
-exports.Stomp = Stomp;
+}();

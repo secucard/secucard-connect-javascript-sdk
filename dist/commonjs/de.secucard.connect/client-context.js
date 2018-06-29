@@ -1,44 +1,45 @@
 'use strict';
 
 exports.__esModule = true;
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
+exports.ClientContext = undefined;
 
 var _lodash = require('lodash');
 
 var _lodash2 = _interopRequireDefault(_lodash);
 
-var _netRest = require('./net/rest');
+var _rest = require('./net/rest');
 
-var _authAuth = require('./auth/auth');
+var _auth = require('./auth/auth');
 
-var _authCredentials = require('./auth/credentials');
+var _credentials = require('./auth/credentials');
 
-var _productAppAppService = require('./product/app/app-service');
+var _appService = require('./product/app/app-service');
 
-var _netChannel = require('./net/channel');
+var _channel = require('./net/channel');
 
-var _eventemitter3 = require('eventemitter3');
+var _eventemitter = require('eventemitter3');
 
-var _eventemitter32 = _interopRequireDefault(_eventemitter3);
+var _eventemitter2 = _interopRequireDefault(_eventemitter);
 
-var _authTokenStorage = require('./auth/token-storage');
+var _tokenStorage = require('./auth/token-storage');
 
-var ClientContext = (function () {
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var ClientContext = exports.ClientContext = function () {
     function ClientContext(config, environment) {
         _classCallCheck(this, ClientContext);
 
-        Object.assign(this, _eventemitter32['default'].prototype);
+        Object.assign(this, _eventemitter2.default.prototype);
 
         this.tokenStorageCreate = environment.TokenStorage.create;
 
-        var auth = new _authAuth.Auth();
+        var auth = new _auth.Auth();
         auth.configureWithContext(this);
         this.auth = auth;
 
-        var restChannel = new _netRest.Rest();
+        var restChannel = new _rest.Rest();
         restChannel.configureWithContext(this);
         this.restChannel = restChannel;
 
@@ -68,7 +69,7 @@ var ClientContext = (function () {
                 return true;
             }
 
-            return Promise.all(_lodash2['default'].map(_lodash2['default'].values(_this.channels), function (channel) {
+            return Promise.all(_lodash2.default.map(_lodash2.default.values(_this.channels), function (channel) {
                 return channel.open();
             }));
         });
@@ -76,9 +77,9 @@ var ClientContext = (function () {
 
     ClientContext.prototype.createServices = function createServices(classList) {
         var services = Object.create(null);
-        var ServiceClass = undefined;
-        var service = undefined;
-        var uid = undefined;
+        var ServiceClass = void 0;
+        var service = void 0;
+        var uid = void 0;
         for (var i = 0; i < classList.length; i++) {
             ServiceClass = classList[i];
             service = new ServiceClass();
@@ -96,7 +97,7 @@ var ClientContext = (function () {
     };
 
     ClientContext.prototype.addAppService = function addAppService(AppMixin) {
-        var appService = _productAppAppService.AppService.createWithMixin(AppMixin);
+        var appService = _appService.AppService.createWithMixin(AppMixin);
         appService.configureWithContext(this);
         this.services[appService.getUid()] = appService;
         this.registerServiceEventTargets(appService, appService.getEventTargets());
@@ -115,9 +116,9 @@ var ClientContext = (function () {
     };
 
     ClientContext.prototype.setCredentials = function setCredentials(credentials, TokenStorageMixin) {
-        this.credentials = _authCredentials.Credentials.create(credentials);
+        this.credentials = _credentials.Credentials.create(credentials);
         if (TokenStorageMixin) {
-            this.tokenStorage = _authTokenStorage.TokenStorageInMem.createWithMixin(TokenStorageMixin);
+            this.tokenStorage = _tokenStorage.TokenStorageInMem.createWithMixin(TokenStorageMixin);
         } else {
             this.tokenStorage = this.tokenStorageCreate();
         }
@@ -144,7 +145,7 @@ var ClientContext = (function () {
 
     ClientContext.prototype.exportToken = function exportToken(isRaw) {
         return this.getAuth().getToken().then(function (token) {
-            return token ? !isRaw ? _lodash2['default'].pick(token, ['access_token', 'expireTime', 'scope', 'expires_in']) : token : null;
+            return token ? !isRaw ? _lodash2.default.pick(token, ['access_token', 'expireTime', 'scope', 'expires_in']) : token : null;
         });
     };
 
@@ -160,7 +161,7 @@ var ClientContext = (function () {
         var _this2 = this;
 
         var ch = null;
-        _lodash2['default'].each(_lodash2['default'](channelConfig).reverse().value(), function (type) {
+        _lodash2.default.each((0, _lodash2.default)(channelConfig).reverse().value(), function (type) {
             if (_this2.getChannelByType(type)) {
                 ch = _this2.getChannelByType(type);
             }
@@ -185,7 +186,7 @@ var ClientContext = (function () {
 
     ClientContext.prototype.getServiceDefaultOptions = function getServiceDefaultOptions() {
         return {
-            channelConfig: [_netChannel.Channel.STOMP, _netChannel.Channel.REST],
+            channelConfig: [_channel.Channel.STOMP, _channel.Channel.REST],
             useAuth: true
         };
     };
@@ -197,7 +198,7 @@ var ClientContext = (function () {
     ClientContext.prototype.registerServiceEventTargets = function registerServiceEventTargets(service, targets) {
         var _this3 = this;
 
-        _lodash2['default'].each(targets, function (target) {
+        _lodash2.default.each(targets, function (target) {
             if (_this3.serviceEventTargets[target.toLowerCase()]) {
                 throw new Error('Provided event target is registered already: ' + target.toLowerCase());
             }
@@ -209,7 +210,7 @@ var ClientContext = (function () {
     ClientContext.prototype.unregisterServiceEventTargets = function unregisterServiceEventTargets(targets) {
         var _this4 = this;
 
-        _lodash2['default'].each(targets, function (target) {
+        _lodash2.default.each(targets, function (target) {
             delete _this4.serviceEventTargets[target.toLowerCase()];
         });
     };
@@ -227,6 +228,4 @@ var ClientContext = (function () {
     };
 
     return ClientContext;
-})();
-
-exports.ClientContext = ClientContext;
+}();

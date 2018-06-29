@@ -1,31 +1,22 @@
-System.register([], function (_export) {
-    "use strict";
+"use strict";
 
-    var OpenHours, OpenHoursDate;
-
-    function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-    return {
-        setters: [],
-        execute: function () {
-            OpenHours = function OpenHours(open, close) {
-                _classCallCheck(this, OpenHours);
-
-                this.open = open;
-                this.close = close;
-            };
-
-            _export("OpenHours", OpenHours);
-
-            OpenHoursDate = function OpenHoursDate(day, time) {
-                _classCallCheck(this, OpenHoursDate);
-
-                this.day = day;
-                this.time = time;
-            };
-
-            _export("OpenHoursDate", OpenHoursDate);
-        }
-    };
+Object.defineProperty(exports, "__esModule", {
+    value: true
 });
-//# sourceMappingURL=data:application/json;charset=utf8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbImRlLnNlY3VjYXJkLmNvbm5lY3QvcHJvZHVjdC9nZW5lcmFsL21vZGVsL29wZW4taG91cnMuanMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7O1FBV2EsU0FBUyxFQVNULGFBQWE7Ozs7Ozs7QUFUYixxQkFBUyxHQUVQLFNBRkYsU0FBUyxDQUVOLElBQUksRUFBRSxLQUFLLEVBQUU7c0NBRmhCLFNBQVM7O0FBR2Qsb0JBQUksQ0FBQyxJQUFJLEdBQUcsSUFBSSxDQUFDO0FBQ2pCLG9CQUFJLENBQUMsS0FBSyxHQUFHLEtBQUssQ0FBQzthQUN0Qjs7OztBQUlRLHlCQUFhLEdBRVgsU0FGRixhQUFhLENBRVYsR0FBRyxFQUFFLElBQUksRUFBRTtzQ0FGZCxhQUFhOztBQUdsQixvQkFBSSxDQUFDLEdBQUcsR0FBRyxHQUFHLENBQUM7QUFDZixvQkFBSSxDQUFDLElBQUksR0FBRyxJQUFJLENBQUM7YUFDcEIiLCJmaWxlIjoiZGUuc2VjdWNhcmQuY29ubmVjdC9wcm9kdWN0L2dlbmVyYWwvbW9kZWwvb3Blbi1ob3Vycy5qcyIsInNvdXJjZVJvb3QiOiIuLi9zcmMvIn0=
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var OpenHours = exports.OpenHours = function OpenHours(open, close) {
+    _classCallCheck(this, OpenHours);
+
+    this.open = open;
+    this.close = close;
+};
+
+var OpenHoursDate = exports.OpenHoursDate = function OpenHoursDate(day, time) {
+    _classCallCheck(this, OpenHoursDate);
+
+    this.day = day;
+    this.time = time;
+};
+//# sourceMappingURL=data:application/json;charset=utf8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbImRlLnNlY3VjYXJkLmNvbm5lY3QvcHJvZHVjdC9nZW5lcmFsL21vZGVsL29wZW4taG91cnMuanMiXSwibmFtZXMiOlsiT3BlbkhvdXJzIiwib3BlbiIsImNsb3NlIiwiT3BlbkhvdXJzRGF0ZSIsImRheSIsInRpbWUiXSwibWFwcGluZ3MiOiI7Ozs7Ozs7O0lBV2FBLFMsV0FBQUEsUyxHQUVULG1CQUFZQyxJQUFaLEVBQWtCQyxLQUFsQixFQUF5QjtBQUFBOztBQUNyQixTQUFLRCxJQUFMLEdBQVlBLElBQVo7QUFDQSxTQUFLQyxLQUFMLEdBQWFBLEtBQWI7QUFDSCxDOztJQUlRQyxhLFdBQUFBLGEsR0FFVCx1QkFBWUMsR0FBWixFQUFpQkMsSUFBakIsRUFBdUI7QUFBQTs7QUFDbkIsU0FBS0QsR0FBTCxHQUFXQSxHQUFYO0FBQ0EsU0FBS0MsSUFBTCxHQUFZQSxJQUFaO0FBQ0gsQyIsImZpbGUiOiJkZS5zZWN1Y2FyZC5jb25uZWN0L3Byb2R1Y3QvZ2VuZXJhbC9tb2RlbC9vcGVuLWhvdXJzLmpzIiwic291cmNlUm9vdCI6Ii4uL3NyYy8ifQ==

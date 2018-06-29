@@ -1,39 +1,40 @@
 'use strict';
 
 exports.__esModule = true;
+exports.SocketAtBrowser = undefined;
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+var _eventemitter = require('eventemitter3');
 
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
-
-var _eventemitter3 = require('eventemitter3');
-
-var _eventemitter32 = _interopRequireDefault(_eventemitter3);
+var _eventemitter2 = _interopRequireDefault(_eventemitter);
 
 var _minilog = require('minilog');
 
 var _minilog2 = _interopRequireDefault(_minilog);
 
-var SocketAtBrowser = (function () {
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var SocketAtBrowser = exports.SocketAtBrowser = function () {
     function SocketAtBrowser(url) {
         var _this = this;
 
         _classCallCheck(this, SocketAtBrowser);
 
-        Object.assign(this, _eventemitter32['default'].prototype);
+        Object.assign(this, _eventemitter2.default.prototype);
 
         var ws = new WebSocket(url);
         ws.binaryType = "arraybuffer";
 
         ws.onopen = function () {
 
-            _minilog2['default']('secucard.socket.browser').debug('onopen');
+            (0, _minilog2.default)('secucard.socket.browser').debug('onopen');
             _this.emit('connect');
         };
 
         ws.onmessage = function (event) {
 
-            _minilog2['default']('secucard.socket.browser').debug('onmessage', event);
+            (0, _minilog2.default)('secucard.socket.browser').debug('onmessage', event);
             _this.emit('data', event.data);
         };
 
@@ -61,9 +62,7 @@ var SocketAtBrowser = (function () {
     };
 
     return SocketAtBrowser;
-})();
-
-exports.SocketAtBrowser = SocketAtBrowser;
+}();
 
 SocketAtBrowser.connect = function (host, port, endpoint, sslEnabled, ssl_options, ssl_validate, onInit, onError) {
 
@@ -80,6 +79,6 @@ SocketAtBrowser.connect = function (host, port, endpoint, sslEnabled, ssl_option
 
 SocketAtBrowser.disconnect = function (socket) {
 
-    _minilog2['default']('secucard.socket.browser').debug('disconnect called');
+    (0, _minilog2.default)('secucard.socket.browser').debug('disconnect called');
     socket.close();
 };

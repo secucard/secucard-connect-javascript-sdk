@@ -1,12 +1,9 @@
 'use strict';
 
 exports.__esModule = true;
+exports.Client = undefined;
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
-
-var _netMessage = require('./net/message');
+var _message = require('./net/message');
 
 var _clientConfig = require('./client-config');
 
@@ -18,7 +15,11 @@ var _minilog = require('minilog');
 
 var _minilog2 = _interopRequireDefault(_minilog);
 
-var Client = (function () {
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var Client = exports.Client = function () {
     function Client(config, environment) {
         _classCallCheck(this, Client);
 
@@ -35,7 +36,7 @@ var Client = (function () {
         this.connected = false;
         this.setLanguage = this.context.setLanguage.bind(this.context);
 
-        _minilog2['default']('secucard.client').debug(config);
+        (0, _minilog2.default)('secucard.client').debug(config);
     }
 
     Client.prototype.open = function open() {
@@ -56,9 +57,7 @@ var Client = (function () {
     };
 
     return Client;
-})();
-
-exports.Client = Client;
+}();
 
 Client.create = function (config, environment) {
     if (!config) {

@@ -1,12 +1,13 @@
 'use strict';
 
 exports.__esModule = true;
+exports.SecucardConnectException = undefined;
 
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
+var _exception = require('../auth/exception');
 
-var _authException = require('../auth/exception');
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-var SecucardConnectException = function SecucardConnectException(data) {
+var SecucardConnectException = exports.SecucardConnectException = function SecucardConnectException(data) {
     _classCallCheck(this, SecucardConnectException);
 
     if (Error.captureStackTrace) {
@@ -68,14 +69,12 @@ var SecucardConnectException = function SecucardConnectException(data) {
     });
 };
 
-exports.SecucardConnectException = SecucardConnectException;
-
 SecucardConnectException.create = function (data) {
 
-    var error = undefined;
+    var error = void 0;
 
     if (data.error == 'ProductSecurityException') {
-        error = Object.assign(new _authException.AuthenticationFailedException(), data);
+        error = Object.assign(new _exception.AuthenticationFailedException(), data);
     } else {
         error = new SecucardConnectException(data);
     }

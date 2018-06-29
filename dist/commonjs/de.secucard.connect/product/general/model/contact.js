@@ -4,7 +4,7 @@ exports.__esModule = true;
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-var Contact = function Contact(name, forename, surname, title, gender, salutation, nationality, dob, birthplace, companyname, email, phone, mobile, address, urlWebsite, picture) {
+var Contact = exports.Contact = function Contact(name, forename, surname, title, gender, salutation, nationality, dob, birthplace, companyname, email, phone, mobile, address, urlWebsite, picture) {
     _classCallCheck(this, Contact);
 
     this.name = name;
@@ -24,5 +24,3 @@ var Contact = function Contact(name, forename, surname, title, gender, salutatio
     this.urlWebsite = urlWebsite;
     this.picture = picture;
 };
-
-exports.Contact = Contact;

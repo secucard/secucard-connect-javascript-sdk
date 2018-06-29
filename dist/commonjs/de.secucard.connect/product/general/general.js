@@ -1,6 +1,7 @@
 'use strict';
 
 exports.__esModule = true;
+exports.General = undefined;
 
 var _skeletonService = require('./skeleton-service');
 
@@ -30,9 +31,8 @@ var _transactionService = require('./transaction-service');
 
 var _storeGroupService = require('./store-group-service');
 
-var General = {};
+var General = exports.General = {};
 
-exports.General = General;
 General.SkeletonService = _skeletonService.SkeletonService;
 General.AccountService = _accountService.AccountService;
 General.AccountDeviceService = _accountDeviceService.AccountDeviceService;

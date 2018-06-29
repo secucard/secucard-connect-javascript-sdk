@@ -4,7 +4,7 @@ exports.__esModule = true;
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-var Credentials = (function () {
+var Credentials = exports.Credentials = function () {
     function Credentials() {
         _classCallCheck(this, Credentials);
 
@@ -26,9 +26,7 @@ var Credentials = (function () {
     };
 
     return Credentials;
-})();
-
-exports.Credentials = Credentials;
+}();
 
 Credentials.create = function (credentials) {
 

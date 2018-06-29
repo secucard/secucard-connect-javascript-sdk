@@ -22,10 +22,6 @@ Browserify standalone:
 <!-- secucard-connect client -->
 <script src="http://cdn.secucard.com/am/connect-browser/0.2.x/secucard-connect.js"></script>
 <script src="http://cdn.secucard.com/am/connect-browser/0.2.x/secucard-connect.min.js"></script>
-
-<!-- secucard-tokenizer -->
-<script src="http://cdn.secucard.com/am/tokenizer/0.2.x/secucard-tokenizer.js"></script>
-<script src="http://cdn.secucard.com/am/tokenizer/0.2.x/secucard-tokenizer.min.js"></script>
 ```
 
 ## Usage

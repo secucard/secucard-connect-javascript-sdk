@@ -2,35 +2,80 @@
 
 exports.__esModule = true;
 
-var _modelContainer = require('./model/container');
+var _container = require('./model/container');
 
-exports.Container = _modelContainer.Container;
+Object.defineProperty(exports, 'Container', {
+  enumerable: true,
+  get: function get() {
+    return _container.Container;
+  }
+});
 
-var _modelContract = require('./model/contract');
+var _contract = require('./model/contract');
 
-exports.Contract = _modelContract.Contract;
-exports.ContractCloneParams = _modelContract.ContractCloneParams;
+Object.defineProperty(exports, 'Contract', {
+  enumerable: true,
+  get: function get() {
+    return _contract.Contract;
+  }
+});
+Object.defineProperty(exports, 'ContractCloneParams', {
+  enumerable: true,
+  get: function get() {
+    return _contract.ContractCloneParams;
+  }
+});
 
-var _modelCustomer = require('./model/customer');
+var _customer = require('./model/customer');
 
-exports.Customer = _modelCustomer.Customer;
+Object.defineProperty(exports, 'Customer', {
+  enumerable: true,
+  get: function get() {
+    return _customer.Customer;
+  }
+});
 
-var _modelPaymentData = require('./model/payment-data');
+var _paymentData = require('./model/payment-data');
 
-exports.PaymentData = _modelPaymentData.PaymentData;
+Object.defineProperty(exports, 'PaymentData', {
+  enumerable: true,
+  get: function get() {
+    return _paymentData.PaymentData;
+  }
+});
 
-var _modelSecupayDebit = require('./model/secupay-debit');
+var _secupayDebit = require('./model/secupay-debit');
 
-exports.SecupayDebit = _modelSecupayDebit.SecupayDebit;
+Object.defineProperty(exports, 'SecupayDebit', {
+  enumerable: true,
+  get: function get() {
+    return _secupayDebit.SecupayDebit;
+  }
+});
 
-var _modelSecupayPrepay = require('./model/secupay-prepay');
+var _secupayPrepay = require('./model/secupay-prepay');
 
-exports.SecupayPrepay = _modelSecupayPrepay.SecupayPrepay;
+Object.defineProperty(exports, 'SecupayPrepay', {
+  enumerable: true,
+  get: function get() {
+    return _secupayPrepay.SecupayPrepay;
+  }
+});
 
-var _modelTransaction = require('./model/transaction');
+var _transaction = require('./model/transaction');
 
-exports.Transaction = _modelTransaction.Transaction;
+Object.defineProperty(exports, 'Transaction', {
+  enumerable: true,
+  get: function get() {
+    return _transaction.Transaction;
+  }
+});
 
-var _modelTransferAccount = require('./model/transfer-account');
+var _transferAccount = require('./model/transfer-account');
 
-exports.TransferAccount = _modelTransferAccount.TransferAccount;
+Object.defineProperty(exports, 'TransferAccount', {
+  enumerable: true,
+  get: function get() {
+    return _transferAccount.TransferAccount;
+  }
+});

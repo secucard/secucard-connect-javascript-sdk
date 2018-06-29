@@ -2,71 +2,161 @@
 
 exports.__esModule = true;
 
-var _modelAccountDevice = require('model/account-device');
+var _accountDevice = require('model/account-device');
 
-exports.AccountDevice = _modelAccountDevice.AccountDevice;
+Object.defineProperty(exports, 'AccountDevice', {
+  enumerable: true,
+  get: function get() {
+    return _accountDevice.AccountDevice;
+  }
+});
 
-var _modelAccount = require('model/account');
+var _account = require('model/account');
 
-exports.Account = _modelAccount.Account;
+Object.defineProperty(exports, 'Account', {
+  enumerable: true,
+  get: function get() {
+    return _account.Account;
+  }
+});
 
-var _modelAddressComponent = require('model/address-component');
+var _addressComponent = require('model/address-component');
 
-exports.AddressComponent = _modelAddressComponent.AddressComponent;
+Object.defineProperty(exports, 'AddressComponent', {
+  enumerable: true,
+  get: function get() {
+    return _addressComponent.AddressComponent;
+  }
+});
 
-var _modelAddress = require('model/address');
+var _address = require('model/address');
 
-exports.Address = _modelAddress.Address;
+Object.defineProperty(exports, 'Address', {
+  enumerable: true,
+  get: function get() {
+    return _address.Address;
+  }
+});
 
-var _modelAssignment = require('model/assignment');
+var _assignment = require('model/assignment');
 
-exports.Assignment = _modelAssignment.Assignment;
+Object.defineProperty(exports, 'Assignment', {
+  enumerable: true,
+  get: function get() {
+    return _assignment.Assignment;
+  }
+});
 
-var _modelBeaconEnvironment = require('model/beacon-environment');
+var _beaconEnvironment = require('model/beacon-environment');
 
-exports.BeaconEnvironment = _modelBeaconEnvironment.BeaconEnvironment;
+Object.defineProperty(exports, 'BeaconEnvironment', {
+  enumerable: true,
+  get: function get() {
+    return _beaconEnvironment.BeaconEnvironment;
+  }
+});
 
-var _modelContact = require('model/contact');
+var _contact = require('model/contact');
 
-exports.Contact = _modelContact.Contact;
+Object.defineProperty(exports, 'Contact', {
+  enumerable: true,
+  get: function get() {
+    return _contact.Contact;
+  }
+});
 
-var _modelGeometry = require('model/geometry');
+var _geometry = require('model/geometry');
 
-exports.Geometry = _modelGeometry.Geometry;
+Object.defineProperty(exports, 'Geometry', {
+  enumerable: true,
+  get: function get() {
+    return _geometry.Geometry;
+  }
+});
 
-var _modelLocation = require('model/location');
+var _location = require('model/location');
 
-exports.Location = _modelLocation.Location;
+Object.defineProperty(exports, 'Location', {
+  enumerable: true,
+  get: function get() {
+    return _location.Location;
+  }
+});
 
-var _modelMerchantDetails = require('model/merchant-details');
+var _merchantDetails = require('model/merchant-details');
 
-exports.MerchantDetails = _modelMerchantDetails.MerchantDetails;
+Object.defineProperty(exports, 'MerchantDetails', {
+  enumerable: true,
+  get: function get() {
+    return _merchantDetails.MerchantDetails;
+  }
+});
 
-var _modelMerchant = require('model/merchant');
+var _merchant = require('model/merchant');
 
-exports.Merchant = _modelMerchant.Merchant;
+Object.defineProperty(exports, 'Merchant', {
+  enumerable: true,
+  get: function get() {
+    return _merchant.Merchant;
+  }
+});
 
-var _modelNews = require('model/news');
+var _news = require('model/news');
 
-exports.News = _modelNews.News;
+Object.defineProperty(exports, 'News', {
+  enumerable: true,
+  get: function get() {
+    return _news.News;
+  }
+});
 
-var _modelNotification = require('model/notification');
+var _notification = require('model/notification');
 
-exports.Notification = _modelNotification.Notification;
+Object.defineProperty(exports, 'Notification', {
+  enumerable: true,
+  get: function get() {
+    return _notification.Notification;
+  }
+});
 
-var _modelOpenHours = require('model/open-hours');
+var _openHours = require('model/open-hours');
 
-exports.OpenHours = _modelOpenHours.OpenHours;
-exports.OpenHoursDate = _modelOpenHours.OpenHoursDate;
+Object.defineProperty(exports, 'OpenHours', {
+  enumerable: true,
+  get: function get() {
+    return _openHours.OpenHours;
+  }
+});
+Object.defineProperty(exports, 'OpenHoursDate', {
+  enumerable: true,
+  get: function get() {
+    return _openHours.OpenHoursDate;
+  }
+});
 
-var _modelPublicMerchant = require('model/public-merchant');
+var _publicMerchant = require('model/public-merchant');
 
-exports.PublicMerchant = _modelPublicMerchant.PublicMerchant;
+Object.defineProperty(exports, 'PublicMerchant', {
+  enumerable: true,
+  get: function get() {
+    return _publicMerchant.PublicMerchant;
+  }
+});
 
-var _modelStore = require('model/store');
+var _store = require('model/store');
 
-exports.Store = _modelStore.Store;
+Object.defineProperty(exports, 'Store', {
+  enumerable: true,
+  get: function get() {
+    return _store.Store;
+  }
+});
 
-var _modelTransaction = require('model/transaction');
+var _transaction = require('model/transaction');
 
-exports.Transaction = _modelTransaction.Transaction;
+Object.defineProperty(exports, 'Transaction', {
+  enumerable: true,
+  get: function get() {
+    return _transaction.Transaction;
+  }
+});

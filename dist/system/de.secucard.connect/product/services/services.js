@@ -1,27 +1,21 @@
-System.register(['./ident-case-service', './ident-contract-service', './ident-request-service', './ident-result-service'], function (_export) {
-  'use strict';
+'use strict';
 
-  var IdentCaseService, IdentContractService, IdentRequestService, IdentResultService, Services;
-  return {
-    setters: [function (_identCaseService) {
-      IdentCaseService = _identCaseService.IdentCaseService;
-    }, function (_identContractService) {
-      IdentContractService = _identContractService.IdentContractService;
-    }, function (_identRequestService) {
-      IdentRequestService = _identRequestService.IdentRequestService;
-    }, function (_identResultService) {
-      IdentResultService = _identResultService.IdentResultService;
-    }],
-    execute: function () {
-      Services = {};
-
-      _export('Services', Services);
-
-      Services.IdentCaseService = IdentCaseService;
-      Services.IdentContractService = IdentContractService;
-      Services.IdentRequestService = IdentRequestService;
-      Services.IdentResultService = IdentResultService;
-    }
-  };
+Object.defineProperty(exports, "__esModule", {
+  value: true
 });
-//# sourceMappingURL=data:application/json;charset=utf8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbImRlLnNlY3VjYXJkLmNvbm5lY3QvcHJvZHVjdC9zZXJ2aWNlcy9zZXJ2aWNlcy5qcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiOzs7dUZBZ0JhLFFBQVE7OzsyQ0FMYixnQkFBZ0I7O21EQUNoQixvQkFBb0I7O2lEQUNwQixtQkFBbUI7OytDQUNuQixrQkFBa0I7OztBQUViLGNBQVEsR0FBRyxFQUFFOzs7O0FBQzFCLGNBQVEsQ0FBQyxnQkFBZ0IsR0FBRyxnQkFBZ0IsQ0FBQztBQUM3QyxjQUFRLENBQUMsb0JBQW9CLEdBQUcsb0JBQW9CLENBQUM7QUFDckQsY0FBUSxDQUFDLG1CQUFtQixHQUFHLG1CQUFtQixDQUFDO0FBQ25ELGNBQVEsQ0FBQyxrQkFBa0IsR0FBRyxrQkFBa0IsQ0FBQyIsImZpbGUiOiJkZS5zZWN1Y2FyZC5jb25uZWN0L3Byb2R1Y3Qvc2VydmljZXMvc2VydmljZXMuanMiLCJzb3VyY2VSb290IjoiLi4vc3JjLyJ9
+exports.Services = undefined;
+
+var _identCaseService = require('./ident-case-service');
+
+var _identContractService = require('./ident-contract-service');
+
+var _identRequestService = require('./ident-request-service');
+
+var _identResultService = require('./ident-result-service');
+
+var Services = exports.Services = {};
+Services.IdentCaseService = _identCaseService.IdentCaseService;
+Services.IdentContractService = _identContractService.IdentContractService;
+Services.IdentRequestService = _identRequestService.IdentRequestService;
+Services.IdentResultService = _identResultService.IdentResultService;
+//# sourceMappingURL=data:application/json;charset=utf8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbImRlLnNlY3VjYXJkLmNvbm5lY3QvcHJvZHVjdC9zZXJ2aWNlcy9zZXJ2aWNlcy5qcyJdLCJuYW1lcyI6WyJTZXJ2aWNlcyIsIklkZW50Q2FzZVNlcnZpY2UiLCJJZGVudENvbnRyYWN0U2VydmljZSIsIklkZW50UmVxdWVzdFNlcnZpY2UiLCJJZGVudFJlc3VsdFNlcnZpY2UiXSwibWFwcGluZ3MiOiI7Ozs7Ozs7QUFXQTs7QUFDQTs7QUFDQTs7QUFDQTs7QUFFTyxJQUFNQSw4QkFBVyxFQUFqQjtBQUNQQSxTQUFTQyxnQkFBVCxHQUE0QkEsa0NBQTVCO0FBQ0FELFNBQVNFLG9CQUFULEdBQWdDQSwwQ0FBaEM7QUFDQUYsU0FBU0csbUJBQVQsR0FBK0JBLHdDQUEvQjtBQUNBSCxTQUFTSSxrQkFBVCxHQUE4QkEsc0NBQTlCIiwiZmlsZSI6ImRlLnNlY3VjYXJkLmNvbm5lY3QvcHJvZHVjdC9zZXJ2aWNlcy9zZXJ2aWNlcy5qcyIsInNvdXJjZVJvb3QiOiIuLi9zcmMvIn0=

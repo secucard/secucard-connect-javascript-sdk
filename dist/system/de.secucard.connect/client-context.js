@@ -1,234 +1,260 @@
-System.register(['lodash', './net/rest', './auth/auth', './auth/credentials', './product/app/app-service', './net/channel', 'eventemitter3', './auth/token-storage'], function (_export) {
-    'use strict';
+'use strict';
 
-    var _, Rest, Auth, Credentials, AppService, Channel, EE, TokenStorageInMem, ClientContext;
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.ClientContext = undefined;
 
-    function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-    return {
-        setters: [function (_lodash) {
-            _ = _lodash['default'];
-        }, function (_netRest) {
-            Rest = _netRest.Rest;
-        }, function (_authAuth) {
-            Auth = _authAuth.Auth;
-        }, function (_authCredentials) {
-            Credentials = _authCredentials.Credentials;
-        }, function (_productAppAppService) {
-            AppService = _productAppAppService.AppService;
-        }, function (_netChannel) {
-            Channel = _netChannel.Channel;
-        }, function (_eventemitter3) {
-            EE = _eventemitter3['default'];
-        }, function (_authTokenStorage) {
-            TokenStorageInMem = _authTokenStorage.TokenStorageInMem;
-        }],
-        execute: function () {
-            ClientContext = (function () {
-                function ClientContext(config, environment) {
-                    _classCallCheck(this, ClientContext);
+var _lodash = require('lodash');
 
-                    Object.assign(this, EE.prototype);
+var _lodash2 = _interopRequireDefault(_lodash);
 
-                    this.tokenStorageCreate = environment.TokenStorage.create;
+var _rest = require('./net/rest');
 
-                    var auth = new Auth();
-                    auth.configureWithContext(this);
-                    this.auth = auth;
+var _auth = require('./auth/auth');
 
-                    var restChannel = new Rest();
-                    restChannel.configureWithContext(this);
-                    this.restChannel = restChannel;
+var _credentials = require('./auth/credentials');
 
-                    if (config.stompEnabled) {
-                        var stompChannel = environment.StompChannel.create();
-                        stompChannel.configureWithContext(this);
-                        this.stompChannel = stompChannel;
-                    }
+var _appService = require('./product/app/app-service');
 
-                    this.channels = {
-                        stomp: this.stompChannel,
-                        rest: this.restChannel
-                    };
+var _channel = require('./net/channel');
 
-                    this.serviceEventTargets = Object.create(null);
+var _eventemitter = require('eventemitter3');
 
-                    this.createServices(environment.services);
+var _eventemitter2 = _interopRequireDefault(_eventemitter);
 
-                    this.config = config;
+var _tokenStorage = require('./auth/token-storage');
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var ClientContext = exports.ClientContext = function () {
+    function ClientContext(config, environment) {
+        _classCallCheck(this, ClientContext);
+
+        Object.assign(this, _eventemitter2.default.prototype);
+
+        this.tokenStorageCreate = environment.TokenStorage.create;
+
+        var auth = new _auth.Auth();
+        auth.configureWithContext(this);
+        this.auth = auth;
+
+        var restChannel = new _rest.Rest();
+        restChannel.configureWithContext(this);
+        this.restChannel = restChannel;
+
+        if (config.stompEnabled) {
+            var stompChannel = environment.StompChannel.create();
+            stompChannel.configureWithContext(this);
+            this.stompChannel = stompChannel;
+        }
+
+        this.channels = {
+            stomp: this.stompChannel,
+            rest: this.restChannel
+        };
+
+        this.serviceEventTargets = Object.create(null);
+
+        this.createServices(environment.services);
+
+        this.config = config;
+    }
+
+    _createClass(ClientContext, [{
+        key: 'open',
+        value: function open() {
+            var _this = this;
+
+            return this.getAuth().getToken().then(function () {
+                if (!_this.config.stompEnabled) {
+                    return true;
                 }
 
-                ClientContext.prototype.open = function open() {
-                    var _this = this;
-
-                    return this.getAuth().getToken().then(function () {
-                        if (!_this.config.stompEnabled) {
-                            return true;
-                        }
-
-                        return Promise.all(_.map(_.values(_this.channels), function (channel) {
-                            return channel.open();
-                        }));
-                    });
-                };
-
-                ClientContext.prototype.createServices = function createServices(classList) {
-                    var services = Object.create(null);
-                    var ServiceClass = undefined;
-                    var service = undefined;
-                    var uid = undefined;
-                    for (var i = 0; i < classList.length; i++) {
-                        ServiceClass = classList[i];
-                        service = new ServiceClass();
-                        service.configureWithContext(this);
-                        uid = service.getUid();
-                        services[uid] = service;
-                        this.registerServiceEventTargets(service, service.getEventTargets());
-                    }
-
-                    this.services = services;
-                };
-
-                ClientContext.prototype.getService = function getService(uid) {
-                    return this.services[uid.toLowerCase()];
-                };
-
-                ClientContext.prototype.addAppService = function addAppService(AppMixin) {
-                    var appService = AppService.createWithMixin(AppMixin);
-                    appService.configureWithContext(this);
-                    this.services[appService.getUid()] = appService;
-                    this.registerServiceEventTargets(appService, appService.getEventTargets());
-                    return appService;
-                };
-
-                ClientContext.prototype.removeAppService = function removeAppService(uid) {
-                    var appService = this.services[uid];
-
-                    if (appService && appService.isApp) {
-                        this.unregisterServiceEventTargets(appService.getEventTargets());
-                        delete this.services[uid];
-                    } else {
-                        throw new Error('Service not found: ' + uid);
-                    }
-                };
-
-                ClientContext.prototype.setCredentials = function setCredentials(credentials, TokenStorageMixin) {
-                    this.credentials = Credentials.create(credentials);
-                    if (TokenStorageMixin) {
-                        this.tokenStorage = TokenStorageInMem.createWithMixin(TokenStorageMixin);
-                    } else {
-                        this.tokenStorage = this.tokenStorageCreate();
-                    }
-                    this.tokenStorage.getRetrieveToken = this.config.getRetrieveToken.bind(this.config);
-
-                    return this.tokenStorage.setCredentials(Object.assign({}, credentials));
-                };
-
-                ClientContext.prototype.setLanguage = function setLanguage(lang) {
-                    this.config.setLanguage(lang);
-                };
-
-                ClientContext.prototype.getCredentials = function getCredentials() {
-                    return this.credentials;
-                };
-
-                ClientContext.prototype.getTokenStorage = function getTokenStorage() {
-                    return this.tokenStorage;
-                };
-
-                ClientContext.prototype.getStoredToken = function getStoredToken() {
-                    return this.tokenStorage ? this.tokenStorage.getStoredToken() : Promise.resolve(null);
-                };
-
-                ClientContext.prototype.exportToken = function exportToken(isRaw) {
-                    return this.getAuth().getToken().then(function (token) {
-                        return token ? !isRaw ? _.pick(token, ['access_token', 'expireTime', 'scope', 'expires_in']) : token : null;
-                    });
-                };
-
-                ClientContext.prototype.getConfig = function getConfig() {
-                    return this.config;
-                };
-
-                ClientContext.prototype.getAuth = function getAuth() {
-                    return this.auth;
-                };
-
-                ClientContext.prototype.getChannel = function getChannel(channelConfig) {
-                    var _this2 = this;
-
-                    var ch = null;
-                    _.each(_(channelConfig).reverse().value(), function (type) {
-                        if (_this2.getChannelByType(type)) {
-                            ch = _this2.getChannelByType(type);
-                        }
-                    });
-                    if (!ch) {
-                        throw new Error('Channel not found, please, check channel config for the service: ' + JSON.stringify(channelConfig));
-                    }
-                    return ch;
-                };
-
-                ClientContext.prototype.getChannelByType = function getChannelByType(type) {
-                    return this.channels[type];
-                };
-
-                ClientContext.prototype.getRestChannel = function getRestChannel() {
-                    return this.restChannel;
-                };
-
-                ClientContext.prototype.getStompChannel = function getStompChannel() {
-                    return this.stompChannel;
-                };
-
-                ClientContext.prototype.getServiceDefaultOptions = function getServiceDefaultOptions() {
-                    return {
-                        channelConfig: [Channel.STOMP, Channel.REST],
-                        useAuth: true
-                    };
-                };
-
-                ClientContext.prototype.isRequestWithToken = function isRequestWithToken(options) {
-                    return !options || options && (!options.hasOwnProperty('useAuth') || options.useAuth);
-                };
-
-                ClientContext.prototype.registerServiceEventTargets = function registerServiceEventTargets(service, targets) {
-                    var _this3 = this;
-
-                    _.each(targets, function (target) {
-                        if (_this3.serviceEventTargets[target.toLowerCase()]) {
-                            throw new Error('Provided event target is registered already: ' + target.toLowerCase());
-                        }
-
-                        _this3.serviceEventTargets[target.toLowerCase()] = service;
-                    });
-                };
-
-                ClientContext.prototype.unregisterServiceEventTargets = function unregisterServiceEventTargets(targets) {
-                    var _this4 = this;
-
-                    _.each(targets, function (target) {
-                        delete _this4.serviceEventTargets[target.toLowerCase()];
-                    });
-                };
-
-                ClientContext.prototype.emitServiceEvent = function emitServiceEvent(event, target, type, data) {
-                    if (event) {
-                        target = event.target || target;
-                        type = event.type || type;
-                        data = event.data || data;
-                    }
-
-                    target = target.toLowerCase();
-                    var service = this.serviceEventTargets[target];
-                    service.emit(type, data);
-                };
-
-                return ClientContext;
-            })();
-
-            _export('ClientContext', ClientContext);
+                return Promise.all(_lodash2.default.map(_lodash2.default.values(_this.channels), function (channel) {
+                    return channel.open();
+                }));
+            });
         }
-    };
-});
-//# sourceMappingURL=data:application/json;charset=utf8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbImRlLnNlY3VjYXJkLmNvbm5lY3QvY2xpZW50LWNvbnRleHQuanMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7O2dGQW9CYSxhQUFhOzs7Ozs7Ozs0QkFSbEIsSUFBSTs7NkJBQ0osSUFBSTs7MkNBQ0osV0FBVzs7K0NBQ1gsVUFBVTs7a0NBQ1YsT0FBTzs7OztrREFFUCxpQkFBaUI7OztBQUVaLHlCQUFhO0FBRVgseUJBRkYsYUFBYSxDQUVWLE1BQU0sRUFBRSxXQUFXLEVBQUU7MENBRnhCLGFBQWE7O0FBR2xCLDBCQUFNLENBQUMsTUFBTSxDQUFDLElBQUksRUFBRSxFQUFFLENBQUMsU0FBUyxDQUFDLENBQUM7O0FBRWxDLHdCQUFJLENBQUMsa0JBQWtCLEdBQUcsV0FBVyxDQUFDLFlBQVksQ0FBQyxNQUFNLENBQUM7O0FBRTFELHdCQUFJLElBQUksR0FBRyxJQUFJLElBQUksRUFBRSxDQUFDO0FBQ3RCLHdCQUFJLENBQUMsb0JBQW9CLENBQUMsSUFBSSxDQUFDLENBQUM7QUFDaEMsd0JBQUksQ0FBQyxJQUFJLEdBQUcsSUFBSSxDQUFDOztBQUVqQix3QkFBSSxXQUFXLEdBQUcsSUFBSSxJQUFJLEVBQUUsQ0FBQztBQUM3QiwrQkFBVyxDQUFDLG9CQUFvQixDQUFDLElBQUksQ0FBQyxDQUFDO0FBQ3ZDLHdCQUFJLENBQUMsV0FBVyxHQUFHLFdBQVcsQ0FBQzs7QUFFL0Isd0JBQUksTUFBTSxDQUFDLFlBQVksRUFBRTtBQUNyQiw0QkFBSSxZQUFZLEdBQUcsV0FBVyxDQUFDLFlBQVksQ0FBQyxNQUFNLEVBQUUsQ0FBQztBQUNyRCxvQ0FBWSxDQUFDLG9CQUFvQixDQUFDLElBQUksQ0FBQyxDQUFDO0FBQ3hDLDRCQUFJLENBQUMsWUFBWSxHQUFHLFlBQVksQ0FBQztxQkFDcEM7O0FBRUQsd0JBQUksQ0FBQyxRQUFRLEdBQUc7QUFDWiw2QkFBSyxFQUFFLElBQUksQ0FBQyxZQUFZO0FBQ3hCLDRCQUFJLEVBQUUsSUFBSSxDQUFDLFdBQVc7cUJBQ3pCLENB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QUM7cUJBQzVELENBQUMsQ0FBQztpQkFDTjs7QUE3S1EsNkJBQWEsV0ErS3RCLDZCQUE2QixHQUFBLHVDQUFDLE9BQU8sRUFBRTs7O0FBQ25DLHFCQUFDLENBQUMsSUFBSSxDQUFDLE9BQU8sRUFBRSxVQUFDLE1BQU0sRUFBSztBQUN4QiwrQkFBTyxPQUFLLG1CQUFtQixDQUFDLE1BQU0sQ0FBQyxXQUFXLEVBQUUsQ0FBQyxDQUFDO3FCQUN6RCxDQUFDLENBQUM7aUJBQ047O0FBbkxRLDZCQUFhLFdBcUx0QixnQkFBZ0IsR0FBQSwwQkFBQyxLQUFLLEVBQUUsTUFBTSxFQUFFLElBQUksRUFBRSxJQUFJLEVBQUU7QUFDeEMsd0JBQUksS0FBSyxFQUFFO0FBQ1AsOEJBQU0sR0FBRyxLQUFLLENBQUMsTUFBTSxJQUFJLE1BQU0sQ0FBQztBQUNoQyw0QkFBSSxHQUFHLEtBQUssQ0FBQyxJQUFJLElBQUksSUFBSSxDQUFDO0FBQzFCLDRCQUFJLEdBQUcsS0FBSyxDQUFDLElBQUksSUFBSSxJQUFJLENBQUM7cUJBQzdCOztBQUVELDBCQUFNLEdBQUcsTUFBTSxDQUFDLFdBQVcsRUFBRSxDQUFDO0FBQzlCLHdCQUFJLE9BQU8sR0FBRyxJQUFJLENBQUMsbUJBQW1CLENBQUMsTUFBTSxDQUFDLENBQUM7QUFDL0MsMkJBQU8sQ0FBQyxJQUFJLENBQUMsSUFBSSxFQUFFLElBQUksQ0FBQyxDQUFDO2lCQUM1Qjs7dUJBL0xRLGFBQWEiLCJmaWxlIjoiZGUuc2VjdWNhcmQuY29ubmVjdC9jbGllbnQtY29udGV4dC5qcyIsInNvdXJjZVJvb3QiOiIuLi9zcmMvIn0=
+    }, {
+        key: 'createServices',
+        value: function createServices(classList) {
+            var services = Object.create(null);
+            var ServiceClass = void 0;
+            var service = void 0;
+            var uid = void 0;
+            for (var i = 0; i < classList.length; i++) {
+                ServiceClass = classList[i];
+                service = new ServiceClass();
+                service.configureWithContext(this);
+                uid = service.getUid();
+                services[uid] = service;
+                this.registerServiceEventTargets(service, service.getEventTargets());
+            }
+
+            this.services = services;
+        }
+    }, {
+        key: 'getService',
+        value: function getService(uid) {
+            return this.services[uid.toLowerCase()];
+        }
+    }, {
+        key: 'addAppService',
+        value: function addAppService(AppMixin) {
+            var appService = _appService.AppService.createWithMixin(AppMixin);
+            appService.configureWithContext(this);
+            this.services[appService.getUid()] = appService;
+            this.registerServiceEventTargets(appService, appService.getEventTargets());
+            return appService;
+        }
+    }, {
+        key: 'removeAppService',
+        value: function removeAppService(uid) {
+            var appService = this.services[uid];
+
+            if (appService && appService.isApp) {
+                this.unregisterServiceEventTargets(appService.getEventTargets());
+                delete this.services[uid];
+            } else {
+                throw new Error('Service not found: ' + uid);
+            }
+        }
+    }, {
+        key: 'setCredentials',
+        value: function setCredentials(credentials, TokenStorageMixin) {
+            this.credentials = _credentials.Credentials.create(credentials);
+            if (TokenStorageMixin) {
+                this.tokenStorage = _tokenStorage.TokenStorageInMem.createWithMixin(TokenStorageMixin);
+            } else {
+                this.tokenStorage = this.tokenStorageCreate();
+            }
+            this.tokenStorage.getRetrieveToken = this.config.getRetrieveToken.bind(this.config);
+
+            return this.tokenStorage.setCredentials(Object.assign({}, credentials));
+        }
+    }, {
+        key: 'setLanguage',
+        value: function setLanguage(lang) {
+            this.config.setLanguage(lang);
+        }
+    }, {
+        key: 'getCredentials',
+        value: function getCredentials() {
+            return this.credentials;
+        }
+    }, {
+        key: 'getTokenStorage',
+        value: function getTokenStorage() {
+            return this.tokenStorage;
+        }
+    }, {
+        key: 'getStoredToken',
+        value: function getStoredToken() {
+            return this.tokenStorage ? this.tokenStorage.getStoredToken() : Promise.resolve(null);
+        }
+    }, {
+        key: 'exportToken',
+        value: function exportToken(isRaw) {
+            return this.getAuth().getToken().then(function (token) {
+                return token ? !isRaw ? _lodash2.default.pick(token, ['access_token', 'expireTime', 'scope', 'expires_in']) : token : null;
+            });
+        }
+    }, {
+        key: 'getConfig',
+        value: function getConfig() {
+            return this.config;
+        }
+    }, {
+        key: 'getAuth',
+        value: function getAuth() {
+            return this.auth;
+        }
+    }, {
+        key: 'getChannel',
+        value: function getChannel(channelConfig) {
+            var _this2 = this;
+
+            var ch = null;
+            _lodash2.default.each((0, _lodash2.default)(channelConfig).reverse().value(), function (type) {
+                if (_this2.getChannelByType(type)) {
+                    ch = _this2.getChannelByType(type);
+                }
+            });
+            if (!ch) {
+                throw new Error('Channel not found, please, check channel config for the service: ' + JSON.stringify(channelConfig));
+            }
+            return ch;
+        }
+    }, {
+        key: 'getChannelByType',
+        value: function getChannelByType(type) {
+            return this.channels[type];
+        }
+    }, {
+        key: 'getRestChannel',
+        value: function getRestChannel() {
+            return this.restChannel;
+        }
+    }, {
+        key: 'getStompChannel',
+        value: function getStompChannel() {
+            return this.stompChannel;
+        }
+    }, {
+        key: 'getServiceDefaultOptions',
+        value: function getServiceDefaultOptions() {
+            return {
+                channelConfig: [_channel.Channel.STOMP, _channel.Channel.REST],
+                useAuth: true
+            };
+        }
+    }, {
+        key: 'isRequestWithToken',
+        value: function isRequestWithToken(options) {
+            return !options || options && (!options.hasOwnProperty('useAuth') || options.useAuth);
+        }
+    }, {
+        key: 'registerServiceEventTargets',
+        value: function registerServiceEventTargets(service, targets) {
+            var _this3 = this;
+
+            _lodash2.default.each(targets, function (target) {
+                if (_this3.serviceEventTargets[target.toLowerCase()]) {
+                    throw new Error('Provided event target is registered already: ' + target.toLowerCase());
+                }
+
+                _this3.serviceEventTargets[target.toLowerCase()] = service;
+            });
+        }
+    }, {
+        key: 'unregisterServiceEventTargets',
+        value: function unregisterServiceEventTargets(targets) {
+            var _this4 = this;
+
+            _lodash2.default.each(targets, function (target) {
+                delete _this4.serviceEventTargets[target.toLowerCase()];
+            });
+        }
+    }, {
+        key: 'emitServiceEvent',
+        value: function emitServiceEvent(event, target, type, data) {
+            if (event) {
+                target = event.target || target;
+                type = event.type || type;
+                data = event.data || data;
+            }
+
+            target = target.toLowerCase();
+            var service = this.serviceEventTargets[target];
+            service.emit(type, data);
+        }
+    }]);
+
+    return ClientContext;
+}();
+//# sourceMappingURL=data:application/json;charset=utf8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbImRlLnNlY3VjYXJkLmNvbm5lY3QvY2xpZW50LWNvbnRleHQuanMiXSwibmFtZXMiOlsiQ2xpZW50Q29udGV4dCIsImNvbmZpZyIsImVudmlyb25tZW50IiwiT2JqZWN0IiwiYXNzaWduIiwiRUUiLCJwcm90b3R5cGUiLCJ0b2tlblN0b3JhZ2VDcmVhdGUiLCJUb2tlblN0b3JhZ2UiLCJjcmVhdGUiLCJhdXRoIiwiQXV0aCIsImNvbmZpZ3VyZVdpdGhDb250ZXh0IiwicmVzdENoYW5uZWwiLCJSZXN0Iiwic3RvbXBFbmFibGVkIiwic3RvbXBDaGFubmVsIiwiU3RvbXBDaGFubmVsIiwiY2hhbm5lbHMiLCJzdG9tcCIsInJlc3QiLCJzZXJ2aWNlRXZlbnRUYXJnZXRzIiwiY3JlYXRlU2VydmljZXMiLCJzZXJ2aWNlcyIsImdldEF1dGgiLCJnZXRUb2tlbiIsInRoZW4iLCJQcm9taXNlIiwiYWxsIiwiXyIsIm1hcCIsInZhbHVlcyIsImNoYW5uZWwiLCJvcGVuIiwiY2xhc3NMaXN0IiwiU2VydmljZUNsYXNzIiwic2VydmljZSIsInVpZCIsImkiLCJsZW5ndGgiLCJnZXRVaWQiLCJyZWdpc3RlclNlcnZpY2VFdmVudFRhcmdldHMiLCJnZXRFdmVudFRhcmdldHMiLCJ0b0xvd2VyQ2FzZSIsIkFwcE1peGluIiwiYXBwU2VydmljZSIsIkFwcFNlcnZpY2UiLCJjcmVhdGVXaXRoTWl4aW4iLCJpc0FwcCIsInVucmVnaXN0ZXJTZXJ2aWNlRXZlbnRUYXJnZXRzIiwiRXJyb3IiLCJjcmVkZW50aWFscyIsIlRva2VuU3RvcmFnZU1peGluIiwiQ3JlZGVudGlhbHMiLCJ0b2tlblN0b3JhZ2UiLCJUb2tlblN0b3JhZ2VJbk1lbSIsImdldFJldHJpZXZlVG9rZW4iLCJiaW5kIiwic2V0Q3JlZGVudGlhbHMiLCJsYW5nIiwic2V0TGFuZ3VhZ2UiLCJnZXRTdG9yZWRUb2tlbiIsInJlc29sdmUiLCJpc1JhdyIsInRva2VuIiwicGljayIsImNoYW5uZWxDb25maWciLCJjaCIsImVhY2giLCJyZXZlcnNlIiwidmFsdWUiLCJ0eXBlIiwiZ2V0Q2hhbm5lbEJ5VHlwZSIsIkpTT04iLCJzdHJpbmdpZnkiLCJDaGFubmVsIiwiU1RPTVAiLCJSRVNUIiwidXNlQXV0aCIsIm9wdGlvbnMiLCJoYXNPd25Qcm9wZXJ0eSIsInRhcmdldHMiLCJ0YXJnZXQiLCJldmVudCIsImRhdGEiLCJlbWl0Il0sIm1hcHBpbmdzIjoiOzs7Ozs7Ozs7QUFXQTs7OztBQUNBOztBQUNBOztBQUNBOztBQUNBOztBQUNBOztBQUNBOzs7O0FBQ0E7Ozs7OztJQUVhQSxhLFdBQUFBLGE7QUFFVCwyQkFBWUMsTUFBWixFQUFvQkMsV0FBcEIsRUFBaUM7QUFBQTs7QUFDN0JDLGVBQU9DLE1BQVAsQ0FBYyxJQUFkLEVBQW9CQyx1QkFBR0MsU0FBdkI7O0FBRUEsYUFBS0Msa0JBQUwsR0FBMEJMLFlBQVlNLFlBQVosQ0FBeUJDLE1BQW5EOztBQUVBLFlBQUlDLE9BQU8sSUFBSUMsVUFBSixFQUFYO0FBQ0FELGFBQUtFLG9CQUFMLENBQTBCLElBQTFCO0FBQ0EsYUFBS0YsSUFBTCxHQUFZQSxJQUFaOztBQUVBLFlBQUlHLGNBQWMsSUFBSUMsVUFBSixFQUFsQjtBQUNBRCxvQkFBWUQsb0JBQVosQ0FBaUMsSUFBakM7QUFDQSxhQUFLQyxXQUFMLEdBQW1CQSxXQUFuQjs7QUFFQSxZQUFJWixPQUFPYyxZQUFYLEVBQXlCO0FBQ3JCLGdCQUFJQyxlQUFlZCxZQUFZZSxZQUFaLENBQXlCUixNQUF6QixFQUFuQjtBQUNBTyx5QkFBYUosb0JBQWIsQ0FBa0MsSUFBbEM7QUFDQSxpQkFBS0ksWUFBTCxHQUFvQkEsWUFBcEI7QUFDSDs7QUFFRCxhQUFLRSxRQUFMLEdBQWdCO0FBQ1pDLG1CQUFPLEtBQUtILFlBREE7QUFFWkksa0JBQU0sS0FBS1A7QUFGQyxTQUFoQjs7QUFLQSxhQUFLUSxtQkFBTCxHQUEyQmxCLE9BQU9NLE1BQVAsQ0FBYyxJQUFkLENBQTNCOztBQUVBLGFBQUthLGNBQUwsQ0FBb0JwQixZQUFZcUIsUUFBaEM7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O3lDQUVnQkksSSxFQUFNO0FBQ25CLG1CQUFPLEtBQUtyRCxRQUFMLENBQWNxRCxJQUFkLENBQVA7QUFDSDs7O3lDQUVnQjtBQUNiLG1CQUFPLEtBQUsxRCxXQUFaO0FBQ0g7OzswQ0FFaUI7QUFDZCxtQkFBTyxLQUFLRyxZQUFaO0FBQ0g7OzttREFFMEI7QUFDdkIsbUJBQU87QUFFSGtELCtCQUFlLENBQUNTLGlCQUFRQyxLQUFULEVBQWdCRCxpQkFBUUUsSUFBeEIsQ0FGWjtBQUdIQyx5QkFBUztBQUhOLGFBQVA7QUFLSDs7OzJDQUVrQkMsTyxFQUFTO0FBQ3hCLG1CQUFPLENBQUNBLE9BQUQsSUFBYUEsWUFBWSxDQUFDQSxRQUFRQyxjQUFSLENBQXVCLFNBQXZCLENBQUQsSUFBc0NELFFBQVFELE9BQTFELENBQXBCO0FBQ0g7OztvREFFMkIxQyxPLEVBQVM2QyxPLEVBQVM7QUFBQTs7QUFDMUNwRCw2QkFBRXVDLElBQUYsQ0FBT2EsT0FBUCxFQUFnQixVQUFDQyxNQUFELEVBQVk7QUFDeEIsb0JBQUksT0FBSzdELG1CQUFMLENBQXlCNkQsT0FBT3ZDLFdBQVAsRUFBekIsQ0FBSixFQUFvRDtBQUNoRCwwQkFBTSxJQUFJTyxLQUFKLENBQVUsa0RBQWtEZ0MsT0FBT3ZDLFdBQVAsRUFBNUQsQ0FBTjtBQUNIOztBQUVELHVCQUFLdEIsbUJBQUwsQ0FBeUI2RCxPQUFPdkMsV0FBUCxFQUF6QixJQUFpRFAsT0FBakQ7QUFDSCxhQU5EO0FBT0g7OztzREFFNkI2QyxPLEVBQVM7QUFBQTs7QUFDbkNwRCw2QkFBRXVDLElBQUYsQ0FBT2EsT0FBUCxFQUFnQixVQUFDQyxNQUFELEVBQVk7QUFDeEIsdUJBQU8sT0FBSzdELG1CQUFMLENBQXlCNkQsT0FBT3ZDLFdBQVAsRUFBekIsQ0FBUDtBQUNILGFBRkQ7QUFHSDs7O3lDQUVnQndDLEssRUFBT0QsTSxFQUFRWCxJLEVBQU1hLEksRUFBTTtBQUN4QyxnQkFBSUQsS0FBSixFQUFXO0FBQ1BELHlCQUFTQyxNQUFNRCxNQUFOLElBQWdCQSxNQUF6QjtBQUNBWCx1QkFBT1ksTUFBTVosSUFBTixJQUFjQSxJQUFyQjtBQUNBYSx1QkFBT0QsTUFBTUMsSUFBTixJQUFjQSxJQUFyQjtBQUNIOztBQUVERixxQkFBU0EsT0FBT3ZDLFdBQVAsRUFBVDtBQUNBLGdCQUFJUCxVQUFVLEtBQUtmLG1CQUFMLENBQXlCNkQsTUFBekIsQ0FBZDtBQUNBOUMsb0JBQVFpRCxJQUFSLENBQWFkLElBQWIsRUFBbUJhLElBQW5CO0FBQ0giLCJmaWxlIjoiZGUuc2VjdWNhcmQuY29ubmVjdC9jbGllbnQtY29udGV4dC5qcyIsInNvdXJjZVJvb3QiOiIuLi9zcmMvIn0=

@@ -1,6 +1,7 @@
 'use strict';
 
 exports.__esModule = true;
+exports.Loyalty = undefined;
 
 var _actionCampaignService = require('./action-campaign-service');
 
@@ -40,8 +41,7 @@ var _transactionService = require('./transaction-service');
 
 var _paymentContainerService = require('./payment-container-service');
 
-var Loyalty = {};
-exports.Loyalty = Loyalty;
+var Loyalty = exports.Loyalty = {};
 Loyalty.ActionCampaignService = _actionCampaignService.ActionCampaignService;
 Loyalty.ActionConfigService = _actionConfigService.ActionConfigService;
 Loyalty.ActionMessageService = _actionMessageService.ActionMessageService;

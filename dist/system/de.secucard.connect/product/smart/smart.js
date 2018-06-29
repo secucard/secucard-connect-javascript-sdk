@@ -1,36 +1,30 @@
-System.register(['./checkin-service', './configuration-service', './device-service', './device-histories', './ident-service', './routing-service', './transaction-service'], function (_export) {
-  'use strict';
+'use strict';
 
-  var CheckinService, ConfigurationService, DeviceService, DeviceHistoriesService, IdentService, RoutingService, TransactionService, Smart;
-  return {
-    setters: [function (_checkinService) {
-      CheckinService = _checkinService.CheckinService;
-    }, function (_configurationService) {
-      ConfigurationService = _configurationService.ConfigurationService;
-    }, function (_deviceService) {
-      DeviceService = _deviceService.DeviceService;
-    }, function (_deviceHistories) {
-      DeviceHistoriesService = _deviceHistories.DeviceHistoriesService;
-    }, function (_identService) {
-      IdentService = _identService.IdentService;
-    }, function (_routingService) {
-      RoutingService = _routingService.RoutingService;
-    }, function (_transactionService) {
-      TransactionService = _transactionService.TransactionService;
-    }],
-    execute: function () {
-      Smart = {};
-
-      _export('Smart', Smart);
-
-      Smart.CheckinService = CheckinService;
-      Smart.ConfigurationService = ConfigurationService;
-      Smart.DeviceService = DeviceService;
-      Smart.DeviceHistoriesService = DeviceHistoriesService;
-      Smart.IdentService = IdentService;
-      Smart.RoutingService = RoutingService;
-      Smart.TransactionService = TransactionService;
-    }
-  };
+Object.defineProperty(exports, "__esModule", {
+  value: true
 });
-//# sourceMappingURL=data:application/json;charset=utf8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbImRlLnNlY3VjYXJkLmNvbm5lY3QvcHJvZHVjdC9zbWFydC9zbWFydC5qcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiOzs7cUlBcUJhLEtBQUs7Ozt1Q0FUVixjQUFjOzttREFDZCxvQkFBb0I7O3FDQUNwQixhQUFhOztnREFDYixzQkFBc0I7O21DQUN0QixZQUFZOzt1Q0FDWixjQUFjOzsrQ0FDZCxrQkFBa0I7OztBQUdiLFdBQUssR0FBRyxFQUFFOzs7O0FBQ3ZCLFdBQUssQ0FBQyxjQUFjLEdBQUcsY0FBYyxDQUFDO0FBQ3RDLFdBQUssQ0FBQyxvQkFBb0IsR0FBRyxvQkFBb0IsQ0FBQztBQUNsRCxXQUFLLENBQUMsYUFBYSxHQUFHLGFBQWEsQ0FBQztBQUNwQyxXQUFLLENBQUMsc0JBQXNCLEdBQUcsc0JBQXNCLENBQUM7QUFDdEQsV0FBSyxDQUFDLFlBQVksR0FBRyxZQUFZLENBQUM7QUFDbEMsV0FBSyxDQUFDLGNBQWMsR0FBRyxjQUFjLENBQUM7QUFDdEMsV0FBSyxDQUFDLGtCQUFrQixHQUFHLGtCQUFrQixDQUFDIiwiZmlsZSI6ImRlLnNlY3VjYXJkLmNvbm5lY3QvcHJvZHVjdC9zbWFydC9zbWFydC5qcyIsInNvdXJjZVJvb3QiOiIuLi9zcmMvIn0=
+exports.Smart = undefined;
+
+var _checkinService = require('./checkin-service');
+
+var _configurationService = require('./configuration-service');
+
+var _deviceService = require('./device-service');
+
+var _deviceHistories = require('./device-histories');
+
+var _identService = require('./ident-service');
+
+var _routingService = require('./routing-service');
+
+var _transactionService = require('./transaction-service');
+
+var Smart = exports.Smart = {};
+Smart.CheckinService = _checkinService.CheckinService;
+Smart.ConfigurationService = _configurationService.ConfigurationService;
+Smart.DeviceService = _deviceService.DeviceService;
+Smart.DeviceHistoriesService = _deviceHistories.DeviceHistoriesService;
+Smart.IdentService = _identService.IdentService;
+Smart.RoutingService = _routingService.RoutingService;
+Smart.TransactionService = _transactionService.TransactionService;
+//# sourceMappingURL=data:application/json;charset=utf8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbImRlLnNlY3VjYXJkLmNvbm5lY3QvcHJvZHVjdC9zbWFydC9zbWFydC5qcyJdLCJuYW1lcyI6WyJTbWFydCIsIkNoZWNraW5TZXJ2aWNlIiwiQ29uZmlndXJhdGlvblNlcnZpY2UiLCJEZXZpY2VTZXJ2aWNlIiwiRGV2aWNlSGlzdG9yaWVzU2VydmljZSIsIklkZW50U2VydmljZSIsIlJvdXRpbmdTZXJ2aWNlIiwiVHJhbnNhY3Rpb25TZXJ2aWNlIl0sIm1hcHBpbmdzIjoiOzs7Ozs7O0FBWUE7O0FBQ0E7O0FBQ0E7O0FBQ0E7O0FBQ0E7O0FBQ0E7O0FBQ0E7O0FBR08sSUFBTUEsd0JBQVEsRUFBZDtBQUNQQSxNQUFNQyxjQUFOLEdBQXVCQSw4QkFBdkI7QUFDQUQsTUFBTUUsb0JBQU4sR0FBNkJBLDBDQUE3QjtBQUNBRixNQUFNRyxhQUFOLEdBQXNCQSw0QkFBdEI7QUFDQUgsTUFBTUksc0JBQU4sR0FBK0JBLHVDQUEvQjtBQUNBSixNQUFNSyxZQUFOLEdBQXFCQSwwQkFBckI7QUFDQUwsTUFBTU0sY0FBTixHQUF1QkEsOEJBQXZCO0FBQ0FOLE1BQU1PLGtCQUFOLEdBQTJCQSxzQ0FBM0IiLCJmaWxlIjoiZGUuc2VjdWNhcmQuY29ubmVjdC9wcm9kdWN0L3NtYXJ0L3NtYXJ0LmpzIiwic291cmNlUm9vdCI6Ii4uL3NyYy8ifQ==

@@ -1,138 +1,151 @@
-System.register(['lodash', './token', '../util/mixins', 'superagent', 'minilog'], function (_export) {
-    'use strict';
+'use strict';
 
-    var _, Token, mixins, Request, minilog, TokenStorageInMem;
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.TokenStorageInMem = undefined;
 
-    function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-    return {
-        setters: [function (_lodash) {
-            _ = _lodash['default'];
-        }, function (_token) {
-            Token = _token.Token;
-        }, function (_utilMixins) {
-            mixins = _utilMixins['default'];
-        }, function (_superagent) {
-            Request = _superagent['default'];
-        }, function (_minilog) {
-            minilog = _minilog['default'];
-        }],
-        execute: function () {
-            TokenStorageInMem = (function () {
-                function TokenStorageInMem() {
-                    _classCallCheck(this, TokenStorageInMem);
+var _lodash = require('lodash');
+
+var _lodash2 = _interopRequireDefault(_lodash);
+
+var _token = require('./token');
+
+var _mixins = require('../util/mixins');
+
+var _mixins2 = _interopRequireDefault(_mixins);
+
+var _superagent = require('superagent');
+
+var _superagent2 = _interopRequireDefault(_superagent);
+
+var _minilog = require('minilog');
+
+var _minilog2 = _interopRequireDefault(_minilog);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var TokenStorageInMem = exports.TokenStorageInMem = function () {
+    function TokenStorageInMem() {
+        _classCallCheck(this, TokenStorageInMem);
+    }
+
+    _createClass(TokenStorageInMem, [{
+        key: 'setCredentials',
+        value: function setCredentials(credentials) {
+            this.credentials = credentials;
+
+            var token = null;
+
+            if (credentials.token) {
+                token = _token.Token.create(credentials.token);
+                delete credentials.token;
+            }
+
+            return this.storeToken(token).then();
+        }
+    }, {
+        key: 'removeToken',
+        value: function removeToken() {
+            this.token = null;
+            return Promise.resolve(this.token);
+        }
+    }, {
+        key: 'storeToken',
+        value: function storeToken(token) {
+
+            this.token = token ? token : null;
+            return Promise.resolve(this.token);
+        }
+    }, {
+        key: 'getStoredToken',
+        value: function getStoredToken() {
+
+            return Promise.resolve(this.token);
+        }
+    }, {
+        key: 'retrieveNewToken',
+        value: function retrieveNewToken() {
+            var _this = this;
+
+            var retrieveToken = this.getRetrieveToken();
+
+            if (_lodash2.default.isString(retrieveToken)) {
+
+                if (this.retrievingToken) {
+                    return this.retrievingToken;
                 }
 
-                TokenStorageInMem.prototype.setCredentials = function setCredentials(credentials) {
-                    this.credentials = credentials;
+                this.retrievingToken = new Promise(function (resolve, reject) {
 
-                    var token = null;
+                    var url = retrieveToken;
+                    var request = _superagent2.default.get(url);
 
-                    if (credentials.token) {
-                        token = Token.create(credentials.token);
-                        delete credentials.token;
+                    request.end(function (err, res) {
+                        if (err) {
+                            reject(err, res);
+                        } else {
+                            resolve(res);
+                        }
+                    });
+                }).then(function (response) {
+
+                    delete _this.retrievingToken;
+
+                    (0, _minilog2.default)('secucard.TokenStorageInMem').debug(response.text);
+
+                    if (!_token.Token.isValid(response.body)) {
+                        var err = 'Retrieved token from ' + retrieveToken + ' is not valid: ' + response.text;
+                        (0, _minilog2.default)('secucard.TokenStorageInMem').error(err + '. Please check if \'Content-type\' header set to \'application/json\'');
+                        throw new Error(err);
                     }
 
-                    return this.storeToken(token).then();
-                };
+                    return _this.storeToken(response.body);
+                }).catch(function (err) {
+                    delete _this.retrievingToken;
+                    throw err;
+                });
 
-                TokenStorageInMem.prototype.removeToken = function removeToken() {
-                    this.token = null;
-                    return Promise.resolve(this.token);
-                };
+                return this.retrievingToken;
+            } else if (_lodash2.default.isFunction(retrieveToken)) {
 
-                TokenStorageInMem.prototype.storeToken = function storeToken(token) {
+                if (this.retrievingToken) {
+                    return this.retrievingToken;
+                }
 
-                    this.token = token ? token : null;
-                    return Promise.resolve(this.token);
-                };
+                this.retrievingToken = retrieveToken().then(function (token) {
+                    delete _this.retrievingToken;
 
-                TokenStorageInMem.prototype.getStoredToken = function getStoredToken() {
-
-                    return Promise.resolve(this.token);
-                };
-
-                TokenStorageInMem.prototype.retrieveNewToken = function retrieveNewToken() {
-                    var _this = this;
-
-                    var retrieveToken = this.getRetrieveToken();
-
-                    if (_.isString(retrieveToken)) {
-
-                        if (this.retrievingToken) {
-                            return this.retrievingToken;
-                        }
-
-                        this.retrievingToken = new Promise(function (resolve, reject) {
-
-                            var url = retrieveToken;
-                            var request = Request.get(url);
-
-                            request.end(function (err, res) {
-                                if (err) {
-                                    reject(err, res);
-                                } else {
-                                    resolve(res);
-                                }
-                            });
-                        }).then(function (response) {
-
-                            delete _this.retrievingToken;
-
-                            minilog('secucard.TokenStorageInMem').debug(response.text);
-
-                            if (!Token.isValid(response.body)) {
-                                var err = 'Retrieved token from ' + retrieveToken + ' is not valid: ' + response.text;
-                                minilog('secucard.TokenStorageInMem').error(err + '. Please check if \'Content-type\' header set to \'application/json\'');
-                                throw new Error(err);
-                            }
-
-                            return _this.storeToken(response.body);
-                        })['catch'](function (err) {
-                            delete _this.retrievingToken;
-                            throw err;
-                        });
-
-                        return this.retrievingToken;
-                    } else if (_.isFunction(retrieveToken)) {
-
-                        if (this.retrievingToken) {
-                            return this.retrievingToken;
-                        }
-
-                        this.retrievingToken = retrieveToken().then(function (token) {
-                            delete _this.retrievingToken;
-
-                            if (!Token.isValid(token)) {
-                                var err = 'Retrieved token from ' + JSON.stringify(token) + ' is not valid';
-                                minilog('secucard.TokenStorageInMem').error('' + err);
-                                throw new Error(err);
-                            }
-
-                            return _this.storeToken(token);
-                        })['catch'](function (err) {
-                            console.log(err);
-                            delete _this.retrievingToken;
-                            throw err;
-                        });
-
-                        return this.retrievingToken;
-                    } else {
-                        return Promise.reject(new Error('retrieveToken is not defined'));
+                    if (!_token.Token.isValid(token)) {
+                        var err = 'Retrieved token from ' + JSON.stringify(token) + ' is not valid';
+                        (0, _minilog2.default)('secucard.TokenStorageInMem').error('' + err);
+                        throw new Error(err);
                     }
-                };
 
-                return TokenStorageInMem;
-            })();
+                    return _this.storeToken(token);
+                }).catch(function (err) {
+                    console.log(err);
+                    delete _this.retrievingToken;
+                    throw err;
+                });
 
-            _export('TokenStorageInMem', TokenStorageInMem);
-
-            TokenStorageInMem.createWithMixin = function (TokenStorageMixin) {
-
-                var Mixed = mixins(TokenStorageInMem, TokenStorageMixin);
-                return new Mixed();
-            };
+                return this.retrievingToken;
+            } else {
+                return Promise.reject(new Error('retrieveToken is not defined'));
+            }
         }
-    };
-});
-//# sourceMappingURL=data:application/json;charset=utf8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbImRlLnNlY3VjYXJkLmNvbm5lY3QvYXV0aC90b2tlbi1zdG9yYWdlLmpzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7Ozs0Q0FpQmEsaUJBQWlCOzs7Ozs7OzsyQkFMdEIsS0FBSzs7Ozs7Ozs7O0FBS0EsNkJBQWlCO0FBRWYseUJBRkYsaUJBQWlCLEdBRVo7MENBRkwsaUJBQWlCO2lCQUl6Qjs7QUFKUSxpQ0FBaUIsV0FNMUIsY0FBYyxHQUFBLHdCQUFDLFdBQVcsRUFBRTtBQUd4Qix3QkFBSSxDQUFDLFdBQVcsR0FBRyxXQUFXLENBQUM7O0FBRS9CLHdCQUFJLEtBQUssR0FBRyxJQUFJLENBQUM7O0FBRWpCLHdCQUFJLFdBQVcsQ0FBQyxLQUFLLEVBQUU7QUFDbkIsNkJBQUssR0FBRyxLQUFLLENBQUMsTUFBTSxDQUFDLFdBQVcsQ0FBQyxLQUFLLENBQUMsQ0FBQztBQUN4QywrQkFBTyxXQUFXLENBQUMsS0FBSyxDQUFDO3FCQUM1Qjs7QUFFRCwyQkFBTyxJQUFJLENBQUMsVUFBVSxDQUFDLEtBQUssQ0FBQyxDQUFDLElBQUksRUFBRSxDQUFDO2lCQUV4Qzs7QUFwQlEsaUNBQWlCLFdBc0IxQixXQUFXLEdBQUEsdUJBQUc7QUFDVix3QkFBSSxDQUFDLEtBQUssR0FBRyxJQUFJLENBQUM7QUFDbEIsMkJBQU8sT0FBTyxDQUFDLE9BQU8sQ0FBQyxJQUFJLENBQUMsS0FBSyxDQUFDLENBQUM7aUJBQ3RDOztBQXpCUSxpQ0FBaUIsV0EyQjFCLFVBQVUsR0FBQSxvQkFBQyxLQUFLLEVBQUU7O0FBRWQsd0JBQUksQ0FBQyxLQUFLLEdBQUcsS0FBSyxHQUFHLEtBQUssR0FBRyxJQUFJLENBQUM7QUFDbEMsMkJBQU8sT0FBTyxDQUFDLE9BQU8sQ0FBQyxJQUFJLENBQUMsS0FBSyxDQUFDLENBQUM7aUJBRXRDOztBQWhDUSxpQ0FBaUIsV0FrQzFCLGNBQWMsR0FBQSwwQkFBRzs7QUFFYiwyQkFBTyxPQUFPLENBQUMsT0FBTyxDQUFDLElBQUksQ0FBQyxLQUFLLENBQUMsQ0FBQztpQkFFdEM7O0FBdENRLGlDQUFpQixXQTJDMUIsZ0JBQWdCLEdBQUEsNEJBQUc7OztBQUVmLHdCQUFJLGFBQWEsR0FBRyxJQUFJLENBQUMsZ0JBQWdCLEVBQUUsQ0FBQzs7QUFFNUMsd0JBQUcsQ0FBQyxDQUFDLFFBQVEsQ0FBQyxhQUFhLENBQUMsRUFBRTs7QUFFMUIsNEJBQUcsSUFBSSxDQUFDLGVBQWUsRUFBRTtBQUNyQixtQ0FBTyxJQUFJLENBQUMsZUFBZSxDQUFDO3lCQUMvQjs7QUFFRCw0QkFBSSxDQUFDLGVBQWUsR0FBRyxBQUFDLElBQUksT0FBTyxDQUFDLFVBQUMsT0FBTyxFQUFFLE1BQU0sRUFBSzs7QUFFckQsZ0NBQUksR0FBRyxHQUFHLGFBQWEsQ0FBQztBQUN4QixnQ0FBSSxPQUFPLEdBQUcsT0FBTyxDQUFDLEdBQUcsQ0FBQyxHQUFHLENBQUMsQ0FBQzs7QUFFL0IsbUNBQU8sQ0FBQyxHQUFHLENBQUMsVUFBQyxHQUFHLEVBQUUsR0FBRyxFQUFLO0FBQ3RCLG9DQUFJLEdBQUcsRUFBRTtBQUNMLDBDQUFNLENBQUMsR0FBRyxFQUFFLEdBQUcsQ0FBQyxDQUFDO2lDQUNwQixNQUFNO0FBQ0gsMkNBQU8sQ0FBQyxHQUFHLENBQUMsQ0FBQztpQ0FDaEI7NkJBQ0osQ0FBQyxDQUFDO3lCQUVOLENBQUMsQ0FBRSxJQUFJLENBQUMsVUFBQyxRQUFRLEVBQUs7O0FBRW5CLG1DQUFPLE1BQUssZUFBZSxDQUFDOztBQUU1QixtQ0FBTyxDQUFDLDRCQUE0QixDQUFDLENBQUMsS0FBSyxDQUFDLFFBQVEsQ0FBQyxJQUFJLENBQUMsQ0FBQzs7QUFFM0QsZ0NBQUcsQ0FBQyxLQUFLLENBQUMsT0FBTyxDQUFDLFFBQVEsQ0FBQyxJQUFJLENBQUMsRUFBRTtBQUM5QixvQ0FBSSxHQUFHLDZCQUEyQixhQUFhLHVCQUFrQixRQUFRLENBQUMsSUFBSSxBQUFFLENBQUM7QUFDakYsdUNBQU8sQ0FBQyw0QkFBNEIsQ0FBQyxDQUFDLEtBQUssQ0FBSSxHQUFHLDJFQUFvRSxDQUFDO0FBQ3ZILHNDQUFNLElBQUksS0FBSyxDQUFDLEdBQUcsQ0FBQyxDQUFDOzZCQUN4Qjs7QUFFRCxtQ0FBTyxNQUFLLFVBQVUsQ0FBQyxRQUFRLENBQUMsSUFBSSxDQUFDLENBQUM7eUJBRXpDLENBQUMsU0FBTSxDQUFDLFVBQUMsR0FBRyxFQUFLO0FBQ2QsbUNBQU8sTUFBSyxlQUFlLENBQUM7QUFDNUIsa0NBQU0sR0FBRyxDQUFDO3lCQUNiLENBQUMsQ0FBQzs7QUFFSCwrQkFBTyxJQUFJLENBQUMsZUFBZSxDQUFDO3FCQUUvQixNQUFNLElBQUcsQ0FBQyxDQUFDLFVBQVUsQ0FBQyxhQUFhLENBQUMsRUFBRTs7QUFFbkMsNEJBQUcsSUFBSSxDQUFDLGVBQWUsRUFBRTtBQUNyQixtQ0FBTyxJQUFJLENBQUMsZUFBZSxDQUFDO3lCQUMvQjs7QUFFRCw0QkFBSSxDQUFDLGVBQWUsR0FBRyxhQUFhLEVBQUUsQ0FBQyxJQUFJLENBQUMsVUFBQyxLQUFLLEVBQUs7QUFDbkQsbUNBQU8sTUFBSyxlQUFlLENBQUM7O0FBRTVCLGdDQUFHLENBQUMsS0FBSyxDQUFDLE9BQU8sQ0FBQyxLQUFLLENBQUMsRUFBRTtBQUN0QixvQ0FBSSxHQUFHLDZCQUEyQixJQUFJLENBQUMsU0FBUyxDQUFDLEtBQUssQ0FBQyxrQkFBZSxDQUFDO0FBQ3ZFLHVDQUFPLENBQUMsNEJBQTRCLENBQUMsQ0FBQyxLQUFLLE1BQUksR0FBRyxDQUFHLENBQUM7QUFDdEQsc0NBQU0sSUFBSSxLQUFLLENBQUMsR0FBRyxDQUFDLENBQUM7NkJBQ3hCOztBQUVELG1DQUFPLE1BQUssVUFBVSxDQUFDLEtBQUssQ0FBQyxDQUFDO3lCQUNqQyxDQUFDLFNBQU0sQ0FBQyxVQUFDLEdBQUcsRUFBSztBQUNkLG1DQUFPLENBQUMsR0FBRyxDQUFDLEdBQUcsQ0FBQyxDQUFDO0FBQ2pCLG1DQUFPLE1BQUssZUFBZSxDQUFDO0FBQzVCLGtDQUFNLEdBQUcsQ0FBQzt5QkFDYixDQUFDLENBQUM7O0FBRUgsK0JBQU8sSUFBSSxDQUFDLGVBQWUsQ0FBQztxQkFFL0IsTUFBTTtBQUNILCtCQUFPLE9BQU8sQ0FBQyxNQUFNLENBQUMsSUFBSSxLQUFLLENBQUMsOEJBQThCLENBQUMsQ0FBQyxDQUFDO3FCQUNwRTtpQkFFSjs7dUJBbkhRLGlCQUFpQjs7Ozs7QUF1SDlCLDZCQUFpQixDQUFDLGVBQWUsR0FBRyxVQUFDLGlCQUFpQixFQUFLOztBQUV2RCxvQkFBSSxLQUFLLEdBQUcsTUFBTSxDQUFDLGlCQUFpQixFQUFFLGlCQUFpQixDQUFDLENBQUM7QUFDekQsdUJBQU8sSUFBSSxLQUFLLEVBQUUsQ0FBQzthQUV0QixDQUFDIiwiZmlsZSI6ImRlLnNlY3VjYXJkLmNvbm5lY3QvYXV0aC90b2tlbi1zdG9yYWdlLmpzIiwic291cmNlUm9vdCI6Ii4uL3NyYy8ifQ==
+    }]);
+
+    return TokenStorageInMem;
+}();
+
+TokenStorageInMem.createWithMixin = function (TokenStorageMixin) {
+
+    var Mixed = (0, _mixins2.default)(TokenStorageInMem, TokenStorageMixin);
+    return new Mixed();
+};
+//# sourceMappingURL=data:application/json;charset=utf8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbImRlLnNlY3VjYXJkLmNvbm5lY3QvYXV0aC90b2tlbi1zdG9yYWdlLmpzIl0sIm5hbWVzIjpbIlRva2VuU3RvcmFnZUluTWVtIiwiY3JlZGVudGlhbHMiLCJ0b2tlbiIsIlRva2VuIiwiY3JlYXRlIiwic3RvcmVUb2tlbiIsInRoZW4iLCJQcm9taXNlIiwicmVzb2x2ZSIsInJldHJpZXZlVG9rZW4iLCJnZXRSZXRyaWV2ZVRva2VuIiwiXyIsImlzU3RyaW5nIiwicmV0cmlldmluZ1Rva2VuIiwicmVqZWN0IiwidXJsIiwicmVxdWVzdCIsIlJlcXVlc3QiLCJnZXQiLCJlbmQiLCJlcnIiLCJyZXMiLCJyZXNwb25zZSIsImRlYnVnIiwidGV4dCIsImlzVmFsaWQiLCJib2R5IiwiZXJyb3IiLCJFcnJvciIsImNhdGNoIiwiaXNGdW5jdGlvbiIsIkpTT04iLCJzdHJpbmdpZnkiLCJjb25zb2xlIiwibG9nIiwiY3JlYXRlV2l0aE1peGluIiwiVG9rZW5TdG9yYWdlTWl4aW4iLCJNaXhlZCJdLCJtYXBwaW5ncyI6Ijs7Ozs7Ozs7O0FBV0E7Ozs7QUFDQTs7QUFDQTs7OztBQUNBOzs7O0FBQ0E7Ozs7Ozs7O0lBRWFBLGlCLFdBQUFBLGlCO0FBRVQsaUNBQWM7QUFBQTtBQUViOzs7O3VDQUVjQyxXLEVBQWE7QUFHeEIsaUJBQUtBLFdBQUwsR0FBbUJBLFdBQW5COztBQUVBLGdCQUFJQyxRQUFRLElBQVo7O0FBRUEsZ0JBQUlELFlBQVlDLEtBQWhCLEVBQXVCO0FBQ25CQSx3QkFBUUMsYUFBTUMsTUFBTixDQUFhSCxZQUFZQyxLQUF6QixDQUFSO0FBQ0EsdUJBQU9ELFlBQVlDLEtBQW5CO0FBQ0g7O0FBRUQsbUJBQU8sS0FBS0csVUFBTCxDQUFnQkgsS0FBaEIsRUFBdUJJLElBQXZCLEVBQVA7QUFFSDs7O3NDQUVhO0FBQ1YsaUJBQUtKLEtBQUwsR0FBYSxJQUFiO0FBQ0EsbUJBQU9LLFFBQVFDLE9BQVIsQ0FBZ0IsS0FBS04sS0FBckIsQ0FBUDtBQUNIOzs7bUNBRVVBLEssRUFBTzs7QUFFZCxpQkFBS0EsS0FBTCxHQUFhQSxRQUFRQSxLQUFSLEdBQWdCLElBQTdCO0FBQ0EsbUJBQU9LLFFBQVFDLE9BQVIsQ0FBZ0IsS0FBS04sS0FBckIsQ0FBUDtBQUVIOzs7eUNBRWdCOztBQUViLG1CQUFPSyxRQUFRQyxPQUFSLENBQWdCLEtBQUtOLEtBQXJCLENBQVA7QUFFSDs7OzJDQUtrQjtBQUFBOztBQUVmLGdCQUFJTyxnQkFBZ0IsS0FBS0MsZ0JBQUwsRUFBcEI7O0FBRUEsZ0JBQUdDLGlCQUFFQyxRQUFGLENBQVdILGFBQVgsQ0FBSCxFQUE4Qjs7QUFFMUIsb0JBQUcsS0FBS0ksZUFBUixFQUF5QjtBQUNyQiwyQkFBTyxLQUFLQSxlQUFaO0FBQ0g7O0FBRUQscUJBQUtBLGVBQUwsR0FBd0IsSUFBSU4sT0FBSixDQUFZLFVBQUNDLE9BQUQsRUFBVU0sTUFBVixFQUFxQjs7QUFFckQsd0JBQUlDLE1BQU1OLGFBQVY7QUFDQSx3QkFBSU8sVUFBVUMscUJBQVFDLEdBQVIsQ0FBWUgsR0FBWixDQUFkOztBQUVBQyw0QkFBUUcsR0FBUixDQUFZLFVBQUNDLEdBQUQsRUFBTUMsR0FBTixFQUFjO0FBQ3RCLDRCQUFJRCxHQUFKLEVBQVM7QUFDTE4sbUNBQU9NLEdBQVAsRUFBWUMsR0FBWjtBQUNILHlCQUZELE1BRU87QUFDSGIsb0NBQVFhLEdBQVI7QUFDSDtBQUNKLHFCQU5EO0FBUUgsaUJBYnVCLENBQUQsQ0FhbkJmLElBYm1CLENBYWQsVUFBQ2dCLFFBQUQsRUFBYzs7QUFFbkIsMkJBQU8sTUFBS1QsZUFBWjs7QUFFQSwyQ0FBUSw0QkFBUixFQUFzQ1UsS0FBdEMsQ0FBNENELFNBQVNFLElBQXJEOztBQUVBLHdCQUFHLENBQUNyQixhQUFNc0IsT0FBTixDQUFjSCxTQUFTSSxJQUF2QixDQUFKLEVBQWtDO0FBQzlCLDRCQUFJTixnQ0FBOEJYLGFBQTlCLHVCQUE2RGEsU0FBU0UsSUFBMUU7QUFDQSwrQ0FBUSw0QkFBUixFQUFzQ0csS0FBdEMsQ0FBK0NQLEdBQS9DO0FBQ0EsOEJBQU0sSUFBSVEsS0FBSixDQUFVUixHQUFWLENBQU47QUFDSDs7QUFFRCwyQkFBTyxNQUFLZixVQUFMLENBQWdCaUIsU0FBU0ksSUFBekIsQ0FBUDtBQUVILGlCQTNCc0IsRUEyQnBCRyxLQTNCb0IsQ0EyQmQsVUFBQ1QsR0FBRCxFQUFTO0FBQ2QsMkJBQU8sTUFBS1AsZUFBWjtBQUNBLDBCQUFNTyxHQUFOO0FBQ0gsaUJBOUJzQixDQUF2Qjs7QUFnQ0EsdUJBQU8sS0FBS1AsZUFBWjtBQUVILGFBeENELE1Bd0NPLElBQUdGLGlCQUFFbUIsVUFBRixDQUFhckIsYUFBYixDQUFILEVBQWdDOztBQUVuQyxvQkFBRyxLQUFLSSxlQUFSLEVBQXlCO0FBQ3JCLDJCQUFPLEtBQUtBLGVBQVo7QUFDSDs7QUFFRCxxQkFBS0EsZUFBTCxHQUF1QkosZ0JBQWdCSCxJQUFoQixDQUFxQixVQUFDSixLQUFELEVBQVc7QUFDbkQsMkJBQU8sTUFBS1csZUFBWjs7QUFFQSx3QkFBRyxDQUFDVixhQUFNc0IsT0FBTixDQUFjdkIsS0FBZCxDQUFKLEVBQTBCO0FBQ3RCLDRCQUFJa0IsZ0NBQThCVyxLQUFLQyxTQUFMLENBQWU5QixLQUFmLENBQTlCLGtCQUFKO0FBQ0EsK0NBQVEsNEJBQVIsRUFBc0N5QixLQUF0QyxNQUErQ1AsR0FBL0M7QUFDQSw4QkFBTSxJQUFJUSxLQUFKLENBQVVSLEdBQVYsQ0FBTjtBQUNIOztBQUVELDJCQUFPLE1BQUtmLFVBQUwsQ0FBZ0JILEtBQWhCLENBQVA7QUFDSCxpQkFWc0IsRUFVcEIyQixLQVZvQixDQVVkLFVBQUNULEdBQUQsRUFBUztBQUNkYSw0QkFBUUMsR0FBUixDQUFZZCxHQUFaO0FBQ0EsMkJBQU8sTUFBS1AsZUFBWjtBQUNBLDBCQUFNTyxHQUFOO0FBQ0gsaUJBZHNCLENBQXZCOztBQWdCQSx1QkFBTyxLQUFLUCxlQUFaO0FBRUgsYUF4Qk0sTUF3QkE7QUFDSCx1QkFBT04sUUFBUU8sTUFBUixDQUFlLElBQUljLEtBQUosQ0FBVSw4QkFBVixDQUFmLENBQVA7QUFDSDtBQUVKOzs7Ozs7QUFJTDVCLGtCQUFrQm1DLGVBQWxCLEdBQW9DLFVBQUNDLGlCQUFELEVBQXVCOztBQUV2RCxRQUFJQyxRQUFRLHNCQUFPckMsaUJBQVAsRUFBMEJvQyxpQkFBMUIsQ0FBWjtBQUNBLFdBQU8sSUFBSUMsS0FBSixFQUFQO0FBRUgsQ0FMRCIsImZpbGUiOiJkZS5zZWN1Y2FyZC5jb25uZWN0L2F1dGgvdG9rZW4tc3RvcmFnZS5qcyIsInNvdXJjZVJvb3QiOiIuLi9zcmMvIn0=

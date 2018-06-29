@@ -2,9 +2,9 @@
 
 exports.__esModule = true;
 
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-var Frame = (function () {
+var Frame = exports.Frame = function () {
     function Frame() {
         _classCallCheck(this, Frame);
 
@@ -47,6 +47,4 @@ var Frame = (function () {
     };
 
     return Frame;
-})();
-
-exports.Frame = Frame;
+}();

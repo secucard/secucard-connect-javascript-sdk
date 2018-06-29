@@ -2,9 +2,9 @@
 
 exports.__esModule = true;
 
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-var ClientConfig = (function () {
+var ClientConfig = exports.ClientConfig = function () {
     function ClientConfig() {
         _classCallCheck(this, ClientConfig);
     }
@@ -86,9 +86,7 @@ var ClientConfig = (function () {
     };
 
     return ClientConfig;
-})();
-
-exports.ClientConfig = ClientConfig;
+}();
 
 ClientConfig._defaults = {
     channelDefault: '',

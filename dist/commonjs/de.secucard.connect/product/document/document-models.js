@@ -2,6 +2,11 @@
 
 exports.__esModule = true;
 
-var _modelUpload = require('./model/upload');
+var _upload = require('./model/upload');
 
-exports.Upload = _modelUpload.Upload;
+Object.defineProperty(exports, 'Upload', {
+  enumerable: true,
+  get: function get() {
+    return _upload.Upload;
+  }
+});

@@ -1,41 +1,43 @@
-System.register(['../product-service'], function (_export) {
-    'use strict';
+'use strict';
 
-    var ProductService, FileAccessService;
-
-    function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
-
-    function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-    return {
-        setters: [function (_productService) {
-            ProductService = _productService.ProductService;
-        }],
-        execute: function () {
-            FileAccessService = (function (_ProductService) {
-                _inherits(FileAccessService, _ProductService);
-
-                function FileAccessService() {
-                    _classCallCheck(this, FileAccessService);
-
-                    _ProductService.call(this);
-                }
-
-                FileAccessService.prototype.getEndpoint = function getEndpoint() {
-                    return ['general', 'fileaccesses'];
-                };
-
-                FileAccessService.prototype.getEventTargets = function getEventTargets() {
-                    return [];
-                };
-
-                return FileAccessService;
-            })(ProductService);
-
-            _export('FileAccessService', FileAccessService);
-
-            FileAccessService.Uid = ['general', 'fileaccesses'].join('.');
-        }
-    };
+Object.defineProperty(exports, "__esModule", {
+    value: true
 });
-//# sourceMappingURL=data:application/json;charset=utf8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbImRlLnNlY3VjYXJkLmNvbm5lY3QvcHJvZHVjdC9nZW5lcmFsL2ZpbGUtYWNjZXNzLXNlcnZpY2UuanMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7O3dCQWFhLGlCQUFpQjs7Ozs7Ozs7NkNBRnRCLGNBQWM7OztBQUVULDZCQUFpQjswQkFBakIsaUJBQWlCOztBQUVmLHlCQUZGLGlCQUFpQixHQUVaOzBDQUZMLGlCQUFpQjs7QUFHdEIsOENBQU8sQ0FBQTtpQkFDVjs7QUFKUSxpQ0FBaUIsV0FNMUIsV0FBVyxHQUFBLHVCQUFHO0FBQ1YsMkJBQU8sQ0FBQyxTQUFTLEVBQUUsY0FBYyxDQUFDLENBQUM7aUJBQ3RDOztBQVJRLGlDQUFpQixXQVUxQixlQUFlLEdBQUEsMkJBQUc7QUFDZCwyQkFBTyxFQUFFLENBQUM7aUJBQ2I7O3VCQVpRLGlCQUFpQjtlQUFTLGNBQWM7Ozs7QUFnQnJELDZCQUFpQixDQUFDLEdBQUcsR0FBRyxBQUFDLENBQUMsU0FBUyxFQUFFLGNBQWMsQ0FBQyxDQUFFLElBQUksQ0FBQyxHQUFHLENBQUMsQ0FBQyIsImZpbGUiOiJkZS5zZWN1Y2FyZC5jb25uZWN0L3Byb2R1Y3QvZ2VuZXJhbC9maWxlLWFjY2Vzcy1zZXJ2aWNlLmpzIiwic291cmNlUm9vdCI6Ii4uL3NyYy8ifQ==
+exports.FileAccessService = undefined;
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _productService = require('../product-service');
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var FileAccessService = exports.FileAccessService = function (_ProductService) {
+    _inherits(FileAccessService, _ProductService);
+
+    function FileAccessService() {
+        _classCallCheck(this, FileAccessService);
+
+        return _possibleConstructorReturn(this, (FileAccessService.__proto__ || Object.getPrototypeOf(FileAccessService)).call(this));
+    }
+
+    _createClass(FileAccessService, [{
+        key: 'getEndpoint',
+        value: function getEndpoint() {
+            return ['general', 'fileaccesses'];
+        }
+    }, {
+        key: 'getEventTargets',
+        value: function getEventTargets() {
+            return [];
+        }
+    }]);
+
+    return FileAccessService;
+}(_productService.ProductService);
+
+FileAccessService.Uid = ['general', 'fileaccesses'].join('.');
+//# sourceMappingURL=data:application/json;charset=utf8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbImRlLnNlY3VjYXJkLmNvbm5lY3QvcHJvZHVjdC9nZW5lcmFsL2ZpbGUtYWNjZXNzLXNlcnZpY2UuanMiXSwibmFtZXMiOlsiRmlsZUFjY2Vzc1NlcnZpY2UiLCJQcm9kdWN0U2VydmljZSIsIlVpZCIsImpvaW4iXSwibWFwcGluZ3MiOiI7Ozs7Ozs7OztBQVdBOzs7Ozs7OztJQUVhQSxpQixXQUFBQSxpQjs7O0FBRVQsaUNBQWM7QUFBQTs7QUFBQTtBQUViOzs7O3NDQUVhO0FBQ1YsbUJBQU8sQ0FBQyxTQUFELEVBQVksY0FBWixDQUFQO0FBQ0g7OzswQ0FFaUI7QUFDZCxtQkFBTyxFQUFQO0FBQ0g7Ozs7RUFaa0NDLDhCOztBQWdCdkNELGtCQUFrQkUsR0FBbEIsR0FBeUIsQ0FBQyxTQUFELEVBQVksY0FBWixDQUFELENBQThCQyxJQUE5QixDQUFtQyxHQUFuQyxDQUF4QiIsImZpbGUiOiJkZS5zZWN1Y2FyZC5jb25uZWN0L3Byb2R1Y3QvZ2VuZXJhbC9maWxlLWFjY2Vzcy1zZXJ2aWNlLmpzIiwic291cmNlUm9vdCI6Ii4uL3NyYy8ifQ==

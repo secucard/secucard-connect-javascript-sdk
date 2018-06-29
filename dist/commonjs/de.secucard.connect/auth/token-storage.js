@@ -1,10 +1,7 @@
 'use strict';
 
 exports.__esModule = true;
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
+exports.TokenStorageInMem = undefined;
 
 var _lodash = require('lodash');
 
@@ -12,9 +9,9 @@ var _lodash2 = _interopRequireDefault(_lodash);
 
 var _token = require('./token');
 
-var _utilMixins = require('../util/mixins');
+var _mixins = require('../util/mixins');
 
-var _utilMixins2 = _interopRequireDefault(_utilMixins);
+var _mixins2 = _interopRequireDefault(_mixins);
 
 var _superagent = require('superagent');
 
@@ -24,7 +21,11 @@ var _minilog = require('minilog');
 
 var _minilog2 = _interopRequireDefault(_minilog);
 
-var TokenStorageInMem = (function () {
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var TokenStorageInMem = exports.TokenStorageInMem = function () {
     function TokenStorageInMem() {
         _classCallCheck(this, TokenStorageInMem);
     }
@@ -63,7 +64,7 @@ var TokenStorageInMem = (function () {
 
         var retrieveToken = this.getRetrieveToken();
 
-        if (_lodash2['default'].isString(retrieveToken)) {
+        if (_lodash2.default.isString(retrieveToken)) {
 
             if (this.retrievingToken) {
                 return this.retrievingToken;
@@ -72,7 +73,7 @@ var TokenStorageInMem = (function () {
             this.retrievingToken = new Promise(function (resolve, reject) {
 
                 var url = retrieveToken;
-                var request = _superagent2['default'].get(url);
+                var request = _superagent2.default.get(url);
 
                 request.end(function (err, res) {
                     if (err) {
@@ -85,22 +86,22 @@ var TokenStorageInMem = (function () {
 
                 delete _this.retrievingToken;
 
-                _minilog2['default']('secucard.TokenStorageInMem').debug(response.text);
+                (0, _minilog2.default)('secucard.TokenStorageInMem').debug(response.text);
 
                 if (!_token.Token.isValid(response.body)) {
                     var err = 'Retrieved token from ' + retrieveToken + ' is not valid: ' + response.text;
-                    _minilog2['default']('secucard.TokenStorageInMem').error(err + '. Please check if \'Content-type\' header set to \'application/json\'');
+                    (0, _minilog2.default)('secucard.TokenStorageInMem').error(err + '. Please check if \'Content-type\' header set to \'application/json\'');
                     throw new Error(err);
                 }
 
                 return _this.storeToken(response.body);
-            })['catch'](function (err) {
+            }).catch(function (err) {
                 delete _this.retrievingToken;
                 throw err;
             });
 
             return this.retrievingToken;
-        } else if (_lodash2['default'].isFunction(retrieveToken)) {
+        } else if (_lodash2.default.isFunction(retrieveToken)) {
 
             if (this.retrievingToken) {
                 return this.retrievingToken;
@@ -111,12 +112,12 @@ var TokenStorageInMem = (function () {
 
                 if (!_token.Token.isValid(token)) {
                     var err = 'Retrieved token from ' + JSON.stringify(token) + ' is not valid';
-                    _minilog2['default']('secucard.TokenStorageInMem').error('' + err);
+                    (0, _minilog2.default)('secucard.TokenStorageInMem').error('' + err);
                     throw new Error(err);
                 }
 
                 return _this.storeToken(token);
-            })['catch'](function (err) {
+            }).catch(function (err) {
                 console.log(err);
                 delete _this.retrievingToken;
                 throw err;
@@ -129,12 +130,10 @@ var TokenStorageInMem = (function () {
     };
 
     return TokenStorageInMem;
-})();
-
-exports.TokenStorageInMem = TokenStorageInMem;
+}();
 
 TokenStorageInMem.createWithMixin = function (TokenStorageMixin) {
 
-    var Mixed = _utilMixins2['default'](TokenStorageInMem, TokenStorageMixin);
+    var Mixed = (0, _mixins2.default)(TokenStorageInMem, TokenStorageMixin);
     return new Mixed();
 };

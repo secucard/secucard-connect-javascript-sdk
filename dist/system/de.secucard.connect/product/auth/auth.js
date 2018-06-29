@@ -1,18 +1,12 @@
-System.register(['./session-service'], function (_export) {
-  'use strict';
+'use strict';
 
-  var SessionService, Auth;
-  return {
-    setters: [function (_sessionService) {
-      SessionService = _sessionService.SessionService;
-    }],
-    execute: function () {
-      Auth = {};
-
-      _export('Auth', Auth);
-
-      Auth.SessionService = SessionService;
-    }
-  };
+Object.defineProperty(exports, "__esModule", {
+  value: true
 });
-//# sourceMappingURL=data:application/json;charset=utf8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbImRlLnNlY3VjYXJkLmNvbm5lY3QvcHJvZHVjdC9hdXRoL2F1dGguanMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7O3NCQWFhLElBQUk7Ozt1Q0FGVCxjQUFjOzs7QUFFVCxVQUFJLEdBQUcsRUFBRTs7OztBQUN0QixVQUFJLENBQUMsY0FBYyxHQUFHLGNBQWMsQ0FBQyIsImZpbGUiOiJkZS5zZWN1Y2FyZC5jb25uZWN0L3Byb2R1Y3QvYXV0aC9hdXRoLmpzIiwic291cmNlUm9vdCI6Ii4uL3NyYy8ifQ==
+exports.Auth = undefined;
+
+var _sessionService = require('./session-service');
+
+var Auth = exports.Auth = {};
+Auth.SessionService = _sessionService.SessionService;
+//# sourceMappingURL=data:application/json;charset=utf8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbImRlLnNlY3VjYXJkLmNvbm5lY3QvcHJvZHVjdC9hdXRoL2F1dGguanMiXSwibmFtZXMiOlsiQXV0aCIsIlNlc3Npb25TZXJ2aWNlIl0sIm1hcHBpbmdzIjoiOzs7Ozs7O0FBV0E7O0FBRU8sSUFBTUEsc0JBQU8sRUFBYjtBQUNQQSxLQUFLQyxjQUFMLEdBQXNCQSw4QkFBdEIiLCJmaWxlIjoiZGUuc2VjdWNhcmQuY29ubmVjdC9wcm9kdWN0L2F1dGgvYXV0aC5qcyIsInNvdXJjZVJvb3QiOiIuLi9zcmMvIn0=

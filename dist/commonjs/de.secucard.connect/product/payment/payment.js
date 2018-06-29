@@ -1,6 +1,7 @@
 'use strict';
 
 exports.__esModule = true;
+exports.Payment = undefined;
 
 var _containerService = require('./container-service');
 
@@ -14,8 +15,7 @@ var _secupayPrepayService = require('./secupay-prepay-service');
 
 var _transactionService = require('./transaction-service');
 
-var Payment = {};
-exports.Payment = Payment;
+var Payment = exports.Payment = {};
 Payment.ContainerService = _containerService.ContainerService;
 Payment.ContractService = _contractService.ContractService;
 Payment.CustomerService = _customerService.CustomerService;

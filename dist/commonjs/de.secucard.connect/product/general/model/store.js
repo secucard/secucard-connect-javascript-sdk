@@ -4,7 +4,7 @@ exports.__esModule = true;
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-var Store = function Store(source, key, hash, name, name_raw, merchant, _news_status, _news, open_now, open_time, open_hours, geometry, _geometry, _checkin_status, address_formatted, address_components, category, category_main, phone_number_formatted, url_website, _balance, _points, _program, _isDefault, facebook_id, photo, photo_main, has_beacon) {
+var Store = exports.Store = function Store(source, key, hash, name, name_raw, merchant, _news_status, _news, open_now, open_time, open_hours, geometry, _geometry, _checkin_status, address_formatted, address_components, category, category_main, phone_number_formatted, url_website, _balance, _points, _program, _isDefault, facebook_id, photo, photo_main, has_beacon) {
     _classCallCheck(this, Store);
 
     this.source = source;
@@ -36,5 +36,3 @@ var Store = function Store(source, key, hash, name, name_raw, merchant, _news_st
     this.photo_main = photo_main;
     this.has_beacon = has_beacon;
 };
-
-exports.Store = Store;

@@ -2,9 +2,9 @@
 
 exports.__esModule = true;
 
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-var Channel = (function () {
+var Channel = exports.Channel = function () {
     function Channel() {
         _classCallCheck(this, Channel);
     }
@@ -14,9 +14,7 @@ var Channel = (function () {
     Channel.prototype.request = function request(method, params) {};
 
     return Channel;
-})();
-
-exports.Channel = Channel;
+}();
 
 Channel.REST = 'rest';
 Channel.STOMP = 'stomp';

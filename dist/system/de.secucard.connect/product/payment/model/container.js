@@ -1,28 +1,21 @@
-System.register([], function (_export) {
-    'use strict';
+'use strict';
 
-    var Container;
-
-    function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
-
-    return {
-        setters: [],
-        execute: function () {
-            Container = function Container(merchant, privateData, publicData, assign, type, created, updated, contract) {
-                _classCallCheck(this, Container);
-
-                this.merchant = merchant;
-                this['private'] = privateData;
-                this['public'] = publicData;
-                this.assign = assign;
-                this.type = type;
-                this.created = created;
-                this.updated = updated;
-                this.contract = contract;
-            };
-
-            _export('Container', Container);
-        }
-    };
+Object.defineProperty(exports, "__esModule", {
+    value: true
 });
-//# sourceMappingURL=data:application/json;charset=utf8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbImRlLnNlY3VjYXJkLmNvbm5lY3QvcHJvZHVjdC9wYXltZW50L21vZGVsL2NvbnRhaW5lci5qcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiOzs7UUFXYSxTQUFTOzs7Ozs7O0FBQVQscUJBQVMsR0FFUCxTQUZGLFNBQVMsQ0FFTixRQUFRLEVBQUUsV0FBVyxFQUFFLFVBQVUsRUFBRSxNQUFNLEVBQUUsSUFBSSxFQUFFLE9BQU8sRUFBRSxPQUFPLEVBQUUsUUFBUSxFQUFFO3NDQUZoRixTQUFTOztBQUdkLG9CQUFJLENBQUMsUUFBUSxHQUFHLFFBQVEsQ0FBQztBQUN6QixvQkFBSSxDQUFDLFNBQVMsQ0FBQyxHQUFHLFdBQVcsQ0FBQztBQUM5QixvQkFBSSxDQUFDLFFBQVEsQ0FBQyxHQUFHLFVBQVUsQ0FBQztBQUM1QixvQkFBSSxDQUFDLE1BQU0sR0FBRyxNQUFNLENBQUM7QUFDckIsb0JBQUksQ0FBQyxJQUFJLEdBQUcsSUFBSSxDQUFDO0FBQ2pCLG9CQUFJLENBQUMsT0FBTyxHQUFHLE9BQU8sQ0FBQztBQUN2QixvQkFBSSxDQUFDLE9BQU8sR0FBRyxPQUFPLENBQUM7QUFDdkIsb0JBQUksQ0FBQyxRQUFRLEdBQUcsUUFBUSxDQUFDO2FBQzVCIiwiZmlsZSI6ImRlLnNlY3VjYXJkLmNvbm5lY3QvcHJvZHVjdC9wYXltZW50L21vZGVsL2NvbnRhaW5lci5qcyIsInNvdXJjZVJvb3QiOiIuLi9zcmMvIn0=
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var Container = exports.Container = function Container(merchant, privateData, publicData, assign, type, created, updated, contract) {
+    _classCallCheck(this, Container);
+
+    this.merchant = merchant;
+    this['private'] = privateData;
+    this['public'] = publicData;
+    this.assign = assign;
+    this.type = type;
+    this.created = created;
+    this.updated = updated;
+    this.contract = contract;
+};
+//# sourceMappingURL=data:application/json;charset=utf8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbImRlLnNlY3VjYXJkLmNvbm5lY3QvcHJvZHVjdC9wYXltZW50L21vZGVsL2NvbnRhaW5lci5qcyJdLCJuYW1lcyI6WyJDb250YWluZXIiLCJtZXJjaGFudCIsInByaXZhdGVEYXRhIiwicHVibGljRGF0YSIsImFzc2lnbiIsInR5cGUiLCJjcmVhdGVkIiwidXBkYXRlZCIsImNvbnRyYWN0Il0sIm1hcHBpbmdzIjoiOzs7Ozs7OztJQVdhQSxTLFdBQUFBLFMsR0FFVCxtQkFBWUMsUUFBWixFQUFzQkMsV0FBdEIsRUFBbUNDLFVBQW5DLEVBQStDQyxNQUEvQyxFQUF1REMsSUFBdkQsRUFBNkRDLE9BQTdELEVBQXNFQyxPQUF0RSxFQUErRUMsUUFBL0UsRUFBeUY7QUFBQTs7QUFDckYsU0FBS1AsUUFBTCxHQUFnQkEsUUFBaEI7QUFDQSxTQUFLLFNBQUwsSUFBa0JDLFdBQWxCO0FBQ0EsU0FBSyxRQUFMLElBQWlCQyxVQUFqQjtBQUNBLFNBQUtDLE1BQUwsR0FBY0EsTUFBZDtBQUNBLFNBQUtDLElBQUwsR0FBWUEsSUFBWjtBQUNBLFNBQUtDLE9BQUwsR0FBZUEsT0FBZjtBQUNBLFNBQUtDLE9BQUwsR0FBZUEsT0FBZjtBQUNBLFNBQUtDLFFBQUwsR0FBZ0JBLFFBQWhCO0FBQ0gsQyIsImZpbGUiOiJkZS5zZWN1Y2FyZC5jb25uZWN0L3Byb2R1Y3QvcGF5bWVudC9tb2RlbC9jb250YWluZXIuanMiLCJzb3VyY2VSb290IjoiLi4vc3JjLyJ9
