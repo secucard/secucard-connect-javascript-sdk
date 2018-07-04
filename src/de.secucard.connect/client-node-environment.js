@@ -29,10 +29,10 @@ export const ClientNodeEnvironment = {
     services: [
         Auth.SessionService,
 
-        Clearing.ClearingSepainbatchsService,
-        Clearing.ClearingSepainrecordsService,
-        Clearing.ClearingSepaoutbatchsService,
-        Clearing.ClearingSepaoutrecordsService,
+        Clearing.SepaInbatchsService,
+        Clearing.SepaInrecordsService,
+        Clearing.SepaOutbatchsService,
+        Clearing.SepaOutrecordsService,
 
         Document.UploadService,
 
@@ -113,10 +113,10 @@ export const ServiceMap = {
         Sessions: Auth.SessionService.Uid
     },
     Clearing: {
-        Sepainbatchs: Clearing.ClearingSepainbatchsService.Uid,
-        Sepainrecords: Clearing.ClearingSepainrecordsService.Uid,
-        Sepaoutbatchs: Clearing.ClearingSepaoutbatchsService.Uid,
-        Sepaoutrecords: Clearing.ClearingSepaoutbatchsService.Uid
+        SepaInbatchs: Clearing.SepaInbatchsService.Uid,
+        SepaInrecords: Clearing.SepaInrecordsService.Uid,
+        SepaOutbatchs: Clearing.SepaOutbatchsService.Uid,
+        SepaOutrecords: Clearing.SepaOutrecordsService.Uid
     },
     Document: {
         Uploads: Document.UploadService.Uid

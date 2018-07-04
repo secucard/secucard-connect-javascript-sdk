@@ -11,14 +11,14 @@
  */
 import {ProductService} from '../product-service'
 
-export class ClearingSepaoutrecordsService extends ProductService {
+export class SepaOutbatchsService extends ProductService {
 
     constructor() {
         super()
     }
 
     getEndpoint() {
-        return ['clearing', 'sepaoutrecords'];
+        return ['clearing', 'sepaoutbatchs'];
     }
 
     getEventTargets() {
@@ -27,4 +27,4 @@ export class ClearingSepaoutrecordsService extends ProductService {
 
 }
 
-ClearingSepaoutrecordsService.Uid = (['clearing', 'sepaoutrecords']).join('.');
+SepaOutbatchsService.Uid = (['clearing', 'sepaoutbatchs']).join('.');

@@ -11,7 +11,7 @@
  */
 import {ProductService} from '../product-service'
 
-export class ClearingSepainrecordsService extends ProductService {
+export class SepaInrecordsService extends ProductService {
 
     constructor() {
         super()
@@ -27,4 +27,4 @@ export class ClearingSepainrecordsService extends ProductService {
 
 }
 
-ClearingSepainrecordsService.Uid = (['clearing', 'sepainrecords']).join('.');
+SepaInrecordsService.Uid = (['clearing', 'sepainrecords']).join('.');

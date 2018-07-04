@@ -2,17 +2,17 @@
 
 exports.__esModule = true;
 
-var _clearingSepaInbatchs = require('./clearing-sepa-inbatchs');
+var _sepaInbatchsService = require('./sepa-inbatchs-service');
 
-var _clearingSepaInrecords = require('./clearing-sepa-inrecords');
+var _sepaInrecordsService = require('./sepa-inrecords-service');
 
-var _clearingSepaOutbatchs = require('./clearing-sepa-outbatchs');
+var _sepaOutbatchsService = require('./sepa-outbatchs-service');
 
-var _clearingSepaOutrecords = require('./clearing-sepa-outrecords');
+var _sepaOutrecordsService = require('./sepa-outrecords-service');
 
 var Clearing = {};
 exports.Clearing = Clearing;
-Clearing.ClearingSepainbatchsService = _clearingSepaInbatchs.ClearingSepainbatchsService;
-Clearing.ClearingSepainrecordsService = _clearingSepaInrecords.ClearingSepainrecordsService;
-Clearing.ClearingSepaoutbatchsService = _clearingSepaOutbatchs.ClearingSepaoutbatchsService;
-Clearing.ClearingSepaoutrecordsService = _clearingSepaOutrecords.ClearingSepaoutrecordsService;
+Clearing.SepaInbatchsService = _sepaInbatchsService.SepaInbatchsService;
+Clearing.SepaInrecordsService = _sepaInrecordsService.SepaInrecordsService;
+Clearing.SepaOutbatchsService = _sepaOutbatchsService.SepaOutbatchsService;
+Clearing.SepaOutrecordsService = _sepaOutrecordsService.SepaOutrecordsService;

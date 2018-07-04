@@ -9,13 +9,13 @@
  See the License for the specific language governing permissions and
  limitations under the License.
  */
-import {ClearingSepainbatchsService} from './clearing-sepa-inbatchs';
-import {ClearingSepainrecordsService} from './clearing-sepa-inrecords';
-import {ClearingSepaoutbatchsService} from './clearing-sepa-outbatchs';
-import {ClearingSepaoutrecordsService} from './clearing-sepa-outrecords';
+import {SepaInbatchsService} from './sepa-inbatchs-service';
+import {SepaInrecordsService} from './sepa-inrecords-service';
+import {SepaOutbatchsService} from './sepa-outbatchs-service';
+import {SepaOutrecordsService} from './sepa-outrecords-service';
 
 export const Clearing = {};
-Clearing.ClearingSepainbatchsService = ClearingSepainbatchsService;
-Clearing.ClearingSepainrecordsService = ClearingSepainrecordsService;
-Clearing.ClearingSepaoutbatchsService = ClearingSepaoutbatchsService;
-Clearing.ClearingSepaoutrecordsService = ClearingSepaoutrecordsService;
+Clearing.SepaInbatchsService = SepaInbatchsService;
+Clearing.SepaInrecordsService = SepaInrecordsService;
+Clearing.SepaOutbatchsService = SepaOutbatchsService;
+Clearing.SepaOutrecordsService = SepaOutrecordsService;

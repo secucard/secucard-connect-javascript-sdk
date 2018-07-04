@@ -8,26 +8,26 @@ function _inherits(subClass, superClass) { if (typeof superClass !== 'function' 
 
 var _productService = require('../product-service');
 
-var ClearingSepaoutbatchsService = (function (_ProductService) {
-    _inherits(ClearingSepaoutbatchsService, _ProductService);
+var SepaInrecordsService = (function (_ProductService) {
+    _inherits(SepaInrecordsService, _ProductService);
 
-    function ClearingSepaoutbatchsService() {
-        _classCallCheck(this, ClearingSepaoutbatchsService);
+    function SepaInrecordsService() {
+        _classCallCheck(this, SepaInrecordsService);
 
         _ProductService.call(this);
     }
 
-    ClearingSepaoutbatchsService.prototype.getEndpoint = function getEndpoint() {
-        return ['clearing', 'sepaoutbatchs'];
+    SepaInrecordsService.prototype.getEndpoint = function getEndpoint() {
+        return ['clearing', 'sepainrecords'];
     };
 
-    ClearingSepaoutbatchsService.prototype.getEventTargets = function getEventTargets() {
+    SepaInrecordsService.prototype.getEventTargets = function getEventTargets() {
         return [];
     };
 
-    return ClearingSepaoutbatchsService;
+    return SepaInrecordsService;
 })(_productService.ProductService);
 
-exports.ClearingSepaoutbatchsService = ClearingSepaoutbatchsService;
+exports.SepaInrecordsService = SepaInrecordsService;
 
-ClearingSepaoutbatchsService.Uid = ['clearing', 'sepaoutbatchs'].join('.');
+SepaInrecordsService.Uid = ['clearing', 'sepainrecords'].join('.');

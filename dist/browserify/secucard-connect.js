@@ -649,7 +649,7 @@ var ClientBrowserEnvironment = {
         stompPort: 15671,
         stompEndpoint: '/stomp/websocket'
     },
-    services: [_productAuthAuth.Auth.SessionService, _productClearingClearing.Clearing.ClearingSepainbatchsService, _productClearingClearing.Clearing.ClearingSepainrecordsService, _productClearingClearing.Clearing.ClearingSepaoutbatchsService, _productClearingClearing.Clearing.ClearingSepaoutrecordsService, _productDocumentDocument.Document.UploadService, _productGeneralGeneral.General.SkeletonService, _productGeneralGeneral.General.AccountService, _productGeneralGeneral.General.AccountDeviceService, _productGeneralGeneral.General.ContactService, _productGeneralGeneral.General.DeliveryAddressService, _productGeneralGeneral.General.FileAccessService, _productGeneralGeneral.General.MerchantService, _productGeneralGeneral.General.NewsService, _productGeneralGeneral.General.NotificationService, _productGeneralGeneral.General.PublicMerchantService, _productGeneralGeneral.General.StoreGroupService, _productGeneralGeneral.General.StoreService, _productGeneralGeneral.General.TransactionService, _productLoyaltyLoyalty.Loyalty.ActionService, _productLoyaltyLoyalty.Loyalty.ActionProfileService, _productLoyaltyLoyalty.Loyalty.ActionMessageService, _productLoyaltyLoyalty.Loyalty.ActionCampaignService, _productLoyaltyLoyalty.Loyalty.ActionConfigService, _productLoyaltyLoyalty.Loyalty.BeaconService, _productLoyaltyLoyalty.Loyalty.CardGroupService, _productLoyaltyLoyalty.Loyalty.CardService, _productLoyaltyLoyalty.Loyalty.ChargeService, _productLoyaltyLoyalty.Loyalty.CheckinService, _productLoyaltyLoyalty.Loyalty.CustomerService, _productLoyaltyLoyalty.Loyalty.MerchantCardService, _productLoyaltyLoyalty.Loyalty.PaymentContainerService, _productLoyaltyLoyalty.Loyalty.ProgramService, _productLoyaltyLoyalty.Loyalty.ProgramSpecialService, _productLoyaltyLoyalty.Loyalty.ReportService, _productLoyaltyLoyalty.Loyalty.SaleService, _productLoyaltyLoyalty.Loyalty.StoreGroupService, _productLoyaltyLoyalty.Loyalty.TransactionService, _productPaymentPayment.Payment.ContainerService, _productPaymentPayment.Payment.ContractService, _productPaymentPayment.Payment.CustomerService, _productPaymentPayment.Payment.SecupayDebitService, _productPaymentPayment.Payment.SecupayPrepayService, _productPaymentPayment.Payment.TransactionService, _productPrepaidPrepaid.Prepaid.ContractService, _productPrepaidPrepaid.Prepaid.ItemGroupService, _productPrepaidPrepaid.Prepaid.ItemService, _productPrepaidPrepaid.Prepaid.SaleService, _productPrepaidPrepaid.Prepaid.StockService, _productServicesServices.Services.IdentCaseService, _productServicesServices.Services.IdentContractService, _productServicesServices.Services.IdentRequestService, _productServicesServices.Services.IdentResultService, _productSmartSmart.Smart.CheckinService, _productSmartSmart.Smart.ConfigurationService, _productSmartSmart.Smart.DeviceService, _productSmartSmart.Smart.IdentService, _productSmartSmart.Smart.RoutingService, _productSmartSmart.Smart.TransactionService]
+    services: [_productAuthAuth.Auth.SessionService, _productClearingClearing.Clearing.SepaInbatchsService, _productClearingClearing.Clearing.SepaInrecordsService, _productClearingClearing.Clearing.SepaOutbatchsService, _productClearingClearing.Clearing.SepaOutrecordsService, _productDocumentDocument.Document.UploadService, _productGeneralGeneral.General.SkeletonService, _productGeneralGeneral.General.AccountService, _productGeneralGeneral.General.AccountDeviceService, _productGeneralGeneral.General.ContactService, _productGeneralGeneral.General.DeliveryAddressService, _productGeneralGeneral.General.FileAccessService, _productGeneralGeneral.General.MerchantService, _productGeneralGeneral.General.NewsService, _productGeneralGeneral.General.NotificationService, _productGeneralGeneral.General.PublicMerchantService, _productGeneralGeneral.General.StoreGroupService, _productGeneralGeneral.General.StoreService, _productGeneralGeneral.General.TransactionService, _productLoyaltyLoyalty.Loyalty.ActionService, _productLoyaltyLoyalty.Loyalty.ActionProfileService, _productLoyaltyLoyalty.Loyalty.ActionMessageService, _productLoyaltyLoyalty.Loyalty.ActionCampaignService, _productLoyaltyLoyalty.Loyalty.ActionConfigService, _productLoyaltyLoyalty.Loyalty.BeaconService, _productLoyaltyLoyalty.Loyalty.CardGroupService, _productLoyaltyLoyalty.Loyalty.CardService, _productLoyaltyLoyalty.Loyalty.ChargeService, _productLoyaltyLoyalty.Loyalty.CheckinService, _productLoyaltyLoyalty.Loyalty.CustomerService, _productLoyaltyLoyalty.Loyalty.MerchantCardService, _productLoyaltyLoyalty.Loyalty.PaymentContainerService, _productLoyaltyLoyalty.Loyalty.ProgramService, _productLoyaltyLoyalty.Loyalty.ProgramSpecialService, _productLoyaltyLoyalty.Loyalty.ReportService, _productLoyaltyLoyalty.Loyalty.SaleService, _productLoyaltyLoyalty.Loyalty.StoreGroupService, _productLoyaltyLoyalty.Loyalty.TransactionService, _productPaymentPayment.Payment.ContainerService, _productPaymentPayment.Payment.ContractService, _productPaymentPayment.Payment.CustomerService, _productPaymentPayment.Payment.SecupayDebitService, _productPaymentPayment.Payment.SecupayPrepayService, _productPaymentPayment.Payment.TransactionService, _productPrepaidPrepaid.Prepaid.ContractService, _productPrepaidPrepaid.Prepaid.ItemGroupService, _productPrepaidPrepaid.Prepaid.ItemService, _productPrepaidPrepaid.Prepaid.SaleService, _productPrepaidPrepaid.Prepaid.StockService, _productServicesServices.Services.IdentCaseService, _productServicesServices.Services.IdentContractService, _productServicesServices.Services.IdentRequestService, _productServicesServices.Services.IdentResultService, _productSmartSmart.Smart.CheckinService, _productSmartSmart.Smart.ConfigurationService, _productSmartSmart.Smart.DeviceService, _productSmartSmart.Smart.IdentService, _productSmartSmart.Smart.RoutingService, _productSmartSmart.Smart.TransactionService]
 };
 exports.ClientBrowserEnvironment = ClientBrowserEnvironment;
 ClientBrowserEnvironment.StompChannel = {
@@ -669,10 +669,10 @@ var ServiceMap = {
         Sessions: _productAuthAuth.Auth.SessionService.Uid
     },
     Clearing: {
-        Sepainbatchs: _productClearingClearing.Clearing.ClearingSepainbatchsService.Uid,
-        Sepainrecords: _productClearingClearing.Clearing.ClearingSepainrecordsService.Uid,
-        Sepaoutbatchs: _productClearingClearing.Clearing.ClearingSepaoutbatchsService.Uid,
-        Sepaoutrecords: _productClearingClearing.Clearing.ClearingSepaoutbatchsService.Uid
+        SepaInbatchs: _productClearingClearing.Clearing.SepaInbatchsService.Uid,
+        SepaInrecords: _productClearingClearing.Clearing.SepaInrecordsService.Uid,
+        SepaOutbatchs: _productClearingClearing.Clearing.SepaOutbatchsService.Uid,
+        SepaOutrecords: _productClearingClearing.Clearing.SepaOutrecordsService.Uid
     },
     Document: {
         Uploads: _productDocumentDocument.Document.UploadService.Uid
@@ -744,7 +744,7 @@ var ServiceMap = {
     }
 };
 exports.ServiceMap = ServiceMap;
-},{"./auth/token-storage":5,"./net/socket/socket-browser":16,"./net/stomp":19,"./product/auth/auth":21,"./product/clearing/clearing":27,"./product/document/document":28,"./product/general/general":35,"./product/loyalty/loyalty":55,"./product/payment/payment":67,"./product/prepaid/prepaid":74,"./product/services/services":82,"./product/smart/smart":88}],8:[function(require,module,exports){
+},{"./auth/token-storage":5,"./net/socket/socket-browser":16,"./net/stomp":19,"./product/auth/auth":21,"./product/clearing/clearing":23,"./product/document/document":28,"./product/general/general":35,"./product/loyalty/loyalty":55,"./product/payment/payment":67,"./product/prepaid/prepaid":74,"./product/services/services":82,"./product/smart/smart":88}],8:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -2681,36 +2681,21 @@ SessionService.Uid = ['auth', 'sessions'].join('.');
 
 exports.__esModule = true;
 
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
+var _sepaInbatchsService = require('./sepa-inbatchs-service');
 
-function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+var _sepaInrecordsService = require('./sepa-inrecords-service');
 
-var _productService = require('../product-service');
+var _sepaOutbatchsService = require('./sepa-outbatchs-service');
 
-var ClearingSepainbatchsService = (function (_ProductService) {
-    _inherits(ClearingSepainbatchsService, _ProductService);
+var _sepaOutrecordsService = require('./sepa-outrecords-service');
 
-    function ClearingSepainbatchsService() {
-        _classCallCheck(this, ClearingSepainbatchsService);
-
-        _ProductService.call(this);
-    }
-
-    ClearingSepainbatchsService.prototype.getEndpoint = function getEndpoint() {
-        return ['clearing', 'sepainbatchs'];
-    };
-
-    ClearingSepainbatchsService.prototype.getEventTargets = function getEventTargets() {
-        return [];
-    };
-
-    return ClearingSepainbatchsService;
-})(_productService.ProductService);
-
-exports.ClearingSepainbatchsService = ClearingSepainbatchsService;
-
-ClearingSepainbatchsService.Uid = ['clearing', 'sepainbatchs'].join('.');
-},{"../product-service":77}],24:[function(require,module,exports){
+var Clearing = {};
+exports.Clearing = Clearing;
+Clearing.SepaInbatchsService = _sepaInbatchsService.SepaInbatchsService;
+Clearing.SepaInrecordsService = _sepaInrecordsService.SepaInrecordsService;
+Clearing.SepaOutbatchsService = _sepaOutbatchsService.SepaOutbatchsService;
+Clearing.SepaOutrecordsService = _sepaOutrecordsService.SepaOutrecordsService;
+},{"./sepa-inbatchs-service":24,"./sepa-inrecords-service":25,"./sepa-outbatchs-service":26,"./sepa-outrecords-service":27}],24:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -2721,29 +2706,29 @@ function _inherits(subClass, superClass) { if (typeof superClass !== 'function' 
 
 var _productService = require('../product-service');
 
-var ClearingSepainrecordsService = (function (_ProductService) {
-    _inherits(ClearingSepainrecordsService, _ProductService);
+var SepaInbatchsService = (function (_ProductService) {
+    _inherits(SepaInbatchsService, _ProductService);
 
-    function ClearingSepainrecordsService() {
-        _classCallCheck(this, ClearingSepainrecordsService);
+    function SepaInbatchsService() {
+        _classCallCheck(this, SepaInbatchsService);
 
         _ProductService.call(this);
     }
 
-    ClearingSepainrecordsService.prototype.getEndpoint = function getEndpoint() {
-        return ['clearing', 'sepainrecords'];
+    SepaInbatchsService.prototype.getEndpoint = function getEndpoint() {
+        return ['clearing', 'sepainbatchs'];
     };
 
-    ClearingSepainrecordsService.prototype.getEventTargets = function getEventTargets() {
+    SepaInbatchsService.prototype.getEventTargets = function getEventTargets() {
         return [];
     };
 
-    return ClearingSepainrecordsService;
+    return SepaInbatchsService;
 })(_productService.ProductService);
 
-exports.ClearingSepainrecordsService = ClearingSepainrecordsService;
+exports.SepaInbatchsService = SepaInbatchsService;
 
-ClearingSepainrecordsService.Uid = ['clearing', 'sepainrecords'].join('.');
+SepaInbatchsService.Uid = ['clearing', 'sepainbatchs'].join('.');
 },{"../product-service":77}],25:[function(require,module,exports){
 'use strict';
 
@@ -2755,29 +2740,29 @@ function _inherits(subClass, superClass) { if (typeof superClass !== 'function' 
 
 var _productService = require('../product-service');
 
-var ClearingSepaoutbatchsService = (function (_ProductService) {
-    _inherits(ClearingSepaoutbatchsService, _ProductService);
+var SepaInrecordsService = (function (_ProductService) {
+    _inherits(SepaInrecordsService, _ProductService);
 
-    function ClearingSepaoutbatchsService() {
-        _classCallCheck(this, ClearingSepaoutbatchsService);
+    function SepaInrecordsService() {
+        _classCallCheck(this, SepaInrecordsService);
 
         _ProductService.call(this);
     }
 
-    ClearingSepaoutbatchsService.prototype.getEndpoint = function getEndpoint() {
-        return ['clearing', 'sepaoutbatchs'];
+    SepaInrecordsService.prototype.getEndpoint = function getEndpoint() {
+        return ['clearing', 'sepainrecords'];
     };
 
-    ClearingSepaoutbatchsService.prototype.getEventTargets = function getEventTargets() {
+    SepaInrecordsService.prototype.getEventTargets = function getEventTargets() {
         return [];
     };
 
-    return ClearingSepaoutbatchsService;
+    return SepaInrecordsService;
 })(_productService.ProductService);
 
-exports.ClearingSepaoutbatchsService = ClearingSepaoutbatchsService;
+exports.SepaInrecordsService = SepaInrecordsService;
 
-ClearingSepaoutbatchsService.Uid = ['clearing', 'sepaoutbatchs'].join('.');
+SepaInrecordsService.Uid = ['clearing', 'sepainrecords'].join('.');
 },{"../product-service":77}],26:[function(require,module,exports){
 'use strict';
 
@@ -2789,49 +2774,64 @@ function _inherits(subClass, superClass) { if (typeof superClass !== 'function' 
 
 var _productService = require('../product-service');
 
-var ClearingSepaoutrecordsService = (function (_ProductService) {
-    _inherits(ClearingSepaoutrecordsService, _ProductService);
+var SepaOutbatchsService = (function (_ProductService) {
+    _inherits(SepaOutbatchsService, _ProductService);
 
-    function ClearingSepaoutrecordsService() {
-        _classCallCheck(this, ClearingSepaoutrecordsService);
+    function SepaOutbatchsService() {
+        _classCallCheck(this, SepaOutbatchsService);
 
         _ProductService.call(this);
     }
 
-    ClearingSepaoutrecordsService.prototype.getEndpoint = function getEndpoint() {
-        return ['clearing', 'sepaoutrecords'];
+    SepaOutbatchsService.prototype.getEndpoint = function getEndpoint() {
+        return ['clearing', 'sepaoutbatchs'];
     };
 
-    ClearingSepaoutrecordsService.prototype.getEventTargets = function getEventTargets() {
+    SepaOutbatchsService.prototype.getEventTargets = function getEventTargets() {
         return [];
     };
 
-    return ClearingSepaoutrecordsService;
+    return SepaOutbatchsService;
 })(_productService.ProductService);
 
-exports.ClearingSepaoutrecordsService = ClearingSepaoutrecordsService;
+exports.SepaOutbatchsService = SepaOutbatchsService;
 
-ClearingSepaoutrecordsService.Uid = ['clearing', 'sepaoutrecords'].join('.');
+SepaOutbatchsService.Uid = ['clearing', 'sepaoutbatchs'].join('.');
 },{"../product-service":77}],27:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
 
-var _clearingSepaInbatchs = require('./clearing-sepa-inbatchs');
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 
-var _clearingSepaInrecords = require('./clearing-sepa-inrecords');
+function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var _clearingSepaOutbatchs = require('./clearing-sepa-outbatchs');
+var _productService = require('../product-service');
 
-var _clearingSepaOutrecords = require('./clearing-sepa-outrecords');
+var SepaOutrecordsService = (function (_ProductService) {
+    _inherits(SepaOutrecordsService, _ProductService);
 
-var Clearing = {};
-exports.Clearing = Clearing;
-Clearing.ClearingSepainbatchsService = _clearingSepaInbatchs.ClearingSepainbatchsService;
-Clearing.ClearingSepainrecordsService = _clearingSepaInrecords.ClearingSepainrecordsService;
-Clearing.ClearingSepaoutbatchsService = _clearingSepaOutbatchs.ClearingSepaoutbatchsService;
-Clearing.ClearingSepaoutrecordsService = _clearingSepaOutrecords.ClearingSepaoutrecordsService;
-},{"./clearing-sepa-inbatchs":23,"./clearing-sepa-inrecords":24,"./clearing-sepa-outbatchs":25,"./clearing-sepa-outrecords":26}],28:[function(require,module,exports){
+    function SepaOutrecordsService() {
+        _classCallCheck(this, SepaOutrecordsService);
+
+        _ProductService.call(this);
+    }
+
+    SepaOutrecordsService.prototype.getEndpoint = function getEndpoint() {
+        return ['clearing', 'sepaoutrecords'];
+    };
+
+    SepaOutrecordsService.prototype.getEventTargets = function getEventTargets() {
+        return [];
+    };
+
+    return SepaOutrecordsService;
+})(_productService.ProductService);
+
+exports.SepaOutrecordsService = SepaOutrecordsService;
+
+SepaOutrecordsService.Uid = ['clearing', 'sepaoutrecords'].join('.');
+},{"../product-service":77}],28:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
