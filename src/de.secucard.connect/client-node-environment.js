@@ -20,6 +20,7 @@ import {Services} from './product/services/services';
 import {Document} from './product/document/document';
 import {Auth} from './product/auth/auth';
 import {TokenStorageInMem} from './auth/token-storage';
+import {Clearing} from "./product/clearing/clearing";
 
 export const ClientNodeEnvironment = {
     config: {
@@ -27,6 +28,11 @@ export const ClientNodeEnvironment = {
     },
     services: [
         Auth.SessionService,
+
+        Clearing.ClearingSepainbatchsService,
+        Clearing.ClearingSepainrecordsService,
+        Clearing.ClearingSepaoutbatchsService,
+        Clearing.ClearingSepaoutrecordsService,
 
         Document.UploadService,
 
@@ -105,6 +111,12 @@ ClientNodeEnvironment.TokenStorage = {
 export const ServiceMap = {
     Auth: {
         Sessions: Auth.SessionService.Uid
+    },
+    Clearing: {
+        Sepainbatchs: Clearing.ClearingSepainbatchsService.Uid,
+        Sepainrecords: Clearing.ClearingSepainrecordsService.Uid,
+        Sepaoutbatchs: Clearing.ClearingSepaoutbatchsService.Uid,
+        Sepaoutrecords: Clearing.ClearingSepaoutbatchsService.Uid
     },
     Document: {
         Uploads: Document.UploadService.Uid
