@@ -39,6 +39,13 @@ export class AuthenticationFailedException extends Error {
             value: 'AuthenticationFailedException'
         });
 
+        Object.defineProperty(this, 'error_user', {
+            configurable: true,
+            enumerable: false,
+            writable: true,
+            value: ''
+        });
+
     }
 }
 

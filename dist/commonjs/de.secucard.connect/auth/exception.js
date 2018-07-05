@@ -40,6 +40,13 @@ var AuthenticationFailedException = (function (_Error) {
             writable: true,
             value: 'AuthenticationFailedException'
         });
+
+        Object.defineProperty(this, 'error_user', {
+            configurable: true,
+            enumerable: false,
+            writable: true,
+            value: ''
+        });
     }
 
     return AuthenticationFailedException;

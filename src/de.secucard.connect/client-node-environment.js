@@ -41,6 +41,7 @@ export const ClientNodeEnvironment = {
         General.AccountDeviceService,
         General.ContactService,
         General.DeliveryAddressService,
+        General.DeviceService,
         General.FileAccessService,
         General.MerchantService,
         General.NewsService,
@@ -91,6 +92,7 @@ export const ClientNodeEnvironment = {
         Smart.CheckinService,
         Smart.ConfigurationService,
         Smart.DeviceService,
+        Smart.DeviceHistoriesService,
         Smart.IdentService,
         Smart.RoutingService,
         Smart.TransactionService
@@ -127,6 +129,7 @@ export const ServiceMap = {
         AccountDevices: General.AccountDeviceService.Uid,
         Contacts: General.ContactService.Uid,
         DeliveryAddresses: General.DeliveryAddressService.Uid,
+        Devices: General.DeviceService.Uid,
         FileAccesses: General.FileAccessService.Uid,
         Merchants: General.MerchantService.Uid,
         News: General.NewsService.Uid,
@@ -182,6 +185,7 @@ export const ServiceMap = {
         Checkins: Smart.CheckinService.Uid,
         Configurations: Smart.ConfigurationService.Uid,
         Devices: Smart.DeviceService.Uid,
+        DeviceHistories: Smart.DeviceHistoriesService.Uid,
         Idents: Smart.IdentService.Uid,
         Routings: Smart.RoutingService.Uid,
         Transactions: Smart.TransactionService.Uid

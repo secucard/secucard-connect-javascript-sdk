@@ -11,33 +11,19 @@
  */
 import {ProductService} from '../product-service'
 
-export class ConfigurationService extends ProductService {
+export class DeviceService extends ProductService {
 
     constructor() {
         super()
     }
 
     getEndpoint() {
-        return ['smart', 'configurations'];
+        return ['general', 'devices'];
     }
 
     getEventTargets() {
         return [];
     }
-
-    /**
-     *
-     * @param {string} id - SCO_ID
-     * @param {array} data {
-     *      "file": "DUP_",
-     *      "item_list_type": "black" or "white"
-     * }
-     * @returns {Promise}
-     */
-    importConfiguration(id, data) {
-        return this.execute(id, "importConfiguration", null, data, null);
-    }
-
 }
 
-ConfigurationService.Uid = (['smart', 'configurations']).join('.');
+DeviceService.Uid = (['general', 'devices']).join('.');

@@ -20,7 +20,6 @@ import minilog from 'minilog';
 export class Rest {
 
     constructor() {
-
         this.methodFuns = {};
 
         this.methodFuns[GET] = Request.get;
@@ -37,31 +36,26 @@ export class Rest {
 
         this.methodFuns[Channel.METHOD.UPDATE] = Request.put;
         this.methodFuns[Channel.METHOD.DELETE] = Request.del;
-
     }
 
     configureWithContext(context) {
-
         this.restUrl = () => {
-
             return context.getConfig().getRestUrl();
-
         };
 
         this.getToken = (extend) => {
-
             return context.getAuth().getToken(extend);
-
         };
         
         this.withCredentials = () => {
-            
             return context.getConfig().getWithCredentials();
-            
         };
 
         this.isRequestWithToken = context.isRequestWithToken.bind(context);
 
+        this.getLanguage = () => {
+            return context.getConfig().getLanguage();
+        }
     }
 
     open() {
@@ -93,9 +87,7 @@ export class Rest {
      * @returns {Promise}
      */
     send(message) {
-
         return new Promise((resolve, reject) => {
-
             this.createRequestFromMessage(message).end((err, res) => {
                 if (err) {
                     //minilog('secucard.rest').debug(err);
@@ -104,13 +96,10 @@ export class Rest {
                     resolve(res);
                 }
             });
-
         });
-
     }
-    
-    createRequestFromMessage(message) {
 
+    createRequestFromMessage(message) {
         let url = message.baseUrl ? message.baseUrl + message.url : message.url;
         let request = this.r(url, message.method);
 
@@ -147,40 +136,42 @@ export class Rest {
                 request.field(item.name, item.value);
             });
         }
-        
+
         return request;
-        
     }
 
+    /**
+     * Builds the authorization header
+     * @param token
+     * @returns {{Authorization: string}}
+     */
     getAuthHeader(token) {
-
         return {'Authorization': ('Bearer ' + token.access_token)};
+    }
 
+    /**
+     * Inform about the preferred language
+     * @returns {{"Accept-Language": string}}
+     */
+    getLanguageHeader() {
+        return {'Accept-Language': (this.getLanguage())};
     }
 
     sendWithToken(message) {
-
         return this.getToken(true).then((token => {
-
-            let headers = Object.assign({}, message.headers, this.getAuthHeader(token));
+            let headers = Object.assign({}, message.headers, this.getAuthHeader(token), this.getLanguageHeader());
             message.setHeaders(headers);
             return this.send(message);
-
         }));
-
-
     }
 
     request(method, params) {
-
         let requestSuccess = (res) => {
             minilog('secucard.rest').debug('requestSuccess', res.req.path);
             return res.body;
         };
 
-
         let requestError = (err) => {
-
             // if got auth error, redispatch it
             let error = err;
             let request = JSON.stringify({method: method, params: params});
@@ -192,7 +183,6 @@ export class Rest {
             error.request = request;
 
             throw error;
-
         };
 
         let message = this.createMessageForRequest(method, params);
@@ -200,9 +190,8 @@ export class Rest {
         let pr = (!this.isRequestWithToken || this.isRequestWithToken(params.options)) ? this.sendWithToken(message) : this.send(message);
 
         return pr.then(requestSuccess).catch(requestError);
-
     }
-    
+
     generateUrl(method, params) {
         
         let message = this.createMessageForRequest(method, params);
@@ -221,15 +210,17 @@ export class Rest {
     }
 
     createMessageForRequest(method, params) {
-
         let message = this.createMessage();
-        
-        if(!params.multipart && params.headers) {
-            message.setHeaders(Object.assign({}, {'Content-Type': 'application/json'}, params.headers));
-        } else if(!params.multipart){
-            message.setHeaders({'Content-Type': 'application/json'});
+        let headers = Object.assign({}, {'Content-Type': 'application/json'}, this.getLanguageHeader());
+
+        if(params.headers) {
+            Object.assign(headers, params.headers);
         }
-        
+
+        if (!params.multipart) {
+            message.setHeaders(headers);
+        }
+
         message.setMethod(method);
 
         let endPointSpec = [];
@@ -263,7 +254,7 @@ export class Rest {
         if (params.data) {
             message.setBody(params.data);
         }
-        
+
         if(params.multipart) {
             message.setMultipart(params.multipart);
         }
@@ -271,18 +262,14 @@ export class Rest {
         minilog('secucard.rest').debug('message', message);
 
         return message;
-
     }
 
     buildEndpoint(endpoint) {
-
         if (!endpoint || endpoint.length < 2) {
             throw new Error('Invalid endpoint specification.');
         }
 
         return endpoint.join('/');
-
     }
-
 }
 

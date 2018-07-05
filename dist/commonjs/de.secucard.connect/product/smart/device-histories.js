@@ -8,30 +8,26 @@ function _inherits(subClass, superClass) { if (typeof superClass !== 'function' 
 
 var _productService = require('../product-service');
 
-var ConfigurationService = (function (_ProductService) {
-    _inherits(ConfigurationService, _ProductService);
+var DeviceHistoriesService = (function (_ProductService) {
+    _inherits(DeviceHistoriesService, _ProductService);
 
-    function ConfigurationService() {
-        _classCallCheck(this, ConfigurationService);
+    function DeviceHistoriesService() {
+        _classCallCheck(this, DeviceHistoriesService);
 
         _ProductService.call(this);
     }
 
-    ConfigurationService.prototype.getEndpoint = function getEndpoint() {
-        return ['smart', 'configurations'];
+    DeviceHistoriesService.prototype.getEndpoint = function getEndpoint() {
+        return ['smart', 'devicehistories'];
     };
 
-    ConfigurationService.prototype.getEventTargets = function getEventTargets() {
+    DeviceHistoriesService.prototype.getEventTargets = function getEventTargets() {
         return [];
     };
 
-    ConfigurationService.prototype.importConfiguration = function importConfiguration(id, data) {
-        return this.execute(id, "importConfiguration", null, data, null);
-    };
-
-    return ConfigurationService;
+    return DeviceHistoriesService;
 })(_productService.ProductService);
 
-exports.ConfigurationService = ConfigurationService;
+exports.DeviceHistoriesService = DeviceHistoriesService;
 
-ConfigurationService.Uid = ['smart', 'configurations'].join('.');
+DeviceHistoriesService.Uid = ['smart', 'devicehistories'].join('.');
