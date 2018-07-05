@@ -22859,7 +22859,7 @@ request.types = {
 
 request.serialize = {
   'application/x-www-form-urlencoded': serialize,
-  'application/json': JSON.stringify
+  'application/json': JSON.stringify,
 };
 
 /**
@@ -22873,7 +22873,7 @@ request.serialize = {
 
 request.parse = {
   'application/x-www-form-urlencoded': parseString,
-  'application/json': JSON.parse
+  'application/json': JSON.parse,
 };
 
 /**
@@ -23856,7 +23856,7 @@ RequestBase.prototype.then = function then(resolve, reject) {
   return this._fullfilledPromise.then(resolve, reject);
 };
 
-RequestBase.prototype['catch'] = function(cb) {
+RequestBase.prototype.catch = function(cb) {
   return this.then(undefined, cb);
 };
 
@@ -24432,7 +24432,6 @@ ResponseBase.prototype._setStatusProperties = function(status){
         : false;
 
     // sugar
-    this.created = 201 == status;
     this.accepted = 202 == status;
     this.noContent = 204 == status;
     this.badRequest = 400 == status;
@@ -24440,7 +24439,6 @@ ResponseBase.prototype._setStatusProperties = function(status){
     this.notAcceptable = 406 == status;
     this.forbidden = 403 == status;
     this.notFound = 404 == status;
-    this.unprocessableEntity = 422 == status;
 };
 
 },{"./utils":113}],113:[function(require,module,exports){
