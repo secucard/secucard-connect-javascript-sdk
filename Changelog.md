@@ -1,4 +1,29 @@
-﻿<a name="0.5.1"></a>
+<a name="0.5.1"></a>
+## 0.5.1 (2018-07-30)
+
+
+* added clearing endpoint to browser environment
+ ([9b7ec1a](https://github.com/secucard/secucard-connect-javascript-sdk/commit/9b7ec1a))
+* adjusted version in changelog
+ ([538e1aa](https://github.com/secucard/secucard-connect-javascript-sdk/commit/538e1aa))
+* Build again
+ ([4324b36](https://github.com/secucard/secucard-connect-javascript-sdk/commit/4324b36))
+* build version 0.4.1
+ ([ec44e53](https://github.com/secucard/secucard-connect-javascript-sdk/commit/ec44e53))
+* Changelog restored
+ ([75aac40](https://github.com/secucard/secucard-connect-javascript-sdk/commit/75aac40))
+* Merge branch 'develop' into feature/sepa-service
+ ([f65d43f](https://github.com/secucard/secucard-connect-javascript-sdk/commit/f65d43f))
+* Merge pull request #26 from secucard/feature/sepa-service
+ ([c1b3cf2](https://github.com/secucard/secucard-connect-javascript-sdk/commit/c1b3cf2))
+* renamed service classes
+ ([cac4bc7](https://github.com/secucard/secucard-connect-javascript-sdk/commit/cac4bc7))
+* SEPA endpoint was added
+ ([9f814a4](https://github.com/secucard/secucard-connect-javascript-sdk/commit/9f814a4))
+
+
+
+<a name="0.5.1"></a>
 ## 0.5.1 (2018-07-04)
 
 
