@@ -9,6 +9,22 @@
  See the License for the specific language governing permissions and
  limitations under the License.
  */
-export const Version = {
-    "name": "0.5.1"
-};
+import {ProductService} from '../product-service'
+
+export class SepaInbatchsService extends ProductService {
+
+    constructor() {
+        super()
+    }
+
+    getEndpoint() {
+        return ['clearing', 'sepainbatchs'];
+    }
+
+    getEventTargets() {
+        return [];
+    }
+
+}
+
+SepaInbatchsService.Uid = (['clearing', 'sepainbatchs']).join('.');
