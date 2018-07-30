@@ -9,6 +9,13 @@
  See the License for the specific language governing permissions and
  limitations under the License.
  */
-export const Version = {
-    "name": "0.5.1"
-};
+import {SepaInbatchsService} from './sepa-inbatchs-service';
+import {SepaInrecordsService} from './sepa-inrecords-service';
+import {SepaOutbatchsService} from './sepa-outbatchs-service';
+import {SepaOutrecordsService} from './sepa-outrecords-service';
+
+export const Clearing = {};
+Clearing.SepaInbatchsService = SepaInbatchsService;
+Clearing.SepaInrecordsService = SepaInrecordsService;
+Clearing.SepaOutbatchsService = SepaOutbatchsService;
+Clearing.SepaOutrecordsService = SepaOutrecordsService;
