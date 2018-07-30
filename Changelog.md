@@ -1,42 +1,22 @@
-<a name="0.5.0"></a>
-# 0.5.0 (2018-06-28)
+﻿<a name="0.5.1"></a>
+## 0.5.1 (2018-07-04)
 
 
-* add new product deviceHistories
- ([99168fd](https://github.com/secucard/secucard-connect-javascript-sdk/commit/99168fd))
-* Added field for error_user
- ([7fb2d63](https://github.com/secucard/secucard-connect-javascript-sdk/commit/7fb2d63))
-* added new endpoint - general devices
- ([21bd564](https://github.com/secucard/secucard-connect-javascript-sdk/commit/21bd564))
-* Added possibility to define the 'Accept-Language' header
- ([c58c91c](https://github.com/secucard/secucard-connect-javascript-sdk/commit/c58c91c))
-* Added setLanguage function
- ([c4ebd8e](https://github.com/secucard/secucard-connect-javascript-sdk/commit/c4ebd8e))
-* Fixed missing bind setLanguage
- ([ca8008e](https://github.com/secucard/secucard-connect-javascript-sdk/commit/ca8008e))
-* import configuration changes
- ([41972b5](https://github.com/secucard/secucard-connect-javascript-sdk/commit/41972b5))
+* build version 0.5.1
+ ([ec44e53](https://github.com/secucard/secucard-connect-javascript-sdk/commit/ec44e53))
+* SEPA endpoint was added
+ ([9f814a4](https://github.com/secucard/secucard-connect-javascript-sdk/commit/9f814a4))
 
 
 <a name="0.4.0"></a>
-# 0.4.0 (2017-12-18)
+# 0.4.0 (2018-01-10)
 
+### fix
 
-* build version 0.4.0
- ([cde03d3](https://github.com/secucard/secucard-connect-javascript-sdk/commit/cde03d3))
-* new method in sdk (import configuration)
- ([15c3f86](https://github.com/secucard/secucard-connect-javascript-sdk/commit/15c3f86))
-
-
-
-<a name="0.4.0"></a>
-# 0.4.0 (2017-12-18)
-
-
-* new method in sdk (import configuration)
- ([15c3f86](https://github.com/secucard/secucard-connect-javascript-sdk/commit/15c3f86))
-
-
+* Updated dependency and removed comment code
+ ([85d90b5](https://github.com/secucard/secucard-connect-javascript-sdk/commit/85d90b5))
+ ([9dd4369](https://github.com/secucard/secucard-connect-javascript-sdk/commit/9dd4369))
+ ([e63d024](https://github.com/secucard/secucard-connect-javascript-sdk/commit/e63d024))
 
 <a name="0.3.1"></a>
 ## 0.3.1 (2017-12-11)
