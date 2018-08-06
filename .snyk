@@ -1,0 +1,36 @@
+# Snyk (https://snyk.io) policy file, patches or ignores known vulnerabilities.
+version: v1.12.0
+ignore: {}
+# patches apply the minimum changes required to fix a vulnerability
+patch:
+  'npm:debug:20170905':
+    - browser-sync > localtunnel > debug:
+        patched: '2018-08-06T06:44:30.202Z'
+    - karma > socket.io > socket.io-adapter > socket.io-parser > debug:
+        patched: '2018-08-06T06:44:30.202Z'
+  'npm:lodash:20180130':
+    - browser-sync > easy-extender > lodash:
+        patched: '2018-08-06T06:44:30.202Z'
+    - gulp-conventional-changelog > conventional-changelog > lodash:
+        patched: '2018-08-06T06:44:30.202Z'
+    - babelify > babel-core > babel-plugin-proto-to-assign > lodash:
+        patched: '2018-08-06T06:44:30.202Z'
+    - gulp-babel > babel-core > babel-plugin-proto-to-assign > lodash:
+        patched: '2018-08-06T06:44:30.202Z'
+    - gulp-conventional-changelog > conventional-changelog > conventional-commits-parser > lodash:
+        patched: '2018-08-06T06:44:30.202Z'
+    - jasmine-es6 > babel > babel-core > babel-plugin-proto-to-assign > lodash:
+        patched: '2018-08-06T06:44:30.202Z'
+  'npm:minimatch:20160620':
+    - gulp > vinyl-fs > glob-stream > minimatch:
+        patched: '2018-08-06T06:44:30.202Z'
+    - gulp > vinyl-fs > glob-watcher > gaze > globule > minimatch:
+        patched: '2018-08-06T06:44:30.202Z'
+    - gulp > vinyl-fs > glob-watcher > gaze > globule > glob > minimatch:
+        patched: '2018-08-06T06:44:30.202Z'
+  'npm:ms:20170412':
+    - karma > socket.io > socket.io-adapter > socket.io-parser > debug > ms:
+        patched: '2018-08-06T06:44:30.202Z'
+  'npm:tar:20151103':
+    - jspm > jspm-npm > tar:
+        patched: '2018-08-06T06:44:30.202Z'
