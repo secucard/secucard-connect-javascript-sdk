@@ -75,6 +75,8 @@ export const ClientBrowserEnvironment = {
         Payment.ContainerService,
         Payment.ContractService,
         Payment.CustomerService,
+        Payment.InvoiceService,
+        Payment.PayoutService,
         Payment.SecupayDebitService,
         Payment.SecupayPrepayService,
         Payment.TransactionService,
@@ -165,6 +167,8 @@ export const ServiceMap = {
         Containers: Payment.ContainerService.Uid,
         Contracts: Payment.ContractService.Uid,
         Customers: Payment.CustomerService.Uid,
+        Invoices: Payment.InvoiceService.Uid,
+        Payouts: Payment.PayoutService.Uid,
         SecupayDebits: Payment.SecupayDebitService.Uid,
         SecupayPrepays: Payment.SecupayPrepayService.Uid,
         Transactions: Payment.TransactionService.Uid

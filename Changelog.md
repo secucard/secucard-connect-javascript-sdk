@@ -1,3 +1,8 @@
+<a name="0.5.2"></a>
+## 0.5.2 (2018-08-02)
+
+* invoices and payouts in payment are available
+
 <a name="0.5.1"></a>
 ## 0.5.1 (2018-07-30)
 
