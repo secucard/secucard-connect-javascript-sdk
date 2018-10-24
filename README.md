@@ -1,5 +1,8 @@
 # secucard connect Javascript SDK
 
+**DEPRECATED**: If you start with a new project please use this SDK: https://github.com/secuconnect/secuconnect-js-sdk
+
+
 SDK for using the [secuconnect API](http://developer.secuconnect.com) in browser and node.js environment.
 
 ## Install
