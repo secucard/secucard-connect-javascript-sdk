@@ -14,7 +14,7 @@ import {ItemGroupService} from './item-group-service';
 import {ItemService} from './item-service';
 import {SaleService} from './sale-service';
 import {StockService} from './stock-service';
-import {ReportService} from "../loyalty/report-service";
+import {ReportService} from './report-service';
 
 export const Prepaid = {};
 Prepaid.ContractService = ContractService;

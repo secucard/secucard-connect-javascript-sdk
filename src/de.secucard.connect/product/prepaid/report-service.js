@@ -11,7 +11,7 @@
  */
 import {ProductService} from '../product-service'
 
-export class StockService extends ProductService {
+export class ReportService extends ProductService {
 
     constructor() {
         super()
@@ -24,12 +24,7 @@ export class StockService extends ProductService {
     getEventTargets() {
         return [];
     }
-    
-    /*
-    deliver(stockId) {
-        return this.execute(stockId, 'deliver');
-    }
-    */
+
 }
 
-StockService.Uid = (['prepaid', 'reports']).join('.');
+ReportService.Uid = (['prepaid', 'reports']).join('.');
