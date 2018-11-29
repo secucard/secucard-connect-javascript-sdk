@@ -9,17 +9,27 @@
  See the License for the specific language governing permissions and
  limitations under the License.
  */
-import {ContractService} from './contract-service';
-import {ItemGroupService} from './item-group-service';
-import {ItemService} from './item-service';
-import {SaleService} from './sale-service';
-import {StockService} from './stock-service';
-import {ReportService} from "../loyalty/report-service";
+import {ProductService} from '../product-service'
 
-export const Prepaid = {};
-Prepaid.ContractService = ContractService;
-Prepaid.ItemGroupService = ItemGroupService;
-Prepaid.ItemService = ItemService;
-Prepaid.ReportService = ReportService;
-Prepaid.SaleService = SaleService;
-Prepaid.StockService = StockService;
+export class StockService extends ProductService {
+
+    constructor() {
+        super()
+    }
+
+    getEndpoint() {
+        return ['prepaid', 'reports'];
+    }
+
+    getEventTargets() {
+        return [];
+    }
+    
+    /*
+    deliver(stockId) {
+        return this.execute(stockId, 'deliver');
+    }
+    */
+}
+
+StockService.Uid = (['prepaid', 'reports']).join('.');
