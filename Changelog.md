@@ -1,3 +1,8 @@
+<a name="0.5.3"></a>
+## 0.5.3 (2018-11-29)
+
+* added endpoint for prepaid reports
+
 <a name="0.5.2"></a>
 ## 0.5.2 (2018-08-02)
 

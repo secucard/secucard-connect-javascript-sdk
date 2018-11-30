@@ -83,6 +83,7 @@ export const ClientNodeEnvironment = {
         Prepaid.ContractService,
         Prepaid.ItemGroupService,
         Prepaid.ItemService,
+        Prepaid.ReportService,
         Prepaid.SaleService,
         Prepaid.StockService,
 
@@ -176,6 +177,7 @@ export const ServiceMap = {
         Contracts: Prepaid.ContractService.Uid,
         ItemGroups: Prepaid.ItemGroupService.Uid,
         Items: Prepaid.ItemService.Uid,
+        Reports: Prepaid.ReportService.Uid,
         Sales: Prepaid.SaleService.Uid,
         Stocks: Prepaid.StockService.Uid
     },
