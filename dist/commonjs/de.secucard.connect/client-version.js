@@ -2,6 +2,6 @@
 
 exports.__esModule = true;
 var Version = {
-  "name": "0.5.3"
+  "name": "0.5.4"
 };
 exports.Version = Version;
