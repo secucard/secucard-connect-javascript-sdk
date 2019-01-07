@@ -18,7 +18,7 @@
     "minilog": "^2.0.8",
     "sizzle": "^2.3.0",
     "stream-browserify": "^2.0.1",
-    "superagent": "^3.8.2",
+    "superagent": "^3.8.3",
     "uuid": "^2.0.1"
   },
   "devDependencies": {
@@ -41,7 +41,7 @@
     "jasmine-es6": "^0.0.13",
     "jshint-stylish": "^2.0.1",
     "jspm": "^0.15.7",
-    "karma": "^0.13.3",
+    "karma": "^0.13.22",
     "karma-browserify": "^4.2.1",
     "karma-jasmine": "^0.3.6",
     "object-assign": "^3.0.0",
