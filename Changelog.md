@@ -1,3 +1,8 @@
+<a name="0.5.4"></a>
+## 0.5.4 (2018-11-30)
+
+* added endpoint for general contracts
+
 <a name="0.5.3"></a>
 ## 0.5.3 (2018-11-29)
 

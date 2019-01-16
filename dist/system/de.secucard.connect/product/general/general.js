@@ -1,7 +1,7 @@
-System.register(['./skeleton-service', './account-service', './account-device-service', './contact-service', './delivery-address-service', './device-service', './file-access-service', './merchant-service', './news-service', './notification-service', './public-merchant-service', './store-service', './transaction-service', './store-group-service'], function (_export) {
+System.register(['./skeleton-service', './account-service', './account-device-service', './contact-service', './contract-service', './delivery-address-service', './device-service', './file-access-service', './merchant-service', './news-service', './notification-service', './public-merchant-service', './store-service', './transaction-service', './store-group-service'], function (_export) {
   'use strict';
 
-  var SkeletonService, AccountService, AccountDeviceService, ContactService, DeliveryAddressService, DeviceService, FileAccessService, MerchantService, NewsService, NotificationService, PublicMerchantService, StoreService, TransactionService, StoreGroupService, General;
+  var SkeletonService, AccountService, AccountDeviceService, ContactService, ContractService, DeliveryAddressService, DeviceService, FileAccessService, MerchantService, NewsService, NotificationService, PublicMerchantService, StoreService, TransactionService, StoreGroupService, General;
   return {
     setters: [function (_skeletonService) {
       SkeletonService = _skeletonService.SkeletonService;
@@ -11,6 +11,8 @@ System.register(['./skeleton-service', './account-service', './account-device-se
       AccountDeviceService = _accountDeviceService.AccountDeviceService;
     }, function (_contactService) {
       ContactService = _contactService.ContactService;
+    }, function (_contractService) {
+      ContractService = _contractService.ContractService;
     }, function (_deliveryAddressService) {
       DeliveryAddressService = _deliveryAddressService.DeliveryAddressService;
     }, function (_deviceService) {
@@ -41,6 +43,7 @@ System.register(['./skeleton-service', './account-service', './account-device-se
       General.AccountService = AccountService;
       General.AccountDeviceService = AccountDeviceService;
       General.ContactService = ContactService;
+      General.ContractService = ContractService;
       General.DeliveryAddressService = DeliveryAddressService;
       General.DeviceService = DeviceService;
       General.FileAccessService = FileAccessService;
@@ -54,4 +57,4 @@ System.register(['./skeleton-service', './account-service', './account-device-se
     }
   };
 });
-//# sourceMappingURL=data:application/json;charset=utf8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbImRlLnNlY3VjYXJkLmNvbm5lY3QvcHJvZHVjdC9nZW5lcmFsL2dlbmVyYWwuanMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7O3NRQTBCYSxPQUFPOzs7eUNBZlosZUFBZTs7dUNBQ2YsY0FBYzs7bURBQ2Qsb0JBQW9COzt1Q0FDcEIsY0FBYzs7dURBQ2Qsc0JBQXNCOztxQ0FDdEIsYUFBYTs7NkNBQ2IsaUJBQWlCOzt5Q0FDakIsZUFBZTs7aUNBQ2YsV0FBVzs7aURBQ1gsbUJBQW1COztxREFDbkIscUJBQXFCOzttQ0FDckIsWUFBWTs7K0NBQ1osa0JBQWtCOzs2Q0FDbEIsaUJBQWlCOzs7QUFFWixhQUFPLEdBQUcsRUFBRTs7OztBQUV6QixhQUFPLENBQUMsZUFBZSxHQUFHLGVBQWUsQ0FBQztBQUMxQyxhQUFPLENBQUMsY0FBYyxHQUFHLGNBQWMsQ0FBQztBQUN4QyxhQUFPLENBQUMsb0JBQW9CLEdBQUcsb0JBQW9CLENBQUM7QUFDcEQsYUFBTyxDQUFDLGNBQWMsR0FBRyxjQUFjLENBQUM7QUFDeEMsYUFBTyxDQUFDLHNCQUFzQixHQUFHLHNCQUFzQixDQUFDO0FBQ3hELGFBQU8sQ0FBQyxhQUFhLEdBQUcsYUFBYSxDQUFDO0FBQ3RDLGFBQU8sQ0FBQyxpQkFBaUIsR0FBRyxpQkFBaUIsQ0FBQztBQUM5QyxhQUFPLENBQUMsZUFBZSxHQUFHLGVBQWUsQ0FBQztBQUMxQyxhQUFPLENBQUMsV0FBVyxHQUFHLFdBQVcsQ0FBQztBQUNsQyxhQUFPLENBQUMsbUJBQW1CLEdBQUcsbUJBQW1CLENBQUM7QUFDbEQsYUFBTyxDQUFDLHFCQUFxQixHQUFHLHFCQUFxQixDQUFDO0FBQ3RELGFBQU8sQ0FBQyxpQkFBaUIsR0FBRyxpQkFBaUIsQ0FBQztBQUM5QyxhQUFPLENBQUMsWUFBWSxHQUFHLFlBQVksQ0FBQztBQUNwQyxhQUFPLENBQUMsa0JBQWtCLEdBQUcsa0JBQWtCLENBQUMiLCJmaWxlIjoiZGUuc2VjdWNhcmQuY29ubmVjdC9wcm9kdWN0L2dlbmVyYWwvZ2VuZXJhbC5qcyIsInNvdXJjZVJvb3QiOiIuLi9zcmMvIn0=
+//# sourceMappingURL=data:application/json;charset=utf8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbImRlLnNlY3VjYXJkLmNvbm5lY3QvcHJvZHVjdC9nZW5lcmFsL2dlbmVyYWwuanMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7O3VSQTJCYSxPQUFPOzs7eUNBaEJaLGVBQWU7O3VDQUNmLGNBQWM7O21EQUNkLG9CQUFvQjs7dUNBQ3BCLGNBQWM7O3lDQUNkLGVBQWU7O3VEQUNmLHNCQUFzQjs7cUNBQ3RCLGFBQWE7OzZDQUNiLGlCQUFpQjs7eUNBQ2pCLGVBQWU7O2lDQUNmLFdBQVc7O2lEQUNYLG1CQUFtQjs7cURBQ25CLHFCQUFxQjs7bUNBQ3JCLFlBQVk7OytDQUNaLGtCQUFrQjs7NkNBQ2xCLGlCQUFpQjs7O0FBRVosYUFBTyxHQUFHLEVBQUU7Ozs7QUFFekIsYUFBTyxDQUFDLGVBQWUsR0FBRyxlQUFlLENBQUM7QUFDMUMsYUFBTyxDQUFDLGNBQWMsR0FBRyxjQUFjLENBQUM7QUFDeEMsYUFBTyxDQUFDLG9CQUFvQixHQUFHLG9CQUFvQixDQUFDO0FBQ3BELGFBQU8sQ0FBQyxjQUFjLEdBQUcsY0FBYyxDQUFDO0FBQ3hDLGFBQU8sQ0FBQyxlQUFlLEdBQUcsZUFBZSxDQUFDO0FBQzFDLGFBQU8sQ0FBQyxzQkFBc0IsR0FBRyxzQkFBc0IsQ0FBQztBQUN4RCxhQUFPLENBQUMsYUFBYSxHQUFHLGFBQWEsQ0FBQztBQUN0QyxhQUFPLENBQUMsaUJBQWlCLEdBQUcsaUJBQWlCLENBQUM7QUFDOUMsYUFBTyxDQUFDLGVBQWUsR0FBRyxlQUFlLENBQUM7QUFDMUMsYUFBTyxDQUFDLFdBQVcsR0FBRyxXQUFXLENBQUM7QUFDbEMsYUFBTyxDQUFDLG1CQUFtQixHQUFHLG1CQUFtQixDQUFDO0FBQ2xELGFBQU8sQ0FBQyxxQkFBcUIsR0FBRyxxQkFBcUIsQ0FBQztBQUN0RCxhQUFPLENBQUMsaUJBQWlCLEdBQUcsaUJBQWlCLENBQUM7QUFDOUMsYUFBTyxDQUFDLFlBQVksR0FBRyxZQUFZLENBQUM7QUFDcEMsYUFBTyxDQUFDLGtCQUFrQixHQUFHLGtCQUFrQixDQUFDIiwiZmlsZSI6ImRlLnNlY3VjYXJkLmNvbm5lY3QvcHJvZHVjdC9nZW5lcmFsL2dlbmVyYWwuanMiLCJzb3VyY2VSb290IjoiLi4vc3JjLyJ9
