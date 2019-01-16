@@ -10,6 +10,8 @@ var _accountDeviceService = require('./account-device-service');
 
 var _contactService = require('./contact-service');
 
+var _contractService = require('./contract-service');
+
 var _deliveryAddressService = require('./delivery-address-service');
 
 var _deviceService = require('./device-service');
@@ -37,6 +39,7 @@ General.SkeletonService = _skeletonService.SkeletonService;
 General.AccountService = _accountService.AccountService;
 General.AccountDeviceService = _accountDeviceService.AccountDeviceService;
 General.ContactService = _contactService.ContactService;
+General.ContractService = _contractService.ContractService;
 General.DeliveryAddressService = _deliveryAddressService.DeliveryAddressService;
 General.DeviceService = _deviceService.DeviceService;
 General.FileAccessService = _fileAccessService.FileAccessService;

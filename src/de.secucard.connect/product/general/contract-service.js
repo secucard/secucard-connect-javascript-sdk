@@ -9,6 +9,21 @@
  See the License for the specific language governing permissions and
  limitations under the License.
  */
-export const Version = {
-    "name": "0.5.4"
-};
+import {ProductService} from '../product-service'
+
+export class ContractService extends ProductService {
+
+    constructor() {
+        super()
+    }
+
+    getEndpoint() {
+        return ['general', 'contracts'];
+    }
+
+    getEventTargets() {
+        return [];
+    }
+}
+
+ContractService.Uid = (['general', 'contracts']).join('.');

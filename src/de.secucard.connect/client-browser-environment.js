@@ -41,6 +41,7 @@ export const ClientBrowserEnvironment = {
         General.AccountService,
         General.AccountDeviceService,
         General.ContactService,
+        General.ContractService,
         General.DeliveryAddressService,
         General.DeviceService,
         General.FileAccessService,
@@ -84,6 +85,7 @@ export const ClientBrowserEnvironment = {
         Prepaid.ContractService,
         Prepaid.ItemGroupService,
         Prepaid.ItemService,
+        Prepaid.ReportService,
         Prepaid.SaleService,
         Prepaid.StockService,
         
@@ -131,6 +133,7 @@ export const ServiceMap = {
         Accounts: General.AccountService.Uid,
         AccountDevices: General.AccountDeviceService.Uid,
         Contacts: General.ContactService.Uid,
+        Contracts: General.ContractService.Uid,
         DeliveryAddresses: General.DeliveryAddressService.Uid,
         Devices: General.DeviceService.Uid,
         FileAccesses: General.FileAccessService.Uid,
@@ -177,6 +180,7 @@ export const ServiceMap = {
         Contracts: Prepaid.ContractService.Uid,
         ItemGroups: Prepaid.ItemGroupService.Uid,
         Items: Prepaid.ItemService.Uid,
+        Reports: Prepaid.ReportService.Uid,
         Sales: Prepaid.SaleService.Uid,
         Stocks: Prepaid.StockService.Uid
     },
