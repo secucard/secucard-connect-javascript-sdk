@@ -42,7 +42,7 @@
     "jshint-stylish": "^2.0.1",
     "jspm": "^0.15.7",
     "karma": "^0.13.3",
-    "karma-browserify": "^4.2.1",
+    "karma-browserify": "^5.0.0",
     "karma-jasmine": "^0.3.6",
     "object-assign": "^3.0.0",
     "object.assign": "^3.0.0",
