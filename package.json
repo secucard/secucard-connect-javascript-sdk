@@ -62,7 +62,7 @@
     "dependencies": {
       "es6-shim": "npm:es6-shim@^0.34.2",
       "eventemitter3": "npm:eventemitter3@^1.1.1",
-      "lodash": "npm:lodash@^4.17.11",
+      "lodash": "npm:lodash@^3.9.3",
       "minilog": "npm:minilog@^2.0.8",
       "superagent": "npm:superagent@^3.8.2",
       "uuid": "npm:uuid@^2.0.1"
