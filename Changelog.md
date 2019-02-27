@@ -1,3 +1,41 @@
+<a name="0.6.0"></a>
+# 0.6.0 (2019-02-27)
+
+
+* Add link to new SDK
+ ([0b5bd33](https://github.com/secucard/secucard-connect-javascript-sdk/commit/0b5bd33))
+* Delete package-lock.json
+ ([c7dfb81](https://github.com/secucard/secucard-connect-javascript-sdk/commit/c7dfb81))
+* Feature/prepaid reports (#34)
+ ([7cf6f80](https://github.com/secucard/secucard-connect-javascript-sdk/commit/7cf6f80))
+* general contracts endpoint
+ ([ca348af](https://github.com/secucard/secucard-connect-javascript-sdk/commit/ca348af))
+* general contracts endpoint
+ ([3b6cdc6](https://github.com/secucard/secucard-connect-javascript-sdk/commit/3b6cdc6))
+* general contracts endpoint
+ ([b7178e5](https://github.com/secucard/secucard-connect-javascript-sdk/commit/b7178e5))
+* Merge branch 'develop' of https://github.com/secucard/secucard-connect-javascript-sdk into feature/g ([670d7e2](https://github.com/secucard/secucard-connect-javascript-sdk/commit/670d7e2))
+* Merge branch 'master' into develop
+ ([e2e81ef](https://github.com/secucard/secucard-connect-javascript-sdk/commit/e2e81ef))
+* Merge pull request #30 from secucard/feature/payment-invoices-payouts
+ ([5c10c7a](https://github.com/secucard/secucard-connect-javascript-sdk/commit/5c10c7a))
+* Merge pull request #37 from secucard/feature/general-contracts
+ ([17b1b8b](https://github.com/secucard/secucard-connect-javascript-sdk/commit/17b1b8b))
+* Merge pull request #38 from secucard/release/0.5.4
+ ([74d08b7](https://github.com/secucard/secucard-connect-javascript-sdk/commit/74d08b7))
+* release 0.5.4
+ ([df4fce3](https://github.com/secucard/secucard-connect-javascript-sdk/commit/df4fce3))
+* SOFFICE-1064, SOFFICE-1065 - access to new products
+ ([178ff15](https://github.com/secucard/secucard-connect-javascript-sdk/commit/178ff15))
+* SOFFICE-1064, SOFFICE-1065 - access to new products
+ ([1f0f3dd](https://github.com/secucard/secucard-connect-javascript-sdk/commit/1f0f3dd))
+* update lodash in jspm dependencies
+ ([d183138](https://github.com/secucard/secucard-connect-javascript-sdk/commit/d183138))
+* update lodash library
+ ([1004286](https://github.com/secucard/secucard-connect-javascript-sdk/commit/1004286))
+
+
+
 <a name="0.5.4"></a>
 ## 0.5.4 (2019-01-16)
 
