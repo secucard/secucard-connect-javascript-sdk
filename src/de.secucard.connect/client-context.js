@@ -147,7 +147,7 @@ export class ClientContext {
 
     getChannel(channelConfig) {
         let ch = null;
-        _.each(_(channelConfig).reverse().value(), (type)=> {
+        _.each(_.reverse(channelConfig), (type)=> {
             if (this.getChannelByType(type)) {
                 ch = this.getChannelByType(type);
             }

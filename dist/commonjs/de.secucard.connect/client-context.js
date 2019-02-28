@@ -160,7 +160,7 @@ var ClientContext = (function () {
         var _this2 = this;
 
         var ch = null;
-        _lodash2['default'].each(_lodash2['default'](channelConfig).reverse().value(), function (type) {
+        _lodash2['default'].each(_lodash2['default'].reverse(channelConfig), function (type) {
             if (_this2.getChannelByType(type)) {
                 ch = _this2.getChannelByType(type);
             }
