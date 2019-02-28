@@ -250,31 +250,31 @@ export class Auth {
     }
 
     _tokenClientCredentialsRequest(credentials, channel) {
-        let cr = _.pick(credentials, this.baseCredentialNames);
+        let cr = _.pickBy(credentials, this.baseCredentialNames);
         cr = _.assign({}, cr, {grant_type: 'client_credentials'});
         return this._tokenRequest(cr, channel);
     }
 
     _tokenRefreshRequest(credentials, refresh_token, channel) {
-        let cr = _.pick(credentials, this.baseCredentialNames);
+        let cr = _.pickBy(credentials, this.baseCredentialNames);
         cr = _.assign({}, cr, {grant_type: 'refresh_token', refresh_token: refresh_token});
         return this._tokenRequest(cr, channel);
     }
 
     _tokenDeviceCodeRequest(credentials, channel) {
-        let cr = _.pick(credentials, this.baseCredentialNames.concat(['uuid']));
+        let cr = _.pickBy(credentials, this.baseCredentialNames.concat(['uuid']));
         cr = _.assign({}, cr, {grant_type: 'device'});
         return this._tokenRequest(cr, channel);
     }
 
     _tokenDeviceRequest(credentials, channel) {
-        let cr = _.pick(credentials, this.baseCredentialNames.concat(['code']));
+        let cr = _.pickBy(credentials, this.baseCredentialNames.concat(['code']));
         cr = _.assign({}, cr, {grant_type: 'device'});
         return this._tokenRequest(cr, channel);
     }
 
     _tokenAppUserRequest(credentials, channel) {
-        let cr = _.pick(credentials, this.baseCredentialNames.concat(['username', 'password', 'device', 'deviceinfo']));
+        let cr = _.pickBy(credentials, this.baseCredentialNames.concat(['username', 'password', 'device', 'deviceinfo']));
         cr = _.assign({}, cr, {grant_type: 'appuser'});
         return this._tokenRequest(cr, channel);
     }
