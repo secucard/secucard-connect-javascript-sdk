@@ -133,7 +133,8 @@ export class ClientContext {
     
     exportToken(isRaw) {
         return this.getAuth().getToken().then((token) => {
-           return token? (!isRaw? _.pick(token, ['access_token', 'expireTime', 'scope', 'expires_in']) : token) : null;
+           const {access_token, expireTime, scope, expires_in} = token;
+           return token? (!isRaw? {access_token, expireTime, scope, expires_in} : token) : null;
         });
     }
 
