@@ -133,7 +133,7 @@ export class ClientContext {
     
     exportToken(isRaw) {
         return this.getAuth().getToken().then((token) => {
-           return token? (!isRaw? _.pickBy(token, ['access_token', 'expireTime', 'scope', 'expires_in']) : token) : null;
+           return token? (!isRaw? _.pick(token, ['access_token', 'expireTime', 'scope', 'expires_in']) : token) : null;
         });
     }
 
@@ -147,7 +147,8 @@ export class ClientContext {
 
     getChannel(channelConfig) {
         let ch = null;
-        _.each(_.reverse(channelConfig), (type)=> {
+        let channelConfReverted = channelConfig.reverse();
+        channelConfReverted.map(type => {
             if (this.getChannelByType(type)) {
                 ch = this.getChannelByType(type);
             }
@@ -184,17 +185,17 @@ export class ClientContext {
     }
 
     registerServiceEventTargets(service, targets) {
-        _.each(targets, (target) => {
+        targets.map(target => {
             if (this.serviceEventTargets[target.toLowerCase()]) {
                 throw new Error('Provided event target is registered already: ' + target.toLowerCase()); //TODO custom errors
             }
 
             this.serviceEventTargets[target.toLowerCase()] = service;
-        });
+        })
     }
 
     unregisterServiceEventTargets(targets) {
-        _.each(targets, (target) => {
+        targets.map(target => {
             delete this.serviceEventTargets[target.toLowerCase()];
         });
     }
