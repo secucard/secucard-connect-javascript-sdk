@@ -40,6 +40,7 @@
     "hapi": "^13.3.0",
     "jasmine-es6": "^0.0.13",
     "jshint-stylish": "^2.0.1",
+    "jspm": "^0.15.7",
     "karma": "^0.13.3",
     "karma-browserify": "^4.2.1",
     "karma-jasmine": "^0.3.6",
@@ -51,5 +52,20 @@
     "vinyl-buffer": "^1.0.0",
     "vinyl-paths": "^1.0.0",
     "vinyl-source-stream": "^1.1.0"
+  },
+  "jspm": {
+    "main": "browser.js",
+    "format": "register",
+    "directories": {
+      "lib": "dist/system"
+    },
+    "dependencies": {
+      "es6-shim": "npm:es6-shim@^0.34.2",
+      "eventemitter3": "npm:eventemitter3@^1.1.1",
+      "lodash": "npm:lodash@^3.9.3",
+      "minilog": "npm:minilog@^2.0.8",
+      "superagent": "npm:superagent@^3.8.2",
+      "uuid": "npm:uuid@^2.0.1"
+    }
   }
 }
