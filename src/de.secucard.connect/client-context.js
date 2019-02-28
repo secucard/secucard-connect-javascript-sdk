@@ -56,8 +56,8 @@ export class ClientContext {
             if (!this.config.stompEnabled) {
                 return true;
             }
-
-            return Promise.all(_.map(_.values(this.channels), (channel) => {
+            let channelValues = Object.values(this.channels);
+            return Promise.all(channelValues.map( channel => {
                 return channel.open();
             }));
         });

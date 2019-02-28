@@ -67,8 +67,8 @@ var ClientContext = (function () {
             if (!_this.config.stompEnabled) {
                 return true;
             }
-
-            return Promise.all(_lodash2['default'].map(_lodash2['default'].values(_this.channels), function (channel) {
+            var channelValues = Object.values(_this.channels);
+            return Promise.all(channelValues.map(function (channel) {
                 return channel.open();
             }));
         });

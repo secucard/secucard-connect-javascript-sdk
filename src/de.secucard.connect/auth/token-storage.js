@@ -62,7 +62,7 @@ export class TokenStorageInMem {
         
         let retrieveToken = this.getRetrieveToken();
         
-        if(_.isString(retrieveToken)) {
+        if(typeof retrieveToken === 'string') {
             
             if(this.retrievingToken) {
                 return this.retrievingToken;
@@ -102,7 +102,7 @@ export class TokenStorageInMem {
             
             return this.retrievingToken;
             
-        } else if(_.isFunction(retrieveToken)) {
+        } else if(typeof retrieveToken === 'function') {
             
             if(this.retrievingToken) {
                 return this.retrievingToken;

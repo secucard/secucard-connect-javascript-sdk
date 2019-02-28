@@ -494,7 +494,7 @@ var TokenStorageInMem = (function () {
 
         var retrieveToken = this.getRetrieveToken();
 
-        if (_lodash2['default'].isString(retrieveToken)) {
+        if (typeof retrieveToken === 'string') {
 
             if (this.retrievingToken) {
                 return this.retrievingToken;
@@ -531,7 +531,7 @@ var TokenStorageInMem = (function () {
             });
 
             return this.retrievingToken;
-        } else if (_lodash2['default'].isFunction(retrieveToken)) {
+        } else if (typeof retrieveToken === 'function') {
 
             if (this.retrievingToken) {
                 return this.retrievingToken;
@@ -970,8 +970,8 @@ var ClientContext = (function () {
             if (!_this.config.stompEnabled) {
                 return true;
             }
-
-            return Promise.all(_lodash2['default'].map(_lodash2['default'].values(_this.channels), function (channel) {
+            var channelValues = Object.values(_this.channels);
+            return Promise.all(channelValues.map(function (channel) {
                 return channel.open();
             }));
         });

@@ -63,7 +63,7 @@ var TokenStorageInMem = (function () {
 
         var retrieveToken = this.getRetrieveToken();
 
-        if (_lodash2['default'].isString(retrieveToken)) {
+        if (typeof retrieveToken === 'string') {
 
             if (this.retrievingToken) {
                 return this.retrievingToken;
@@ -100,7 +100,7 @@ var TokenStorageInMem = (function () {
             });
 
             return this.retrievingToken;
-        } else if (_lodash2['default'].isFunction(retrieveToken)) {
+        } else if (typeof retrieveToken === 'function') {
 
             if (this.retrievingToken) {
                 return this.retrievingToken;
