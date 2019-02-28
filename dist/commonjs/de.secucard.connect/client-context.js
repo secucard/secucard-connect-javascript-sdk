@@ -144,7 +144,7 @@ var ClientContext = (function () {
 
     ClientContext.prototype.exportToken = function exportToken(isRaw) {
         return this.getAuth().getToken().then(function (token) {
-            return token ? !isRaw ? _lodash2['default'].pick(token, ['access_token', 'expireTime', 'scope', 'expires_in']) : token : null;
+            return token ? !isRaw ? _lodash2['default'].pickBy(token, ['access_token', 'expireTime', 'scope', 'expires_in']) : token : null;
         });
     };
 

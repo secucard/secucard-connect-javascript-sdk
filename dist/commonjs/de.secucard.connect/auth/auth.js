@@ -212,31 +212,31 @@ var Auth = (function () {
     };
 
     Auth.prototype._tokenClientCredentialsRequest = function _tokenClientCredentialsRequest(credentials, channel) {
-        var cr = _lodash2['default'].pick(credentials, this.baseCredentialNames);
+        var cr = _lodash2['default'].pickBy(credentials, this.baseCredentialNames);
         cr = _lodash2['default'].assign({}, cr, { grant_type: 'client_credentials' });
         return this._tokenRequest(cr, channel);
     };
 
     Auth.prototype._tokenRefreshRequest = function _tokenRefreshRequest(credentials, refresh_token, channel) {
-        var cr = _lodash2['default'].pick(credentials, this.baseCredentialNames);
+        var cr = _lodash2['default'].pickBy(credentials, this.baseCredentialNames);
         cr = _lodash2['default'].assign({}, cr, { grant_type: 'refresh_token', refresh_token: refresh_token });
         return this._tokenRequest(cr, channel);
     };
 
     Auth.prototype._tokenDeviceCodeRequest = function _tokenDeviceCodeRequest(credentials, channel) {
-        var cr = _lodash2['default'].pick(credentials, this.baseCredentialNames.concat(['uuid']));
+        var cr = _lodash2['default'].pickBy(credentials, this.baseCredentialNames.concat(['uuid']));
         cr = _lodash2['default'].assign({}, cr, { grant_type: 'device' });
         return this._tokenRequest(cr, channel);
     };
 
     Auth.prototype._tokenDeviceRequest = function _tokenDeviceRequest(credentials, channel) {
-        var cr = _lodash2['default'].pick(credentials, this.baseCredentialNames.concat(['code']));
+        var cr = _lodash2['default'].pickBy(credentials, this.baseCredentialNames.concat(['code']));
         cr = _lodash2['default'].assign({}, cr, { grant_type: 'device' });
         return this._tokenRequest(cr, channel);
     };
 
     Auth.prototype._tokenAppUserRequest = function _tokenAppUserRequest(credentials, channel) {
-        var cr = _lodash2['default'].pick(credentials, this.baseCredentialNames.concat(['username', 'password', 'device', 'deviceinfo']));
+        var cr = _lodash2['default'].pickBy(credentials, this.baseCredentialNames.concat(['username', 'password', 'device', 'deviceinfo']));
         cr = _lodash2['default'].assign({}, cr, { grant_type: 'appuser' });
         return this._tokenRequest(cr, channel);
     };
