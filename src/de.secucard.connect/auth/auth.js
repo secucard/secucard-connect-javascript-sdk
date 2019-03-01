@@ -9,7 +9,6 @@
  See the License for the specific language governing permissions and
  limitations under the License.
  */
-import _ from 'lodash';
 import {POST} from '../net/message';
 import {Token} from './token';
 import {AuthenticationFailedException, AuthenticationTimeoutException} from './exception';

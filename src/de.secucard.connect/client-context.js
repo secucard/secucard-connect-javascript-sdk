@@ -9,7 +9,6 @@
  See the License for the specific language governing permissions and
  limitations under the License.
  */
-import _ from 'lodash';
 import {Rest} from './net/rest';
 import {Auth} from './auth/auth';
 import {Credentials} from './auth/credentials';
