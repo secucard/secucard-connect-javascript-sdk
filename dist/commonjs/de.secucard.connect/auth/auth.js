@@ -16,10 +16,6 @@ var _minilog = require('minilog');
 
 var _minilog2 = _interopRequireDefault(_minilog);
 
-var _lodash = require('lodash');
-
-var _lodash2 = _interopRequireDefault(_lodash);
-
 var Auth = (function () {
     function Auth() {
         _classCallCheck(this, Auth);
@@ -44,6 +40,16 @@ var Auth = (function () {
         this.getDeviceUUID = function () {
             return context.getConfig().getDeviceUUID();
         };
+    };
+
+    Auth.prototype.pick = function pick(object, keys) {
+
+        return keys.reduce(function (obj, key) {
+            if (object[key]) {
+                obj[key] = object[key];
+            }
+            return obj;
+        }, {});
     };
 
     Auth.prototype.getToken = function getToken(extend) {
@@ -212,37 +218,37 @@ var Auth = (function () {
     };
 
     Auth.prototype._tokenClientCredentialsRequest = function _tokenClientCredentialsRequest(credentials, channel) {
-        var cr = _lodash2['default'].pick(credentials, this.baseCredentialNames);
-        cr = _lodash2['default'].assign({}, cr, { grant_type: 'client_credentials' });
+        var cr = this.pick(credentials, this.baseCredentialNames);
 
+        cr = Object.assign({}, cr, { grant_type: 'client_credentials' });
         return this._tokenRequest(cr, channel);
     };
 
     Auth.prototype._tokenRefreshRequest = function _tokenRefreshRequest(credentials, refresh_token, channel) {
-        var cr = _lodash2['default'].pick(credentials, this.baseCredentialNames);
-        cr = _lodash2['default'].assign({}, cr, { grant_type: 'refresh_token', refresh_token: refresh_token });
+        var cr = this.pick(credentials, this.baseCredentialNames);
 
+        cr = Object.assign({}, cr, { grant_type: 'refresh_token', refresh_token: refresh_token });
         return this._tokenRequest(cr, channel);
     };
 
     Auth.prototype._tokenDeviceCodeRequest = function _tokenDeviceCodeRequest(credentials, channel) {
-        var cr = _lodash2['default'].pick(credentials, this.baseCredentialNames.concat(['uuid']));
-        cr = _lodash2['default'].assign({}, cr, { grant_type: 'device' });
+        var cr = this.pick(credentials, this.baseCredentialNames.concat(['uuid']));
 
+        cr = Object.assign({}, cr, { grant_type: 'device' });
         return this._tokenRequest(cr, channel);
     };
 
     Auth.prototype._tokenDeviceRequest = function _tokenDeviceRequest(credentials, channel) {
-        var cr = _lodash2['default'].pick(credentials, this.baseCredentialNames.concat(['code']));
-        cr = _lodash2['default'].assign({}, cr, { grant_type: 'device' });
+        var cr = this.pick(credentials, this.baseCredentialNames.concat(['code']));
 
+        cr = Object.assign({}, cr, { grant_type: 'device' });
         return this._tokenRequest(cr, channel);
     };
 
     Auth.prototype._tokenAppUserRequest = function _tokenAppUserRequest(credentials, channel) {
-        var cr = _lodash2['default'].pick(credentials, this.baseCredentialNames.concat(['username', 'password', 'device', 'deviceinfo']));
-        cr = _lodash2['default'].assign({}, cr, { grant_type: 'appuser' });
+        var cr = this.pick(credentials, this.baseCredentialNames.concat(['username', 'password', 'device', 'deviceinfo']));
 
+        cr = Object.assign({}, cr, { grant_type: 'appuser' });
         return this._tokenRequest(cr, channel);
     };
 
