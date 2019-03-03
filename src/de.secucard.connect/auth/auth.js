@@ -13,6 +13,7 @@ import {POST} from '../net/message';
 import {Token} from './token';
 import {AuthenticationFailedException, AuthenticationTimeoutException} from './exception';
 import minilog from 'minilog';
+import _ from 'lodash';
 
 export class Auth {
 
