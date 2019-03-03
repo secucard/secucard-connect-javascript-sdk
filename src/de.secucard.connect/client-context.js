@@ -16,6 +16,7 @@ import {AppService} from './product/app/app-service';
 import {Channel} from './net/channel';
 import EE from 'eventemitter3';
 import {TokenStorageInMem} from './auth/token-storage';
+import _ from 'lodash';
 
 export class ClientContext {
 
@@ -55,8 +56,9 @@ export class ClientContext {
             if (!this.config.stompEnabled) {
                 return true;
             }
-            let channelValues = Object.values(this.channels);
-            return Promise.all(channelValues.map( channel => {
+            return Promise.all(_.map(_.values(this.channels), (channel) => {
+            /*let channelValues = Object.values(this.channels);
+            return Promise.all(channelValues.map( channel => {*/
                 return channel.open();
             }));
         });

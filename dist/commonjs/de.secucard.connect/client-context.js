@@ -22,6 +22,10 @@ var _eventemitter32 = _interopRequireDefault(_eventemitter3);
 
 var _authTokenStorage = require('./auth/token-storage');
 
+var _lodash = require('lodash');
+
+var _lodash2 = _interopRequireDefault(_lodash);
+
 var ClientContext = (function () {
     function ClientContext(config, environment) {
         _classCallCheck(this, ClientContext);
@@ -63,8 +67,7 @@ var ClientContext = (function () {
             if (!_this.config.stompEnabled) {
                 return true;
             }
-            var channelValues = Object.values(_this.channels);
-            return Promise.all(channelValues.map(function (channel) {
+            return Promise.all(_lodash2['default'].map(_lodash2['default'].values(_this.channels), function (channel) {
                 return channel.open();
             }));
         });
