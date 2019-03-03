@@ -920,10 +920,6 @@ var _eventemitter32 = _interopRequireDefault(_eventemitter3);
 
 var _authTokenStorage = require('./auth/token-storage');
 
-var _lodash = require('lodash');
-
-var _lodash2 = _interopRequireDefault(_lodash);
-
 var ClientContext = (function () {
     function ClientContext(config, environment) {
         _classCallCheck(this, ClientContext);
@@ -965,7 +961,9 @@ var ClientContext = (function () {
             if (!_this.config.stompEnabled) {
                 return true;
             }
-            return Promise.all(_lodash2['default'].map(_lodash2['default'].values(_this.channels), function (channel) {
+
+            var channelValues = Object.values(_this.channels);
+            return Promise.all(channelValues.map(function (channel) {
                 return channel.open();
             }));
         });
@@ -1041,7 +1039,12 @@ var ClientContext = (function () {
 
     ClientContext.prototype.exportToken = function exportToken(isRaw) {
         return this.getAuth().getToken().then(function (token) {
-            return token ? !isRaw ? _lodash2['default'].pick(token, ['access_token', 'expireTime', 'scope', 'expires_in']) : token : null;
+            var access_token = token.access_token;
+            var expireTime = token.expireTime;
+            var scope = token.scope;
+            var expires_in = token.expires_in;
+
+            return token ? !isRaw ? { access_token: access_token, expireTime: expireTime, scope: scope, expires_in: expires_in } : token : null;
         });
     };
 
@@ -1128,7 +1131,7 @@ var ClientContext = (function () {
 })();
 
 exports.ClientContext = ClientContext;
-},{"./auth/auth":2,"./auth/credentials":3,"./auth/token-storage":5,"./net/channel":12,"./net/rest":15,"./product/app/app-service":20,"eventemitter3":99,"lodash":100}],10:[function(require,module,exports){
+},{"./auth/auth":2,"./auth/credentials":3,"./auth/token-storage":5,"./net/channel":12,"./net/rest":15,"./product/app/app-service":20,"eventemitter3":99}],10:[function(require,module,exports){
 "use strict";
 
 exports.__esModule = true;

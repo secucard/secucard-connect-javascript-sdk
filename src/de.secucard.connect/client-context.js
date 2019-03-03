@@ -16,7 +16,6 @@ import {AppService} from './product/app/app-service';
 import {Channel} from './net/channel';
 import EE from 'eventemitter3';
 import {TokenStorageInMem} from './auth/token-storage';
-import _ from 'lodash';
 
 export class ClientContext {
 
@@ -56,9 +55,9 @@ export class ClientContext {
             if (!this.config.stompEnabled) {
                 return true;
             }
-            return Promise.all(_.map(_.values(this.channels), (channel) => {
-            /*let channelValues = Object.values(this.channels);
-            return Promise.all(channelValues.map( channel => {*/
+            //return Promise.all(_.map(_.values(this.channels), (channel) => {
+            let channelValues = Object.values(this.channels);
+            return Promise.all(channelValues.map( channel => {
                 return channel.open();
             }));
         });
@@ -134,9 +133,9 @@ export class ClientContext {
     
     exportToken(isRaw) {
         return this.getAuth().getToken().then((token) => {
-           //const {access_token, expireTime, scope, expires_in} = token;
-           //return token? (!isRaw? {access_token, expireTime, scope, expires_in} : token) : null;
-           return token? (!isRaw? _.pick(token, ['access_token', 'expireTime', 'scope', 'expires_in']) : token) : null;
+           const {access_token, expireTime, scope, expires_in} = token;
+           return token? (!isRaw? {access_token, expireTime, scope, expires_in} : token) : null;
+           //return token? (!isRaw? _.pick(token, ['access_token', 'expireTime', 'scope', 'expires_in']) : token) : null;
         });
     }
 
