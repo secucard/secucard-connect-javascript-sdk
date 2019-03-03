@@ -447,6 +447,10 @@ var _minilog = require('minilog');
 
 var _minilog2 = _interopRequireDefault(_minilog);
 
+var _lodash = require('lodash');
+
+var _lodash2 = _interopRequireDefault(_lodash);
+
 var TokenStorageInMem = (function () {
     function TokenStorageInMem() {
         _classCallCheck(this, TokenStorageInMem);
@@ -486,7 +490,7 @@ var TokenStorageInMem = (function () {
 
         var retrieveToken = this.getRetrieveToken();
 
-        if (typeof retrieveToken === 'string') {
+        if (_lodash2['default'].isString(retrieveToken)) {
 
             if (this.retrievingToken) {
                 return this.retrievingToken;
@@ -523,32 +527,32 @@ var TokenStorageInMem = (function () {
             });
 
             return this.retrievingToken;
-        } else if (typeof retrieveToken === 'function') {
+        } else if (_lodash2['default'].isFunction(retrieveToken)) {
 
-            if (this.retrievingToken) {
-                return this.retrievingToken;
-            }
-
-            this.retrievingToken = retrieveToken().then(function (token) {
-                delete _this.retrievingToken;
-
-                if (!_token.Token.isValid(token)) {
-                    var err = 'Retrieved token from ' + JSON.stringify(token) + ' is not valid';
-                    _minilog2['default']('secucard.TokenStorageInMem').error('' + err);
-                    throw new Error(err);
+                if (this.retrievingToken) {
+                    return this.retrievingToken;
                 }
 
-                return _this.storeToken(token);
-            })['catch'](function (err) {
-                console.log(err);
-                delete _this.retrievingToken;
-                throw err;
-            });
+                this.retrievingToken = retrieveToken().then(function (token) {
+                    delete _this.retrievingToken;
 
-            return this.retrievingToken;
-        } else {
-            return Promise.reject(new Error('retrieveToken is not defined'));
-        }
+                    if (!_token.Token.isValid(token)) {
+                        var err = 'Retrieved token from ' + JSON.stringify(token) + ' is not valid';
+                        _minilog2['default']('secucard.TokenStorageInMem').error('' + err);
+                        throw new Error(err);
+                    }
+
+                    return _this.storeToken(token);
+                })['catch'](function (err) {
+                    console.log(err);
+                    delete _this.retrievingToken;
+                    throw err;
+                });
+
+                return this.retrievingToken;
+            } else {
+                return Promise.reject(new Error('retrieveToken is not defined'));
+            }
     };
 
     return TokenStorageInMem;
@@ -561,7 +565,7 @@ TokenStorageInMem.createWithMixin = function (TokenStorageMixin) {
     var Mixed = _utilMixins2['default'](TokenStorageInMem, TokenStorageMixin);
     return new Mixed();
 };
-},{"../util/mixins":96,"./token":6,"minilog":110,"superagent":115}],6:[function(require,module,exports){
+},{"../util/mixins":96,"./token":6,"lodash":100,"minilog":110,"superagent":115}],6:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
