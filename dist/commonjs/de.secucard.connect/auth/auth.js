@@ -16,6 +16,10 @@ var _minilog = require('minilog');
 
 var _minilog2 = _interopRequireDefault(_minilog);
 
+var _lodash = require('lodash');
+
+var _lodash2 = _interopRequireDefault(_lodash);
+
 var Auth = (function () {
     function Auth() {
         _classCallCheck(this, Auth);
