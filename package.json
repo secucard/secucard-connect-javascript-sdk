@@ -43,6 +43,7 @@
     "karma": "^0.13.3",
     "karma-browserify": "^4.2.1",
     "karma-jasmine": "^0.3.6",
+    "lodash": "^3.9.3",
     "object-assign": "^3.0.0",
     "object.assign": "^3.0.0",
     "require-dir": "^0.3.0",
