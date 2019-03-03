@@ -16,10 +16,6 @@ var _minilog = require('minilog');
 
 var _minilog2 = _interopRequireDefault(_minilog);
 
-var _lodash = require('lodash');
-
-var _lodash2 = _interopRequireDefault(_lodash);
-
 var Auth = (function () {
     function Auth() {
         _classCallCheck(this, Auth);
@@ -222,38 +218,33 @@ var Auth = (function () {
     };
 
     Auth.prototype._tokenClientCredentialsRequest = function _tokenClientCredentialsRequest(credentials, channel) {
-        var cr = this.pick(credentials, this.baseCredentialNames);
-
-        var cr2 = Object.assign({}, cr, { grant_type: 'client_credentials' });
-        return this._tokenRequest(cr2, channel);
+        var tmpcr = this.pick(credentials, this.baseCredentialNames);
+        var cr = Object.assign({}, tmpcr, { grant_type: 'client_credentials' });
+        return this._tokenRequest(cr, channel);
     };
 
     Auth.prototype._tokenRefreshRequest = function _tokenRefreshRequest(credentials, refresh_token, channel) {
-        var cr = this.pick(credentials, this.baseCredentialNames);
-
-        var cr2 = Object.assign({}, cr, { grant_type: 'refresh_token', refresh_token: refresh_token });
-        return this._tokenRequest(cr2, channel);
+        var tmpcr = this.pick(credentials, this.baseCredentialNames);
+        var cr = Object.assign({}, tmpcr, { grant_type: 'refresh_token', refresh_token: refresh_token });
+        return this._tokenRequest(cr, channel);
     };
 
     Auth.prototype._tokenDeviceCodeRequest = function _tokenDeviceCodeRequest(credentials, channel) {
-        var cr = this.pick(credentials, this.baseCredentialNames.concat(['uuid']));
-
-        var cr2 = Object.assign({}, cr, { grant_type: 'device' });
-        return this._tokenRequest(cr2, channel);
+        var tmpcr = this.pick(credentials, this.baseCredentialNames.concat(['uuid']));
+        var cr = Object.assign({}, tmpcr, { grant_type: 'device' });
+        return this._tokenRequest(cr, channel);
     };
 
     Auth.prototype._tokenDeviceRequest = function _tokenDeviceRequest(credentials, channel) {
-        var cr = this.pick(credentials, this.baseCredentialNames.concat(['code']));
-
-        var cr2 = Object.assign({}, cr, { grant_type: 'device' });
-        return this._tokenRequest(cr2, channel);
+        var tmpcr = this.pick(credentials, this.baseCredentialNames.concat(['code']));
+        var cr = Object.assign({}, tmpcr, { grant_type: 'device' });
+        return this._tokenRequest(cr, channel);
     };
 
     Auth.prototype._tokenAppUserRequest = function _tokenAppUserRequest(credentials, channel) {
-        var cr = this.pick(credentials, this.baseCredentialNames.concat(['username', 'password', 'device', 'deviceinfo']));
-
-        var cr2 = Object.assign({}, cr, { grant_type: 'appuser' });
-        return this._tokenRequest(cr2, channel);
+        var tmpcr = this.pick(credentials, this.baseCredentialNames.concat(['username', 'password', 'device', 'deviceinfo']));
+        var cr = Object.assign({}, tmpcr, { grant_type: 'appuser' });
+        return this._tokenRequest(cr, channel);
     };
 
     return Auth;

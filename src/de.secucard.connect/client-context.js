@@ -55,7 +55,6 @@ export class ClientContext {
             if (!this.config.stompEnabled) {
                 return true;
             }
-            //return Promise.all(_.map(_.values(this.channels), (channel) => {
             let channelValues = Object.values(this.channels);
             return Promise.all(channelValues.map( channel => {
                 return channel.open();
@@ -135,7 +134,6 @@ export class ClientContext {
         return this.getAuth().getToken().then((token) => {
            const {access_token, expireTime, scope, expires_in} = token;
            return token? (!isRaw? {access_token, expireTime, scope, expires_in} : token) : null;
-           //return token? (!isRaw? _.pick(token, ['access_token', 'expireTime', 'scope', 'expires_in']) : token) : null;
         });
     }
 

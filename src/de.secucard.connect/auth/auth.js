@@ -13,7 +13,6 @@ import {POST} from '../net/message';
 import {Token} from './token';
 import {AuthenticationFailedException, AuthenticationTimeoutException} from './exception';
 import minilog from 'minilog';
-import _ from 'lodash';
 
 export class Auth {
 
@@ -260,43 +259,33 @@ export class Auth {
     }
 
     _tokenClientCredentialsRequest(credentials, channel) {
-        let cr = this.pick(credentials, this.baseCredentialNames);
-        //let cr = _.pick(credentials, this.baseCredentialNames);
-        //cr = _.assign({}, cr, {grant_type: 'client_credentials'});
-        let cr2 = Object.assign({}, cr, {grant_type: 'client_credentials'});
-        return this._tokenRequest(cr2, channel);
+        let tmpcr = this.pick(credentials, this.baseCredentialNames);
+        let cr = Object.assign({}, tmpcr, {grant_type: 'client_credentials'});
+        return this._tokenRequest(cr, channel);
     }
 
     _tokenRefreshRequest(credentials, refresh_token, channel) {
-        let cr = this.pick(credentials, this.baseCredentialNames);
-        //let cr = _.pick(credentials, this.baseCredentialNames);
-        //cr = _.assign({}, cr, {grant_type: 'refresh_token', refresh_token: refresh_token});
-        let cr2 = Object.assign({}, cr, {grant_type: 'refresh_token', refresh_token: refresh_token});
-        return this._tokenRequest(cr2, channel);
+        let tmpcr = this.pick(credentials, this.baseCredentialNames);
+        let cr = Object.assign({}, tmpcr, {grant_type: 'refresh_token', refresh_token: refresh_token});
+        return this._tokenRequest(cr, channel);
     }
 
     _tokenDeviceCodeRequest(credentials, channel) {
-        let cr = this.pick(credentials, this.baseCredentialNames.concat(['uuid']));
-        //let cr = _.pick(credentials, this.baseCredentialNames.concat(['uuid']));
-        //cr = _.assign({}, cr, {grant_type: 'device'});
-        let cr2 = Object.assign({}, cr, {grant_type: 'device'});
-        return this._tokenRequest(cr2, channel);
+        let tmpcr = this.pick(credentials, this.baseCredentialNames.concat(['uuid']));
+        let cr = Object.assign({}, tmpcr, {grant_type: 'device'});
+        return this._tokenRequest(cr, channel);
     }
 
     _tokenDeviceRequest(credentials, channel) {
-        let cr = this.pick(credentials, this.baseCredentialNames.concat(['code']));
-        //let cr = _.pick(credentials, this.baseCredentialNames.concat(['code']));
-        //cr = _.assign({}, cr, {grant_type: 'device'});
-        let cr2 = Object.assign({}, cr, {grant_type: 'device'});
-        return this._tokenRequest(cr2, channel);
+        let tmpcr = this.pick(credentials, this.baseCredentialNames.concat(['code']));
+        let cr = Object.assign({}, tmpcr, {grant_type: 'device'});
+        return this._tokenRequest(cr, channel);
     }
 
     _tokenAppUserRequest(credentials, channel) {
-        let cr = this.pick(credentials, this.baseCredentialNames.concat(['username', 'password', 'device', 'deviceinfo']));
-        //let cr = _.pick(credentials, this.baseCredentialNames.concat(['username', 'password', 'device', 'deviceinfo']));
-        //cr = _.assign({}, cr, {grant_type: 'appuser'});
-        let cr2 = Object.assign({}, cr, {grant_type: 'appuser'});
-        return this._tokenRequest(cr2, channel);
+        let tmpcr = this.pick(credentials, this.baseCredentialNames.concat(['username', 'password', 'device', 'deviceinfo']));
+        let cr = Object.assign({}, tmpcr, {grant_type: 'appuser'});
+        return this._tokenRequest(cr, channel);
     }
 
 }

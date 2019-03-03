@@ -63,7 +63,6 @@ var ClientContext = (function () {
             if (!_this.config.stompEnabled) {
                 return true;
             }
-
             var channelValues = Object.values(_this.channels);
             return Promise.all(channelValues.map(function (channel) {
                 return channel.open();
