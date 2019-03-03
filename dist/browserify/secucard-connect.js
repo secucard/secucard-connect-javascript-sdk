@@ -256,31 +256,31 @@ var Auth = (function () {
     };
 
     Auth.prototype._tokenClientCredentialsRequest = function _tokenClientCredentialsRequest(credentials, channel) {
-        var cr = this.pick(credentials, this.baseCredentialNames);
+        var cr = _.pick(credentials, this.baseCredentialNames);
         cr = Object.assign({}, cr, { grant_type: 'client_credentials' });
         return this._tokenRequest(cr, channel);
     };
 
     Auth.prototype._tokenRefreshRequest = function _tokenRefreshRequest(credentials, refresh_token, channel) {
-        var cr = this.pick(credentials, this.baseCredentialNames);
+        var cr = _.pick(credentials, this.baseCredentialNames);
         cr = Object.assign({}, cr, { grant_type: 'refresh_token', refresh_token: refresh_token });
         return this._tokenRequest(cr, channel);
     };
 
     Auth.prototype._tokenDeviceCodeRequest = function _tokenDeviceCodeRequest(credentials, channel) {
-        var cr = this.pick(credentials, this.baseCredentialNames.concat(['uuid']));
+        var cr = _.pick(credentials, this.baseCredentialNames.concat(['uuid']));
         cr = Object.assign({}, cr, { grant_type: 'device' });
         return this._tokenRequest(cr, channel);
     };
 
     Auth.prototype._tokenDeviceRequest = function _tokenDeviceRequest(credentials, channel) {
-        var cr = this.pick(credentials, this.baseCredentialNames.concat(['code']));
+        var cr = _.pick(credentials, this.baseCredentialNames.concat(['code']));
         cr = Object.assign({}, cr, { grant_type: 'device' });
         return this._tokenRequest(cr, channel);
     };
 
     Auth.prototype._tokenAppUserRequest = function _tokenAppUserRequest(credentials, channel) {
-        var cr = this.pick(credentials, this.baseCredentialNames.concat(['username', 'password', 'device', 'deviceinfo']));
+        var cr = _.pick(credentials, this.baseCredentialNames.concat(['username', 'password', 'device', 'deviceinfo']));
         cr = Object.assign({}, cr, { grant_type: 'appuser' });
         return this._tokenRequest(cr, channel);
     };
@@ -1042,12 +1042,7 @@ var ClientContext = (function () {
 
     ClientContext.prototype.exportToken = function exportToken(isRaw) {
         return this.getAuth().getToken().then(function (token) {
-            var access_token = token.access_token;
-            var expireTime = token.expireTime;
-            var scope = token.scope;
-            var expires_in = token.expires_in;
-
-            return token ? !isRaw ? { access_token: access_token, expireTime: expireTime, scope: scope, expires_in: expires_in } : token : null;
+            return token ? !isRaw ? _lodash2['default'].pick(token, ['access_token', 'expireTime', 'scope', 'expires_in']) : token : null;
         });
     };
 

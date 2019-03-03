@@ -143,12 +143,7 @@ var ClientContext = (function () {
 
     ClientContext.prototype.exportToken = function exportToken(isRaw) {
         return this.getAuth().getToken().then(function (token) {
-            var access_token = token.access_token;
-            var expireTime = token.expireTime;
-            var scope = token.scope;
-            var expires_in = token.expires_in;
-
-            return token ? !isRaw ? { access_token: access_token, expireTime: expireTime, scope: scope, expires_in: expires_in } : token : null;
+            return token ? !isRaw ? _lodash2['default'].pick(token, ['access_token', 'expireTime', 'scope', 'expires_in']) : token : null;
         });
     };
 
