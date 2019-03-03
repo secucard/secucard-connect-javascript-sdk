@@ -13,7 +13,6 @@ import {Token} from './token';
 import mixins from '../util/mixins';
 import Request from 'superagent';
 import minilog from 'minilog';
-import _ from 'lodash';
 
 export class TokenStorageInMem {
     
@@ -62,8 +61,7 @@ export class TokenStorageInMem {
         
         let retrieveToken = this.getRetrieveToken();
         
-        //if(typeof retrieveToken === 'string') {
-        if(_.isString(retrieveToken)) {
+        if(typeof retrieveToken === 'string') {
             
             if(this.retrievingToken) {
                 return this.retrievingToken;
@@ -102,9 +100,8 @@ export class TokenStorageInMem {
             });
             
             return this.retrievingToken;
-            
-        //} else if(typeof retrieveToken === 'function') {
-        } else if(_.isFunction(retrieveToken)) {
+
+        } else if(typeof retrieveToken === 'function') {
             
             if(this.retrievingToken) {
                 return this.retrievingToken;

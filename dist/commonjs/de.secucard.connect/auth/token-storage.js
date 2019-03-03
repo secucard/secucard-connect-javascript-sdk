@@ -20,10 +20,6 @@ var _minilog = require('minilog');
 
 var _minilog2 = _interopRequireDefault(_minilog);
 
-var _lodash = require('lodash');
-
-var _lodash2 = _interopRequireDefault(_lodash);
-
 var TokenStorageInMem = (function () {
     function TokenStorageInMem() {
         _classCallCheck(this, TokenStorageInMem);
@@ -63,7 +59,7 @@ var TokenStorageInMem = (function () {
 
         var retrieveToken = this.getRetrieveToken();
 
-        if (_lodash2['default'].isString(retrieveToken)) {
+        if (typeof retrieveToken === 'string') {
 
             if (this.retrievingToken) {
                 return this.retrievingToken;
@@ -100,32 +96,32 @@ var TokenStorageInMem = (function () {
             });
 
             return this.retrievingToken;
-        } else if (_lodash2['default'].isFunction(retrieveToken)) {
+        } else if (typeof retrieveToken === 'function') {
 
-                if (this.retrievingToken) {
-                    return this.retrievingToken;
+            if (this.retrievingToken) {
+                return this.retrievingToken;
+            }
+
+            this.retrievingToken = retrieveToken().then(function (token) {
+                delete _this.retrievingToken;
+
+                if (!_token.Token.isValid(token)) {
+                    var err = 'Retrieved token from ' + JSON.stringify(token) + ' is not valid';
+                    _minilog2['default']('secucard.TokenStorageInMem').error('' + err);
+                    throw new Error(err);
                 }
 
-                this.retrievingToken = retrieveToken().then(function (token) {
-                    delete _this.retrievingToken;
+                return _this.storeToken(token);
+            })['catch'](function (err) {
+                console.log(err);
+                delete _this.retrievingToken;
+                throw err;
+            });
 
-                    if (!_token.Token.isValid(token)) {
-                        var err = 'Retrieved token from ' + JSON.stringify(token) + ' is not valid';
-                        _minilog2['default']('secucard.TokenStorageInMem').error('' + err);
-                        throw new Error(err);
-                    }
-
-                    return _this.storeToken(token);
-                })['catch'](function (err) {
-                    console.log(err);
-                    delete _this.retrievingToken;
-                    throw err;
-                });
-
-                return this.retrievingToken;
-            } else {
-                return Promise.reject(new Error('retrieveToken is not defined'));
-            }
+            return this.retrievingToken;
+        } else {
+            return Promise.reject(new Error('retrieveToken is not defined'));
+        }
     };
 
     return TokenStorageInMem;
