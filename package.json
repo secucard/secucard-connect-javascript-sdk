@@ -14,7 +14,6 @@
   "dependencies": {
     "es6-shim": "^0.34.4",
     "eventemitter3": "^1.1.1",
-    "lodash": "^3.9.3",
     "minilog": "^2.0.8",
     "sizzle": "^2.3.0",
     "stream-browserify": "^2.0.1",
