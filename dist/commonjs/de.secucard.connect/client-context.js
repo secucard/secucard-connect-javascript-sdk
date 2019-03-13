@@ -6,10 +6,6 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'd
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 
-var _lodash = require('lodash');
-
-var _lodash2 = _interopRequireDefault(_lodash);
-
 var _netRest = require('./net/rest');
 
 var _authAuth = require('./auth/auth');
@@ -67,8 +63,8 @@ var ClientContext = (function () {
             if (!_this.config.stompEnabled) {
                 return true;
             }
-
-            return Promise.all(_lodash2['default'].map(_lodash2['default'].values(_this.channels), function (channel) {
+            var channelValues = Object.values(_this.channels);
+            return Promise.all(channelValues.map(function (channel) {
                 return channel.open();
             }));
         });
@@ -144,7 +140,12 @@ var ClientContext = (function () {
 
     ClientContext.prototype.exportToken = function exportToken(isRaw) {
         return this.getAuth().getToken().then(function (token) {
-            return token ? !isRaw ? _lodash2['default'].pick(token, ['access_token', 'expireTime', 'scope', 'expires_in']) : token : null;
+            var access_token = token.access_token;
+            var expireTime = token.expireTime;
+            var scope = token.scope;
+            var expires_in = token.expires_in;
+
+            return token ? !isRaw ? { access_token: access_token, expireTime: expireTime, scope: scope, expires_in: expires_in } : token : null;
         });
     };
 
@@ -160,7 +161,8 @@ var ClientContext = (function () {
         var _this2 = this;
 
         var ch = null;
-        _lodash2['default'].each(_lodash2['default'](channelConfig).reverse().value(), function (type) {
+        var channelConfReverted = channelConfig.reverse();
+        channelConfReverted.map(function (type) {
             if (_this2.getChannelByType(type)) {
                 ch = _this2.getChannelByType(type);
             }
@@ -197,7 +199,7 @@ var ClientContext = (function () {
     ClientContext.prototype.registerServiceEventTargets = function registerServiceEventTargets(service, targets) {
         var _this3 = this;
 
-        _lodash2['default'].each(targets, function (target) {
+        targets.map(function (target) {
             if (_this3.serviceEventTargets[target.toLowerCase()]) {
                 throw new Error('Provided event target is registered already: ' + target.toLowerCase());
             }
@@ -209,7 +211,7 @@ var ClientContext = (function () {
     ClientContext.prototype.unregisterServiceEventTargets = function unregisterServiceEventTargets(targets) {
         var _this4 = this;
 
-        _lodash2['default'].each(targets, function (target) {
+        targets.map(function (target) {
             delete _this4.serviceEventTargets[target.toLowerCase()];
         });
     };

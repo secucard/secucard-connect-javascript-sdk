@@ -1,3 +1,8 @@
+<a name="0.6.0"></a>
+## 0.6.0 (2019-03-04)
+
+* All methods from lodash are replaced by raw javascript code. Lodash library was removed from dependencies.
+
 <a name="0.5.4"></a>
 ## 0.5.4 (2019-01-16)
 
