@@ -1,0 +1,29 @@
+# Snyk (https://snyk.io) policy file, patches or ignores known vulnerabilities.
+version: v1.13.3
+ignore: {}
+# patches apply the minimum changes required to fix a vulnerability
+patch:
+  'npm:debug:20170905':
+    - karma > socket.io > socket.io-adapter > socket.io-parser > debug:
+        patched: '2019-04-15T05:54:02.677Z'
+  'npm:lodash:20180130':
+    - gulp-conventional-changelog > conventional-changelog > lodash:
+        patched: '2019-04-15T05:54:02.677Z'
+    - gulp-conventional-changelog > conventional-changelog > conventional-commits-parser > lodash:
+        patched: '2019-04-15T05:54:02.677Z'
+    - babelify > babel-core > babel-plugin-proto-to-assign > lodash:
+        patched: '2019-04-15T05:54:02.677Z'
+    - gulp-babel > babel-core > babel-plugin-proto-to-assign > lodash:
+        patched: '2019-04-15T05:54:02.677Z'
+    - jasmine-es6 > babel > babel-core > babel-plugin-proto-to-assign > lodash:
+        patched: '2019-04-15T05:54:02.677Z'
+  'npm:minimatch:20160620':
+    - gulp > vinyl-fs > glob-stream > minimatch:
+        patched: '2019-04-15T05:54:02.677Z'
+    - gulp > vinyl-fs > glob-watcher > gaze > globule > minimatch:
+        patched: '2019-04-15T05:54:02.677Z'
+    - gulp > vinyl-fs > glob-watcher > gaze > globule > glob > minimatch:
+        patched: '2019-04-15T05:54:02.677Z'
+  'npm:ms:20170412':
+    - karma > socket.io > socket.io-adapter > socket.io-parser > debug > ms:
+        patched: '2019-04-15T05:54:02.677Z'
