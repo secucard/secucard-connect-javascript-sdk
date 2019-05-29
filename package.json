@@ -39,7 +39,7 @@
     "hapi": "^13.3.0",
     "jasmine-es6": "^0.0.13",
     "jshint-stylish": "^2.0.1",
-    "jspm": "^0.15.7",
+    "jspm": "^0.16.20",
     "karma": "^0.13.3",
     "karma-browserify": "^4.2.1",
     "karma-jasmine": "^0.3.6",
