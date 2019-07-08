@@ -4290,6 +4290,10 @@ var TransactionService = (function (_ProductService) {
         return ['loyalty.transactions'];
     };
 
+    TransactionService.prototype.retrieveTemplates = function retrieveTemplates(merchantId) {
+        return this.retrieveWithAction('me', 'templateList', merchantId);
+    };
+
     return TransactionService;
 })(_productService.ProductService);
 
