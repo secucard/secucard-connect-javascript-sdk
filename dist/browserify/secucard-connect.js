@@ -1132,7 +1132,7 @@ exports.ClientContext = ClientContext;
 
 exports.__esModule = true;
 var Version = {
-  "name": "0.6.0"
+  "name": "0.6.1"
 };
 exports.Version = Version;
 },{}],11:[function(require,module,exports){
@@ -3997,13 +3997,14 @@ var MerchantCardService = (function (_ProductService) {
         _ProductService.call(this);
     }
 
-    MerchantCardService.prototype.transact = function transact(merchantCardId, tid, cardnumber, action, amount, bonusAmount, amountSplitAllowed) {
+    MerchantCardService.prototype.transact = function transact(merchantCardId, tid, cardnumber, action, amount, bonusAmount, amountSplitAllowed, additionalData) {
 
         if (action == 'cashreport') {
             return this.execute(merchantCardId, 'transaction', null, { tid: tid, action: action });
         }
 
-        return this.execute(merchantCardId, 'transaction', null, { tid: tid, cardnumber: cardnumber, action: action, amount: amount, bonus_amount: bonusAmount, amount_split_allowed: amountSplitAllowed });
+        return this.execute(merchantCardId, 'transaction', null, { tid: tid, cardnumber: cardnumber, action: action, amount: amount, bonus_amount: bonusAmount,
+            amount_split_allowed: amountSplitAllowed, additional_data: additionalData });
     };
 
     MerchantCardService.prototype.lock = function lock(merchantCardId, reasonId, note) {
@@ -4287,6 +4288,10 @@ var TransactionService = (function (_ProductService) {
 
     TransactionService.prototype.getEventTargets = function getEventTargets() {
         return ['loyalty.transactions'];
+    };
+
+    TransactionService.prototype.retrieveTemplates = function retrieveTemplates(merchantId) {
+        return this.retrieveWithAction('me', 'templateList', merchantId);
     };
 
     return TransactionService;
@@ -5784,6 +5789,13 @@ Emitter.prototype.removeEventListener = function(event, fn){
       break;
     }
   }
+
+  // Remove event specific arrays for event types that no
+  // one is subscribed for to avoid memory leak.
+  if (callbacks.length === 0) {
+    delete this._callbacks['$' + event];
+  }
+
   return this;
 };
 
@@ -5797,8 +5809,13 @@ Emitter.prototype.removeEventListener = function(event, fn){
 
 Emitter.prototype.emit = function(event){
   this._callbacks = this._callbacks || {};
-  var args = [].slice.call(arguments, 1)
+
+  var args = new Array(arguments.length - 1)
     , callbacks = this._callbacks['$' + event];
+
+  for (var i = 1; i < arguments.length; i++) {
+    args[i - 1] = arguments[i];
+  }
 
   if (callbacks) {
     callbacks = callbacks.slice(0);
