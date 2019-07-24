@@ -111,7 +111,7 @@ var ServiceMap = {
     },
     Pos: {
         Invoices: _productPosPos.Pos.InvoicesService.Uid,
-        Transactions: _productPosPos.Pos.TransactionService.Uid
+        Transactions: _productPosPos.Pos.TransactionsService.Uid
     },
     Prepaid: {
         Contracts: _productPrepaidPrepaid.Prepaid.ContractService.Uid,
