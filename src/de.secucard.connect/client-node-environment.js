@@ -20,7 +20,8 @@ import {Services} from './product/services/services';
 import {Document} from './product/document/document';
 import {Auth} from './product/auth/auth';
 import {TokenStorageInMem} from './auth/token-storage';
-import {Clearing} from "./product/clearing/clearing";
+import {Clearing} from './product/clearing/clearing';
+import {Pos} from './product/pos/pos';
 
 export const ClientNodeEnvironment = {
     config: {
@@ -80,7 +81,10 @@ export const ClientNodeEnvironment = {
         Payment.SecupayDebitService,
         Payment.SecupayPrepayService,
         Payment.TransactionService,
-        
+
+        Pos.InvoicesService,
+        Pos.TransactionsService,
+
         Prepaid.ContractService,
         Prepaid.ItemGroupService,
         Prepaid.ItemService,
@@ -174,6 +178,10 @@ export const ServiceMap = {
         SecupayDebits: Payment.SecupayDebitService.Uid,
         SecupayPrepays: Payment.SecupayPrepayService.Uid,
         Transactions: Payment.TransactionService.Uid
+    },
+    Pos: {
+        Invoices: Payment.InvoiceService.Uid,
+        Transactions: Payment.TransactionService.Uid,
     },
     Prepaid:{
         Contracts: Prepaid.ContractService.Uid,

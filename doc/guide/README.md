@@ -54,7 +54,7 @@ var credentials = {
 	},
 };
 
-// get Smart/Transactions service
+TransactionsService
 var smartTransactions = client.getService(Services.Smart.Transactions);
 
 // subscribe for event
