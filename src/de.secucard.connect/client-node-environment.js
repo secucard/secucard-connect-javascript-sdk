@@ -180,8 +180,8 @@ export const ServiceMap = {
         Transactions: Payment.TransactionService.Uid
     },
     Pos: {
-        Invoices: Payment.InvoicesService.Uid,
-        Transactions: Payment.TransactionsService.Uid,
+        Invoices: Pos.InvoicesService.Uid,
+        Transactions: Pos.TransactionsService.Uid,
     },
     Prepaid:{
         Contracts: Prepaid.ContractService.Uid,

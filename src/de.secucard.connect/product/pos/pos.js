@@ -13,5 +13,5 @@ import {InvoicesService} from './invoices-service';
 import {TransactionsService} from './transactions-service';
 
 export const Pos = {};
-Payment.InvoicesService = InvoicesService;
-Payment.TransactionsService = TransactionsService;
+Pos.InvoicesService = InvoicesService;
+Pos.TransactionsService = TransactionsService;

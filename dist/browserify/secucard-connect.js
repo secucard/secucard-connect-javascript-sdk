@@ -4685,8 +4685,8 @@ var _transactionsService = require('./transactions-service');
 
 var Pos = {};
 exports.Pos = Pos;
-Payment.InvoicesService = _invoicesService.InvoicesService;
-Payment.TransactionsService = _transactionsService.TransactionsService;
+Pos.InvoicesService = _invoicesService.InvoicesService;
+Pos.TransactionsService = _transactionsService.TransactionsService;
 },{"./invoices-service":75,"./transactions-service":77}],77:[function(require,module,exports){
 'use strict';
 
