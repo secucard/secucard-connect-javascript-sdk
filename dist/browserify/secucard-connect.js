@@ -738,7 +738,7 @@ var ServiceMap = {
     },
     Pos: {
         Invoices: _productPosPos.Pos.InvoicesService.Uid,
-        Transactions: _productPaymentPayment.Payment.TransactionService.Uid
+        Transactions: _productPosPos.Pos.TransactionService.Uid
     },
     Prepaid: {
         Contracts: _productPrepaidPrepaid.Prepaid.ContractService.Uid,
@@ -1138,7 +1138,7 @@ exports.ClientContext = ClientContext;
 
 exports.__esModule = true;
 var Version = {
-  "name": "0.6.1"
+  "name": "0.6.0"
 };
 exports.Version = Version;
 },{}],11:[function(require,module,exports){
