@@ -9,23 +9,9 @@
  See the License for the specific language governing permissions and
  limitations under the License.
  */
-import {ProductService} from '../product-service'
+import {InvoiceService} from './invoice-service';
+import {TransactionService} from './transaction-service';
 
-export class TransactionsService extends ProductService {
-
-    constructor() {
-        super()
-    }
-
-    getEndpoint() {
-        return ['pos', 'transactions'];
-    }
-
-    getEventTargets() {
-        return ['pos.transactions'];
-    }
-
-
-}
-
-TransactionsService.Uid = (['pos', 'transactions']).join('.');
+export const CardProcessing = {};
+CardProcessing.InvoiceService = InvoiceService;
+CardProcessing.TransactionService = TransactionService;
