@@ -1,7 +1,7 @@
-System.register(['./net/stomp', './net/socket/socket-browser', './product/general/general', './product/smart/smart', './product/loyalty/loyalty', './product/payment/payment', './product/prepaid/prepaid', './product/services/services', './product/document/document', './product/auth/auth', './auth/token-storage', './product/clearing/clearing', './product/card-processing/card-processing'], function (_export) {
+System.register(['./net/stomp', './net/socket/socket-browser', './product/general/general', './product/smart/smart', './product/loyalty/loyalty', './product/payment/payment', './product/prepaid/prepaid', './product/services/services', './product/document/document', './product/auth/auth', './auth/token-storage', './product/clearing/clearing', './product/cardprocessing/cardprocessing'], function (_export) {
     'use strict';
 
-    var Stomp, SocketAtBrowser, General, Smart, Loyalty, Payment, Prepaid, Services, Document, Auth, TokenStorageInMem, Clearing, CardProcessing, ClientBrowserEnvironment, ServiceMap;
+    var Stomp, SocketAtBrowser, General, Smart, Loyalty, Payment, Prepaid, Services, Document, Auth, TokenStorageInMem, Clearing, Cardprocessing, ClientBrowserEnvironment, ServiceMap;
     return {
         setters: [function (_netStomp) {
             Stomp = _netStomp.Stomp;
@@ -27,8 +27,8 @@ System.register(['./net/stomp', './net/socket/socket-browser', './product/genera
             TokenStorageInMem = _authTokenStorage.TokenStorageInMem;
         }, function (_productClearingClearing) {
             Clearing = _productClearingClearing.Clearing;
-        }, function (_productCardProcessingCardProcessing) {
-            CardProcessing = _productCardProcessingCardProcessing.CardProcessing;
+        }, function (_productCardprocessingCardprocessing) {
+            Cardprocessing = _productCardprocessingCardprocessing.Cardprocessing;
         }],
         execute: function () {
             ClientBrowserEnvironment = {
@@ -36,7 +36,7 @@ System.register(['./net/stomp', './net/socket/socket-browser', './product/genera
                     stompPort: 15671,
                     stompEndpoint: '/stomp/websocket'
                 },
-                services: [Auth.SessionService, Clearing.SepaInbatchsService, Clearing.SepaInrecordsService, Clearing.SepaOutbatchsService, Clearing.SepaOutrecordsService, Document.UploadService, General.SkeletonService, General.AccountService, General.AccountDeviceService, General.ContactService, General.ContractService, General.DeliveryAddressService, General.DeviceService, General.FileAccessService, General.MerchantService, General.NewsService, General.NotificationService, General.PublicMerchantService, General.StoreGroupService, General.StoreService, General.TransactionService, Loyalty.ActionService, Loyalty.ActionProfileService, Loyalty.ActionMessageService, Loyalty.ActionCampaignService, Loyalty.ActionConfigService, Loyalty.BeaconService, Loyalty.CardGroupService, Loyalty.CardService, Loyalty.ChargeService, Loyalty.CheckinService, Loyalty.CustomerService, Loyalty.MerchantCardService, Loyalty.PaymentContainerService, Loyalty.ProgramService, Loyalty.ProgramSpecialService, Loyalty.ReportService, Loyalty.SaleService, Loyalty.StoreGroupService, Loyalty.TransactionService, Payment.ContainerService, Payment.ContractService, Payment.CustomerService, Payment.InvoiceService, Payment.PayoutService, Payment.SecupayDebitService, Payment.SecupayPrepayService, Payment.TransactionService, CardProcessing.InvoiceService, CardProcessing.TransactionService, Prepaid.ContractService, Prepaid.ItemGroupService, Prepaid.ItemService, Prepaid.ReportService, Prepaid.SaleService, Prepaid.StockService, Services.IdentCaseService, Services.IdentContractService, Services.IdentRequestService, Services.IdentResultService, Smart.CheckinService, Smart.ConfigurationService, Smart.DeviceService, Smart.DeviceHistoriesService, Smart.IdentService, Smart.RoutingService, Smart.TransactionService]
+                services: [Auth.SessionService, Clearing.SepaInbatchsService, Clearing.SepaInrecordsService, Clearing.SepaOutbatchsService, Clearing.SepaOutrecordsService, Document.UploadService, General.SkeletonService, General.AccountService, General.AccountDeviceService, General.ContactService, General.ContractService, General.DeliveryAddressService, General.DeviceService, General.FileAccessService, General.MerchantService, General.NewsService, General.NotificationService, General.PublicMerchantService, General.StoreGroupService, General.StoreService, General.TransactionService, Loyalty.ActionService, Loyalty.ActionProfileService, Loyalty.ActionMessageService, Loyalty.ActionCampaignService, Loyalty.ActionConfigService, Loyalty.BeaconService, Loyalty.CardGroupService, Loyalty.CardService, Loyalty.ChargeService, Loyalty.CheckinService, Loyalty.CustomerService, Loyalty.MerchantCardService, Loyalty.PaymentContainerService, Loyalty.ProgramService, Loyalty.ProgramSpecialService, Loyalty.ReportService, Loyalty.SaleService, Loyalty.StoreGroupService, Loyalty.TransactionService, Payment.ContainerService, Payment.ContractService, Payment.CustomerService, Payment.InvoiceService, Payment.PayoutService, Payment.SecupayDebitService, Payment.SecupayPrepayService, Payment.TransactionService, Cardprocessing.InvoiceService, Cardprocessing.TransactionService, Prepaid.ContractService, Prepaid.ItemGroupService, Prepaid.ItemService, Prepaid.ReportService, Prepaid.SaleService, Prepaid.StockService, Services.IdentCaseService, Services.IdentContractService, Services.IdentRequestService, Services.IdentResultService, Smart.CheckinService, Smart.ConfigurationService, Smart.DeviceService, Smart.DeviceHistoriesService, Smart.IdentService, Smart.RoutingService, Smart.TransactionService]
             };
 
             _export('ClientBrowserEnvironment', ClientBrowserEnvironment);
@@ -114,9 +114,9 @@ System.register(['./net/stomp', './net/socket/socket-browser', './product/genera
                     SecupayPrepays: Payment.SecupayPrepayService.Uid,
                     Transactions: Payment.TransactionService.Uid
                 },
-                CardProcessing: {
-                    Invoices: CardProcessing.InvoiceService.Uid,
-                    Transactions: CardProcessing.TransactionService.Uid
+                Cardprocessing: {
+                    Invoices: Cardprocessing.InvoiceService.Uid,
+                    Transactions: Cardprocessing.TransactionService.Uid
                 },
                 Prepaid: {
                     Contracts: Prepaid.ContractService.Uid,

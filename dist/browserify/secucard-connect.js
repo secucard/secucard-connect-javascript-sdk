@@ -653,14 +653,14 @@ var _authTokenStorage = require('./auth/token-storage');
 
 var _productClearingClearing = require('./product/clearing/clearing');
 
-var _productCardProcessingCardProcessing = require('./product/card-processing/card-processing');
+var _productCardprocessingCardprocessing = require('./product/cardprocessing/cardprocessing');
 
 var ClientBrowserEnvironment = {
     config: {
         stompPort: 15671,
         stompEndpoint: '/stomp/websocket'
     },
-    services: [_productAuthAuth.Auth.SessionService, _productClearingClearing.Clearing.SepaInbatchsService, _productClearingClearing.Clearing.SepaInrecordsService, _productClearingClearing.Clearing.SepaOutbatchsService, _productClearingClearing.Clearing.SepaOutrecordsService, _productDocumentDocument.Document.UploadService, _productGeneralGeneral.General.SkeletonService, _productGeneralGeneral.General.AccountService, _productGeneralGeneral.General.AccountDeviceService, _productGeneralGeneral.General.ContactService, _productGeneralGeneral.General.ContractService, _productGeneralGeneral.General.DeliveryAddressService, _productGeneralGeneral.General.DeviceService, _productGeneralGeneral.General.FileAccessService, _productGeneralGeneral.General.MerchantService, _productGeneralGeneral.General.NewsService, _productGeneralGeneral.General.NotificationService, _productGeneralGeneral.General.PublicMerchantService, _productGeneralGeneral.General.StoreGroupService, _productGeneralGeneral.General.StoreService, _productGeneralGeneral.General.TransactionService, _productLoyaltyLoyalty.Loyalty.ActionService, _productLoyaltyLoyalty.Loyalty.ActionProfileService, _productLoyaltyLoyalty.Loyalty.ActionMessageService, _productLoyaltyLoyalty.Loyalty.ActionCampaignService, _productLoyaltyLoyalty.Loyalty.ActionConfigService, _productLoyaltyLoyalty.Loyalty.BeaconService, _productLoyaltyLoyalty.Loyalty.CardGroupService, _productLoyaltyLoyalty.Loyalty.CardService, _productLoyaltyLoyalty.Loyalty.ChargeService, _productLoyaltyLoyalty.Loyalty.CheckinService, _productLoyaltyLoyalty.Loyalty.CustomerService, _productLoyaltyLoyalty.Loyalty.MerchantCardService, _productLoyaltyLoyalty.Loyalty.PaymentContainerService, _productLoyaltyLoyalty.Loyalty.ProgramService, _productLoyaltyLoyalty.Loyalty.ProgramSpecialService, _productLoyaltyLoyalty.Loyalty.ReportService, _productLoyaltyLoyalty.Loyalty.SaleService, _productLoyaltyLoyalty.Loyalty.StoreGroupService, _productLoyaltyLoyalty.Loyalty.TransactionService, _productPaymentPayment.Payment.ContainerService, _productPaymentPayment.Payment.ContractService, _productPaymentPayment.Payment.CustomerService, _productPaymentPayment.Payment.InvoiceService, _productPaymentPayment.Payment.PayoutService, _productPaymentPayment.Payment.SecupayDebitService, _productPaymentPayment.Payment.SecupayPrepayService, _productPaymentPayment.Payment.TransactionService, _productCardProcessingCardProcessing.CardProcessing.InvoiceService, _productCardProcessingCardProcessing.CardProcessing.TransactionService, _productPrepaidPrepaid.Prepaid.ContractService, _productPrepaidPrepaid.Prepaid.ItemGroupService, _productPrepaidPrepaid.Prepaid.ItemService, _productPrepaidPrepaid.Prepaid.ReportService, _productPrepaidPrepaid.Prepaid.SaleService, _productPrepaidPrepaid.Prepaid.StockService, _productServicesServices.Services.IdentCaseService, _productServicesServices.Services.IdentContractService, _productServicesServices.Services.IdentRequestService, _productServicesServices.Services.IdentResultService, _productSmartSmart.Smart.CheckinService, _productSmartSmart.Smart.ConfigurationService, _productSmartSmart.Smart.DeviceService, _productSmartSmart.Smart.DeviceHistoriesService, _productSmartSmart.Smart.IdentService, _productSmartSmart.Smart.RoutingService, _productSmartSmart.Smart.TransactionService]
+    services: [_productAuthAuth.Auth.SessionService, _productClearingClearing.Clearing.SepaInbatchsService, _productClearingClearing.Clearing.SepaInrecordsService, _productClearingClearing.Clearing.SepaOutbatchsService, _productClearingClearing.Clearing.SepaOutrecordsService, _productDocumentDocument.Document.UploadService, _productGeneralGeneral.General.SkeletonService, _productGeneralGeneral.General.AccountService, _productGeneralGeneral.General.AccountDeviceService, _productGeneralGeneral.General.ContactService, _productGeneralGeneral.General.ContractService, _productGeneralGeneral.General.DeliveryAddressService, _productGeneralGeneral.General.DeviceService, _productGeneralGeneral.General.FileAccessService, _productGeneralGeneral.General.MerchantService, _productGeneralGeneral.General.NewsService, _productGeneralGeneral.General.NotificationService, _productGeneralGeneral.General.PublicMerchantService, _productGeneralGeneral.General.StoreGroupService, _productGeneralGeneral.General.StoreService, _productGeneralGeneral.General.TransactionService, _productLoyaltyLoyalty.Loyalty.ActionService, _productLoyaltyLoyalty.Loyalty.ActionProfileService, _productLoyaltyLoyalty.Loyalty.ActionMessageService, _productLoyaltyLoyalty.Loyalty.ActionCampaignService, _productLoyaltyLoyalty.Loyalty.ActionConfigService, _productLoyaltyLoyalty.Loyalty.BeaconService, _productLoyaltyLoyalty.Loyalty.CardGroupService, _productLoyaltyLoyalty.Loyalty.CardService, _productLoyaltyLoyalty.Loyalty.ChargeService, _productLoyaltyLoyalty.Loyalty.CheckinService, _productLoyaltyLoyalty.Loyalty.CustomerService, _productLoyaltyLoyalty.Loyalty.MerchantCardService, _productLoyaltyLoyalty.Loyalty.PaymentContainerService, _productLoyaltyLoyalty.Loyalty.ProgramService, _productLoyaltyLoyalty.Loyalty.ProgramSpecialService, _productLoyaltyLoyalty.Loyalty.ReportService, _productLoyaltyLoyalty.Loyalty.SaleService, _productLoyaltyLoyalty.Loyalty.StoreGroupService, _productLoyaltyLoyalty.Loyalty.TransactionService, _productPaymentPayment.Payment.ContainerService, _productPaymentPayment.Payment.ContractService, _productPaymentPayment.Payment.CustomerService, _productPaymentPayment.Payment.InvoiceService, _productPaymentPayment.Payment.PayoutService, _productPaymentPayment.Payment.SecupayDebitService, _productPaymentPayment.Payment.SecupayPrepayService, _productPaymentPayment.Payment.TransactionService, _productCardprocessingCardprocessing.Cardprocessing.InvoiceService, _productCardprocessingCardprocessing.Cardprocessing.TransactionService, _productPrepaidPrepaid.Prepaid.ContractService, _productPrepaidPrepaid.Prepaid.ItemGroupService, _productPrepaidPrepaid.Prepaid.ItemService, _productPrepaidPrepaid.Prepaid.ReportService, _productPrepaidPrepaid.Prepaid.SaleService, _productPrepaidPrepaid.Prepaid.StockService, _productServicesServices.Services.IdentCaseService, _productServicesServices.Services.IdentContractService, _productServicesServices.Services.IdentRequestService, _productServicesServices.Services.IdentResultService, _productSmartSmart.Smart.CheckinService, _productSmartSmart.Smart.ConfigurationService, _productSmartSmart.Smart.DeviceService, _productSmartSmart.Smart.DeviceHistoriesService, _productSmartSmart.Smart.IdentService, _productSmartSmart.Smart.RoutingService, _productSmartSmart.Smart.TransactionService]
 };
 exports.ClientBrowserEnvironment = ClientBrowserEnvironment;
 ClientBrowserEnvironment.StompChannel = {
@@ -736,9 +736,9 @@ var ServiceMap = {
         SecupayPrepays: _productPaymentPayment.Payment.SecupayPrepayService.Uid,
         Transactions: _productPaymentPayment.Payment.TransactionService.Uid
     },
-    CardProcessing: {
-        Invoices: _productCardProcessingCardProcessing.CardProcessing.InvoiceService.Uid,
-        Transactions: _productCardProcessingCardProcessing.CardProcessing.TransactionService.Uid
+    Cardprocessing: {
+        Invoices: _productCardprocessingCardprocessing.Cardprocessing.InvoiceService.Uid,
+        Transactions: _productCardprocessingCardprocessing.Cardprocessing.TransactionService.Uid
     },
     Prepaid: {
         Contracts: _productPrepaidPrepaid.Prepaid.ContractService.Uid,
@@ -765,7 +765,7 @@ var ServiceMap = {
     }
 };
 exports.ServiceMap = ServiceMap;
-},{"./auth/token-storage":5,"./net/socket/socket-browser":16,"./net/stomp":19,"./product/auth/auth":21,"./product/card-processing/card-processing":23,"./product/clearing/clearing":26,"./product/document/document":31,"./product/general/general":40,"./product/loyalty/loyalty":60,"./product/payment/payment":73,"./product/prepaid/prepaid":81,"./product/services/services":90,"./product/smart/smart":97}],8:[function(require,module,exports){
+},{"./auth/token-storage":5,"./net/socket/socket-browser":16,"./net/stomp":19,"./product/auth/auth":21,"./product/cardprocessing/cardprocessing":23,"./product/clearing/clearing":26,"./product/document/document":31,"./product/general/general":40,"./product/loyalty/loyalty":60,"./product/payment/payment":73,"./product/prepaid/prepaid":81,"./product/services/services":90,"./product/smart/smart":97}],8:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -2706,10 +2706,10 @@ var _invoiceService = require('./invoice-service');
 
 var _transactionService = require('./transaction-service');
 
-var CardProcessing = {};
-exports.CardProcessing = CardProcessing;
-CardProcessing.InvoiceService = _invoiceService.InvoiceService;
-CardProcessing.TransactionService = _transactionService.TransactionService;
+var Cardprocessing = {};
+exports.Cardprocessing = Cardprocessing;
+Cardprocessing.InvoiceService = _invoiceService.InvoiceService;
+Cardprocessing.TransactionService = _transactionService.TransactionService;
 },{"./invoice-service":24,"./transaction-service":25}],24:[function(require,module,exports){
 'use strict';
 
@@ -2731,11 +2731,11 @@ var InvoiceService = (function (_ProductService) {
     }
 
     InvoiceService.prototype.getEndpoint = function getEndpoint() {
-        return ['cardProcessing', 'invoices'];
+        return ['cardprocessing', 'invoices'];
     };
 
     InvoiceService.prototype.getEventTargets = function getEventTargets() {
-        return ['cardProcessing.invoices'];
+        return ['cardprocessing.invoices'];
     };
 
     return InvoiceService;
@@ -2743,7 +2743,7 @@ var InvoiceService = (function (_ProductService) {
 
 exports.InvoiceService = InvoiceService;
 
-InvoiceService.Uid = ['cardProcessing', 'invoices'].join('.');
+InvoiceService.Uid = ['cardprocessing', 'invoices'].join('.');
 },{"../product-service":85}],25:[function(require,module,exports){
 'use strict';
 
@@ -2765,11 +2765,11 @@ var TransactionService = (function (_ProductService) {
     }
 
     TransactionService.prototype.getEndpoint = function getEndpoint() {
-        return ['pos', 'transactions'];
+        return ['cardprocessing', 'transactions'];
     };
 
     TransactionService.prototype.getEventTargets = function getEventTargets() {
-        return ['pos.transactions'];
+        return ['cardprocessing.transactions'];
     };
 
     return TransactionService;
@@ -2777,7 +2777,7 @@ var TransactionService = (function (_ProductService) {
 
 exports.TransactionService = TransactionService;
 
-TransactionService.Uid = ['pos', 'transactions'].join('.');
+TransactionService.Uid = ['cardprocessing', 'transactions'].join('.');
 },{"../product-service":85}],26:[function(require,module,exports){
 'use strict';
 

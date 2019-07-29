@@ -11,21 +11,21 @@
  */
 import {ProductService} from '../product-service'
 
-export class TransactionService extends ProductService {
+export class InvoiceService extends ProductService {
 
     constructor() {
         super()
     }
 
     getEndpoint() {
-        return ['pos', 'transactions'];
+        return ['cardprocessing', 'invoices'];
     }
 
     getEventTargets() {
-        return ['pos.transactions'];
+        return ['cardprocessing.invoices'];
     }
 
 
 }
 
-TransactionService.Uid = (['pos', 'transactions']).join('.');
+InvoiceService.Uid = (['cardprocessing', 'invoices']).join('.');

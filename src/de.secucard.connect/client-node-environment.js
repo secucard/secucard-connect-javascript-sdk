@@ -21,7 +21,7 @@ import {Document} from './product/document/document';
 import {Auth} from './product/auth/auth';
 import {TokenStorageInMem} from './auth/token-storage';
 import {Clearing} from './product/clearing/clearing';
-import {CardProcessing} from './product/card-processing/card-processing';
+import {Cardprocessing} from './product/cardprocessing/cardprocessing';
 
 export const ClientNodeEnvironment = {
     config: {
@@ -82,8 +82,8 @@ export const ClientNodeEnvironment = {
         Payment.SecupayPrepayService,
         Payment.TransactionService,
 
-        CardProcessing.InvoiceService,
-        CardProcessing.TransactionService,
+        Cardprocessing.InvoiceService,
+        Cardprocessing.TransactionService,
 
         Prepaid.ContractService,
         Prepaid.ItemGroupService,
@@ -179,9 +179,9 @@ export const ServiceMap = {
         SecupayPrepays: Payment.SecupayPrepayService.Uid,
         Transactions: Payment.TransactionService.Uid
     },
-    CardProcessing: {
-        Invoices: CardProcessing.InvoiceService.Uid,
-        Transactions: CardProcessing.TransactionService.Uid,
+    Cardprocessing: {
+        Invoices: Cardprocessing.InvoiceService.Uid,
+        Transactions: Cardprocessing.TransactionService.Uid,
     },
     Prepaid:{
         Contracts: Prepaid.ContractService.Uid,
