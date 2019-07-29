@@ -31,6 +31,9 @@ export const ClientBrowserEnvironment = {
     services: [
         Auth.SessionService,
 
+        Cardprocessing.InvoiceService,
+        Cardprocessing.TransactionService,
+
         Clearing.SepaInbatchsService,
         Clearing.SepaInrecordsService,
         Clearing.SepaOutbatchsService,
@@ -83,9 +86,6 @@ export const ClientBrowserEnvironment = {
         Payment.SecupayPrepayService,
         Payment.TransactionService,
 
-        Cardprocessing.InvoiceService,
-        Cardprocessing.TransactionService,
-
         Prepaid.ContractService,
         Prepaid.ItemGroupService,
         Prepaid.ItemService,
@@ -122,6 +122,10 @@ ClientBrowserEnvironment.TokenStorage = {
 export const ServiceMap = {
     Auth: {
         Sessions: Auth.SessionService.Uid
+    },
+    Cardprocessing: {
+        Invoices: Cardprocessing.InvoiceService.Uid,
+        Transactions: Cardprocessing.TransactionService.Uid,
     },
     Clearing: {
         SepaInbatchs: Clearing.SepaInbatchsService.Uid,
@@ -179,10 +183,6 @@ export const ServiceMap = {
         SecupayDebits: Payment.SecupayDebitService.Uid,
         SecupayPrepays: Payment.SecupayPrepayService.Uid,
         Transactions: Payment.TransactionService.Uid
-    },
-    Cardprocessing: {
-        Invoices: Cardprocessing.InvoiceService.Uid,
-        Transactions: Cardprocessing.TransactionService.Uid,
     },
     Prepaid:{
         Contracts: Prepaid.ContractService.Uid,
