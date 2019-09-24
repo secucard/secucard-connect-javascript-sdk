@@ -17,13 +17,14 @@ var MerchantCardService = (function (_ProductService) {
         _ProductService.call(this);
     }
 
-    MerchantCardService.prototype.transact = function transact(merchantCardId, tid, cardnumber, action, amount, bonusAmount, amountSplitAllowed) {
+    MerchantCardService.prototype.transact = function transact(merchantCardId, tid, cardnumber, action, amount, bonusAmount, amountSplitAllowed, additionalData) {
 
         if (action == 'cashreport') {
             return this.execute(merchantCardId, 'transaction', null, { tid: tid, action: action });
         }
 
-        return this.execute(merchantCardId, 'transaction', null, { tid: tid, cardnumber: cardnumber, action: action, amount: amount, bonus_amount: bonusAmount, amount_split_allowed: amountSplitAllowed });
+        return this.execute(merchantCardId, 'transaction', null, { tid: tid, cardnumber: cardnumber, action: action, amount: amount, bonus_amount: bonusAmount,
+            amount_split_allowed: amountSplitAllowed, additional_data: additionalData });
     };
 
     MerchantCardService.prototype.lock = function lock(merchantCardId, reasonId, note) {
