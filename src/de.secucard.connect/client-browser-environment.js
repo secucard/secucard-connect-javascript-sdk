@@ -20,7 +20,8 @@ import {Services} from './product/services/services';
 import {Document} from './product/document/document';
 import {Auth} from './product/auth/auth';
 import {TokenStorageInMem} from './auth/token-storage';
-import {Clearing} from "./product/clearing/clearing";
+import {Clearing} from './product/clearing/clearing';
+import {Cardprocessing} from './product/cardprocessing/cardprocessing';
 
 export const ClientBrowserEnvironment = {
     config: {
@@ -29,6 +30,9 @@ export const ClientBrowserEnvironment = {
     },
     services: [
         Auth.SessionService,
+
+        Cardprocessing.InvoiceService,
+        Cardprocessing.TransactionService,
 
         Clearing.SepaInbatchsService,
         Clearing.SepaInrecordsService,
@@ -81,7 +85,7 @@ export const ClientBrowserEnvironment = {
         Payment.SecupayDebitService,
         Payment.SecupayPrepayService,
         Payment.TransactionService,
-        
+
         Prepaid.ContractService,
         Prepaid.ItemGroupService,
         Prepaid.ItemService,
@@ -118,6 +122,10 @@ ClientBrowserEnvironment.TokenStorage = {
 export const ServiceMap = {
     Auth: {
         Sessions: Auth.SessionService.Uid
+    },
+    Cardprocessing: {
+        Invoices: Cardprocessing.InvoiceService.Uid,
+        Transactions: Cardprocessing.TransactionService.Uid,
     },
     Clearing: {
         SepaInbatchs: Clearing.SepaInbatchsService.Uid,

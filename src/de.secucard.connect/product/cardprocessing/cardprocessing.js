@@ -9,6 +9,9 @@
  See the License for the specific language governing permissions and
  limitations under the License.
  */
-export const Version = {
-    "name": "0.6.2"
-};
+import {InvoiceService} from './invoice-service';
+import {TransactionService} from './transaction-service';
+
+export const Cardprocessing = {};
+Cardprocessing.InvoiceService = InvoiceService;
+Cardprocessing.TransactionService = TransactionService;
