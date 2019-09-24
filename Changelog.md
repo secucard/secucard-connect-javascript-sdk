@@ -4,9 +4,9 @@
 * Added new endpoints for Card processing (invoices, transactions)
 
 <a name="0.6.1"></a>
-## 0.6.1 (2019-07-24)
-
-* New endpoints for Card processing (invoices, transactions)
+## 0.6.1 (2019-07-08)
+* Additional data about transaction	
+* Dynamic templates in loyalty transaction
 
 <a name="0.6.0"></a>
 ## 0.6.0 (2019-03-04)
