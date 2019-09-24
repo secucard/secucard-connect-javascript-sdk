@@ -1,3 +1,8 @@
+<a name="0.6.2"></a>
+## 0.6.2 (2019-09-24)
+
+* Added new endpoints for Card processing (invoices, transactions)
+
 <a name="0.6.1"></a>
 ## 0.6.1 (2019-07-24)
 
