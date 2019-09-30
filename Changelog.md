@@ -1,15 +1,6 @@
 <a name="0.6.3"></a>
 ## 0.6.3 (2019-09-30)
 
-
-* Feature/poscp 51 pos cardprocessing (#49)
- ([90826fa](https://github.com/secucard/secucard-connect-javascript-sdk/commit/90826fa))
-
-
-
-<a name="0.6.3"></a>
-## 0.6.3 (2019-09-30)
-
 * Added new endpoint GeneralAccountinvitations
 
 <a name="0.6.2"></a>
