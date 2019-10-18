@@ -1,3 +1,14 @@
+<a name="0.6.4"></a>
+## 0.6.4 (2019-10-18)
+
+
+* Feature/general accountinvitations (#51)
+ ([13f8098](https://github.com/secucard/secucard-connect-javascript-sdk/commit/13f8098))
+* Feature/poscp 51 pos cardprocessing (#49)
+ ([90826fa](https://github.com/secucard/secucard-connect-javascript-sdk/commit/90826fa))
+
+
+
 <a name="0.6.3"></a>
 ## 0.6.3 (2019-09-30)
 

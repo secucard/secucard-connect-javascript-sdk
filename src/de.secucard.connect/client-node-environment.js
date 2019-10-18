@@ -98,6 +98,7 @@ export const ClientNodeEnvironment = {
         Services.IdentRequestService,
         Services.IdentResultService,
 
+        Smart.ArticleService,
         Smart.CheckinService,
         Smart.ConfigurationService,
         Smart.DeviceService,
@@ -200,6 +201,7 @@ export const ServiceMap = {
         IdentResults: Services.IdentResultService.Uid
     },
     Smart: {
+        Articles: Smart.ArticleService.Uid,
         Checkins: Smart.CheckinService.Uid,
         Configurations: Smart.ConfigurationService.Uid,
         Devices: Smart.DeviceService.Uid,
