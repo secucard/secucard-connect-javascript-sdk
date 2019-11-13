@@ -1139,7 +1139,7 @@ exports.ClientContext = ClientContext;
 
 exports.__esModule = true;
 var Version = {
-  "name": "0.6.3"
+  "name": "0.6.4"
 };
 exports.Version = Version;
 },{}],11:[function(require,module,exports){
@@ -4121,6 +4121,10 @@ var MerchantCardService = (function (_ProductService) {
 
         _ProductService.call(this);
     }
+
+    MerchantCardService.prototype.retrieveTemplates = function retrieveTemplates(merchantId) {
+        return this.retrieveWithAction('me', 'templateList', merchantId);
+    };
 
     MerchantCardService.prototype.transact = function transact(merchantCardId, tid, cardnumber, action, amount, bonusAmount, amountSplitAllowed, additionalData) {
 

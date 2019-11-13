@@ -1,3 +1,8 @@
+<a name="0.6.4"></a>
+## 0.6.4 (2019-11-13)
+
+* Added retrieveTemplates method to merchant-card-service
+
 <a name="0.6.3"></a>
 ## 0.6.3 (2019-09-30)
 

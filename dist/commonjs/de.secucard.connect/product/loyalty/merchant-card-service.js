@@ -17,6 +17,10 @@ var MerchantCardService = (function (_ProductService) {
         _ProductService.call(this);
     }
 
+    MerchantCardService.prototype.retrieveTemplates = function retrieveTemplates(merchantId) {
+        return this.retrieveWithAction('me', 'templateList', merchantId);
+    };
+
     MerchantCardService.prototype.transact = function transact(merchantCardId, tid, cardnumber, action, amount, bonusAmount, amountSplitAllowed, additionalData) {
 
         if (action == 'cashreport') {
