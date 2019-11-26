@@ -9,6 +9,22 @@
  See the License for the specific language governing permissions and
  limitations under the License.
  */
-export const Version = {
-    "name": "0.6.5"
-};
+import {ProductService} from '../product-service'
+
+export class ArticleService extends ProductService {
+
+	constructor() {
+		super()
+	}
+
+	getEndpoint() {
+		return ['smart', 'articles'];
+	}
+
+	getEventTargets() {
+		return [];
+	}
+
+}
+
+ArticleService.Uid = (['smart', 'articles']).join('.');

@@ -2,6 +2,8 @@
 
 exports.__esModule = true;
 
+var _articleService = require('./article-service');
+
 var _checkinService = require('./checkin-service');
 
 var _configurationService = require('./configuration-service');
@@ -18,6 +20,7 @@ var _transactionService = require('./transaction-service');
 
 var Smart = {};
 exports.Smart = Smart;
+Smart.ArticleService = _articleService.ArticleService;
 Smart.CheckinService = _checkinService.CheckinService;
 Smart.ConfigurationService = _configurationService.ConfigurationService;
 Smart.DeviceService = _deviceService.DeviceService;

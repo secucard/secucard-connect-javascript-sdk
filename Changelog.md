@@ -1,3 +1,8 @@
+<a name="0.6.5"></a>
+## 0.6.5 (2019-11-26)
+
+* Added new endpoint SmartArticles
+
 <a name="0.6.4"></a>
 ## 0.6.4 (2019-11-13)
 
