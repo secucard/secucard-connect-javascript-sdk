@@ -1,3 +1,8 @@
+<a name="0.6.5"></a>
+## 0.6.5 (2019-11-28)
+
+* Added new endpoint PaymentTransactionHistories
+
 <a name="0.6.4"></a>
 ## 0.6.4 (2019-11-13)
 

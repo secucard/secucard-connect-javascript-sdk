@@ -10,5 +10,5 @@
  limitations under the License.
  */
 export const Version = {
-    "name": "0.6.4"
+    "name": "0.6.5"
 };
