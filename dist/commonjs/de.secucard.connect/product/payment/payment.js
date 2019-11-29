@@ -18,6 +18,8 @@ var _secupayPrepayService = require('./secupay-prepay-service');
 
 var _transactionService = require('./transaction-service');
 
+var _transactionHistoriesService = require('./transaction-histories-service');
+
 var Payment = {};
 exports.Payment = Payment;
 Payment.ContainerService = _containerService.ContainerService;
@@ -28,3 +30,4 @@ Payment.PayoutService = _payoutService.PayoutService;
 Payment.SecupayDebitService = _secupayDebitService.SecupayDebitService;
 Payment.SecupayPrepayService = _secupayPrepayService.SecupayPrepayService;
 Payment.TransactionService = _transactionService.TransactionService;
+Payment.TransactionHistoriesService = _transactionHistoriesService.TransactionHistoriesService;

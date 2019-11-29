@@ -17,6 +17,7 @@ import {PayoutService} from './payout-service';
 import {SecupayDebitService} from './secupay-debit-service';
 import {SecupayPrepayService} from './secupay-prepay-service';
 import {TransactionService} from './transaction-service';
+import {TransactionHistoriesService} from './transaction-histories-service';
 
 export const Payment = {};
 Payment.ContainerService = ContainerService;
@@ -27,3 +28,4 @@ Payment.PayoutService = PayoutService;
 Payment.SecupayDebitService = SecupayDebitService;
 Payment.SecupayPrepayService = SecupayPrepayService;
 Payment.TransactionService = TransactionService;
+Payment.TransactionHistoriesService = TransactionHistoriesService;

@@ -86,6 +86,7 @@ export const ClientBrowserEnvironment = {
         Payment.SecupayDebitService,
         Payment.SecupayPrepayService,
         Payment.TransactionService,
+        Payment.TransactionHistoriesService,
 
         Prepaid.ContractService,
         Prepaid.ItemGroupService,
@@ -184,7 +185,8 @@ export const ServiceMap = {
         Payouts: Payment.PayoutService.Uid,
         SecupayDebits: Payment.SecupayDebitService.Uid,
         SecupayPrepays: Payment.SecupayPrepayService.Uid,
-        Transactions: Payment.TransactionService.Uid
+        Transactions: Payment.TransactionService.Uid,
+        TransactionHistories: Payment.TransactionHistoriesService.Uid
     },
     Prepaid:{
         Contracts: Prepaid.ContractService.Uid,
