@@ -57,7 +57,7 @@ export const ClientBrowserEnvironment = {
         General.StoreGroupService,
         General.StoreService,
         General.TransactionService,
-        
+
         Loyalty.ActionService,
         Loyalty.ActionProfileService,
         Loyalty.ActionMessageService,
@@ -95,12 +95,12 @@ export const ClientBrowserEnvironment = {
         Prepaid.ReportService,
         Prepaid.SaleService,
         Prepaid.StockService,
-        
+
         Services.IdentCaseService,
         Services.IdentContractService,
         Services.IdentRequestService,
         Services.IdentResultService,
-        
+
         Smart.CheckinService,
         Smart.ConfigurationService,
         Smart.DeviceService,
@@ -188,7 +188,7 @@ export const ServiceMap = {
         SecupayPrepays: Payment.SecupayPrepayService.Uid,
         Transactions: Payment.TransactionService.Uid,
         TransactionHistories: Payment.TransactionHistoriesService.Uid,
-        EterminalTransactionService: Payment.EterminalTransactionService,
+        EterminalTransactions: Payment.EterminalTransactionService.Uid,
     },
     Prepaid:{
         Contracts: Prepaid.ContractService.Uid,

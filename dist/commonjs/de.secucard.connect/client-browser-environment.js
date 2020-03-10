@@ -114,7 +114,7 @@ var ServiceMap = {
         SecupayPrepays: _productPaymentPayment.Payment.SecupayPrepayService.Uid,
         Transactions: _productPaymentPayment.Payment.TransactionService.Uid,
         TransactionHistories: _productPaymentPayment.Payment.TransactionHistoriesService.Uid,
-        EterminalTransactionService: _productPaymentPayment.Payment.EterminalTransactionService
+        EterminalTransactions: _productPaymentPayment.Payment.EterminalTransactionService.Uid
     },
     Prepaid: {
         Contracts: _productPrepaidPrepaid.Prepaid.ContractService.Uid,
