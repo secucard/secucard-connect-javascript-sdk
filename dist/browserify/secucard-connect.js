@@ -4582,7 +4582,7 @@ var EterminalTransactionService = (function (_ProductService) {
 
 exports.EterminalTransactionService = EterminalTransactionService;
 
-SecupayDebitService.Uid = ['payment', 'eterminaltransactions'].join('.');
+EterminalTransactionService.Uid = ['payment', 'eterminaltransactions'].join('.');
 },{"../product-service":88}],74:[function(require,module,exports){
 'use strict';
 
@@ -4640,7 +4640,7 @@ var _transactionService = require('./transaction-service');
 
 var _transactionHistoriesService = require('./transaction-histories-service');
 
-var _eterminalTransactionsService = require('./eterminal-transactions-service');
+var _eterminalTransactionService = require('./eterminal-transaction-service');
 
 var Payment = {};
 exports.Payment = Payment;
@@ -4653,8 +4653,8 @@ Payment.SecupayDebitService = _secupayDebitService.SecupayDebitService;
 Payment.SecupayPrepayService = _secupayPrepayService.SecupayPrepayService;
 Payment.TransactionService = _transactionService.TransactionService;
 Payment.TransactionHistoriesService = _transactionHistoriesService.TransactionHistoriesService;
-Payment.EterminalTransactionService = _eterminalTransactionsService.EterminalTransactionService;
-},{"./container-service":70,"./contract-service":71,"./customer-service":72,"./eterminal-transactions-service":73,"./invoice-service":74,"./payout-service":76,"./secupay-debit-service":77,"./secupay-prepay-service":78,"./transaction-histories-service":79,"./transaction-service":80}],76:[function(require,module,exports){
+Payment.EterminalTransactionService = _eterminalTransactionService.EterminalTransactionService;
+},{"./container-service":70,"./contract-service":71,"./customer-service":72,"./eterminal-transaction-service":73,"./invoice-service":74,"./payout-service":76,"./secupay-debit-service":77,"./secupay-prepay-service":78,"./transaction-histories-service":79,"./transaction-service":80}],76:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;

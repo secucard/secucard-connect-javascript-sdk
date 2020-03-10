@@ -18,7 +18,7 @@ import {SecupayDebitService} from './secupay-debit-service';
 import {SecupayPrepayService} from './secupay-prepay-service';
 import {TransactionService} from './transaction-service';
 import {TransactionHistoriesService} from './transaction-histories-service';
-import {EterminalTransactionService} from './eterminal-transactions-service';
+import {EterminalTransactionService} from './eterminal-transaction-service';
 
 export const Payment = {};
 Payment.ContainerService = ContainerService;

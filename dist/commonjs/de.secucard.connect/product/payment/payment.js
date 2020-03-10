@@ -20,7 +20,7 @@ var _transactionService = require('./transaction-service');
 
 var _transactionHistoriesService = require('./transaction-histories-service');
 
-var _eterminalTransactionsService = require('./eterminal-transactions-service');
+var _eterminalTransactionService = require('./eterminal-transaction-service');
 
 var Payment = {};
 exports.Payment = Payment;
@@ -33,4 +33,4 @@ Payment.SecupayDebitService = _secupayDebitService.SecupayDebitService;
 Payment.SecupayPrepayService = _secupayPrepayService.SecupayPrepayService;
 Payment.TransactionService = _transactionService.TransactionService;
 Payment.TransactionHistoriesService = _transactionHistoriesService.TransactionHistoriesService;
-Payment.EterminalTransactionService = _eterminalTransactionsService.EterminalTransactionService;
+Payment.EterminalTransactionService = _eterminalTransactionService.EterminalTransactionService;

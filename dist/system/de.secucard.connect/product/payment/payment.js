@@ -1,4 +1,4 @@
-System.register(['./container-service', './contract-service', './customer-service', './invoice-service', './payout-service', './secupay-debit-service', './secupay-prepay-service', './transaction-service', './transaction-histories-service', './eterminal-transactions-service'], function (_export) {
+System.register(['./container-service', './contract-service', './customer-service', './invoice-service', './payout-service', './secupay-debit-service', './secupay-prepay-service', './transaction-service', './transaction-histories-service', './eterminal-transaction-service'], function (_export) {
   'use strict';
 
   var ContainerService, ContractService, CustomerService, InvoiceService, PayoutService, SecupayDebitService, SecupayPrepayService, TransactionService, TransactionHistoriesService, EterminalTransactionService, Payment;
@@ -21,8 +21,8 @@ System.register(['./container-service', './contract-service', './customer-servic
       TransactionService = _transactionService.TransactionService;
     }, function (_transactionHistoriesService) {
       TransactionHistoriesService = _transactionHistoriesService.TransactionHistoriesService;
-    }, function (_eterminalTransactionsService) {
-      EterminalTransactionService = _eterminalTransactionsService.EterminalTransactionService;
+    }, function (_eterminalTransactionService) {
+      EterminalTransactionService = _eterminalTransactionService.EterminalTransactionService;
     }],
     execute: function () {
       Payment = {};
@@ -42,4 +42,4 @@ System.register(['./container-service', './contract-service', './customer-servic
     }
   };
 });
-//# sourceMappingURL=data:application/json;charset=utf8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbImRlLnNlY3VjYXJkLmNvbm5lY3QvcHJvZHVjdC9wYXltZW50L3BheW1lbnQuanMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7O2tOQXNCYSxPQUFPOzs7MkNBWFosZ0JBQWdCOzt5Q0FDaEIsZUFBZTs7eUNBQ2YsZUFBZTs7dUNBQ2YsY0FBYzs7cUNBQ2QsYUFBYTs7aURBQ2IsbUJBQW1COzttREFDbkIsb0JBQW9COzsrQ0FDcEIsa0JBQWtCOztpRUFDbEIsMkJBQTJCOztrRUFDM0IsMkJBQTJCOzs7QUFFdEIsYUFBTyxHQUFHLEVBQUU7Ozs7QUFDekIsYUFBTyxDQUFDLGdCQUFnQixHQUFHLGdCQUFnQixDQUFDO0FBQzVDLGFBQU8sQ0FBQyxlQUFlLEdBQUcsZUFBZSxDQUFDO0FBQzFDLGFBQU8sQ0FBQyxlQUFlLEdBQUcsZUFBZSxDQUFDO0FBQzFDLGFBQU8sQ0FBQyxjQUFjLEdBQUcsY0FBYyxDQUFDO0FBQ3hDLGFBQU8sQ0FBQyxhQUFhLEdBQUcsYUFBYSxDQUFDO0FBQ3RDLGFBQU8sQ0FBQyxtQkFBbUIsR0FBRyxtQkFBbUIsQ0FBQztBQUNsRCxhQUFPLENBQUMsb0JBQW9CLEdBQUcsb0JBQW9CLENBQUM7QUFDcEQsYUFBTyxDQUFDLGtCQUFrQixHQUFHLGtCQUFrQixDQUFDO0FBQ2hELGFBQU8sQ0FBQywyQkFBMkIsR0FBRywyQkFBMkIsQ0FBQztBQUNsRSxhQUFPLENBQUMsMkJBQTJCLEdBQUcsMkJBQTJCLENBQUMiLCJmaWxlIjoiZGUuc2VjdWNhcmQuY29ubmVjdC9wcm9kdWN0L3BheW1lbnQvcGF5bWVudC5qcyIsInNvdXJjZVJvb3QiOiIuLi9zcmMvIn0=
+//# sourceMappingURL=data:application/json;charset=utf8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbImRlLnNlY3VjYXJkLmNvbm5lY3QvcHJvZHVjdC9wYXltZW50L3BheW1lbnQuanMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7O2tOQXNCYSxPQUFPOzs7MkNBWFosZ0JBQWdCOzt5Q0FDaEIsZUFBZTs7eUNBQ2YsZUFBZTs7dUNBQ2YsY0FBYzs7cUNBQ2QsYUFBYTs7aURBQ2IsbUJBQW1COzttREFDbkIsb0JBQW9COzsrQ0FDcEIsa0JBQWtCOztpRUFDbEIsMkJBQTJCOztpRUFDM0IsMkJBQTJCOzs7QUFFdEIsYUFBTyxHQUFHLEVBQUU7Ozs7QUFDekIsYUFBTyxDQUFDLGdCQUFnQixHQUFHLGdCQUFnQixDQUFDO0FBQzVDLGFBQU8sQ0FBQyxlQUFlLEdBQUcsZUFBZSxDQUFDO0FBQzFDLGFBQU8sQ0FBQyxlQUFlLEdBQUcsZUFBZSxDQUFDO0FBQzFDLGFBQU8sQ0FBQyxjQUFjLEdBQUcsY0FBYyxDQUFDO0FBQ3hDLGFBQU8sQ0FBQyxhQUFhLEdBQUcsYUFBYSxDQUFDO0FBQ3RDLGFBQU8sQ0FBQyxtQkFBbUIsR0FBRyxtQkFBbUIsQ0FBQztBQUNsRCxhQUFPLENBQUMsb0JBQW9CLEdBQUcsb0JBQW9CLENBQUM7QUFDcEQsYUFBTyxDQUFDLGtCQUFrQixHQUFHLGtCQUFrQixDQUFDO0FBQ2hELGFBQU8sQ0FBQywyQkFBMkIsR0FBRywyQkFBMkIsQ0FBQztBQUNsRSxhQUFPLENBQUMsMkJBQTJCLEdBQUcsMkJBQTJCLENBQUMiLCJmaWxlIjoiZGUuc2VjdWNhcmQuY29ubmVjdC9wcm9kdWN0L3BheW1lbnQvcGF5bWVudC5qcyIsInNvdXJjZVJvb3QiOiIuLi9zcmMvIn0=

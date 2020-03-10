@@ -27,4 +27,4 @@ export class EterminalTransactionService extends ProductService {
 
 }
 
-SecupayDebitService.Uid = (['payment', 'eterminaltransactions']).join('.');
+EterminalTransactionService.Uid = (['payment', 'eterminaltransactions']).join('.');
