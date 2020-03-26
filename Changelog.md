@@ -1,4 +1,29 @@
 <a name="0.6.6"></a>
+## 0.6.6 (2020-03-26)
+
+
+* add endpoint EterminalTransactions - PAYMENT-412
+ ([82129bd](https://github.com/secucard/secucard-connect-javascript-sdk/commit/82129bd))
+* add endpoint EterminalTransactions - PAYMENT-412
+ ([0991f15](https://github.com/secucard/secucard-connect-javascript-sdk/commit/0991f15))
+* add endpoint EterminalTransactions - PAYMENT-412
+ ([499bcd4](https://github.com/secucard/secucard-connect-javascript-sdk/commit/499bcd4))
+* add endpoint EterminalTransactions - PAYMENT-412
+ ([74c226c](https://github.com/secucard/secucard-connect-javascript-sdk/commit/74c226c))
+* add endpoint EterminalTransactions - PAYMENT-412
+ ([3e37d1b](https://github.com/secucard/secucard-connect-javascript-sdk/commit/3e37d1b))
+* Feature/card retrieve templates (#53)
+ ([0b7c18e](https://github.com/secucard/secucard-connect-javascript-sdk/commit/0b7c18e))
+* Feature/general accountinvitations (#51)
+ ([13f8098](https://github.com/secucard/secucard-connect-javascript-sdk/commit/13f8098))
+* Feature/poscp 51 pos cardprocessing (#49)
+ ([90826fa](https://github.com/secucard/secucard-connect-javascript-sdk/commit/90826fa))
+* SOFFICE-1868 - Added new endpoint PaymentTransactionHistories (#55)
+ ([3cbac57](https://github.com/secucard/secucard-connect-javascript-sdk/commit/3cbac57))
+
+
+
+<a name="0.6.6"></a>
 ## 0.6.6 (2020-03-10)
 
 
