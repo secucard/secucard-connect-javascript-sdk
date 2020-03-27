@@ -111,7 +111,7 @@ var ServiceMap = {
         Invoices: _productPaymentPayment.Payment.InvoiceService.Uid,
         Payouts: _productPaymentPayment.Payment.PayoutService.Uid,
         SecupayDebits: _productPaymentPayment.Payment.SecupayDebitService.Uid,
-        SecupayPayout: _productPaymentPayment.Payment.SecupayPayoutService.Uid,
+        SecupayPayouts: _productPaymentPayment.Payment.SecupayPayoutService.Uid,
         SecupayPrepays: _productPaymentPayment.Payment.SecupayPrepayService.Uid,
         Transactions: _productPaymentPayment.Payment.TransactionService.Uid,
         TransactionHistories: _productPaymentPayment.Payment.TransactionHistoriesService.Uid

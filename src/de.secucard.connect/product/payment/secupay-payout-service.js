@@ -21,6 +21,13 @@ export class SecupayPayoutService extends ProductService {
         return ['payment', 'secupaypayout'];
     }
 
+    getEventTargets() {
+        return [];
+    }
+
+    payoutWithoutCustomer() {
+        return this.execute('me', 'PayoutWithoutCustomer', null, data);
+    }
 }
 
 SecupayPayoutService.Uid = (['payment', 'secupaypayout']).join('.');

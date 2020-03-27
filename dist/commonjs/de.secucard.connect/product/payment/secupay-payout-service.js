@@ -21,6 +21,14 @@ var SecupayPayoutService = (function (_ProductService) {
         return ['payment', 'secupaypayout'];
     };
 
+    SecupayPayoutService.prototype.getEventTargets = function getEventTargets() {
+        return [];
+    };
+
+    SecupayPayoutService.prototype.payoutWithoutCustomer = function payoutWithoutCustomer() {
+        return this.execute('me', 'PayoutWithoutCustomer', null, data);
+    };
+
     return SecupayPayoutService;
 })(_productService.ProductService);
 

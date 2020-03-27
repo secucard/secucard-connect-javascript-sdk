@@ -186,7 +186,7 @@ export const ServiceMap = {
         Invoices: Payment.InvoiceService.Uid,
         Payouts: Payment.PayoutService.Uid,
         SecupayDebits: Payment.SecupayDebitService.Uid,
-        SecupayPayout: Payment.SecupayPayoutService.Uid,
+        SecupayPayouts: Payment.SecupayPayoutService.Uid,
         SecupayPrepays: Payment.SecupayPrepayService.Uid,
         Transactions: Payment.TransactionService.Uid,
         TransactionHistories: Payment.TransactionHistoriesService.Uid,

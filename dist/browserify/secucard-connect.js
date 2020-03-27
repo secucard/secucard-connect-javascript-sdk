@@ -739,7 +739,7 @@ var ServiceMap = {
         Invoices: _productPaymentPayment.Payment.InvoiceService.Uid,
         Payouts: _productPaymentPayment.Payment.PayoutService.Uid,
         SecupayDebits: _productPaymentPayment.Payment.SecupayDebitService.Uid,
-        SecupayPayout: _productPaymentPayment.Payment.SecupayPayoutService.Uid,
+        SecupayPayouts: _productPaymentPayment.Payment.SecupayPayoutService.Uid,
         SecupayPrepays: _productPaymentPayment.Payment.SecupayPrepayService.Uid,
         Transactions: _productPaymentPayment.Payment.TransactionService.Uid,
         TransactionHistories: _productPaymentPayment.Payment.TransactionHistoriesService.Uid
@@ -4752,6 +4752,14 @@ var SecupayPayoutService = (function (_ProductService) {
 
     SecupayPayoutService.prototype.getEndpoint = function getEndpoint() {
         return ['payment', 'secupaypayout'];
+    };
+
+    SecupayPayoutService.prototype.getEventTargets = function getEventTargets() {
+        return [];
+    };
+
+    SecupayPayoutService.prototype.payoutWithoutCustomer = function payoutWithoutCustomer() {
+        return this.execute('me', 'PayoutWithoutCustomer', null, data);
     };
 
     return SecupayPayoutService;
