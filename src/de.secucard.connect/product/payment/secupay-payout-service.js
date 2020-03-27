@@ -25,7 +25,7 @@ export class SecupayPayoutService extends ProductService {
         return [];
     }
 
-    payoutWithoutCustomer() {
+    payoutWithoutCustomer(data) {
         return this.execute('me', 'PayoutWithoutCustomer', null, data);
     }
 }

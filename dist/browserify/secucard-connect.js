@@ -4758,7 +4758,7 @@ var SecupayPayoutService = (function (_ProductService) {
         return [];
     };
 
-    SecupayPayoutService.prototype.payoutWithoutCustomer = function payoutWithoutCustomer() {
+    SecupayPayoutService.prototype.payoutWithoutCustomer = function payoutWithoutCustomer(data) {
         return this.execute('me', 'PayoutWithoutCustomer', null, data);
     };
 
