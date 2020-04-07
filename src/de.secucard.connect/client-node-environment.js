@@ -80,9 +80,11 @@ export const ClientNodeEnvironment = {
         Payment.ContainerService,
         Payment.ContractService,
         Payment.CustomerService,
+        Payment.EterminalTransactionService,
         Payment.InvoiceService,
         Payment.PayoutService,
         Payment.SecupayDebitService,
+        Payment.SecupayPayoutService,
         Payment.SecupayPrepayService,
         Payment.TransactionService,
         Payment.TransactionHistoriesService,
@@ -180,12 +182,15 @@ export const ServiceMap = {
         Containers: Payment.ContainerService.Uid,
         Contracts: Payment.ContractService.Uid,
         Customers: Payment.CustomerService.Uid,
+        EterminalTransactions: Payment.EterminalTransactionService.Uid,
         Invoices: Payment.InvoiceService.Uid,
         Payouts: Payment.PayoutService.Uid,
         SecupayDebits: Payment.SecupayDebitService.Uid,
+        SecupayPayouts: Payment.SecupayPayoutService.Uid,
         SecupayPrepays: Payment.SecupayPrepayService.Uid,
         Transactions: Payment.TransactionService.Uid,
-        TransactionHistories: Payment.TransactionHistoriesService.Uid
+        TransactionHistories: Payment.TransactionHistoriesService.Uid,
+
     },
     Prepaid:{
         Contracts: Prepaid.ContractService.Uid,

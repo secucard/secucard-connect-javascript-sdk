@@ -1,3 +1,9 @@
+<a name="0.6.6"></a>
+## 0.6.6 (2020-03-27)
+
+* Added new endpoint Secupaypayout
+* Added new endpoint EterminalTransactions
+
 <a name="0.6.5"></a>
 ## 0.6.5 (2019-11-28)
 
