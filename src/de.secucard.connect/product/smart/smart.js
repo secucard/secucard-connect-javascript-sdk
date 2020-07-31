@@ -10,6 +10,7 @@
  limitations under the License.
  */
 
+import {ArticleService} from './article-service';
 import {CheckinService} from './checkin-service';
 import {ConfigurationService} from './configuration-service';
 import {DeviceService} from './device-service';
@@ -20,6 +21,7 @@ import {TransactionService} from './transaction-service';
 
 
 export const Smart = {};
+Smart.ArticleService = ArticleService;
 Smart.CheckinService = CheckinService;
 Smart.ConfigurationService = ConfigurationService;
 Smart.DeviceService = DeviceService;
