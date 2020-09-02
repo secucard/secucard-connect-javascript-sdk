@@ -22,6 +22,7 @@ import {Auth} from './product/auth/auth';
 import {TokenStorageInMem} from './auth/token-storage';
 import {Clearing} from './product/clearing/clearing';
 import {Cardprocessing} from './product/cardprocessing/cardprocessing';
+import {Easycredit} from './product/easycredit/easycredit';
 
 export const ClientBrowserEnvironment = {
     config: {
@@ -40,6 +41,8 @@ export const ClientBrowserEnvironment = {
         Clearing.SepaOutrecordsService,
 
         Document.UploadService,
+
+        Easycredit.TransactionService,
 
         General.SkeletonService,
         General.AccountService,
@@ -139,6 +142,9 @@ export const ServiceMap = {
     },
     Document: {
         Uploads: Document.UploadService.Uid
+    },
+    Easycredit: {
+        Transactions: Easycredit.TransactionService.Uid,
     },
     General: {
         Skeletons: General.SkeletonService.Uid,
