@@ -9,6 +9,21 @@
  See the License for the specific language governing permissions and
  limitations under the License.
  */
-export const Version = {
-    "name": "0.6.7"
-};
+import {ProductService} from '../product-service'
+
+export class TransactionService extends ProductService {
+
+	constructor() {
+		super()
+	}
+
+	getEndpoint() {
+		return ['easycredit', 'transactions'];
+	}
+
+	getEventTargets() {
+		return ['easycredit.transactions'];
+	}
+}
+
+TransactionService.Uid = (['easycredit', 'transactions']).join('.');

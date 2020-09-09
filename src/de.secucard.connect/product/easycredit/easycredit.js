@@ -9,6 +9,7 @@
  See the License for the specific language governing permissions and
  limitations under the License.
  */
-export const Version = {
-    "name": "0.6.7"
-};
+import {TransactionService} from './transaction-service';
+
+export const Easycredit = {};
+Easycredit.TransactionService = TransactionService;

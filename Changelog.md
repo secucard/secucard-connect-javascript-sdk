@@ -1,3 +1,8 @@
+<a name="0.6.7"></a>
+## 0.6.7 (2020-09-02)
+
+* Added new endpoint EasycreditTransactions
+
 <a name="0.6.6"></a>
 ## 0.6.6 (2020-03-27)
 
