@@ -1,6 +1,6 @@
 {
   "name": "secucard-connect",
-  "version": "0.6.7",
+  "version": "0.6.8",
   "main": "dist/commonjs/index.js",
   "license": "Apache-2.0",
   "homepage": "https://github.com/secucard/secucard-connect-javascript-sdk",
