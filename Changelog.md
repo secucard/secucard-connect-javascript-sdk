@@ -1,3 +1,8 @@
+<a name="0.6.8"></a>
+## 0.6.8 (2020-10-05)
+
+* Libraries have been updated
+
 <a name="0.6.7"></a>
 ## 0.6.7 (2020-09-02)
 

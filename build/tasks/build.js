@@ -10,7 +10,7 @@ var compilerOptions = require('../babel-options');
 var assign = Object.assign || require('object.assign');
 
 var browserify = require('browserify');
-var uglify = require('gulp-uglify');
+var terser = require('gulp-terser');
 var buffer = require('vinyl-buffer');
 var source = require('vinyl-source-stream');
 
@@ -53,7 +53,7 @@ gulp.task('build-browserify', function () {
 		.bundle()
 		.pipe(source(paths.browserFileName + '.js')) // gives streaming vinyl file object
 		.pipe(buffer()) // <----- convert from streaming to buffered vinyl file object
-		//.pipe(uglify()) // now gulp-uglify works 
+		//.pipe(terser()) // now gulp-uglify works
 		.pipe(gulp.dest(paths.output + 'browserify'));
 });
 
@@ -62,7 +62,7 @@ gulp.task('build-tokenizer-browserify', function () {
 		.bundle()
 		.pipe(source(paths.tokenizerFileName + '.js')) // gives streaming vinyl file object
 		.pipe(buffer()) // <----- convert from streaming to buffered vinyl file object
-		//.pipe(uglify()) // now gulp-uglify works 
+		//.pipe(terser()) // now gulp-uglify works
 		.pipe(gulp.dest(paths.tokenizerOutput + 'browserify'));
 });
 
@@ -71,7 +71,7 @@ gulp.task('build-browserify-min', function () {
 		.bundle()
 		.pipe(source(paths.browserFileName + '.min.js')) // gives streaming vinyl file object
 		.pipe(buffer()) // <----- convert from streaming to buffered vinyl file object
-		.pipe(uglify()) // now gulp-uglify works 
+		.pipe(terser()) // now gulp-uglify works
 		.pipe(gulp.dest(paths.output + 'browserify'));
 });
 
@@ -80,7 +80,7 @@ gulp.task('build-tokenizer-browserify-min', function () {
 		.bundle()
 		.pipe(source(paths.tokenizerFileName + '.min.js')) // gives streaming vinyl file object
 		.pipe(buffer()) // <----- convert from streaming to buffered vinyl file object
-		.pipe(uglify()) // now gulp-uglify works 
+		.pipe(terser()) // now gulp-uglify works
 		.pipe(gulp.dest(paths.tokenizerOutput + 'browserify'));
 });
 
