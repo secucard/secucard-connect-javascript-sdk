@@ -12,6 +12,8 @@ var _actionProfileService = require('./action-profile-service');
 
 var _actionService = require('./action-service');
 
+var _approvalService = require('./approval-service');
+
 var _beaconService = require('./beacon-service');
 
 var _cardGroupService = require('./card-group-service');
@@ -47,6 +49,7 @@ Loyalty.ActionConfigService = _actionConfigService.ActionConfigService;
 Loyalty.ActionMessageService = _actionMessageService.ActionMessageService;
 Loyalty.ActionProfileService = _actionProfileService.ActionProfileService;
 Loyalty.ActionService = _actionService.ActionService;
+Loyalty.ApprovalService = _approvalService.ApprovalService;
 Loyalty.BeaconService = _beaconService.BeaconService;
 Loyalty.CardGroupService = _cardGroupService.CardGroupService;
 Loyalty.CardService = _cardService.CardService;
