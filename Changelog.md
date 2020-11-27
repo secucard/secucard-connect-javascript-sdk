@@ -1,3 +1,8 @@
+<a name="0.6.9"></a>
+## 0.6.9 (2020-11-06)
+
+* Added new endpoint LoyaltyApprovals
+
 <a name="0.6.8"></a>
 ## 0.6.8 (2020-10-05)
 
