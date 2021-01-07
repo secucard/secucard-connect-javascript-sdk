@@ -189,6 +189,19 @@ var ProductService = (function () {
         return this._request(_netChannel.Channel.METHOD.UPDATE, params, options);
     };
 
+    ProductService.prototype.patch = function patch(data, options, multipart) {
+
+        var params = {
+            endpoint: this.getEndpoint(),
+            objectId: data.id,
+            data: data,
+            options: options,
+            multipart: multipart
+        };
+
+        return this._request(_netChannel.Channel.METHOD.PATCH, params, options);
+    };
+
     ProductService.prototype.remove = function remove(id, options) {
 
         var params = {
