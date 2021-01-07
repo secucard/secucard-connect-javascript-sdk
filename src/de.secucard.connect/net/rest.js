@@ -10,7 +10,7 @@
  limitations under the License.
  */
 import Request from 'superagent';
-import {GET, POST, PUT, HEAD, DELETE} from './message';
+import {GET, POST, PUT, PATCH, HEAD, DELETE} from './message';
 import {Message} from './message';
 import {Channel} from './channel';
 import {AuthenticationFailedException} from '../auth/exception';
@@ -26,6 +26,7 @@ export class Rest {
         this.methodFuns[POST] = Request.post;
 
         this.methodFuns[PUT] = Request.put;
+        this.methodFuns[PATCH] = Request.patch;
         this.methodFuns[HEAD] = Request.head;
         this.methodFuns[DELETE] = Request.del;
 
@@ -35,6 +36,7 @@ export class Rest {
         this.methodFuns[Channel.METHOD.EXECUTE] = Request.post;
 
         this.methodFuns[Channel.METHOD.UPDATE] = Request.put;
+        this.methodFuns[Channel.METHOD.PATCH] = Request.patch;
         this.methodFuns[Channel.METHOD.DELETE] = Request.del;
     }
 
@@ -46,7 +48,7 @@ export class Rest {
         this.getToken = (extend) => {
             return context.getAuth().getToken(extend);
         };
-        
+
         this.withCredentials = () => {
             return context.getConfig().getWithCredentials();
         };
@@ -193,20 +195,20 @@ export class Rest {
     }
 
     generateUrl(method, params) {
-        
+
         let message = this.createMessageForRequest(method, params);
         let req = this.createRequestFromMessage(message);
-        
+
         var query = req._query? req._query.join('&') : '';
-        
+
         let url = req.url;
-        
+
         if (query) {
             url += (url.indexOf('?') >= 0 ? '&' : '?') + query;
         }
-        
+
         return url;
-        
+
     }
 
     createMessageForRequest(method, params) {
