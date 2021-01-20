@@ -1148,7 +1148,7 @@ exports.ClientContext = ClientContext;
 
 exports.__esModule = true;
 var Version = {
-  "name": "0.6.9"
+  "name": "0.6.10"
 };
 exports.Version = Version;
 },{}],11:[function(require,module,exports){
@@ -1251,6 +1251,7 @@ Channel.METHOD = {
     GET: "GET",
     CREATE: "CREATE",
     UPDATE: "UPDATE",
+    PATCH: "PATCH",
     DELETE: "DELETE",
     EXECUTE: "EXECUTE"
 };
@@ -1354,6 +1355,8 @@ var POST = 'POST';
 exports.POST = POST;
 var PUT = 'PUT';
 exports.PUT = PUT;
+var PATCH = 'PATCH';
+exports.PATCH = PATCH;
 var DELETE = 'DELETE';
 
 exports.DELETE = DELETE;
@@ -1441,6 +1444,7 @@ var Rest = (function () {
         this.methodFuns[_message.POST] = _superagent2['default'].post;
 
         this.methodFuns[_message.PUT] = _superagent2['default'].put;
+        this.methodFuns[_message.PATCH] = _superagent2['default'].patch;
         this.methodFuns[_message.HEAD] = _superagent2['default'].head;
         this.methodFuns[_message.DELETE] = _superagent2['default'].del;
 
@@ -1450,6 +1454,7 @@ var Rest = (function () {
         this.methodFuns[_channel.Channel.METHOD.EXECUTE] = _superagent2['default'].post;
 
         this.methodFuns[_channel.Channel.METHOD.UPDATE] = _superagent2['default'].put;
+        this.methodFuns[_channel.Channel.METHOD.PATCH] = _superagent2['default'].patch;
         this.methodFuns[_channel.Channel.METHOD.DELETE] = _superagent2['default'].del;
     }
 
@@ -5396,6 +5401,19 @@ var ProductService = (function () {
         };
 
         return this._request(_netChannel.Channel.METHOD.UPDATE, params, options);
+    };
+
+    ProductService.prototype.patch = function patch(data, options, multipart) {
+
+        var params = {
+            endpoint: this.getEndpoint(),
+            objectId: data.id,
+            data: data,
+            options: options,
+            multipart: multipart
+        };
+
+        return this._request(_netChannel.Channel.METHOD.PATCH, params, options);
     };
 
     ProductService.prototype.remove = function remove(id, options) {

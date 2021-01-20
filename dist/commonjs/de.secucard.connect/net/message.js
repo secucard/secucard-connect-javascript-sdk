@@ -12,6 +12,8 @@ var POST = 'POST';
 exports.POST = POST;
 var PUT = 'PUT';
 exports.PUT = PUT;
+var PATCH = 'PATCH';
+exports.PATCH = PATCH;
 var DELETE = 'DELETE';
 
 exports.DELETE = DELETE;
