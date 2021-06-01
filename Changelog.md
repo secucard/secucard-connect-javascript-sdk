@@ -1,3 +1,8 @@
+<a name="0.6.11"></a>
+## 0.6.11 (2021-06-01)
+
+* Added PATCH method with action
+
 <a name="0.6.10"></a>
 ## 0.6.10 (2021-01-07)
 
