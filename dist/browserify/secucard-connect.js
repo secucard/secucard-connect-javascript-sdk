@@ -1148,7 +1148,7 @@ exports.ClientContext = ClientContext;
 
 exports.__esModule = true;
 var Version = {
-  "name": "0.6.10"
+  "name": "0.6.11"
 };
 exports.Version = Version;
 },{}],11:[function(require,module,exports){
@@ -5409,6 +5409,21 @@ var ProductService = (function () {
             endpoint: this.getEndpoint(),
             objectId: data.id,
             data: data,
+            options: options,
+            multipart: multipart
+        };
+
+        return this._request(_netChannel.Channel.METHOD.PATCH, params, options);
+    };
+
+    ProductService.prototype.patchWithAction = function patchWithAction(id, action, actionArg, data, options, multipart) {
+
+        var params = {
+            endpoint: this.getEndpoint(),
+            objectId: id,
+            data: data,
+            action: action,
+            actionArg: actionArg,
             options: options,
             multipart: multipart
         };

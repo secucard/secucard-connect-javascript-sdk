@@ -330,6 +330,39 @@ export class ProductService {
     }
 
     /**
+
+     * Retrieves a promise for updating a part of an object.<br/>
+     * Would invoke for example: PATCH /targetType/objectId/action/actionArg with arg mapped to JSON as _request body.<br/>
+     * May throw an exception if an error happens.
+     *
+     * @param id   Id of the resource to update.
+     * @param action     Additional action to execute.
+     * @param actionArg  Additional argument to the action, optional.
+     * @param data        The new data to update with.
+     * @param options        will be used to determine actual target destination.
+     * @param multipart object contains data for multipart form content, {files: [Blob|File], fields: [{name,value}]}
+
+     * @return {Promise} The actual updated object, or the result of the update, never null. Throws exception if object cannot be
+     * updated. May contain additional or corrected data, like id. So using this object later on instead the provided is
+     * necessary.
+     */
+
+    patchWithAction(id, action, actionArg, data, options, multipart) {
+
+        let params = {
+            endpoint: this.getEndpoint(),
+            objectId: id,
+            data: data,
+            action: action,
+            actionArg: actionArg,
+            options: options,
+            multipart: multipart
+        };
+
+        return this._request(Channel.METHOD.PATCH, params, options);
+    }
+
+    /**
      * Retrieves a promise for deleting an object.<br/>
      * Would invoke for example: DELETE /targetType/objectId.<br/>
      * May throw an exception if an error happens
