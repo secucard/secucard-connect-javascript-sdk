@@ -1,25 +1,6 @@
 <a name="0.6.12"></a>
 ## 0.6.12 (2021-08-09)
 
-
-* Create dependabot.yml
- ([2ece0f3](https://github.com/secucard/secucard-connect-javascript-sdk/commit/2ece0f3))
-* Feature/loyalty approvals (#59)
- ([7a5628d](https://github.com/secucard/secucard-connect-javascript-sdk/commit/7a5628d))
-* Feature/update dependencies (#58)
- ([7540eae](https://github.com/secucard/secucard-connect-javascript-sdk/commit/7540eae))
-* Origin/feature/patch method (#60)
- ([050553f](https://github.com/secucard/secucard-connect-javascript-sdk/commit/050553f))
-* release/0.6.11
- ([d0bdf8f](https://github.com/secucard/secucard-connect-javascript-sdk/commit/d0bdf8f))
-* SOFFICE-3419 - new endpoint (PublicWebsite)
- ([22ac8a1](https://github.com/secucard/secucard-connect-javascript-sdk/commit/22ac8a1))
-
-
-
-<a name="0.6.12"></a>
-## 0.6.12 (2021-08-09)
-
 * Added new endpoint PublicWebsite
 
 <a name="0.6.11"></a>

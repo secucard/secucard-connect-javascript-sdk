@@ -212,7 +212,7 @@ export const ServiceMap = {
         Stocks: Prepaid.StockService.Uid
     },
     Public:{
-        Websites: Public.WebsiteService.Uid
+        Website: Public.WebsiteService.Uid
     },
     Services: {
         IdentCases: Services.IdentCaseService.Uid,
