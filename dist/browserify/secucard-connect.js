@@ -761,7 +761,7 @@ var ServiceMap = {
         Stocks: _productPrepaidPrepaid.Prepaid.StockService.Uid
     },
     Public: {
-        Website: _productPublicPublic.Public.WebsiteService.Uid
+        Websites: _productPublicPublic.Public.WebsiteService.Uid
     },
     Services: {
         IdentCases: _productServicesServices.Services.IdentCaseService.Uid,
