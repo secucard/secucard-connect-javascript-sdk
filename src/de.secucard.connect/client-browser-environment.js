@@ -23,6 +23,7 @@ import {TokenStorageInMem} from './auth/token-storage';
 import {Clearing} from './product/clearing/clearing';
 import {Cardprocessing} from './product/cardprocessing/cardprocessing';
 import {Easycredit} from './product/easycredit/easycredit';
+import {Public} from './product/public/public';
 
 export const ClientBrowserEnvironment = {
     config: {
@@ -100,6 +101,8 @@ export const ClientBrowserEnvironment = {
         Prepaid.ReportService,
         Prepaid.SaleService,
         Prepaid.StockService,
+
+        Public.WebsiteService,
 
         Services.IdentCaseService,
         Services.IdentContractService,
@@ -207,6 +210,9 @@ export const ServiceMap = {
         Reports: Prepaid.ReportService.Uid,
         Sales: Prepaid.SaleService.Uid,
         Stocks: Prepaid.StockService.Uid
+    },
+    Public:{
+        Website: Public.WebsiteService.Uid
     },
     Services: {
         IdentCases: Services.IdentCaseService.Uid,

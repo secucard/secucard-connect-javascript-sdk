@@ -9,6 +9,7 @@
  See the License for the specific language governing permissions and
  limitations under the License.
  */
-export const Version = {
-    "name": "0.6.12"
-};
+import {WebsiteService} from './website-service';
+
+export const Public = {};
+Public.WebsiteService = WebsiteService;

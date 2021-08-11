@@ -1,3 +1,8 @@
+<a name="0.6.12"></a>
+## 0.6.12 (2021-08-09)
+
+* Added new endpoint PublicWebsite
+
 <a name="0.6.11"></a>
 ## 0.6.11 (2021-06-01)
 
