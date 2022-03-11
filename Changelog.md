@@ -1,3 +1,22 @@
+<a name="0.6.13"></a>
+## 0.6.13 (2022-03-11)
+
+
+* Create dependabot.yml
+ ([2ece0f3](https://github.com/secucard/secucard-connect-javascript-sdk/commit/2ece0f3))
+* Feature/loyalty approvals (#59)
+ ([7a5628d](https://github.com/secucard/secucard-connect-javascript-sdk/commit/7a5628d))
+* Feature/public website endpoint (#64)
+ ([f8facf6](https://github.com/secucard/secucard-connect-javascript-sdk/commit/f8facf6))
+* Feature/update dependencies (#58)
+ ([7540eae](https://github.com/secucard/secucard-connect-javascript-sdk/commit/7540eae))
+* Origin/feature/patch method (#60)
+ ([050553f](https://github.com/secucard/secucard-connect-javascript-sdk/commit/050553f))
+* release/0.6.11
+ ([d0bdf8f](https://github.com/secucard/secucard-connect-javascript-sdk/commit/d0bdf8f))
+
+
+
 <a name="0.6.12"></a>
 ## 0.6.12 (2021-08-09)
 
