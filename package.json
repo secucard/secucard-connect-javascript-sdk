@@ -1,6 +1,6 @@
 {
   "name": "secucard-connect",
-  "version": "0.6.12",
+  "version": "0.6.13",
   "main": "dist/commonjs/index.js",
   "license": "Apache-2.0",
   "homepage": "https://github.com/secucard/secucard-connect-javascript-sdk",
@@ -10,6 +10,9 @@
   },
   "directories": {
     "lib": "dist/commonjs"
+  },
+  "overrides": {
+    "graceful-fs": "^4.2.9"
   },
   "dependencies": {
     "es6-shim": "^0.34.4",
