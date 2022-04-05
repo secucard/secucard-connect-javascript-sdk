@@ -2,7 +2,7 @@
 
 exports.__esModule = true;
 
-var _acceptanceTemplatesService = require('./acceptance-templates-service');
+var _acceptancePointTemplatesService = require('./acceptance-templates-service');
 
 var _actionCampaignService = require('./action-campaign-service');
 
@@ -46,7 +46,7 @@ var _paymentContainerService = require('./payment-container-service');
 
 var Loyalty = {};
 exports.Loyalty = Loyalty;
-Loyalty.AcceptancePointTemplatesService = _acceptanceTemplatesService.AcceptancePointTemplatesService;
+Loyalty.AcceptancePointTemplatesService = _acceptancePointTemplatesService.AcceptancePointTemplatesService;
 Loyalty.ActionCampaignService = _actionCampaignService.ActionCampaignService;
 Loyalty.ActionConfigService = _actionConfigService.ActionConfigService;
 Loyalty.ActionMessageService = _actionMessageService.ActionMessageService;
