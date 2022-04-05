@@ -9,6 +9,21 @@
  See the License for the specific language governing permissions and
  limitations under the License.
  */
-export const Version = {
-    "name": "0.6.14"
-};
+import {ProductService} from '../product-service'
+
+export class AcceptancePointTemplatesService extends ProductService {
+
+    constructor() {
+        super()
+    }
+
+    getEndpoint() {
+        return ['loyalty', 'acceptancepointtemplates'];
+    }
+
+    getEventTargets() {
+        return ['loyalty.acceptancepointtemplates'];
+    }
+}
+
+AcceptancePointTemplatesService.Uid = (['loyalty', 'acceptancepointtemplates']).join('.');
