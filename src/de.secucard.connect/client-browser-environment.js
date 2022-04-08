@@ -62,6 +62,7 @@ export const ClientBrowserEnvironment = {
         General.StoreService,
         General.TransactionService,
 
+        Loyalty.AcceptancePointTemplatesService,
         Loyalty.ActionService,
         Loyalty.ActionProfileService,
         Loyalty.ActionMessageService,
@@ -169,6 +170,7 @@ export const ServiceMap = {
         Transactions: General.TransactionService.Uid
     },
     Loyalty: {
+        AcceptancePointTemplatesService: Loyalty.AcceptancePointTemplatesService.Uid,
         ActionCampaigns: Loyalty.ActionCampaignService.Uid,
         ActionConfigs: Loyalty.ActionConfigService.Uid,
         ActionMessages: Loyalty.ActionMessageService.Uid,

@@ -9,6 +9,7 @@
  See the License for the specific language governing permissions and
  limitations under the License.
  */
+import {AcceptancePointTemplatesService} from './acceptance-templates-service';
 import {ActionCampaignService} from './action-campaign-service';
 import {ActionConfigService} from './action-config-service';
 import {ActionMessageService} from './action-message-service';
@@ -31,6 +32,7 @@ import {TransactionService} from './transaction-service';
 import {PaymentContainerService} from './payment-container-service';
 
 export const Loyalty = {};
+Loyalty.AcceptancePointTemplatesService = AcceptancePointTemplatesService;
 Loyalty.ActionCampaignService = ActionCampaignService;
 Loyalty.ActionConfigService = ActionConfigService;
 Loyalty.ActionMessageService = ActionMessageService;
