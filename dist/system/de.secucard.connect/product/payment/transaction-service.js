@@ -45,6 +45,10 @@ System.register(['../product-service'], function (_export) {
                     return this.retrieveWithAction('me', 'CrowdFundingData', id);
                 };
 
+                TransactionService.prototype.getShippingUrl = function getShippingUrl(id) {
+                    return this.retrieveWithAction(id, 'checkStatus');
+                };
+
                 return TransactionService;
             })(ProductService);
 
