@@ -37,6 +37,10 @@ var TransactionService = (function (_ProductService) {
         return [];
     };
 
+    TransactionService.prototype.getCheckStatus = function getCheckStatus(id) {
+        return this.retrieveWithAction(id, 'checkStatus');
+    };
+
     TransactionService.prototype.getCrowdfundingData = function getCrowdfundingData(id) {
         return this.retrieveWithAction('me', 'CrowdFundingData', id);
     };

@@ -6,7 +6,7 @@ System.register([], function (_export) {
     setters: [],
     execute: function () {
       Version = {
-        "name": "0.6.14"
+        "name": "0.6.15"
       };
 
       _export("Version", Version);

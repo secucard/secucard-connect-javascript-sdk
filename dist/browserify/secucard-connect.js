@@ -1154,7 +1154,7 @@ exports.ClientContext = ClientContext;
 
 exports.__esModule = true;
 var Version = {
-  "name": "0.6.14"
+  "name": "0.6.15"
 };
 exports.Version = Version;
 },{}],11:[function(require,module,exports){
@@ -1368,50 +1368,50 @@ var DELETE = 'DELETE';
 exports.DELETE = DELETE;
 
 var Message = (function () {
-    function Message() {
-        _classCallCheck(this, Message);
-    }
+  function Message() {
+    _classCallCheck(this, Message);
+  }
 
-    Message.prototype.setBaseUrl = function setBaseUrl(value) {
-        this.baseUrl = value;
-        return this;
-    };
+  Message.prototype.setBaseUrl = function setBaseUrl(value) {
+    this.baseUrl = value;
+    return this;
+  };
 
-    Message.prototype.setUrl = function setUrl(value) {
-        this.url = value;
-        return this;
-    };
+  Message.prototype.setUrl = function setUrl(value) {
+    this.url = value;
+    return this;
+  };
 
-    Message.prototype.setMethod = function setMethod(value) {
-        this.method = value;
-        return this;
-    };
+  Message.prototype.setMethod = function setMethod(value) {
+    this.method = value;
+    return this;
+  };
 
-    Message.prototype.setHeaders = function setHeaders(value) {
-        this.headers = value;
-        return this;
-    };
+  Message.prototype.setHeaders = function setHeaders(value) {
+    this.headers = value;
+    return this;
+  };
 
-    Message.prototype.setQuery = function setQuery(value) {
-        this.query = value;
-        return this;
-    };
+  Message.prototype.setQuery = function setQuery(value) {
+    this.query = value;
+    return this;
+  };
 
-    Message.prototype.setBody = function setBody(value) {
-        this.body = value;
-        return this;
-    };
+  Message.prototype.setBody = function setBody(value) {
+    this.body = value;
+    return this;
+  };
 
-    Message.prototype.setAccept = function setAccept(value) {
-        this.accept = value;
-        return this;
-    };
+  Message.prototype.setAccept = function setAccept(value) {
+    this.accept = value;
+    return this;
+  };
 
-    Message.prototype.setMultipart = function setMultipart(value) {
-        this.multipart = value;
-    };
+  Message.prototype.setMultipart = function setMultipart(value) {
+    this.multipart = value;
+  };
 
-    return Message;
+  return Message;
 })();
 
 exports.Message = Message;
@@ -5013,6 +5013,10 @@ var TransactionService = (function (_ProductService) {
 
     TransactionService.prototype.getEventTargets = function getEventTargets() {
         return [];
+    };
+
+    TransactionService.prototype.getCheckStatus = function getCheckStatus(id) {
+        return this.retrieveWithAction(id, 'checkStatus');
     };
 
     TransactionService.prototype.getCrowdfundingData = function getCrowdfundingData(id) {

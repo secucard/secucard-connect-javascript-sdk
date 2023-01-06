@@ -1,9 +1,21 @@
+<a name="0.6.15"></a>
+## 0.6.15 (2023-01-06)
+
+* Add checkStatus endpoint
+ ([c10db43](https://github.com/secucard/secucard-connect-javascript-sdk/commit/c10db43))
+
 <a name="0.6.14"></a>
 ## 0.6.14 (2022-04-05)
 
+* new loyalty endpoint AcceptancePointTemplates
+  ([2d14232](https://github.com/secucard/secucard-connect-javascript-sdk/commit/2d14232))
+* new loyalty endpoint AcceptancePointTemplates
+  ([68bb7a2](https://github.com/secucard/secucard-connect-javascript-sdk/commit/68bb7a2))
+* new loyalty endpoint AcceptancePointTemplates
+  ([f1194a3](https://github.com/secucard/secucard-connect-javascript-sdk/commit/f1194a3))
+
 <a name="0.6.13"></a>
 ## 0.6.13 (2022-03-11)
-
 
 * Create dependabot.yml
  ([2ece0f3](https://github.com/secucard/secucard-connect-javascript-sdk/commit/2ece0f3))
@@ -17,8 +29,6 @@
  ([050553f](https://github.com/secucard/secucard-connect-javascript-sdk/commit/050553f))
 * release/0.6.11
  ([d0bdf8f](https://github.com/secucard/secucard-connect-javascript-sdk/commit/d0bdf8f))
-
-
 
 <a name="0.6.12"></a>
 ## 0.6.12 (2021-08-09)

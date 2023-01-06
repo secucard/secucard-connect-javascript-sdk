@@ -1,86 +1,86 @@
 System.register([], function (_export) {
-    'use strict';
+  'use strict';
 
-    var HEAD, GET, POST, PUT, PATCH, DELETE, Message;
+  var HEAD, GET, POST, PUT, PATCH, DELETE, Message;
 
-    function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
+  function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 
-    return {
-        setters: [],
-        execute: function () {
-            HEAD = 'HEAD';
+  return {
+    setters: [],
+    execute: function () {
+      HEAD = 'HEAD';
 
-            _export('HEAD', HEAD);
+      _export('HEAD', HEAD);
 
-            GET = 'GET';
+      GET = 'GET';
 
-            _export('GET', GET);
+      _export('GET', GET);
 
-            POST = 'POST';
+      POST = 'POST';
 
-            _export('POST', POST);
+      _export('POST', POST);
 
-            PUT = 'PUT';
+      PUT = 'PUT';
 
-            _export('PUT', PUT);
+      _export('PUT', PUT);
 
-            PATCH = 'PATCH';
+      PATCH = 'PATCH';
 
-            _export('PATCH', PATCH);
+      _export('PATCH', PATCH);
 
-            DELETE = 'DELETE';
+      DELETE = 'DELETE';
 
-            _export('DELETE', DELETE);
+      _export('DELETE', DELETE);
 
-            Message = (function () {
-                function Message() {
-                    _classCallCheck(this, Message);
-                }
-
-                Message.prototype.setBaseUrl = function setBaseUrl(value) {
-                    this.baseUrl = value;
-                    return this;
-                };
-
-                Message.prototype.setUrl = function setUrl(value) {
-                    this.url = value;
-                    return this;
-                };
-
-                Message.prototype.setMethod = function setMethod(value) {
-                    this.method = value;
-                    return this;
-                };
-
-                Message.prototype.setHeaders = function setHeaders(value) {
-                    this.headers = value;
-                    return this;
-                };
-
-                Message.prototype.setQuery = function setQuery(value) {
-                    this.query = value;
-                    return this;
-                };
-
-                Message.prototype.setBody = function setBody(value) {
-                    this.body = value;
-                    return this;
-                };
-
-                Message.prototype.setAccept = function setAccept(value) {
-                    this.accept = value;
-                    return this;
-                };
-
-                Message.prototype.setMultipart = function setMultipart(value) {
-                    this.multipart = value;
-                };
-
-                return Message;
-            })();
-
-            _export('Message', Message);
+      Message = (function () {
+        function Message() {
+          _classCallCheck(this, Message);
         }
-    };
+
+        Message.prototype.setBaseUrl = function setBaseUrl(value) {
+          this.baseUrl = value;
+          return this;
+        };
+
+        Message.prototype.setUrl = function setUrl(value) {
+          this.url = value;
+          return this;
+        };
+
+        Message.prototype.setMethod = function setMethod(value) {
+          this.method = value;
+          return this;
+        };
+
+        Message.prototype.setHeaders = function setHeaders(value) {
+          this.headers = value;
+          return this;
+        };
+
+        Message.prototype.setQuery = function setQuery(value) {
+          this.query = value;
+          return this;
+        };
+
+        Message.prototype.setBody = function setBody(value) {
+          this.body = value;
+          return this;
+        };
+
+        Message.prototype.setAccept = function setAccept(value) {
+          this.accept = value;
+          return this;
+        };
+
+        Message.prototype.setMultipart = function setMultipart(value) {
+          this.multipart = value;
+        };
+
+        return Message;
+      })();
+
+      _export('Message', Message);
+    }
+  };
 });
-//# sourceMappingURL=data:application/json;charset=utf8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbImRlLnNlY3VjYXJkLmNvbm5lY3QvbmV0L21lc3NhZ2UuanMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7O1FBV2EsSUFBSSxFQUNKLEdBQUcsRUFDSCxJQUFJLEVBQ0osR0FBRyxFQUNILEtBQUssRUFDTCxNQUFNLEVBRU4sT0FBTzs7Ozs7OztBQVBQLGdCQUFJLEdBQUcsTUFBTTs7OztBQUNiLGVBQUcsR0FBRyxLQUFLOzs7O0FBQ1gsZ0JBQUksR0FBRyxNQUFNOzs7O0FBQ2IsZUFBRyxHQUFHLEtBQUs7Ozs7QUFDWCxpQkFBSyxHQUFHLE9BQU87Ozs7QUFDZixrQkFBTSxHQUFHLFFBQVE7Ozs7QUFFakIsbUJBQU87QUFFTCx5QkFGRixPQUFPLEdBRUY7MENBRkwsT0FBTztpQkFJZjs7QUFKUSx1QkFBTyxXQVdoQixVQUFVLEdBQUEsb0JBQUMsS0FBSyxFQUFFO0FBQ2Qsd0JBQUksQ0FBQyxPQUFPLEdBQUcsS0FBSyxDQUFDO0FBQ3JCLDJCQUFPLElBQUksQ0FBQztpQkFDZjs7QUFkUSx1QkFBTyxXQXFCaEIsTUFBTSxHQUFBLGdCQUFDLEtBQUssRUFBRTtBQUNWLHdCQUFJLENBQUMsR0FBRyxHQUFHLEtBQUssQ0FBQztBQUNqQiwyQkFBTyxJQUFJLENBQUM7aUJBQ2Y7O0FBeEJRLHVCQUFPLFdBK0JoQixTQUFTLEdBQUEsbUJBQUMsS0FBSyxFQUFFO0FBQ2Isd0JBQUksQ0FBQyxNQUFNLEdBQUcsS0FBSyxDQUFDO0FBQ3BCLDJCQUFPLElBQUksQ0FBQztpQkFDZjs7QUFsQ1EsdUJBQU8sV0F5Q2hCLFVBQVUsR0FBQSxvQkFBQyxLQUFLLEVBQUU7QUFDZCx3QkFBSSxDQUFDLE9BQU8sR0FBRyxLQUFLLENBQUM7QUFDckIsMkJBQU8sSUFBSSxDQUFDO2lCQUNmOztBQTVDUSx1QkFBTyxXQW1EaEIsUUFBUSxHQUFBLGtCQUFDLEtBQUssRUFBRTtBQUNaLHdCQUFJLENBQUMsS0FBSyxHQUFHLEtBQUssQ0FBQztBQUNuQiwyQkFBTyxJQUFJLENBQUM7aUJBQ2Y7O0FBdERRLHVCQUFPLFdBNkRoQixPQUFPLEdBQUEsaUJBQUMsS0FBSyxFQUFFO0FBQ1gsd0JBQUksQ0FBQyxJQUFJLEdBQUcsS0FBSyxDQUFDO0FBQ2xCLDJCQUFPLElBQUksQ0FBQztpQkFDZjs7QUFoRVEsdUJBQU8sV0F1RWhCLFNBQVMsR0FBQSxtQkFBQyxLQUFLLEVBQUU7QUFDYix3QkFBSSxDQUFDLE1BQU0sR0FBRyxLQUFLLENBQUM7QUFDcEIsMkJBQU8sSUFBSSxDQUFDO2lCQUNmOztBQTFFUSx1QkFBTyxXQWtGaEIsWUFBWSxHQUFBLHNCQUFDLEtBQUssRUFBRTtBQUNoQix3QkFBSSxDQUFDLFNBQVMsR0FBRyxLQUFLLENBQUM7aUJBQzFCOzt1QkFwRlEsT0FBTyIsImZpbGUiOiJkZS5zZWN1Y2FyZC5jb25uZWN0L25ldC9tZXNzYWdlLmpzIiwic291cmNlUm9vdCI6Ii4uL3NyYy8ifQ==
+//# sourceMappingURL=data:application/json;charset=utf8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbImRlLnNlY3VjYXJkLmNvbm5lY3QvbmV0L21lc3NhZ2UuanMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7O01BV2EsSUFBSSxFQUNKLEdBQUcsRUFDSCxJQUFJLEVBQ0osR0FBRyxFQUNILEtBQUssRUFDTCxNQUFNLEVBRU4sT0FBTzs7Ozs7OztBQVBQLFVBQUksR0FBRyxNQUFNOzs7O0FBQ2IsU0FBRyxHQUFHLEtBQUs7Ozs7QUFDWCxVQUFJLEdBQUcsTUFBTTs7OztBQUNiLFNBQUcsR0FBRyxLQUFLOzs7O0FBQ1gsV0FBSyxHQUFHLE9BQU87Ozs7QUFDZixZQUFNLEdBQUcsUUFBUTs7OztBQUVqQixhQUFPO0FBRUwsaUJBRkYsT0FBTyxHQUVGO2dDQUZMLE9BQU87U0FJZjs7QUFKUSxlQUFPLFdBV2hCLFVBQVUsR0FBQSxvQkFBQyxLQUFLLEVBQUU7QUFDZCxjQUFJLENBQUMsT0FBTyxHQUFHLEtBQUssQ0FBQztBQUNyQixpQkFBTyxJQUFJLENBQUM7U0FDZjs7QUFkUSxlQUFPLFdBcUJoQixNQUFNLEdBQUEsZ0JBQUMsS0FBSyxFQUFFO0FBQ1YsY0FBSSxDQUFDLEdBQUcsR0FBRyxLQUFLLENBQUM7QUFDakIsaUJBQU8sSUFBSSxDQUFDO1NBQ2Y7O0FBeEJRLGVBQU8sV0ErQmhCLFNBQVMsR0FBQSxtQkFBQyxLQUFLLEVBQUU7QUFDYixjQUFJLENBQUMsTUFBTSxHQUFHLEtBQUssQ0FBQztBQUNwQixpQkFBTyxJQUFJLENBQUM7U0FDZjs7QUFsQ1EsZUFBTyxXQXlDaEIsVUFBVSxHQUFBLG9CQUFDLEtBQUssRUFBRTtBQUNkLGNBQUksQ0FBQyxPQUFPLEdBQUcsS0FBSyxDQUFDO0FBQ3JCLGlCQUFPLElBQUksQ0FBQztTQUNmOztBQTVDUSxlQUFPLFdBbURoQixRQUFRLEdBQUEsa0JBQUMsS0FBSyxFQUFFO0FBQ1osY0FBSSxDQUFDLEtBQUssR0FBRyxLQUFLLENBQUM7QUFDbkIsaUJBQU8sSUFBSSxDQUFDO1NBQ2Y7O0FBdERRLGVBQU8sV0E2RGhCLE9BQU8sR0FBQSxpQkFBQyxLQUFLLEVBQUU7QUFDWCxjQUFJLENBQUMsSUFBSSxHQUFHLEtBQUssQ0FBQztBQUNsQixpQkFBTyxJQUFJLENBQUM7U0FDZjs7QUFoRVEsZUFBTyxXQXVFaEIsU0FBUyxHQUFBLG1CQUFDLEtBQUssRUFBRTtBQUNiLGNBQUksQ0FBQyxNQUFNLEdBQUcsS0FBSyxDQUFDO0FBQ3BCLGlCQUFPLElBQUksQ0FBQztTQUNmOztBQTFFUSxlQUFPLFdBa0ZoQixZQUFZLEdBQUEsc0JBQUMsS0FBSyxFQUFFO0FBQ2hCLGNBQUksQ0FBQyxTQUFTLEdBQUcsS0FBSyxDQUFDO1NBQzFCOztlQXBGUSxPQUFPIiwiZmlsZSI6ImRlLnNlY3VjYXJkLmNvbm5lY3QvbmV0L21lc3NhZ2UuanMiLCJzb3VyY2VSb290IjoiLi4vc3JjLyJ9
