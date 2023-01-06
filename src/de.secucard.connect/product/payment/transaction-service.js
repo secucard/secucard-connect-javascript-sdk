@@ -37,6 +37,10 @@ export class TransactionService extends ProductService {
         return [];
     }
 
+    getCheckStatus(id) {
+        return this.retrieveWithAction(id, 'checkStatus');
+    }
+
     /**
      * Get the crowdfunding data for the specific merchant
      * @param id string MRC_ID
