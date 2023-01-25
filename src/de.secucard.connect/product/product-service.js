@@ -18,7 +18,7 @@ export class ProductService {
      * contains meta data for product
      */
     _meta;
-    
+
     constructor() {
 
         Object.assign(this, EE.prototype);
@@ -46,13 +46,13 @@ export class ProductService {
         return this.getEndpoint().join('.').toLowerCase();
 
     }
-    
+
     _parseMeta(data) {
-        
+
         if(!data) {
             return data;
         }
-        
+
         data.describe = function (property) {
 
             var _this = this;
@@ -68,7 +68,7 @@ export class ProductService {
             return res;
 
         };
-        
+
         return data;
     }
 
@@ -84,16 +84,16 @@ export class ProductService {
      * @param options when options are set, send request
      * @return {Promise}
      */
-    
+
     getMeta(options) {
-        return this._meta && !options? 
-            Promise.resolve(this._meta) : 
-            this.retrieveMeta(options).then((res) => { 
+        return this._meta && !options?
+            Promise.resolve(this._meta) :
+            this.retrieveMeta(options).then((res) => {
                 this._meta = this._parseMeta(res.meta);
-                return this._meta; 
+                return this._meta;
             });
     }
-    
+
     /**
      * Retrieves a promise for a meta of object (resource) of a given type<br/>
      * Would invoke for example: GET /targetType/objectId/?meta=only .<br/>
@@ -101,15 +101,15 @@ export class ProductService {
      * @return {Promise}
      */
     retrieveMeta(options) {
-        
+
         let params = {
             endpoint: this.getEndpoint(),
             queryParams: {meta: 'only'},
             options: options
         };
-        
+
         return this._request(Channel.METHOD.GET, params, options);
-        
+
     }
 
     /**
@@ -133,7 +133,7 @@ export class ProductService {
         return this._request(Channel.METHOD.GET, params, options);
 
     }
-    
+
     generateRetrieveUrl(id, queryParams, options) {
         let params = {
             endpoint: this.getEndpoint(),
@@ -141,7 +141,7 @@ export class ProductService {
             queryParams: queryParams,
             options: options
         };
-        
+
         return this._generateUrl(Channel.METHOD.GET, params, options);
     }
 
@@ -167,9 +167,9 @@ export class ProductService {
         return this._request(Channel.METHOD.GET, params, options);
 
     }
-    
+
     generateRetrieveWithActionUrl(id, action, actionArg, options) {
-        
+
         let params = {
             endpoint: this.getEndpoint(),
             objectId: id,
@@ -177,7 +177,7 @@ export class ProductService {
             actionArg: actionArg,
             options: options
         };
-        
+
         return this._generateUrl(Channel.METHOD.GET, params, options);
     }
 
@@ -202,15 +202,15 @@ export class ProductService {
         return this._request(Channel.METHOD.GET, params, options);
 
     }
-    
+
     generateRetrieveListUrl(queryParams, options) {
-        
+
         let params = {
             endpoint: this.getEndpoint(),
             queryParams: queryParams,
             options: options
         };
-        
+
         return this._generateUrl(Channel.METHOD.GET, params, options);
     }
 
@@ -238,8 +238,8 @@ export class ProductService {
 
         return this._request(Channel.METHOD.CREATE, params, options);
     }
-    
-    
+
+
     /**
      * Retrieves a promise for updating an object.<br/>
      * Would invoke for example: PUT /object/objectId with object mapped to JSON as _request body.<br/>
@@ -249,7 +249,7 @@ export class ProductService {
      *                    object is used to determine the target destination.
      * @param options        will be used to determine actual target destination.
      * @param multipart object contains data for multipart form content, {files: [Blob|File], fields: [{name,value}]}
-     * 
+     *
      * @return {Promise} The actual updated object, never null. Throws exception if object cannot be updated. May contain additional
      * or corrected data, like id.  So using this object later on instead the provided is necessary.
      */
@@ -280,7 +280,7 @@ export class ProductService {
      * @param data        The new data to update with.
      * @param options        will be used to determine actual target destination.
      * @param multipart object contains data for multipart form content, {files: [Blob|File], fields: [{name,value}]}
-     
+
      * @return {Promise} The actual updated object, or the result of the update, never null. Throws exception if object cannot be
      * updated. May contain additional or corrected data, like id. So using this object later on instead the provided is
      * necessary.
@@ -299,6 +299,67 @@ export class ProductService {
         };
 
         return this._request(Channel.METHOD.UPDATE, params, options);
+    }
+
+    /**
+     * Retrieves a promise for updating a part of an object.<br/>
+     * Would invoke for example: PATCH /object/objectId with object mapped to JSON as _request body.<br/>
+     * May throw an exception if an error happens.
+     *
+     * @param data    The object holding data to update with, must also provide unique source id. The type/class of the
+     *                    object is used to determine the target destination.
+     * @param options        will be used to determine actual target destination.
+     * @param multipart object contains data for multipart form content, {files: [Blob|File], fields: [{name,value}]}
+     *
+     * @return {Promise} The actual updated object, never null. Throws exception if object cannot be updated. May contain additional
+     * or corrected data, like id.  So using this object later on instead the provided is necessary.
+     */
+
+    patch(data, options, multipart) {
+
+        let params = {
+            endpoint: this.getEndpoint(),
+            objectId: data.id,
+            data: data,
+            options: options,
+            multipart: multipart
+        };
+
+        return this._request(Channel.METHOD.PATCH, params, options);
+
+    }
+
+    /**
+
+     * Retrieves a promise for updating a part of an object.<br/>
+     * Would invoke for example: PATCH /targetType/objectId/action/actionArg with arg mapped to JSON as _request body.<br/>
+     * May throw an exception if an error happens.
+     *
+     * @param id   Id of the resource to update.
+     * @param action     Additional action to execute.
+     * @param actionArg  Additional argument to the action, optional.
+     * @param data        The new data to update with.
+     * @param options        will be used to determine actual target destination.
+     * @param multipart object contains data for multipart form content, {files: [Blob|File], fields: [{name,value}]}
+
+     * @return {Promise} The actual updated object, or the result of the update, never null. Throws exception if object cannot be
+     * updated. May contain additional or corrected data, like id. So using this object later on instead the provided is
+     * necessary.
+     */
+
+    patchWithAction(id, action, actionArg, data, options, multipart) {
+
+        let params = {
+            endpoint: this.getEndpoint(),
+            objectId: id,
+            data: data,
+            action: action,
+            actionArg: actionArg,
+            options: options,
+            multipart: multipart
+        };
+
+        return this._request(Channel.METHOD.PATCH, params, options);
     }
 
     /**
@@ -421,9 +482,9 @@ export class ProductService {
         return this.getChannel(options.channelConfig).request(method, params);
 
     }
-    
+
     _generateUrl(method, params, options) {
-        
+
         if (options == null) {
             options = this.getServiceDefaultOptions();
         }
@@ -431,9 +492,9 @@ export class ProductService {
         if (params.options == null) {
             params.options = options;
         }
-        
+
         return this.getChannel([Channel.REST]).generateUrl(method, params);
-        
+
     }
 
 }

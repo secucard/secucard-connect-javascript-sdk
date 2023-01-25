@@ -25,6 +25,9 @@ export class TransactionService extends ProductService {
         return ['loyalty.transactions'];
     }
 
+    retrieveTemplates(merchantId) {
+        return this.retrieveWithAction('me', 'templateList', merchantId);
+    }
 }
 
 TransactionService.Uid = (['loyalty', 'transactions']).join('.');

@@ -9,7 +9,6 @@
  See the License for the specific language governing permissions and
  limitations under the License.
  */
-import _ from 'lodash';
 import {Rest} from './net/rest';
 import {Auth} from './auth/auth';
 import {Credentials} from './auth/credentials';
@@ -56,8 +55,8 @@ export class ClientContext {
             if (!this.config.stompEnabled) {
                 return true;
             }
-
-            return Promise.all(_.map(_.values(this.channels), (channel) => {
+            let channelValues = Object.values(this.channels);
+            return Promise.all(channelValues.map( channel => {
                 return channel.open();
             }));
         });
@@ -133,7 +132,8 @@ export class ClientContext {
     
     exportToken(isRaw) {
         return this.getAuth().getToken().then((token) => {
-           return token? (!isRaw? _.pick(token, ['access_token', 'expireTime', 'scope', 'expires_in']) : token) : null;
+           const {access_token, expireTime, scope, expires_in} = token;
+           return token? (!isRaw? {access_token, expireTime, scope, expires_in} : token) : null;
         });
     }
 
@@ -147,7 +147,8 @@ export class ClientContext {
 
     getChannel(channelConfig) {
         let ch = null;
-        _.each(_(channelConfig).reverse().value(), (type)=> {
+        let channelConfReverted = channelConfig.reverse();
+        channelConfReverted.map(type => {
             if (this.getChannelByType(type)) {
                 ch = this.getChannelByType(type);
             }
@@ -184,17 +185,17 @@ export class ClientContext {
     }
 
     registerServiceEventTargets(service, targets) {
-        _.each(targets, (target) => {
+        targets.map(target => {
             if (this.serviceEventTargets[target.toLowerCase()]) {
                 throw new Error('Provided event target is registered already: ' + target.toLowerCase()); //TODO custom errors
             }
 
             this.serviceEventTargets[target.toLowerCase()] = service;
-        });
+        })
     }
 
     unregisterServiceEventTargets(targets) {
-        _.each(targets, (target) => {
+        targets.map(target => {
             delete this.serviceEventTargets[target.toLowerCase()];
         });
     }

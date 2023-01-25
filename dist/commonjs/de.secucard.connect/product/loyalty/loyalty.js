@@ -2,6 +2,8 @@
 
 exports.__esModule = true;
 
+var _acceptanceTemplatesService = require('./acceptance-templates-service');
+
 var _actionCampaignService = require('./action-campaign-service');
 
 var _actionConfigService = require('./action-config-service');
@@ -11,6 +13,8 @@ var _actionMessageService = require('./action-message-service');
 var _actionProfileService = require('./action-profile-service');
 
 var _actionService = require('./action-service');
+
+var _approvalService = require('./approval-service');
 
 var _beaconService = require('./beacon-service');
 
@@ -42,11 +46,13 @@ var _paymentContainerService = require('./payment-container-service');
 
 var Loyalty = {};
 exports.Loyalty = Loyalty;
+Loyalty.AcceptancePointTemplatesService = _acceptanceTemplatesService.AcceptancePointTemplatesService;
 Loyalty.ActionCampaignService = _actionCampaignService.ActionCampaignService;
 Loyalty.ActionConfigService = _actionConfigService.ActionConfigService;
 Loyalty.ActionMessageService = _actionMessageService.ActionMessageService;
 Loyalty.ActionProfileService = _actionProfileService.ActionProfileService;
 Loyalty.ActionService = _actionService.ActionService;
+Loyalty.ApprovalService = _approvalService.ApprovalService;
 Loyalty.BeaconService = _beaconService.BeaconService;
 Loyalty.CardGroupService = _cardGroupService.CardGroupService;
 Loyalty.CardService = _cardService.CardService;

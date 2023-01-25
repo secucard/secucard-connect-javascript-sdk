@@ -25,12 +25,20 @@ var TransactionService = (function (_ProductService) {
         return this.execute(id, 'cancel', null, data);
     };
 
+    TransactionService.prototype.increaseAmount = function increaseAmount(id, data) {
+        return this.execute(id, 'increaseAmount', null, data);
+    };
+
     TransactionService.prototype.getEndpoint = function getEndpoint() {
         return ['payment', 'transactions'];
     };
 
     TransactionService.prototype.getEventTargets = function getEventTargets() {
         return [];
+    };
+
+    TransactionService.prototype.getCheckStatus = function getCheckStatus(id) {
+        return this.retrieveWithAction(id, 'checkStatus');
     };
 
     TransactionService.prototype.getCrowdfundingData = function getCrowdfundingData(id) {

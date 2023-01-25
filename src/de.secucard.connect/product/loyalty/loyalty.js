@@ -9,11 +9,13 @@
  See the License for the specific language governing permissions and
  limitations under the License.
  */
+import {AcceptancePointTemplatesService} from './acceptance-templates-service';
 import {ActionCampaignService} from './action-campaign-service';
 import {ActionConfigService} from './action-config-service';
 import {ActionMessageService} from './action-message-service';
 import {ActionProfileService} from './action-profile-service';
 import {ActionService} from './action-service';
+import {ApprovalService} from './approval-service';
 import {BeaconService} from './beacon-service';
 import {CardGroupService} from './card-group-service';
 import {CardService} from './card-service';
@@ -30,11 +32,13 @@ import {TransactionService} from './transaction-service';
 import {PaymentContainerService} from './payment-container-service';
 
 export const Loyalty = {};
+Loyalty.AcceptancePointTemplatesService = AcceptancePointTemplatesService;
 Loyalty.ActionCampaignService = ActionCampaignService;
 Loyalty.ActionConfigService = ActionConfigService;
 Loyalty.ActionMessageService = ActionMessageService;
 Loyalty.ActionProfileService = ActionProfileService;
 Loyalty.ActionService = ActionService;
+Loyalty.ApprovalService = ApprovalService;
 Loyalty.BeaconService = BeaconService;
 Loyalty.CardGroupService = CardGroupService;
 Loyalty.CardService = CardService;

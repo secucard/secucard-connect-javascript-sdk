@@ -12,6 +12,7 @@
 import {SkeletonService} from './skeleton-service';
 import {AccountService} from './account-service';
 import {AccountDeviceService} from './account-device-service';
+import {AccountInvitationService} from './account-invitation-service';
 import {ContactService} from './contact-service';
 import {ContractService} from './contract-service';
 import {DeliveryAddressService} from './delivery-address-service';
@@ -30,6 +31,7 @@ export const General = {};
 General.SkeletonService = SkeletonService;
 General.AccountService = AccountService;
 General.AccountDeviceService = AccountDeviceService;
+General.AccountInvitationService = AccountInvitationService;
 General.ContactService = ContactService;
 General.ContractService = ContractService;
 General.DeliveryAddressService = DeliveryAddressService;

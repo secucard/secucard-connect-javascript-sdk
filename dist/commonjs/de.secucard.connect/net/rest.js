@@ -32,6 +32,7 @@ var Rest = (function () {
         this.methodFuns[_message.POST] = _superagent2['default'].post;
 
         this.methodFuns[_message.PUT] = _superagent2['default'].put;
+        this.methodFuns[_message.PATCH] = _superagent2['default'].patch;
         this.methodFuns[_message.HEAD] = _superagent2['default'].head;
         this.methodFuns[_message.DELETE] = _superagent2['default'].del;
 
@@ -41,6 +42,7 @@ var Rest = (function () {
         this.methodFuns[_channel.Channel.METHOD.EXECUTE] = _superagent2['default'].post;
 
         this.methodFuns[_channel.Channel.METHOD.UPDATE] = _superagent2['default'].put;
+        this.methodFuns[_channel.Channel.METHOD.PATCH] = _superagent2['default'].patch;
         this.methodFuns[_channel.Channel.METHOD.DELETE] = _superagent2['default'].del;
     }
 

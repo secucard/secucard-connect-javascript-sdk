@@ -16,15 +16,20 @@ export class MerchantCardService extends ProductService {
     constructor() {
         super()
     }
+
+    retrieveTemplates(merchantId) {
+        return this.retrieveWithAction('me', 'templateList', merchantId);
+    }
     
-    transact(merchantCardId, tid, cardnumber, action, amount, bonusAmount, amountSplitAllowed) {
+    transact(merchantCardId, tid, cardnumber, action, amount, bonusAmount, amountSplitAllowed, additionalData) {
         
         if(action == 'cashreport') {
             return this.execute(merchantCardId, 'transaction', null, {tid: tid, action: action});
         }
         
         return this.execute(merchantCardId, 'transaction', null, 
-            {tid: tid, cardnumber: cardnumber, action: action, amount: amount, bonus_amount: bonusAmount, amount_split_allowed: amountSplitAllowed});
+            {tid: tid, cardnumber: cardnumber, action: action, amount: amount, bonus_amount: bonusAmount,
+                amount_split_allowed: amountSplitAllowed, additional_data: additionalData});
     }
     
     lock(merchantCardId, reasonId, note) {

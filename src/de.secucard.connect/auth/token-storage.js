@@ -9,7 +9,6 @@
  See the License for the specific language governing permissions and
  limitations under the License.
  */
-import _ from 'lodash';
 import {Token} from './token';
 import mixins from '../util/mixins';
 import Request from 'superagent';
@@ -62,7 +61,7 @@ export class TokenStorageInMem {
         
         let retrieveToken = this.getRetrieveToken();
         
-        if(_.isString(retrieveToken)) {
+        if(typeof retrieveToken === 'string') {
             
             if(this.retrievingToken) {
                 return this.retrievingToken;
@@ -101,8 +100,8 @@ export class TokenStorageInMem {
             });
             
             return this.retrievingToken;
-            
-        } else if(_.isFunction(retrieveToken)) {
+
+        } else if(typeof retrieveToken === 'function') {
             
             if(this.retrievingToken) {
                 return this.retrievingToken;

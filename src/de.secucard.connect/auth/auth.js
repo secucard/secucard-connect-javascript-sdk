@@ -9,7 +9,6 @@
  See the License for the specific language governing permissions and
  limitations under the License.
  */
-import _ from 'lodash';
 import {POST} from '../net/message';
 import {Token} from './token';
 import {AuthenticationFailedException, AuthenticationTimeoutException} from './exception';
@@ -42,6 +41,16 @@ export class Auth {
             return context.getConfig().getDeviceUUID();
         };
 
+    }
+
+    pick(object, keys) {
+
+        return keys.reduce((obj, key) => {
+            if (object[key]) {
+                obj[key] = object[key];
+            }
+            return obj;
+        }, {});
     }
 
     getToken(extend) {
@@ -250,32 +259,32 @@ export class Auth {
     }
 
     _tokenClientCredentialsRequest(credentials, channel) {
-        let cr = _.pick(credentials, this.baseCredentialNames);
-        cr = _.assign({}, cr, {grant_type: 'client_credentials'});
+        let tmpcr = this.pick(credentials, this.baseCredentialNames);
+        let cr = Object.assign({}, tmpcr, {grant_type: 'client_credentials'});
         return this._tokenRequest(cr, channel);
     }
 
     _tokenRefreshRequest(credentials, refresh_token, channel) {
-        let cr = _.pick(credentials, this.baseCredentialNames);
-        cr = _.assign({}, cr, {grant_type: 'refresh_token', refresh_token: refresh_token});
+        let tmpcr = this.pick(credentials, this.baseCredentialNames);
+        let cr = Object.assign({}, tmpcr, {grant_type: 'refresh_token', refresh_token: refresh_token});
         return this._tokenRequest(cr, channel);
     }
 
     _tokenDeviceCodeRequest(credentials, channel) {
-        let cr = _.pick(credentials, this.baseCredentialNames.concat(['uuid']));
-        cr = _.assign({}, cr, {grant_type: 'device'});
+        let tmpcr = this.pick(credentials, this.baseCredentialNames.concat(['uuid']));
+        let cr = Object.assign({}, tmpcr, {grant_type: 'device'});
         return this._tokenRequest(cr, channel);
     }
 
     _tokenDeviceRequest(credentials, channel) {
-        let cr = _.pick(credentials, this.baseCredentialNames.concat(['code']));
-        cr = _.assign({}, cr, {grant_type: 'device'});
+        let tmpcr = this.pick(credentials, this.baseCredentialNames.concat(['code']));
+        let cr = Object.assign({}, tmpcr, {grant_type: 'device'});
         return this._tokenRequest(cr, channel);
     }
 
     _tokenAppUserRequest(credentials, channel) {
-        let cr = _.pick(credentials, this.baseCredentialNames.concat(['username', 'password', 'device', 'deviceinfo']));
-        cr = _.assign({}, cr, {grant_type: 'appuser'});
+        let tmpcr = this.pick(credentials, this.baseCredentialNames.concat(['username', 'password', 'device', 'deviceinfo']));
+        let cr = Object.assign({}, tmpcr, {grant_type: 'appuser'});
         return this._tokenRequest(cr, channel);
     }
 
