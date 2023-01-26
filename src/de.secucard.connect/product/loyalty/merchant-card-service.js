@@ -16,6 +16,10 @@ export class MerchantCardService extends ProductService {
     constructor() {
         super()
     }
+
+    retrieveTemplates(merchantId) {
+        return this.retrieveWithAction('me', 'templateList', merchantId);
+    }
     
     transact(merchantCardId, tid, cardnumber, action, amount, bonusAmount, amountSplitAllowed, additionalData) {
         

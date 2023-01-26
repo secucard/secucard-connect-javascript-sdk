@@ -24,13 +24,19 @@ var _productAuthAuth = require('./product/auth/auth');
 
 var _authTokenStorage = require('./auth/token-storage');
 
-var _productClearingClearing = require("./product/clearing/clearing");
+var _productClearingClearing = require('./product/clearing/clearing');
+
+var _productCardprocessingCardprocessing = require('./product/cardprocessing/cardprocessing');
+
+var _productEasycreditEasycredit = require('./product/easycredit/easycredit');
+
+var _productPublicPublic = require('./product/public/public');
 
 var ClientNodeEnvironment = {
     config: {
         stompPort: 61614
     },
-    services: [_productAuthAuth.Auth.SessionService, _productClearingClearing.Clearing.SepaInbatchsService, _productClearingClearing.Clearing.SepaInrecordsService, _productClearingClearing.Clearing.SepaOutbatchsService, _productClearingClearing.Clearing.SepaOutrecordsService, _productDocumentDocument.Document.UploadService, _productGeneralGeneral.General.SkeletonService, _productGeneralGeneral.General.AccountService, _productGeneralGeneral.General.AccountDeviceService, _productGeneralGeneral.General.ContactService, _productGeneralGeneral.General.ContractService, _productGeneralGeneral.General.DeliveryAddressService, _productGeneralGeneral.General.DeviceService, _productGeneralGeneral.General.FileAccessService, _productGeneralGeneral.General.MerchantService, _productGeneralGeneral.General.NewsService, _productGeneralGeneral.General.NotificationService, _productGeneralGeneral.General.PublicMerchantService, _productGeneralGeneral.General.StoreGroupService, _productGeneralGeneral.General.StoreService, _productGeneralGeneral.General.TransactionService, _productLoyaltyLoyalty.Loyalty.ActionService, _productLoyaltyLoyalty.Loyalty.ActionProfileService, _productLoyaltyLoyalty.Loyalty.ActionCampaignService, _productLoyaltyLoyalty.Loyalty.ActionMessageService, _productLoyaltyLoyalty.Loyalty.ActionConfigService, _productLoyaltyLoyalty.Loyalty.BeaconService, _productLoyaltyLoyalty.Loyalty.CardGroupService, _productLoyaltyLoyalty.Loyalty.CardService, _productLoyaltyLoyalty.Loyalty.ChargeService, _productLoyaltyLoyalty.Loyalty.CheckinService, _productLoyaltyLoyalty.Loyalty.CustomerService, _productLoyaltyLoyalty.Loyalty.MerchantCardService, _productLoyaltyLoyalty.Loyalty.PaymentContainerService, _productLoyaltyLoyalty.Loyalty.ProgramService, _productLoyaltyLoyalty.Loyalty.ProgramSpecialService, _productLoyaltyLoyalty.Loyalty.ReportService, _productLoyaltyLoyalty.Loyalty.SaleService, _productLoyaltyLoyalty.Loyalty.StoreGroupService, _productLoyaltyLoyalty.Loyalty.TransactionService, _productPaymentPayment.Payment.ContainerService, _productPaymentPayment.Payment.ContractService, _productPaymentPayment.Payment.CustomerService, _productPaymentPayment.Payment.InvoiceService, _productPaymentPayment.Payment.PayoutService, _productPaymentPayment.Payment.SecupayDebitService, _productPaymentPayment.Payment.SecupayPrepayService, _productPaymentPayment.Payment.TransactionService, _productPrepaidPrepaid.Prepaid.ContractService, _productPrepaidPrepaid.Prepaid.ItemGroupService, _productPrepaidPrepaid.Prepaid.ItemService, _productPrepaidPrepaid.Prepaid.ReportService, _productPrepaidPrepaid.Prepaid.SaleService, _productPrepaidPrepaid.Prepaid.StockService, _productServicesServices.Services.IdentCaseService, _productServicesServices.Services.IdentContractService, _productServicesServices.Services.IdentRequestService, _productServicesServices.Services.IdentResultService, _productSmartSmart.Smart.CheckinService, _productSmartSmart.Smart.ConfigurationService, _productSmartSmart.Smart.DeviceService, _productSmartSmart.Smart.DeviceHistoriesService, _productSmartSmart.Smart.IdentService, _productSmartSmart.Smart.RoutingService, _productSmartSmart.Smart.TransactionService]
+    services: [_productAuthAuth.Auth.SessionService, _productCardprocessingCardprocessing.Cardprocessing.InvoiceService, _productCardprocessingCardprocessing.Cardprocessing.TransactionService, _productClearingClearing.Clearing.SepaInbatchsService, _productClearingClearing.Clearing.SepaInrecordsService, _productClearingClearing.Clearing.SepaOutbatchsService, _productClearingClearing.Clearing.SepaOutrecordsService, _productDocumentDocument.Document.UploadService, _productEasycreditEasycredit.Easycredit.TransactionService, _productGeneralGeneral.General.SkeletonService, _productGeneralGeneral.General.AccountService, _productGeneralGeneral.General.AccountDeviceService, _productGeneralGeneral.General.AccountInvitationService, _productGeneralGeneral.General.ContactService, _productGeneralGeneral.General.ContractService, _productGeneralGeneral.General.DeliveryAddressService, _productGeneralGeneral.General.DeviceService, _productGeneralGeneral.General.FileAccessService, _productGeneralGeneral.General.MerchantService, _productGeneralGeneral.General.NewsService, _productGeneralGeneral.General.NotificationService, _productGeneralGeneral.General.PublicMerchantService, _productGeneralGeneral.General.StoreGroupService, _productGeneralGeneral.General.StoreService, _productGeneralGeneral.General.TransactionService, _productLoyaltyLoyalty.Loyalty.ActionService, _productLoyaltyLoyalty.Loyalty.ActionProfileService, _productLoyaltyLoyalty.Loyalty.ActionCampaignService, _productLoyaltyLoyalty.Loyalty.ActionMessageService, _productLoyaltyLoyalty.Loyalty.ActionConfigService, _productLoyaltyLoyalty.Loyalty.ApprovalService, _productLoyaltyLoyalty.Loyalty.BeaconService, _productLoyaltyLoyalty.Loyalty.CardGroupService, _productLoyaltyLoyalty.Loyalty.CardService, _productLoyaltyLoyalty.Loyalty.ChargeService, _productLoyaltyLoyalty.Loyalty.CheckinService, _productLoyaltyLoyalty.Loyalty.CustomerService, _productLoyaltyLoyalty.Loyalty.MerchantCardService, _productLoyaltyLoyalty.Loyalty.PaymentContainerService, _productLoyaltyLoyalty.Loyalty.ProgramService, _productLoyaltyLoyalty.Loyalty.ProgramSpecialService, _productLoyaltyLoyalty.Loyalty.ReportService, _productLoyaltyLoyalty.Loyalty.SaleService, _productLoyaltyLoyalty.Loyalty.StoreGroupService, _productLoyaltyLoyalty.Loyalty.TransactionService, _productPaymentPayment.Payment.ContainerService, _productPaymentPayment.Payment.ContractService, _productPaymentPayment.Payment.CustomerService, _productPaymentPayment.Payment.EterminalTransactionService, _productPaymentPayment.Payment.InvoiceService, _productPaymentPayment.Payment.PayoutService, _productPaymentPayment.Payment.SecupayDebitService, _productPaymentPayment.Payment.SecupayPayoutService, _productPaymentPayment.Payment.SecupayPrepayService, _productPaymentPayment.Payment.TransactionService, _productPaymentPayment.Payment.TransactionHistoriesService, _productPrepaidPrepaid.Prepaid.ContractService, _productPrepaidPrepaid.Prepaid.ItemGroupService, _productPrepaidPrepaid.Prepaid.ItemService, _productPrepaidPrepaid.Prepaid.ReportService, _productPrepaidPrepaid.Prepaid.SaleService, _productPrepaidPrepaid.Prepaid.StockService, _productPublicPublic.Public.WebsiteService, _productServicesServices.Services.IdentCaseService, _productServicesServices.Services.IdentContractService, _productServicesServices.Services.IdentRequestService, _productServicesServices.Services.IdentResultService, _productSmartSmart.Smart.CheckinService, _productSmartSmart.Smart.ConfigurationService, _productSmartSmart.Smart.DeviceService, _productSmartSmart.Smart.DeviceHistoriesService, _productSmartSmart.Smart.IdentService, _productSmartSmart.Smart.RoutingService, _productSmartSmart.Smart.TransactionService]
 };
 exports.ClientNodeEnvironment = ClientNodeEnvironment;
 ClientNodeEnvironment.StompChannel = {
@@ -49,6 +55,10 @@ var ServiceMap = {
     Auth: {
         Sessions: _productAuthAuth.Auth.SessionService.Uid
     },
+    Cardprocessing: {
+        Invoices: _productCardprocessingCardprocessing.Cardprocessing.InvoiceService.Uid,
+        Transactions: _productCardprocessingCardprocessing.Cardprocessing.TransactionService.Uid
+    },
     Clearing: {
         SepaInbatchs: _productClearingClearing.Clearing.SepaInbatchsService.Uid,
         SepaInrecords: _productClearingClearing.Clearing.SepaInrecordsService.Uid,
@@ -58,10 +68,14 @@ var ServiceMap = {
     Document: {
         Uploads: _productDocumentDocument.Document.UploadService.Uid
     },
+    Easycredit: {
+        Transactions: _productEasycreditEasycredit.Easycredit.TransactionService.Uid
+    },
     General: {
         Skeletons: _productGeneralGeneral.General.SkeletonService.Uid,
         Accounts: _productGeneralGeneral.General.AccountService.Uid,
         AccountDevices: _productGeneralGeneral.General.AccountDeviceService.Uid,
+        AccountInvitations: _productGeneralGeneral.General.AccountInvitationService.Uid,
         Contacts: _productGeneralGeneral.General.ContactService.Uid,
         Contracts: _productGeneralGeneral.General.ContractService.Uid,
         DeliveryAddresses: _productGeneralGeneral.General.DeliveryAddressService.Uid,
@@ -81,6 +95,7 @@ var ServiceMap = {
         ActionMessages: _productLoyaltyLoyalty.Loyalty.ActionMessageService.Uid,
         ActionProfiles: _productLoyaltyLoyalty.Loyalty.ActionProfileService.Uid,
         Actions: _productLoyaltyLoyalty.Loyalty.ActionService.Uid,
+        Approvals: _productLoyaltyLoyalty.Loyalty.ApprovalService.Uid,
         Beacons: _productLoyaltyLoyalty.Loyalty.BeaconService.Uid,
         CardGroups: _productLoyaltyLoyalty.Loyalty.CardGroupService.Uid,
         Cards: _productLoyaltyLoyalty.Loyalty.CardService.Uid,
@@ -100,11 +115,15 @@ var ServiceMap = {
         Containers: _productPaymentPayment.Payment.ContainerService.Uid,
         Contracts: _productPaymentPayment.Payment.ContractService.Uid,
         Customers: _productPaymentPayment.Payment.CustomerService.Uid,
+        EterminalTransactions: _productPaymentPayment.Payment.EterminalTransactionService.Uid,
         Invoices: _productPaymentPayment.Payment.InvoiceService.Uid,
         Payouts: _productPaymentPayment.Payment.PayoutService.Uid,
         SecupayDebits: _productPaymentPayment.Payment.SecupayDebitService.Uid,
+        SecupayPayouts: _productPaymentPayment.Payment.SecupayPayoutService.Uid,
         SecupayPrepays: _productPaymentPayment.Payment.SecupayPrepayService.Uid,
-        Transactions: _productPaymentPayment.Payment.TransactionService.Uid
+        Transactions: _productPaymentPayment.Payment.TransactionService.Uid,
+        TransactionHistories: _productPaymentPayment.Payment.TransactionHistoriesService.Uid
+
     },
     Prepaid: {
         Contracts: _productPrepaidPrepaid.Prepaid.ContractService.Uid,
@@ -113,6 +132,9 @@ var ServiceMap = {
         Reports: _productPrepaidPrepaid.Prepaid.ReportService.Uid,
         Sales: _productPrepaidPrepaid.Prepaid.SaleService.Uid,
         Stocks: _productPrepaidPrepaid.Prepaid.StockService.Uid
+    },
+    Public: {
+        Website: _productPublicPublic.Public.WebsiteService.Uid
     },
     Services: {
         IdentCases: _productServicesServices.Services.IdentCaseService.Uid,

@@ -13,24 +13,6 @@ Node:
 npm install secucard-connect
 ```
 
-[jspm](http://jspm.io/):
-
-```
-jspm install secucard-connect=github:secucard/secucard-connect-javascript-sdk
-```
-
-Browserify standalone:
-
-```html
-<!-- secucard-connect client -->
-<script src="http://cdn.secucard.com/am/connect-browser/0.2.x/secucard-connect.js"></script>
-<script src="http://cdn.secucard.com/am/connect-browser/0.2.x/secucard-connect.min.js"></script>
-
-<!-- secucard-tokenizer -->
-<script src="http://cdn.secucard.com/am/tokenizer/0.2.x/secucard-tokenizer.js"></script>
-<script src="http://cdn.secucard.com/am/tokenizer/0.2.x/secucard-tokenizer.min.js"></script>
-```
-
 ## Usage
 
 A general integration guide can be found here: [http://developer.secuconnect.com/doc/guide](http://developer.secuconnect.com/doc/guide)
@@ -48,7 +30,7 @@ Please see [CHANGELOG](CHANGELOG.md) for more information what has changed recen
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this work except in compliance with the License.
-You may obtain a copy of the License in the [LICENSE File](LICENSE) file, or at:
+You may obtain a copy of the License in the [LICENSE](LICENSE.md) file, or at:
 
    http://www.apache.org/licenses/LICENSE-2.0
 

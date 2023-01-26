@@ -8,6 +8,8 @@ var _accountService = require('./account-service');
 
 var _accountDeviceService = require('./account-device-service');
 
+var _accountInvitationService = require('./account-invitation-service');
+
 var _contactService = require('./contact-service');
 
 var _contractService = require('./contract-service');
@@ -38,6 +40,7 @@ exports.General = General;
 General.SkeletonService = _skeletonService.SkeletonService;
 General.AccountService = _accountService.AccountService;
 General.AccountDeviceService = _accountDeviceService.AccountDeviceService;
+General.AccountInvitationService = _accountInvitationService.AccountInvitationService;
 General.ContactService = _contactService.ContactService;
 General.ContractService = _contractService.ContractService;
 General.DeliveryAddressService = _deliveryAddressService.DeliveryAddressService;

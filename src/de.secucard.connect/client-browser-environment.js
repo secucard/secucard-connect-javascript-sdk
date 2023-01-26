@@ -20,7 +20,10 @@ import {Services} from './product/services/services';
 import {Document} from './product/document/document';
 import {Auth} from './product/auth/auth';
 import {TokenStorageInMem} from './auth/token-storage';
-import {Clearing} from "./product/clearing/clearing";
+import {Clearing} from './product/clearing/clearing';
+import {Cardprocessing} from './product/cardprocessing/cardprocessing';
+import {Easycredit} from './product/easycredit/easycredit';
+import {Public} from './product/public/public';
 
 export const ClientBrowserEnvironment = {
     config: {
@@ -30,6 +33,9 @@ export const ClientBrowserEnvironment = {
     services: [
         Auth.SessionService,
 
+        Cardprocessing.InvoiceService,
+        Cardprocessing.TransactionService,
+
         Clearing.SepaInbatchsService,
         Clearing.SepaInrecordsService,
         Clearing.SepaOutbatchsService,
@@ -37,9 +43,12 @@ export const ClientBrowserEnvironment = {
 
         Document.UploadService,
 
+        Easycredit.TransactionService,
+
         General.SkeletonService,
         General.AccountService,
         General.AccountDeviceService,
+        General.AccountInvitationService,
         General.ContactService,
         General.ContractService,
         General.DeliveryAddressService,
@@ -52,12 +61,14 @@ export const ClientBrowserEnvironment = {
         General.StoreGroupService,
         General.StoreService,
         General.TransactionService,
-        
+
+        Loyalty.AcceptancePointTemplatesService,
         Loyalty.ActionService,
         Loyalty.ActionProfileService,
         Loyalty.ActionMessageService,
         Loyalty.ActionCampaignService,
         Loyalty.ActionConfigService,
+        Loyalty.ApprovalService,
         Loyalty.BeaconService,
         Loyalty.CardGroupService,
         Loyalty.CardService,
@@ -76,24 +87,29 @@ export const ClientBrowserEnvironment = {
         Payment.ContainerService,
         Payment.ContractService,
         Payment.CustomerService,
+        Payment.EterminalTransactionService,
         Payment.InvoiceService,
         Payment.PayoutService,
         Payment.SecupayDebitService,
+        Payment.SecupayPayoutService,
         Payment.SecupayPrepayService,
         Payment.TransactionService,
-        
+        Payment.TransactionHistoriesService,
+
         Prepaid.ContractService,
         Prepaid.ItemGroupService,
         Prepaid.ItemService,
         Prepaid.ReportService,
         Prepaid.SaleService,
         Prepaid.StockService,
-        
+
+        Public.WebsiteService,
+
         Services.IdentCaseService,
         Services.IdentContractService,
         Services.IdentRequestService,
         Services.IdentResultService,
-        
+
         Smart.CheckinService,
         Smart.ConfigurationService,
         Smart.DeviceService,
@@ -119,6 +135,10 @@ export const ServiceMap = {
     Auth: {
         Sessions: Auth.SessionService.Uid
     },
+    Cardprocessing: {
+        Invoices: Cardprocessing.InvoiceService.Uid,
+        Transactions: Cardprocessing.TransactionService.Uid,
+    },
     Clearing: {
         SepaInbatchs: Clearing.SepaInbatchsService.Uid,
         SepaInrecords: Clearing.SepaInrecordsService.Uid,
@@ -128,10 +148,14 @@ export const ServiceMap = {
     Document: {
         Uploads: Document.UploadService.Uid
     },
+    Easycredit: {
+        Transactions: Easycredit.TransactionService.Uid,
+    },
     General: {
         Skeletons: General.SkeletonService.Uid,
         Accounts: General.AccountService.Uid,
         AccountDevices: General.AccountDeviceService.Uid,
+        AccountInvitations: General.AccountInvitationService.Uid,
         Contacts: General.ContactService.Uid,
         Contracts: General.ContractService.Uid,
         DeliveryAddresses: General.DeliveryAddressService.Uid,
@@ -146,11 +170,13 @@ export const ServiceMap = {
         Transactions: General.TransactionService.Uid
     },
     Loyalty: {
+        AcceptancePointTemplatesService: Loyalty.AcceptancePointTemplatesService.Uid,
         ActionCampaigns: Loyalty.ActionCampaignService.Uid,
         ActionConfigs: Loyalty.ActionConfigService.Uid,
         ActionMessages: Loyalty.ActionMessageService.Uid,
         ActionProfiles: Loyalty.ActionProfileService.Uid,
         Actions: Loyalty.ActionService.Uid,
+        Approvals: Loyalty.ApprovalService.Uid,
         Beacons: Loyalty.BeaconService.Uid,
         CardGroups: Loyalty.CardGroupService.Uid,
         Cards: Loyalty.CardService.Uid,
@@ -170,11 +196,14 @@ export const ServiceMap = {
         Containers: Payment.ContainerService.Uid,
         Contracts: Payment.ContractService.Uid,
         Customers: Payment.CustomerService.Uid,
+        EterminalTransactions: Payment.EterminalTransactionService.Uid,
         Invoices: Payment.InvoiceService.Uid,
         Payouts: Payment.PayoutService.Uid,
         SecupayDebits: Payment.SecupayDebitService.Uid,
+        SecupayPayouts: Payment.SecupayPayoutService.Uid,
         SecupayPrepays: Payment.SecupayPrepayService.Uid,
-        Transactions: Payment.TransactionService.Uid
+        Transactions: Payment.TransactionService.Uid,
+        TransactionHistories: Payment.TransactionHistoriesService.Uid,
     },
     Prepaid:{
         Contracts: Prepaid.ContractService.Uid,
@@ -183,6 +212,9 @@ export const ServiceMap = {
         Reports: Prepaid.ReportService.Uid,
         Sales: Prepaid.SaleService.Uid,
         Stocks: Prepaid.StockService.Uid
+    },
+    Public:{
+        Website: Public.WebsiteService.Uid
     },
     Services: {
         IdentCases: Services.IdentCaseService.Uid,

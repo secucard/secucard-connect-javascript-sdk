@@ -16,13 +16,17 @@ export class TransactionService extends ProductService {
     constructor() {
         super()
     }
-    
+
     getShippingUrl(id) {
         return this.retrieveWithAction(id, 'shippingUrl');
     }
-    
+
     cancel(id, data) {
         return this.execute(id, 'cancel', null, data);
+    }
+
+    increaseAmount(id, data) {
+        return this.execute(id, 'increaseAmount', null, data);
     }
 
     getEndpoint() {
@@ -31,6 +35,10 @@ export class TransactionService extends ProductService {
 
     getEventTargets() {
         return [];
+    }
+
+    getCheckStatus(id) {
+        return this.retrieveWithAction(id, 'checkStatus');
     }
 
     /**
