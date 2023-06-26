@@ -11,8 +11,13 @@
   "directories": {
     "lib": "dist/commonjs"
   },
-  "overrides": {
-    "graceful-fs": "^4.2.9"
+  "scripts": {
+    "build": "gulp build",
+    "clean": "gulp clean",
+    "pre-release": "gulp preRelease",
+    "patch-release": "gulp prepareRelease --sem patch",
+    "minor-release": "gulp prepareRelease --sem minor",
+    "major-release": "gulp prepareRelease --sem major"
   },
   "dependencies": {
     "es6-shim": "^0.35.7",
@@ -23,17 +28,15 @@
     "uuid": "^9.0.0"
   },
   "devDependencies": {
-    "del": "^1.2.0",
-    "gulp": "^3.9.1",
+    "del": "^6.0.0",
+    "gulp": "^4.0.2",
     "gulp-babel": "^5.1.0",
     "gulp-bump": "^3.2.0",
     "gulp-conventional-changelog": "^2.0.35",
     "gulp-param": "^1.0.3",
     "gulp-replace": "^1.1.4",
+    "minimist": "^1.2.8",
     "object-assign": "^4.1.1",
-    "object.assign": "^4.1.4",
-    "require-dir": "^1.2.0",
-    "run-sequence": "^2.2.1",
-    "vinyl-paths": "^1.0.0"
+    "object.assign": "^4.1.4"
   }
 }
