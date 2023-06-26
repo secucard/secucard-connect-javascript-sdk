@@ -20,11 +20,11 @@
     "major-release": "gulp prepareRelease --sem major"
   },
   "dependencies": {
-    "es6-shim": "^0.35.7",
+    "es6-shim": "^0.35.0",
     "eventemitter3": "^5.0.0",
     "minilog": "^3.1.0",
     "sizzle": "^2.3.0",
-    "superagent": "^8.0.6",
+    "superagent": "^8.0.0",
     "uuid": "^9.0.0"
   },
   "devDependencies": {
@@ -41,7 +41,7 @@
     "gulp": "^4.0.2",
     "gulp-babel": "^8.0.0",
     "gulp-bump": "^3.2.0",
-    "gulp-conventional-changelog": "^2.0.35",
+    "gulp-conventional-changelog": "^3.0.0",
     "gulp-param": "^1.0.3",
     "gulp-replace": "^1.1.4",
     "minimist": "^1.2.8",
