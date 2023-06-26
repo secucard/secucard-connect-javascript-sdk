@@ -41,11 +41,11 @@ exports.changelog = changelog;
 
 /**************** update version task **********/
 function updateCodeVersion() {
+    let pkg = JSON.parse(fs.readFileSync('./package.json', 'utf-8'));
     return gulp.src(['./src/de.secucard.connect/client-version.js'])
         .pipe(replace(/("(?:name)": ?)(".+")/g, '$1"' + pkg.version + '"'))
         .pipe(gulp.dest('./src/de.secucard.connect/'));
 }
-let pkg = JSON.parse(fs.readFileSync('./package.json', 'utf-8'));
 exports.updateCodeVersion = updateCodeVersion;
 
 
@@ -88,6 +88,7 @@ exports.build = exports.buildCommonjs;
 /**************** prepare tasks ****************/
 exports.prepareRelease = gulp.series(exports.bumpVersion, exports.updateCodeVersion, exports.build, exports.changelog);
 exports.preRelease = gulp.series(exports.bumpVersion, exports.updateCodeVersion);
+exports.release = gulp.series(exports.build, exports.changelog);
 
 
 

@@ -14,7 +14,9 @@
   "scripts": {
     "build": "gulp build",
     "clean": "gulp clean",
+    "changelog": "gulp changelog",
     "pre-release": "gulp preRelease",
+    "release": "gulp release",
     "patch-release": "gulp prepareRelease --sem patch",
     "minor-release": "gulp prepareRelease --sem minor",
     "major-release": "gulp prepareRelease --sem major"
