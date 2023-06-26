@@ -1,3 +1,9 @@
+## <small>0.8.1 (2023-06-26)</small>
+
+* Add `Payment.MandateService` ([13ec5d9](https://github.com/secucard/secucard-connect-javascript-sdk/commit/13ec5d9))
+
+
+
 ## 0.8.0 (2023-06-26)
 
 * Adjust minimal versions ([469594e](https://github.com/secucard/secucard-connect-javascript-sdk/commit/469594e))
