@@ -53,16 +53,16 @@ exports.updateCodeVersion = updateCodeVersion;
 /**************** bump version task ************/
 function bumpVersion() {
     let bumpOptions;
-    if (options.sem) {
+    if (options.tag) {
+        bumpOptions = {version: options.tag};
+    } else {
+        if (!options.sem) {
+            throw new Error('--sem or --tag should be valid strings');
+        }
         bumpOptions = {type: options.sem};
         if (options.sem === 'prerelease') {
             bumpOptions['preid'] = 'pre';
         }
-    } else {
-        if (!options.tag) {
-            throw new Error('--sem or --tag should be valid strings');
-        }
-        bumpOptions = {version: options.tag};
     }
 
     return gulp.src(['./package.json'])

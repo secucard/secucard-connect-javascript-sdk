@@ -1,3 +1,11 @@
+## 0.8.0 (2023-06-26)
+
+* Adjust minimal versions ([469594e](https://github.com/secucard/secucard-connect-javascript-sdk/commit/469594e))
+* Switch to babel version 8 ([d734b0f](https://github.com/secucard/secucard-connect-javascript-sdk/commit/d734b0f))
+* Switch to Gulp version 4 ([c4700a9](https://github.com/secucard/secucard-connect-javascript-sdk/commit/c4700a9))
+
+
+
 <a name="0.7.0"></a>
 # 0.7.0 (2023-01-06)
 

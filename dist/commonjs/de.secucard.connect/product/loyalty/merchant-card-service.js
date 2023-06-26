@@ -1,75 +1,106 @@
-'use strict';
+"use strict";
 
-exports.__esModule = true;
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-var _productService = require('../product-service');
-
-var MerchantCardService = (function (_ProductService) {
-    _inherits(MerchantCardService, _ProductService);
-
-    function MerchantCardService() {
-        _classCallCheck(this, MerchantCardService);
-
-        _ProductService.call(this);
+function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.MerchantCardService = void 0;
+var _productService = require("../product-service");
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, _toPropertyKey(descriptor.key), descriptor); } }
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
+function _toPropertyKey(arg) { var key = _toPrimitive(arg, "string"); return _typeof(key) === "symbol" ? key : String(key); }
+function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (_typeof(res) !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); Object.defineProperty(subClass, "prototype", { writable: false }); if (superClass) _setPrototypeOf(subClass, superClass); }
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf ? Object.setPrototypeOf.bind() : function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } else if (call !== void 0) { throw new TypeError("Derived constructors may only return object or undefined"); } return _assertThisInitialized(self); }
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf.bind() : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+var MerchantCardService = function (_ProductService) {
+  _inherits(MerchantCardService, _ProductService);
+  var _super = _createSuper(MerchantCardService);
+  function MerchantCardService() {
+    _classCallCheck(this, MerchantCardService);
+    return _super.call(this);
+  }
+  _createClass(MerchantCardService, [{
+    key: "retrieveTemplates",
+    value: function retrieveTemplates(merchantId) {
+      return this.retrieveWithAction('me', 'templateList', merchantId);
     }
-
-    MerchantCardService.prototype.retrieveTemplates = function retrieveTemplates(merchantId) {
-        return this.retrieveWithAction('me', 'templateList', merchantId);
-    };
-
-    MerchantCardService.prototype.transact = function transact(merchantCardId, tid, cardnumber, action, amount, bonusAmount, amountSplitAllowed, additionalData) {
-
-        if (action == 'cashreport') {
-            return this.execute(merchantCardId, 'transaction', null, { tid: tid, action: action });
-        }
-
-        return this.execute(merchantCardId, 'transaction', null, { tid: tid, cardnumber: cardnumber, action: action, amount: amount, bonus_amount: bonusAmount,
-            amount_split_allowed: amountSplitAllowed, additional_data: additionalData });
-    };
-
-    MerchantCardService.prototype.lock = function lock(merchantCardId, reasonId, note) {
-        return this.execute(merchantCardId, 'lock', null, { reason: reasonId, note: note });
-    };
-
-    MerchantCardService.prototype.unlock = function unlock(merchantCardId, note) {
-        return this.execute(merchantCardId, 'unlock', null, { note: note });
-    };
-
-    MerchantCardService.prototype.registerCustomer = function registerCustomer(merchantCardId, data) {
-        return this.execute(merchantCardId, 'registerCustomer', null, data);
-    };
-
-    MerchantCardService.prototype.retrieveLock = function retrieveLock(merchantCardId) {
-        return this.retrieveWithAction(merchantCardId, 'lock', null);
-    };
-
-    MerchantCardService.prototype.retrieveLockReasons = function retrieveLockReasons(merchantCardId) {
-        return this.retrieveWithAction(merchantCardId, 'lockreasons', null);
-    };
-
-    MerchantCardService.prototype.updateGroup = function updateGroup(merchantCardId, groupId) {
-        return this.updateWithAction(merchantCardId, 'cardgroup', groupId);
-    };
-
-    MerchantCardService.prototype.retrieveVirtualTerminalData = function retrieveVirtualTerminalData(merchantId) {
-        return this.retrieveWithAction('me', 'virtualTerminalData', merchantId);
-    };
-
-    MerchantCardService.prototype.getEndpoint = function getEndpoint() {
-        return ['loyalty', 'merchantcards'];
-    };
-
-    MerchantCardService.prototype.getEventTargets = function getEventTargets() {
-        return [];
-    };
-
-    return MerchantCardService;
-})(_productService.ProductService);
-
+  }, {
+    key: "transact",
+    value: function transact(merchantCardId, tid, cardnumber, action, amount, bonusAmount, amountSplitAllowed, additionalData) {
+      if (action == 'cashreport') {
+        return this.execute(merchantCardId, 'transaction', null, {
+          tid: tid,
+          action: action
+        });
+      }
+      return this.execute(merchantCardId, 'transaction', null, {
+        tid: tid,
+        cardnumber: cardnumber,
+        action: action,
+        amount: amount,
+        bonus_amount: bonusAmount,
+        amount_split_allowed: amountSplitAllowed,
+        additional_data: additionalData
+      });
+    }
+  }, {
+    key: "lock",
+    value: function lock(merchantCardId, reasonId, note) {
+      return this.execute(merchantCardId, 'lock', null, {
+        reason: reasonId,
+        note: note
+      });
+    }
+  }, {
+    key: "unlock",
+    value: function unlock(merchantCardId, note) {
+      return this.execute(merchantCardId, 'unlock', null, {
+        note: note
+      });
+    }
+  }, {
+    key: "registerCustomer",
+    value: function registerCustomer(merchantCardId, data) {
+      return this.execute(merchantCardId, 'registerCustomer', null, data);
+    }
+  }, {
+    key: "retrieveLock",
+    value: function retrieveLock(merchantCardId) {
+      return this.retrieveWithAction(merchantCardId, 'lock', null);
+    }
+  }, {
+    key: "retrieveLockReasons",
+    value: function retrieveLockReasons(merchantCardId) {
+      return this.retrieveWithAction(merchantCardId, 'lockreasons', null);
+    }
+  }, {
+    key: "updateGroup",
+    value: function updateGroup(merchantCardId, groupId) {
+      return this.updateWithAction(merchantCardId, 'cardgroup', groupId);
+    }
+  }, {
+    key: "retrieveVirtualTerminalData",
+    value: function retrieveVirtualTerminalData(merchantId) {
+      return this.retrieveWithAction('me', 'virtualTerminalData', merchantId);
+    }
+  }, {
+    key: "getEndpoint",
+    value: function getEndpoint() {
+      return ['loyalty', 'merchantcards'];
+    }
+  }, {
+    key: "getEventTargets",
+    value: function getEventTargets() {
+      return [];
+    }
+  }]);
+  return MerchantCardService;
+}(_productService.ProductService);
 exports.MerchantCardService = MerchantCardService;
-
 MerchantCardService.Uid = ['loyalty', 'merchantcards'].join('.');

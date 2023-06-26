@@ -1,36 +1,34 @@
-'use strict';
+"use strict";
 
-exports.__esModule = true;
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
-
-var _es6Shim = require('es6-shim');
-
-var _es6Shim2 = _interopRequireDefault(_es6Shim);
-
-var _deSecucardConnectClientBrowserEnvironment = require('./de.secucard.connect/client-browser-environment');
-
-var _deSecucardConnectClient = require('./de.secucard.connect/client');
-
-var _minilog = require('minilog');
-
-var _minilog2 = _interopRequireDefault(_minilog);
-
-exports.Services = _deSecucardConnectClientBrowserEnvironment.ServiceMap;
-
-var _deSecucardConnectNetChannel = require('./de.secucard.connect/net/channel');
-
-exports.Channel = _deSecucardConnectNetChannel.Channel;
-var MiniLog = _minilog2['default'];
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+Object.defineProperty(exports, "Channel", {
+  enumerable: true,
+  get: function get() {
+    return _channel.Channel;
+  }
+});
+exports.SecucardConnect = exports.MiniLog = void 0;
+Object.defineProperty(exports, "Services", {
+  enumerable: true,
+  get: function get() {
+    return _clientBrowserEnvironment.ServiceMap;
+  }
+});
+var _es6Shim = _interopRequireDefault(require("es6-shim"));
+var _clientBrowserEnvironment = require("./de.secucard.connect/client-browser-environment");
+var _client = require("./de.secucard.connect/client");
+var _channel = require("./de.secucard.connect/net/channel");
+var _minilog = _interopRequireDefault(require("minilog"));
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+var MiniLog = _minilog["default"];
 exports.MiniLog = MiniLog;
-_minilog2['default'].suggest.deny(/secucard\..*/, 'warn');
-
+_minilog["default"].suggest.deny(/secucard\..*/, 'warn');
 var SecucardConnect = {
-    description: 'SecucardConnect for browser'
+  description: 'SecucardConnect for browser'
 };
-
 exports.SecucardConnect = SecucardConnect;
 SecucardConnect.create = function (config) {
-
-    return _deSecucardConnectClient.Client.create(config, _deSecucardConnectClientBrowserEnvironment.ClientBrowserEnvironment);
+  return _client.Client.create(config, _clientBrowserEnvironment.ClientBrowserEnvironment);
 };
