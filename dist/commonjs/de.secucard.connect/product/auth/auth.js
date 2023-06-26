@@ -1,9 +1,10 @@
-'use strict';
+"use strict";
 
-exports.__esModule = true;
-
-var _sessionService = require('./session-service');
-
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.Auth = void 0;
+var _sessionService = require("./session-service");
 var Auth = {};
 exports.Auth = Auth;
 Auth.SessionService = _sessionService.SessionService;

@@ -1,15 +1,13 @@
-'use strict';
+"use strict";
 
-exports.__esModule = true;
-
-var _sepaInbatchsService = require('./sepa-inbatchs-service');
-
-var _sepaInrecordsService = require('./sepa-inrecords-service');
-
-var _sepaOutbatchsService = require('./sepa-outbatchs-service');
-
-var _sepaOutrecordsService = require('./sepa-outrecords-service');
-
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.Clearing = void 0;
+var _sepaInbatchsService = require("./sepa-inbatchs-service");
+var _sepaInrecordsService = require("./sepa-inrecords-service");
+var _sepaOutbatchsService = require("./sepa-outbatchs-service");
+var _sepaOutrecordsService = require("./sepa-outrecords-service");
 var Clearing = {};
 exports.Clearing = Clearing;
 Clearing.SepaInbatchsService = _sepaInbatchsService.SepaInbatchsService;

@@ -4,7 +4,7 @@ function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" =
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.TransactionService = void 0;
+exports.MandateService = void 0;
 var _productService = require("../product-service");
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, _toPropertyKey(descriptor.key), descriptor); } }
@@ -18,32 +18,17 @@ function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) ===
 function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
 function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf.bind() : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
-var TransactionService = function (_ProductService) {
-  _inherits(TransactionService, _ProductService);
-  var _super = _createSuper(TransactionService);
-  function TransactionService() {
-    _classCallCheck(this, TransactionService);
+var MandateService = function (_ProductService) {
+  _inherits(MandateService, _ProductService);
+  var _super = _createSuper(MandateService);
+  function MandateService() {
+    _classCallCheck(this, MandateService);
     return _super.call(this);
   }
-  _createClass(TransactionService, [{
-    key: "getShippingUrl",
-    value: function getShippingUrl(id) {
-      return this.retrieveWithAction(id, 'shippingUrl');
-    }
-  }, {
-    key: "cancel",
-    value: function cancel(id, data) {
-      return this.execute(id, 'cancel', null, data);
-    }
-  }, {
-    key: "increaseAmount",
-    value: function increaseAmount(id, data) {
-      return this.execute(id, 'increaseAmount', null, data);
-    }
-  }, {
+  _createClass(MandateService, [{
     key: "getEndpoint",
     value: function getEndpoint() {
-      return ['payment', 'transactions'];
+      return ['payment', 'mandates'];
     }
   }, {
     key: "getEventTargets",
@@ -51,17 +36,12 @@ var TransactionService = function (_ProductService) {
       return [];
     }
   }, {
-    key: "getCheckStatus",
-    value: function getCheckStatus(id) {
-      return this.retrieveWithAction(id, 'checkStatus');
-    }
-  }, {
-    key: "getCrowdfundingData",
-    value: function getCrowdfundingData(id) {
-      return this.retrieveWithAction('me', 'CrowdFundingData', id);
+    key: "execBulk",
+    value: function execBulk(data) {
+      return this.execute('me', 'bulk', null, data);
     }
   }]);
-  return TransactionService;
+  return MandateService;
 }(_productService.ProductService);
-exports.TransactionService = TransactionService;
-TransactionService.Uid = ['payment', 'transactions'].join('.');
+exports.MandateService = MandateService;
+MandateService.Uid = ['payment', 'mandates'].join('.');
