@@ -76,7 +76,7 @@ exports.bumpVersion = bumpVersion;
 /**************** build task *******************/
 function buildCommonjs() {
     return gulp.src(paths.source)
-        .pipe(to5(assign({}, compilerOptions, {modules: 'common'})))
+        .pipe(to5(assign({}, compilerOptions, {plugins: ["@babel/plugin-transform-modules-commonjs"]})))
         .pipe(gulp.dest(paths.output + 'commonjs'))
 }
 
