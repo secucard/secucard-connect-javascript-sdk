@@ -1,3 +1,11 @@
+## <small>0.8.2 (2023-06-26)</small>
+
+* FIX missing ServiceMap for `Payment.Mandates` ([7c75b51](https://github.com/secucard/secucard-connect-javascript-sdk/commit/7c75b51))
+* FIX updateCodeVersion ([5561276](https://github.com/secucard/secucard-connect-javascript-sdk/commit/5561276))
+* FIX version ([1b72d98](https://github.com/secucard/secucard-connect-javascript-sdk/commit/1b72d98))
+
+
+
 ## <small>0.8.1 (2023-06-26)</small>
 
 * Add `Payment.MandateService` ([13ec5d9](https://github.com/secucard/secucard-connect-javascript-sdk/commit/13ec5d9))
