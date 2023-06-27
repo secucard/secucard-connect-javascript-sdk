@@ -5,6 +5,6 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.Version = void 0;
 var Version = {
-  "name": "0.8.2"
+  "name": "0.8.3"
 };
 exports.Version = Version;
