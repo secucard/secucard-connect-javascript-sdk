@@ -12,7 +12,7 @@
 import {Stomp} from './net/stomp';
 import {SocketAtBrowser} from './net/socket/socket-browser';
 import {General} from './product/general/general';
-import {Smart} from './product/smart/smart'
+import {Smart} from './product/smart/smart';
 import {Loyalty} from './product/loyalty/loyalty';
 import {Payment} from './product/payment/payment';
 import {Prepaid} from './product/prepaid/prepaid';
@@ -65,8 +65,8 @@ export const ClientBrowserEnvironment = {
         Loyalty.AcceptancePointTemplatesService,
         Loyalty.ActionService,
         Loyalty.ActionProfileService,
-        Loyalty.ActionMessageService,
         Loyalty.ActionCampaignService,
+        Loyalty.ActionMessageService,
         Loyalty.ActionConfigService,
         Loyalty.ApprovalService,
         Loyalty.BeaconService,
@@ -87,6 +87,7 @@ export const ClientBrowserEnvironment = {
         Payment.ContainerService,
         Payment.ContractService,
         Payment.CustomerService,
+        Payment.MandateService,
         Payment.EterminalTransactionService,
         Payment.InvoiceService,
         Payment.PayoutService,
@@ -196,6 +197,7 @@ export const ServiceMap = {
         Containers: Payment.ContainerService.Uid,
         Contracts: Payment.ContractService.Uid,
         Customers: Payment.CustomerService.Uid,
+        Mandates: Payment.MandateService.Uid,
         EterminalTransactions: Payment.EterminalTransactionService.Uid,
         Invoices: Payment.InvoiceService.Uid,
         Payouts: Payment.PayoutService.Uid,

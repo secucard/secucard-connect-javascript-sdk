@@ -12,6 +12,7 @@
 import {ContainerService} from './container-service';
 import {ContractService} from './contract-service';
 import {CustomerService} from './customer-service';
+import {MandateService} from './mandate-service';
 import {InvoiceService} from './invoice-service';
 import {PayoutService} from './payout-service';
 import {SecupayDebitService} from './secupay-debit-service';
@@ -25,6 +26,7 @@ export const Payment = {};
 Payment.ContainerService = ContainerService;
 Payment.ContractService = ContractService;
 Payment.CustomerService = CustomerService;
+Payment.MandateService = MandateService;
 Payment.EterminalTransactionService = EterminalTransactionService;
 Payment.InvoiceService = InvoiceService;
 Payment.PayoutService = PayoutService;

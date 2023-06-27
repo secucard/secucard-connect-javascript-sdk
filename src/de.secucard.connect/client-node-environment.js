@@ -61,6 +61,7 @@ export const ClientNodeEnvironment = {
         General.StoreService,
         General.TransactionService,
 
+        Loyalty.AcceptancePointTemplatesService,
         Loyalty.ActionService,
         Loyalty.ActionProfileService,
         Loyalty.ActionCampaignService,
@@ -85,6 +86,7 @@ export const ClientNodeEnvironment = {
         Payment.ContainerService,
         Payment.ContractService,
         Payment.CustomerService,
+        Payment.MandateService,
         Payment.EterminalTransactionService,
         Payment.InvoiceService,
         Payment.PayoutService,
@@ -168,6 +170,7 @@ export const ServiceMap = {
         Transactions: General.TransactionService.Uid
     },
     Loyalty: {
+        AcceptancePointTemplatesService: Loyalty.AcceptancePointTemplatesService.Uid,
         ActionCampaigns: Loyalty.ActionCampaignService.Uid,
         ActionConfigs: Loyalty.ActionConfigService.Uid,
         ActionMessages: Loyalty.ActionMessageService.Uid,
@@ -193,6 +196,7 @@ export const ServiceMap = {
         Containers: Payment.ContainerService.Uid,
         Contracts: Payment.ContractService.Uid,
         Customers: Payment.CustomerService.Uid,
+        Mandates: Payment.MandateService.Uid,
         EterminalTransactions: Payment.EterminalTransactionService.Uid,
         Invoices: Payment.InvoiceService.Uid,
         Payouts: Payment.PayoutService.Uid,
@@ -201,7 +205,6 @@ export const ServiceMap = {
         SecupayPrepays: Payment.SecupayPrepayService.Uid,
         Transactions: Payment.TransactionService.Uid,
         TransactionHistories: Payment.TransactionHistoriesService.Uid,
-
     },
     Prepaid:{
         Contracts: Prepaid.ContractService.Uid,
@@ -212,7 +215,7 @@ export const ServiceMap = {
         Stocks: Prepaid.StockService.Uid
     },
     Public:{
-        Website: Public.WebsiteService.Uid,
+        Website: Public.WebsiteService.Uid
     },
     Services: {
         IdentCases: Services.IdentCaseService.Uid,

@@ -1,7 +1,12 @@
-'use strict';
+"use strict";
 
-exports.__esModule = true;
-
-var _modelUpload = require('./model/upload');
-
-exports.Upload = _modelUpload.Upload;
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+Object.defineProperty(exports, "Upload", {
+  enumerable: true,
+  get: function get() {
+    return _upload.Upload;
+  }
+});
+var _upload = require("./model/upload");
