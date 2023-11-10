@@ -1,3 +1,9 @@
+## <small>0.8.4 (2023-11-10)</small>
+
+* PAYMENT-13674 - add new endpoints for Event Actions ([5b6d6d6](https://github.com/secucard/secucard-connect-javascript-sdk/commit/5b6d6d6))
+
+
+
 ## <small>0.8.3 (2023-06-27)</small>
 
 * FIX missing ServiceMap for `Payment.Mandates` ([6a37379](https://github.com/secucard/secucard-connect-javascript-sdk/commit/6a37379))
