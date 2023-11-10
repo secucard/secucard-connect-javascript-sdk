@@ -23,6 +23,7 @@ import {TokenStorageInMem} from './auth/token-storage';
 import {Clearing} from './product/clearing/clearing';
 import {Cardprocessing} from './product/cardprocessing/cardprocessing';
 import {Easycredit} from './product/easycredit/easycredit';
+import {Event} from './product/event/event';
 import {Public} from './product/public/public';
 
 export const ClientNodeEnvironment = {
@@ -43,6 +44,8 @@ export const ClientNodeEnvironment = {
         Document.UploadService,
 
         Easycredit.TransactionService,
+
+        Event.ActionService,
 
         General.SkeletonService,
         General.AccountService,
@@ -150,6 +153,9 @@ export const ServiceMap = {
     },
     Easycredit: {
         Transactions: Easycredit.TransactionService.Uid,
+    },
+    Event: {
+        Actions: Event.ActionService.Uid,
     },
     General: {
         Skeletons: General.SkeletonService.Uid,
